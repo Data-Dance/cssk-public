@@ -11,6 +11,14 @@ releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+[18.0.1.3.1] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- The bad-debt flag no longer takes a document off the ordinary return rows. Ported from 19.0.
+
 [18.0.1.3.0] — 2026-10-19
 -------------------------
 

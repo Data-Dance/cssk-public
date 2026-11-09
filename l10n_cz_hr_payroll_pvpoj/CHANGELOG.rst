@@ -2,6 +2,14 @@
 Changelog
 =========
 
+[18.0.1.1.6] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- ``slevyZamestnancu`` carries the working pensioners' discount. Ported from 19.0.
+
 18.0.1.1.5 (2026-11-09)
 =======================
 

@@ -213,6 +213,70 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
             "statement_type_id": self._sk_type("R").id,
         })
 
+    def _rc_threshold_invoice(self, tax, lines):
+        products = {
+            goods: self.env["product.product"].create(
+                {"name": goods, "l10n_sk_kv_rc_goods": goods}
+            )
+            for goods in {g for g, _a in lines}
+        }
+        return self.env["account.move"].with_company(self.company).create({
+            "move_type": "out_invoice", "partner_id": self.partner_a.id,
+            "invoice_date": "2026-06-15",
+            "invoice_line_ids": [Command.create({
+                "name": goods, "product_id": products[goods].id, "quantity": 1,
+                "price_unit": amount, "tax_ids": [Command.set(tax.ids)],
+            }) for goods, amount in lines],
+        })
+
+    def _rc_tax(self):
+        return self.env.ref("account.%s_vs_rc_out" % self.company.id)
+
+    def test_rc_threshold_adds_lines_of_one_category(self):
+        move = self._rc_threshold_invoice(self._rc_tax(), [("h", 3000.0), ("h", 3000.0)])
+        self.assertFalse(move.l10n_sk_rc_threshold_warning)
+
+    def test_rc_threshold_does_not_mix_categories(self):
+        move = self._rc_threshold_invoice(self._rc_tax(), [("h", 3000.0), ("i", 3000.0)])
+        self.assertEqual(move.l10n_sk_rc_threshold_warning.count("5 000"), 2)
+
+    def test_rc_threshold_exactly_5000_is_reverse_charge(self):
+        move = self._rc_threshold_invoice(self._rc_tax(), [("i", 5000.0)])
+        self.assertFalse(move.l10n_sk_rc_threshold_warning)
+
+    def test_rc_threshold_warns_when_vat_is_charged_above_it(self):
+        self.partner_a.with_context(no_vat_validation=True).vat = "SK2023456787"
+        tax = self.env["account.tax"].search([
+            ("company_id", "=", self.company.id), ("type_tax_use", "=", "sale"),
+            ("amount", ">", 0)], limit=1)
+        move = self._rc_threshold_invoice(tax, [("h", 6000.0)])
+        self.assertIn("VAT payer", move.l10n_sk_rc_threshold_warning)
+
+    def test_reverse_charge_a_to_e_stays_out_of_the_statement(self):
+        """§ 69 ods. 12 písm. a) až e): only the recipient reports them."""
+        tax = self.env.ref("account.%s_vs_rc_out_ae" % self.company.id)
+        self.assertTrue(tax.cssk_control_is_reverse_charge)
+        self.assertTrue(tax.l10n_sk_kv_supplier_excluded)
+        for move_type in ("out_invoice", "out_refund"):
+            move = self.env["account.move"].with_company(self.company).create({
+                "move_type": move_type, "partner_id": self.partner_a.id,
+                "invoice_date": "2026-06-15",
+                "invoice_line_ids": [Command.create({
+                    "name": "Scrap", "quantity": 1, "price_unit": 1000.0,
+                    "tax_ids": [Command.set(tax.ids)]})],
+            })
+            move.action_post()
+            self.assertFalse(move.invoice_line_ids[0]._cssk_resolve_section_code())
+
+    def test_existing_company_gets_both_sale_side_taxes_once(self):
+        tax = self.env.ref("account.%s_vs_rc_out_ae" % self.company.id)
+        self.env["ir.model.data"].search(
+            [("name", "=", "%s_vs_rc_out_ae" % self.company.id)]
+        ).unlink()
+        tax.active = False
+        self.assertEqual(self.company._cssk_ensure_rc_out_tax(), 1)
+        self.assertEqual(self.company._cssk_ensure_rc_out_tax(), 0)
+
     def test_sale_side_reverse_charge_reports_in_a2(self):
         """A §69 ods. 12 issued supply — 0 % sale tax flagged reverse-charge —
         reports its base in KV oddiel A.2, the counterpart to received reverse
@@ -222,7 +286,8 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         tax = self.env["account.tax"].search([
             ("company_id", "=", self.company.id),
             ("type_tax_use", "=", "sale"),
-            ("cssk_control_is_reverse_charge", "=", True)], limit=1)
+            ("cssk_control_is_reverse_charge", "=", True),
+            ("l10n_sk_kv_supplier_excluded", "=", False)], limit=1)
         self.assertTrue(
             tax, "the SK chart must ship a sale-side reverse-charge tax")
         self.assertEqual(tax.amount, 0.0, "the supplier applies 0 %")
@@ -1661,15 +1726,15 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         credit.action_post()
         return credit
 
-    def _c1_fo(self, st):
+    def _c1_fp(self, st):
         st.action_export_xml()
         root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
-        return [el.get("FO") for el in root.iter() if etree.QName(el).localname == "C1"]
+        return [el.get("FP") for el in root.iter() if etree.QName(el).localname == "C1"]
 
-    # --- C.1 / C.2: the invoice being corrected (FO) ------------------
+    # --- C.1 / C.2: the invoice being corrected (FP) ------------------
     # Asked for by an accountant: "niekedy nie je možné vystaviť dobropis z
     # určitej faktúry, potom sa vytvára manuálne". Such a C.1 row used to file
-    # the credit note's OWN number as FO, silently.
+    # the credit note's OWN number as the original, silently.
 
     def test_an_unlinked_credit_note_blocks_the_export(self):
         self._credit()
@@ -1692,7 +1757,7 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         self.assertEqual(
             st._collect_sections_by_code()["C.1"].entry_ref_original,
             "FV2026/0042")
-        self.assertEqual(self._c1_fo(st), ["FV2026/0042"])
+        self.assertEqual(self._c1_fp(st), ["FV2026/0042"])
         self.assertTrue(credit.name)
 
     def test_the_drill_down_shows_a_half_deduction(self):
@@ -1734,7 +1799,7 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         credit.action_post()
         st = self._make_statement()
         st.action_compute_lines()
-        self.assertEqual(self._c1_fo(st), [invoice.name.replace(" ", "")])
+        self.assertEqual(self._c1_fp(st), [invoice.name.replace(" ", "")])
 
     # --- O from the tax repartition (accountant review, 2026-10-03) ----------------
     def _partial_tax(self, base_tax, deductible_pct, name):
@@ -1875,7 +1940,29 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         self.assertEqual(
             credit.line_ids.filtered("tax_ids")[:1].cssk_control_section_code, "C.1")
 
-    # --- C.2 original from the vendor credit note's Source Document ----
+    def test_fo_is_the_corrective_invoice_and_fp_the_original(self):
+        """kv_dph_2025.xsd: FO poradove cislo opravnej faktury, FP povodnej."""
+        credit = self._credit(cssk_control_original_ref="FV2026/0042")
+        st = self._make_statement()
+        st.action_compute_lines()
+        st.action_export_xml()
+        root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
+        row = next(el for el in root.iter()
+                   if etree.QName(el).localname == "C1")
+        self.assertEqual(row.get("FO"), credit.name.replace(" ", ""))
+        self.assertEqual(row.get("FP"), "FV2026/0042")
+
+    def test_received_correction_uses_the_same_layout(self):
+        self._vendor_credit(invoice_origin="DF-2026-0315")
+        st = self._make_statement()
+        st.action_compute_lines()
+        st.action_export_xml()
+        root = etree.fromstring(base64.b64decode(st.xml_attachment_id.datas))
+        row = next(el for el in root.iter()
+                   if etree.QName(el).localname == "C2")
+        self.assertEqual(row.get("FO"), "DOB-77")
+        self.assertEqual(row.get("FP"), "DF-2026-0315")
+
     def _vendor_credit(self, **vals):
         credit = self.init_invoice(
             "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
@@ -1912,7 +1999,7 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
 
     def test_a_sales_credit_note_does_not_read_the_sales_order(self):
         """invoice_origin on the sales side is the order number, not the
-        invoice: it must not be filed as FO."""
+        invoice: it must not be filed as FP."""
         self._credit(invoice_origin="S00042")
         st = self._make_statement()
         st.action_compute_lines()

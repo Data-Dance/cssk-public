@@ -47,7 +47,8 @@ result = contract.wage * payslip.l10n_cz_worked_ratio()
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 result_qty = worked_days.WORK100.number_of_days if 'WORK100' in worked_days.dict else 0.0
-result = min(contract.l10n_cz_meal_allowance, payslip.rule_parameter('l10n_cz_meal_exempt'))
+allowance = contract.l10n_cz_meal_allowance
+result = min(allowance, payslip.rule_parameter('l10n_cz_meal_exempt')) if allowance else 0.0
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -179,7 +180,8 @@ elif agr == 'dpc':
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
     thr = 0.0
-result = agr == 'standard' or categories.GROSS &gt;= thr
+# The limit counts all of the person's agreements of this kind (§ 7a odst. 3).
+result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS) &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
@@ -216,7 +218,8 @@ elif agr == 'dpc':
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
     thr = 0.0
-result = agr == 'standard' or categories.GROSS &gt;= thr
+# The limit counts all of the person's agreements of this kind (§ 7a odst. 3).
+result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS) &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
@@ -264,6 +267,31 @@ result_rate = payslip.rule_parameter('l10n_cz_social_disc_rate')
         <field name="appears_on_payslip" eval="True"/>
     </record>
 
+    <!-- 113. WORKING OLD-AGE PENSIONER DISCOUNT: 6.5 % of the assessment base,
+         rounded up to whole crowns on its own. A positive line in the employee
+         premium's category, so NET and SOCIALEETOT carry what is withheld;
+         PVPOJ adds it back to report the premium and the discount apart. -->
+    <record id="cz_social_pensioner_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
+        <field name="category_id" ref="hr_payroll_social_employee"/>
+        <field name="name">Working Pensioner Discount (Employee)</field>
+        <field name="sequence">113</field>
+        <field name="code">SOCIAL_PENSIONER</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+# Insured employees only: no premium, no discount.
+result = contract.l10n_cz_pensioner_discount and payslip.date_from.year &gt;= 2025 and categories.SOCIALEE &lt; 0
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+premium = -categories.SOCIALEE
+base = result_rules.SOCIALEE.amount
+discount = -(-round(base * payslip.rule_parameter('l10n_cz_social_pensioner_rate') / 100.0, 6) // 1)
+result = min(discount, premium)
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
     <!-- 120. HEALTH INSURANCE (Employee): one third of the 13.5 % premium,
          the premium and the third each rounded UP to whole crowns (§ 2 odst. 2
          zák. 592/1992, § 9 odst. 2 zák. 48/1997). If gross is below the minimum
@@ -286,7 +314,8 @@ elif agr == 'dpc':
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
     thr = 0.0
-result = agr == 'standard' or categories.GROSS &gt;= thr
+# The limit counts all of the person's agreements of this kind (§ 7a odst. 3).
+result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS) &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
@@ -316,7 +345,8 @@ elif agr == 'dpc':
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 else:
     thr = 0.0
-result = agr == 'standard' or categories.GROSS &gt;= thr
+# The limit counts all of the person's agreements of this kind (§ 7a odst. 3).
+result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS) &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
@@ -411,12 +441,23 @@ result = (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 raw = categories.TAXBASE
-# round up to whole 100 (ceil): -(-x // 100) * 100
-base = int(-(-raw // 100.0)) * 100
-thr = payslip.rule_parameter('l10n_cz_tax_threshold_month')
 r1 = payslip.rule_parameter('l10n_cz_tax_rate_1')
 r2 = payslip.rule_parameter('l10n_cz_tax_rate_2')
-tax = r1 / 100.0 * min(base, thr) + r2 / 100.0 * max(base - thr, 0)
+thr = payslip.rule_parameter('l10n_cz_tax_threshold_month')
+if contract.l10n_cz_agreement_type == 'dpp':
+    limit = payslip.rule_parameter('l10n_cz_dpp_threshold')
+else:
+    limit = payslip.rule_parameter('l10n_cz_dpc_threshold')
+if (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
+        and not contract.l10n_cz_tax_declaration and raw &lt; limit):
+    # § 6 odst. 18: the separate base of § 6 odst. 4 and its advance are
+    # rounded up to whole crowns, not to 100 Kč. Same test as PAR6BASE.
+    base = -(-round(raw, 2) // 1)
+    tax = -(-round(r1 / 100.0 * base, 2) // 1)
+else:
+    # round up to whole 100 (ceil): -(-x // 100) * 100
+    base = int(-(-raw // 100.0)) * 100
+    tax = r1 / 100.0 * min(base, thr) + r2 / 100.0 * max(base - thr, 0)
 result = -tax
         </field>
         <field name="appears_on_payslip" eval="True"/>

@@ -43,6 +43,7 @@ CZ_VERSION_FIELDS = (
     "l10n_cz_garnishment_dependents",
     "l10n_cz_avg_hourly_earnings",
     "l10n_cz_social_discount_category",
+    "l10n_cz_pensioner_discount",
 )
 
 
@@ -146,6 +147,16 @@ class HrContract(models.Model):
              "time of 8-30 h/week (except employees under 21) with a monthly "
              "assessment base up to 1.5x the average wage. Only one employer may "
              "claim it per employee; the intent must be notified to ČSSZ.")
+
+    l10n_cz_pensioner_discount = fields.Boolean(
+        "Working pensioner discount",
+        groups=CZ_PAYROLL_GROUP, tracking=True,
+        help="Lowers the employee's social insurance by 6.5 % of the assessment "
+             "base. For an old-age pensioner at pension age, drawing the "
+             "pension in full, for the whole calendar month. The employee "
+             "applies to the employer with the proof; it cannot be applied "
+             "retroactively and is claimed once across all jobs with one "
+             "employer.")
 
     # --- Sickness compensation (náhrada mzdy) ------------------------------
     l10n_cz_avg_hourly_earnings = fields.Monetary(

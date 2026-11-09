@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic — PVPOJ (Social Insurance Overview)",
-    "version": "18.0.1.1.5",
+    "version": "18.0.1.1.6",
     "category": "Human Resources/Payroll",
     "countries": ["cz"],
     "summary": "Monthly Czech social-insurance overview (PVPOJ) for the ČSSZ — "

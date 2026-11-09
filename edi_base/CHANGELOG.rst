@@ -32,6 +32,14 @@ Carry-over to 18.0
   19.0's ``edi_base_peppol`` migration-test flush fix (``4515f66b``) belongs
   to the same tranche — the test file it fixes is not on this branch.
 
+[18.0.1.5.2] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- EDI messages are confined to the user's companies; one with no company stays visible to all. Ported from 19.0.
+
 [18.0.1.5.1] — 2026-10-24
 -------------------------
 

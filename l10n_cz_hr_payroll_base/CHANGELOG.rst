@@ -2,6 +2,14 @@
 Changelog
 =========
 
+[18.0.1.2.0] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- Working pensioner discount field; one person's agreements add up for the insurance limit; from 2027 the annual meal and garnishment figures do not carry over from an earlier year. Ported from 19.0.
+
 18.0.1.1.2 (2026-11-09)
 =======================
 

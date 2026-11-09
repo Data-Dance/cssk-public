@@ -70,6 +70,18 @@
     </record>
 
     <!-- Social insurance rate - employer (24.8 %) -->
+    <!-- Working old-age pensioner discount on the employee's premium (6.5 %) -->
+    <record id="rule_parameter_social_pensioner_rate" model="hr.rule.parameter">
+        <field name="name">Czech Republic: Working pensioner discount %</field>
+        <field name="code">l10n_cz_social_pensioner_rate</field>
+        <field name="country_id" ref="base.cz"/>
+    </record>
+    <record id="rule_parameter_social_pensioner_rate_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">6.5</field>
+        <field name="rule_parameter_id" ref="rule_parameter_social_pensioner_rate"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
     <record id="rule_parameter_social_rate_er" model="hr.rule.parameter">
         <field name="name">Czech Republic: Social rate employer %</field>
         <field name="code">l10n_cz_social_rate_er</field>

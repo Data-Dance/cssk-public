@@ -11,6 +11,31 @@ those releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+[18.0.2.5.0] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- **§ 69 ods. 12 písm. a) až e) no longer reach A.2.** Only the recipient reports
+  them (B.1). A new sale tax, ``vs_rc_out_ae``, carries them.
+
+Added
+~~~~~
+
+- Invoice warning for the 5 000 € base per category of § 69 ods. 12 písm. h)
+  and i).
+
+[18.0.2.4.0] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- **C.1 / C.2: FO and FP were filed the wrong way round.** Every vzor defines
+  FO as the number of the corrective invoice and FP as the number of the
+  original one. Ported from 19.0.
+
 [18.0.2.3.0] — 2026-10-19
 -------------------------
 

@@ -64,7 +64,7 @@ class TestPvpoj(TransactionCase):
 
     def _employee_payslip(self, wage=50000.0, year=2025, end=None,
                           name="Pavel Novak", date_from=None, date_to=None,
-                          confirm=True):
+                          confirm=True, version_vals=None):
         emp_vals = {
             "name": name,
             "company_id": self.company.id,
@@ -79,7 +79,8 @@ class TestPvpoj(TransactionCase):
         else:
             emp_vals["structure_type_id"] = self.structure.type_id.id
         employee = create_employee(self.env["hr.employee"].with_company(self.company), emp_vals)
-        employee.contract_id.write({"l10n_cz_tax_declaration": True})
+        employee.contract_id.write(
+            {"l10n_cz_tax_declaration": True, **(version_vals or {})})
 
         slip = self.env["hr.payslip"].with_company(self.company).create({
             "name": "Payslip",
@@ -95,6 +96,24 @@ class TestPvpoj(TransactionCase):
         if confirm:
             self._confirm(slip)
         return employee, slip
+
+    def test_a_working_pensioner_is_reported_apart(self):
+        self._employee_payslip(version_vals={"l10n_cz_pensioner_discount": True})
+        decl = self.env["l10n.cz.pvpoj"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2025", "month": "3",
+        })
+        decl.action_generate()
+        import base64
+        root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
+        etree.XMLSchema(etree.parse(
+            file_path("l10n_cz_hr_payroll_pvpoj/data/PVPOJ25.xsd"))).assertValid(root)
+        ns = {"p": "http://schemas.cssz.cz/POJ/PVPOJ2025"}
+        self.assertEqual(root.find(".//p:pojistneZamestnance", ns).text, "3550")
+        block = root.find(".//p:slevyZamestnancu", ns)
+        self.assertEqual(block.find("p:pocetZamestnancu", ns).text, "1")
+        self.assertEqual(block.find("p:uhrnVymerovacichZakladu", ns).text, "50000")
+        self.assertEqual(block.find("p:pojistneSleva", ns).text, "3250")
+        self.assertEqual(root.find(".//p:pojistneUhrada", ns).text, "12700")
 
     def test_generate_and_validate(self):
         employee, slip = self._employee_payslip()

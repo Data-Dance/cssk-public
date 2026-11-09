@@ -44,6 +44,8 @@ class AccountMoveLine(models.Model):
                 return False
         is_rc = bool(taxes.filtered("cssk_control_is_reverse_charge"))
         is_eu = self._cssk_cz_is_eu()
+        if is_out and self._cz_kh_is_investment_gold(taxes):
+            return "A3"
         if is_out:
             if is_rc:
                 return "A1"   # domestic reverse-charge supplied (§92a)
@@ -56,6 +58,26 @@ class AccountMoveLine(models.Model):
         if is_rc:
             return "B1"       # domestic reverse-charge received
         return "B2"           # domestic received supply (split B2/B3)
+
+    def _cz_kh_is_investment_gold(self, taxes):
+        """Whether the line carries the chart's investment gold tax."""
+        gold = self.env["account.chart.template"].with_company(
+            self.company_id).ref(
+                "l10n_cz_investment_gold", raise_if_not_found=False)
+        return bool(gold and gold in taxes)
+
+    def _cz_kh_has_cz_dic(self):
+        """Whether the counterparty is identified by a CZECH DIČ.
+
+        A.4 reports the customer's DIČ "kmenová část" — a Czech registration.
+        A customer known only by another member state's VAT number has none,
+        and stripping its prefix would file a foreign number as a Czech one.
+        """
+        self.ensure_one()
+        vat = "".join(self._cssk_partner_vat_for_statement().split()).upper()
+        if not self._cssk_partner_vat_stripped():
+            return False
+        return not vat[:2].isalpha() or vat[:2] == "CZ"
 
     def _cssk_cz_is_eu(self):
         """Whether this is an intra-EU acquisition rather than a domestic one.

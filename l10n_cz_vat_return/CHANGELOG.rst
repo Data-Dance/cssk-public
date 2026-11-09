@@ -25,6 +25,14 @@ Carried over
   lock-date protected, and re-tagging a filed period adds reporting to a
   return that was already filed.
 
+[18.0.1.13.0] — 2026-11-09
+--------------------------
+
+Fixed
+~~~~~
+
+- **Bad-debt corrections change the tax due.** A § 46 / § 74b document stays on ř. 1/2 and ř. 40/41 as well as ř. 33/34, as the GFŘ information of 4 December 2019 requires. Ported from 19.0.
+
 [18.0.1.12.0] — 2026-10-29
 --------------------------
 

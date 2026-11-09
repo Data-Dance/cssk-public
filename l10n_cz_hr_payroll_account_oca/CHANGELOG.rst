@@ -2,6 +2,14 @@
 Changelog
 =========
 
+[18.0.1.1.2] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- Accounts for rule SOCIAL_PENSIONER, also on upgrade. Ported from 19.0.
+
 18.0.1.1.1 (2026-11-09)
 =======================
 

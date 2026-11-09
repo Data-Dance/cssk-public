@@ -13,4 +13,17 @@
         </field>
     </record>
 
+    <record id="account_move_form_sk_rc_threshold" model="ir.ui.view">
+        <field name="name">account.move.form.sk.rc.threshold</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/*[1]" position="before">
+                <div role="alert" class="alert alert-warning" invisible="not l10n_sk_rc_threshold_warning">
+                    <field name="l10n_sk_rc_threshold_warning" nolabel="1" readonly="1"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>

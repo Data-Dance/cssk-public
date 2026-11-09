@@ -122,7 +122,7 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
         line = group["line"]
         # The corrected document: Odoo's link where there is one, else the
         # number typed on a credit note created by hand (which has no link to
-        # follow). Without either a C.1 / C.2 row has no FO, and the export
+        # follow). Without either a C.1 / C.2 row has no FP, and the export
         # refuses it rather than filing the credit note's own number as its
         # original, which is what the template used to fall back to.
         original = move._cssk_control_original()
@@ -176,7 +176,7 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
 
         A vendor credit note raised from a purchase order carries the ORDER
         name there ("P00012", or several, comma-separated). That is not the
-        corrected invoice, and filing it as FO would pass the export's check
+        corrected invoice, and filing it as FP would pass the export's check
         that a number is present. So an origin naming a purchase order is not
         read, and the export asks for the real number instead."""
         origin = (move.invoice_origin or "").strip()

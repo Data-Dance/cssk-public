@@ -2,6 +2,14 @@
 Changelog
 =========
 
+[18.0.1.17.0] — 2026-11-09
+--------------------------
+
+Fixed
+~~~~~
+
+- 2027 separate base rounds to whole crowns; working pensioner discount (rule SOCIAL_PENSIONER); agreements add up for the insurance limit, checked on confirmation; a payslip from 2027 refuses a meal or garnishment figure from an earlier year. Ported from 19.0.
+
 18.0.1.16.0 (2026-11-09)
 ========================
 

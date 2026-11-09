@@ -11,6 +11,14 @@ those releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+[18.0.1.9.0] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- The 10 000 Kč test reads the amount in CZK; a § 44 tax-only row carries no base; a flagged row without a Czech DIČ is refused; investment gold is reported in section A.3, added to existing databases by a migration. Ported from 19.0.
+
 [18.0.1.8.0] — 2026-10-19
 -------------------------
 

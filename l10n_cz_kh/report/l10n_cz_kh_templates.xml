@@ -40,12 +40,21 @@
                             t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
                             t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"/>
                 </t>
+                <t t-foreach="sections_by_code['A3']" t-as="r">
+                    <VetaA3 t-att-k_stat="r.partner_country_code or None"
+                            t-att-vatid_odb="(r.partner_vat_stripped or None) if r.partner_country_code else None"
+                            t-att-jm_prijm_obch="None if r.partner_vat_stripped else r.partner_id.name"
+                            t-att-m_pobytu_sidlo="None if r.partner_vat_stripped else (r.partner_id.contact_address or '').replace('\n', ', ').strip(', ')"
+                            t-att-c_evid_dd="r.entry_ref"
+                            t-att-dup="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
+                            t-att-osv_plneni="'%.0f' % r.base_std"/>
+                </t>
                 <t t-foreach="sections_by_code['A4']" t-as="r">
                     <VetaA4 t-att-dic_odb="r.partner_vat_stripped"
                             t-att-c_evid_dd="r.entry_ref"
                             t-att-dppd="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
-                            t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
-                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
+                            t-att-zakl_dane1="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
                             kod_rezim_pl="0"
                             t-att-zdph_44="r.move_id.l10n_cz_bad_debt or 'N'"/>
                 </t>
@@ -65,8 +74,8 @@
                     <VetaB2 t-att-dic_dod="r.partner_vat_stripped"
                             t-att-c_evid_dd="r.entry_ref"
                             t-att-dppd="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
-                            t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
-                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
+                            t-att-zakl_dane1="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
                             pomer="N"
                             t-att-zdph_44="r.move_id.l10n_cz_bad_debt or 'N'"/>
                 </t>

@@ -63,6 +63,9 @@ class HrEmployee(models.Model):
     l10n_cz_social_discount_category = fields.Selection(
         related="contract_id.l10n_cz_social_discount_category",
         readonly=True, groups=CZ_PAYROLL_GROUP)
+    l10n_cz_pensioner_discount = fields.Boolean(
+        related="contract_id.l10n_cz_pensioner_discount",
+        readonly=True, groups=CZ_PAYROLL_GROUP)
 
     def _l10n_cz_sick_hours_after_employer_period(
         self, date_from, date_to, calendar, is_sick_type

@@ -73,6 +73,15 @@ class AccountMoveLine(models.Model):
         is_reverse_charge = bool(
             taxes.filtered("cssk_control_is_reverse_charge")
         )
+        # § 69 ods. 12 písm. a) až e): only the recipient reports these (B.1).
+        # The supplier leaves them out of A.2 and of the whole statement,
+        # corrections included (poučenie k KV DPH, A.2 and C.1).
+        if is_outbound and is_reverse_charge and all(
+            taxes.filtered("cssk_control_is_reverse_charge").mapped(
+                "l10n_sk_kv_supplier_excluded"
+            )
+        ):
+            return False
         is_eu = self._cssk_is_eu_counterparty()
 
         # Intra-EU supplies / acquisitions are not part of KV DPH.

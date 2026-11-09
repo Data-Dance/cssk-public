@@ -334,3 +334,23 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_company_country_code
 msgid "Company Country (Czech payroll)"
 msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_pensioner_discount
+msgid "Working pensioner discount"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_pensioner_discount
+msgid "Lowers the employee's social insurance by 6.5 % of the assessment base. For an old-age pensioner at pension age, drawing the pension in full, for the whole calendar month. The employee applies to the employer with the proof; it cannot be applied retroactively and is claimed once across all jobs with one employer."
+msgstr ""
+
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/insurance_month.py:0
+msgid "The agreements of %(employee)s add up to %(total).2f this month, so these payslips must be recomputed or corrected before confirming: %(payslips)s"
+msgstr ""
+
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/annual_parameters.py:0
+msgid "The %(year)s value of salary rule parameter %(code)s has not been entered yet; the latest one is from %(found)s."
+msgstr ""

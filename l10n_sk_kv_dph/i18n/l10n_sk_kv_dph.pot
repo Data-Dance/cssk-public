@@ -619,13 +619,7 @@ msgstr ""
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_product__l10n_sk_kv_rc_goods
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_rc_goods
-msgid ""
-"Set on goods whose domestic supply is reverse-charged under § 69 ods. 12 "
-"písm. f) to i). Oddiel A.2 of the kontrolný výkaz then reports, per invoice,"
-" the commodity code (f, g) or the kind of goods (h, i), and the quantity "
-"with its unit. Leave empty for everything else, including the other § 69 "
-"ods. 12 supplies (scrap, construction work), for which A.2 carries only the "
-"base."
+msgid "Set on goods whose domestic supply is reverse-charged under § 69 ods. 12 písm. f) to i). Oddiel A.2 of the kontrolný výkaz then reports, per invoice, the commodity code (f, g) or the kind of goods (h, i), and the quantity with its unit. Leave empty for everything else, including the other § 69 ods. 12 supplies (construction work), for which A.2 carries only the base."
 msgstr ""
 
 #. module: l10n_sk_kv_dph
@@ -934,4 +928,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_product__l10n_sk_kv_cn_code
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_cn_code
 msgid "Číselný kód tovaru (KV DPH)"
+msgstr ""
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_tax__l10n_sk_kv_supplier_excluded
+msgid "Supplier omits from KV DPH"
+msgstr ""
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model.fields,help:l10n_sk_kv_dph.field_account_tax__l10n_sk_kv_supplier_excluded
+msgid "For a sale-side domestic reverse charge under § 69 ods. 12 písm. a) to e). The supplier does not report these supplies in the kontrolný výkaz; only the recipient reports them, in B.1."
+msgstr ""
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/account_move.py:0
+msgid "%(goods)s: the base on this invoice is %(total).2f €, under 5 000 €, so reverse charge does not apply and VAT is due."
+msgstr ""
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/account_move.py:0
+msgid "%(goods)s: the base on this invoice is %(total).2f €, so reverse charge applies if the customer is a VAT payer."
 msgstr ""

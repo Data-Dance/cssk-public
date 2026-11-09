@@ -358,3 +358,23 @@ msgstr "Náhrada mzdy při částečné nezaměstnanosti (§ 209 zákoníku prá
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_company_country_code
 msgid "Company Country (Czech payroll)"
 msgstr "Země společnosti (česká mzdová agenda)"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_pensioner_discount
+msgid "Working pensioner discount"
+msgstr "Sleva pro pracujícího důchodce"
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_pensioner_discount
+msgid "Lowers the employee's social insurance by 6.5 % of the assessment base. For an old-age pensioner at pension age, drawing the pension in full, for the whole calendar month. The employee applies to the employer with the proof; it cannot be applied retroactively and is claimed once across all jobs with one employer."
+msgstr "Snižuje pojistné zaměstnance na sociální pojištění o 6,5 % vyměřovacího základu. Pro starobního důchodce v důchodovém věku, který pobírá důchod v plné výši, po celý kalendářní měsíc. Zaměstnanec o slevu žádá u zaměstnavatele a doloží nárok; nelze ji uplatnit zpětně a uplatňuje se jednou pro všechna zaměstnání u jednoho zaměstnavatele."
+
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/insurance_month.py:0
+msgid "The agreements of %(employee)s add up to %(total).2f this month, so these payslips must be recomputed or corrected before confirming: %(payslips)s"
+msgstr "Dohody zaměstnance %(employee)s dávají v tomto měsíci dohromady %(total).2f, proto je třeba před potvrzením přepočítat nebo opravit tyto výplatní pásky: %(payslips)s"
+
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/annual_parameters.py:0
+msgid "The %(year)s value of salary rule parameter %(code)s has not been entered yet; the latest one is from %(found)s."
+msgstr "Hodnota parametru mzdového pravidla %(code)s pro rok %(year)s ještě nebyla zadána; poslední je z roku %(found)s."

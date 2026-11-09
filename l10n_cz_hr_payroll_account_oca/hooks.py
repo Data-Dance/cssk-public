@@ -28,6 +28,9 @@ RULE_ACCOUNT_MAP = {
     "SICKNAHRADA": ("521", "331"),
     "MEAL": ("527", "331"),
     "SOCIALEE": ("336", "331"),
+    # Working pensioner discount: a positive line that lowers the employee's
+    # premium and raises the net pay: DR 336 / CR 331.
+    "SOCIAL_PENSIONER": ("336", "331"),
     "HEALTHEE": ("336", "331"),
     "INCOMETAX": ("342", "331"),
     "WHTAX": ("342", "331"),
