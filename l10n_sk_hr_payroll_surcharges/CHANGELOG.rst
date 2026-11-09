@@ -37,6 +37,17 @@ Carry-over to 20.0
   too: dependent manifests, ``odoo.addons.*`` imports, the ``.pot`` file
   name and ``module_*`` settings toggles. The 19.0 commit is the checklist.
 
+[19.0.1.2.8] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- Six dated minimum wage claims for 1 January 2027, as published in
+  233/2026 Z. z. This also updates the level-1 hourly base used by surcharges.
+- Published-amount and year-boundary regression coverage; existing formula
+  and complete-level checks now include 2027.
+
 [19.0.1.2.7] — 2026-11-05
 -------------------------
 
