@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- Restore the module comment on the two tax-office/authorised-person messages
+  in the POT and Slovak/Czech catalogs. Missing metadata made Odoo19 language
+  installation fail in PoFileReader before the VAT translations could load.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
