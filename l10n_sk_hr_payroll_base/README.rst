@@ -407,7 +407,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_base``
-- **Version:** 19.0.1.1.2
+- **Version:** 19.0.1.2.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``

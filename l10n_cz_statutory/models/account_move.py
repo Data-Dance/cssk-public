@@ -3,8 +3,8 @@
 """Bad-debt VAT corrections: § 46 (creditor), § 74b (debtor), old § 44.
 
 A correction of tax on an unrecoverable receivable is not an ordinary credit
-note. The DPHDP3 reports it on its own rows — ř. 33 for the creditor, ř. 34
-for the debtor — instead of reducing ř. 1 / ř. 40, and the kontrolní hlášení
+note. The DPHDP3 reports it on its ordinary row and also on its own — ř. 33
+for the creditor, ř. 34 for the debtor — and the kontrolní hlášení
 reports it in A.4 / B.2 **whatever its amount**, flagged by ``zdph_44``. None
 of that can be read off the taxes, which are the ordinary ones, so the
 document says it.
@@ -33,8 +33,8 @@ class AccountMove(models.Model):
         "creditor's correction is § 46 and following, the debtor's § 74b "
         "(§ 74a before 1. 1. 2025); 'A' is the old § 44 and only for "
         "supplies made up to 31. 3. 2019.\n\n"
-        "Its tax goes to DPHDP3 ř. 33 (creditor) or ř. 34 (debtor) instead of "
-        "the ordinary rows, and the kontrolní hlášení reports it in A.4 / B.2 "
+        "It stays on its ordinary DPHDP3 row and its tax is also shown on "
+        "ř. 33 (creditor) or ř. 34 (debtor), and the kontrolní hlášení reports it in A.4 / B.2 "
         "with zdph_44 set, whatever the amount.",
     )
 

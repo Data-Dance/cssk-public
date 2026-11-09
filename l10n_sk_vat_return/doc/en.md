@@ -1,7 +1,7 @@
 ---
 title: SK VAT Return (Daňové priznanie k DPH)
 summary: The Slovak VAT return computed from the tax tags of Odoo's Slovak chart, in the form vintage of each period, exported as the Finančná správa XML and validated against its XSD.
-verified: 19.0.1.15.0
+verified: 19.0.1.15.1
 ---
 
 ## What it is for {#purpose}
@@ -147,8 +147,12 @@ Rows named *(internal) …* are working rows; they are not boxes of the form.
 **Content checks at export.** The export stops if r32 or r33 is negative, if
 both are positive, or if r34 is higher than r32. It also checks that each tax
 row is its base row times one of the rates valid for the vzor (19, 5 and 23 %
-on the 2025 vzor); that check only warns, and the warning goes to the server
-log, not to the screen.
+on the 2025 vzor); that check only warns, on the return's form.
+
+The export also stops if the company has no **Daňový úrad** with a submission
+code, because the schema would otherwise accept the return with the tax office
+empty. If no *Oprávnená osoba* is filled in, it warns: that is correct when the
+filer files for itself.
 
 **The amended return** carries its *Deň zistenia rozdielu*
 (*datumZisteniaDdp*) into the XML only when its type is *Dodatočný*.

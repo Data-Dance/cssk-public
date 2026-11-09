@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fio banka — automatic statements</title>
 <meta name="cssk-guide-topic" content="banking">
-<meta name="cssk-guide-order" content="1">
+<meta name="cssk-guide-order" content="2">
 <meta name="cssk-guide-country" content="both">
 <meta name="cssk-guide-kind" content="task">
 <style>
@@ -43,7 +43,7 @@ message to the payee. Nothing is downloaded from internet banking or imported.
 It works for Slovak and Czech Fio accounts alike.</p>
 <p>The lines are then matched exactly as lines of an imported statement —
 automatically by variable symbol, and by hand in <em>Reconcile</em> — as the
-<a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#auto">Bank</a> guide describes.</p>
+<a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#auto">Bank accounts</a> guide describes.</p>
 <p>You install the modules yourself from <em>Apps</em>. A journal is fed by one route
 only — its <strong>Bank Feeds</strong> field holds a single value — so the same movement
 never arrives twice.</p>
@@ -59,7 +59,7 @@ anyone.</p>
 <li>Once, install the <strong>Fio banka — bank statements</strong> module from <em>Apps</em>.</li>
 <li>Open the bank journal of the Fio account (<em>Accounting → Configuration →
    Accounting → Journals</em>; a new one is created as in the
-   <a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#account">Bank</a> guide). Its <strong>Bank Account Number</strong> must be
+   <a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#account">Bank accounts</a> guide). Its <strong>Bank Account Number</strong> must be
    the account the token belongs to.</li>
 <li>In the <strong>Fio banka</strong> section fill in <strong>Fio Read Token</strong> and <strong>Fio Read
    Token Expires</strong> and click <strong>Test connection</strong>. Odoo makes one call to Fio,
@@ -118,7 +118,7 @@ the API do not recognise each other.</p>
 <li>A failed pull is written to the journal's history with the bank's reason;
   the other journals are pulled regardless.</li>
 <li>At month end compare the closing balance in Odoo with the balance on the
-  bank's statement, as in the <a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#month-end">Bank</a> guide.</li>
+  bank's statement, as in the <a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#month-end">Bank accounts</a> guide.</li>
 </ul>
 <footer><p>Walked through on Odoo 19.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>

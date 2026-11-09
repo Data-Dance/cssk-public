@@ -1,7 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 CZ_DOC_THRESHOLD = 10000.0  # CZK fallback; the version record is authoritative
 
@@ -184,7 +185,13 @@ class L10nCzKhRowMixin(models.AbstractModel):
             return True
         # A Czech DIČ, not merely some VAT number: a customer known only by
         # another member state's number cannot be identified in A.4 either.
-        return bool(line and line._cz_kh_has_cz_dic())
+        has_dic = bool(line and line._cz_kh_has_cz_dic())
+        if line and line.move_id.l10n_cz_bad_debt and not has_dic:
+            raise UserError(_(
+                "A bad-debt correction is reported on its own A.4 row, which "
+                "needs the customer's Czech VAT number. Document: %(document)s",
+                document=line.move_id.display_name))
+        return has_dic
 
     @api.model
     def _cz_line_bears_tax(self, code, tax):
@@ -251,7 +258,9 @@ class L10nCzKhRowMixin(models.AbstractModel):
         bucket_total = (b["base_std"] + b["tax_std"] + b["base_red"]
                         + b["tax_red"] + b["base_red3"] + b["tax_red3"])
         line = b.get("line")
-        doc_total = line.move_id.amount_total if line else 0.0
+        # In company currency: the limit is 10 000 CZK, and the document's own
+        # currency would compare 100 000 HUF with it.
+        doc_total = line.move_id.amount_total_signed if line else 0.0
         return doc_total if abs(doc_total) >= abs(bucket_total) else bucket_total
 
     @api.model

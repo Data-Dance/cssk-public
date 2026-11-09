@@ -323,7 +323,9 @@ class EdiMessage(models.Model):
             return xml_content
         try:
             from lxml import etree
-            parser = etree.XMLParser(remove_blank_text=True, huge_tree=True)
+            parser = etree.XMLParser(
+                remove_blank_text=True, huge_tree=True, resolve_entities=False
+            )
             data = (
                 xml_content.encode("utf-8")
                 if isinstance(xml_content, str)

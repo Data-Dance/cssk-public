@@ -243,7 +243,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_dppo``
-- **Version:** 19.0.1.4.8
+- **Version:** 19.0.1.4.9
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_income_tax_base``, ``l10n_sk``, ``l10n_sk_base``

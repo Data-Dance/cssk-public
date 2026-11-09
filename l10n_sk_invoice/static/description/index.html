@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_invoice/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Invoice (statutory PDF)</h1>
 <p class="cssk-summary">Adds the customer&#x27;s DIČ, the payment symbols and the statutory VAT phrases — exemption and reverse charge — to the printed Slovak invoice.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.8</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_sk</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a>, <a href="/l10n_cssk_payment_symbols/static/description/index.html"><code>l10n_cssk_payment_symbols</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_sk</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a>, <a href="/l10n_cssk_payment_symbols/static/description/index.html"><code>l10n_cssk_payment_symbols</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Odoo's invoice PDF, together with the Slovak chart of accounts (<code>l10n_sk</code>),
@@ -184,7 +184,12 @@ after the automatic phrase. It is not copied when the invoice is duplicated.</p>
 <li>The statutory phrases are in Slovak with an English gloss; they are not
   translated into the customer's language.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.0.8 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<h2 id="cash-limit">Cash payment limit</h2>
+<p>A payment or the payment wizard on a cash journal shows a warning when cash
+payments for the document exceed 5 000 € (§ 4 zákona 394/2012 Z. z.). Earlier
+cash payments of the same invoices are added (§ 6 ods. 2). It does not block,
+because the exemptions in § 8 cannot be detected.</p>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

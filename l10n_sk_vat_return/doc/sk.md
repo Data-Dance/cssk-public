@@ -1,7 +1,7 @@
 ---
 title: SK Daňové priznanie k DPH
 summary: Slovenské daňové priznanie k DPH vypočítané z daňových značiek slovenskej účtovej osnovy Odoo, vo vzore platnom pre dané obdobie, exportované ako XML finančnej správy a overené voči jej XSD.
-verified: 19.0.1.15.0
+verified: 19.0.1.15.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -147,8 +147,13 @@ Riadky s názvom *(internal) …* sú pomocné; na tlačive nie sú.
 **Kontrolné pravidlá pri exporte.** Export sa zastaví, ak je r32 alebo r33
 záporný, ak sú oba kladné, alebo ak je r34 vyšší ako r32. Kontroluje sa aj, či
 je každý riadok dane súčinom svojho riadku základu a niektorej sadzby platnej
-pre vzor (vo vzore 2025 19, 5 a 23 %); táto kontrola len varuje a varovanie sa
-zapíše do serverového logu, na obrazovke sa nezobrazí.
+pre vzor (vo vzore 2025 19, 5 a 23 %); táto kontrola len varuje, na formulári
+priznania.
+
+Export sa zastaví aj vtedy, ak spoločnosť nemá **Daňový úrad** s kódom pre
+podanie, lebo schéma by inak priznanie s prázdnym daňovým úradom prijala. Ak nie
+je vyplnená *Oprávnená osoba*, export varuje: je to správne, ak daňový subjekt
+podáva sám za seba.
 
 **Dodatočné priznanie** prenesie *Deň zistenia rozdielu* (*datumZisteniaDdp*)
 do XML len vtedy, keď je typ *Dodatočný*.

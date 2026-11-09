@@ -154,7 +154,7 @@ result = categories.BASIC + categories.ALW
         <field name="amount_python_compute">
 _r = payslip.rule_parameter('l10n_sk_social_sickness_ee')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
+result = -(int(round((min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))) * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
@@ -171,7 +171,7 @@ result_rate = 100
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+base = min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_pension_ee')
@@ -193,7 +193,7 @@ result_rate = 100
         <field name="condition_python">result = contract.l10n_sk_applies('DISABILITY_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+base = min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_disability_ee')
@@ -216,7 +216,7 @@ result_rate = 100
         <field name="amount_python_compute">
 _r = payslip.rule_parameter('l10n_sk_social_unemployment_ee')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
+result = -(int(round((min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))) * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
@@ -408,6 +408,9 @@ if contract.l10n_sk_health_oop_claim and contract.l10n_sk_agreement_type == 'non
     oop_end = payslip.rule_parameter('l10n_sk_health_oop_phaseout_end')
     slope = oop_max / (oop_end - oop_max)
     oop = max(0.0, oop_max - slope * max(0.0, base - oop_max))
+    # § 16 ods. 18: the allowance cannot exceed the income and is reduced by the
+    # calendar days of the month without this employment.
+    oop = min(oop, base) * contract.l10n_sk_month_employed_ratio(payslip.date_from)
     base = max(0.0, base - oop)
 # §19 z.580/2004: floor the health preddavok DOWN to the eurocent.
 result = -(int(round(base * rate, 4)) / 100.0)
@@ -489,11 +492,12 @@ else:
     emp_to = c_end
   days = max(0, (emp_to - emp_from).days + 1)
   # PN calendar days: the PN_DAYS input when given; otherwise the PN leave's
-  # days (working days — a proxy that under-reduces, as in SICK_COMP).
+  # calendar days inside this period.
   if 'PN_DAYS' in inputs.dict:
     pn_days = inputs.PN_DAYS.amount
   elif 'PN' in worked_days.dict:
-    pn_days = abs(worked_days.dict['PN'].number_of_days)
+    _split = payslip.l10n_sk_pn_split(0, 0)
+    pn_days = _split[2] if _split else abs(worked_days.dict['PN'].number_of_days)
   else:
     pn_days = 0.0
   days = max(0.0, days - pn_days)
@@ -881,20 +885,21 @@ else:
 # Sick days are driven from the PN leave (worked_days.PN); the manual PN_DAYS
 # input is the fallback when no leave is recorded. The denný vymeriavací základ
 # (DVZ) is a separate statutory base (not priemerný zárobok), still taken from
-# the PN_DVZ input. SIMPLIFICATION: náhrada príjmu is paid per CALENDAR day for
-# the first 10/14 days; the leave gives WORKING days, used here as a proxy.
-if 'PN' in worked_days.dict:
-    days = abs(worked_days.dict['PN'].number_of_days)
-else:
-    days = inputs.PN_DAYS.amount
+# the PN_DVZ input. § 8 zákona 462/2003 counts CALENDAR days from the start of
+# the incapacity, which only the leave's own dates can give.
 dvz = min(inputs.PN_DVZ.amount, payslip.rule_parameter('l10n_sk_pn_max_dvz'))
 tier1_days = payslip.rule_parameter('l10n_sk_pn_tier1_days')
 employer_days = payslip.rule_parameter('l10n_sk_pn_employer_days')
 rate1 = payslip.rule_parameter('l10n_sk_pn_rate_tier1') / 100.0
 rate2 = payslip.rule_parameter('l10n_sk_pn_rate_tier2') / 100.0
-paid = min(days, employer_days)
-d1 = min(paid, tier1_days)
-d2 = max(0.0, paid - tier1_days)
+_split = payslip.l10n_sk_pn_split(tier1_days, employer_days)
+if _split:
+    d1, d2, _calendar_days = _split
+else:
+    days = abs(worked_days.dict['PN'].number_of_days) if 'PN' in worked_days.dict else inputs.PN_DAYS.amount
+    paid = min(days, employer_days)
+    d1 = min(paid, tier1_days)
+    d2 = max(0.0, paid - tier1_days)
 result = round(dvz * (d1 * rate1 + d2 * rate2), 2)
         </field>
         <field name="appears_on_payslip" eval="True"/>

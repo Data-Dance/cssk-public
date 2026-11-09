@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bank</title>
+<title>Bank accounts</title>
 <meta name="cssk-guide-topic" content="banking">
 <meta name="cssk-guide-order" content="0">
 <meta name="cssk-guide-country" content="sk">
@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <main class="cssk-doc">
 <nav class="cssk-lang"><b>English</b> · <a href="index_sk.html">Slovenčina</a></nav>
 <p class="cssk-note">Task guide</p>
-<h1>Bank</h1>
+<h1>Bank accounts</h1>
 <p class="cssk-summary">A bank account in Odoo, importing a CAMT statement, matching by variable symbol, bank fees and payment orders to suppliers — and what each step posts.</p>
 <table class="cssk-facts"><tr><th>Country</th><td>Slovakia</td></tr><tr><th>Edition</th><td>Odoo Community</td></tr><tr><th>Covers</th><td><code>account</code>, <a href="/account_statement_import_base/static/description/index.html"><code>account_statement_import_base</code></a>, <a href="/account_statement_import_file/static/description/index.html"><code>account_statement_import_file</code></a>, <code>account_statement_import_camt</code>, <a href="/account_statement_import_camt_balance/static/description/index.html"><code>account_statement_import_camt_balance</code></a>, <code>account_reconcile_oca</code>, <a href="/account_reconcile_oca_counter_account/static/description/index.html"><code>account_reconcile_oca_counter_account</code></a>, <a href="/l10n_cssk_payment_symbols/static/description/index.html"><code>l10n_cssk_payment_symbols</code></a>, <a href="/l10n_cssk_payment_symbols_oca/static/description/index.html"><code>l10n_cssk_payment_symbols_oca</code></a>, <a href="/account_payment_order/static/description/index.html"><code>account_payment_order</code></a>, <a href="/account_payment_mode/static/description/index.html"><code>account_payment_mode</code></a>, <a href="/l10n_cssk_payment_symbols_payment_order/static/description/index.html"><code>l10n_cssk_payment_symbols_payment_order</code></a>, <a href="/account_banking_sepa_credit_transfer/static/description/index.html"><code>account_banking_sepa_credit_transfer</code></a>, <a href="/l10n_cssk_payment_symbols_sepa_oca/static/description/index.html"><code>l10n_cssk_payment_symbols_sepa_oca</code></a>, <a href="/account_fio/static/description/index.html"><code>account_fio</code></a>, <a href="/account_statement_fio/static/description/index.html"><code>account_statement_fio</code></a>, <code>account_tatrabanka</code> <span class="cssk-note">(delivered separately)</span>, <code>account_statement_tatrabanka</code> <span class="cssk-note">(delivered separately)</span></td></tr></table>
 <h2 id="purpose">What this guide is for</h2>
@@ -83,13 +83,14 @@ or the balance in another form), install the fix
 <a href="/account_statement_import_camt_balance/static/description/index.html"><code>account_statement_import_camt_balance</code></a>
 from <em>Apps</em>.</p>
 <p>Other ways to get a statement in (set up as described in
-<a href="/l10n_cssk_guide/static/guides/fio_bank/index.html">Fio banka</a> and <a href="/l10n_cssk_guide/static/guides/tatrabanka/index.html">Tatra banka</a>):</p>
+<a href="/l10n_cssk_guide/static/guides/tatrabanka/index.html">Automatic bank statements</a> and <a href="/l10n_cssk_guide/static/guides/fio_bank/index.html">Fio banka</a>):</p>
 <ul>
+<li><strong>Automatic bank statements</strong> — movements on accounts at Slovak and Czech
+  banks are fetched every hour through Tatra banka's Premium API:
+  <code>account_statement_tatrabanka</code> <span class="cssk-note">(delivered separately)</span>;
+  our team switches it on on request.</li>
 <li><strong>Fio banka</strong> — statements are fetched automatically through the Fio API:
   <a href="/account_statement_fio/static/description/index.html"><code>account_statement_fio</code></a>, from <em>Apps</em>.</li>
-<li><strong>Tatra banka</strong> — movements are fetched every hour through the Premium
-  API: <code>account_statement_tatrabanka</code> <span class="cssk-note">(delivered separately)</span>;
-  our team switches it on on request.</li>
 <li>By hand — <em>Accounting → Accounting → Bank and Cash → Bank Statements →
   New</em>.</li>
 </ul>

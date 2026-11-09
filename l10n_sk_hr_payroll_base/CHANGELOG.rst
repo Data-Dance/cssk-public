@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ----------
 
+- **19.0.1.2.0 (2026-11-09):** ``l10n_sk_employee_social_cap``, ``l10n_sk_month_employed_ratio`` and the calendar-day sick-pay split in ``sick_pay.py``.
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules

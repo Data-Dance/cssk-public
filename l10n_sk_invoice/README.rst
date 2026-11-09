@@ -112,11 +112,16 @@ Limitations
 
 - The statutory phrases are in Slovak with an English gloss; they are not translated into the customer's language.
 
+Cash payment limit
+====================
+
+A payment or the payment wizard on a cash journal shows a warning when cash payments for the document exceed 5 000 € (§ 4 zákona 394/2012 Z. z.). Earlier cash payments of the same invoices are added (§ 6 ods. 2). It does not block, because the exemptions in § 8 cannot be detected.
+
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_invoice``
-- **Version:** 19.0.1.0.8
+- **Version:** 19.0.1.1.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_sk``, ``l10n_cssk_core``, ``l10n_sk_base``, ``l10n_cssk_payment_symbols``

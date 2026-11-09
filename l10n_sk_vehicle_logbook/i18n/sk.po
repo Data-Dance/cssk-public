@@ -1,0 +1,616 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_vehicle_logbook
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-08 23:35+0000\n"
+"PO-Revision-Date: 2026-11-08 23:35+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: sk_SK\n"
+"Plural-Forms: \n"
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_vehicle_trip.py:0
+msgid "A business trip needs a purpose."
+msgstr "Služobná jazda musí mať uvedený účel."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje sa akcia"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__advance
+msgid "Advance"
+msgstr "Preddavok"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__amount
+msgid "Amount"
+msgstr "Suma"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__amount_due
+msgid "Amount Due"
+msgstr "Suma na úhradu"
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Approve"
+msgstr "Schváliť"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__approved
+msgid "Approved"
+msgstr "Schválený"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__date_end
+msgid "Arrival"
+msgstr "Príchod"
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_vehicle_trip.py:0
+msgid "Arrival must be after departure."
+msgstr "Príchod musí nasledovať po odchode."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_vehicle_trip__trip_type__business
+msgid "Business"
+msgstr "Služobná"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.ui.menu,name:l10n_sk_vehicle_logbook.menu_travel_root
+msgid "Business Travel"
+msgstr "Pracovné cesty"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__company_id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Compute Days"
+msgstr "Vypočítať dni"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__consumption
+msgid "Consumption (per 100 km)"
+msgstr "Spotreba (na 100 km)"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__consumption
+msgid ""
+"Consumption from the vehicle document including the increase under § 7 ods. "
+"6 zákona 283/2002 Z. z."
+msgstr "Spotreba z dokladu vozidla vrátane zvýšenia podľa § 7 ods. 6 zákona 283/2002 Z. z."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__create_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__create_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__create_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__create_date
+msgid "Created on"
+msgstr "Vytvorené"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__date
+msgid "Date"
+msgstr "Dátum"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__day_ids
+msgid "Day"
+msgstr "Deň"
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Days"
+msgstr "Dni"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__date_start
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__date_start
+msgid "Departure"
+msgstr "Odchod"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__destination
+msgid "Destination"
+msgstr "Miesto určenia"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__distance
+msgid "Distance"
+msgstr "Vzdialenosť"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_travel_order
+msgid "Domestic travel order"
+msgstr "Tuzemský cestovný príkaz"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__draft
+msgid "Draft"
+msgstr "Návrh"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__driver_id
+msgid "Driver"
+msgstr "Vodič"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__employee_id
+msgid "Employee"
+msgstr "Zamestnanec"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__vehicle_mode__own
+msgid "Employee's own vehicle"
+msgstr "Vlastné vozidlo zamestnanca"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__expense_id
+msgid "Expense"
+msgstr "Výdavok"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__kilometres
+msgid "Filled from the linked logbook trips when there are any."
+msgstr "Vyplní sa z priradených jázd v knihe jázd, ak nejaké sú."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_follower_ids
+msgid "Followers"
+msgstr "Sledovatelia"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledovatelia (partneri)"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__breakfast
+msgid "Free breakfast"
+msgstr "Bezplatné raňajky"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__dinner
+msgid "Free dinner"
+msgstr "Bezplatná večera"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__lunch
+msgid "Free lunch"
+msgstr "Bezplatný obed"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__origin
+msgid "From"
+msgstr "Odkiaľ"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_amount
+msgid "Fuel Amount"
+msgstr "Náhrada za pohonné látky"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_price
+msgid "Fuel Price"
+msgstr "Jednotková cena pohonnej látky"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__hours
+msgid "Hours"
+msgstr "Hodiny"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je označené, nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_has_error
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je označené, niektoré správy majú chybu doručenia."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledovateľ"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__kilometre_amount
+msgid "Kilometre Amount"
+msgstr "Základná náhrada"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__kilometres
+msgid "Kilometres"
+msgstr "Kilometre"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__write_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__write_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__write_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené"
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Logbook Trips"
+msgstr "Jazdy v knihe jázd"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__meal_amount
+msgid "Meal Amount"
+msgstr "Stravné"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__meal_5_12
+msgid "Meals, 5 to 12 hours"
+msgstr "Stravné, 5 až 12 hodín"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__meal_12_18
+msgid "Meals, over 12 to 18 hours"
+msgstr "Stravné, nad 12 až 18 hodín"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__meal_18
+msgid "Meals, over 18 hours"
+msgstr "Stravné, nad 18 hodín"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "No travel rates are valid on %(day)s."
+msgstr "K dátumu %(day)s nie sú platné žiadne sadzby náhrad."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__odometer_end
+msgid "Odometer End"
+msgstr "Stav tachometra na konci"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__odometer_start
+msgid "Odometer Start"
+msgstr "Stav tachometra na začiatku"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.constraint,message:l10n_sk_vehicle_logbook.constraint_l10n_sk_travel_rate_date_from_uniq
+msgid "One set of rates per start date."
+msgstr "Pre jeden dátum začiatku platnosti môže existovať len jedna sada sadzieb."
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "Only an approved order can be settled."
+msgstr "Vyúčtovať možno len schválený cestovný príkaz."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__order_id
+msgid "Order"
+msgstr "Cestovný príkaz"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__vehicle_category__car
+msgid "Passenger car"
+msgstr "Osobné vozidlo"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__km_car
+msgid "Per km, passenger car"
+msgstr "Základná náhrada za km, osobné vozidlo"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__km_two_wheel
+msgid "Per km, two- and three-wheelers, quads"
+msgstr "Základná náhrada za km, dvojkolesové a trojkolesové vozidlá, štvorkolky"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_vehicle_trip__trip_type__private
+msgid "Private"
+msgstr "Súkromná"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__vehicle_mode__none
+msgid "Public transport or company vehicle"
+msgstr "Hromadná doprava alebo vozidlo zamestnávateľa"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__purpose
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__purpose
+msgid "Purpose"
+msgstr "Účel"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__rate
+msgid "Rate"
+msgstr "Sadzba"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__rate_18
+msgid "Rate 18"
+msgstr "Sadzba nad 18 hodín"
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Reset to Draft"
+msgstr "Vrátiť do návrhu"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__date_end
+msgid "Return"
+msgstr "Návrat"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Settle"
+msgstr "Vyúčtovať"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__settled
+msgid "Settled"
+msgstr "Vyúčtovaný"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_travel_rate
+msgid "Slovak domestic travel rates"
+msgstr "Slovenské sadzby tuzemských cestovných náhrad"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__source
+msgid "Source"
+msgstr "Zdroj"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_vehicle_trip.py:0
+msgid "The odometer cannot go backwards."
+msgstr "Stav tachometra sa nemôže znížiť."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__source
+msgid "The published notice these amounts come from."
+msgstr "Zverejnený predpis, z ktorého tieto sumy pochádzajú."
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "The return must be after the departure."
+msgstr "Návrat musí nasledovať po odchode."
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "This order already has an expense."
+msgstr "K tomuto cestovnému príkazu už existuje výdavok."
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_vehicle_trip.py:0
+msgid ""
+"This trip starts at %(start)s km, below the %(end)s km where the previous "
+"trip ended."
+msgstr "Táto jazda začína na %(start)s km, teda pod %(end)s km, kde sa skončila predchádzajúca jazda."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__destination
+msgid "To"
+msgstr "Kam"
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_list
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_trip_list
+msgid "Total"
+msgstr "Spolu"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__total_amount
+msgid "Total Amount"
+msgstr "Celková suma"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__trailer
+msgid "Trailer"
+msgstr "Príves"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__travel_order_id
+msgid "Travel Order"
+msgstr "Cestovný príkaz"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.actions.act_window,name:l10n_sk_vehicle_logbook.action_order
+#: model:ir.ui.menu,name:l10n_sk_vehicle_logbook.menu_travel_orders
+msgid "Travel Orders"
+msgstr "Cestovné príkazy"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.actions.act_window,name:l10n_sk_vehicle_logbook.action_rate
+#: model:ir.ui.menu,name:l10n_sk_vehicle_logbook.menu_rates
+msgid "Travel Rates"
+msgstr "Sadzby cestovných náhrad"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_travel_order_day
+msgid "Travel order calendar day"
+msgstr "Kalendárny deň cestovného príkazu"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:product.template,name:l10n_sk_vehicle_logbook.product_travel_settlement_product_template
+msgid "Travel order settlement"
+msgstr "Vyúčtovanie cestovného príkazu"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__trip_ids
+msgid "Trip"
+msgstr "Jazda"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__trip_type
+msgid "Trip Type"
+msgstr "Druh jazdy"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__vehicle_category__two_wheel
+msgid "Two- or three-wheeler, quad"
+msgstr "Dvojkolesové alebo trojkolesové vozidlo, štvorkolka"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_price
+msgid "Unit price from the purchase receipt (§ 7 ods. 5)."
+msgstr "Jednotková cena z dokladu o kúpe (§ 7 ods. 5)."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__date_from
+msgid "Valid from"
+msgstr "Platné od"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__vehicle_id
+msgid "Vehicle"
+msgstr "Vozidlo"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__vehicle_category
+msgid "Vehicle Category"
+msgstr "Kategória vozidla"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.actions.act_window,name:l10n_sk_vehicle_logbook.action_trip
+#: model:ir.ui.menu,name:l10n_sk_vehicle_logbook.menu_trips
+msgid "Vehicle Logbook"
+msgstr "Kniha jázd"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__vehicle_mode
+msgid "Vehicle Mode"
+msgstr "Spôsob dopravy"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_vehicle_trip
+msgid "Vehicle logbook entry"
+msgstr "Záznam v knihe jázd"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__website_message_ids
+msgid "Website Messages"
+msgstr "Správy webu"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie na webe"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__trailer
+msgid "§ 7 ods. 2: a trailer adds 15 % to the basic rate."
+msgstr "§ 7 ods. 2: príves zvyšuje základnú náhradu o 15 %."

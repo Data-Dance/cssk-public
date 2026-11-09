@@ -218,6 +218,41 @@ class CSSKIncomeTaxReturn(models.Model):
                 continue
             return value
 
+    def check_kontroly(self):
+        """§ 30 ods. 1: the loss deduction against the tax base.
+
+        A warning rather than an error, and silent up to 100 000 € of income:
+        a mikrodaňovník may deduct up to the whole base, and that status also
+        depends on facts the return does not hold. The 50 % limit took effect
+        for periods from 2020.
+        """
+        self.ensure_one()
+        out = []
+        values = {line.code: line.value for line in self.line_ids}
+        r400 = values.get("r400") or 0.0
+        r410 = values.get("r410") or 0.0
+        limit = statutory_round(r400 * 0.5, 2)
+        if (
+            self.date_from.year >= 2020
+            and r410 > limit + 0.005
+            and (values.get("r560") or 0.0) > 100000.0
+        ):
+            out.append({
+                "code": "DPPO_LOSS_50",
+                "severity": "warning",
+                "desc": _("Loss deduction above 50 % of the tax base"),
+                "detail": _(
+                    "r410 is %(loss).2f but § 30 ods. 1 písm. b) allows "
+                    "%(limit).2f unless the company is a mikrodaňovník.",
+                    loss=r410, limit=limit),
+            })
+        return out
+
+    def _cssk_check_kontroly(self):
+        self.ensure_one()
+        self._cssk_enforce_kontroly()
+        return True
+
     def _dppo_rate(self, r560):
         """Sadzba dane % (§ 15) by úhrn zdaniteľných príjmov r560 — statutory
         schedule read from the version record (rate_bands)."""

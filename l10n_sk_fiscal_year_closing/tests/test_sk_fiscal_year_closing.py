@@ -202,3 +202,26 @@ class TestSkZavierka(AccountTestInvoicingCommon):
         self.assertEqual(sum(on_431.mapped("balance")), 600.0,
                          "a loss of 600 is a DEBIT on 431")
         self.assertNotIn("710000", set(move.line_ids.mapped("account_id.code")))
+
+    def test_pre_close_flags_a_balance_on_431(self):
+        account_431 = self.env["account.account"].search(
+            [("company_ids", "in", self.company.id), ("code", "=like", "431%")], limit=1
+        )
+        other = self.env["account.account"].search(
+            [("company_ids", "in", self.company.id), ("code", "=like", "428%")], limit=1
+        )
+        closing = self._closing()
+        self.assertNotIn("431", closing.l10n_sk_pre_close_warning or "")
+        move = self.env["account.move"].create({
+            "journal_id": self.journal.id,
+            "date": "2025-06-30",
+            "line_ids": [
+                Command.create({"account_id": account_431.id, "debit": 100.0}),
+                Command.create({"account_id": other.id, "credit": 100.0}),
+            ],
+        })
+        closing.invalidate_recordset(["l10n_sk_pre_close_warning"])
+        self.assertIn("draft", closing.l10n_sk_pre_close_warning)
+        move.action_post()
+        closing.invalidate_recordset(["l10n_sk_pre_close_warning"])
+        self.assertIn("431", closing.l10n_sk_pre_close_warning)

@@ -121,3 +121,28 @@ msgstr ""
 "Táto daň predstavuje tuzemské plnenie s prenesením daňovej "
 "povinnosti. Pri použití na riadku faktúry sa na slovenskú faktúru "
 "vytlačí povinná formulácia podľa § 69 ods. 12."
+#. module: l10n_sk_invoice
+#. odoo-python
+#: code:addons/l10n_sk_invoice/models/account_payment.py:0
+msgid ""
+"Cash payments for this document total %(total).2f €, above the 5 000 € limit"
+" of § 4 zákona č. 394/2012 Z. z. Parts of one payment are added together (§ "
+"6 ods. 2). Check that an exemption under § 8 applies, or pay by bank "
+"transfer."
+msgstr "Platby v hotovosti za tento doklad spolu dosahujú %(total).2f €, čo je nad limitom 5 000 € podľa § 4 zákona č. 394/2012 Z. z. Časti jednej platby sa spočítavajú (§ 6 ods. 2). Overte, či sa uplatní výnimka podľa § 8, alebo zaplaťte bankovým prevodom."
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment__l10n_sk_cash_limit_warning
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment_register__l10n_sk_cash_limit_warning
+msgid "L10N Sk Cash Limit Warning"
+msgstr "Upozornenie na limit platieb v hotovosti"
+
+#. module: l10n_sk_invoice
+#: model:ir.model,name:l10n_sk_invoice.model_account_payment_register
+msgid "Pay"
+msgstr "Zaplatiť"
+
+#. module: l10n_sk_invoice
+#: model:ir.model,name:l10n_sk_invoice.model_account_payment
+msgid "Payments"
+msgstr "Platby"

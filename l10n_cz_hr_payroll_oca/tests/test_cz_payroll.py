@@ -283,6 +283,33 @@ class TestCzPayroll(TransactionCase):
         # ... and marked as the separate base the JMHZ reports apart.
         self.assertEqual(self._t(p, "PAR6BASE"), 8000.0)
 
+    def test_separate_base_2027_rounds_to_whole_crowns(self):
+        """§ 6 odst. 18: 8 051 x 15 % = 1 207.65, rounded up to 1 208.
+
+        Rounding the base up to 100 Kč would take 1 215.
+        """
+        emp, con = self._employee(
+            "Karel Dohodar 2027 zaokrouhleni",
+            wage=8051.0,
+            l10n_cz_agreement_type="dpp",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
+        self.assertEqual(self._t(p, "INCOMETAX"), -1208.0)
+
+    def test_declared_dpp_2027_still_rounds_to_100(self):
+        """A signed declaration keeps the ordinary advance base (§ 38h)."""
+        emp, con = self._employee(
+            "Karel Dohodar 2027 prohlaseni",
+            wage=8051.0,
+            l10n_cz_agreement_type="dpp",
+            l10n_cz_tax_declaration=True,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
+        self.assertEqual(self._t(p, "INCOMETAX"), -1215.0)
+
     def test_dpp_below_threshold_december_2026_still_withheld(self):
         """The period decides, not the payment date: a December 2026 DPP is
         still taxed by srážková daň even when paid in January 2027."""

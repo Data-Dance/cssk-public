@@ -1,7 +1,7 @@
 ---
 title: SK Year-End Closing (accounts 701 / 702 / 710)
 summary: Closes the Slovak books at year end through the closing accounts 710, 702 and 701, and makes those accounts postable in the first place.
-verified: 19.0.1.0.3
+verified: 19.0.1.1.0
 ---
 
 ## What it is for {#purpose}
@@ -191,3 +191,9 @@ provides the templates *Preúčtovanie schváleného zisku (431 na 428)* and
 - Closing conventions differ between accountants, notably in how the result
   reaches 702. The template is a starting point and should be signed
   off by your accountant before the first live closing.
+
+## Before closing the year {#pre-close}
+
+The closing form lists what needs a look first: draft entries, numbering gaps,
+balances on 431, 395 and 261, draft payslips, unposted depreciation and an
+unfiled VAT return for the last period. The list is advisory.

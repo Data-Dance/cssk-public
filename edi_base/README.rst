@@ -239,7 +239,7 @@ Module facts
 ============
 
 - **Technical name:** ``edi_base``
-- **Version:** 19.0.1.9.1
+- **Version:** 19.0.1.9.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``account``, ``account_add_gln``

@@ -486,6 +486,12 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
             "vat": "SK2023456787", "city": "Bratislava",
             "country_id": cls.env.ref("base.sk").id,
         })
+        cls.company.l10n_cssk_tax_authority_id = cls.env["cssk.tax.authority"].sudo().create({
+            "name": "Daňový úrad Test",
+            "code": "SK-TEST",
+            "country_id": cls.env.ref("base.sk").id,
+            "submission_code": "Daňový úrad Test",
+        })
         cls.tax_sale = cls.tax_sale_a
         cls.version = cls.env.ref("l10n_sk_vat_return.dph_version_2025")
 
@@ -505,6 +511,33 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
             self._make_return()
         self.version.allow_monthly = True
         self._make_return()
+
+    def test_export_refuses_a_company_without_a_tax_office(self):
+        """The schema accepts an empty danovyUrad, so only this check stops it."""
+        ret = self._make_return()
+        ret.action_compute_lines()
+        self.company.l10n_cssk_tax_authority_id = False
+        with self.assertRaisesRegex(UserError, "tax office"):
+            ret.action_export_xml()
+        self.assertNotEqual(ret.state, "exported")
+
+    def test_export_refuses_a_tax_office_without_a_submission_code(self):
+        ret = self._make_return()
+        ret.action_compute_lines()
+        self.company.l10n_cssk_tax_authority_id.submission_code = False
+        with self.assertRaisesRegex(UserError, "tax office"):
+            ret.action_export_xml()
+
+    def test_export_warns_only_without_an_authorised_person(self):
+        ret = self._make_return()
+        ret.action_compute_lines()
+        action = ret.action_export_xml()
+        self.assertEqual(ret.state, "exported")
+        self.assertIn("Oprávnená osoba", ret.cssk_export_warnings)
+        self.assertEqual(action["params"]["type"], "warning")
+        ret.l10n_sk_authorized_name = "Jana Testová"
+        ret.action_export_xml()
+        self.assertNotIn("Oprávnená osoba", ret.cssk_export_warnings or "")
 
     def test_compute_and_export(self):
         self.init_invoice(
@@ -969,6 +1002,12 @@ class TestSkVatReturnLegacyExport(AccountTestInvoicingCommon):
             "phone": "+421 2 12345678",
             "country_id": cls.env.ref("base.sk").id,
         })
+        cls.company.l10n_cssk_tax_authority_id = cls.env["cssk.tax.authority"].sudo().create({
+            "name": "Daňový úrad Test",
+            "code": "SK-TEST",
+            "country_id": cls.env.ref("base.sk").id,
+            "submission_code": "Daňový úrad Test",
+        })
 
     def _export(self, xmlid, date_from, date_to):
         version = self.env.ref("l10n_sk_vat_return.%s" % xmlid)
@@ -1130,6 +1169,12 @@ class TestSkVatReturnFootprint(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.company = cls.company_data["company"]
         cls.company.write({"vat": "SK2023456787", "city": "Bratislava"})
+        cls.company.l10n_cssk_tax_authority_id = cls.env["cssk.tax.authority"].sudo().create({
+            "name": "Daňový úrad Test",
+            "code": "SK-TEST",
+            "country_id": cls.env.ref("base.sk").id,
+            "submission_code": "Daňový úrad Test",
+        })
 
     def _footprint_codes(self, tax, move_type="in_invoice",
                          invoice_date="2025-03-10"):

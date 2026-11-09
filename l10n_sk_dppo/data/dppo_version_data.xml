@@ -55,8 +55,8 @@
     <field name="rate_bands" eval="[[100000.0, 10.0], [5000000.0, 21.0], [None, 24.0]]"/>
     <!-- § 46b ods. 2 minimálna daň (Metodický pokyn 9/DZPaU/2025/MP):
          340 € ≤ 50 000 €, 960 € ≤ 250 000 €, 1 920 € ≤ 500 000 €, 3 840 €
-         above. No higher band exists in current law; do not speculate a
-         future > 5M band here. -->
+         above. For periods starting on or after 1.1.2026 § 46b ods. 2 písm. e)
+         adds 11 520 € above 5 000 000 €: put it on the 2026 version. -->
     <field name="min_tax_bands" eval="[[50000.0, 340.0], [250000.0, 960.0], [500000.0, 1920.0], [None, 3840.0]]"/>
   </record>
   <record id="dppo_type_R_2025" model="cssk.income.tax.type">

@@ -50,9 +50,9 @@
                     <VetaA4 t-att-dic_odb="r.partner_vat_stripped"
                             t-att-c_evid_dd="r.entry_ref"
                             t-att-dppd="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
-                            t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
-                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
-                            t-att-zakl_dane3="('%.0f' % r.base_red3) if r.base_red3 else None" t-att-dan3="('%.0f' % r.tax_red3) if r.tax_red3 else None"
+                            t-att-zakl_dane1="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
+                            t-att-zakl_dane3="('%.0f' % r.base_red3) if r.base_red3 and r.move_id.l10n_cz_bad_debt != 'A' else None" t-att-dan3="('%.0f' % r.tax_red3) if r.tax_red3 else None"
                             kod_rezim_pl="0"
                             t-att-zdph_44="r.move_id.l10n_cz_bad_debt or 'N'"/>
                 </t>
@@ -74,9 +74,9 @@
                     <VetaB2 t-att-dic_dod="r.partner_vat_stripped"
                             t-att-c_evid_dd="r.entry_ref"
                             t-att-dppd="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
-                            t-att-zakl_dane1="'%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
-                            t-att-zakl_dane2="'%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
-                            t-att-zakl_dane3="('%.0f' % r.base_red3) if r.base_red3 else None" t-att-dan3="('%.0f' % r.tax_red3) if r.tax_red3 else None"
+                            t-att-zakl_dane1="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
+                            t-att-zakl_dane2="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
+                            t-att-zakl_dane3="('%.0f' % r.base_red3) if r.base_red3 and r.move_id.l10n_cz_bad_debt != 'A' else None" t-att-dan3="('%.0f' % r.tax_red3) if r.tax_red3 else None"
                             pomer="N"
                             t-att-zdph_44="r.move_id.l10n_cz_bad_debt or 'N'"/>
                 </t>

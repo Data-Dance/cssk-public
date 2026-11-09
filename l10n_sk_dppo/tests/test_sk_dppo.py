@@ -1279,3 +1279,26 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
             with open(file_path("l10n_sk_dppo/data/%s" % schema), "rb") as fh:
                 digests[schema] = hashlib.md5(fh.read()).hexdigest()
         self.assertNotEqual(digests["dppo2025.xsd"], digests["dppo2025_v2.xsd"])
+
+    def _return_with_loss(self, loss, income):
+        version = self.env.ref("l10n_sk_dppo.dppo_version_2024")
+        ret = self.env["cssk.income.tax.return"].create({
+            "company_id": self.company.id, "version_id": version.id,
+            "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
+            "date_from": "2024-01-01", "date_to": "2024-12-31"})
+        ret.action_compute_lines()
+        for code, value in (("r100", 100000.0), ("r410", loss), ("r560", income)):
+            ret.line_ids.filtered(lambda l: l.code == code).write(
+                {"is_overridden": True, "manual_value": value})
+        ret.action_compute_lines()
+        return ret
+
+    def test_loss_above_half_the_base_warns(self):
+        codes = [v["code"] for v in self._return_with_loss(60000.0, 500000.0).check_kontroly()]
+        self.assertEqual(codes, ["DPPO_LOSS_50"])
+
+    def test_loss_at_half_the_base_is_clean(self):
+        self.assertFalse(self._return_with_loss(50000.0, 500000.0).check_kontroly())
+
+    def test_possible_micro_taxpayer_is_not_warned(self):
+        self.assertFalse(self._return_with_loss(60000.0, 90000.0).check_kontroly())

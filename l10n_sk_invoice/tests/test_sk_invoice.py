@@ -163,3 +163,47 @@ class TestSkInvoiceRegistryLabel(AccountTestInvoicingCommon):
         """Core's layout prints the company VAT; l10n_sk printed it again."""
         self.company.with_context(no_vat_validation=True).vat = "SK2022749619"
         self.assertEqual(self._html().count("SK2022749619"), 1)
+
+
+@tagged("post_install", "-at_install")
+class TestSkCashLimit(AccountTestInvoicingCommon):
+    @classmethod
+    @AccountTestInvoicingCommon.setup_country("sk")
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.cash = cls.env["account.journal"].search(
+            [("company_id", "=", cls.company_data["company"].id), ("type", "=", "cash")],
+            limit=1,
+        )
+
+    def _invoice(self, amount):
+        return self.init_invoice(
+            "out_invoice", amounts=[amount], post=True, taxes=self.env["account.tax"]
+        )
+
+    def _wizard(self, invoice, amount):
+        return (
+            self.env["account.payment.register"]
+            .with_context(active_model="account.move", active_ids=invoice.ids)
+            .create({"journal_id": self.cash.id, "amount": amount})
+        )
+
+    def test_exactly_the_limit_is_allowed(self):
+        wizard = self._wizard(self._invoice(5000.0), 5000.0)
+        self.assertFalse(wizard.l10n_sk_cash_limit_warning)
+
+    def test_above_the_limit_warns(self):
+        wizard = self._wizard(self._invoice(5000.01), 5000.01)
+        self.assertIn("394/2012", wizard.l10n_sk_cash_limit_warning)
+
+    def test_split_payments_are_added_together(self):
+        invoice = self._invoice(6000.0)
+        self._wizard(invoice, 3000.0)._create_payments()
+        self.assertTrue(self._wizard(invoice, 2500.0).l10n_sk_cash_limit_warning)
+
+    def test_bank_payment_is_not_limited(self):
+        invoice = self._invoice(9000.0)
+        bank = self.company_data["default_journal_bank"]
+        wizard = self._wizard(invoice, 9000.0)
+        wizard.journal_id = bank
+        self.assertFalse(wizard.l10n_sk_cash_limit_warning)

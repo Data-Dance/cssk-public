@@ -1,7 +1,7 @@
 ---
 title: EDI Base
 summary: The common ground of every EDI and Peppol connection — the EDI message log, its states, sending and receiving, and the partner settings all providers share.
-verified: 19.0.1.9.1
+verified: 19.0.1.9.2
 ---
 
 ## What it is for {#purpose}

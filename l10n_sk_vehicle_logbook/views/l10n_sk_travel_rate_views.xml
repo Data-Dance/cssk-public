@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_rate_list" model="ir.ui.view">
+        <field name="name">l10n.sk.travel.rate.list</field>
+        <field name="model">l10n.sk.travel.rate</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="date_from"/>
+                <field name="meal_5_12"/>
+                <field name="meal_12_18"/>
+                <field name="meal_18"/>
+                <field name="km_car"/>
+                <field name="km_two_wheel"/>
+                <field name="source"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_rate" model="ir.actions.act_window">
+        <field name="name">Travel Rates</field>
+        <field name="res_model">l10n.sk.travel.rate</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

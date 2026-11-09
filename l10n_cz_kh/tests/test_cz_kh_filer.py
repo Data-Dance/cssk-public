@@ -159,6 +159,51 @@ class TestCzKhFiler(AccountTestInvoicingCommon):
         self.assertEqual(
             self.env.ref("l10n_cz_kh.cz_kh_type_E").name, "Následné/opravné")
 
+    def test_a_flagged_correction_without_a_dic_is_refused(self):
+        partner = self.env["res.partner"].create({
+            "name": "Bez DIC", "country_id": self.env.ref("base.cz").id})
+        origin = self._sale(3000.0)
+        origin.button_draft()
+        origin.partner_id = partner
+        origin.action_post()
+        refund = origin._reverse_moves()
+        refund.l10n_cz_bad_debt = "P"
+        refund.action_post()
+        with self.assertRaisesRegex(UserError, "bad-debt correction"):
+            self._statement()
+
+    def test_an_old_section_44_correction_exports_tax_only(self):
+        """GFŘ 4. 12. 2019: for A the base is not accessible on the row."""
+        origin = self._sale(3000.0)
+        self.env.cr.execute(
+            "UPDATE account_move SET taxable_supply_date = '2019-02-10' WHERE id = %s",
+            [origin.id])
+        origin.invalidate_recordset(["taxable_supply_date"])
+        refund = origin._reverse_moves()
+        refund.l10n_cz_bad_debt = "A"
+        refund.action_post()
+        rows = self._export(self._statement()).findall(".//VetaA4")
+        row = next(r for r in rows if r.get("c_evid_dd") == refund.name)
+        self.assertEqual(row.get("zdph_44"), "A")
+        self.assertIsNone(row.get("zakl_dane1"))
+        self.assertEqual(row.get("dan1"), "-630")
+
+    def test_the_threshold_reads_company_currency(self):
+        """100 000 HUF is about 6 667 CZK at this rate: an aggregate row."""
+        huf = self.setup_other_currency("HUF", rates=[("2000-01-01", 15.0)])
+        inv = self.env["account.move"].create({
+            "move_type": "out_invoice", "partner_id": self.partner.id,
+            "currency_id": huf.id,
+            "invoice_date": fields.Date.context_today(self.env.user),
+            "invoice_line_ids": [Command.create({
+                "name": "x", "quantity": 1, "price_unit": 82644.63,
+                "tax_ids": [Command.set(self.tax21.ids)]})],
+        })
+        inv.action_post()
+        st = self._statement()
+        self.assertFalse(st.cz_a4_ids.filtered(lambda r: r.move_id == inv))
+        self.assertTrue(st.cz_a5_ids)
+
     def test_a_bad_debt_correction_is_a4_whatever_its_amount(self):
         """A small correction would otherwise vanish into the A.5 aggregate,
         which has no zdph_44 to carry the flag."""

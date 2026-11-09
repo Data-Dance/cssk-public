@@ -411,12 +411,23 @@ result = (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 raw = categories.TAXBASE
-# round up to whole 100 (ceil): -(-x // 100) * 100
-base = int(-(-raw // 100.0)) * 100
-thr = payslip.rule_parameter('l10n_cz_tax_threshold_month')
 r1 = payslip.rule_parameter('l10n_cz_tax_rate_1')
 r2 = payslip.rule_parameter('l10n_cz_tax_rate_2')
-tax = r1 / 100.0 * min(base, thr) + r2 / 100.0 * max(base - thr, 0)
+thr = payslip.rule_parameter('l10n_cz_tax_threshold_month')
+if contract.l10n_cz_agreement_type == 'dpp':
+    limit = payslip.rule_parameter('l10n_cz_dpp_threshold')
+else:
+    limit = payslip.rule_parameter('l10n_cz_dpc_threshold')
+if (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
+        and not contract.l10n_cz_tax_declaration and raw &lt; limit):
+    # § 6 odst. 18: the separate base of § 6 odst. 4 and its advance are
+    # rounded up to whole crowns, not to 100 Kč. Same test as PAR6BASE.
+    base = -(-round(raw, 2) // 1)
+    tax = -(-round(r1 / 100.0 * base, 2) // 1)
+else:
+    # round up to whole 100 (ceil): -(-x // 100) * 100
+    base = int(-(-raw // 100.0)) * 100
+    tax = r1 / 100.0 * min(base, thr) + r2 / 100.0 * max(base - thr, 0)
 result = -tax
         </field>
         <field name="appears_on_payslip" eval="True"/>

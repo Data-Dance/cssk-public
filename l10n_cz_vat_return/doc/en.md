@@ -198,10 +198,12 @@ the chart's taxes so that the return can report them:
 ## Bad-debt corrections {#bad-debt}
 
 A document flagged with **Oprava u nedobytné pohledávky** (a field added by
-`l10n_cz_statutory`) leaves every ordinary row of the return. Its tax goes to
-**ř. 33** when it is a sales document (the creditor's correction) or **ř. 34**
-when it is a purchase document (the debtor's), in addition to any entry tagged
-*VAT 33* / *VAT 34* by hand.
+`l10n_cz_statutory`) is reported twice, as the Financial Administration's
+information of 4 December 2019 requires. It stays on its ordinary row, ř. 1/2
+for the creditor and ř. 40/41 for the debtor, where it lowers the tax due. Its
+tax is also shown on **ř. 33** when it is a sales document or **ř. 34** when it
+is a purchase document, in addition to any entry tagged *VAT 33* / *VAT 34* by
+hand. ř. 62 and ř. 63 do not add ř. 33 and ř. 34.
 
 ## Historical rates {#historic-rates}
 

@@ -1,7 +1,7 @@
 ---
 title: SK Invoice (statutory PDF)
 summary: Adds the customer's DIČ, the payment symbols and the statutory VAT phrases — exemption and reverse charge — to the printed Slovak invoice.
-verified: 19.0.1.0.8
+verified: 19.0.1.1.0
 ---
 
 ## What it is for {#purpose}
@@ -150,3 +150,10 @@ after the automatic phrase. It is not copied when the invoice is duplicated.
   písm. d) requires it on the invoice.
 - The statutory phrases are in Slovak with an English gloss; they are not
   translated into the customer's language.
+
+## Cash payment limit {#cash-limit}
+
+A payment or the payment wizard on a cash journal shows a warning when cash
+payments for the document exceed 5 000 € (§ 4 zákona 394/2012 Z. z.). Earlier
+cash payments of the same invoices are added (§ 6 ods. 2). It does not block,
+because the exemptions in § 8 cannot be detected.

@@ -37,7 +37,7 @@ msgstr "Další zákonná poznámka tištěná na slovenské faktuře…"
 #. module: l10n_sk_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_sk_invoice.report_invoice_document_sk
 msgid "DIČ:"
-msgstr ""
+msgstr "DIČ:"
 
 #. module: l10n_sk_invoice
 #: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__display_name
@@ -49,7 +49,7 @@ msgstr "Zobrazovaný název"
 #: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_tax__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_sk_invoice
 #: model:ir.model,name:l10n_sk_invoice.model_account_move
@@ -105,7 +105,7 @@ msgid ""
 "Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, "
 "supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, "
 "exemptions). Language-driven labels."
-msgstr ""
+msgstr "Slovenské rozložení faktury: blok strany s DIČ/IČO/IČ DPH, platební symboly, data dodání, vystavení a splatnosti a povinné zákonné formulace podle § 74 (přenesení daňové povinnosti, osvobození). Popisky se řídí jazykem."
 
 #. module: l10n_sk_invoice
 #: model:ir.model.fields,help:l10n_sk_invoice.field_account_tax__l10n_sk_reverse_charge
@@ -113,4 +113,30 @@ msgid ""
 "This tax represents a domestic reverse-charge supply (prenesenie daňovej "
 "povinnosti). When used on an invoice line, the mandatory §69 ods. 12 phrase "
 "is printed on the SK invoice."
-msgstr ""
+msgstr "Tato daň představuje tuzemské dodání s přenesením daňové povinnosti. Při použití na řádku faktury se na slovenské faktuře vytiskne povinná formulace podle § 69 ods. 12."
+
+#. module: l10n_sk_invoice
+#. odoo-python
+#: code:addons/l10n_sk_invoice/models/account_payment.py:0
+msgid ""
+"Cash payments for this document total %(total).2f €, above the 5 000 € limit"
+" of § 4 zákona č. 394/2012 Z. z. Parts of one payment are added together (§ "
+"6 ods. 2). Check that an exemption under § 8 applies, or pay by bank "
+"transfer."
+msgstr "Hotovostní platby za tento doklad celkem činí %(total).2f €, což je nad limitem 5 000 € podle § 4 zákona č. 394/2012 Z. z. Části jedné platby se sčítají (§ 6 ods. 2). Ověřte, zda se uplatní výjimka podle § 8, nebo zaplaťte bankovním převodem."
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment__l10n_sk_cash_limit_warning
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment_register__l10n_sk_cash_limit_warning
+msgid "L10N Sk Cash Limit Warning"
+msgstr "Upozornění na limit plateb v hotovosti"
+
+#. module: l10n_sk_invoice
+#: model:ir.model,name:l10n_sk_invoice.model_account_payment_register
+msgid "Pay"
+msgstr "Zaplatit"
+
+#. module: l10n_sk_invoice
+#: model:ir.model,name:l10n_sk_invoice.model_account_payment
+msgid "Payments"
+msgstr "Platby"

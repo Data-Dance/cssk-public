@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_vat_return/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ VAT Return (DPHDP3)</h1>
 <p class="cssk-summary">The Czech VAT return computed from the tax tags of Odoo&#x27;s Czech chart and exported as the EPO DPHDP3 XML, validated against the current official XSD for every period.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.16.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.16.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Czech layer of the <a href="/l10n_cssk_vat_return_base/static/description/index.html">shared VAT-return engine</a>.
@@ -282,10 +282,12 @@ the chart's taxes so that the return can report them:</p>
 </ul>
 <h2 id="bad-debt">Bad-debt corrections</h2>
 <p>A document flagged with <strong>Oprava u nedobytné pohledávky</strong> (a field added by
-<code>l10n_cz_statutory</code>) leaves every ordinary row of the return. Its tax goes to
-<strong>ř. 33</strong> when it is a sales document (the creditor's correction) or <strong>ř. 34</strong>
-when it is a purchase document (the debtor's), in addition to any entry tagged
-<em>VAT 33</em> / <em>VAT 34</em> by hand.</p>
+<code>l10n_cz_statutory</code>) is reported twice, as the Financial Administration's
+information of 4 December 2019 requires. It stays on its ordinary row, ř. 1/2
+for the creditor and ř. 40/41 for the debtor, where it lowers the tax due. Its
+tax is also shown on <strong>ř. 33</strong> when it is a sales document or <strong>ř. 34</strong> when it
+is a purchase document, in addition to any entry tagged <em>VAT 33</em> / <em>VAT 34</em> by
+hand. ř. 62 and ř. 63 do not add ř. 33 and ř. 34.</p>
 <h2 id="historic-rates">Historical rates</h2>
 <p>On install and whenever a company loads the Czech chart, the rates no longer
 in force are created as archived taxes (see the

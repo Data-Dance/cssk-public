@@ -4,9 +4,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tatra banka — automatic statements</title>
+<title>Automatic bank statements</title>
 <meta name="cssk-guide-topic" content="banking">
-<meta name="cssk-guide-order" content="2">
+<meta name="cssk-guide-order" content="1">
 <meta name="cssk-guide-country" content="both">
 <meta name="cssk-guide-kind" content="task">
 <style>
@@ -32,14 +32,12 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <main class="cssk-doc">
 <nav class="cssk-lang"><b>English</b> · <a href="index_sk.html">Slovenčina</a> · <a href="index_cs.html">Čeština</a></nav>
 <p class="cssk-note">Task guide</p>
-<h1>Tatra banka — automatic statements</h1>
-<p class="cssk-summary">Movements on bank accounts released through Tatra banka&#x27;s Premium API arrive in Odoo by themselves every hour. Only on the paid Data Dance hosting service.</p>
+<h1>Automatic bank statements</h1>
+<p class="cssk-summary">Movements on your accounts at Slovak and Czech banks arrive in Odoo by themselves every hour, through Tatra banka&#x27;s Premium API. Only on the paid Data Dance hosting service.</p>
 <table class="cssk-facts"><tr><th>Country</th><td>Czech Republic and Slovakia</td></tr><tr><th>Edition</th><td>Odoo Community</td></tr><tr><th>Covers</th><td><code>account_tatrabanka</code> <span class="cssk-note">(delivered separately)</span>, <code>account_statement_tatrabanka</code> <span class="cssk-note">(delivered separately)</span>, <code>account_tatrabanka_webhook</code> <span class="cssk-note">(delivered separately)</span>, <a href="/l10n_cssk_payment_symbols/static/description/index.html"><code>l10n_cssk_payment_symbols</code></a>, <a href="/l10n_cssk_payment_symbols_oca/static/description/index.html"><code>l10n_cssk_payment_symbols_oca</code></a></td></tr></table>
 <blockquote>
-<p><strong>Only on the paid Data Dance hosting service.</strong> The connection to Tatra
-banka's Premium API goes through the Data Dance service, which holds the
-credentials for the bank. It is not available outside the hosting service;
-ask our team to switch it on.</p>
+<p><strong>Only on the paid Data Dance hosting service.</strong> Our team switches the
+connection on; it is not available outside the hosting service.</p>
 </blockquote>
 <h2 id="purpose">What this guide is for</h2>
 <p>With this connection a bank journal fills itself: every hour Odoo asks the bank
@@ -47,56 +45,93 @@ for new movements and creates statement lines with the counterparty's name and
 account, the variable, constant and specific symbols and the message to the
 payee. Nothing is downloaded from internet banking or imported. The lines are
 then matched exactly as lines of an imported statement, as the
-<a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#auto">Bank</a> guide describes.</p>
+<a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#auto">Bank accounts</a> guide describes.</p>
+<p>Tatra banka's Premium API connects your accounts at Slovak and Czech banks, not
+only at Tatra banka.</p>
+<h2 id="access">Who can access what</h2>
+<ul>
+<li><strong>You give consent, at the bank itself.</strong> You log in to the bank's portal
+  with your own credentials and choose which accounts to release. You never
+  enter your internet banking credentials in Odoo or give them to us.</li>
+<li><strong>Movements go from the bank straight to your Odoo.</strong> They do not pass
+  through the Data Dance service, and it does not store them.</li>
+<li><strong>We do not see your accounts.</strong> The Data Dance service only provides the
+  connection to the bank. The access you grant is stored sealed, and without
+  your Odoo we cannot reach your accounts or movements.</li>
+<li>You can withdraw the consent at any time, in Odoo or at the bank.</li>
+</ul>
 <h2 id="connect">Connecting</h2>
-<p>Tatra banka's Premium API connects accounts at Tatra banka and, through the
-same authorisation, accounts at other Slovak and Czech banks. The credentials for
-the bank are not in your Odoo — the Data Dance service holds them. <strong>Our team
-switches the connection on</strong>; you then give consent at the bank once:</p>
+<p>Start in <em>Accounting → Configuration → Premium API bank accounts → Bank
+accounts</em>.</p>
+<p><img alt="The Premium API bank accounts menu" src="img/menu.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <ol>
-<li><em>Accounting → Configuration → Tatra banka Premium API → Authorisations →
-   New</em>, choose the application our team prepared, save and click
-   <strong>Grant access at the bank</strong>.</li>
-<li>On Tatra banka's authorisation portal, a person with at least <strong>passive
-   internet banking rights</strong> to the accounts logs in and selects the accounts
-   to release. Finish within 30 minutes.</li>
-<li>Back in Odoo, a bank journal whose account number is exactly a released
-   IBAN is connected by itself. Other released accounts are assigned with
-   <strong>Link accounts to journals</strong> — each to an <em>Existing journal</em>, a <em>New
-   journal</em>, or <em>Do not connect</em> — and <strong>Link</strong>. Odoo proposes a choice for
-   each account.</li>
-<li>On the connected journal set <strong>Bank Feeds</strong> to <strong>Tatra banka Premium
-   API</strong>. On its <strong>Tatra banka</strong> tab choose <strong>Import</strong>: <em>Transactions</em>, or
-   <em>Transactions + monthly statements</em> (one statement per month, for example
-   <code>TBSK 2026-10</code>), and click <strong>Pull transactions</strong>.</li>
+<li>
+<p>Click <strong>Add a bank account</strong>. While the company is not connected to the
+   bank it offers a single button, <strong>Connect at the bank</strong>: the authorisation
+   is created for you and the bank's portal opens at once. The bank setup
+   button on the dashboard leads here too. An account at a bank the Premium
+   API does not reach is entered with <strong>Another bank or enter manually</strong>.</p>
+<p><img alt="Connect at the bank" src="img/connect.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
+</li>
+<li>
+<p>On the bank's portal, a person with at least <strong>passive internet banking
+   rights</strong> to the accounts logs in and selects the accounts to release.
+   Finish within 30 minutes. Tatra banka's
+   <a href="https://cdn.prod.website-files.com/65b38de4326eefb72c0d93b7/6aeaf082f48a42c355fc78ce_PremiumAPI_FLOWpresentation.pdf">user manual (PDF, in Slovak)</a> shows each screen of the portal.</p>
+</li>
+<li>
+<p>Back in Odoo, a bank journal whose account number is exactly a released
+   IBAN is connected by itself, and you land on the <strong>Bank accounts</strong> list. If
+   an account has no journal yet, Odoo sends you to the authorisation instead:
+   <strong>Link accounts to journals</strong> assigns it to an <em>Existing journal</em>, a <em>New
+   journal</em>, or <em>Do not connect</em>, then click <strong>Link</strong>. Odoo proposes a choice
+   for each account.</p>
+<p><img alt="Linking released accounts to journals" src="img/link.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
+<p><img alt="Connected bank accounts" src="img/accounts.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
+</li>
+<li>
+<p>Open the connected journal and, on its <strong>Journal Entries</strong> tab, set <strong>Bank
+   Feeds</strong> to <strong>Tatra banka Premium API</strong>. On its <strong>Tatra banka</strong> tab choose
+   <strong>Import</strong>: <em>Transactions</em>, or <em>Transactions + monthly statements</em> (one
+   statement per month, for example <code>TBSK 2026-10</code>), and click <strong>Pull
+   transactions</strong>.</p>
+</li>
 </ol>
 <p>From then on transactions are pulled every hour; <strong>Pull a range…</strong> fills in
 older ones (15 months back for accounts at Tatra banka, 13 for accounts at
 other banks). Only booked movements are imported.</p>
 <h3 id="add-account">Another bank account</h3>
-<p>An authorisation reaches only the accounts ticked at the bank. Add another in
-<em>Accounting → Configuration → Tatra banka Premium API → Bank accounts</em> with
-<strong>Add a bank account</strong>: <strong>1. Choose accounts at the bank</strong> opens the bank's
-portal, where you tick the account, and <strong>2. Link released accounts</strong> assigns
-it to a journal when you are back.</p>
+<p>An authorisation reaches only the accounts ticked at the bank. Add another on
+the same <strong>Bank accounts</strong> list with <strong>Add a bank account</strong>: <strong>1. Choose
+accounts at the bank</strong> opens the bank's portal, where you tick the account,
+and <strong>2. Link released accounts</strong> assigns it to a journal when you are back.</p>
+<p><img alt="Add another bank account" src="img/add.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <p><strong>The consent lasts 180 days and belongs to the person who gave it.</strong> Two
 weeks before it ends the authorisation gets an activity saying access to Tatra
 banka expires; renew it with <strong>Add or remove accounts at the bank</strong> on the
-authorisation, and the journals stay connected. If the person who gave consent is leaving, have
-someone else authorise before they go.</p>
+authorisation (<em>Premium API bank accounts → Authorisations</em>), and the journals
+stay connected. If the person who gave consent is leaving, have someone else
+authorise before they go.</p>
 <h2 id="check">Checking</h2>
 <ul>
-<li>The journal's <strong>Tatra banka</strong> tab shows <strong>Last pulled</strong> and <strong>Latest
-  movement</strong>.</li>
-<li>A failed pull is written to the journal's history with the bank's reason;
-  the other journals are pulled regardless.</li>
+<li>The <strong>Bank accounts</strong> list shows each account's available balance, <strong>Last
+  pulled</strong> and when <strong>access expires</strong>.</li>
+<li>
+<p>The journal's <strong>Tatra banka</strong> tab shows <strong>Last pulled</strong> and <strong>Latest
+  movement</strong> under <strong>Bank statements</strong>.</p>
+<p><img alt="The Tatra banka tab on a journal" src="img/journal.en.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
+</li>
+<li>
+<p>A failed pull is written to the journal's history with the bank's reason;
+  the other journals are pulled regardless.</p>
+</li>
 <li>At month end compare the closing balance in Odoo with the balance on the
-  bank's statement, as in the <a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#month-end">Bank</a> guide — the
-  balances of monthly statements are computed from their lines, not taken
+  bank's statement, as in the <a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#month-end">Bank accounts</a> guide —
+  the balances of monthly statements are computed from their lines, not taken
   from the bank.</li>
 </ul>
-<p>Posting and matching the lines does not change: the <a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#auto">Bank</a>
-guide describes them.</p>
+<p>Posting and matching the lines does not change: the
+<a href="/l10n_cssk_guide/static/guides/sk_bank/index.html#auto">Bank accounts</a> guide describes them.</p>
 <footer><p>Walked through on Odoo 19.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>

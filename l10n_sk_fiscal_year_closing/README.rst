@@ -152,11 +152,16 @@ Limitations
 
 - Closing conventions differ between accountants, notably in how the result reaches 702. The template is a starting point and should be signed off by your accountant before the first live closing.
 
+Before closing the year
+=========================
+
+The closing form lists what needs a look first: draft entries, numbering gaps, balances on 431, 395 and 261, draft payslips, unposted depreciation and an unfiled VAT return for the last period. The list is advisory.
+
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_fiscal_year_closing``
-- **Version:** 19.0.1.0.3
+- **Version:** 19.0.1.1.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_sk``, ``account_fiscal_year_closing``

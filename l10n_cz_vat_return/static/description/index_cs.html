@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cz_vat_return/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>CZ Přiznání k DPH (DPHDP3)</h1>
 <p class="cssk-summary">České přiznání k DPH vypočtené z daňových štítků české účtové osnovy Odoo a exportované jako XML DPHDP3 pro EPO, pro každé období ověřené proti aktuálnímu úřednímu XSD.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.16.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_vat_return_base/static/description/index_cs.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_datadance/static/description/index_cs.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index_cs.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.16.1</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_vat_return_base/static/description/index_cs.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_datadance/static/description/index_cs.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index_cs.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>Česká vrstva <a href="/l10n_cssk_vat_return_base/static/description/index_cs.html">společného základu přiznání k DPH</a>.
@@ -281,10 +281,12 @@ osnovy tak, aby je přiznání umělo vykázat:</p>
 </ul>
 <h2 id="bad-debt">Opravy u nedobytných pohledávek</h2>
 <p>Doklad označený polem <strong>Oprava u nedobytné pohledávky</strong> (přidává ho
-<code>l10n_cz_statutory</code>) vypadne ze všech běžných řádků přiznání. Jeho daň jde do
-<strong>ř. 33</strong>, je-li to prodejní doklad (oprava věřitele), nebo do <strong>ř. 34</strong>, je-li
-to nákupní doklad (oprava dlužníka), navíc k případným záznamům ručně
-označeným štítkem <em>VAT 33</em> / <em>VAT 34</em>.</p>
+<code>l10n_cz_statutory</code>) se vykazuje dvakrát, jak požaduje informace GFŘ ze dne
+4. 12. 2019. Zůstává na svém běžném řádku, ř. 1/2 u věřitele a ř. 40/41
+u dlužníka, kde snižuje daňovou povinnost. Jeho daň se navíc uvede na <strong>ř. 33</strong>,
+je-li to prodejní doklad, nebo na <strong>ř. 34</strong>, je-li to nákupní doklad, vedle
+případných záznamů ručně označených štítkem <em>VAT 33</em> / <em>VAT 34</em>. Řádky 62 a 63
+ř. 33 a ř. 34 nesčítají.</p>
 <h2 id="historic-rates">Historické sazby</h2>
 <p>Při instalaci a vždy, když společnost načte českou osnovu, se sazby, které už
 neplatí, vytvoří jako archivované daně (viz

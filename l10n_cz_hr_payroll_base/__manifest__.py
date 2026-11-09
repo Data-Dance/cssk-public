@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic — Payroll Base",
-    "version": "19.0.1.1.1",
+    "version": "19.0.1.1.2",
     "category": "Human Resources/Payroll",
     "summary": "Engine-neutral base for the Czech payroll: the Czech employee "
     "data (agreement type, taxpayer declaration, children, insurance flags) "

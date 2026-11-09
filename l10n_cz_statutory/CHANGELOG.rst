@@ -8,6 +8,15 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.3] — 2026-11-09
+-------------------------
+
+Changed
+~~~~~~~
+
+- The help of *Oprava u nedobytné pohledávky* says the document stays on its
+  ordinary return row as well as ř. 33/34.
+
 [19.0.1.3.2] — 2026-11-06
 -------------------------
 

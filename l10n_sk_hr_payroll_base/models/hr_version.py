@@ -8,13 +8,41 @@ engines hands the version to every rule — as ``contract`` on the OCA engine an
 on either without this module knowing which engine is installed.
 """
 
+from calendar import monthrange
+
 from odoo import models
+from odoo.tools import float_round
 
 from ..applicability import EMPLOYMENT, applies
 
 
 class HrVersion(models.Model):
     _inherit = "hr.version"
+
+    def l10n_sk_employee_social_cap(self, cap, day):
+        """The employee's maximum assessment base for the month of ``day``.
+
+        § 138 ods. 13 zákona 461/2003 Z. z.: when the employee's insurance
+        lasted only part of a calendar month, the base under ods. 9 is adjusted
+        by the days for which premiums are paid. The provision names ods. 9
+        only, so the employer's cap under ods. 10 is deliberately left whole.
+        The result is floored to the eurocent (§ 138 ods. 14).
+        """
+        self.ensure_one()
+        ratio = self.l10n_sk_month_employed_ratio(day)
+        if ratio == 1.0:
+            return cap
+        return float_round(cap * ratio, precision_digits=2, rounding_method="DOWN")
+
+    def l10n_sk_month_employed_ratio(self, day):
+        """Share of the calendar month of ``day`` covered by this employment."""
+        self.ensure_one()
+        days_in_month = monthrange(day.year, day.month)[1]
+        first = day.replace(day=1)
+        last = day.replace(day=days_in_month)
+        start = max(self.contract_date_start or first, first)
+        end = min(self.contract_date_end or last, last)
+        return min(max((end - start).days + 1, 0) / days_in_month, 1.0)
 
     def l10n_sk_applies(self, concept):
         """Whether *concept* applies to this contract.

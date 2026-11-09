@@ -11,6 +11,9 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.15.1 (2026-11-09), not yet on 18.0:** the export guard for an empty
+  tax office and the authorised-person warning.
+
 - **19.0.1.14.2 and 19.0.1.15.0 (2026-11-05), not yet on 18.0:** the row
   captions of every vzor and the two migrations that write them. 18.0's data
   files still name the rows by their code.
@@ -20,6 +23,18 @@ Carry-over to 18.0
   chart's tax xmlids, tags and fiscal-position mapping mechanism first: the
   CSV mirrors 19.0's ``vs_tuz_*`` / ``vs_rc_*``, and 18.0 maps through
   ``account.fiscal.position.tax`` rows rather than ``original_tax_ids``.
+
+[19.0.1.15.1] — 2026-11-09
+--------------------------
+
+Fixed
+~~~~~
+
+- A return no longer exports with an empty ``danovyUrad``: a company without a
+  tax office (or one with no submission code) is refused at export, naming the
+  field. The XSD types the element as a plain string, so it validated before.
+- An export with no *Oprávnená osoba* warns, since the XML then carries that
+  block empty. Correct for a filer filing for itself, so it does not block.
 
 [19.0.1.15.0] — 2026-11-05
 --------------------------

@@ -22,7 +22,7 @@ msgstr "Zobrazovaný název"
 #. module: l10n_sk_dppo
 #: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_sk_dppo
 #: model:ir.model,name:l10n_sk_dppo.model_cssk_income_tax_return
@@ -70,3 +70,22 @@ msgstr "Pásma sazeb podle § 15"
 #: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
 msgid "§ 46b minimum-tax bands"
 msgstr "Pásma minimální daně podle § 46b"
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_cssk_income_tax_version
+msgid "Income Tax Return Version"
+msgstr "Verze daňového přiznání"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid "Loss deduction above 50 % of the tax base"
+msgstr "Odpočet daňové ztráty nad 50 % základu daně"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"r410 is %(loss).2f but § 30 ods. 1 písm. b) allows %(limit).2f unless the "
+"company is a mikrodaňovník."
+msgstr "Řádek r410 je %(loss).2f, ale § 30 ods. 1 písm. b) umožňuje %(limit).2f, pokud společnost není mikrodaňovníkem."

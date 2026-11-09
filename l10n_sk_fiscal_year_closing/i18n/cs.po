@@ -28,12 +28,12 @@ msgstr "Zobrazovaný název"
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.mapping.template,name:l10n_sk_fiscal_year_closing.fyc_map_sk_cl_0
 msgid "Dlhodobý majetok (trieda 0) → 702"
-msgstr ""
+msgstr "Dlouhodobý majetek (třída 0) → 702"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.mapping.template,name:l10n_sk_fiscal_year_closing.fyc_map_sk_cl_2
 msgid "Finančné účty (trieda 2) → 702"
-msgstr ""
+msgstr "Finanční účty (třída 2) → 702"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:ir.model,name:l10n_sk_fiscal_year_closing.model_account_fiscalyear_closing_config
@@ -44,54 +44,123 @@ msgstr "Konfigurace uzávěrky účetního období"
 #: model:ir.model.fields,field_description:l10n_sk_fiscal_year_closing.field_account_chart_template__id
 #: model:ir.model.fields,field_description:l10n_sk_fiscal_year_closing.field_account_fiscalyear_closing_config__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.mapping.template,name:l10n_sk_fiscal_year_closing.fyc_map_sk_cl_4
 msgid "Kapitálové účty a dlhodobé záväzky (trieda 4) → 702"
-msgstr ""
+msgstr "Kapitálové účty a dlouhodobé závazky (třída 4) → 702"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.mapping.template,name:l10n_sk_fiscal_year_closing.fyc_map_sk_pl_5
 msgid "Náklady (trieda 5) → 710"
-msgstr ""
+msgstr "Náklady (třída 5) → 710"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.config.template,name:l10n_sk_fiscal_year_closing.fyc_config_sk_opening
 msgid "Otvorenie súvahových účtov (701)"
-msgstr ""
+msgstr "Otevření rozvahových účtů (701)"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.config.template,name:l10n_sk_fiscal_year_closing.fyc_config_sk_pl
 msgid "Uzavretie nákladov a výnosov (710)"
-msgstr ""
+msgstr "Uzavření nákladů a výnosů (710)"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.config.template,name:l10n_sk_fiscal_year_closing.fyc_config_sk_closing
 msgid "Uzavretie súvahových účtov (702)"
-msgstr ""
+msgstr "Uzavření rozvahových účtů (702)"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.mapping.template,name:l10n_sk_fiscal_year_closing.fyc_map_sk_pl_6
 msgid "Výnosy (trieda 6) → 710"
-msgstr ""
+msgstr "Výnosy (třída 6) → 710"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.mapping.template,name:l10n_sk_fiscal_year_closing.fyc_map_sk_cl_710
 msgid "Výsledok hospodárenia (710) → 702"
-msgstr ""
+msgstr "Výsledek hospodaření (710) → 702"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.mapping.template,name:l10n_sk_fiscal_year_closing.fyc_map_sk_cl_1
 msgid "Zásoby (trieda 1) → 702"
-msgstr ""
+msgstr "Zásoby (třída 1) → 702"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.mapping.template,name:l10n_sk_fiscal_year_closing.fyc_map_sk_cl_3
 msgid "Zúčtovacie vzťahy (trieda 3) → 702"
-msgstr ""
+msgstr "Zúčtovací vztahy (třída 3) → 702"
 
 #. module: l10n_sk_fiscal_year_closing
 #: model:account.fiscalyear.closing.template,name:l10n_sk_fiscal_year_closing.fyc_template_sk
 msgid "Účtovná závierka (SK) — 701 / 702 / 710"
-msgstr ""
+msgstr "Účetní závěrka (SK) — 701 / 702 / 710"
+
+#. module: l10n_sk_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_sk_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "%(count)s depreciation lines not posted."
+msgstr "Nezaúčtované řádky odpisů: %(count)s."
+
+#. module: l10n_sk_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_sk_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "%(count)s draft journal entries."
+msgstr "Nezaúčtované doklady: %(count)s."
+
+#. module: l10n_sk_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_sk_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "%(count)s draft payslips."
+msgstr "Koncepty výplatních pásek: %(count)s."
+
+#. module: l10n_sk_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_sk_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "%(count)s gaps in document numbering."
+msgstr "Mezery v číslování dokladů: %(count)s."
+
+#. module: l10n_sk_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:l10n_sk_fiscal_year_closing.view_account_fiscalyear_closing_form_pre_close
+msgid "<strong>Before closing the year</strong>"
+msgstr "<strong>Před uzavřením roku</strong>"
+
+#. module: l10n_sk_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_sk_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "Account %(prefix)s (%(label)s) has a balance of %(balance).2f."
+msgstr "Účet %(prefix)s (%(label)s) má zůstatek %(balance).2f."
+
+#. module: l10n_sk_fiscal_year_closing
+#: model:ir.model.fields,field_description:l10n_sk_fiscal_year_closing.field_account_fiscalyear_closing__l10n_sk_pre_close_warning
+msgid "Before closing the year"
+msgstr "Před uzavřením roku"
+
+#. module: l10n_sk_fiscal_year_closing
+#: model:ir.model,name:l10n_sk_fiscal_year_closing.model_account_fiscalyear_closing
+msgid "Fiscal year closing"
+msgstr "Účetní závěrka"
+
+#. module: l10n_sk_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_sk_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "The VAT return for the last period is not filed."
+msgstr "Přiznání k DPH za poslední období není podáno."
+
+#. module: l10n_sk_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_sk_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "cash in transit"
+msgstr "peníze na cestě"
+
+#. module: l10n_sk_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_sk_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "internal settlement"
+msgstr "vnitřní zúčtování"
+
+#. module: l10n_sk_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_sk_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "profit or loss awaiting approval"
+msgstr "výsledek hospodaření ve schvalovacím řízení"

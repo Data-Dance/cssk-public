@@ -8,6 +8,14 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.9] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- Export warns when the loss deduction r410 is above 50 % of the tax base (§ 30 ods. 1), for periods from 2020 and income above 100 000 €.
+
 [19.0.1.4.8] — 2026-11-05
 -------------------------
 

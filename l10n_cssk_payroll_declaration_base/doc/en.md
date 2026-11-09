@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Payroll Declarations
 summary: The common ground of the Czech and Slovak payroll filings — the Payroll Declarations menu, the Generate / Mark Submitted workflow, corrections, form versions, and how payslips are read from either payroll engine.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## What it is for {#purpose}

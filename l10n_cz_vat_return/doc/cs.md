@@ -197,10 +197,12 @@ osnovy tak, aby je přiznání umělo vykázat:
 ## Opravy u nedobytných pohledávek {#bad-debt}
 
 Doklad označený polem **Oprava u nedobytné pohledávky** (přidává ho
-`l10n_cz_statutory`) vypadne ze všech běžných řádků přiznání. Jeho daň jde do
-**ř. 33**, je-li to prodejní doklad (oprava věřitele), nebo do **ř. 34**, je-li
-to nákupní doklad (oprava dlužníka), navíc k případným záznamům ručně
-označeným štítkem *VAT 33* / *VAT 34*.
+`l10n_cz_statutory`) se vykazuje dvakrát, jak požaduje informace GFŘ ze dne
+4. 12. 2019. Zůstává na svém běžném řádku, ř. 1/2 u věřitele a ř. 40/41
+u dlužníka, kde snižuje daňovou povinnost. Jeho daň se navíc uvede na **ř. 33**,
+je-li to prodejní doklad, nebo na **ř. 34**, je-li to nákupní doklad, vedle
+případných záznamů ručně označených štítkem *VAT 33* / *VAT 34*. Řádky 62 a 63
+ř. 33 a ř. 34 nesčítají.
 
 ## Historické sazby {#historic-rates}
 

@@ -134,7 +134,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_statutory``
-- **Version:** 19.0.1.3.2
+- **Version:** 19.0.1.3.3
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cz``, ``l10n_cssk_core``, ``partner_nace``

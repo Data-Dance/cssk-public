@@ -105,21 +105,14 @@ class CsskVatReturn(models.Model):
     # ------------------------------------------------------------------
     # Bad-debt corrections (l10n_cz_statutory ``l10n_cz_bad_debt``)
     # ------------------------------------------------------------------
-    # A correction of tax on an unrecoverable receivable is reported on ř. 33
-    # (creditor) or ř. 34 (debtor) and on no ordinary row. Its taxes are the
-    # ordinary ones, so its lines carry the ordinary tags; the return
-    # therefore leaves flagged documents out of the period it reads every
-    # ordinary row from — for the figure AND its drill-down, which must agree
-    # — and ř. 33 / ř. 34 add their tax back.
-    def _cssk_period_move_ids(self, company, date_from, date_to):
-        move_ids = super()._cssk_period_move_ids(company, date_from, date_to)
-        if (self.env.context.get("cz_with_bad_debt")
-                or company.account_fiscal_country_id.code != "CZ"
-                or not move_ids):
-            return move_ids
-        flagged = set(self._cz_bad_debt_moves(move_ids).ids)
-        return [mid for mid in move_ids if mid not in flagged]
-
+    # A correction of tax on an unrecoverable receivable is reported TWICE
+    # (GFŘ, Informace k opravě základu daně u nedobytných pohledávek,
+    # 4. 12. 2019): on its ordinary row, ř. 1/2 for the creditor and ř. 40/41
+    # for the debtor, with its own negative base and tax, "a současně" on
+    # ř. 33 / ř. 34 as a positive memo of that tax. ř. 62 and ř. 63 do not
+    # read ř. 33 / ř. 34 (``dphdp3_epo2.xsd``), so the ordinary row is the one
+    # that changes the tax due. The document's lines carry the ordinary tags
+    # and reach those rows by themselves; ř. 33 / ř. 34 add their tax.
     def _cz_bad_debt_moves(self, move_ids):
         return self.env["account.move"].search([
             ("id", "in", list(move_ids)), ("l10n_cz_bad_debt", "!=", False)])
@@ -127,7 +120,7 @@ class CsskVatReturn(models.Model):
     def _cz_bad_debt_tax_lines(self, side):
         """Tax lines of this period's flagged documents on ``side``."""
         self.ensure_one()
-        all_ids = self.with_context(cz_with_bad_debt=True)._cssk_period_move_ids(
+        all_ids = self._cssk_period_move_ids(
             self.company_id, self.date_from, self.date_to)
         moves = self._cz_bad_debt_moves(all_ids)
         moves = moves.filtered(
@@ -141,7 +134,11 @@ class CsskVatReturn(models.Model):
         if side is None or self.country_id.code != "CZ":
             return super()._eval_tags(formula, move_lines, line_filter)
         # Hand-tagged entries (VAT 33 / VAT 34) keep counting.
-        total = super()._eval_tags(formula, move_lines, None)
+        # A flagged document is added below, so a tag on it must not count too.
+        total = super()._eval_tags(
+            formula,
+            move_lines.filtered(lambda l: not l.move_id.l10n_cz_bad_debt),
+            None)
         balance = sum(self._cz_bad_debt_tax_lines(side).mapped("balance"))
         # Both rows are positive for the correction the section describes:
         # the creditor's credit note DEBITS output tax, the debtor's CREDITS

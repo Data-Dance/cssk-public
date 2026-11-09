@@ -38,6 +38,18 @@ Carried over
   lock-date protected, and re-tagging a filed period adds reporting to a
   return that was already filed.
 
+[19.0.1.16.1] — 2026-11-09
+--------------------------
+
+Fixed
+~~~~~
+
+- A document flagged as a bad-debt correction stays on ř. 1/2 or ř. 40/41 as
+  well as ř. 33/34 (GFŘ information of 4. 12. 2019). It used to leave the
+  ordinary rows and, since ř. 62/63 do not add ř. 33/34, the correction never
+  changed the tax due and the return disagreed with the kontrolní hlášení. A
+  return already filed with such a document may need a dodatečné přiznání.
+
 [19.0.1.16.0] — 2026-11-05
 --------------------------
 

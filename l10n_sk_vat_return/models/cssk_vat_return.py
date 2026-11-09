@@ -28,7 +28,7 @@ import logging
 from datetime import date
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.l10n_cssk_core.tools import split_street
 
@@ -132,6 +132,33 @@ class CSSKVatReturn(models.Model):
             "sk_datum_vyhlasenia": declared.strftime("%d.%m.%Y"),
         })
         return ctx
+
+    def _cssk_preflight_export(self):
+        """The XSD types ``danovyUrad`` as a plain string, so a return with no
+        tax office validates and exports with the element empty."""
+        res = super()._cssk_preflight_export()
+        for rec in self:
+            if rec.country_id.code != "SK":
+                continue
+            if not rec.company_id.l10n_cssk_tax_authority_id.submission_code:
+                raise UserError(_(
+                    "Company '%(company)s' has no tax office with a submission "
+                    "code, but the VAT return must name it (danovyUrad). Set "
+                    "the Tax Authority on the company (Settings → Users & "
+                    "Companies → Companies → %(company)s) and export again.",
+                    company=rec.company_id.display_name))
+        return res
+
+    def _cssk_check_kontroly(self):
+        res = super()._cssk_check_kontroly()
+        if self.country_id.code == "SK" and not self.l10n_sk_authorized_name:
+            warning = _(
+                "• Oprávnená osoba: no authorised person is filled in on the "
+                "return. That is correct when the filer files for itself; "
+                "otherwise fill it in before filing.")
+            self.cssk_export_warnings = "\n".join(
+                filter(None, [self.cssk_export_warnings, warning]))
+        return res
 
     def _kontroly_rules(self):
         rules = super()._kontroly_rules()

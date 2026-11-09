@@ -1,7 +1,7 @@
 ---
 title: Mzdová hlášení CZ/SK
 summary: Společný základ českých a slovenských mzdových hlášení — nabídka Mzdová hlášení, postup Vygenerovat / Označit jako odeslané, opravná hlášení, verze tiskopisů a čtení výplatních pásek z obou mzdových jader.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## K čemu slouží {#purpose}

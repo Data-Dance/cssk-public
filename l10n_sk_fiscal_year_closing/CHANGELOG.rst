@@ -40,6 +40,14 @@ Carry-over to 20.0
   manifests, ``odoo.addons.*`` imports, the ``.pot`` file name and
   ``module_*`` settings toggles. The 19.0 commit is the checklist.
 
+[19.0.1.1.0] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- Advisory pre-close list on the closing form: draft entries, numbering gaps, balances on 431, 395 and 261, draft payslips, unposted depreciation, unfiled last VAT return.
+
 [19.0.1.0.3] — 2026-11-05
 -------------------------
 

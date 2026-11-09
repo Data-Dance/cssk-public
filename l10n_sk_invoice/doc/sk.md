@@ -1,7 +1,7 @@
 ---
 title: SK faktúra (zákonné PDF)
 summary: Doplní do tlačenej slovenskej faktúry DIČ odberateľa, platobné symboly a zákonné formulácie o oslobodení od dane a prenesení daňovej povinnosti.
-verified: 19.0.1.0.8
+verified: 19.0.1.1.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -146,3 +146,10 @@ sa nekopíruje.
   § 74 ods. 1 písm. d).
 - Zákonné formulácie sú po slovensky s anglickým vysvetlením; do jazyka
   odberateľa sa neprekladajú.
+
+## Limit platieb v hotovosti {#cash-limit}
+
+Platba alebo sprievodca platbou v pokladničnom denníku zobrazí upozornenie, keď
+platby v hotovosti za doklad presiahnu 5 000 € (§ 4 zákona 394/2012 Z. z.).
+Predchádzajúce platby v hotovosti tých istých faktúr sa spočítavajú (§ 6 ods. 2).
+Platbu neblokuje, pretože výnimky podľa § 8 nie je možné rozpoznať.

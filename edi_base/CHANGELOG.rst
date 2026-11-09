@@ -23,6 +23,14 @@ Fixed
   message's outcome before the next send (``ir.cron._commit_progress``), so
   a run that dies late keeps what the provider already accepted.
 
+[19.0.1.9.2] — 2026-11-09
+-------------------------
+
+Security
+~~~~~~~~
+
+- The XML prettifier no longer resolves entities.
+
 [19.0.1.9.1] — 2026-10-27
 --------------------------
 

@@ -1,7 +1,7 @@
 ---
 title: SK účtovná závierka — závierkové účty 701 / 702 / 710
 summary: Uzavretie účtovných kníh na konci roka cez závierkové účty 710, 702 a 701 — a predovšetkým to, aby sa na tieto účty vôbec dalo účtovať.
-verified: 19.0.1.0.3
+verified: 19.0.1.1.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -192,3 +192,10 @@ naň má predkontácie *Preúčtovanie schváleného zisku (431 na 428)* a
 - Postupy pri závierke sa medzi účtovníkmi líšia, najmä v tom, ako sa
   výsledok hospodárenia dostane na 702. Šablóna je východisko a pred
   prvou ostrou závierkou ju má odsúhlasiť váš účtovník.
+
+## Pred uzavretím roka {#pre-close}
+
+Formulár závierky uvedie, čo treba najprv skontrolovať: nezaúčtované doklady,
+medzery v číslovaní, zostatky na účtoch 431, 395 a 261, koncepty výplatných
+listín, nezaúčtované odpisy a nepodané priznanie k DPH za posledné obdobie.
+Zoznam je len informatívny.

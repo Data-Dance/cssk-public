@@ -38,6 +38,19 @@ Carry-over to 18.0
   cash-basis entry through ``_cssk_vat_document`` (commit 02eda35); ports with
   the ``l10n_cssk_kv_kh_base`` change it depends on.
 
+[19.0.1.10.3] — 2026-11-09
+--------------------------
+
+Fixed
+~~~~~
+
+- The 10 000 Kč split of A.4/A.5 and B.2/B.3 reads the document total in
+  company currency. It compared the document's own currency with the limit.
+- An old § 44 correction (``zdph_44="A"``) exports the tax only, as the GFŘ
+  information of 4. 12. 2019 requires.
+- A flagged bad-debt correction without a Czech DIČ is refused instead of
+  dropping into the A.5 aggregate, where the flag is lost.
+
 [19.0.1.10.2] — 2026-11-05
 --------------------------
 

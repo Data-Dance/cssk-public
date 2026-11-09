@@ -8,6 +8,9 @@ Changelog
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+DISCHARGED 2026-11-09 by af36f8dc on 18.0 (merged as 078362f2), with the
+rest of 19.0's Czech payroll since August — do not port this again.
+
 Owed to the 18.0 branch, which carries this module with NONE of the
 following (checked 2026-11-08: no 2027 value and no
 ``l10n_cz_wh_tax_dependent`` in its rule parameters). Without them an
@@ -23,6 +26,16 @@ tax on small agreements:
 
 On 18.0 the salary-rule localdict names the contract ``contract`` on both
 engines (19.0 Enterprise: ``version``).
+
+[19.0.1.16.1] — 2026-11-09
+--------------------------
+
+Fixed
+~~~~~
+
+- From 2027 the separate base of § 6 odst. 4 and its advance are rounded up to
+  whole crowns (§ 6 odst. 18). They were rounded up to 100 Kč, which withheld
+  up to about 15 Kč too much.
 
 [19.0.1.16.0] — 2026-11-08
 --------------------------

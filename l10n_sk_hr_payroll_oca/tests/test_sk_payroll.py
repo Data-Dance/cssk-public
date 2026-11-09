@@ -1596,3 +1596,52 @@ class TestSkPayroll(TransactionCase):
         self.assertEqual(menu.action.res_model, "hr.rule.parameter")
         arch = self.env["hr.rule.parameter"].get_views([(False, "form")])["views"]["form"]["arch"]
         self.assertIn('name="parameter_value_ids"', arch)
+
+    # -- § 138 ods. 13: part-month employee cap ----------------------------
+
+    def test_employee_cap_prorated_for_part_month_hire(self):
+        """Hired on the 16th of a 30-day month: half the ods. 9 cap."""
+        contract, employee = self._make_contract(
+            "Part-month high earner", 20000.0, date(2026, 11, 16), self.calendar
+        )
+        self.assertEqual(
+            contract.l10n_sk_employee_social_cap(16764.0, date(2026, 11, 1)), 8382.0
+        )
+        self.assertEqual(
+            contract.l10n_sk_employee_social_cap(16764.0, date(2026, 12, 1)), 16764.0
+        )
+        contract.contract_date_end = date(2026, 12, 10)
+        self.assertEqual(
+            contract.l10n_sk_employee_social_cap(16764.0, date(2026, 12, 1)), 5407.74
+        )
+
+    def test_part_month_cap_reaches_the_employee_premium(self):
+        contract, employee = self._make_contract(
+            "Part-month premium", 20000.0, date(2026, 11, 16), self.calendar
+        )
+        p = self._make_payslip(contract, employee, date(2026, 11, 1), date(2026, 11, 30))
+        self.assertGreater(p.get_salary_line_total("GROSS"), 8382.0)
+        # 1.4 % of the halved cap, floored to the cent.
+        self.assertAlmostEqual(p.get_salary_line_total("SICK"), -117.34, places=2)
+
+    def test_sick_pay_counts_calendar_days(self):
+        """Fourteen calendar days span two weekends and still pay 3 + 11 days."""
+        contract, employee, _cal = self._abs_setup(wage=1500.0)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 8), date(2026, 6, 21)
+        )
+        p = self._worked_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30),
+            inputs=[("PN_DVZ", 60.0)],
+        )
+        self.assertAlmostEqual(p.get_salary_line_total("SICK_COMP"), 408.0, places=2)
+
+    def test_health_allowance_reduced_for_a_part_month(self):
+        """§ 16 ods. 18: half the month employed halves the allowance."""
+        contract, employee = self._make_contract(
+            "Part-month allowance", 400.0, date(2026, 11, 16), self.calendar,
+            l10n_sk_health_oop_claim=True,
+        )
+        p = self._make_payslip(contract, employee, date(2026, 11, 1), date(2026, 11, 30))
+        # Allowance at 400: 380 - 2 x 20 = 340; halved 170; base 230; 5 %.
+        self.assertAlmostEqual(p.get_salary_line_total("HEALTH"), -11.5, places=2)
