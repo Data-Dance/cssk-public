@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_kv_dph/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Kontrolný výkaz DPH (KV DPH)</h1>
 <p class="cssk-summary">Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.5.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_kv_kh_base/static/description/index_sk.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a>, <a href="../../../l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.8.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_kv_kh_base/static/description/index_sk.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a>, <a href="../../../l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Platiteľ DPH podáva <strong>kontrolný výkaz DPH</strong> za každé zdaňovacie obdobie, za
@@ -273,6 +273,9 @@ Slovenské osobitosti:</p>
   odstránia automaticky; číslo sa neskracuje, lebo finančná správa ho páruje
   s podaním dodávateľa);</li>
 <li>riadok v A.1, A.2, B.1 alebo B.2 nemá deň dodania;</li>
+<li>riadok v C.2 nemá číslo dobropisu alebo ťarchopisu od dodávateľa (zadajte ho
+  ako <em>referenciu faktúry</em>); obe čísla v C.2 sú dodávateľove, nikdy nie naše
+  interné;</li>
 <li>riadok v C.1 alebo C.2 nemá číslo opravovanej faktúry (zadajte ho na
   dobropise ako <em>Original document number</em>; pri dodávateľskom dobropise sa
   číta aj <em>Zdrojový dokument</em>, ak neobsahuje číslo nákupnej objednávky);</li>
@@ -302,15 +305,19 @@ mesiac alebo rok a štvrťrok).</p>
   prenos daňovej povinnosti (čaká sa na potvrdenie účtovníka), takže sa v B.1
   neobjavia.</li>
 <li>Hranica 5 000 eur na faktúre pri mobilných telefónoch a integrovaných
-  obvodoch podľa § 69 ods. 12 písm. h) a i) sa nekontroluje; kategóriu
-  nastavte len pri tovare, ktorý ju spĺňa.</li>
+  obvodoch (§ 69 ods. 12 písm. h) a i)) je upozornenie na faktúre, po
+  kategóriách; daň sa nemení automaticky.</li>
 <li>Atribút <code>ONP</code> v C.1 / C.2 (oprava pri nedobytnej pohľadávke, od vzoru 2023)
   sa nevypĺňa nikdy.</li>
 <li>Pravidlá zaradenia sú najlepším možným odhadom; najmä zoznam tovarov podľa
   § 69 ods. 12 a oddiel D.1 ešte musí potvrdiť slovenský účtovník. Každý
   výkaz pred podaním skontrolujte.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.5.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<h2 id="rc-a-e">Prenos mimo výkazu</h2>
+<p>Daň pre § 69 ods. 12 písm. a) až e) použite pri šrote, emisných kvótach,
+nehnuteľnostiach a tovare ako predmete záruky. Tieto dodania uvádza len príjemca
+v B.1, vo výkaze dodávateľa sa preto neobjavia.</p>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.7.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
