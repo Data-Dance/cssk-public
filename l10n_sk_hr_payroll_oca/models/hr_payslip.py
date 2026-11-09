@@ -181,7 +181,12 @@ class HrPayslip(models.Model):
         """Worked days/hours before credit-note sign, excluding absences."""
         self.ensure_one()
         worked = self.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100')
-        return sum(worked.mapped('number_of_days')), sum(worked.mapped('number_of_hours'))
+        # OCA WORK100 is the full scheduled time; leave is separate. The
+        # payroll.leaves_positive setting changes the leave sign, not whether
+        # an absence was worked. Reuse the country module's shared taxonomy.
+        absences = self.worked_days_line_ids.filtered(lambda line: line.code in self.l10n_sk_absence_codes())
+        return (sum(worked.mapped('number_of_days'))-sum(abs(line.number_of_days) for line in absences),
+                sum(worked.mapped('number_of_hours'))-sum(abs(line.number_of_hours) for line in absences))
 
     def l10n_sk_average_hourly_earnings(self):
         """Priemerný hodinový zárobok per §134 Zákonníka práce (č. 311/2001).

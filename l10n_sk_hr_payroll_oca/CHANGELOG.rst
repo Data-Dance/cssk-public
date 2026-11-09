@@ -42,6 +42,8 @@ Fixed
   original does not count twice or distort a replacement's average.
 - Allow source selection from an unsaved assessment by excluding only its
   persisted origin IDs; do not pass an ORM NewId to the SQL search domain.
+- Deduct approved absence days and hours from OCA's gross WORK100 schedule
+  before assessing earnings, with either configured leave sign convention.
 
 Added
 ~~~~~
