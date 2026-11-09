@@ -85,9 +85,9 @@ class HrPayslip(models.Model):
             raise UserError(_("Use the employee and company contract version for the monthly pension tax profile."))
         if not version.l10n_sk_tax_declaration_signed:
             return 0.0
-        january = date(self.date_to.year, 1, 1)
-        historical = self.employee_id._get_version(january)
-        if historical and historical.date_version <= january:
+        historical = self.employee_id._l10n_sk_january_tax_version(
+            self.date_to.year, self.company_id, self.date_to)
+        if historical:
             if historical.company_id != self.company_id:
                 raise UserError(_("Review the employee's 1 January pension version in the payroll company."))
             if historical.l10n_sk_tax_pensioner:
@@ -95,8 +95,6 @@ class HrPayslip(models.Model):
             if (historical.l10n_sk_pension_type in ("old_age", "early_old_age", "service_at_age")
                     or historical.l10n_sk_nczd_pension_annual > 0):
                 raise UserError(_("The 1 January version indicates a pension. Review its tax-relevant pension flag against the retained declaration."))
-        elif version.l10n_sk_tax_pensioner or version.l10n_sk_pension_type in ("old_age", "early_old_age", "service_at_age"):
-            raise UserError(_("Record the employee's pension tax fact on a version effective at 1 January before claiming monthly allowance."))
         return self.rule_parameter("l10n_sk_nczd_monthly")
 
     def compute_sheet(self):
@@ -104,7 +102,7 @@ class HrPayslip(models.Model):
         # before evaluation so the payroll officer gets the business message.
         for slip in self:
             version = slip._l10n_sk_version()
-            if len(version) == 1 and version.struct_id.country_id.code == "SK":
+            if len(version) == 1 and slip.struct_id.country_id.code == "SK":
                 slip.l10n_sk_monthly_nczd(version)
         return super().compute_sheet()
 

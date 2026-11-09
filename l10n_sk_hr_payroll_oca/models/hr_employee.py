@@ -4,11 +4,36 @@
 # (``hr.version``).  They are surfaced here as delegated (``inherited``) related
 # fields so they can be read/edited straight from the employee form.
 
-from odoo import fields, models
+from datetime import date
+
+from odoo import _, fields, models
+from odoo.exceptions import UserError
 
 
 class HrEmployee(models.Model):
     _inherit = "hr.employee"
+
+    def _l10n_sk_january_tax_version(self, year, company, as_of):
+        """Read the dated declaration, including a genuine midyear hire.
+
+        The first version at hiring records the declared January status when
+        this employer had no January version. Later awards remain later facts.
+        Never backdate employment or use a version later than the calculation.
+        """
+        self.ensure_one()
+        january = date(year, 1, 1)
+        version = self._get_version(january)
+        if not version or version.date_version > january:
+            first = self.env['hr.version'].search(
+                [('employee_id', '=', self.id)], order='date_version, id', limit=1)
+            if (not first or first.date_version.year != year
+                    or first.date_version > as_of
+                    or not first.contract_date_start or first.contract_date_start <= january):
+                raise UserError(_("Record the employee's pension tax fact on a version effective at 1 January before claiming monthly allowance."))
+            version = first
+        if version.company_id != company:
+            raise UserError(_("Review the employee's 1 January pension version in the payroll company."))
+        return version
 
     l10n_sk_tax_declaration_signed = fields.Boolean(
         related="version_id.l10n_sk_tax_declaration_signed",

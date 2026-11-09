@@ -28,20 +28,11 @@ Carry-over to 18.0
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
 
-[19.0.1.21.1] — 2026-11-08
+[19.0.1.23.0] — 2026-11-09
 ==========================
 
-Fixed
+Added
 ~~~~~
-
-- **The annual tax reconciliation reads only confirmed payslips of its own
-  company.** It took every payslip of the employee that was not cancelled,
-  in any company, so draft and waiting calculations and another company's
-  payroll entered the annual income, insurance and withheld tax. It now
-  reads the payslips the payroll declarations read: confirmed (``done``)
-  payslips of the reconciliation's company, by the year their period ends
-  in, so a payslip that crosses the year boundary counts once. Contributed
-  by votrelec (cssk-public#20).
 
 - Read the tax pension fact from the native version in force on 1 January.
   No manually advanced tax year or duplicate evidence field is required;
@@ -57,6 +48,25 @@ Fixed
   statutory annual high-income taper and the January pension exclusion are
   different rules. Add regression examples for the declaration checkbox,
   small pensions, midyear awards, disability, foreign pensions and annual consistency.
+
+- Accept the January status declared by a genuine midyear hire on the first
+  version, without backdating employment. Reuse it for monthly payroll and RZD;
+  exclude genuinely future versions. Validate the payslip's actual structure.
+
+[19.0.1.21.1] — 2026-11-08
+==========================
+
+Fixed
+~~~~~
+
+- **The annual tax reconciliation reads only confirmed payslips of its own
+  company.** It took every payslip of the employee that was not cancelled,
+  in any company, so draft and waiting calculations and another company's
+  payroll entered the annual income, insurance and withheld tax. It now
+  reads the payslips the payroll declarations read: confirmed (``done``)
+  payslips of the reconciliation's company, by the year their period ends
+  in, so a payslip that crosses the year boundary counts once. Contributed
+  by votrelec (cssk-public#20).
 
 [19.0.1.21.0] — 2026-11-08
 ==========================

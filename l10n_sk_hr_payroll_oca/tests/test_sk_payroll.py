@@ -24,6 +24,7 @@ class TestSkPayroll(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, lang='en_US'))
         cls.company = cls.env["res.company"].create(
             {
                 "name": "SK Test Co",
@@ -1655,15 +1656,15 @@ class TestSkPayroll(TransactionCase):
         return self._make_contract("January tax profile", 500, date(2024, 1, 1), self.calendar, **facts)
 
     def test_monthly_january_small_pension_excludes_allowance(self):
-        """FS FAQ7: a small annual pension leaves a difference for RZD only."""
+        """FS FAQ 7: a small annual pension leaves a difference for RZD only."""
         version, employee = self._monthly_pension_profile(l10n_sk_nczd_pension_annual=3600)
         slip = self._make_payslip(version, employee, date(2026, 6, 1), date(2026, 6, 30))
         self.assertEqual(slip.l10n_sk_monthly_nczd(version), 0)
-        # Gross500 - social27 - health25 =448; monthly tax19%=85.12.
+        # Gross 500 - social 27 - health 25 = 448; monthly tax 19% = 85.12.
         self.assertAlmostEqual(slip.get_salary_line_total("INCOMETAX"), -85.12, 2)
 
     def test_monthly_midyear_pension_preserves_allowance(self):
-        """FS FAQ3: May award preserves June-December monthly NČZD."""
+        """FS FAQ 3: May award preserves June-December monthly NČZD."""
         original, employee = self._monthly_pension_profile(l10n_sk_pension_type=False, l10n_sk_tax_pensioner=False)
         employee.create_version({"date_version": date(2026, 5, 1), "l10n_sk_pension_type": "old_age",
                                  "l10n_sk_tax_pensioner": True})
@@ -1754,4 +1755,60 @@ class TestSkPayroll(TransactionCase):
         version, employee = self._monthly_pension_profile()
         version.date_version = date(2026, 5, 1)
         with self.assertRaisesRegex(UserError, 'version effective at 1 January'):
+            self._make_payslip(version, employee, date(2026, 6, 1), date(2026, 6, 30))
+
+    def _midyear_hire(self, pension=True):
+        return self._make_contract('May hire with declared January status', 500,
+            date(2026, 5, 1), self.calendar, l10n_sk_tax_declaration_signed=True,
+            l10n_sk_tax_pensioner=pension, l10n_sk_pension_type='old_age' if pension else False,
+            l10n_sk_nczd_pension_annual=3000 if pension else 0)
+
+    def test_midyear_hire_already_pensioner_is_paid_without_allowance(self):
+        version, employee = self._midyear_hire()
+        slip = self._make_payslip(version, employee, date(2026, 6, 1), date(2026, 6, 30))
+        self.assertEqual(slip.l10n_sk_monthly_nczd(version), 0)
+        self.assertAlmostEqual(slip.get_salary_line_total('INCOMETAX'), -85.12, 2)
+        self.assertEqual(version.date_version, date(2026, 5, 1))
+        self.assertEqual(len(employee.version_ids), 1)
+
+    def test_midyear_hire_rzd_uses_declared_january_status(self):
+        version, employee = self._midyear_hire()
+        rz = self.env['l10n.sk.tax.reconciliation'].create({
+            'employee_id': employee.id, 'company_id': self.company.id, 'year': 2026,
+            'gather_from_payslips': False, 'annual_tax_base': 20000})
+        rz.action_compute()
+        self.assertAlmostEqual(rz.nczd_taxpayer, 2966.73)
+        self.assertEqual(version.date_version, date(2026, 5, 1))
+
+    def test_midyear_hire_later_award_preserves_first_declared_status(self):
+        first, employee = self._midyear_hire(pension=False)
+        employee.create_version({'date_version': date(2026, 8, 1),
+            'l10n_sk_pension_type': 'old_age', 'l10n_sk_tax_pensioner': True})
+        later = employee._get_version(date(2026, 9, 1))
+        slip = self._make_payslip(later, employee, date(2026, 9, 1), date(2026, 9, 30))
+        self.assertEqual(slip.l10n_sk_monthly_nczd(later), 497.23)
+        rz = self.env['l10n.sk.tax.reconciliation'].create({
+            'employee_id': employee.id, 'company_id': self.company.id, 'year': 2026,
+            'gather_from_payslips': False, 'annual_tax_base': 20000})
+        rz.action_compute()
+        self.assertAlmostEqual(rz.nczd_taxpayer, 5966.73)
+        january = self._make_payslip(later, employee, date(2027, 1, 1), date(2027, 1, 31))
+        self.assertEqual(january.l10n_sk_monthly_nczd(later), 0)
+        slip.compute_sheet()
+        self.assertFalse(first.l10n_sk_tax_pensioner)
+
+    def test_midyear_hire_future_first_version_refused(self):
+        version, employee = self._midyear_hire()
+        with self.assertRaisesRegex(UserError, '^Record the employee'):
+            self._make_payslip(version, employee, date(2026, 4, 1), date(2026, 4, 30))
+        rz = self.env['l10n.sk.tax.reconciliation'].create({
+            'employee_id': employee.id, 'company_id': self.company.id, 'year': 2025,
+            'gather_from_payslips': False, 'annual_tax_base': 20000})
+        with self.assertRaisesRegex(UserError, '^Record the employee'):
+            rz.action_compute()
+
+    def test_monthly_actual_slip_structure_runs_plain_precheck(self):
+        version, employee = self._monthly_pension_profile(l10n_sk_tax_pensioner=False)
+        version.struct_id = False
+        with self.assertRaisesRegex(UserError, '^The 1 January version indicates a pension'):
             self._make_payslip(version, employee, date(2026, 6, 1), date(2026, 6, 30))
