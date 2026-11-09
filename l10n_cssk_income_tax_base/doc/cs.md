@@ -1,7 +1,7 @@
 ---
 title: Přiznání k dani z příjmů PO (CZ/SK)
 summary: Obrazovka, na které se připravuje přiznání k dani z příjmů právnických osob — výsledek hospodaření z účetnictví, úpravy účetní, výpočet daně, XML ověřené proti schématu a zaúčtování splatné daně.
-verified: 19.0.1.5.9
+verified: 19.0.1.6.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -47,7 +47,7 @@ vybrat verzi tiskopisu.
    |---|---|
    | Výsledek hospodaření (VZZ) | Zůstatek uvedených účtů za období, jen ze zaúčtovaných dokladů. |
    | Rozdíl účetních a daňových odpisů majetku | Rozdíl účetních a daňových odpisů za období z modulu daňových odpisů `account_asset_tax`, je-li nainstalován; jinak 0. |
-   | Souhrn | Vzorec z jiných řádků, přepočítá se vždy. |
+   | Souhrn | Vzorec z jiných řádků, přepočítá se vždy. Může použít i řádky uvedené pod ním; počká na ně. |
    | Ruční | Zadáváte vy. |
 
 3. **Zadejte úpravy.** V řádku zaškrtněte **Přepis** a částku napište do

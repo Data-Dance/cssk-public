@@ -538,6 +538,28 @@ class AccountAssetTaxMixin(models.AbstractModel):
     # ------------------------------------------------------------------
     # Accounting-vs-tax reconciliation (DPPO)
     # ------------------------------------------------------------------
+    def _tax_asset_account_code(self):
+        """Code of the balance-sheet account the asset sits on (bridge-specific).
+
+        The EE bridge reads ``account_asset_id``, the OCA one the profile's.
+        The core default is empty: no account, no claim about the asset.
+        """
+        return ""
+
+    def _tax_is_tangible(self):
+        """Whether the asset is hmotný majetok, for the SK DPPO Table B.
+
+        Table B ("Odpisy hmotného majetku") and rows 150/250 cover tangible
+        assets only. The tax class says nothing about it — a depreciation
+        group is a group of the tangible assets by definition — so the asset's
+        own balance-sheet account decides, by the CZ/SK chart's class 0
+        structure: 01x is dlouhodobý nehmotný / dlhodobý nehmotný majetek,
+        02x and 03x tangible. An asset with no account code is counted as
+        tangible, which is what a tax board almost always describes.
+        """
+        self.ensure_one()
+        return not (self._tax_asset_account_code() or "").startswith("01")
+
     def _tax_accounting_depreciation_for_period(self, date_from, date_to):
         """Posted *accounting* depreciation in the period (bridge-specific).
 

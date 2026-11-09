@@ -490,28 +490,6 @@ msgid "Financial contribution"
 msgstr "Finanční příspěvek"
 
 #. module: l10n_sk_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_nczd_pension_annual
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_nczd_pension_annual
-msgid ""
-"For the annual tax reconciliation (§ 11 ods. 6 ZDP): the yearly amount, 13th"
-" pension included, of an old-age, early old-age or service pension, a "
-"compensatory supplement, or a foreign pension of the same kind, that the "
-"employee was drawing at the start of the tax year (or was granted back to "
-"it). The taxpayer's NČZD is reduced by it, to nothing when the pension is "
-"higher. Disability, widow's and orphan's pensions do not count. Leave empty "
-"when there is no such pension. The monthly advances are not affected (§ 35 "
-"ods. 1 písm. b))."
-msgstr ""
-"Pro roční zúčtování slovenské daně (§ 11 ods. 6 ZDP): roční částka "
-"starobního, předčasného starobního nebo výsluhového důchodu, vyrovnávacího "
-"příplatku nebo zahraničního důchodu stejného druhu včetně 13. důchodu, který"
-" zaměstnanec pobíral na začátku zdaňovacího období (nebo mu byl k němu "
-"přiznán zpětně). O tuto částku se sníží nezdanitelná část základu daně na "
-"daňovníka, a je-li důchod vyšší, neuplatní se vůbec. Invalidní, vdovský a "
-"sirotčí důchod se nezapočítává. Pokud zaměstnanec takový důchod nepobírá, "
-"nechte pole prázdné. Měsíční zálohy to neovlivní (§ 35 ods. 1 písm. b))."
-
-#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__date_from
 msgid "From"
 msgstr "Od"
@@ -1824,3 +1802,129 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_ztp
 msgid "ZŤP / Disabled"
 msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid ""
+"A yearly pension amount requires the tax-relevant pension flag on this "
+"version."
+msgstr ""
+"Roční částka důchodu vyžaduje na této verzi příznak daňově relevantního "
+"důchodu."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_tax_pensioner
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_tax_pensioner
+msgid "Draws a tax-relevant pension"
+msgstr "Pobírá daňově relevantní důchod"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_nczd_pension_annual
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_nczd_pension_annual
+msgid ""
+"For the annual tax reconciliation (§ 11 ods. 6 ZDP): the yearly amount, 13th"
+" pension included, of an old-age, early old-age or service pension, a "
+"compensatory supplement, or a foreign pension of the same kind, that the "
+"employee was drawing at the start of the tax year (or was granted back to "
+"it). The taxpayer's NČZD is reduced by it, to nothing when the pension is "
+"higher. Disability, widow's and orphan's pensions do not count. Leave empty "
+"when there is no such pension. This annual amount is not the monthly "
+"allowance: review the tax pension fact on the version in force on 1 January "
+"for monthly advances."
+msgstr ""
+"Pro roční zúčtování daně (§ 11 ods. 6 slovenského ZDP): roční částka včetně "
+"13. důchodu starobního, předčasného starobního nebo výsluhového důchodu, "
+"vyrovnávacího příplatku nebo zahraničního důchodu stejného druhu, který "
+"zaměstnanec pobíral na začátku zdaňovacího období (nebo mu byl přiznán "
+"zpětně k němu). O tuto částku se sníží NČZD na daňovníka, je-li důchod "
+"vyšší, až na nulu. Invalidní, vdovský, vdovecký a sirotčí důchod se "
+"nezapočítávají. Pokud takový důchod není, ponechte pole prázdné. Tato roční "
+"částka není měsíční NČZD: pro měsíční zálohy ověřte daňový údaj o důchodu na"
+" verzi platné k 1. lednu."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid ""
+"Reconcile the 1 January tax pension flag and the reviewed yearly pension "
+"amount before annual reconciliation."
+msgstr ""
+"Před ročním zúčtováním uveďte do souladu lednový příznak daňového důchodu a "
+"ověřenou roční částku důchodu."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_employee.py:0
+msgid ""
+"Record the employee's pension tax fact on a version effective at 1 January "
+"before claiming monthly allowance."
+msgstr ""
+"Před uplatněním měsíční NČZD zaznamenejte daňový údaj o důchodu na verzi "
+"účinné k 1. lednu."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_employee.py:0
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid ""
+"Review the employee's 1 January pension version in the payroll company."
+msgstr "Ověřte lednovou důchodovou verzi zaměstnance v mzdové společnosti."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+msgid ""
+"The 1 January version indicates a pension. Review its tax-relevant pension "
+"flag against the retained declaration."
+msgstr ""
+"Verze k 1. lednu uvádí důchod. Ověřte její příznak daňově relevantního "
+"důchodu podle uchovaného prohlášení."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_tax_pensioner
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_tax_pensioner
+msgid ""
+"The employee draws a pension under section 11(6), as recorded in the "
+"retained taxpayer declaration. This is a fact at this version's effective "
+"date, including retroactive awards, foreign equivalents and compensatory "
+"supplements. Monthly advances read the version in force on 1 January. A "
+"midyear award preserves that year's monthly allowance. Disability, widow's "
+"and orphan's pensions alone do not set this flag."
+msgstr ""
+"Zaměstnanec pobírá důchod podle § 11 ods. 6 slovenského ZDP, jak uvádí "
+"uchované prohlášení daňovníka. Údaj platí k datu účinnosti této verze, "
+"včetně zpětně přiznaných důchodů, zahraničních obdob a vyrovnávacích "
+"příplatků. Měsíční zálohy čtou verzi platnou k 1. lednu. Důchod přiznaný "
+"během roku zachová měsíční NČZD v daném roce. Samotný invalidní, vdovský, "
+"vdovecký nebo sirotčí důchod tento příznak nenastavuje."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+msgid ""
+"Use the employee and company contract version for the monthly pension tax "
+"profile."
+msgstr ""
+"Pro měsíční důchodový daňový profil použijte verzi smlouvy příslušného "
+"zaměstnance a společnosti."
+
+#~ msgid ""
+#~ "For the annual tax reconciliation (§ 11 ods. 6 ZDP): the yearly amount, 13th"
+#~ " pension included, of an old-age, early old-age or service pension, a "
+#~ "compensatory supplement, or a foreign pension of the same kind, that the "
+#~ "employee was drawing at the start of the tax year (or was granted back to "
+#~ "it). The taxpayer's NČZD is reduced by it, to nothing when the pension is "
+#~ "higher. Disability, widow's and orphan's pensions do not count. Leave empty "
+#~ "when there is no such pension. The monthly advances are not affected (§ 35 "
+#~ "ods. 1 písm. b))."
+#~ msgstr ""
+#~ "Pro roční zúčtování slovenské daně (§ 11 ods. 6 ZDP): roční částka "
+#~ "starobního, předčasného starobního nebo výsluhového důchodu, vyrovnávacího "
+#~ "příplatku nebo zahraničního důchodu stejného druhu včetně 13. důchodu, který"
+#~ " zaměstnanec pobíral na začátku zdaňovacího období (nebo mu byl k němu "
+#~ "přiznán zpětně). O tuto částku se sníží nezdanitelná část základu daně na "
+#~ "daňovníka, a je-li důchod vyšší, neuplatní se vůbec. Invalidní, vdovský a "
+#~ "sirotčí důchod se nezapočítává. Pokud zaměstnanec takový důchod nepobírá, "
+#~ "nechte pole prázdné. Měsíční zálohy to neovlivní (§ 35 ods. 1 písm. b))."

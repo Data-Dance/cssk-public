@@ -1,7 +1,7 @@
 ---
 title: Daňové priznanie k dani z príjmov PO (CZ/SK)
 summary: Obrazovka, na ktorej sa pripravuje daňové priznanie k dani z príjmov právnických osôb (DPPO) — výsledok hospodárenia z účtovníctva, úpravy účtovníka, výpočet dane, XML overené proti schéme a zaúčtovanie splatnej dane.
-verified: 19.0.1.5.9
+verified: 19.0.1.6.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -47,7 +47,7 @@ vybrať verziu tlačiva.
    |---|---|
    | Výsledok hospodárenia (VZS) | Zostatok uvedených účtov za obdobie, len zo zaúčtovaných dokladov. |
    | Rozdiel účtovných a daňových odpisov majetku | Rozdiel účtovných a daňových odpisov za obdobie z modulu daňových odpisov `account_asset_tax`, ak je nainštalovaný; inak 0. |
-   | Súhrn | Vzorec z iných riadkov, prepočíta sa vždy. |
+   | Súhrn | Vzorec z iných riadkov, prepočíta sa vždy. Môže použiť aj riadky uvedené pod ním; počká na ne. |
    | Ručné | Zadávate vy. |
 
 3. **Zadajte úpravy.** V riadku zaškrtnite **Prepis** a sumu napíšte do

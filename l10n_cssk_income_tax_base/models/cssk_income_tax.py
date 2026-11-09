@@ -1,6 +1,8 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import ast
+
 from odoo import Command, _, api, fields, models
 from odoo.tools.translate import LazyTranslate
 from odoo.exceptions import UserError
@@ -206,23 +208,14 @@ class CSSKIncomeTaxReturn(models.Model):
         # ONE grouped query serves every 'account' line of this compute pass
         # (the prefix matching happens in Python in _eval_accounts).
         balances = self._cssk_account_balance_map(self.date_from, self.date_to)
-        computed = {}
+        ldefs = self.version_id.line_def_ids.sorted("sequence")
+        computed, src_domains = self._cssk_evaluate_line_defs(
+            ldefs, overrides, balances)
         vals = []
-        for ldef in self.version_id.line_def_ids.sorted("sequence"):
+        for ldef in ldefs:
             overridden = ldef.code in overrides
-            src_domain = []
-            if overridden:
-                value = overrides[ldef.code]
-            elif ldef.kind == "account":
-                value = self._eval_accounts(ldef.account_formula, balances)
-                src_domain = self._account_source_domain(ldef.account_formula)
-            elif ldef.kind == "aggregate":
-                value = self._eval_aggregate(ldef.aggregate_formula, computed)
-            elif ldef.kind == "asset_diff":
-                value = self._eval_asset_diff(ldef.account_formula)
-            else:  # manual without an override
-                value = 0.0
-            computed[ldef.code] = value
+            value = computed[ldef.code]
+            src_domain = src_domains.get(ldef.code, [])
             vals.append(
                 {
                     "return_id": self.id,
@@ -242,6 +235,59 @@ class CSSKIncomeTaxReturn(models.Model):
             )
         self.env["cssk.income.tax.return.line"].create(vals)
         self.state = "preview"
+
+    def _cssk_evaluate_line_defs(self, ldefs, overrides, balances):
+        """``({code: value}, {code: source domain})`` for one compute pass.
+
+        Inputs first, then the aggregates in DEPENDENCY order. Until 1.6.0 the
+        aggregates were evaluated in display (``sequence``) order, so a formula
+        could only name rows sequenced above it. A form whose supporting
+        tables are printed AFTER the rows they feed — the Slovak DPPO's
+        Table A feeding r130, Table B feeding r150/r250 — could then only be
+        computed by displaying the tables first. Now an aggregate waits for
+        the rows it names. For every formula that worked before nothing
+        changes: what it named was already computed when it ran.
+
+        A formula naming a row that never resolves (a cycle, or a code this
+        version does not define) is evaluated anyway, last, and fails the way
+        it always did rather than silently computing 0.
+        """
+        computed, src_domains, pending = {}, {}, []
+        for ldef in ldefs:
+            if ldef.code in overrides:
+                computed[ldef.code] = overrides[ldef.code]
+            elif ldef.kind == "account":
+                computed[ldef.code] = self._eval_accounts(
+                    ldef.account_formula, balances)
+                src_domains[ldef.code] = self._account_source_domain(
+                    ldef.account_formula)
+            elif ldef.kind == "aggregate":
+                pending.append(ldef)
+            elif ldef.kind == "asset_diff":
+                computed[ldef.code] = self._eval_asset_diff(ldef.account_formula)
+            else:  # manual without an override
+                computed[ldef.code] = 0.0
+        codes = set(ldefs.mapped("code"))
+        deps = {ldef.code: self._aggregate_dependencies(
+            ldef.aggregate_formula) & codes for ldef in pending}
+        while pending:
+            ready = [ldef for ldef in pending if deps[ldef.code] <= computed.keys()]
+            for ldef in ready or pending[:1]:
+                computed[ldef.code] = self._eval_aggregate(
+                    ldef.aggregate_formula, computed)
+                pending.remove(ldef)
+        return computed, src_domains
+
+    @staticmethod
+    def _aggregate_dependencies(formula):
+        """The names an aggregate formula reads (row codes and builtins)."""
+        if not (formula or "").strip():
+            return set()
+        try:
+            tree = ast.parse(formula.strip(), mode="eval")
+        except SyntaxError:
+            return set()
+        return {node.id for node in ast.walk(tree) if isinstance(node, ast.Name)}
 
     def _eval_asset_diff(self, which):
         """Book−tax depreciation difference for the period, from

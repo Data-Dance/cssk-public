@@ -86,7 +86,7 @@
   <record id="dppo_ld_r130_2025" model="cssk.income.tax.line.def">
     <field name="version_id" ref="dppo_version_2025"/><field name="code">r130</field>
     <field name="name">r130</field><field name="sequence">30</field>
-    <field name="kind">manual</field></record>
+    <field name="kind">aggregate</field><field name="aggregate_formula">a17</field></record>
   <record id="dppo_ld_r140_2025" model="cssk.income.tax.line.def">
     <field name="version_id" ref="dppo_version_2025"/><field name="code">r140</field>
     <field name="name">r140</field><field name="sequence">40</field>
@@ -94,9 +94,7 @@
   <record id="dppo_ld_r150_2025" model="cssk.income.tax.line.def">
     <field name="version_id" ref="dppo_version_2025"/><field name="code">r150</field>
     <field name="name">r150</field><field name="sequence">50</field>
-    <!-- Účtovné odpisy > daňové → pripočítateľná položka (auto-fed from the
-         asset tax board: Σ book−tax where book exceeds tax). Tabuľka B. -->
-    <field name="kind">asset_diff</field><field name="account_formula">addback</field></record>
+    <field name="kind">aggregate</field><field name="aggregate_formula">max(0.0, b01 - b06)</field></record>
   <record id="dppo_ld_r170_2025" model="cssk.income.tax.line.def">
     <field name="version_id" ref="dppo_version_2025"/><field name="code">r170</field>
     <field name="name">r170</field><field name="sequence">60</field>
@@ -128,9 +126,7 @@
   <record id="dppo_ld_r250_2025" model="cssk.income.tax.line.def">
     <field name="version_id" ref="dppo_version_2025"/><field name="code">r250</field>
     <field name="name">r250</field><field name="sequence">130</field>
-    <!-- Daňové odpisy > účtovné → odpočítateľná položka (auto-fed from the asset
-         tax board: Σ tax−book where tax exceeds book). -->
-    <field name="kind">asset_diff</field><field name="account_formula">deduction</field></record>
+    <field name="kind">aggregate</field><field name="aggregate_formula">max(0.0, b06 - b01)</field></record>
   <record id="dppo_ld_r260_2025" model="cssk.income.tax.line.def">
     <field name="version_id" ref="dppo_version_2025"/><field name="code">r260</field>
     <field name="name">r260</field><field name="sequence">140</field>
@@ -385,5 +381,99 @@
     <field name="version_id" ref="dppo_version_2025"/><field name="code">r1192</field>
     <field name="name">r1192</field><field name="sequence">760</field>
     <field name="kind">manual</field></record>
+  <!-- III. časť, tabuľky A and B (rows 17 and 6): see TABLE_LAYOUTS in
+       tools/gen_dppo_version.py for the layout and its sources. -->
+  <record id="dppo_ld_a01_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a01</field>
+    <field name="name">Tabuľka A, r. 1</field><field name="sequence">10010</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a02_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a02</field>
+    <field name="name">Tabuľka A, r. 2</field><field name="sequence">10020</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a03_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a03</field>
+    <field name="name">Tabuľka A, r. 3</field><field name="sequence">10030</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a04_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a04</field>
+    <field name="name">Tabuľka A, r. 4</field><field name="sequence">10040</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a05_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a05</field>
+    <field name="name">Tabuľka A, r. 5</field><field name="sequence">10050</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a06_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a06</field>
+    <field name="name">Tabuľka A, r. 6</field><field name="sequence">10060</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a07_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a07</field>
+    <field name="name">Tabuľka A, r. 7</field><field name="sequence">10070</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a08_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a08</field>
+    <field name="name">Tabuľka A, r. 8</field><field name="sequence">10080</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a09_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a09</field>
+    <field name="name">Tabuľka A, r. 9</field><field name="sequence">10090</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a10_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a10</field>
+    <field name="name">Tabuľka A, r. 10</field><field name="sequence">10100</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a11_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a11</field>
+    <field name="name">Tabuľka A, r. 11</field><field name="sequence">10110</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a12_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a12</field>
+    <field name="name">Tabuľka A, r. 12</field><field name="sequence">10120</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a13_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a13</field>
+    <field name="name">Tabuľka A, r. 13</field><field name="sequence">10130</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a14_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a14</field>
+    <field name="name">Tabuľka A, r. 14</field><field name="sequence">10140</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a15_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a15</field>
+    <field name="name">Tabuľka A, r. 15</field><field name="sequence">10150</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a16_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a16</field>
+    <field name="name">Tabuľka A, r. 16</field><field name="sequence">10160</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_a17_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">a17</field>
+    <field name="name">Tabuľka A, r. 17</field><field name="sequence">10170</field>
+    <field name="kind">aggregate</field><field name="aggregate_formula">a01 + a02 + a03 + a04 + a05 + a06 + a07 + a08 + a09 + a10 + a11 + a12 + a13 + a14 + a15 + a16</field></record>
+  <record id="dppo_ld_b01_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">b01</field>
+    <field name="name">Tabuľka B, r. 1</field><field name="sequence">10180</field>
+    <field name="kind">asset_diff</field><field name="account_formula">b_book</field></record>
+  <record id="dppo_ld_b02_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">b02</field>
+    <field name="name">Tabuľka B, r. 2</field><field name="sequence">10190</field>
+    <field name="kind">asset_diff</field><field name="account_formula">b_tax_gross</field></record>
+  <record id="dppo_ld_b03_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">b03</field>
+    <field name="name">Tabuľka B, r. 3</field><field name="sequence">10200</field>
+    <field name="kind">manual</field></record>
+  <record id="dppo_ld_b04_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">b04</field>
+    <field name="name">Tabuľka B, r. 4</field><field name="sequence">10210</field>
+    <field name="kind">asset_diff</field><field name="account_formula">b_suspended</field></record>
+  <record id="dppo_ld_b05_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">b05</field>
+    <field name="name">Tabuľka B, r. 5</field><field name="sequence">10220</field>
+    <field name="kind">asset_diff</field><field name="account_formula">b_sale</field></record>
+  <record id="dppo_ld_b06_2025" model="cssk.income.tax.line.def">
+    <field name="version_id" ref="dppo_version_2025"/><field name="code">b06</field>
+    <field name="name">Tabuľka B, r. 6</field><field name="sequence">10230</field>
+    <field name="kind">aggregate</field><field name="aggregate_formula">max(0.0, b02 - b03 - b04 + b05)</field></record>
 </data>
 </odoo>

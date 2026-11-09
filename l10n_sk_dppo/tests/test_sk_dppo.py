@@ -1065,9 +1065,13 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
         for suffix, schema, _first, _last in generated:
             with open(file_path("l10n_sk_dppo/data/%s" % schema),
                       encoding="utf-8", errors="replace") as handle:
-                rows = set(re.findall(r'<xsd:element\s+name="(r\d+[a-z]?)"',
-                                      handle.read()))
-            codes = set(self._version(suffix).line_def_ids.mapped("code"))
+                # Two-digit rows are table rows: they are held as a01…/b01…
+                # lines (tabuľky A, B) or not at all, never as main rows.
+                rows = {r for r in re.findall(
+                    r'<xsd:element\s+name="(r\d+[a-z]?)"', handle.read())
+                    if not re.fullmatch(r"r\d\d", r)}
+            codes = {c for c in self._version(suffix).line_def_ids.mapped("code")
+                     if c.startswith("r")}
             self.assertEqual(rows - codes, set(),
                              "%s defines rows %s never computes" % (schema, suffix))
             self.assertEqual(codes - rows, set(),

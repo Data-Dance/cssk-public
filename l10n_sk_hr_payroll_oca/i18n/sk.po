@@ -4,17 +4,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 21:17+0000\n"
-"PO-Revision-Date: 2026-07-06 21:17+0000\n"
-"Last-Translator: Data Dance s.r.o.\n"
-"Language-Team: Slovak\n"
+"POT-Creation-Date: 2026-11-09 09:28+0000\n"
+"PO-Revision-Date: 2026-11-09 09:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : (n==0) ? 2 : 3;\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value
@@ -23,6 +23,16 @@ msgid ""
 msgstr ""
 "Python literál (vyhodnotený cez safe_eval), napr. číslo, n-tica alebo "
 "slovník."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid ""
+"A yearly pension amount requires the tax-relevant pension flag on this "
+"version."
+msgstr ""
+"Ročná suma dôchodku vyžaduje príznak daňovo relevantného dôchodku na tejto "
+"verzii."
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_accident_insurance_employer
@@ -395,6 +405,12 @@ msgid "Draft"
 msgstr "Návrh"
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_tax_pensioner
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_tax_pensioner
+msgid "Draws a tax-relevant pension"
+msgstr "Poberá daňovo relevantný dôchodok"
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_employee
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__employee_id
 msgid "Employee"
@@ -505,18 +521,17 @@ msgid ""
 "employee was drawing at the start of the tax year (or was granted back to "
 "it). The taxpayer's NČZD is reduced by it, to nothing when the pension is "
 "higher. Disability, widow's and orphan's pensions do not count. Leave empty "
-"when there is no such pension. The monthly advances are not affected (§ 35 "
-"ods. 1 písm. b))."
+"when there is no such pension. This annual amount is not the monthly "
+"allowance: review the tax pension fact on the version in force on 1 January "
+"for monthly advances."
 msgstr ""
-"Pre ročné zúčtovanie dane (§ 11 ods. 6 ZDP): ročná suma starobného dôchodku,"
-" predčasného starobného dôchodku, výsluhového dôchodku, vyrovnávacieho "
-"príplatku alebo dôchodku zo zahraničia rovnakého druhu vrátane 13. dôchodku,"
-" ktorý zamestnanec poberal na začiatku zdaňovacieho obdobia (alebo mu bol k "
-"nemu priznaný spätne). O túto sumu sa zníži nezdaniteľná časť základu dane "
-"na daňovníka, a ak je dôchodok vyšší, neuplatní sa vôbec. Invalidný, vdovský"
-" a sirotský dôchodok sa nezapočítava. Ak zamestnanec taký dôchodok nepoberá,"
-" nechajte pole prázdne. Mesačné preddavky to neovplyvní (§ 35 ods. 1 písm. "
-"b))."
+"Pre ročné zúčtovanie (§ 11 ods. 6 ZDP): ročná suma vrátane 13. dôchodku pri "
+"starobnom, predčasnom starobnom, výsluhovom alebo porovnateľnom zahraničnom "
+"dôchodku a vyrovnávacom príplatku poberanom na začiatku roka alebo priznanom"
+" spätne k jeho začiatku. Znižuje ročnú NČZD až na nulu. Invalidný, vdovský "
+"ani sirotský dôchodok sa nezapočítava. Ak taký dôchodok neexistuje, "
+"ponechajte pole prázdne. Ročná suma neurčuje mesačnú NČZD; pre mesačné "
+"preddavky overte samostatný januárový daňový status."
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__date_from
@@ -1014,6 +1029,26 @@ msgid "Quarantine / Isolation (karanténa)"
 msgstr "Karanténa / izolácia (karanténa)"
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid ""
+"Reconcile the 1 January tax pension flag and the reviewed yearly pension "
+"amount before annual reconciliation."
+msgstr ""
+"Pred ročným zúčtovaním zosúlaďte januárový príznak daňového dôchodku a "
+"overenú ročnú sumu dôchodku."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_employee.py:0
+msgid ""
+"Record the employee's pension tax fact on a version effective at 1 January "
+"before claiming monthly allowance."
+msgstr ""
+"Pred uplatnením mesačnej NČZD zaznamenajte daňový údaj o dôchodku na verzii "
+"účinnej k 1. januáru."
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_income_regular
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_income_regular
 msgid "Regular monthly income"
@@ -1033,6 +1068,15 @@ msgstr "Rezervný fond solidarity (zamestnávateľ)"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__result_type
 msgid "Result Type"
 msgstr "Typ výsledku"
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_employee.py:0
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid ""
+"Review the employee's 1 January pension version in the payroll company."
+msgstr "Overte januárovú dôchodkovú verziu zamestnanca v mzdovej firme."
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__rule_parameter_id
@@ -1600,6 +1644,16 @@ msgid "Taxpayer Non-taxable Part (NČZD)"
 msgstr "NČZD na daňovníka"
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+msgid ""
+"The 1 January version indicates a pension. Review its tax-relevant pension "
+"flag against the retained declaration."
+msgstr ""
+"Verzia k 1. januáru uvádza dôchodok. Overte jej príznak daňovo relevantného "
+"dôchodku podľa uchovaného vyhlásenia."
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__l10n_sk_agreement_type
 msgid ""
 "The Slovak employment form this structure represents. Choosing the structure"
@@ -1619,6 +1673,24 @@ msgid ""
 msgstr ""
 "Dohodnutý pracovný čas %(value).1f hodín %(basis)s prekračuje zákonný strop "
 "%(ceiling).0f pre tento typ dohody."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_tax_pensioner
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_tax_pensioner
+msgid ""
+"The employee draws a pension under section 11(6), as recorded in the "
+"retained taxpayer declaration. This is a fact at this version's effective "
+"date, including retroactive awards, foreign equivalents and compensatory "
+"supplements. Monthly advances read the version in force on 1 January. A "
+"midyear award preserves that year's monthly allowance. Disability, widow's "
+"and orphan's pensions alone do not set this flag."
+msgstr ""
+"Zamestnanec poberá dôchodok podľa § 11 ods. 6 uvedený v uchovanom vyhlásení "
+"daňovníka. Ide o údaj k dátumu účinnosti tejto verzie vrátane spätného "
+"priznania, zahraničných rovnocenných dôchodkov a vyrovnávacieho príplatku. "
+"Mesačné preddavky čítajú verziu platnú k 1. januáru. Priznanie počas roka "
+"zachová mesačnú NČZD daného roka. Samotný invalidný, vdovský alebo sirotský "
+"dôchodok tento príznak nenastavuje."
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_tax_declaration_signed
@@ -1755,6 +1827,16 @@ msgstr "Neplatené voľno"
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__neplatene
 msgid "Unpaid leave"
 msgstr "Neplatené voľno"
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+msgid ""
+"Use the employee and company contract version for the monthly pension tax "
+"profile."
+msgstr ""
+"Pre mesačný dôchodkový daňový profil použite verziu zmluvy príslušného "
+"zamestnanca a firmy."
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value

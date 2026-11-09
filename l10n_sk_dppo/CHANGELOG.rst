@@ -8,6 +8,58 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.5.0 (2026-11-09), not yet on 18.0:** tabuľky A and B as return
+  lines, r130/r150/r250 derived from them, the table export check, the
+  two-digit row fix and its migration. Needs ``l10n_cssk_income_tax_base``
+  19.0.1.6.0 (dependency-ordered aggregates) first.
+
+[19.0.1.5.0] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- **Tabuľky A and B are return lines.** Every vzor carries them as lines of
+  their own, coded by table: ``a01`` … ``a17`` (``a15`` on 2013 and 2014) and
+  ``b01`` … ``b06`` (``b04`` on 2013 and 2014). The úhrn rows are computed:
+  A17 = A1 + … + A16, B6 = max(0, B2 − B3 − B4 + B5) (DPPOv25 eForm,
+  ``vypocet_r06tabb``). The XML files the tables; a row nobody touched is
+  filed empty.
+- With ``account_asset_tax`` installed, Table B comes from the tax
+  depreciation register: B1 accounting depreciation, B2 tax depreciation
+  before B4 and without B5, B4 the § 22 ods. 9 suspended charge, B5 the
+  § 22 ods. 12 part in the year of sale, tangible assets only. B3 (§ 19
+  ods. 3 písm. a)) is entered by hand. Every table line can be overridden.
+- Export check: an overridden r130, r150, r250, A17 or B6 that disagrees with
+  its table blocks the export, as the eForm refuses it. It applies only when
+  the table carries a value, so a return that types r150 on the main row and
+  leaves the tables empty files as before.
+
+Changed
+~~~~~~~
+
+- **r130 = A17, r150 = max(0, B1 − B6), r250 = max(0, B6 − B1)** (2013 and
+  2014: r150 = max(0, B2 − B1), r250 the reverse; their tabuľka B has the
+  účtovné odpisy on r. 2). Before, r130 was typed and r150/r250 came straight
+  from the register. With r. 3 at 0 the figures are the same; an existing
+  override on any of the three rows is kept.
+- The migration switches the three rows on existing databases (the version
+  data is ``noupdate``) and removes the generic two-digit rows.
+
+Fixed
+~~~~~
+
+- **A two-digit row no longer files into every table.** The 2013–2022 vzory
+  had one line per code ``r01`` … ``r31``, and the template read it in row N
+  of every table and section (13 to 24 places). A figure typed into one row
+  appeared in all of them, and an untouched one filed ``0.00`` in all of
+  them. Those lines are gone; the other tables are filed empty. An override
+  left on one of them is logged by the migration, because it cannot be
+  assigned to one table.
+
 [19.0.1.4.9] — 2026-11-09
 -------------------------
 

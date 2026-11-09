@@ -66,6 +66,10 @@ class AccountAsset(models.Model):
         self.ensure_one()
         return self.date_start
 
+    def _tax_asset_account_code(self):
+        self.ensure_one()
+        return self.profile_id.account_asset_id.with_company(self.company_id).code or ""
+
     def _tax_accounting_depreciation_for_period(self, date_from, date_to):
         """Posted accounting depreciation (OCA depreciation lines) in the period."""
         self.ensure_one()

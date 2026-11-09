@@ -1,7 +1,7 @@
 ---
 title: SK Corporate Income Tax Return (DPPO)
 summary: The Slovak corporate income tax return — every official form edition since 2013, the accounting result from the books, the tax computation with the rate and minimum tax of the year, and an XML file checked against the Financial Administration's schema.
-verified: 19.0.1.4.9
+verified: 19.0.1.5.0
 ---
 
 ## What it is for {#purpose}
@@ -92,11 +92,12 @@ is filled from it:
 
 Optional modules that feed the return:
 
-- **`account_asset_tax`** (tax depreciation). Rows **r150** (accounting
-  depreciation above tax depreciation, added back) and **r250** (tax
-  depreciation above accounting depreciation, deducted) are then filled
-  from the asset tax register. Without it both stay 0 unless you override
-  them.
+- **`account_asset_tax`** (tax depreciation). Table B is then filled from
+  the asset tax register, and rows **r150** (accounting depreciation above
+  tax depreciation, added back) and **r250** (tax depreciation above
+  accounting depreciation, deducted) follow from it — see
+  [Tables A and B](#tables). Without it Table B stays empty unless you
+  enter it.
 - **[module:l10n_sk_vat_registration](module:l10n_sk_vat_registration).**
   The *daňová licencia* depended on whether the company was a VAT payer on
   the last day of the period. With this module the registration date decides,
@@ -113,10 +114,10 @@ computes depends on the edition:
 
 | Version | Periods | Computed by the module |
 |---|---|---|
-| DPPO 2013, DPPO 2014 | 2013; 2014 | r100 (and r150/r250) only |
+| DPPO 2013, DPPO 2014 | 2013; 2014 | r100 and Tables A/B (r130, r150, r250) only |
 | DPPO 2015 | 2015–2016 | tax computation, rate 22 %, *daňová licencia* |
 | DPPO 2017, 2018, 2019 | one year each | tax computation, rate 21 %, *daňová licencia* where § 52zk still applies it (see below) |
-| DPPO 2020, 2021, 2022 | 2020; 2021; 2022–2023 | r100 (and r150/r250) only |
+| DPPO 2020, 2021, 2022 | 2020; 2021; 2022–2023 | r100 and Tables A/B (r130, r150, r250) only |
 | DPPO 2024 | 2024 | tax computation, 15 % / 21 %, minimum tax |
 | DPPO 2025 | 2025 | tax computation, 10 % / 21 % / 24 %, minimum tax |
 
@@ -147,8 +148,8 @@ transfer of profit shares to partners (596). Only posted entries count.
 
 **Rows you enter** (tick *Override*, type the amount, compute again):
 
-- the add-backs r110–r180 and the deductions r210–r290, except r150/r250
-  when the asset module fills them;
+- the add-backs r110–r180 and the deductions r210–r290, except r130,
+  r150 and r250, which come from [Tables A and B](#tables);
 - r302–r308, r320, r330 (the other adjustments of the base) and **r410**,
   the tax loss deducted;
 - r501–r503, r610 (tax relief), r710 (foreign tax credit), r1040
@@ -188,6 +189,49 @@ The tax entry described in the
 [framework guide](module:l10n_cssk_income_tax_base#provision) books r1050;
 it is available on the 2024 and 2025 editions only.
 
+## Tables A and B {#tables}
+
+Part III of the form itemises two rows of the body: **Table A** (*Položky,
+ktoré nie sú daňovými výdavkami*) is the breakdown of r130, **Table B**
+(*Odpisy hmotného majetku*) the reconciliation behind r150 and r250. Each
+row of both tables is a line of the return, coded by table and row: `a06`
+is row 6 of Table A, `b02` row 2 of Table B.
+
+| Line | Content (DPPO 2015 onwards) | Computed as |
+|---|---|---|
+| a01 – a16 | the items of Table A; a16 = other items | entered |
+| a17 | úhrn | a01 + … + a16 |
+| b01 | accounting depreciation of tangible assets | asset register, or entered |
+| b02 | tax depreciation before b04, without b05 | asset register, or entered |
+| b03 | unclaimed part of a leased asset's depreciation (§ 19 ods. 3 písm. a)) | entered |
+| b04 | depreciation not claimed because it was suspended (§ 22 ods. 9) | asset register, or entered |
+| b05 | proportional depreciation in the year of sale (§ 22 ods. 12) | asset register, or entered |
+| b06 | depreciation included in the tax base | b02 − b03 − b04 + b05, never below 0 |
+| **r130** | | a17 |
+| **r150** | | b01 − b06 when positive |
+| **r250** | | b06 − b01 when positive |
+
+The 2013 and 2014 editions have a shorter Table A (a15 is the úhrn of
+a01 – a14) and a four-row Table B with the tax depreciation on b01 and the
+accounting depreciation on b02; there r150 = b02 − b01 and r250 = b01 − b02,
+when positive.
+
+With [module:account_asset_tax](module:account_asset_tax) installed, b01,
+b02, b04 and b05 are read from the tax register for assets on a tangible
+asset account (anything but 01x). b04 is the charge a suspended year would
+have carried, b05 the whole months held in the year of sale for an asset
+marked for § 22 ods. 12. b03 is always yours. With b03 at 0, r150 and r250
+are the company-wide difference between accounting and tax depreciation, as
+before.
+
+Any of these lines can be overridden, the derived ones too. When a table
+carries a value, an overridden r130, r150, r250, a17 or b06 must agree with
+it: the export refuses a return where they differ, as the Financial
+Administration's form does. A return that types r150 straight onto the main
+row and leaves Table B empty is exported as before.
+
+In the XML file a table row that nobody filled is left empty.
+
 ## Supplementary return {#amendments}
 
 Created with **Amended / corrective** from a submitted return (see the
@@ -219,7 +263,7 @@ It does **not** contain, and you must complete before filing:
   company has none (see [Setting it up](#setup));
 - the header declarations (e.g. *mikrodaňovník*, the halved or unpaid
   minimum tax, the credit of minimum tax), all written as "no";
-- the tables of the form (A to K), the assignment of part of the tax
+- the tables of the form other than A and B (C to K), the assignment of part of the tax
   (§ 50), the person signing the return, the number of attachments, the
   request for a refund of an overpayment.
 
@@ -255,7 +299,9 @@ says so and compares nothing.
   2026 form (see [Form editions](#versions)). The 2025 edition does not know
   the 11 520 € minimum-tax band that applies to periods beginning on or after
   1 January 2026; do not file a 2026 period on it.
-- **2013, 2014 and 2020–2023** compute r100 only; the tax is yours.
+- **2013, 2014 and 2020–2023** compute r100 and Tables A/B only; the tax is yours.
+- The meaning of rows 3 and 4 of the 2013/2014 Table B is not stated in
+  their instructions; enter them from the form.
 - r560 defaults to the whole of class 6; on the 2015–2019 editions, which
   have no r560, the *daňová licencia* band is chosen from class 6 too.
 - The tables and declarations listed under [The XML file](#xml) are not

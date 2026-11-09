@@ -358,3 +358,47 @@ class TestTaxBoardOCA(TransactionCase):
         # the per-year merge sums the months
         by_year = {r["year"]: r for r in asset._cssk_book_tax_by_year()}
         self.assertAlmostEqual(by_year[2026]["tax"], tax_2026, 2)
+
+    # ------------------------------------------------------------------
+    # SK DPPO Table B breakdown
+    # ------------------------------------------------------------------
+    def test_table_b_breakdown_suspension_run_and_sale(self):
+        """b_suspended takes, for each year of a suspended run, the charge that
+        year would have carried; b_sale the § 22 ods. 12 part; and with them
+        b_tax_gross − b_suspended + b_sale is the board's own figure."""
+        asset = self._new_asset("accelerated")
+        asset.compute_tax_depreciation_board()
+        planned = asset.tax_line_ids.sorted("year_index").mapped("amount")
+        asset._add_tax_event("suspension", date(2027, 1, 1), duration_years=2)
+        for year, expected in ((2027, planned[1]), (2028, planned[2])):
+            diff = self.company._cssk_asset_book_tax_difference(
+                date(year, 1, 1), date(year, 12, 31))
+            self.assertAlmostEqual(diff["b_suspended"], expected, 2)
+            self.assertAlmostEqual(diff["b_tax"], 0.0, 2)
+            self.assertAlmostEqual(diff["b_tax_gross"], expected, 2)
+        sold = self._new_asset("linear")
+        sold.tax_sk_disposal_months = True
+        sold.compute_tax_depreciation_board()
+        sold._add_tax_event("disposal", date(2028, 4, 10))
+        diff = self.company._cssk_asset_book_tax_difference(
+            date(2028, 1, 1), date(2028, 12, 31))
+        self.assertAlmostEqual(diff["b_sale"], 2500.0, 2)
+        self.assertAlmostEqual(
+            diff["b_tax_gross"] - diff["b_suspended"] + diff["b_sale"],
+            diff["b_tax"], 2)
+
+    def test_table_b_leaves_out_intangible_assets(self):
+        software = self.env["account.account"].create({
+            "code": "013990", "name": "Test software",
+            "account_type": "asset_non_current",
+            "company_ids": [Command.link(self.company.id)]})
+        machine = self._new_asset("linear")
+        self.assertTrue(machine._tax_is_tangible())    # T024000
+        program = self._new_asset("linear")
+        program.profile_id = self.profile.copy({"account_asset_id": software.id})
+        self.assertFalse(program._tax_is_tangible())   # 013990: nehmotný
+        (machine | program).compute_tax_depreciation_board()
+        diff = self.company._cssk_asset_book_tax_difference(
+            date(2026, 1, 1), date(2026, 12, 31))
+        self.assertAlmostEqual(diff["b_tax"], 10000.0, 2)   # the machine only
+        self.assertAlmostEqual(diff["tax"], 20000.0, 2)     # both, as before

@@ -11,10 +11,29 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.12.0 (2026-11-09), not yet on 18.0:** the tabuľka B breakdown
+  keys and ``_tax_is_tangible``.
+
 - **19.0.1.11.0 (2026-10-27), not yet on 18.0:** the backfill residual check
   replays lifecycle events, and Czech accelerated depreciation takes the §
   32 odst. 2 písm. a) first-year increase (engine, mixin constraint and
   help). Port the engine and wizard changes and their tests.
+
+[19.0.1.12.0] — 2026-11-09
+--------------------------
+
+Added
+~~~~~
+
+- ``res.company._cssk_asset_book_tax_difference`` also returns the Slovak
+  DPPO tabuľka B breakdown, for tangible assets only: ``b_book`` (r. 1),
+  ``b_tax_gross`` (r. 2), ``b_suspended`` (r. 4, the charge a § 22 ods. 9
+  suspended year would have carried), ``b_sale`` (r. 5, the § 22 ods. 12
+  part in the year of sale) and ``b_tax`` (the board's own figure). The
+  existing keys are unchanged.
+- ``_tax_is_tangible()`` on the asset: not on a 01x account (dlhodobý
+  nehmotný majetok). The bridges supply the account through
+  ``_tax_asset_account_code()``.
 
 [19.0.1.11.4] — 2026-11-05
 --------------------------

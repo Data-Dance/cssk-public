@@ -10,6 +10,16 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.24.0 (2026-11-09), not yet on 18.0:** the § 134 average
+  (21 days or 168 hours, company and employment isolation, credit notes;
+  cssk-public#28). On 18.0 the employment key is the contract.
+
+- **19.0.1.23.0 (2026-11-09), not yet on 18.0:** no monthly NČZD for a
+  § 11 ods. 6 pensioner on 1 January (cssk-public#24, plus the rehire
+  fix). On 18.0 the flag goes on ``hr.contract`` and the January contract
+  is the one running on 1 January (for a hire, the first contract of the
+  year); the salary rule's localdict key is ``contract``.
+
 - **19.0.1.21.1 (2026-11-08), not yet on 18.0:** the RZD reads only
   confirmed payslips of its own company, keyed by period end
   (cssk-public#20). On 18.0 the confirmed state is ``done`` as well; port
@@ -27,6 +37,63 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+
+[19.0.1.24.0] — 2026-11-09
+==========================
+
+Fixed
+~~~~~
+
+- Use actual average hourly earnings after at least 21 worked days OR 168
+  worked hours (§ 134 ods. 3), including part-time employees with short days.
+- Keep determining-quarter sources inside the payroll company and employment
+  start, while retaining wage-version changes within the same employment.
+- Net native credit notes against both wage and worked time, so a refunded
+  original does not count twice or distort a replacement's average.
+
+Added
+~~~~~
+
+- Cooperative hooks for source selection, counted wage and worked time, for
+  benefit classification and extensions retaining superseded financial records.
+- Regression cases with actual calendars, threshold alternatives, company
+  isolation, refunds/replacements and rehire versus wage-version changes.
+  Contributed by votrelec (cssk-public#28).
+
+[19.0.1.23.0] — 2026-11-09
+==========================
+
+Added
+~~~~~
+
+- Read the tax pension fact from the native version in force on 1 January.
+  No manually advanced tax year or duplicate evidence field is required;
+  the retained taxpayer declaration supplies the fact. FS FAQ 3/7/9 distinguishes a January pension (no monthly
+  allowance, including small pensions) from a midyear award (allowance kept).
+  Insurance pension type and annual pension amount cannot replace that fact.
+  Preserve the native tax base and bands and the existing annual pension
+  deduction. Review affected historical payslips through a correction workflow.
+- Validate contradictions before salary rules and reconcile the January flag
+  with the reviewed annual pension amount before computing RZD. A May award
+  rolls into the following January without invalidating December payroll.
+- Correct the monthly-allowance statement introduced in 19.0.1.21.0. The
+  statutory annual high-income taper and the January pension exclusion are
+  different rules. Add regression examples for the declaration checkbox,
+  small pensions, midyear awards, disability, foreign pensions and annual consistency.
+
+- Accept the January status declared by a genuine midyear hire on the first
+  version, without backdating employment. Reuse it for monthly payroll and RZD;
+  exclude genuinely future versions. Validate the payslip's actual structure.
+  Contributed by votrelec (cssk-public#24).
+
+Fixed
+~~~~~
+
+- A rehired employee whose earlier employment ended before 1 January read
+  the January status from that ended employment, so a pensioner rehired
+  during the year got the monthly allowance. The first version of the new
+  employment now states it, as for a hire, and the reconciliation's
+  default pension amount comes from the same version.
 
 [19.0.1.21.1] — 2026-11-08
 ==========================
@@ -58,8 +125,8 @@ Fixed
   version has a new *Pension at 1 January (yearly)* amount; the RZD takes it
   from the version in force on 1 January, shows it, and lets it be
   corrected to what the employee declared. The monthly advances are
-  unchanged: § 35 ods. 1 písm. b) applies the full monthly NČZD and leaves
-  ods. 6 to the reconciliation.
+  unchanged in that release. The claim that January pensioners receive the
+  full monthly allowance was incorrect; see the 19.0.1.21.1 correction above.
 
 [19.0.1.20.0] — 2026-11-06
 ==========================

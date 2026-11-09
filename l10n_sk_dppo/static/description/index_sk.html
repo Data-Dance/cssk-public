@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_dppo/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK daňové priznanie k dani z príjmov PO (DPPO)</h1>
 <p class="cssk-summary">Slovenské daňové priznanie k dani z príjmov právnických osôb — všetky vzory od roku 2013, výsledok hospodárenia z účtovníctva, výpočet dane so sadzbou a minimálnou daňou daného roka a XML overené proti schéme finančnej správy.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.4.9</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_income_tax_base/static/description/index_sk.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_dppo_fs/static/description/index_sk.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.5.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_income_tax_base/static/description/index_sk.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_dppo_fs/static/description/index_sk.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Každá slovenská obchodná spoločnosť podáva raz ročne daňové priznanie k
@@ -150,10 +150,12 @@ vypĺňa hlavička XML:</p>
 </table>
 <p>Voliteľné moduly, ktoré priznanie dopĺňajú:</p>
 <ul>
-<li><strong><code>account_asset_tax</code></strong> (daňové odpisy). Riadky <strong>r. 150</strong> (účtovné odpisy
-  vyššie ako daňové — pripočítateľná položka) a <strong>r. 250</strong> (daňové odpisy
-  vyššie ako účtovné — odpočítateľná položka) sa potom vyplnia z daňovej
-  evidencie majetku. Bez neho zostanú nulové, pokiaľ ich neprepíšete.</li>
+<li><strong><code>account_asset_tax</code></strong> (daňové odpisy). Tabuľka B sa potom vyplní
+  z daňovej evidencie majetku a riadky <strong>r. 150</strong> (účtovné odpisy vyššie
+  ako daňové — pripočítateľná položka) a <strong>r. 250</strong> (daňové odpisy vyššie
+  ako účtovné — odpočítateľná položka) sa z nej odvodia — pozri
+  <a href="#tables">Tabuľky A a B</a>. Bez neho zostane tabuľka B prázdna, pokiaľ ju
+  nezadáte.</li>
 <li><strong><a href="/l10n_sk_vat_registration/static/description/index_sk.html"><code>l10n_sk_vat_registration</code></a>.</strong>
   Daňová licencia závisela od toho, či bola spoločnosť k poslednému dňu
   zdaňovacieho obdobia platiteľom DPH. S týmto modulom rozhoduje dátum
@@ -178,7 +180,7 @@ finančná správa. Čo modul vypočíta, závisí od vzoru:</p>
 <tr>
 <td>DPPO 2013, DPPO 2014</td>
 <td>2013; 2014</td>
-<td>len r. 100 (a r. 150/250)</td>
+<td>len r. 100 a tabuľky A/B (r. 130, 150, 250)</td>
 </tr>
 <tr>
 <td>DPPO 2015</td>
@@ -193,7 +195,7 @@ finančná správa. Čo modul vypočíta, závisí od vzoru:</p>
 <tr>
 <td>DPPO 2020, 2021, 2022</td>
 <td>2020; 2021; 2022 – 2023</td>
-<td>len r. 100 (a r. 150/250)</td>
+<td>len r. 100 a tabuľky A/B (r. 130, 150, 250)</td>
 </tr>
 <tr>
 <td>DPPO 2024</td>
@@ -228,7 +230,7 @@ výsledku hospodárenia spoločníkom (596). Počítajú sa len zaúčtované do
 vypočítajte):</p>
 <ul>
 <li>pripočítateľné položky r. 110 – 180 a odpočítateľné položky r. 210 – 290,
-  okrem r. 150/250, ak ich vypĺňa modul majetku;</li>
+  okrem r. 130, 150 a 250, ktoré vychádzajú z <a href="#tables">tabuliek A a B</a>;</li>
 <li>r. 302 – 308, r. 320, r. 330 (ďalšie úpravy základu dane) a <strong>r. 410</strong>,
   odpočet daňovej straty;</li>
 <li>r. 501 – 503, r. 610 (úľava na dani), r. 710 (zápočet dane zaplatenej v
@@ -321,6 +323,93 @@ r. 830 a riadky za ňou až po r. 1000) modul nepočíta.</p>
 <p>Zaúčtovanie dane opísané v
 <a href="/l10n_cssk_income_tax_base/static/description/index_sk.html#provision">návode k spoločnému modulu</a>
 účtuje r. 1050; je dostupné len pri vzoroch 2024 a 2025.</p>
+<h2 id="tables">Tabuľky A a B</h2>
+<p>III. časť tlačiva rozpisuje dva riadky tela: <strong>tabuľka A</strong> (<em>Položky, ktoré
+nie sú daňovými výdavkami</em>) je rozpis r. 130, <strong>tabuľka B</strong> (<em>Odpisy
+hmotného majetku</em>) zdôvodňuje r. 150 a 250. Každý riadok oboch tabuliek je
+riadkom priznania označeným tabuľkou a číslom riadka: <code>a06</code> je riadok 6
+tabuľky A, <code>b02</code> riadok 2 tabuľky B.</p>
+<table>
+<thead>
+<tr>
+<th>Riadok</th>
+<th>Obsah (vzory od roku 2015)</th>
+<th>Výpočet</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a01 – a16</td>
+<td>položky tabuľky A; a16 = ostatné položky</td>
+<td>zadávate</td>
+</tr>
+<tr>
+<td>a17</td>
+<td>úhrn</td>
+<td>a01 + … + a16</td>
+</tr>
+<tr>
+<td>b01</td>
+<td>účtovné odpisy hmotného majetku</td>
+<td>z evidencie majetku alebo zadávate</td>
+</tr>
+<tr>
+<td>b02</td>
+<td>daňové odpisy pred b04, bez b05</td>
+<td>z evidencie majetku alebo zadávate</td>
+</tr>
+<tr>
+<td>b03</td>
+<td>neuplatnená časť ročného odpisu prenajatého majetku (§ 19 ods. 3 písm. a))</td>
+<td>zadávate</td>
+</tr>
+<tr>
+<td>b04</td>
+<td>odpisy nezahrnuté pre prerušenie odpisovania (§ 22 ods. 9)</td>
+<td>z evidencie majetku alebo zadávate</td>
+</tr>
+<tr>
+<td>b05</td>
+<td>pomerná časť ročného odpisu pri predaji (§ 22 ods. 12)</td>
+<td>z evidencie majetku alebo zadávate</td>
+</tr>
+<tr>
+<td>b06</td>
+<td>odpisy zahrnuté do základu dane</td>
+<td>b02 − b03 − b04 + b05, najmenej 0</td>
+</tr>
+<tr>
+<td><strong>r. 130</strong></td>
+<td></td>
+<td>a17</td>
+</tr>
+<tr>
+<td><strong>r. 150</strong></td>
+<td></td>
+<td>b01 − b06, ak je kladný</td>
+</tr>
+<tr>
+<td><strong>r. 250</strong></td>
+<td></td>
+<td>b06 − b01, ak je kladný</td>
+</tr>
+</tbody>
+</table>
+<p>Vzory 2013 a 2014 majú kratšiu tabuľku A (a15 je úhrn a01 – a14)
+a štvorriadkovú tabuľku B s daňovými odpismi v b01 a účtovnými v b02; tam
+r. 150 = b02 − b01 a r. 250 = b01 − b02, ak sú kladné.</p>
+<p>S modulom <a href="/account_asset_tax/static/description/index_sk.html"><code>account_asset_tax</code></a> sa b01, b02,
+b04 a b05 načítajú z daňovej evidencie za majetok na účte hmotného majetku
+(akýkoľvek okrem 01x). b04 je odpis, ktorý by pripadol na rok prerušenia,
+b05 celé mesiace evidencie v roku predaja pri majetku označenom podľa § 22
+ods. 12. b03 zadávate vždy sami. Pri b03 rovnom 0 sú r. 150 a 250 rozdielom
+účtovných a daňových odpisov za celú spoločnosť ako doteraz.</p>
+<p>Každý z týchto riadkov sa dá prepísať, aj odvodené. Ak tabuľka obsahuje
+nejakú hodnotu, prepísaný r. 130, 150, 250, a17 alebo b06 s ňou musí
+súhlasiť: export priznanie s rozdielom odmietne, rovnako ako tlačivo
+finančnej správy. Priznanie, ktoré má r. 150 zadaný priamo v tele
+a tabuľku B prázdnu, sa exportuje ako doteraz.</p>
+<p>Riadok tabuľky, ktorý nikto nevyplnil, zostane v súbore XML prázdny.</p>
 <h2 id="amendments">Dodatočné daňové priznanie</h2>
 <p>Vytvorí sa tlačidlom <strong>Dodatočné / opravné</strong> z podaného priznania (pozri
 <a href="/l10n_cssk_income_tax_base/static/description/index_sk.html#amendments">návod k spoločnému modulu</a>).
@@ -376,7 +465,7 @@ musíte doplniť:</p>
   (pozri <a href="#setup">Nastavenie</a>);</li>
 <li>vyhlásenia v hlavičke (napr. mikrodaňovník, polovičná alebo neplatená
   minimálna daň, zápočet minimálnej dane), všetky zapísané ako „nie“;</li>
-<li>tabuľky tlačiva (A až K), poukázanie podielu zaplatenej dane (§ 50),
+<li>tabuľky tlačiva okrem A a B (C až K), poukázanie podielu zaplatenej dane (§ 50),
   oprávnenú osobu, počet príloh a žiadosť o vrátenie preplatku.</li>
 </ul>
 <p>Dátum vyhlásenia je deň exportu. Prijímateľ podielu podľa § 50, oprávnená
@@ -406,7 +495,9 @@ nezhodujú, najčastejšie pre prepísaný r. 100 alebo iné obdobie.</p>
   2026 (pozri <a href="#versions">Vzory tlačiva</a>). Vzor 2025 nepozná pásmo
   minimálnej dane 11 520 eur pre obdobia začínajúce najskôr 1. 1. 2026;
   obdobie roka 2026 naň nepodávajte.</li>
-<li><strong>Vzory 2013, 2014 a 2020 – 2023</strong> počítajú len r. 100; daň je na vás.</li>
+<li><strong>Vzory 2013, 2014 a 2020 – 2023</strong> počítajú len r. 100 a tabuľky A/B; daň je na vás.</li>
+<li>Obsah riadkov 3 a 4 tabuľky B vzorov 2013 a 2014 poučenie neuvádza;
+  vyplňte ich podľa tlačiva.</li>
 <li>r. 560 sa predvypĺňa celou triedou 6; pri vzoroch 2015 – 2019, ktoré
   r. 560 nemajú, sa podľa triedy 6 určuje aj pásmo daňovej licencie.</li>
 <li>Tabuľky a vyhlásenia uvedené v časti <a href="#xml">Súbor XML</a> sa nevytvárajú.</li>
@@ -415,7 +506,7 @@ nezhodujú, najčastejšie pre prepísaný r. 100 alebo iné obdobie.</p>
 <li>Definície riadkov a výpočet dane by mal pred prvým podaním skontrolovať
   váš účtovník.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.4.9 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.5.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

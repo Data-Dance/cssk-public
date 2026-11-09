@@ -45,7 +45,7 @@ The return, step by step
    * - Asset book-vs-tax depreciation difference
      - The difference between accounting and tax depreciation for the period, read from the tax depreciation module ``account_asset_tax`` when it is installed; 0 otherwise.
    * - Aggregate
-     - A formula over other rows, recomputed every time.
+     - A formula over other rows, recomputed every time. It may use rows listed below it; it waits for them.
    * - Manual
      - Entered by you.
 
@@ -96,7 +96,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cssk_income_tax_base``
-- **Version:** 19.0.1.5.9
+- **Version:** 19.0.1.6.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``account``, ``mail``, ``l10n_cssk_core``, ``l10n_cssk_submission_base``

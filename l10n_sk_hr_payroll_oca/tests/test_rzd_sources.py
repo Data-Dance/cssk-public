@@ -13,7 +13,8 @@ class TestRzdSources(TransactionCase):
         cls.other = cls.env['res.company'].create({'name': 'Synthetic other RZD company'})
         cls.env.user.company_ids |= cls.company | cls.other
         cls.employee = cls.env['hr.employee'].create({
-            'name': 'Synthetic RZD employee', 'company_id': cls.company.id})
+            'name': 'Synthetic RZD employee', 'company_id': cls.company.id,
+            'date_version': '2025-01-01', 'contract_date_start': '2025-01-01'})
         cls.rec = cls.env['l10n.sk.tax.reconciliation'].create({
             'employee_id': cls.employee.id, 'company_id': cls.company.id, 'year': 2026})
 

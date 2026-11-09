@@ -542,11 +542,9 @@ result = max(0.0, categories.GROSS + categories.SOCIALEMPLOYEE)
 base = result_rules.TAXBASE.total
 
 # --- NČZD (non-taxable part per taxpayer) ---
-nczd = 0.0
-if contract.l10n_sk_tax_declaration_signed:
-    # SK §35: monthly advances apply the FULL monthly NČZD; the §11 ods.2
-    # high-income taper is settled only in the annual reconciliation.
-    nczd = payslip.rule_parameter('l10n_sk_nczd_monthly')
+# The annual high-income taper remains an RZD matter. January pension
+# eligibility is separate: FS FAQ7/9 excludes the monthly allowance.
+nczd = payslip.l10n_sk_monthly_nczd(contract)
 
 taxable = max(0.0, base - nczd)
 

@@ -269,7 +269,7 @@ From the wizard:
 
 - **Export XLSX** and **Print PDF** give the table as a spreadsheet or a PDF.
 
-The Slovak corporate tax return in ``l10n_sk_dppo`` reads rows 150 and 250 from this module automatically (not the vehicle add-back, which you enter yourself when it applies). It takes the **company total** — accounting minus tax for all assets together — whereas the wizard shows add-backs and deductions asset by asset, so the two differ when some assets go one way and some the other. The Czech return module does not read these figures.
+The Slovak corporate tax return in ``l10n_sk_dppo`` fills its Table B from this module automatically, and rows 150 and 250 follow from it (not the vehicle add-back, which you enter yourself when it applies): accounting depreciation, tax depreciation, the charge a suspended year would have carried (§ 22 ods. 9) and the § 22 ods. 12 part in the year of sale, for assets on a tangible asset account (not 01x). It takes the **company total** — accounting minus tax for all those assets together — whereas the wizard shows add-backs and deductions asset by asset, so the two differ when some assets go one way and some the other. The Czech return module does not read these figures.
 
 Register and analysis
 =======================
@@ -339,7 +339,7 @@ Module facts
 ============
 
 - **Technical name:** ``account_asset_tax``
-- **Version:** 19.0.1.11.4
+- **Version:** 19.0.1.12.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``account``

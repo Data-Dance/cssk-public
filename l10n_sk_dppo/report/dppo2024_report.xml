@@ -118,31 +118,31 @@
 <r1180><t t-out="('%.2f' % values['r1180']) if values.get('r1180') else ''"/></r1180>
 <r1190><t t-out="('%.2f' % values['r1190']) if values.get('r1190') else ''"/></r1190>
 <tabA>
-<r01/>
-<r02/>
-<r03/>
-<r04/>
-<r05/>
-<r06/>
-<r07/>
-<r08/>
-<r09/>
-<r10/>
-<r11/>
-<r12/>
-<r13/>
-<r14/>
-<r15/>
-<r16/>
-<r17/>
+  <r01 t-out="values_tab.get('a01', '')"/>
+  <r02 t-out="values_tab.get('a02', '')"/>
+  <r03 t-out="values_tab.get('a03', '')"/>
+  <r04 t-out="values_tab.get('a04', '')"/>
+  <r05 t-out="values_tab.get('a05', '')"/>
+  <r06 t-out="values_tab.get('a06', '')"/>
+  <r07 t-out="values_tab.get('a07', '')"/>
+  <r08 t-out="values_tab.get('a08', '')"/>
+  <r09 t-out="values_tab.get('a09', '')"/>
+  <r10 t-out="values_tab.get('a10', '')"/>
+  <r11 t-out="values_tab.get('a11', '')"/>
+  <r12 t-out="values_tab.get('a12', '')"/>
+  <r13 t-out="values_tab.get('a13', '')"/>
+  <r14 t-out="values_tab.get('a14', '')"/>
+  <r15 t-out="values_tab.get('a15', '')"/>
+  <r16 t-out="values_tab.get('a16', '')"/>
+  <r17 t-out="values_tab.get('a17', '')"/>
 </tabA>
 <tabB>
-<r01/>
-<r02/>
-<r03/>
-<r04/>
-<r05/>
-<r06/>
+  <r01 t-out="values_tab.get('b01', '')"/>
+  <r02 t-out="values_tab.get('b02', '')"/>
+  <r03 t-out="values_tab.get('b03', '')"/>
+  <r04 t-out="values_tab.get('b04', '')"/>
+  <r05 t-out="values_tab.get('b05', '')"/>
+  <r06 t-out="values_tab.get('b06', '')"/>
 </tabB>
 <tabC1>
 <r01/>

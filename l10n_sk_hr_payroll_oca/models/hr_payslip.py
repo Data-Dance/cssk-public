@@ -7,6 +7,7 @@ from datetime import date, datetime, time, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_sk_hr_payroll_base.sick_pay import split_sick_days
 
@@ -72,6 +73,38 @@ class HrPayslip(models.Model):
         """
         self.ensure_one()
         return self.env["hr.rule.parameter"]._get_parameter_value(code, self.date_to)
+
+    def l10n_sk_monthly_nczd(self, version):
+        """Sections 35/36 and 11(6), FS FAQ 7/9: no January-pension allowance.
+
+        The annual difference for a small pension belongs in RZD/personal DP.
+        Keep this eligibility hook separate from dated statutory parameters.
+        """
+        self.ensure_one()
+        if version.employee_id != self.employee_id or version.company_id != self.company_id:
+            raise UserError(_("Use the employee and company contract version for the monthly pension tax profile."))
+        if not version.l10n_sk_tax_declaration_signed:
+            return 0.0
+        historical = self.employee_id._l10n_sk_january_tax_version(
+            self.date_to.year, self.company_id, self.date_to)
+        if historical:
+            if historical.company_id != self.company_id:
+                raise UserError(_("Review the employee's 1 January pension version in the payroll company."))
+            if historical.l10n_sk_tax_pensioner:
+                return 0.0
+            if (historical.l10n_sk_pension_type in ("old_age", "early_old_age", "service_at_age")
+                    or historical.l10n_sk_nczd_pension_annual > 0):
+                raise UserError(_("The 1 January version indicates a pension. Review its tax-relevant pension flag against the retained declaration."))
+        return self.rule_parameter("l10n_sk_nczd_monthly")
+
+    def compute_sheet(self):
+        # A rule's safe_eval wraps UserError in a Python traceback. Validate
+        # before evaluation so the payroll officer gets the business message.
+        for slip in self:
+            version = slip._l10n_sk_version()
+            if len(version) == 1 and slip.struct_id.country_id.code == "SK":
+                slip.l10n_sk_monthly_nczd(version)
+        return super().compute_sheet()
 
     # ------------------------------------------------------------------
     # Absence -> payroll code mapping
@@ -151,13 +184,45 @@ class HrPayslip(models.Model):
         q_end = date(year, end_month, _calendar.monthrange(year, end_month)[1])
         return q_start, q_end
 
+    def _l10n_sk_average_payslips(self):
+        """Confirmed sources in this company and the determining quarter.
+
+        Extensions that retain superseded financial originals can filter the
+        recordset here without duplicating the statutory average calculation.
+        """
+        self.ensure_one()
+        q_start, q_end = self._l10n_sk_previous_quarter()
+        slips = self.search([('employee_id', '=', self.employee_id.id),
+            ('company_id', '=', self.company_id.id), ('date_from', '>=', q_start),
+            ('date_to', '<=', q_end), ('state', '=', 'done'), ('id', '!=', self.id)])
+        version = self._l10n_sk_version()
+        if version.contract_date_start:
+            # A wage/version change within one employment keeps its start;
+            # a genuine rehire starts a separate employment (§134 ods. 7).
+            slips = slips.filtered(lambda slip:
+                slip._l10n_sk_version().contract_date_start == version.contract_date_start)
+        return slips
+
+    def _l10n_sk_average_counted_wage(self):
+        """Wage basis before credit-note sign; cooperative classification hook."""
+        self.ensure_one()
+        replacements = ('DOVOLENKA_NAHRADA', 'OBSTACLE_NAHRADA', 'PREKAZKA_NAHRADA')
+        return sum(line.total for line in self.line_ids if line.code == 'GROSS') - sum(
+            line.total for line in self.line_ids if line.code in replacements)
+
+    def _l10n_sk_average_worked_time(self):
+        """Worked days/hours before credit-note sign, excluding absences."""
+        self.ensure_one()
+        worked = self.worked_days_line_ids.filtered(lambda line: line.code == 'WORK100')
+        return sum(worked.mapped('number_of_days')), sum(worked.mapped('number_of_hours'))
+
     def l10n_sk_average_hourly_earnings(self):
         """Priemerný hodinový zárobok per §134 Zákonníka práce (č. 311/2001).
 
         Rozhodujúce obdobie = the previous calendar quarter. The average hourly
         earnings = gross wage credited in that quarter (EXCLUDING wage
         replacements / náhrady) ÷ hours worked in that quarter, rounded to 4
-        decimals. If the employee did not work at least 168 hours in the
+        decimals. If the employee did not work at least 21 days or 168 hours in the
         determining period (§134 ods. 3) the probable earnings (pravdepodobný
         zárobok) are used instead — here the current contract wage over the
         month's scheduled hours. Finally the statutory floor applies: if the
@@ -168,44 +233,21 @@ class HrPayslip(models.Model):
         Národný inšpektorát práce <https://www.ip.gov.sk/faq/104739/>,
         §134 zákona č. 311/2001 Z. z. (Zákonník práce).
 
-        SIMPLIFICATIONS: (a) the "counted gross" is the GROSS line less the SK
-        náhrada lines rather than a from-scratch §118 wage classification; (b)
-        the ≥21-days alternative to the ≥168-hours test is not modelled.
+        The counted wage defaults to GROSS less the SK náhrada lines, rather
+        than a from-scratch §118 classification. Extensions can classify
+        additional wage/nonwage components through the counted-wage hook.
         """
         self.ensure_one()
         min_hourly = self.rule_parameter("l10n_sk_min_hourly_wage")
-        q_start, q_end = self._l10n_sk_previous_quarter()
-        slips = self.env["hr.payslip"].search(
-            [
-                ("employee_id", "=", self.employee_id.id),
-                ("date_from", ">=", q_start),
-                ("date_to", "<=", q_end),
-                # Only a CONFIRMED payslip counts. §134 keys on the wage
-                # "zúčtovaná" in the determining period, and a payslip sitting
-                # in the OCA engine's "verify" (Waiting) state has been
-                # computed but not confirmed — it is the same thing as the
-                # Enterprise draft excluded in 22f68e1, and the Czech side has
-                # always filtered on "done" alone. There is no "paid" state on
-                # this engine.
-                ("state", "=", "done"),
-                ("id", "!=", self.id),
-            ]
-        )
-        gross = 0.0
-        hours = 0.0
-        for slip in slips:
-            for line in slip.line_ids:
-                if line.code == "GROSS":
-                    gross += line.total
-                elif line.code in ("DOVOLENKA_NAHRADA", "OBSTACLE_NAHRADA",
-                                   "PREKAZKA_NAHRADA"):
-                    # náhrady are excluded from the priemerný-zárobok base
-                    gross -= line.total
-            for wd in slip.worked_days_line_ids:
-                if wd.code == "WORK100":
-                    hours += wd.number_of_hours
+        gross = days = hours = 0.0
+        for slip in self._l10n_sk_average_payslips():
+            sign = -1 if slip.credit_note else 1
+            gross += sign * slip._l10n_sk_average_counted_wage()
+            worked_days, worked_hours = slip._l10n_sk_average_worked_time()
+            days += sign * worked_days
+            hours += sign * worked_hours
         min_hours = self.rule_parameter("l10n_sk_avg_earnings_min_hours")
-        if hours >= min_hours and gross > 0.0:
+        if (days >= 21 or hours >= min_hours) and hours > 0.0 and gross > 0.0:
             phz = round(gross / hours, 4)
         else:
             sched_hours = self.l10n_sk_scheduled_hours()

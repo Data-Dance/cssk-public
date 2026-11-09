@@ -11,10 +11,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.6.0 (2026-11-09), not yet on 18.0:** ``_tax_asset_account_code``.
+
 - **19.0.1.5.0 (2026-10-27), not yet on 18.0:** the *Compute Tax Depreciation*
   binding and menu (``views/account_asset_tax_compute_views.xml``) and the
   increased-first-year field shown for accelerated depreciation. 18.0 uses
   ``groups_id`` on actions, not ``group_ids``.
+
+[19.0.1.6.0] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- ``_tax_asset_account_code()``: the profile's asset account, which
+  ``account_asset_tax`` uses to leave intangible assets out of the DPPO
+  tabuľka B.
 
 [19.0.1.5.1] — 2026-11-04
 -------------------------

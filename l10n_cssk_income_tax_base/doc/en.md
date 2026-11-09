@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Corporate Income Tax Return
 summary: The screen on which the corporate income tax return (DPPO) is prepared — the accounting result from the books, the accountant's adjustments, the tax computation, a schema-checked XML file and the year-end tax entry.
-verified: 19.0.1.5.9
+verified: 19.0.1.6.0
 ---
 
 ## What it is for {#purpose}
@@ -48,7 +48,7 @@ version to choose.
    |---|---|
    | Accounting result (P&L) | The balance of the listed accounts over the period, posted entries only. |
    | Asset book-vs-tax depreciation difference | The difference between accounting and tax depreciation for the period, read from the tax depreciation module `account_asset_tax` when it is installed; 0 otherwise. |
-   | Aggregate | A formula over other rows, recomputed every time. |
+   | Aggregate | A formula over other rows, recomputed every time. It may use rows listed below it; it waits for them. |
    | Manual | Entered by you. |
 
 3. **Enter the adjustments.** In the row, tick **Override** and type the

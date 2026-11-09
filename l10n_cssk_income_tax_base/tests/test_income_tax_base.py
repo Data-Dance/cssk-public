@@ -221,6 +221,39 @@ class TestIncomeTaxBase(AccountTestInvoicingCommon):
         self.assertFalse(ret2.xml_attachment_id)
         self.assertNotEqual(ret2.state, "exported")
 
+    def test_an_aggregate_may_read_rows_displayed_after_it(self):
+        """Aggregates resolve by dependency, not by display order (1.6.0).
+
+        r130 here sums a supporting table printed BELOW it; before 1.6.0 the
+        formula ran first and failed on a name not yet computed.
+        """
+        Def = self.env["cssk.income.tax.line.def"]
+        self.version.line_def_ids.filtered(lambda d: d.code == "r130").write(
+            {"kind": "aggregate", "aggregate_formula": "t03"})
+        for code, seq, kind, agg in (("t01", 900, "manual", None),
+                                     ("t02", 910, "manual", None),
+                                     ("t03", 920, "aggregate", "t01 + t02")):
+            Def.create({"version_id": self.version.id, "code": code,
+                        "name": code, "sequence": seq, "kind": kind,
+                        "aggregate_formula": agg})
+        self._post_pl(revenue=2000.0, expense=800.0)
+        ret = self._make_return()
+        for code, value in (("t01", 100.0), ("t02", 50.0)):
+            ret.line_ids.filtered(lambda l, c=code: l.code == c).write(
+                {"is_overridden": True, "manual_value": value})
+        ret.action_compute_lines()
+        self.assertAlmostEqual(self._val(ret, "t03"), 150.0, 2)
+        self.assertAlmostEqual(self._val(ret, "r130"), 150.0, 2)
+        self.assertAlmostEqual(self._val(ret, "r400"), 1200.0 - 150.0, 2)
+        # display order is untouched
+        self.assertEqual(ret.line_ids.sorted("sequence").mapped("code")[-3:],
+                         ["t01", "t02", "t03"])
+
+    def test_an_aggregate_naming_an_unknown_row_still_fails_loudly(self):
+        self.version.line_def_ids.filtered(lambda d: d.code == "r130").write(
+            {"kind": "aggregate", "aggregate_formula": "nosuchrow + 1"})
+        with self.assertRaises(Exception):
+            self._make_return()
 
 @tagged("post_install", "-at_install")
 class TestProvisionWording(AccountTestInvoicingCommon):
@@ -246,3 +279,4 @@ class TestProvisionWording(AccountTestInvoicingCommon):
                            if line.startswith("msgstr")]
             self.assertFalse(
                 [m for m in msgstrs if "rezerv" in m.lower()], lang)
+

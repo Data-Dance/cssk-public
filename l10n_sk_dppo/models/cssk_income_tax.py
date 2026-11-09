@@ -41,6 +41,9 @@ _DODATOCNE_DIFF = [
 # a hand-kept list would. Every one of them is ``kind='manual'`` in the version
 # data, which is the whole reason the set has to be stated somewhere: ``kind``
 # names where a row's INPUT comes from, not whether we overwrite it.
+# III. časť tables held as return lines: a06 = tabuľka A, riadok 6.
+_TABLE_CODE = re.compile(r"[ab]\d\d")
+
 _SPINE_ROWS = frozenset({
     "r200", "r300", "r301", "r310", "r400", "r500", "r510", "r550",
     "r600", "r700", "r800", "r810", "r820", "r830", "r900",
@@ -88,7 +91,28 @@ class CSSKIncomeTaxReturn(models.Model):
     def _cssk_render_context(self):
         ctx = super()._cssk_render_context()
         ctx["hdr"] = self._l10n_sk_dppo_header()
+        ctx["values_tab"] = self._l10n_sk_dppo_table_values()
         return ctx
+
+    def _l10n_sk_dppo_table_rows(self):
+        """The Table A/B lines of this return (codes ``a01``…, ``b01``…)."""
+        return self.line_ids.filtered(
+            lambda line: _TABLE_CODE.fullmatch(line.code or ""))
+
+    def _l10n_sk_dppo_table_values(self):
+        """``{code: "123.45"}`` for the Table A/B cells the XML carries.
+
+        A row nobody touched is left OUT, so the template files it empty —
+        "U daňovníka sa vypĺňajú len tie tabuľky III. časti, ktoré vecne
+        súvisia s údajmi jeho priznania" (poučenie, III. časť). A row the
+        accountant set, even to 0, and a row with a value are filed.
+        """
+        self.ensure_one()
+        return {
+            line.code: "%.2f" % line.value
+            for line in self._l10n_sk_dppo_table_rows()
+            if line.is_overridden or round(line.value, 2)
+        }
 
     def _l10n_sk_dppo_header(self):
         """The company-derived DPPO ``hlavicka`` values, for every vzor.
@@ -219,7 +243,10 @@ class CSSKIncomeTaxReturn(models.Model):
             return value
 
     def check_kontroly(self):
-        """§ 30 ods. 1: the loss deduction against the tax base.
+        """Tables A/B against the rows they feed, and § 30 ods. 1.
+
+        The table check is an error (see ``_l10n_sk_dppo_table_kontroly``).
+        The § 30 ods. 1 check concerns the loss deduction against the base.
 
         A warning rather than an error, and silent up to 100 000 € of income:
         a mikrodaňovník may deduct up to the whole base, and that status also
@@ -232,6 +259,8 @@ class CSSKIncomeTaxReturn(models.Model):
         r400 = values.get("r400") or 0.0
         r410 = values.get("r410") or 0.0
         limit = statutory_round(r400 * 0.5, 2)
+        if (self.country_id.code or "").upper() == "SK":
+            out += self._l10n_sk_dppo_table_kontroly()
         if (
             self.date_from.year >= 2020
             and r410 > limit + 0.005
@@ -245,6 +274,58 @@ class CSSKIncomeTaxReturn(models.Model):
                     "r410 is %(loss).2f but § 30 ods. 1 písm. b) allows "
                     "%(limit).2f unless the company is a mikrodaňovník.",
                     loss=r410, limit=limit),
+            })
+        return out
+
+    def _l10n_sk_dppo_table_kontroly(self):
+        """An overridden row must still agree with the table it is derived from.
+
+        r130 is the úhrn of tabuľka A and r150/r250 the difference of
+        tabuľka B, and the eForm refuses a priznanie where they disagree
+        ("'r.130': má byť suma rovná sume uvedenej v tabuľke A na riadku 17",
+        vypocet_r130_C0). Every row derived from a table is an ``aggregate``
+        line, so the check reads the formulas instead of naming rows — the
+        same code serves both table layouts, and the úhrn rows themselves
+        (a17, b06) are held to their own formulas the same way.
+
+        Only where the table carries something: a return that types r150
+        straight onto the main row and leaves tabuľka B empty is how it was
+        filed before the tables existed here, and stays valid.
+        """
+        self.ensure_one()
+        lines = {line.code: line for line in self.line_ids}
+        values = {code: line.value for code, line in lines.items()}
+        defs = {d.code: d for d in self.version_id.line_def_ids}
+        filled = {
+            letter for letter in "ab"
+            if any(round(line.value, 2) or line.is_overridden
+                   for code, line in lines.items()
+                   if code[:1] == letter and _TABLE_CODE.fullmatch(code)
+                   and defs.get(code) and defs[code].kind != "aggregate")
+        }
+        out = []
+        for code, line in lines.items():
+            ldef = defs.get(code)
+            if not (line.is_overridden and ldef and ldef.kind == "aggregate"):
+                continue
+            names = self._aggregate_dependencies(ldef.aggregate_formula)
+            letters = {n[:1] for n in names if _TABLE_CODE.fullmatch(n)}
+            if not letters or not letters & filled:
+                continue
+            expected = self._eval_aggregate(ldef.aggregate_formula, values)
+            if abs(statutory_round(expected, 2)
+                   - statutory_round(line.value, 2)) < 0.005:
+                continue
+            out.append({
+                "code": "DPPO_TABLE_%s" % code.upper(),
+                "severity": "error",
+                "desc": _("%(code)s disagrees with its table", code=code),
+                "detail": _(
+                    "%(code)s is overridden to %(value).2f, but %(formula)s "
+                    "over the table gives %(expected).2f. Correct the table "
+                    "or remove the override.",
+                    code=code, value=line.value,
+                    formula=ldef.aggregate_formula, expected=expected),
             })
         return out
 

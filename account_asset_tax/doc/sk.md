@@ -1,7 +1,7 @@
 ---
 title: Daňové odpisy (CZ/SK)
 summary: Druhý, nikdy nezaúčtovaný odpisový plán ku každému majetku pre české a slovenské daňové odpisy popri účtovných, s ročným porovnaním účtovných a daňových odpisov, odloženou daňou a registrom daňových odpisov.
-verified: 19.0.1.11.4
+verified: 19.0.1.12.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -317,10 +317,13 @@ V sprievodcovi:
 - **Export XLSX** a **Tlač PDF** dajú tabuľku ako tabuľkový súbor alebo PDF.
 
 Slovenské daňové priznanie právnickej osoby v module
-[module:l10n_sk_dppo](module:l10n_sk_dppo) si riadky 150 a 250 načíta z tohto
-modulu samo (pripočítanie za vozidlo nie — to zadáte sami, ak sa uplatní).
-Berie **súhrn za spoločnosť** — účtovné mínus daňové odpisy za
-všetok majetok spolu —, kým sprievodca ukazuje pripočítateľné a odpočítateľné
+[module:l10n_sk_dppo](module:l10n_sk_dppo) si z tohto modulu samo vyplní
+tabuľku B a z nej riadky 150 a 250 (pripočítanie za vozidlo nie — to
+zadáte sami, ak sa uplatní): účtovné odpisy, daňové odpisy, odpis, ktorý by
+pripadol na rok prerušenia (§ 22 ods. 9), a pomernú časť v roku predaja
+(§ 22 ods. 12), za majetok na účte hmotného majetku (nie 01x). Berie
+**súhrn za spoločnosť** — účtovné mínus daňové odpisy za
+všetok tento majetok spolu —, kým sprievodca ukazuje pripočítateľné a odpočítateľné
 sumy po jednotlivých majetkoch; ak časť majetku vychádza jedným a časť druhým
 smerom, súčty sa líšia. Český modul priznania tieto sumy z tohto modulu nenačítava.
 

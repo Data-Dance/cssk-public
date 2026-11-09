@@ -8,6 +8,23 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.6.0 (2026-11-09), not yet on 18.0:** dependency-ordered
+  aggregate evaluation (``_cssk_evaluate_line_defs``) and its tests.
+
+[19.0.1.6.0] — 2026-11-09
+-------------------------
+
+Changed
+~~~~~~~
+
+- Aggregate rows are evaluated in dependency order, not display order. A row
+  can now be derived from rows printed below it (the Slovak DPPO's r130 from
+  tabuľka A). Every formula that worked before computes the same; one that
+  names an unknown row still fails.
+
 [19.0.1.5.9] — 2026-11-05
 -------------------------
 
