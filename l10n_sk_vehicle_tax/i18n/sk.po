@@ -1,0 +1,1351 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_vehicle_tax
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-08 23:00+0000\n"
+"PO-Revision-Date: 2026-11-08 23:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"A calculated vehicle tax return retains this form edition. Create a new "
+"edition instead."
+msgstr ""
+"Vypočítané priznanie uchováva túto verziu formulára. Vytvorte novú verziu."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "A filed return is immutable. Create a correction."
+msgstr ""
+"Podané priznanie musí zostať zachované. Vytvorte opravné alebo dodatočné "
+"priznanie."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"A filed vehicle tax return is immutable. Create a separate corrective "
+"return."
+msgstr ""
+"Podané priznanie k dani z vozidiel musí zostať zachované. Vytvorte "
+"samostatné opravné alebo dodatočné priznanie."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"A regular return cannot replace another filing. Select the corrective filing"
+" type."
+msgstr ""
+"Riadne priznanie nemôže nahrádzať iné podanie. Vyberte opravné priznanie."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "A retained vehicle tax filing cannot be deleted."
+msgstr "Uchované podanie dane z vozidiel nemožno vymazať."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "A tax measurement or amount cannot be a boolean."
+msgstr "Technický údaj ani suma dane nemôžu byť logická hodnota áno/nie."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "A vehicle difference must refer to the selected previous filed return."
+msgstr ""
+"Rozdiel za vozidlo musí odkazovať na zvolené predchádzajúce podané "
+"priznanie."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_needaction
+msgid "Action Needed"
+msgstr "Potrebná akcia"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__filing_evidence
+msgid "Actual filing confirmation; export alone does not prove delivery."
+msgstr "Skutočné potvrdenie podania; samotný export nepreukazuje doručenie."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__advances_paid
+msgid "Actually paid advances"
+msgstr "Skutočne zaplatené preddavky"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Add the reviewed taxable vehicles, including electric vehicles with zero "
+"tax."
+msgstr ""
+"Pridajte overené vozidlá podliehajúce dani vrátane elektromobilov s nulovou "
+"daňou."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__filing_type__additional
+msgid "Additional"
+msgstr "Dodatočné"
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Advances and projected tax"
+msgstr "Preddavky a predpokladaná daň"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"After the ordinary filing deadline use an additional return with the "
+"discovery date."
+msgstr ""
+"Po riadnej lehote podania použite dodatočné priznanie s dátumom zistenia "
+"skutočnosti."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__amount_to_pay
+msgid "Amount To Pay"
+msgstr "Suma na úhradu"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"An L or M1 combustion/hybrid vehicle requires documented cylinder capacity."
+msgstr ""
+"Vozidlo L alebo M1 so spaľovacím či hybridným pohonom vyžaduje doložený "
+"zdvihový objem."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"An N1 vehicle needs documented axles and maximum permissible mass up to 3500"
+" kg."
+msgstr ""
+"Vozidlo N1 vyžaduje doložený počet náprav a najväčšiu prípustnú hmotnosť do "
+"3500 kg."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "An N1 vehicle requires its documented maximum permissible mass."
+msgstr ""
+"Vozidlo N1 vyžaduje najväčšiu prípustnú hmotnosť doloženú technickým "
+"dokladom."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"An additional return retains the original paid advances; later tax payments "
+"are not new advances."
+msgstr ""
+"Dodatočné priznanie zachováva pôvodné zaplatené preddavky. Neskoršia platba "
+"dane nie je novým preddavkom."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "An electric vehicle requires its documented motor power."
+msgstr "Elektromobil vyžaduje výkon motora doložený technickým dokladom."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"An overpayment repayment request requires a positive calculated overpayment."
+msgstr "Žiadosť o vrátenie preplatku vyžaduje kladný vypočítaný preplatok."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "An unbounded statutory band must be last."
+msgstr "Zákonné pásmo bez hornej hranice musí byť posledné."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model,name:l10n_sk_vehicle_tax.model_ir_attachment
+msgid "Attachment"
+msgstr "Príloha"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__axles
+msgid "Axles"
+msgstr "Počet náprav"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Base the correction on the latest retained filing for this company and year."
+msgstr "Opravu pripravte z posledného uchovaného podania tejto firmy a roka."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__cng
+msgid "CNG"
+msgstr "CNG"
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Calculate"
+msgstr "Vypočítať"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Calculate the unfiled return before exporting."
+msgstr "Pred exportom vypočítajte nepodané priznanie."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__state__preview
+msgid "Calculated"
+msgstr "Vypočítané"
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Calculation"
+msgstr "Výpočet"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__category
+msgid "Category"
+msgstr "Kategória"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Choose a retained filed vehicle tax return before preparing a correction."
+msgstr ""
+"Pred prípravou opravy vyberte uchované podané priznanie k dani z vozidiel."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Choose the retained filed return for the same company and year before "
+"preparing a correction."
+msgstr ""
+"Pred prípravou opravy vyberte uchované podané priznanie tej istej firmy a "
+"roka."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Choose the vehicle tax return before adding technical facts."
+msgstr ""
+"Pred pridaním technických podkladov vyberte priznanie k dani z vozidiel."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__combustion
+msgid "Combustion"
+msgstr "Spaľovací"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__company_id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__refund_bank_id
+msgid "Company IBAN for repayment"
+msgstr "Firemný IBAN na vrátenie preplatku"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__cssk_comparison_count
+msgid "Comparisons"
+msgstr "Porovnania"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Complete removal of an erroneous liability requires a reviewed previous "
+"vehicle in an additional return."
+msgstr ""
+"Úplné odstránenie chybnej povinnosti vyžaduje overené pôvodné vozidlo v "
+"dodatočnom priznaní."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Complete the company DIČ and registered address before calculating vehicle "
+"tax."
+msgstr "Pred výpočtom dane z vozidiel doplňte DIČ a sídlo firmy."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+"Kontroly obsahu, ktoré posledný export nezablokovali, ale pred podaním si "
+"ich treba pozrieť, každá na samostatnom riadku. Obnovujú sa pri každom "
+"exporte; prázdne, ak posledný export žiadne nenašiel."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__filing_type__corrective
+msgid "Corrective"
+msgstr "Opravné"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__create_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__create_date
+msgid "Created on"
+msgstr "Vytvorené dňa"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__date_from
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__date_from
+msgid "Date From"
+msgstr "Platnosť od"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__date_to
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__date_to
+msgid "Date To"
+msgstr "Platnosť do"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__declaration_date
+msgid "Declaration Date"
+msgstr "Dátum vyhlásenia"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__discovery_date
+msgid "Discovery Date"
+msgstr "Dátum zistenia skutočnosti"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__hybrid
+msgid "Documented hybrid"
+msgstr "Hybrid doložený technickým dokladom"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__state__draft
+msgid "Draft"
+msgstr "Návrh"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__electric
+msgid "Electric only"
+msgstr "Výlučne elektrický"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__engine_cm3
+msgid "Engine Cm3"
+msgstr "Zdvihový objem v cm³"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
+msgstr ""
+"Každé XML, ktoré bolo pre toto podanie kedy označené ako podané. „Podané "
+"XML“ je to najnovšie; po cykle vrátenie → prepočet → opätovné podanie tu "
+"zostávajú dostupné aj predchádzajúce podané kópie."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__evidence
+msgid "Evidence"
+msgstr "Podklady a overenie"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__advances_evidence
+msgid "Evidence of paid advances or reviewed zero"
+msgstr "Doklad o zaplatených preddavkoch alebo overenej nule"
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Export XML"
+msgstr "Exportovať XML"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Export first and record the actual filing confirmation and evidence."
+msgstr ""
+"Najprv exportujte XML a zaevidujte skutočné potvrdenie a doklad o podaní."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Export the current validated vehicle tax XML before using this attachment."
+msgstr ""
+"Pred použitím prílohy exportujte aktuálne overené XML dane z vozidiel."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__cssk_export_warnings
+msgid "Export warnings"
+msgstr "Upozornenia exportu"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__state__exported
+msgid "Exported"
+msgstr "Exportované"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__filed_history_ids
+msgid "Filed history"
+msgstr "História podaní"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__filing_evidence
+msgid "Filing Evidence"
+msgstr "Doklad o podaní"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__filing_type
+msgid "Filing Type"
+msgstr "Druh priznania"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__first_registered
+msgid "First Registered"
+msgstr "Dátum prvej evidencie"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__scope_evidence
+msgid "Fleet completeness, registration and taxpayer review"
+msgstr "Overenie úplnosti vozidiel, evidencie a postavenia daňovníka"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_follower_ids
+msgid "Followers"
+msgstr "Odberatelia"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Odberatelia (partneri)"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__legacy
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__state__legacy
+msgid "Historical filing"
+msgstr "Historické podanie"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__hydrogen
+msgid "Hydrogen"
+msgstr "Vodík"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_ir_attachment__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced it."
+msgstr ""
+"Identifikátor importnej dávky alebo zdrojového dokladu, z ktorého bolo "
+"podanie zhmotnené, aby sa číslo dalo vystopovať k tomu, čo ho vytvorilo."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak označené, potom nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_has_error
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je začiarknuté, niektoré správy majú chybu doručenia."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Invalid statutory ecological reduction."
+msgstr "Neplatné zákonné ekologické zníženie sadzby."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Invalid statutory rate band."
+msgstr "Neplatné zákonné sadzbové pásmo."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_is_follower
+msgid "Is Follower"
+msgstr "Je odberateľ"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l1e
+msgid "L1e"
+msgstr "L1e"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l2e
+msgid "L2e"
+msgstr "L2e"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l3e
+msgid "L3e"
+msgstr "L3e"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l4e
+msgid "L4e"
+msgstr "L4e"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l5e
+msgid "L5e"
+msgstr "L5e"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l6e
+msgid "L6e"
+msgstr "L6e"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__l7e
+msgid "L7e"
+msgstr "L7e"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__lng
+msgid "LNG"
+msgstr "LNG"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__lpg
+msgid "LPG"
+msgstr "LPG"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__write_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené dňa"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__liability_from
+msgid "Liability From"
+msgstr "Vznik daňovej povinnosti"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__liability_to
+msgid "Liability To"
+msgstr "Zánik daňovej povinnosti"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Liability dates must reconcile with first registration and their order."
+msgstr ""
+"Dátumy daňovej povinnosti musia zodpovedať prvej evidencii a správnemu "
+"poradiu."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__line_ids
+msgid "Line"
+msgstr "Vozidlá priznania"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__m1
+msgid "M1"
+msgstr "M1"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__state__submitted
+msgid "Marked filed"
+msgstr "Evidované ako podané"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.actions.act_window,name:l10n_sk_vehicle_tax.vehicle_tax_action
+#: model:ir.ui.menu,name:l10n_sk_vehicle_tax.vehicle_tax_menu
+msgid "Motor vehicle tax"
+msgstr "Daň z motorových vozidiel"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__category__n1
+msgid "N1"
+msgstr "N1"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__projection_evidence
+msgid "Next January fleet and annual rates review"
+msgstr "Overenie vozidiel a ročných sadzieb k nasledujúcemu januáru"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__notes
+msgid "Notes"
+msgstr "Poznámky"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid ""
+"Ordinary calendar-year Slovak legal entities; L/M1/N1 monthly liability. "
+"Review technical documents, tax liability dates and the complete fleet. "
+"Export does not send a filing or pay tax."
+msgstr ""
+"Bežné slovenské právnické osoby za kalendárny rok; mesačná daňová povinnosť "
+"L/M1/N1. Overte technické doklady, dátumy daňovej povinnosti a úplnosť "
+"vozidiel. Export neodosiela podanie ani neplatí daň."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__scope_reviewed
+msgid "Ordinary calendar-year Slovak legal entity reviewed"
+msgstr "Overená slovenská právnická osoba a bežný kalendárny rok"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__original_return_id
+msgid "Original Return"
+msgstr "Predchádzajúce podané priznanie"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__overpayment
+msgid "Overpayment"
+msgstr "Preplatok"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__power_kw
+msgid "Power Kw"
+msgstr "Výkon v kW"
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Prepare additional return"
+msgstr "Pripraviť dodatočné priznanie"
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Prepare correction"
+msgstr "Pripraviť opravné priznanie"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__previous_line_id
+msgid "Previous filed vehicle"
+msgstr "Vozidlo z predchádzajúceho podania"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Previous vehicle difference links belong only to an additional return."
+msgstr ""
+"Odkazy na pôvodné vozidlá pre výpočet rozdielov patria iba do dodatočného "
+"priznania."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__projected_tax
+msgid "Projected tax at next 1 January"
+msgstr "Predpokladaná daň k nasledujúcemu 1. januáru"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Projected tax was suggested from the known vehicles. Review the complete "
+"next January fleet, additions, disposals and rate edition before calculating"
+" the return."
+msgstr ""
+"Predpokladaná daň bola navrhnutá zo známych vozidiel. Pred výpočtom "
+"priznania overte celý vozidlový park k nasledujúcemu januáru, prírastky, "
+"úbytky a verziu sadzieb."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__propulsion
+msgid "Propulsion"
+msgstr "Pohon"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Recalculate the vehicle tax return to retain its source evidence."
+msgstr ""
+"Znova vypočítajte priznanie k dani z vozidiel, aby sa uchovali podklady "
+"výpočtu."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Reconcile every previously filed vehicle exactly once in the additional full"
+" return."
+msgstr ""
+"V úplnom dodatočnom priznaní zosúlaďte každé pôvodne vykázané vozidlo práve "
+"raz."
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Record actual filing"
+msgstr "Zaevidovať skutočné podanie"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Recorded filing confirmation. The exact vehicle tax XML is retained."
+msgstr ""
+"Potvrdenie podania je zaevidované. Presné XML dane z vozidiel je uchované."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__refund_request_date
+msgid "Refund Request Date"
+msgstr "Dátum žiadosti o vrátenie"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__registration_number
+msgid "Registration Number"
+msgstr "Evidenčné číslo vozidla"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__filing_type__regular
+msgid "Regular"
+msgstr "Riadne"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__representative_capacity
+msgid "Representative Capacity"
+msgstr "Postavenie podávajúcej osoby"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__representative_firstname
+msgid "Representative Firstname"
+msgstr "Meno podávajúcej osoby"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__representative_surname
+msgid "Representative Surname"
+msgstr "Priezvisko podávajúcej osoby"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__representative_title
+msgid "Representative Title"
+msgstr "Titul podávajúcej osoby"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__refund_requested
+msgid "Request repayment of the overpayment"
+msgstr "Požiadať o vrátenie preplatku"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Reset the unfiled return to draft before changing vehicle tax facts."
+msgstr ""
+"Pred zmenou podkladov dane z vozidiel vráťte nepodané priznanie do návrhu."
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Reset unfiled return"
+msgstr "Vrátiť nepodané priznanie do návrhu"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__result
+msgid "Result"
+msgstr "Výsledok"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__return_id
+msgid "Return"
+msgstr "Priznanie"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Review an L, M1 or N1 vehicle and its documented propulsion."
+msgstr "Overte kategóriu L, M1 alebo N1 a pohon doložený technickým dokladom."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Review an ordinary Slovak legal-entity calendar-year return in EUR and the "
+"complete taxable fleet."
+msgstr ""
+"Overte bežné priznanie slovenskej právnickej osoby za kalendárny rok v EUR a"
+" úplnosť vozidiel podliehajúcich dani."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__zero_liability_reviewed
+msgid "Review complete removal of a prior erroneous tax liability"
+msgstr "Overené úplné odstránenie pôvodnej chybnej daňovej povinnosti"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Review duplicate vehicle registrations. Multiple liability intervals require"
+" an explicit reconciliation."
+msgstr ""
+"Preverte duplicitné evidenčné čísla. Viaceré obdobia daňovej povinnosti "
+"vyžadujú osobitné zosúladenie."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__correction_evidence
+msgid "Review of correction grounds and filing eligibility"
+msgstr "Overenie dôvodu opravy a možnosti podať priznanie"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__refund_evidence
+msgid "Review of overpayment repayment request"
+msgstr "Overenie žiadosti o vrátenie preplatku"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Review the additional return discovery date, filing date and legal "
+"eligibility after the ordinary deadline."
+msgstr ""
+"Overte dátum zistenia, dátum podania a zákonnú možnosť podať dodatočné "
+"priznanie po riadnej lehote."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Review the dated payment and advance thresholds."
+msgstr "Overte dátumované hranice úhrady dane a preddavkov."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Review the dated vehicle tax rate edition and technical facts."
+msgstr ""
+"Overte dátumovanú verziu sadzieb dane z vozidiel a technické podklady."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Review the overpayment request date, evidence and a valid IBAN belonging to "
+"the filing company."
+msgstr ""
+"Overte dátum žiadosti o preplatok, podklady a platný IBAN patriaci firme "
+"podávajúcej priznanie."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Review the representative, actual advances and next January projected tax, "
+"including zero amounts."
+msgstr ""
+"Overte podávajúcu osobu, skutočne zaplatené preddavky a predpokladanú daň k "
+"nasledujúcemu januáru vrátane nulových súm."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Review the statutory vehicle-age increase."
+msgstr "Overte zákonné zvýšenie sadzby podľa veku vozidla."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Review the vehicle technical document, Slovak taxable status and liability "
+"evidence."
+msgstr ""
+"Overte technický doklad vozidla, predmet dane v SR a podklady vzniku a "
+"zániku daňovej povinnosti."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__projected_tax
+msgid ""
+"Reviewed annual adjusted rates for the vehicles taxable at next 1 January; "
+"not the prior-year tax."
+msgstr ""
+"Overené upravené ročné sadzby vozidiel, ktoré podliehajú dani k "
+"nasledujúcemu 1. januáru. Nejde o daň za predchádzajúci rok."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model,name:l10n_sk_vehicle_tax.model_l10n_sk_vehicle_tax_line
+msgid "Reviewed vehicle tax technical facts"
+msgstr "Overené technické podklady dane z vozidla"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__legacy_stated_codes
+msgid "Rows the source states"
+msgstr "Riadky, ktoré zdroj uvádza"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__schedule
+msgid "Schedule"
+msgstr "Dátumované sadzby a hranice"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Select one reviewed form and rate edition covering the next January fleet."
+msgstr ""
+"Vyberte jednu overenú verziu formulára a sadzieb pre vozidlá k nasledujúcemu"
+" januáru."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Select the reviewed DMVv25 edition and its original official XML schema for "
+"this year."
+msgstr ""
+"Vyberte overenú verziu DMVv25 s pôvodnou oficiálnou schémou XML pre "
+"príslušný rok."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Select the vehicle tax return company before this operation."
+msgstr "Pred touto operáciou vyberte firmu priznania k dani z vozidiel."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model,name:l10n_sk_vehicle_tax.model_l10n_sk_vehicle_tax_return
+msgid "Slovak motor vehicle tax return"
+msgstr "Slovenské priznanie k dani z motorových vozidiel"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model,name:l10n_sk_vehicle_tax.model_l10n_sk_vehicle_tax_version
+msgid "Slovak vehicle tax form edition"
+msgstr "Verzia formulára dane z motorových vozidiel"
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.template_dmv25
+msgid "Slovensko"
+msgstr "Slovensko"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__source_proof
+msgid "Source Proof"
+msgstr "Uchované podklady výpočtu"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__source_url
+msgid "Source Url"
+msgstr "Zdrojová adresa"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__legacy_reference
+msgid "Source reference"
+msgstr "Zdrojová referencia"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__legacy_source
+msgid "Source system"
+msgstr "Zdrojový systém"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Statutory band ceilings must increase."
+msgstr "Horné hranice zákonných pásiem musia narastať."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_return__representative_capacity__statutory
+msgid "Statutory representative"
+msgstr "Štatutárny zástupca"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__submission_reference
+msgid "Submission Reference"
+msgstr "Potvrdenie podania"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__submission_reference
+msgid "Submission identifier / confirmation number from the FS portal."
+msgstr "Identifikátor podania / potvrdzovacie číslo z portálu FS."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__submitted_date
+msgid "Submitted Date"
+msgstr "Dátum zaevidovania podania"
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Suggest next January tax"
+msgstr "Navrhnúť daň k nasledujúcemu januáru"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Supply a valid calendar tax year."
+msgstr "Zadajte platný kalendárny zdaňovací rok."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Supply a valid tax measurement or amount."
+msgstr "Zadajte platný technický údaj alebo sumu dane."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Supply monetary amounts in whole eurocents."
+msgstr "Peňažné sumy zadajte v celých eurocentoch."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Supply the complete dated vehicle-tax schedule."
+msgstr "Doplňte úplnú dátumovanú tabuľku sadzieb dane z vozidiel."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Supply the statutory bands for this vehicle."
+msgstr "Doplňte zákonné sadzbové pásma pre toto vozidlo."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__tax_total
+msgid "Tax Total"
+msgstr "Celková daň"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Tax measurements and amounts must be finite and nonnegative."
+msgstr "Technické údaje a sumy dane musia byť konečné nezáporné čísla."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__facts_reviewed
+msgid "Taxable in Slovakia; technical document and liability reviewed"
+msgstr "Predmet dane v SR; overený technický doklad a daňová povinnosť"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__taxpayer
+msgid "Taxpayer"
+msgstr "Daňovník podľa § 3"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "The active or filed vehicle tax XML snapshot must be retained."
+msgstr "Aktuálny alebo podaný súbor XML dane z vozidiel musí zostať uchovaný."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__submitted_attachment_id
+msgid "The exact XML that was submitted; preserved across reset-to-draft."
+msgstr "Presné XML, ktoré bolo podané; zachované aj po vrátení do konceptu."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "The measurement exceeds the reviewed statutory bands."
+msgstr "Technický údaj prekračuje overené zákonné pásma."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"The recorded vehicle tax filing confirmation is retained with its filed "
+"copy."
+msgstr ""
+"Zaevidované potvrdenie dane z vozidiel sa uchováva spolu s podaným súborom."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__legacy_stated_codes
+msgid ""
+"The row codes the source system's own filing could carry, comma-separated, written by the migration that materialised this record.\n"
+"\n"
+"A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
+msgstr ""
+"Kódy riadkov, ktoré mohlo podanie zo zdrojového systému obsahovať, oddelené čiarkou; zapisuje ich migrácia, ktorá tento záznam vytvorila.\n"
+"\n"
+"Zdroj málokedy uchováva celé tlačivo: PREMIER má desať súhrnných údajov, kým slovenské priznanie má tridsaťsedem riadkov. Každý riadok, ktorý zdroj nevie uviesť, tu chýba zo štrukturálneho dôvodu, nie preto, že ho podanie vynechalo — porovnanie preto také riadky vykazuje ako informatívne, nie ako rozdiely. Ak je pole prázdne, každý riadok sa považuje za taký, ktorý zdroj mohol uviesť, čo je správny výklad ručne zadaného podania."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"The vehicle tax facts changed after calculation. Reset and recalculate the "
+"unfiled return."
+msgstr ""
+"Podklady dane z vozidiel sa po výpočte zmenili. Nepodané priznanie vráťte do"
+" návrhu a znova vypočítajte."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__legacy
+msgid ""
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
+msgstr ""
+"Toto podanie nevzniklo tu — zaznamenáva, čo bolo skutočne podané za obdobie pred zavedením tohto systému, načítané migráciou. Je to historická skutočnosť, preto ho nemožno exportovať, podať ani prepočítať a nevidí ho nič, čo hľadá „priznanie predchádzajúceho obdobia“. Opraviť ho MOŽNO: dodatočné priznanie podané neskôr k historickému obdobiu je bežné podanie.\n"
+"\n"
+"Nastavenie tohto príznaku presunie záznam do stavu „Historické podanie“, ktorý je konečný — oba údaje sa zapisujú spolu a nemôžu sa rozísť."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "This statutory schedule does not cover the entire tax year."
+msgstr "Táto tabuľka zákonných sadzieb nepokrýva celý zdaňovací rok."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "This vehicle has no reviewed taxable month in the return year."
+msgstr "Toto vozidlo nemá v roku priznania overený mesiac podliehajúci dani."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "This vehicle tax form requires a calendar year from 2025 to 9998."
+msgstr ""
+"Tento formulár dane z vozidiel vyžaduje kalendárny rok od 2025 do 9998."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Use the first and last calendar days of the reviewed liability months."
+msgstr ""
+"Použite prvý a posledný kalendárny deň overených mesiacov daňovej "
+"povinnosti."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Use the vehicle tax workflow actions to change the filing state."
+msgstr ""
+"Stav priznania k dani z vozidiel meňte príslušnými tlačidlami postupu."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Vehicle facts cannot be moved to another return or company."
+msgstr "Podklady vozidla nemožno presunúť do iného priznania alebo firmy."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Vehicle facts must belong to their return company."
+msgstr "Podklady vozidla musia patriť firme príslušného priznania."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Vehicle tax XML snapshots cannot be replaced or reassigned. Export a new "
+"snapshot."
+msgstr ""
+"Uchované XML dane z vozidiel nemožno prepísať ani priradiť inam. Exportujte "
+"nový súbor."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid ""
+"Vehicle tax results and filing archives are generated by the filing "
+"workflow."
+msgstr ""
+"Výsledky dane z vozidiel a archívy podaní vytvára príslušný postup "
+"priznania."
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "Vehicles"
+msgstr "Vozidlá"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__version_id
+msgid "Version"
+msgstr "Verzia formulára"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__website_message_ids
+msgid "Website Messages"
+msgstr "Správy webovej stránky"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie webovej stránky"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__weight_kg
+msgid "Weight Kg"
+msgstr "Najväčšia prípustná hmotnosť v kg"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,help:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
+msgstr ""
+"Odkiaľ podanie pochádza, napr. „PREMIER“, „Money S4“, „i6“, „MRP“ — alebo "
+"ako bolo zachytené, ak ručne."
+
+#. module: l10n_sk_vehicle_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_tax.vehicle_tax_form
+msgid "XML and filing confirmation"
+msgstr "XML a potvrdenie podania"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "Príloha XML"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__xml_digest
+msgid "Xml Digest"
+msgstr "Kontrolný odtlačok XML"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__xml_root_element
+msgid "Xml Root Element"
+msgstr "Koreňový prvok XML"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__xml_schema_data
+msgid "Xml Schema Data"
+msgstr "Oficiálna schéma XML"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_version__xml_template_ref_id
+msgid "Xml Template Ref"
+msgstr "Šablóna XML"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__year
+msgid "Year"
+msgstr "Rok"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__a
+msgid "a"
+msgstr "a"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__b
+msgid "b"
+msgstr "b"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__c
+msgid "c"
+msgstr "c"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__d
+msgid "d"
+msgstr "d"
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__e
+msgid "e"
+msgstr "e"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "motor vehicle tax return"
+msgstr "priznanie k dani z motorových vozidiel"
