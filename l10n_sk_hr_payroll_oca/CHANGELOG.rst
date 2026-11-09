@@ -40,6 +40,8 @@ Fixed
   start, while retaining wage-version changes within the same employment.
 - Net native credit notes against both wage and worked time, so a refunded
   original does not count twice or distort a replacement's average.
+- Allow source selection from an unsaved assessment by excluding only its
+  persisted origin IDs; do not pass an ORM NewId to the SQL search domain.
 
 Added
 ~~~~~

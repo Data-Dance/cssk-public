@@ -634,6 +634,17 @@ class TestSkPayroll(TransactionCase):
         self.assertAlmostEqual(hours, 176.0, places=2)
         return p
 
+    def test_virtual_average_assessment_uses_confirmed_sources(self):
+        contract, employee, _cal = self._abs_setup()
+        source = self._seed_prior_quarter(contract, employee, bonus=400.0)
+        preview = self.env['hr.payslip'].new({
+            'company_id': self.company.id, 'employee_id': employee.id,
+            'contract_id': contract.id, 'struct_id': contract.struct_id.id,
+            'date_from': date(2026, 6, 1), 'date_to': date(2026, 6, 30),
+        })
+        self.assertEqual(preview._l10n_sk_average_payslips(), source)
+        self.assertAlmostEqual(preview.l10n_sk_average_hourly_earnings(), 13.6364, places=4)
+
     def test_average_hourly_earnings_from_prior_quarter(self):
         """PHZ comes from the SEEDED quarter, not the fallback.
 

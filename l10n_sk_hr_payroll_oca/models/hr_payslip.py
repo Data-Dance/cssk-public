@@ -161,7 +161,7 @@ class HrPayslip(models.Model):
         q_start, q_end = self._l10n_sk_previous_quarter()
         slips = self.search([('employee_id', '=', self.employee_id.id),
             ('company_id', '=', self.company_id.id), ('date_from', '>=', q_start),
-            ('date_to', '<=', q_end), ('state', '=', 'done'), ('id', '!=', self.id)])
+            ('date_to', '<=', q_end), ('state', '=', 'done'), ('id', 'not in', self._origin.ids)])
         version = self._l10n_sk_version()
         if version.contract_date_start:
             # A wage/version change within one employment keeps its start;
