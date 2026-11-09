@@ -1,0 +1,26 @@
+<odoo>
+    <record id="dppo_annex_form" model="ir.ui.view">
+        <field name="name">DPPO reviewed Tables A/B</field>
+        <field name="model">cssk.income.tax.return</field>
+        <field name="inherit_id" ref="l10n_cssk_income_tax_base.cssk_income_tax_return_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Reviewed Tables A/B">
+                    <group><field name="l10n_sk_annexes_enabled" readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_sk_annexes_reviewed" readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_sk_annexes_evidence" readonly="state not in ('draft', 'preview')"/>
+                    </group>
+                    <field name="l10n_sk_annex_a_ids" readonly="state not in ('draft', 'preview')">
+                        <list editable="bottom"><field name="row_code"/><field name="amount"/><field name="evidence"/></list>
+                    </field>
+                    <group><field name="l10n_sk_annex_b_book" readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_sk_annex_b_tax" readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_sk_annex_b_rent" readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_sk_annex_b_suspended" readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_sk_annex_b_sale" readonly="state not in ('draft', 'preview')"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

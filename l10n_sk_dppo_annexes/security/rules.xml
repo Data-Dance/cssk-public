@@ -1,0 +1,7 @@
+<odoo noupdate="1">
+    <record id="annex_a_company" model="ir.rule">
+        <field name="name">DPPO Table A active companies</field>
+        <field name="model_id" ref="model_l10n_sk_dppo_annex_a_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

@@ -1,0 +1,23 @@
+<odoo>
+    <template id="dppo25_annexes" inherit_id="l10n_sk_dppo.dppo2025_xml">
+        <xpath expr="//tabA" position="replace">
+            <tabA>
+                <r01 t-out="sk_annex_a.get('r01', '')"/><r02 t-out="sk_annex_a.get('r02', '')"/>
+                <r03 t-out="sk_annex_a.get('r03', '')"/><r04 t-out="sk_annex_a.get('r04', '')"/>
+                <r05 t-out="sk_annex_a.get('r05', '')"/><r06 t-out="sk_annex_a.get('r06', '')"/>
+                <r07 t-out="sk_annex_a.get('r07', '')"/><r08 t-out="sk_annex_a.get('r08', '')"/>
+                <r09 t-out="sk_annex_a.get('r09', '')"/><r10 t-out="sk_annex_a.get('r10', '')"/>
+                <r11 t-out="sk_annex_a.get('r11', '')"/><r12 t-out="sk_annex_a.get('r12', '')"/>
+                <r13 t-out="sk_annex_a.get('r13', '')"/><r14 t-out="sk_annex_a.get('r14', '')"/>
+                <r15 t-out="sk_annex_a.get('r15', '')"/><r16 t-out="sk_annex_a.get('r16', '')"/>
+                <r17 t-out="sk_annex_a.get('r17', '')"/>
+            </tabA>
+        </xpath>
+        <xpath expr="//tabB" position="replace">
+            <tabB><r01 t-out="sk_annex_b.get('r01', '')"/><r02 t-out="sk_annex_b.get('r02', '')"/>
+                <r03 t-out="sk_annex_b.get('r03', '')"/><r04 t-out="sk_annex_b.get('r04', '')"/>
+                <r05 t-out="sk_annex_b.get('r05', '')"/><r06 t-out="sk_annex_b.get('r06', '')"/>
+            </tabB>
+        </xpath>
+    </template>
+</odoo>
