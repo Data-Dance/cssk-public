@@ -9,44 +9,53 @@
 
     <!-- Base categories -->
     <record id="BASIC" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Basic</field>
         <field name="code">BASIC</field>
     </record>
     <record id="GROSS" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Gross</field>
         <field name="code">GROSS</field>
     </record>
     <record id="NET" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Net</field>
         <field name="code">NET</field>
     </record>
     <record id="ALW" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Allowance</field>
         <field name="code">ALW</field>
     </record>
     <record id="DED" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Deduction</field>
         <field name="code">DED</field>
     </record>
     <record id="COMP" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Company Contribution</field>
         <field name="code">COMP</field>
     </record>
 
     <!-- Employee-borne deductions (roll up into DED so NET is correct) -->
     <record id="hr_payroll_social_employee" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Social Insurance (Employee)</field>
         <field name="code">SOCIALEE</field>
         <field name="parent_id" ref="DED"/>
     </record>
 
     <record id="hr_payroll_health_employee" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Health Insurance (Employee)</field>
         <field name="code">HEALTHEE</field>
         <field name="parent_id" ref="DED"/>
     </record>
 
     <record id="hr_payroll_income_tax" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Income Tax Advance</field>
         <field name="code">INCOMETAX</field>
         <field name="parent_id" ref="DED"/>
@@ -55,6 +64,7 @@
     <!-- Srážková daň (final withholding tax on below-threshold dohody with no
          taxpayer declaration). Parents to DED so it reduces NET. -->
     <record id="hr_payroll_wh_tax" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Withholding Tax</field>
         <field name="code">WHTAX</field>
         <field name="parent_id" ref="DED"/>
@@ -63,12 +73,14 @@
     <!-- Tax credits and child benefit are positive lines that offset tax, so they
          also parent to DED (their positive total lifts categories.DED). -->
     <record id="hr_payroll_tax_credit" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Tax Credits</field>
         <field name="code">TAXCREDIT</field>
         <field name="parent_id" ref="DED"/>
     </record>
 
     <record id="hr_payroll_child_benefit" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Child Tax Benefit</field>
         <field name="code">CHILDBEN</field>
         <field name="parent_id" ref="DED"/>
@@ -76,12 +88,14 @@
 
     <!-- Employer-borne contributions (roll up into COMP) -->
     <record id="hr_payroll_social_employer" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Social Insurance (Employer)</field>
         <field name="code">SOCIALER</field>
         <field name="parent_id" ref="COMP"/>
     </record>
 
     <record id="hr_payroll_health_employer" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Health Insurance (Employer)</field>
         <field name="code">HEALTHER</field>
         <field name="parent_id" ref="COMP"/>
@@ -90,33 +104,46 @@
     <!-- Memo categories (NOT parented into GROSS/NET so they stay out of the
          taxable base / net computation unless a rule explicitly reads them). -->
     <record id="hr_payroll_tax_base" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Tax Base</field>
         <field name="code">TAXBASE</field>
     </record>
 
+    <record id="hr_payroll_tax_base_par6" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
+        <field name="name">Separate Tax Base (§ 6 odst. 4)</field>
+        <field name="code">PAR6BASE</field>
+    </record>
+
     <record id="hr_payroll_meal_employee" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Meal Allowance (Employee)</field>
         <field name="code">MEALEE</field>
     </record>
 
     <!-- Reporting totals (memo only) -->
     <record id="hr_payroll_social_employee_total" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Social Total (Employee)</field>
         <field name="code">SOCIALEETOT</field>
     </record>
     <record id="hr_payroll_social_employer_total" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Social Total (Employer)</field>
         <field name="code">SOCIALERTOT</field>
     </record>
     <record id="hr_payroll_health_employee_total" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Health Total (Employee)</field>
         <field name="code">HEALTHEETOT</field>
     </record>
     <record id="hr_payroll_health_employer_total" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Health Total (Employer)</field>
         <field name="code">HEALTHERTOT</field>
     </record>
     <record id="hr_payroll_income_tax_total" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Income Tax Total</field>
         <field name="code">INCOMETAXTOT</field>
     </record>
@@ -125,6 +152,7 @@
          GROSS/tax/insurance (not subject to pojistné); added back at NET.
          P3, input-driven. -->
     <record id="hr_payroll_sick_nahrada" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Sickness Compensation</field>
         <field name="code">SICKNAHRADA</field>
     </record>
@@ -135,11 +163,13 @@
          ALW and are computed before the GROSS rule (sequence < 100) so they land
          in the taxable/insurable GROSS. -->
     <record id="hr_payroll_holiday_nahrada" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Holiday Pay</field>
         <field name="code">HOLIDAYNAHRADA</field>
         <field name="parent_id" ref="ALW"/>
     </record>
     <record id="hr_payroll_obstacle_nahrada" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Paid Obstacle</field>
         <field name="code">OBSTACLENAHRADA</field>
         <field name="parent_id" ref="ALW"/>
@@ -149,6 +179,7 @@
          Kept in its OWN category (not SOCIALER) so SOCIALERTOT keeps reporting the
          gross premium; EMPLOYERCOST subtracts this negative bucket explicitly. -->
     <record id="hr_payroll_social_discount" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
         <field name="name">Social Insurance Discount</field>
         <field name="code">SOCIAL_DISCOUNT</field>
         <field name="parent_id" ref="COMP"/>

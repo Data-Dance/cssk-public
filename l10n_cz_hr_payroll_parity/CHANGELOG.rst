@@ -2,6 +2,48 @@
 Changelog
 =========
 
+18.0.1.2.4 (2026-11-09)
+=======================
+
+Back-ported from 19.0: every change below, as released there.
+
+Unreleased
+==========
+
+* A June 2027 parity scenario: a DPP without a declaration, taxed by the
+  advance on the separate base of § 6 odst. 4 ZDP (``SEPARATE_TAX_BASE``).
+
+* Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
+  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
+  Enterprise, which OEEL forbids from carrying it. What differs between modules
+  is now whether they are published, not how they are licensed.
+
+[19.0.1.2.3] — 2026-10-27
+=========================
+
+Added
+~~~~~
+
+- Two scenarios: a month-long sick leave (only 14 days of compensation,
+  taxed, no health minimum base) and the health premium rounding on a wage of
+  30 001 Kč.
+
+Changed
+~~~~~~~
+
+- The DPP scenario works four hours a week, so the new minimum wage top-up of
+  the surcharge bridges has nothing to top up.
+
+[19.0.1.2.2] — 2026-10-27
+=========================
+
+Added
+~~~~~
+
+- A DPP scenario: 8 000 Kč in 2026 is above the DPČ rozhodný příjem but
+  below the 12 000 Kč DPP amount, so neither engine may charge insurance or an
+  advance tax. Both engines once did, for a DPP not ticked as "notified".
+
 19.0.1.2.0 (2026-08-06)
 =======================
 

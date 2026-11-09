@@ -1,13 +1,17 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo.tests import BaseCase
+from types import SimpleNamespace
+
+from odoo.tests import BaseCase, TransactionCase
 
 from odoo.addons.l10n_cssk_core.tools import (
     is_valid_ico,
     normalize_registry,
     normalize_vat,
     registry_key,
+    split_street,
+    split_street_text,
     statutory_round,
     statutory_whole,
 )
@@ -198,3 +202,68 @@ class TestRegistryKey(BaseCase):
         # matching two of these to each other merges unrelated partners.
         for value in ("", None, False, "Test", "-", "JUSTICE.CZ"):
             self.assertEqual(registry_key(value), "")
+
+
+class TestSplitStreetText(BaseCase):
+    """The one street / house-number reading every statutory export uses."""
+
+    def test_trailing_number_is_split_off(self):
+        cases = {
+            "Hlavná 12": ("Hlavná", "12"),
+            "Vinohradská 1511/230": ("Vinohradská", "1511/230"),
+            "Hlavná 1141 / 11b": ("Hlavná", "1141/11b"),
+            "Nám. SNP 7A": ("Nám. SNP", "7A"),
+            "Hlavná, 12": ("Hlavná", "12"),
+            "Ul. 1. mája 5": ("Ul. 1. mája", "5"),
+            "Hlavná 12 A": ("Hlavná", "12A"),
+            "Hlavná 12-14": ("Hlavná", "12-14"),
+        }
+        for street, expected in cases.items():
+            self.assertEqual(split_street_text(street), expected, street)
+
+    def test_a_bare_number_is_a_number_not_a_street(self):
+        for street in ("123", "č. p. 123", "č.p. 123"):
+            self.assertEqual(split_street_text(street), ("", "123"), street)
+        self.assertEqual(split_street_text("Lhota č.p. 45"), ("Lhota", "45"))
+
+    def test_no_number_leaves_the_street_whole(self):
+        self.assertEqual(split_street_text("Ul. 1. mája"), ("Ul. 1. mája", ""))
+        self.assertEqual(split_street_text("Street 1234567"),
+                         ("Street 1234567", ""))
+        self.assertEqual(split_street_text(None, None), ("", ""))
+
+    def test_street2_only_when_it_is_nothing_but_a_number(self):
+        self.assertEqual(split_street_text("Hlavná", "12"), ("Hlavná", "12"))
+        self.assertEqual(split_street_text("Hlavná", "12 A"), ("Hlavná", "12A"))
+        # A floor, a building or a c/o line is never filed as the číslo.
+        for street2 in ("3. poschodie", "Budova B", "c/o Novák 4 s.r.o."):
+            self.assertEqual(split_street_text("Hlavná", street2),
+                             ("Hlavná", ""), street2)
+        # The street's own number wins over street2.
+        self.assertEqual(split_street_text("Hlavná 12", "99"), ("Hlavná", "12"))
+
+
+class TestSplitStreetRecord(TransactionCase):
+    def test_partner_and_company(self):
+        partner = self.env["res.partner"].create({
+            "name": "Seat", "street": "Hlavná 1141/11", "street2": "Budova B"})
+        self.assertEqual(split_street(partner), ("Hlavná", "1141/11"))
+        company = self.env.company
+        company.partner_id.write({"street": "Mlynská", "street2": "7"})
+        self.assertEqual(split_street(company), ("Mlynská", "7"))
+        self.assertEqual(split_street(self.env["res.partner"]), ("", ""))
+
+    def test_base_address_extended_fields_win(self):
+        fields = {"street_name": 1, "street_number": 1, "street_number2": 1}
+        rec = SimpleNamespace(
+            _name="res.partner", _fields=fields, street="ignored 99",
+            street2="", street_name="Hlavná ", street_number="1141",
+            street_number2="11")
+        self.assertEqual(split_street(rec), ("Hlavná", "1141/11"))
+        rec.street_number2 = ""
+        self.assertEqual(split_street(rec), ("Hlavná", "1141"))
+        rec.street_number, rec.street2 = "", "12"
+        self.assertEqual(split_street(rec), ("Hlavná", "12"))
+        # A blank split street name falls back to the free-text street.
+        rec.street_name, rec.street, rec.street2 = "  ", "Mlynská 7", ""
+        self.assertEqual(split_street(rec), ("Mlynská", "7"))

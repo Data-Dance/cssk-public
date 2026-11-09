@@ -7,6 +7,7 @@
 #   * 15 % income-tax advance and the taxpayer credit
 #   * child tax benefit capped by the tax, and the daňový bonus payout surplus
 
+import math
 from datetime import date, datetime, time
 
 from dateutil.relativedelta import relativedelta
@@ -54,7 +55,8 @@ class TestCzPayroll(TransactionCase):
         contract = self.env["hr.contract"].create(vals)
         return employee, contract
 
-    def _payslip(self, employee, contract):
+    def _payslip(self, employee, contract, date_from=date(2026, 3, 1),
+                 date_to=date(2026, 3, 31)):
         payslip = (
             self.env["hr.payslip"]
             .with_company(self.company)
@@ -65,8 +67,8 @@ class TestCzPayroll(TransactionCase):
                     "contract_id": contract.id,
                     "struct_id": self.structure.id,
                     "company_id": self.company.id,
-                    "date_from": date(2026, 3, 1),
-                    "date_to": date(2026, 3, 31),
+                    "date_from": date_from,
+                    "date_to": date_to,
                 }
             )
         )
@@ -107,6 +109,21 @@ class TestCzPayroll(TransactionCase):
 
     def _t(self, payslip, code):
         return round(payslip.get_salary_line_total(code), 2)
+
+    @staticmethod
+    def _expected_health(gross, min_base, employer_pays=False):
+        """(employee, employer) health premium by hand: 13.5 % rounded up,
+        the employee's third rounded up, the min-base top-up on one side."""
+        premium = math.ceil(round(gross * 0.135, 6))
+        ee = math.ceil(round(premium / 3.0, 6))
+        er = premium - ee
+        if min_base > gross:
+            topup = math.ceil(round(min_base * 0.135, 6)) - premium
+            if employer_pays:
+                er += topup
+            else:
+                ee += topup
+        return ee, er
 
     def _part_time_calendar(self, hours_per_week):
         """5 equal week-days summing to *hours_per_week* (e.g. 20 -> 4 h/day)."""
@@ -158,6 +175,9 @@ class TestCzPayroll(TransactionCase):
             wage=20000.0,
             l10n_cz_tax_declaration=True,
             l10n_cz_social_discount_category="under21",
+            # 20 h/week keeps 20000 above the hourly minimum wage, so the
+            # § 111 top-up (l10n_cz_hr_payroll_surcharges_oca) cannot interfere.
+            resource_calendar_id=self._part_time_calendar(20).id,
         )
         p = self._payslip(emp, con)
         self.assertEqual(self._t(p, "SOCIAL_DISCOUNT"), -1000.0)
@@ -210,17 +230,21 @@ class TestCzPayroll(TransactionCase):
         self.assertEqual(self._t(p, "TAXCREDIT"), 0.0)
 
     def test_dpp_below_threshold_withholding(self):
-        """Notified DPP, wage 8000 < 12000 (2026 threshold), no declaration.
+        """DPP, wage 8000 < 12000 (2026 threshold), no declaration.
 
         Below the insurance threshold: no social/health insurance, and the income
         is taxed by the 15 % final withholding tax (srážková daň).
+
+        8000 is ABOVE the 4500 DPČ rozhodný příjem on purpose: the DPP amount
+        applies to every DPP (§ 7a odst. 1 zák. 187/2006 Sb.), there is no
+        "non-notified" DPP that falls back to the DPČ threshold.
         """
         emp, con = self._employee(
             "Karel Dohodar",
             wage=8000.0,
             l10n_cz_agreement_type="dpp",
-            l10n_cz_dpp_notified=True,
             l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
         )
         p = self._payslip(emp, con)
         self.assertEqual(self._t(p, "GROSS"), 8000.0)
@@ -231,6 +255,160 @@ class TestCzPayroll(TransactionCase):
         self.assertEqual(self._t(p, "INCOMETAX"), 0.0)     # replaced by WHTAX
         self.assertEqual(self._t(p, "WHTAX"), -1200.0)     # 15 % of 8000
         self.assertEqual(self._t(p, "NET"), 6800.0)        # 8000 - 1200
+
+    def test_dpp_below_threshold_2027_taxed_by_advance(self):
+        """DPP 8000, no declaration, January 2027: no srážková daň.
+
+        Act No. 360/2025 Sb. rewords § 6 odst. 4 ZDP from 1 January 2027; the
+        income is a separate base for the advance, without credits since no
+        declaration is signed. Same 15 %, now on the INCOMETAX line.
+        """
+        emp, con = self._employee(
+            "Karel Dohodar 2027",
+            wage=8000.0,
+            l10n_cz_agreement_type="dpp",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
+        self.assertEqual(self._t(p, "WHTAX"), 0.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), -1200.0)  # 15 % of 8000
+        self.assertEqual(self._t(p, "TAXCREDIT"), 0.0)
+        self.assertEqual(self._t(p, "NET"), 6800.0)
+        # ... and marked as the separate base the JMHZ reports apart.
+        self.assertEqual(self._t(p, "PAR6BASE"), 8000.0)
+
+    def test_dpp_below_threshold_december_2026_still_withheld(self):
+        """The period decides, not the payment date: a December 2026 DPP is
+        still taxed by srážková daň even when paid in January 2027."""
+        emp, con = self._employee(
+            "Karel Dohodar Prosinec",
+            wage=8000.0,
+            l10n_cz_agreement_type="dpp",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2026, 12, 1), date(2026, 12, 31))
+        self.assertEqual(self._t(p, "INCOMETAX"), 0.0)
+        self.assertEqual(self._t(p, "WHTAX"), -1200.0)
+        self.assertEqual(self._t(p, "PAR6BASE"), 0.0)
+
+    def test_small_employment_2026_is_withheld(self):
+        """A pracovní poměr below the 4 500 rozhodný příjem, no declaration,
+        2026: § 6 odst. 4 písm. b) ZDP is not limited to dohody, so the final
+        withholding tax applies, not the advance."""
+        emp, con = self._employee(
+            "Malý Rozsah 2026",
+            wage=4000.0,
+            l10n_cz_agreement_type="standard",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2026, 11, 1), date(2026, 11, 30))
+        self.assertEqual(self._t(p, "INCOMETAX"), 0.0)
+        self.assertEqual(self._t(p, "WHTAX"), -600.0)
+
+    def test_2027_statutory_figures(self):
+        """The 2027 statutory figures, from their published sources: the
+        průměrná mzda of NV č. 177/2026 Sb. (48 900 x 1,0565, rounded up) and
+        its multiples, the minimum wage of sdělení č. 171/2026 Sb. and what
+        follows from it, the DPP amount of sdělení č. 184/2026 Sb., and the
+        sick-pay thresholds of sdělení č. 185/2026 Sb. x 0.175. Hand-copied,
+        not read back from the data file."""
+        on = date(2027, 1, 1)
+        expected = {
+            "l10n_cz_avg_wage": 51663.0,
+            "l10n_cz_social_max_base": 2479824.0,
+            "l10n_cz_tax_threshold_month": 154989.0,
+            "l10n_cz_tax_threshold_year": 1859868.0,
+            "l10n_cz_health_min_base": 24900.0,
+            "l10n_cz_min_wage": 24900.0,
+            "l10n_cz_min_wage_hourly": 148.30,
+            "l10n_cz_bonus_min_income_month": 12450.0,
+            "l10n_cz_bonus_min_income_year": 149400.0,
+            "l10n_cz_dpp_threshold": 12500.0,
+            "l10n_cz_dpc_threshold": 5000.0,
+            "l10n_cz_sick_rh1": 301.53,
+            "l10n_cz_sick_rh2": 452.20,
+            "l10n_cz_sick_rh3": 904.23,
+        }
+        for code, value in expected.items():
+            self.assertAlmostEqual(
+                float(self.env['hr.rule.parameter']._get_parameter_value(code, on)), value, 2, code)
+
+    def test_dpc_below_threshold_2027_taxed_by_advance(self):
+        """DPČ 4000 (< rozhodný příjem), no declaration, January 2027: the
+        advance, not srážková daň."""
+        emp, con = self._employee(
+            "Dana Dohodarka 2027",
+            wage=4000.0,
+            l10n_cz_agreement_type="dpc",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
+        self.assertEqual(self._t(p, "WHTAX"), 0.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), -600.0)  # 15 % of 4000
+        self.assertEqual(self._t(p, "PAR6BASE"), 4000.0)
+
+    def test_separate_base_2027_is_only_without_declaration_below_limit(self):
+        """§ 6 odst. 4 písm. b) covers any employment below the rozhodný
+        příjem, a pracovní poměr included; a declaration, or income at the
+        limit, takes it out."""
+        cases = (("standard", 4000.0, False, 4000.0),
+                 ("standard", 4000.0, True, 0.0),
+                 ("dpc", 5000.0, False, 0.0),
+                 ("dpp", 12499.0, False, 12499.0))
+        for agreement, wage, declared, expected in cases:
+            emp, con = self._employee(
+                "Par6 %s %s %s" % (agreement, wage, declared),
+                wage=wage,
+                l10n_cz_agreement_type=agreement,
+                l10n_cz_tax_declaration=declared,
+                resource_calendar_id=self._part_time_calendar(5).id,
+            )
+            p = self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
+            self.assertEqual(self._t(p, "PAR6BASE"), expected,
+                             (agreement, wage, declared))
+
+    def test_dpp_at_threshold_insured(self):
+        """DPP, wage exactly 12000 (2026), no declaration.
+
+        § 7a odst. 1: insured once the income reaches "aspoň" the amount, so
+        12000 itself is insured and taxed by the advance, not by WHTAX.
+        """
+        emp, con = self._employee(
+            "Karel Dohodar Plny",
+            wage=12000.0,
+            l10n_cz_agreement_type="dpp",
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con)
+        self.assertEqual(self._t(p, "SOCIALEE"), -852.0)    # 7.1 % of 12000
+        self.assertEqual(self._t(p, "HEALTHEE"), -540.0)    # 4.5 %, no top-up
+        self.assertEqual(self._t(p, "INCOMETAX"), -1800.0)  # 15 % of 12000
+        self.assertEqual(self._t(p, "WHTAX"), 0.0)
+
+    def test_sick_reduction_thresholds_rounded_up(self):
+        """§ 192 odst. 2 ZP: each sickness-insurance redukční hranice x 0.175,
+        "a poté zaokrouhlí na haléře směrem nahoru". Daily thresholds from the
+        sdělení MPSV (2025: 1552/2328/4656; 2026, č. 397/2025 Sb.:
+        1633/2449/4897). 2026 used to be stored unrounded (285.775 ...)."""
+        daily = {
+            2025: (1552, 2328, 4656),
+            2026: (1633, 2449, 4897),
+        }
+        for year, thresholds in daily.items():
+            for idx, day_value in enumerate(thresholds, start=1):
+                expected = math.ceil(round(day_value * 0.175 * 100, 6)) / 100
+                actual = self.env['hr.rule.parameter']._get_parameter_value(
+                    'l10n_cz_sick_rh%d' % idx, date(year, 6, 1))
+                self.assertAlmostEqual(
+                    actual, expected, places=6,
+                    msg="l10n_cz_sick_rh%d for %d" % (idx, year))
+        self.assertAlmostEqual(self.env['hr.rule.parameter']._get_parameter_value(
+            'l10n_cz_sick_rh1', date(2026, 6, 1)), 285.78, places=6)
 
     def test_dpc_above_threshold_insured(self):
         """DPČ, wage 10000 >= 4500 threshold, no declaration, not state-insured.
@@ -243,6 +421,7 @@ class TestCzPayroll(TransactionCase):
             wage=10000.0,
             l10n_cz_agreement_type="dpc",
             l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(10).id,
         )
         p = self._payslip(emp, con)
         self.assertEqual(self._t(p, "GROSS"), 10000.0)
@@ -357,7 +536,7 @@ class TestCzPayroll(TransactionCase):
 
     def test_sick_nahrada(self):
         """Náhrada mzdy: PHV 200 (< RH1) reduced to 180; 60% x 180 x 40h = 4320,
-        added to NET, outside GROSS/tax/insurance."""
+        outside GROSS (no insurance) but inside TAXBASE."""
         emp, con = self._employee(
             "Nemocny",
             wage=50000.0,
@@ -371,7 +550,12 @@ class TestCzPayroll(TransactionCase):
         )
         self.assertEqual(self._t(p, "SICKNAHRADA"), 4320.0)
         self.assertEqual(self._t(p, "GROSS"), 50000.0)  # sick pay not in gross
-        self.assertEqual(self._t(p, "NET"), 43590.0)  # 39270 + 4320
+        self.assertEqual(self._t(p, "SOCIALEE"), -3550.0)  # insurance on gross
+        self.assertEqual(self._t(p, "HEALTHEE"), -2250.0)
+        # ... but taxed (§ 6 ZDP): 54320 -> 54400 x 15 % = 8160.
+        self.assertEqual(self._t(p, "TAXBASE"), 54320.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), -8160.0)
+        self.assertEqual(self._t(p, "NET"), 42930.0)
 
     # -- P3: absence -> payroll (leave-driven) ----------------------------
 
@@ -524,11 +708,11 @@ class TestCzPayroll(TransactionCase):
         gross = self._t(p, "GROSS")
         self.assertEqual(gross, basic)  # no employer pay for unpaid leave
         self.assertLess(gross, 22400.0)  # below the 2026 min health base
-        # Health EE = 4.5% of gross + 13.5% of (22400 - gross) top-up.
-        expected_health = -round(
-            gross * 0.045 + (22400.0 - gross) * 0.135, 2
-        )
-        self.assertAlmostEqual(self._t(p, "HEALTHEE"), expected_health, 2)
+        # Unpaid leave does not reduce the minimum base (§ 3 odst. 9 lists
+        # only důležité osobní překážky), so the employee tops up to 22400.
+        ee, er = self._expected_health(gross, 22400.0)
+        self.assertEqual(self._t(p, "HEALTHEE"), -ee)
+        self.assertEqual(self._t(p, "HEALTHER"), er)
 
     def test_full_month_with_leave_types_unchanged(self):
         """A full worked month (leave types installed, no leave taken) is
@@ -720,8 +904,14 @@ class TestCzPayroll(TransactionCase):
         ):
             self._make_leave(emp, xmlid, date(2026, 3, day), date(2026, 3, day))
         p = self._payslip_march(emp, con)
-        rates = {"CZPROSTOJ": 0.8, "CZPOVETRNOST": 0.6,
-                 "CZJINEPREKAZKY": 1.0, "CZCASTECNA": 0.6}
+        rates = {
+            "CZPROSTOJ": 0.8,
+            "CZPOVETRNOST": 0.6,
+            "CZJINEPREKAZKY": 1.0,
+            # § 209 without an agreement or internal regulation is § 208:
+            # 100 %, the company default.
+            "CZCASTECNA": 1.0,
+        }
         expected = 0.0
         for code, pct in rates.items():
             hours = self._obstacle_hours(p, code)
@@ -762,3 +952,166 @@ class TestCzPayroll(TransactionCase):
                 ltype = self.env.ref("l10n_cz_hr_payroll_oca." + xmlid)
                 self.assertEqual(ltype.l10n_cz_payroll_code, code)
                 self.assertEqual(ltype.requires_allocation, "no")
+
+    # ------------------------------------------------------------------
+    # § 192 ZP — sickness compensation: taxed, first 14 calendar days only
+    # ------------------------------------------------------------------
+    def test_sick_compensation_stops_after_fourteen_days(self):
+        """A DPN lasting all March: the employer pays only 1-14 March
+        (10 working days = 80 h); from day 15 ČSSZ pays nemocenské.
+        0.60 x 180 x 80 = 8640, not 0.60 x 180 x 176 = 19008."""
+        emp, con = self._employee(
+            "Dlouhodobe Nemocny", wage=50000.0, l10n_cz_tax_declaration=False,
+            l10n_cz_avg_hourly_earnings=200.0)
+        self._make_leave(emp, "leave_type_cz_sick", date(2026, 3, 1), date(2026, 3, 31))
+        p = self._payslip_march(emp, con)
+        self.assertEqual(p.l10n_cz_leave_hours("CZSICK"), 176.0)
+        self.assertEqual(p.l10n_cz_sick_compensated_hours(), 80.0)
+        self.assertEqual(self._t(p, "SICKNAHRADA"), 8640.0)
+        # Taxed (8700 -> 1305), no insurance, no minimum health base left.
+        self.assertEqual(self._t(p, "TAXBASE"), 8640.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), -1305.0)
+        self.assertEqual(self._t(p, "HEALTHEE"), 0.0)
+        self.assertEqual(self._t(p, "NET"), 7335.0)
+
+    def test_sick_fourteen_days_run_across_requests(self):
+        """The 14 days count from the first day of an uninterrupted DPN, even
+        across a second time-off request: 23 Feb + 13 days = 8 March, so
+        March pays only 2-6 March (40 h)."""
+        emp, con = self._employee(
+            "Prodlouzena Nemoc", wage=50000.0, l10n_cz_tax_declaration=True,
+            l10n_cz_avg_hourly_earnings=200.0)
+        self._make_leave(emp, "leave_type_cz_sick", date(2026, 2, 23), date(2026, 2, 28))
+        self._make_leave(emp, "leave_type_cz_sick", date(2026, 3, 1), date(2026, 3, 13))
+        p = self._payslip_march(emp, con)
+        self.assertEqual(p.l10n_cz_leave_hours("CZSICK"), 80.0)
+        self.assertEqual(self._t(p, "SICKNAHRADA"), 4320.0)
+
+    # ------------------------------------------------------------------
+    # Health insurance (zák. 592/1992, § 9 zák. 48/1997)
+    # ------------------------------------------------------------------
+    def test_health_premium_rounded_up_per_employee(self):
+        """§ 2 odst. 2: 13.5 % of 30001 = 4050.135 -> 4051; the employee's
+        third rounded up -> 1351; the employer pays the rest, 2700."""
+        emp, con = self._employee(
+            "Zaokrouhleni", wage=30001.0, l10n_cz_tax_declaration=True)
+        p = self._payslip(emp, con)
+        self.assertEqual(self._t(p, "HEALTHEE"), -1351.0)
+        self.assertEqual(self._t(p, "HEALTHER"), 2700.0)
+
+    def test_health_min_base_prorated_for_a_partial_month(self):
+        """§ 3 odst. 9 písm. a): hired on 16 March, the minimum base is 16/31
+        of 22400, not the whole 22400."""
+        emp, con = self._employee(
+            "Pulmesicni", wage=15000.0, date_start=date(2026, 3, 16),
+            resource_calendar_id=self._part_time_calendar(20).id)
+        p = self._payslip_march(emp, con)
+        gross = self._t(p, "GROSS")
+        self.assertLess(gross, 22400.0 * 16 / 31)
+        ee, er = self._expected_health(gross, 22400.0 * 16 / 31)
+        self.assertEqual(self._t(p, "HEALTHEE"), -ee)
+        self.assertEqual(self._t(p, "HEALTHER"), er)
+
+    def test_health_min_base_reduced_by_sick_days(self):
+        """§ 3 odst. 9 písm. b): DPN calendar days come off the minimum base -
+        1-14 March sick leaves 17/31 of 22400."""
+        emp, con = self._employee(
+            "Nemocny Zaklad", wage=15000.0, l10n_cz_avg_hourly_earnings=200.0,
+            resource_calendar_id=self._part_time_calendar(20).id)
+        self._make_leave(emp, "leave_type_cz_sick", date(2026, 3, 1), date(2026, 3, 14))
+        p = self._payslip_march(emp, con)
+        ee, er = self._expected_health(self._t(p, "GROSS"), 22400.0 * 17 / 31)
+        self.assertEqual(self._t(p, "HEALTHEE"), -ee)
+        self.assertEqual(self._t(p, "HEALTHER"), er)
+
+    def test_health_topup_paid_by_employer_for_employer_obstacle(self):
+        """§ 3 odst. 10: a base below the minimum because of an obstacle on
+        the employer's side is topped up by the EMPLOYER (weather stoppage all
+        March at 60 %)."""
+        emp, con = self._employee(
+            "Povetrnost", wage=30000.0, l10n_cz_tax_declaration=True)
+        self._seed_prior_quarter(emp, con)
+        self._make_leave(
+            emp, "leave_type_cz_employer_povetrnost",
+            date(2026, 3, 1), date(2026, 3, 31))
+        p = self._payslip_march(emp, con)
+        gross = self._t(p, "GROSS")
+        self.assertLess(gross, 22400.0)
+        ee, er = self._expected_health(gross, 22400.0, employer_pays=True)
+        self.assertEqual(self._t(p, "HEALTHEE"), -ee)
+        self.assertEqual(self._t(p, "HEALTHER"), er)
+        # The employee pays only a third of the premium on the actual base.
+        self.assertEqual(ee, math.ceil(math.ceil(round(gross * 0.135, 6)) / 3.0))
+
+    # ------------------------------------------------------------------
+    # § 209 ZP — short-time work is 100 % unless agreed
+    # ------------------------------------------------------------------
+    def _employer_obstacle_hours(self, payslip, code):
+        return sum(
+            abs(line.number_of_hours)
+            for line in payslip.worked_days_line_ids
+            if line.code == code
+        )
+
+    def test_partial_unemployment_rate_is_a_company_agreement(self):
+        """§ 209 odst. 2: below 100 % only under an agreement with the union
+        or an internal regulation (the company setting), never below 60 %."""
+        emp, con = self._employee(
+            "Castecna", wage=50000.0, l10n_cz_tax_declaration=True)
+        phv, _counted, _hours = self._seed_prior_quarter(emp, con)
+        self._make_leave(
+            emp, "leave_type_cz_employer_castecna",
+            date(2026, 3, 2), date(2026, 3, 2))
+        for setting, paid in ((100.0, 1.0), (70.0, 0.7), (50.0, 0.6)):
+            with self.subTest(setting=setting):
+                self.company.l10n_cz_partial_unemployment_pct = setting
+                p = self._payslip_march(emp, con)
+                hours = self._employer_obstacle_hours(p, "CZCASTECNA")
+                self.assertEqual(
+                    self._t(p, "PREKAZKANAHRADA"), round(hours * phv * paid, 2))
+
+    # ------------------------------------------------------------------
+    # § 7a zák. 589/1992 — social insurance discount, the remaining tests
+    # ------------------------------------------------------------------
+    def test_social_discount_not_for_an_agreement(self):
+        """§ 7a odst. 1: only a pracovní poměr - never a DPČ."""
+        emp, con = self._employee(
+            "Sleva DPC", wage=20000.0, l10n_cz_agreement_type="dpc",
+            l10n_cz_social_discount_category="over55",
+            resource_calendar_id=self._part_time_calendar(20).id)
+        p = self._payslip(emp, con)
+        self.assertEqual(self._t(p, "SOCIAL_DISCOUNT"), 0.0)
+
+    def test_social_discount_hourly_base_cap(self):
+        """§ 7a odst. 3 písm. b): base per hour above 1.15 % of the average
+        wage (564) - 60000 over 88 h is 682 an hour."""
+        emp, con = self._employee(
+            "Sleva Hodina", wage=60000.0, l10n_cz_tax_declaration=True,
+            l10n_cz_social_discount_category="over55",
+            resource_calendar_id=self._part_time_calendar(20).id)
+        p = self._payslip(emp, con)
+        self.assertEqual(self._t(p, "SOCIAL_DISCOUNT"), 0.0)
+
+    # ------------------------------------------------------------------
+    # User interface
+    # ------------------------------------------------------------------
+    def test_czech_fields_on_the_contract_form(self):
+        """18.0: the Czech data lives on the contract and is edited on its
+        form (19.0 edits it on the employee, through the version)."""
+        arch = self.env["hr.contract"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        for field in ("l10n_cz_agreement_type", "l10n_cz_tax_declaration",
+                      "l10n_cz_children_t1", "l10n_cz_social_discount_category"):
+            self.assertIn('name="%s"' % field, arch)
+
+    def test_payroll_code_on_the_leave_type_form(self):
+        arch = self.env["hr.leave.type"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="l10n_cz_payroll_code"', arch)
+
+    def test_rule_parameters_have_a_menu(self):
+        menu = self.env.ref("l10n_cz_hr_payroll_oca.hr_rule_parameter_menu")
+        self.assertEqual(menu.action.res_model, "hr.rule.parameter")
+        arch = self.env["hr.rule.parameter"].get_views(
+            [(False, "form")])["views"]["form"]["arch"]
+        self.assertIn('name="parameter_value_ids"', arch)

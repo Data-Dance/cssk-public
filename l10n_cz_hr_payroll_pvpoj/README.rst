@@ -32,7 +32,7 @@ optional blocks are omitted and the output is unchanged.
 .. rubric:: Module facts
 
 - **Technical name:** ``l10n_cz_hr_payroll_pvpoj``
-- **Version:** 18.0.1.1.1
+- **Version:** 18.0.1.1.5
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``
 

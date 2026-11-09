@@ -2,6 +2,16 @@
 Changelog
 =========
 
+18.0.2.9.0 (2026-11-09)
+=======================
+
+* **Fixed: premiums are floored to the eurocent** (§ 138 z. 461/2003, § 19 z. 580/2004), per fund. They were rounded half-up.
+
+18.0.2.8.0 (2026-11-09)
+=======================
+
+* **Fixed, part-month payroll.** The employee social insurance cap is prorated (§ 138 ods. 13; the employer cap stays whole), sick pay counts calendar days from the start of the incapacity (§ 8 zákona 462/2003), and the health allowance is reduced for a part-month (§ 16 ods. 18).
+
 18.0.2.7.1 (2026-11-05)
 =======================
 

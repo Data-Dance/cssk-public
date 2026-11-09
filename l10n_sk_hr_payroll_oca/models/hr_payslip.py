@@ -2,11 +2,13 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import calendar as _calendar
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, models
+
+from ..sick_pay import split_sick_days
 
 # Leave-type payroll codes that COUNT AS AN ABSENCE (they cut worked days, so
 # the basic wage is prorated down for them). Holiday / paid obstacle are added
@@ -211,6 +213,31 @@ class HrPayslip(models.Model):
             compute_leaves=False,
         )
         return data.get(self.employee_id.id, {}).get("days", 0.0)
+
+    def l10n_sk_pn_split(self, tier1_days, employer_days):
+        """Calendar-day sick-pay split for this payslip, from the PN leaves.
+
+        Returns ``(tier1, tier2, calendar_days)``, or ``False`` when no
+        validated PN leave reaches the period.
+        """
+        self.ensure_one()
+        leaves = self.env["hr.leave"].sudo().search(
+            [
+                ("employee_id", "=", self.employee_id.id),
+                ("state", "=", "validate"),
+                ("request_date_from", "<=", self.date_to),
+                ("request_date_to", ">=", self.date_from - timedelta(days=366)),
+                ("holiday_status_id.l10n_sk_payroll_code", "=", "PN"),
+            ]
+        )
+        spans = [(x.request_date_from, x.request_date_to) for x in leaves]
+        if not any(
+            start <= self.date_to and end >= self.date_from for start, end in spans
+        ):
+            return False
+        return split_sick_days(
+            spans, self.date_from, self.date_to, tier1_days, employer_days
+        )
 
     def l10n_sk_scheduled_hours(self):
         """Full scheduled working HOURS of the whole payslip period.

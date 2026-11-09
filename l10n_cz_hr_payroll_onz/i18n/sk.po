@@ -1,0 +1,542 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* l10n_cz_hr_payroll_onz
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"Language: sk_SK\n"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_res_company__l10n_cz_ossz_vs
+msgid ""
+"10-digit variable symbol assigned to the employer by the ČSSZ — the <vs> "
+"element of the PVPOJ overview."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_needaction
+msgid "Action Needed"
+msgstr "Potrebná akcia"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Označenie výnimky aktivity"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.ui.menu,name:l10n_cz_hr_payroll_onz.menu_l10n_cz_onz
+msgid "CZ ONZ (registration)"
+msgstr "CZ ONZ (registrácia)"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model,name:l10n_cz_hr_payroll_onz.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_cz_hr_payroll_onz
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_onz/models/l10n_cz_onz.py:0
+msgid ""
+"Company '%(company)s' needs a valid OSSZ code (100-999) for the ONZ "
+"<employee dep>."
+msgstr ""
+"Spoločnosť „%(company)s“ potrebuje platný kód OSSZ (100 – 999) pre element "
+"ONZ <employee dep>."
+
+#. module: l10n_cz_hr_payroll_onz
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_onz/models/l10n_cz_onz.py:0
+msgid ""
+"Company '%(company)s' needs an 8-10 digit ČSSZ variable symbol for the ONZ "
+"<comp vs>. Set 'ČSSZ variable symbol (VS)' on the company."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__correction_reference
+msgid "Correction Reference"
+msgstr "Referencia opravy"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__country_id
+msgid "Country"
+msgstr "Krajina"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__create_date
+msgid "Created on"
+msgstr "Vytvorené"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__active_submission_id
+msgid "Current submission"
+msgstr "Aktuálne doručenie"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model,name:l10n_cz_hr_payroll_onz.model_l10n_cz_onz
+msgid "Czech ONZ — Employment Registration"
+msgstr "České ONZ — registrácia zamestnania"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__date_from
+msgid "Date From"
+msgstr "Dátum od"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__date_to
+msgid "Date To"
+msgstr "Dátum do"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__submission_state
+msgid "Delivery"
+msgstr "Dodanie"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_res_company__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_cz_hr_payroll_onz
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_onz/models/l10n_cz_onz.py:0
+msgid "Employee '%(name)s' needs a birthday for the ONZ <birth dat>."
+msgstr ""
+"Zamestnanec „%(name)s“ potrebuje dátum narodenia pre element ONZ <birth "
+"dat>."
+
+#. module: l10n_cz_hr_payroll_onz
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_onz/models/l10n_cz_onz.py:0
+msgid ""
+"Employee '%(name)s' needs a contract end date for the ONZ end-of-employment "
+"event."
+msgstr ""
+"Zamestnanec „%(name)s“ potrebuje dátum skončenia zmluvy pre udalosť ONZ o "
+"skončení zamestnania."
+
+#. module: l10n_cz_hr_payroll_onz
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_onz/models/l10n_cz_onz.py:0
+msgid ""
+"Employee '%(name)s' needs a contract start date for the ONZ start-of-"
+"employment event."
+msgstr ""
+"Zamestnanec „%(name)s“ potrebuje dátum začiatku zmluvy pre udalosť ONZ o "
+"nástupe do zamestnania."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__line_ids
+msgid "Employee declarations"
+msgstr "Hlásenia zamestnancov"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__employee_ids
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__lines_count
+msgid "Employees"
+msgstr "Zamestnanci"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__employee_ids
+msgid "Employees whose employment start/end is being registered."
+msgstr ""
+"Zamestnanci, ktorých nástup do zamestnania alebo jeho skončenie sa "
+"registruje."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_onz.selection__l10n_cz_onz__event_type__skonceni
+msgid "End of employment"
+msgstr "Skončenie zamestnania"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__event_type
+msgid "Event Type"
+msgstr "Typ udalosti"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__filed_history_ids
+msgid "Filed history"
+msgstr "História podaní"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_follower_ids
+msgid "Followers"
+msgstr "Odberatelia"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Odberatelia (partneri)"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, napr. fa-tasks"
+
+#. module: l10n_cz_hr_payroll_onz
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_onz/models/l10n_cz_onz.py:0
+msgid ""
+"From 1 April 2026 the start and end of an employment are registered through "
+"the JMHZ employee registration (REGZEC, Act No. 323/2025 Coll.), also for an"
+" earlier event that was not notified by 31 March 2026 (Act No. 360/2025 "
+"Coll., Art. XXV point 4)."
+msgstr ""
+"Od 1. apríla 2026 sa nástup do zamestnania a jeho skončenie registrujú "
+"prostredníctvom registrácie zamestnanca v rámci JMHZ (REGZEC, zákon č. "
+"323/2025 Sb.), a to aj pri skoršej udalosti, ktorá nebola oznámená do 31. "
+"marca 2026 (zákon č. 360/2025 Sb., čl. XXV bod 4)."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_onz.view_l10n_cz_onz_form
+msgid "Generate"
+msgstr "Generovať"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označujúca výnimočnú aktivitu."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_has_error
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_is_follower
+msgid "Is Follower"
+msgstr "Je odberateľ"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravoval"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravované"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_onz.view_l10n_cz_onz_form
+msgid "Mark Submitted"
+msgstr "Označiť ako odoslané"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__month
+msgid "Month"
+msgstr "Mesiac"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mojej aktivity"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Udalosť kalendára pre ďalšiu aktivitu"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín ďalšej aktivity"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_summary
+msgid "Next Activity Summary"
+msgstr "Zhrnutie ďalšej aktivity"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ ďalšej aktivity"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_res_company__l10n_cz_ossz_code
+msgid ""
+"Numeric code (100-999) of the locally competent District Social Security "
+"Administration (OSSZ) — the <kodOSSZ> element."
+msgstr ""
+"Číselný kód (100-999) miestne príslušnej okresnej správy sociálneho "
+"zabezpečenia (OSSZ) — prvok <kodOSSZ>."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.actions.act_window,name:l10n_cz_hr_payroll_onz.action_l10n_cz_onz
+msgid "ONZ (registration)"
+msgstr "ONZ (registrácia)"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__event_type
+msgid "ONZ event type applied to every employee in this filing."
+msgstr ""
+"Typ udalosti ONZ, ktorý sa použije pre každého zamestnanca v tomto podaní."
+
+#. module: l10n_cz_hr_payroll_onz
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_onz/models/l10n_cz_onz.py:0
+msgid "ONZ generated and XSD-validated."
+msgstr "ONZ bolo vygenerované a overené voči XSD."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_res_company__l10n_cz_ossz_code
+msgid "OSSZ code"
+msgstr "Kód OSSZ"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__payment_date
+msgid ""
+"Payday reported to the authority (SK denVyplaty). Defaults to the period "
+"end."
+msgstr ""
+"Dátum výplaty hlásený úradu (SK denVyplaty). Predvolene je to koniec "
+"obdobia."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__payment_date
+msgid "Payment Date"
+msgstr "Dátum výplaty"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
+
+#. module: l10n_cz_hr_payroll_onz
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_onz/models/l10n_cz_onz.py:0
+msgid "Reset the declaration to draft before regenerating it."
+msgstr "Pred opätovným vygenerovaním vráťte hlásenie do konceptu."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_onz.view_l10n_cz_onz_form
+msgid "Reset to Draft"
+msgstr "Vrátiť do konceptu"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovedný používateľ"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: l10n_cz_hr_payroll_onz
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_onz/models/l10n_cz_onz.py:0
+msgid "Select at least one employee to register."
+msgstr "Vyberte aspoň jedného zamestnanca na registráciu."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_onz.selection__l10n_cz_onz__event_type__nastup
+msgid "Start of employment"
+msgstr "Nástup do zamestnania"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav na základe aktivít\n"
+"Po termíne: termín už uplynul\n"
+"Dnes: dátum aktivity je dnes\n"
+"Naplánované: budúce aktivity."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__submission_reference
+msgid "Submission Reference"
+msgstr "Referencia podania"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__submission_ids
+msgid "Submissions"
+msgstr "Podania"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__submitted_date
+msgid "Submitted Date"
+msgstr "Dátum odoslania"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pre všetko, čo opravuje skoršie podanie."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Referencia úradu na opravované podanie, ak ju prijímajúci systém potrebuje "
+"na spárovanie oboch."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výnimočnej aktivity v zázname."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__version_id
+msgid "Version"
+msgstr "Verzia"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__website_message_ids
+msgid "Website Messages"
+msgstr "Správy z webstránky"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie webstránok"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Či ide o riadne podanie za obdobie alebo o opravu už odoslaného. Voľby sú "
+"obmedzené na to, čo tento konkrétny úrad prijíma."
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "Príloha XML"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_l10n_cz_onz__year
+msgid "Year"
+msgstr "Rok"
+
+#. module: l10n_cz_hr_payroll_onz
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_onz.field_res_company__l10n_cz_ossz_vs
+msgid "ČSSZ variable symbol (VS)"
+msgstr ""

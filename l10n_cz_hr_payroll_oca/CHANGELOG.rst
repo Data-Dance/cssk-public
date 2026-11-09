@@ -2,6 +2,250 @@
 Changelog
 =========
 
+18.0.1.16.0 (2026-11-09)
+========================
+
+Back-ported from 19.0: every change below, as released there.
+
+[19.0.1.16.0] — 2026-11-08
+--------------------------
+
+Added
+~~~~~
+
+- **The 2027 statutory figures.** Average wage 51 663 Kč (NV č. 177/2026
+  Sb.: 48 900 Kč x 1,0565, rounded up) and what follows from it: the
+  maximum assessment base 2 479 824 Kč (48x) and the 23 % threshold
+  154 989 Kč a month / 1 859 868 Kč a year (3x / 36x). Minimum wage
+  24 900 Kč / 148.30 Kč an hour (sdělení č. 171/2026 Sb.), which is also
+  the health minimum base, and the bonus income tests 12 450 Kč a month /
+  149 400 Kč a year. Sick-pay reduction thresholds 301.53 / 452.20 /
+  904.23 Kč (sdělení č. 185/2026 Sb., x 0.175). Unchanged rates and credits
+  carry over. The tax-exempt meal allowance and the garnishment amounts
+  for 2027 were not published yet: the 2026 values apply until added.
+
+Fixed
+~~~~~
+
+- **Withholding tax on small-scale employment up to 2026.** § 6 odst. 4
+  písm. b) ZDP covers any employment below the rozhodný příjem, not only a
+  DPČ: a pracovní poměr below 4 500 Kč without a declaration was taxed by
+  the advance instead. The limits now count the taxable income (sick pay
+  included), so a month of sick leave is not mistaken for one.
+
+[19.0.1.15.0] — 2026-11-08
+--------------------------
+
+Added
+~~~~~
+
+- **Separate tax base (§ 6 odst. 4), ``PAR6BASE``.** From January 2027
+  Act No. 360/2025 Sb. keeps income without a declaration below the limits
+  (a DPP below the DPP amount, any income below the rozhodný příjem) a
+  separate base, but for the advance instead of the withholding tax. The
+  amount is unchanged (``INCOMETAX``); the new memo line marks it for the
+  monthly employer report.
+- **2027 limits**: the DPP amount 12 500 Kč (sdělení č. 184/2026 Sb.) and
+  the rozhodný příjem 5 000 Kč, from the 2027 average wage of 51 663 Kč
+  (NV č. 177/2026 Sb.).
+
+Fixed
+~~~~~
+
+- Comments, docs and the 19.0.1.13.4/19.0.1.12.3 entry said Act No.
+  360/2025 Sb. repeals § 6 odst. 4 ZDP; it rewords it.
+
+[19.0.1.14.0] — 2026-11-08
+--------------------------
+
+Added
+~~~~~
+
+- **The spouse on the annual tax reconciliation**: name, birth number or
+  date of birth, ZTP/P, and the months of the credit, which the Czech monthly
+  employer report (JMHZ) has to carry with the spouse credit.
+- **Performed on**: the date the reconciliation was done, set when it is
+  first computed; posting the settlement now also records the payslip it was
+  posted to. The monthly employer report reports the reconciliation in that
+  payslip's month.
+
+[19.0.1.13.4] — 2026-11-07
+--------------------------
+
+Changed
+~~~~~~~
+
+- **No withholding tax (srážková daň) on employment income from January
+  2027.** Act No. 360/2025 Coll. repeals § 6 odst. 4 of the Income Taxes
+  Act from 1 January 2027: a DPP below the DPP threshold, or a DPČ below the
+  rozhodný příjem, without a taxpayer declaration is then taxed by the
+  ordinary advance (``INCOMETAX``), not by ``WHTAX``. Credits still need the
+  declaration. The period decides, not the payment date, so a December 2026
+  agreement paid in January 2027 is still withheld. A new dated rule
+  parameter, ``l10n_cz_wh_tax_dependent``, carries the switch.
+
+[19.0.1.13.3] — 2026-11-05
+--------------------------
+
+Fixed
+~~~~~
+
+- Slovak catalogue: translated the strings that were still English.
+
+[19.0.1.13.2] — 2026-10-31
+==========================
+
+**Fixed**
+
+- **Salary rules and categories are shared by every company.** They took
+  the company of whoever installed the module, so the Czech payroll
+  structures showed no rules in any other company and could not compute a
+  payslip there. The structures were already company-less; the rules now
+  are too, and upgrading the module repairs an existing database.
+
+[19.0.1.13.1] — 2026-10-27
+==========================
+
+Fixed
+~~~~~
+
+- **Payslip lines, inputs and worked days are confined to your companies.**
+  OCA payroll restricts payslips to the user's companies but not what hangs
+  off them, so a payroll user of one company could read another company's
+  payslip lines — wages and deductions — from the *Payslip Lines* list, a
+  report or an export.
+
+Changed
+~~~~~~~
+
+- **Czech translation.** Time-off types, rule parameters and labels added since the last translation pass showed in English; they are translated now.
+
+[19.0.1.13.0] — 2026-10-27
+==========================
+
+Fixed
+~~~~~
+
+- **Sickness compensation is paid for the first 14 calendar days of an
+  incapacity only** (§ 192 odst. 1 of the Labour Code). It was paid for every
+  sick hour of the month. Consecutive sick-leave requests count as one
+  incapacity, also across two months.
+- **Sickness compensation is taxed.** It is now part of the tax base (§ 6 of
+  the Income Tax Act), still without social and health insurance. Net pay of
+  a month with sick leave is lower by the tax on it. The child tax bonus
+  income test counts it too.
+- **Health insurance is rounded up to whole crowns per employee**, and the
+  employee pays one third of the rounded premium, rounded up; the employer the
+  rest (§ 2 odst. 2 of Act 592/1992 Sb., § 9 odst. 2 of Act 48/1997 Sb.).
+  Premiums differ from before by up to a crown.
+- **The health minimum base is prorated by calendar days** outside the
+  employment and of sickness, family care, paid personal obstacles and
+  maternity or parental leave (§ 3 odst. 9), and does not apply to a ZTP/P
+  card holder (§ 3 odst. 8). Unpaid leave still does not reduce it.
+- **The employer pays the health top-up when an employer-side obstacle is on
+  the payslip** (§ 3 odst. 10). The employee used to pay it.
+- **Short-time working (§ 209) is paid at 100 %** unless the company setting
+  records an agreed lower rate (at least 60 %). It defaulted to 60 %, which is
+  lawful only under an agreement or internal regulation.
+- **Social insurance discount: the remaining statutory tests.** No discount
+  for an agreement (DPP, DPČ), for a base above 1.15 % of the average wage
+  per hour, or (except under 21) for more than 138 hours in the month,
+  prorated for a partial month (§ 7a odst. 1 and 3 of Act 589/1992 Sb.). The
+  1.5× cap now rounds up as the law says.
+- The wage garnishment fallback counts sickness compensation in the net wage.
+- The time-off type *Employer Obstacle — Short-time Working (§ 209)* no
+  longer shows "60 %" in its name.
+
+- **Annual tax reconciliation (roční zúčtování) can be posted from the form.**
+  Choose the draft *Settlement Payslip* (at the latest the March payslip) and
+  press *Post to Payslip*; until now the posting method needed an argument no
+  button could pass.
+- **50 Kč and 100 Kč minimums.** The refund and the bonus top-up are paid only
+  when together more than 50 Kč (§ 35d odst. 8, § 38ch odst. 5 ZDP); the
+  annual child bonus only from 100 Kč (§ 35c odst. 3). *Settlement Total* is
+  zero below that.
+- **Previous employers.** Income, advances and child bonuses from the
+  previous employers' Potvrzení o zdanitelných příjmech can be entered and are
+  included (§ 38ch odst. 4).
+- **One reconciliation per employee and year is enforced again.** The rule
+  was an ``_sql_constraints`` list, which Odoo 19 ignores.
+
+- **A payslip created without a contract gets the same social discount,
+  sick-pay and health figures as one created from the form.** OCA payroll
+  fills the payslip's contract only in the form and the batch wizard; the
+  Czech helpers read that field and saw no contract, so the § 7a discount
+  dropped to zero. They now fall back to the contract the engine computes on.
+
+Added
+~~~~~
+
+- **The Czech fields are on the employee form**, *Payroll* tab, group
+  *Czech Payroll*, not only on the contract template.
+- **The Czech Payroll Code can be set on the time-off type form**, so your
+  own time-off types reach the payslip correctly.
+- **Rule Parameters menu** under *Payroll → Configuration*: the dated
+  statutory figures can be read by payroll users and changed by payroll
+  managers.
+- The uniqueness of a rule parameter code is enforced again; Odoo 19 had
+  silently dropped it.
+
+[19.0.1.12.0] — 2026-10-27
+==========================
+
+Changed
+~~~~~~~
+
+- **The Czech employee fields and the annual leave accrual plans moved to the
+  new shared module** ``l10n_cz_hr_payroll_base``, which this module now
+  depends on and which an upgrade installs. Nothing changes on screen and no
+  data is lost: the fields keep their values and their access group, and the
+  existing accrual plans are adopted in place, so allocations keep pointing at
+  them. External IDs of the plans are now
+  ``l10n_cz_hr_payroll_base.accrual_plan_cz_holiday_*``.
+- The family user guide moved to the base module; this module's page is now
+  a short summary that links to it.
+
+[19.0.1.11.2] — 2026-10-27
+==========================
+
+Fixed
+~~~~~
+
+- **Every DPP now uses the DPP insurance threshold.** A DPP not ticked as
+  *Notified DPP* fell back to the 4 500 Kč DPČ threshold, so a DPP paying
+  between 4 500 and 12 000 Kč was charged social and health insurance and an
+  advance tax instead of the 15 % srážková daň. Since 1. 1. 2025 § 7a odst. 1
+  zák. 187/2006 Sb. sets one amount for every DPP — 25 % of the average wage
+  rounded down to 500 Kč (11 500 Kč in 2025, 12 000 Kč in 2026) — and the
+  health insurance (§ 5 písm. a) bod 3 zák. 48/1997 Sb.) and srážková daň
+  (§ 6 odst. 4 písm. a) ZDP) follow it. The law has no "notified" DPP, so the
+  *Notified DPP* field is removed.
+- **Carried-over dovolená no longer expires.** The statutory accrual plans
+  removed unused carried-over leave 364 days after the 1 January carryover.
+  § 218 zákoníku práce has no forfeiture: the employer must schedule the
+  leave by the end of the following year, the employee may schedule it after
+  30 June, and leave unused when the employment ends is paid out (§ 222
+  odst. 2). The plans now carry leave over without any validity. An upgrade
+  clears the pending expiry date on existing allocations; days an earlier
+  expiry already removed are not restored and need a manual allocation.
+- **2026 sickness-compensation reduction thresholds rounded up to the
+  haléř** (285.78 / 428.58 / 856.98 Kč instead of 285.775 / 428.575 /
+  856.975 Kč), as § 192 odst. 2 zákoníku práce requires.
+
+[19.0.1.11.1] — 2026-09-13
+==========================
+
+Fixed
+~~~~~
+
+- **Terms the translation catalogue never carried.** Strings that reach the
+  user were absent from the template — a field with no ``string=``, a mixin
+  field addressed to the abstract model's ``ir.model.fields`` row rather
+  than each concrete one, or a whole category the offline exporter never
+  emitted. An absent term cannot be translated and shows English in an
+  otherwise Czech screen. The template and the catalogues now carry them,
+  and the Czech is written.
+
 18.0.1.6.0 (2026-08-08)
 =======================
 

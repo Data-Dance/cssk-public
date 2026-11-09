@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The company's default insurer decides the PPPZ / HOZ of every
+         employee without one of their own; the payer number overrides the
+         <IČ>00 default. Neither had a place on the company form. -->
+    <record id="view_company_form_l10n_cz_health" model="ir.ui.view">
+        <field name="name">res.company.form.l10n_cz_health</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='cssk_payroll_reporting']/group" position="inside">
+                <group name="cz_health" string="Health insurance (PPPZ / HOZ)"
+                       invisible="country_code != 'CZ'">
+                    <field name="l10n_cz_health_insurer_code"/>
+                    <field name="l10n_cz_health_payer_number"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -11,6 +11,16 @@ releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- ``tools.split_street()`` / ``split_street_text()``, back-ported from 19.0
+  for the Czech payroll declarations (PVPOJ, the health insurers' forms):
+  the trailing number of Street (12, 12 A, 1141/11, 12-14), a bare number or
+  'č. p. 123' as a number with no street name, Street 2 only when it holds
+  nothing but a number, and base_address_extended's House/Door when
+  installed.
+
 Fixed
 ~~~~~
 

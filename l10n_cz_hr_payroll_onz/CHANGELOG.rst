@@ -2,6 +2,53 @@
 Changelog
 =========
 
+18.0.1.0.5 (2026-11-09)
+=======================
+
+Back-ported from 19.0: every change below, as released there.
+
+Unreleased
+----------
+
+* Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
+  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
+  Enterprise, which OEEL forbids from carrying it. What differs between modules
+  is now whether they are published, not how they are licensed.
+
+[19.0.1.0.5] — 2026-11-05
+-------------------------
+
+Fixed
+~~~~~
+
+- Slovak catalogue: translated the strings that were still English.
+
+[19.0.1.0.4] — 2026-10-27
+-------------------------
+
+**Changed**
+
+- **Czech translation.** The correction and submission fields every declaration shares (*Correction Type*, *Correction Reference*, *Delivery*, *Submissions*) showed in English; they are translated now.
+
+[19.0.1.0.3] — 2026-10-27
+-------------------------
+
+Fixed
+~~~~~
+
+- **First name and surname were swapped** in the XML. The surname is now the
+  last word of the employee's name.
+
+Changed
+~~~~~~~
+
+- **ONZ can no longer be generated from 1 April 2026.** From that day the
+  start and end of an employment are registered through the JMHZ employee
+  registration (REGZEC, Act No. 323/2025 Coll.) — for a new event, and for
+  an earlier one not notified by 31 March 2026 (Act No. 360/2025 Coll.,
+  Art. XXV point 4). *Generate* now refuses an event dated from 1 April 2026
+  and any ONZ made on or after that day.
+
 18.0.1.0.1 (2026-07-06)
 -----------------------
 

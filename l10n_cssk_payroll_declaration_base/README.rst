@@ -31,7 +31,7 @@ The concrete report modules (``l10n_cz_hr_payroll_pvpoj``,
 .. rubric:: Module facts
 
 - **Technical name:** ``l10n_cssk_payroll_declaration_base``
-- **Version:** 18.0.1.1.0
+- **Version:** 18.0.1.5.1
 - **Licence:** AGPL-3
 - **Requires:** ``hr``, ``mail``
 

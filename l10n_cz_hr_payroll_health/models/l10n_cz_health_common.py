@@ -8,6 +8,7 @@ VZP-published XML envelope: the ``kodZdravotniPojistovny`` insurer code, the
 address) and the ``string60Typ`` truncation rules. This module keeps that
 common material in one place so the two report models stay thin.
 """
+from odoo.addons.l10n_cssk_core.tools import split_street
 
 # ---------------------------------------------------------------------------
 # CZ health insurers (kodZdravotniPojistovnyTyp) — valid to 1.1.2026.
@@ -53,13 +54,10 @@ def health_employer_identification(company):
     """Build the shared ``identifikaceZamestnavatele`` attribute/value dict
     (payer number, name, address) used identically by PPPZ and HOZ. Every value
     is pre-truncated to its ``string60Typ`` / ``string80Typ`` XSD limit."""
-    street = (company.street or "").strip()
-    house = (company.street2 or "").strip()
-    if not house:
-        # Split a trailing house number off "Street 12" if street2 is empty.
-        parts = street.rsplit(" ", 1)
-        if len(parts) == 2 and any(c.isdigit() for c in parts[1]):
-            street, house = parts[0].strip(), parts[1].strip()
+    # The číslo popisné / orientační is the trailing number of the street;
+    # Street 2 (a building, a floor, a c/o line) only when it is nothing but
+    # a number. It used to win outright, so "3. patro" was filed as the číslo.
+    street, house = split_street(company)
     values = {
         "identifikacniCisloPlatce": health_payer_number(company),
         "nazevPlatce": (company.name or "")[:80],

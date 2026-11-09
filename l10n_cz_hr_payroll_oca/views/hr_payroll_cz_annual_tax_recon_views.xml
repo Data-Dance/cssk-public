@@ -8,6 +8,9 @@
                 <header>
                     <button name="action_compute" type="object"
                             string="Compute" class="oe_highlight" />
+                    <button name="action_post_settlement" type="object"
+                            string="Post to Payslip" class="oe_highlight"
+                            invisible="state != 'computed'" />
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -15,6 +18,7 @@
                         <group>
                             <field name="employee_id" />
                             <field name="year" />
+                            <field name="l10n_cz_performed_date" />
                             <field name="company_id"
                                    groups="base.group_multi_company" />
                             <field name="currency_id" invisible="1" />
@@ -28,6 +32,26 @@
                         <field name="l10n_cz_union_dues" />
                         <field name="l10n_cz_education" />
                         <field name="l10n_cz_spouse_credit" />
+                    </group>
+                    <group string="Spouse (§ 35ba odst. 1 písm. b))"
+                           invisible="not l10n_cz_spouse_credit">
+                        <group>
+                            <field name="l10n_cz_spouse_first_name" />
+                            <field name="l10n_cz_spouse_surname" />
+                            <field name="l10n_cz_spouse_birthday" />
+                            <field name="l10n_cz_spouse_birth_number" />
+                        </group>
+                        <group>
+                            <field name="l10n_cz_spouse_ztpp" />
+                            <field name="l10n_cz_spouse_months" />
+                            <field name="l10n_cz_spouse_ztpp_months"
+                                   invisible="not l10n_cz_spouse_ztpp" />
+                        </group>
+                    </group>
+                    <group string="Previous Employers (Potvrzení, § 38ch odst. 4)">
+                        <field name="l10n_cz_prev_income" />
+                        <field name="l10n_cz_prev_advances" />
+                        <field name="l10n_cz_prev_bonus_paid" />
                     </group>
                     <group string="Computed Reconciliation">
                         <group>
@@ -47,6 +71,8 @@
                             <field name="l10n_cz_overpayment" />
                             <field name="l10n_cz_bonus_doplatek" />
                             <field name="l10n_cz_settlement_total" />
+                            <field name="l10n_cz_settlement_payslip_id"
+                                   readonly="state == 'done'" />
                         </group>
                     </group>
                 </sheet>

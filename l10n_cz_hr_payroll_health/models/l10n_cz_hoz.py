@@ -53,6 +53,9 @@ class L10nCzHoz(models.Model):
     _report_code = "cz_hoz"
     _country_code = "CZ"
     _xml_name_fallback = "hoz"
+    # Filed separately to each insurer: an amendment amends the filing sent
+    # to the SAME insurer, never one sent to another.
+    _amendment_scope_fields = ("insurer_code",)
 
     insurer_code = fields.Selection(
         selection=CZ_HEALTH_INSURERS, string="Health insurer",

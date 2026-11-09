@@ -25,7 +25,7 @@ class TestRlfo(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "SK RLFO Co",
             "country_id": cls.env.ref("base.sk").id,
-            "company_registry": "12345678",
+            "company_registry": "11111119",
             "l10n_sk_sp_vs": "1234567890",
         })
         cls.env.user.company_ids |= cls.company

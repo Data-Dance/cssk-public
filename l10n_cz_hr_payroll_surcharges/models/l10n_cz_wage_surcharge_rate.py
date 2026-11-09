@@ -72,9 +72,9 @@ class L10nCzWageSurchargeRate(models.Model):
     # --- percentage of the MINIMUM WAGE ----------------------------------
     ztizene_pct = fields.Float(
         "Difficult environment %", digits=(16, 2), default=10.0,
-        help="§ 117 — at least 10 % of the BASIC MINIMUM WAGE RATE (not of "
-        "average earnings), for each aggravating influence listed in "
-        "nařízení vlády č. 567/2006 Sb.",
+        help="§ 117 — at least 10 % of the MINIMUM WAGE (not of average "
+        "earnings), for each aggravating influence listed in nařízení vlády "
+        "č. 443/2024 Sb. (until 31 December 2024: č. 567/2006 Sb.).",
     )
 
     standard_weekly_hours = fields.Float(
@@ -136,7 +136,7 @@ class L10nCzWageSurchargeRate(models.Model):
             raise UserError(
                 _(
                     "No Czech wage-surcharge rates are configured for "
-                    "%(date)s. Add the record under Payroll ▸ Configuration ▸ "
+                    "%(date)s. Add the record under Employees ▸ Configuration ▸ "
                     "Czech Wage Surcharges.",
                     date=date,
                 )

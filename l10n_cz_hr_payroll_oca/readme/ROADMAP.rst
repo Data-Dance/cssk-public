@@ -1,8 +1,27 @@
 The following are intentionally deferred (they need the official electronic
 formats and are out of scope for this pass):
 
-* Statutory reports (výkazy, přehledy o výši pojistného, ELDP) to ČSSZ, the
-  health insurers and the tax office (FÚ).
+* ``l10n_cz_hr_payroll_pvpoj`` — monthly Přehled o výši pojistného (ČSSZ),
+  validated against ``PVPOJ25.xsd``.
+* ``l10n_cz_hr_payroll_onz`` — Oznámení o nástupu do zaměstnání / skončení,
+  built from the employee and ``hr.contract`` lifecycle
+  (``ONZ2022_20230616.xsd``).
+* ``l10n_cz_hr_payroll_eldp`` — the annual Evidenční list důchodového
+  pojištění (``ELDP09.xsd``).
+* ``l10n_cz_hr_payroll_health`` — the monthly Přehled o platbě pojistného
+  (PPPZ) and the bulk enrol/terminate notification (HOZ), per health insurer.
+* ``l10n_cz_hr_payroll_annual_tax_settlement`` — the annual Vyúčtování daně z příjmů ze
+  závislé činnosti for the Finanční správa (EPO ``dpzvd6_epo2.xsd``).
+
+Not implemented anywhere in the stack yet:
+
+* Wage surcharges (příplatky) for přesčas, svátek, noční práce, víkend and
+  ztížené pracovní prostředí (§§ 114–118 zákoníku práce), and the zaručená
+  mzda groups. The Slovak side has these in
+  ``l10n_sk_hr_payroll_surcharges``; the Czech equivalent is not built. The two
+  statutes differ in shape — Czech příplatky are percentages of the průměrný
+  výdělek rather than of the minimum wage — so the Slovak module cannot simply
+  be pointed at CZ.
 
 Simplifications in the implemented P3 features (verify against current law
 before production use):

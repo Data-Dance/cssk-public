@@ -24,7 +24,7 @@ class TestMvp(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "SK MVP Co",
             "country_id": cls.env.ref("base.sk").id,
-            "company_registry": "12345678",
+            "company_registry": "11111119",
             "l10n_sk_sp_vs": "1234567890",
         })
         cls.env.user.company_ids |= cls.company
@@ -65,6 +65,7 @@ class TestMvp(TransactionCase):
             "date_to": date(2026, 3, 31),
         })
         slip.compute_sheet()
+        slip.action_payslip_done()
         return employee, slip
 
     def test_generate_and_validate(self):

@@ -10,7 +10,7 @@ Czechia — Wage Surcharges (příplatky) — OCA Payroll
 .. rubric:: Module facts
 
 - **Technical name:** ``l10n_cz_hr_payroll_surcharges_oca``
-- **Version:** 18.0.1.0.0
+- **Version:** 18.0.1.1.3
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cz_hr_payroll_oca``, ``l10n_cz_hr_payroll_surcharges``
 

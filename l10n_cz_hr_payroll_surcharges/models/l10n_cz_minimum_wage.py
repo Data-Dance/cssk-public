@@ -81,7 +81,8 @@ class L10nCzMinimumWage(models.Model):
             raise UserError(
                 _(
                     "No Czech minimum wage is configured for %(date)s. Add the "
-                    "record under Payroll ▸ Configuration ▸ Czech Minimum Wage.",
+                    "record under Employees ▸ Configuration ▸ Czech Wage "
+                    "Surcharges ▸ Czech Minimum Wage.",
                     date=date,
                 )
             )

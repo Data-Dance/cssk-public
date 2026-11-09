@@ -136,8 +136,9 @@ result = categories.BASIC + categories.ALW
         <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
-result_rate = -payslip.rule_parameter('l10n_sk_social_sickness_ee')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = -(int(round((min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))) * (payslip.rule_parameter('l10n_sk_social_sickness_ee')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -152,11 +153,12 @@ result_rate = -payslip.rule_parameter('l10n_sk_social_sickness_ee')
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+base = min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-result = base
-result_rate = -payslip.rule_parameter('l10n_sk_social_pension_ee')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = -(int(round((base) * (payslip.rule_parameter('l10n_sk_social_pension_ee')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -170,11 +172,12 @@ result_rate = -payslip.rule_parameter('l10n_sk_social_pension_ee')
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
+base = min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-result = base
-result_rate = -payslip.rule_parameter('l10n_sk_social_disability_ee')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = -(int(round((base) * (payslip.rule_parameter('l10n_sk_social_disability_ee')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -188,8 +191,9 @@ result_rate = -payslip.rule_parameter('l10n_sk_social_disability_ee')
         <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
-result_rate = -payslip.rule_parameter('l10n_sk_social_unemployment_ee')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = -(int(round((min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))) * (payslip.rule_parameter('l10n_sk_social_unemployment_ee')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -206,8 +210,9 @@ result_rate = -payslip.rule_parameter('l10n_sk_social_unemployment_ee')
         <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
-result_rate = payslip.rule_parameter('l10n_sk_social_sickness_er')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * (payslip.rule_parameter('l10n_sk_social_sickness_er')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -223,8 +228,9 @@ result_rate = payslip.rule_parameter('l10n_sk_social_sickness_er')
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-result = base
-result_rate = payslip.rule_parameter('l10n_sk_social_pension_er')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = (int(round((base) * (payslip.rule_parameter('l10n_sk_social_pension_er')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -240,8 +246,9 @@ result_rate = payslip.rule_parameter('l10n_sk_social_pension_er')
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-result = base
-result_rate = payslip.rule_parameter('l10n_sk_social_disability_er')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = (int(round((base) * (payslip.rule_parameter('l10n_sk_social_disability_er')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -255,8 +262,9 @@ result_rate = payslip.rule_parameter('l10n_sk_social_disability_er')
         <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
-result_rate = payslip.rule_parameter('l10n_sk_social_unemployment_er')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * (payslip.rule_parameter('l10n_sk_social_unemployment_er')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -270,8 +278,9 @@ result_rate = payslip.rule_parameter('l10n_sk_social_unemployment_er')
         <field name="condition_python">result = contract.l10n_sk_agreement_type != 'dovp'</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
-result_rate = payslip.rule_parameter('l10n_sk_social_shorttime_er')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * (payslip.rule_parameter('l10n_sk_social_shorttime_er')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -284,8 +293,9 @@ result_rate = payslip.rule_parameter('l10n_sk_social_shorttime_er')
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
-result_rate = payslip.rule_parameter('l10n_sk_social_guarantee_er')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * (payslip.rule_parameter('l10n_sk_social_guarantee_er')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -299,8 +309,9 @@ result_rate = payslip.rule_parameter('l10n_sk_social_guarantee_er')
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = categories.GROSS
-result_rate = payslip.rule_parameter('l10n_sk_social_accident_er')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = (int(round((categories.GROSS) * (payslip.rule_parameter('l10n_sk_social_accident_er')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -316,8 +327,9 @@ result_rate = payslip.rule_parameter('l10n_sk_social_accident_er')
 base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
-result = base
-result_rate = payslip.rule_parameter('l10n_sk_social_reserve_er')
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = (int(round((base) * (payslip.rule_parameter('l10n_sk_social_reserve_er')), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -346,9 +358,13 @@ if contract.l10n_sk_health_oop_claim and contract.l10n_sk_agreement_type == 'non
     oop_end = payslip.rule_parameter('l10n_sk_health_oop_phaseout_end')
     slope = oop_max / (oop_end - oop_max)
     oop = max(0.0, oop_max - slope * max(0.0, base - oop_max))
+    # § 16 ods. 18: the allowance cannot exceed the income and is reduced by the
+    # calendar days of the month without this employment.
+    oop = min(oop, base) * contract.l10n_sk_month_employed_ratio(payslip.date_from)
     base = max(0.0, base - oop)
-result = base
-result_rate = -rate
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = -(int(round((base) * (rate), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -365,8 +381,9 @@ if contract.l10n_sk_ztp:
     rate = payslip.rule_parameter('l10n_sk_health_rate_employer_ztp')
 else:
     rate = payslip.rule_parameter('l10n_sk_health_rate_employer')
-result = categories.GROSS
-result_rate = rate
+# § 138 z. 461/2003 and § 19 z. 580/2004: floor the premium to the eurocent.
+result = (int(round((categories.GROSS) * (rate), 4)) / 100.0)
+result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -735,20 +752,21 @@ else:
 # Sick days are driven from the PN leave (worked_days.PN); the manual PN_DAYS
 # input is the fallback when no leave is recorded. The denný vymeriavací základ
 # (DVZ) is a separate statutory base (not priemerný zárobok), still taken from
-# the PN_DVZ input. SIMPLIFICATION: náhrada príjmu is paid per CALENDAR day for
-# the first 10/14 days; the leave gives WORKING days, used here as a proxy.
-if 'PN' in worked_days.dict:
-    days = abs(worked_days.dict['PN'].number_of_days)
-else:
-    days = inputs.PN_DAYS.amount
+# the PN_DVZ input. § 8 zákona 462/2003 counts CALENDAR days from the start of
+# the incapacity, which only the leave's own dates can give.
 dvz = min(inputs.PN_DVZ.amount, payslip.rule_parameter('l10n_sk_pn_max_dvz'))
 tier1_days = payslip.rule_parameter('l10n_sk_pn_tier1_days')
 employer_days = payslip.rule_parameter('l10n_sk_pn_employer_days')
 rate1 = payslip.rule_parameter('l10n_sk_pn_rate_tier1') / 100.0
 rate2 = payslip.rule_parameter('l10n_sk_pn_rate_tier2') / 100.0
-paid = min(days, employer_days)
-d1 = min(paid, tier1_days)
-d2 = max(0.0, paid - tier1_days)
+_split = payslip.l10n_sk_pn_split(tier1_days, employer_days)
+if _split:
+    d1, d2, _calendar_days = _split
+else:
+    days = abs(worked_days.dict['PN'].number_of_days) if 'PN' in worked_days.dict else inputs.PN_DAYS.amount
+    paid = min(days, employer_days)
+    d1 = min(paid, tier1_days)
+    d2 = max(0.0, paid - tier1_days)
 result = round(dvz * (d1 * rate1 + d2 * rate2), 2)
         </field>
         <field name="appears_on_payslip" eval="True"/>

@@ -3,7 +3,10 @@
 # Slovak payroll fields live on the contract; the salary rules read them as
 # ``contract.<field>``.
 
+from calendar import monthrange
+
 from odoo import _, api, fields, models
+from odoo.tools import float_round
 
 
 class HrContract(models.Model):
@@ -222,3 +225,30 @@ class HrContract(models.Model):
                     basis="per year" if basis == "annual" else "per week",
                     ceiling=ceiling,
                 )
+
+
+class HrContractSocialCap(models.Model):
+    _inherit = "hr.contract"
+
+    def l10n_sk_employee_social_cap(self, cap, day):
+        """The employee's maximum assessment base for the month of ``day``.
+
+        § 138 ods. 13 zákona 461/2003 Z. z. adjusts the base under ods. 9 by
+        the days of insurance in a part-month. It names ods. 9 only, so the
+        employer's cap under ods. 10 stays whole.
+        """
+        self.ensure_one()
+        ratio = self.l10n_sk_month_employed_ratio(day)
+        if ratio == 1.0:
+            return cap
+        return float_round(cap * ratio, precision_digits=2, rounding_method="DOWN")
+
+    def l10n_sk_month_employed_ratio(self, day):
+        """Share of the calendar month of ``day`` covered by this contract."""
+        self.ensure_one()
+        days_in_month = monthrange(day.year, day.month)[1]
+        first = day.replace(day=1)
+        last = day.replace(day=days_in_month)
+        start = max(self.date_start or first, first)
+        end = min(self.date_end or last, last)
+        return min(max((end - start).days + 1, 0) / days_in_month, 1.0)

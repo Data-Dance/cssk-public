@@ -86,7 +86,7 @@ check entirely (``tools/find_unproduced_selections.py``).
 .. rubric:: Module facts
 
 - **Technical name:** ``l10n_cz_hr_payroll_parity``
-- **Version:** 18.0.1.2.1
+- **Version:** 18.0.1.2.4
 - **Licence:** AGPL-3
 - **Requires:** ``hr``, ``l10n_cssk_payroll_declaration_base``
 

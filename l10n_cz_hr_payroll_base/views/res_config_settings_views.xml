@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- § 209 ZP: the short-time work rate is a company agreement, not a
+         statute, so it is a company setting rather than a rule parameter. -->
+    <record id="res_config_settings_view_form_l10n_cz_payroll" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.l10n_cz_hr_payroll_base</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="hr.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <block name="work_organization_setting_container" position="inside">
+                <setting id="l10n_cz_partial_unemployment_setting"
+                         company_dependent="1"
+                         invisible="l10n_cz_company_country_code != 'CZ'"
+                         string="Short-time work compensation (§ 209)"
+                         help="Percentage of average earnings paid for částečná nezaměstnanost. 100 % unless an agreement with the trade union or an internal regulation sets less (not below 60 %).">
+                    <field name="l10n_cz_company_country_code" invisible="1"/>
+                    <field name="l10n_cz_partial_unemployment_pct" class="o_light_label"/>
+                    <span>%</span>
+                </setting>
+            </block>
+        </field>
+    </record>
+</odoo>

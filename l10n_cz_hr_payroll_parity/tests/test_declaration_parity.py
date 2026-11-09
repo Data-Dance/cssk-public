@@ -26,7 +26,11 @@ from odoo.addons.l10n_cz_hr_payroll_parity.parity_cz import (
     DECLARATION_WAGE,
     ENGINE_OCA,
 )
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
+from odoo.addons.l10n_cz_hr_payroll_base.tests.compat import create_employee
 
 OCA_STRUCT = "l10n_cz_hr_payroll_oca.hr_payroll_structure_cz_employee_salary"
 EE_STRUCT = "l10n_cz_hr_payroll_ee.hr_payroll_structure_cz_employee_salary"
@@ -66,14 +70,11 @@ class TestCzDeclarationParity(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.engine = cls._detect_engine()
-        # The users field is groups_id on 18.0 and group_ids on 19.0.
-        gfield = "group_ids" if "group_ids" in cls.env.user._fields \
-            else "groups_id"
         if cls.engine == ENGINE_OCA:
-            cls.env.user[gfield] |= cls.env.ref("payroll.group_payroll_manager")
+            cls.env.user.groups_id |= cls.env.ref("payroll.group_payroll_manager")
             cls.structure = cls.env.ref(OCA_STRUCT)
         else:
-            cls.env.user[gfield] |= cls.env.ref(
+            cls.env.user.groups_id |= cls.env.ref(
                 "hr_payroll.group_hr_payroll_manager"
             )
             cls.structure = cls.env.ref(EE_STRUCT)
@@ -84,7 +85,7 @@ class TestCzDeclarationParity(TransactionCase):
                 "name": "CZ Declaration Parity Co",
                 "country_id": cls.env.ref("base.cz").id,
                 "currency_id": cls.env.ref("base.CZK").id,
-                "company_registry": "12345678",
+                "company_registry": "25596641",
                 # The Vyúčtování needs a DIČ for <VetaP dic>.
                 # Checksum-valid: base_vat validates DIČ where it is
                 # installed, and CZ12345678 fails that check.
@@ -124,30 +125,30 @@ class TestCzDeclarationParity(TransactionCase):
         from datetime import date
 
         (y1, m1, d1), (y2, m2, d2) = DECLARATION_PERIOD
-        # 18.0 has no hr.version delegation: the contract is its own
-        # record, in state "open" so contract_id resolves to it.
-        employee = cls.env["hr.employee"].with_company(cls.company).create({
+        emp_vals = {
             "name": "Jan Novak",
             "company_id": cls.company.id,
             "resource_calendar_id": cls.calendar.id,
             "identification_id": "8501011234",
             "birthday": date(1985, 1, 1),
-        })
-        contract_vals = {
-            "name": "CZ declaration parity contract",
-            "employee_id": employee.id,
-            "company_id": cls.company.id,
+            "date_version": date(2025, 1, 1),
+            "contract_date_start": date(2025, 1, 1),
             "wage": DECLARATION_WAGE,
-            "state": "open",
-            "date_start": date(2026, 1, 1),
+        }
+        if cls.engine == ENGINE_OCA:
+            emp_vals["struct_id"] = cls.structure.id
+        else:
+            emp_vals["structure_type_id"] = cls.structure.type_id.id
+        employee = (
+            create_employee(cls.env["hr.employee"].with_company(cls.company), emp_vals)
+        )
+        version_vals = {
             "resource_calendar_id": cls.calendar.id,
             "l10n_cz_tax_declaration": True,
         }
         if cls.engine == ENGINE_OCA:
-            contract_vals["struct_id"] = cls.structure.id
-        else:
-            contract_vals["structure_type_id"] = cls.structure.type_id.id
-        cls.env["hr.contract"].with_company(cls.company).create(contract_vals)
+            version_vals["struct_id"] = cls.structure.id
+        employee.contract_id.write(version_vals)
 
         slip_vals = {
             "name": "CZ declaration parity slip",
@@ -157,14 +158,17 @@ class TestCzDeclarationParity(TransactionCase):
             "date_from": date(y1, m1, d1),
             "date_to": date(y2, m2, d2),
         }
-        # Both 18.0 engines call the payslip field contract_id.
-        slip_vals["contract_id"] = employee.contract_id.id
+        if cls.engine == ENGINE_OCA:
+            slip_vals["contract_id"] = employee.contract_id.id
+        else:
+            slip_vals["contract_id"] = employee.contract_id.id
         slip = cls.env["hr.payslip"].with_company(cls.company).create(slip_vals)
         if cls.engine != ENGINE_OCA:
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
+        confirm_payslips(slip)
         slip.write(
-            {"state": "done"}  # both 18.0 engines call it done
+            {"state": "done"}
         )
         cls.employee, cls.slip = employee, slip
 
@@ -241,7 +245,7 @@ class TestCzDeclarationParity(TransactionCase):
     # Annual forms — twelve payslips, in their own fixture
     # ------------------------------------------------------------------
     def _complete_the_year(self):
-        """Give the fixture employee the other eleven months of 2026.
+        """Give the fixture employee the other eleven months of 2025.
 
         Reusing the setUpClass employee rather than adding a second one: an
         annual figure sums everything in the company for the year, so a second
@@ -258,25 +262,28 @@ class TestCzDeclarationParity(TransactionCase):
         for month in range(1, ANNUAL_DECLARATION_MONTHS + 1):
             if month == march:
                 continue  # already seeded by setUpClass
-            last = _cal.monthrange(2026, month)[1]
+            last = _cal.monthrange(2025, month)[1]
             slip_vals = {
                 "name": "Annual slip %02d" % month,
                 "employee_id": self.employee.id,
                 "struct_id": self.structure.id,
                 "company_id": self.company.id,
-                "date_from": date(2026, month, 1),
-                "date_to": date(2026, month, last),
+                "date_from": date(2025, month, 1),
+                "date_to": date(2025, month, last),
             }
-            # Both 18.0 engines call the payslip field contract_id.
-            slip_vals["contract_id"] = self.employee.contract_id.id
+            if self.engine == ENGINE_OCA:
+                slip_vals["contract_id"] = self.employee.contract_id.id
+            else:
+                slip_vals["contract_id"] = self.employee.contract_id.id
             slip = (
                 self.env["hr.payslip"].with_company(self.company).create(slip_vals)
             )
             if self.engine != ENGINE_OCA:
                 slip = slip.with_context(salary_simulation=True)
             slip.compute_sheet()
+            confirm_payslips(slip)
             slip.write(
-                {"state": "done"}  # both 18.0 engines call it done
+                {"state": "done" if self.engine == ENGINE_OCA else "validated"}
             )
 
     def test_annual_declarations_report_the_shared_figures(self):

@@ -10,7 +10,7 @@ Czech Republic - Payroll with Accounting
 .. rubric:: Module facts
 
 - **Technical name:** ``l10n_cz_hr_payroll_account_oca``
-- **Version:** 18.0.1.0.1
+- **Version:** 18.0.1.1.1
 - **Licence:** AGPL-3
 - **Requires:** ``payroll_account``, ``l10n_cz``, ``l10n_cz_hr_payroll_oca``
 

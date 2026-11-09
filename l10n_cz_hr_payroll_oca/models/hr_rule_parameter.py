@@ -28,8 +28,11 @@ class HrRuleParameter(models.Model):
         string="Values",
     )
 
+
+    # 19.0 declares this as models.Constraint; 18.0 has only _sql_constraints.
     _sql_constraints = [
-        ("code_uniq", "unique (code)", "Two rule parameters cannot share the same code."),
+        ("code_uniq", "UNIQUE (code)",
+         "Two rule parameters cannot share the same code."),
     ]
 
     @api.model

@@ -1,0 +1,382 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_hr_payroll_surcharges
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-27 22:27+0000\n"
+"PO-Revision-Date: 2026-10-27 22:27+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_surcharges/models/l10n_cz_minimum_wage.py:0
+msgid "%(date)s — %(monthly).2f Kč / %(hourly).2f Kč per hour"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_hr_employee__l10n_cz_surcharge_agreed
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_hr_version__l10n_cz_surcharge_agreed
+msgid ""
+"A collective or individual agreement sets a different minimum for the night "
+"(§ 116) and weekend (§ 118) surcharges. Only those two sections permit it; "
+"the agreed percentages are configured on the wage-surcharge rate record."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__create_uid
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__create_date
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.actions.act_window,name:l10n_cz_hr_payroll_surcharges.action_l10n_cz_minimum_wage
+#: model:ir.model,name:l10n_cz_hr_payroll_surcharges.model_l10n_cz_minimum_wage
+#: model:ir.ui.menu,name:l10n_cz_hr_payroll_surcharges.menu_l10n_cz_minimum_wage
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_surcharges.l10n_cz_minimum_wage_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_surcharges.l10n_cz_minimum_wage_view_list
+msgid "Czech Minimum Wage"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model,name:l10n_cz_hr_payroll_surcharges.model_cz_surcharge_payslip_mixin
+msgid "Czech Wage Surcharge Payslip Mixin"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model,name:l10n_cz_hr_payroll_surcharges.model_l10n_cz_wage_surcharge_rate
+msgid "Czech Wage Surcharge Rate"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.actions.act_window,name:l10n_cz_hr_payroll_surcharges.action_l10n_cz_wage_surcharge_rate
+#: model:ir.ui.menu,name:l10n_cz_hr_payroll_surcharges.menu_l10n_cz_priplatky_root
+#: model:ir.ui.menu,name:l10n_cz_hr_payroll_surcharges.menu_l10n_cz_wage_surcharge_rate
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_surcharges.l10n_cz_wage_surcharge_rate_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_surcharges.l10n_cz_wage_surcharge_rate_view_list
+msgid "Czech Wage Surcharges"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_surcharges.hr_version_view_form_l10n_cz_priplatky
+msgid "Czech Wage Surcharges and Minimum Wage"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_surcharges/models/l10n_cz_minimum_wage.py:0
+msgid "Czech minimum wage"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_surcharges/models/l10n_cz_wage_surcharge_rate.py:0
+msgid "Czech wage surcharge rate"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__date_from
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__date_from
+msgid "Date From"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__ztizene_pct
+msgid "Difficult environment %"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_cz_surcharge_payslip_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model,name:l10n_cz_hr_payroll_surcharges.model_hr_version
+msgid "Employee Contract"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_surcharges/models/l10n_cz_wage_surcharge_rate.py:0
+msgid ""
+"Every statutory surcharge percentage must be above zero — %s is a legal "
+"minimum, not an optional benefit."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__date_from
+msgid "First day on which these percentages apply."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__date_from
+msgid "First day on which this minimum wage applies."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__amount_hourly
+msgid "Hourly (Kč)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_surcharges.selection__hr_version__l10n_cz_min_wage_basis__hourly
+msgid "Hourly minimum wage"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_cz_surcharge_payslip_mixin__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__write_uid
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__write_date
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_hr_employee__l10n_cz_min_wage_basis
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_hr_version__l10n_cz_min_wage_basis
+msgid "Minimum wage top-up compared with"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__amount_monthly
+msgid "Monthly (Kč)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_surcharges.selection__hr_version__l10n_cz_min_wage_basis__monthly
+msgid "Monthly minimum wage"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__nocni_pct
+msgid "Night work %"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__nocni_agreed_pct
+msgid "Night work % (agreed)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_surcharges/models/l10n_cz_minimum_wage.py:0
+msgid ""
+"No Czech minimum wage is configured for %(date)s. Add the record under "
+"Employees ▸ Configuration ▸ Czech Wage Surcharges ▸ Czech Minimum Wage."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_surcharges/models/l10n_cz_wage_surcharge_rate.py:0
+msgid ""
+"No Czech wage-surcharge rates are configured for %(date)s. Add the record "
+"under Employees ▸ Configuration ▸ Czech Wage Surcharges."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_hr_employee__l10n_cz_difficult_factors
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_hr_version__l10n_cz_difficult_factors
+msgid ""
+"Number of aggravating influences under § 2 odst. 2 nařízení vlády č. "
+"443/2024 Sb. (until 31 December 2024: č. 567/2006 Sb.). Each earns a further"
+" 10 % of the hourly minimum wage (§ 117). Zero means the surcharge does not "
+"apply — recording hours alone will not pay it."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.constraint,message:l10n_cz_hr_payroll_surcharges.constraint_l10n_cz_minimum_wage_date_uniq
+msgid "Only one minimum-wage record per start date."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.constraint,message:l10n_cz_hr_payroll_surcharges.constraint_l10n_cz_wage_surcharge_rate_date_uniq
+msgid "Only one wage-surcharge rate record per start date."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__prescas_pct
+msgid "Overtime %"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_surcharges.l10n_cz_wage_surcharge_rate_view_form
+msgid "Percentage of average earnings (průměrný výdělek)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_surcharges.l10n_cz_wage_surcharge_rate_view_form
+msgid "Percentage of the basic minimum wage rate"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__svatek_pct
+msgid "Public holiday %"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__vikend_pct
+msgid "Saturday/Sunday %"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__vikend_agreed_pct
+msgid "Saturday/Sunday % (agreed)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_hr_employee__l10n_cz_surcharge_agreed
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_hr_version__l10n_cz_surcharge_agreed
+msgid "Sjednaná jiná výše příplatků"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__standard_weekly_hours
+msgid "Standard weekly hours"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_cz_surcharge_payslip_mixin__l10n_cz_surcharge_total
+msgid ""
+"Sum of every statutory wage surcharge on this payslip. Shown for reference; "
+"the individual amounts are separate payslip lines."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_surcharges/models/l10n_cz_minimum_wage.py:0
+msgid "The Czech minimum wage must be a positive amount."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_surcharges/models/cz_surcharge_payslip_mixin.py:0
+msgid ""
+"The average-earnings helper is missing. Install one of the Czech payroll "
+"modules (l10n_cz_hr_payroll_oca or l10n_cz_hr_payroll_ee) — overtime, public"
+" holiday, night and weekend surcharges are percentages of average earnings "
+"and cannot be computed without it."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_cz_surcharge_payslip_mixin__l10n_cz_surcharge_total
+msgid "Wage Surcharges"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_hr_employee__l10n_cz_min_wage_basis
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_hr_version__l10n_cz_min_wage_basis
+msgid ""
+"Which minimum wage the doplatek is computed against (§ 111 odst. 2 písm. a) "
+"of the Labour Code). The law uses the hourly minimum wage unless the monthly"
+" one was agreed, set or determined in advance — so choose Monthly only where"
+" that is the case. Agreements (DPP, DPČ) and hourly-paid employees are "
+"always compared per hour."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_hr_employee__l10n_cz_difficult_factors
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_surcharges.field_hr_version__l10n_cz_difficult_factors
+msgid "Ztížené prostředí — počet vlivů"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__amount_hourly
+msgid ""
+"Základní sazba minimální mzdy per hour, quoted for a 40-hour week. A shorter"
+" established week raises it proportionally."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_minimum_wage__amount_monthly
+msgid ""
+"Základní sazba minimální mzdy per month, for the stanovená týdenní pracovní "
+"doba."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__prescas_pct
+msgid ""
+"§ 114 odst. 1 — at least 25 % of average earnings, unless compensatory time "
+"off (náhradní volno) is agreed instead."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__svatek_pct
+msgid ""
+"§ 115 odst. 2 — where a supplement is agreed instead of compensatory time "
+"off, at least 100 % of average earnings."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__nocni_agreed_pct
+msgid ""
+"§ 116 second sentence — a different minimum amount and method of "
+"determination may be agreed. Left empty unless such an agreement exists; the"
+" statutory figure then applies."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__nocni_pct
+msgid "§ 116 — at least 10 % of average earnings."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__ztizene_pct
+msgid ""
+"§ 117 — at least 10 % of the MINIMUM WAGE (not of average earnings), for "
+"each aggravating influence listed in nařízení vlády č. 443/2024 Sb. (until "
+"31 December 2024: č. 567/2006 Sb.)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__vikend_agreed_pct
+msgid "§ 118 second sentence — a different minimum may be agreed."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__vikend_pct
+msgid ""
+"§ 118 — at least 10 % of average earnings. One rate covers both days, unlike"
+" Slovakia where § 122b and § 122c differ."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_surcharges
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_surcharges.field_l10n_cz_wage_surcharge_rate__standard_weekly_hours
+msgid ""
+"§ 79 odst. 1 stanovená týdenní pracovní doba, which the hourly minimum wage "
+"is quoted at."
+msgstr ""

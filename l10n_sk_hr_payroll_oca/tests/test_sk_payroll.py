@@ -1102,3 +1102,52 @@ class TestSkPayroll(TransactionCase):
                 ltype = self.env.ref("l10n_sk_hr_payroll_oca." + xmlid)
                 self.assertEqual(ltype.l10n_sk_payroll_code, code)
                 self.assertEqual(ltype.requires_allocation, "no")
+
+    def _part_month_contract(self, wage, **vals):
+        employee = self.env["hr.employee"].create(
+            {"name": "Part Month", "company_id": self.company.id}
+        )
+        values = {
+            "name": "Part-month contract",
+            "employee_id": employee.id,
+            "company_id": self.company.id,
+            "wage": wage,
+            "state": "open",
+            "date_start": date(2026, 11, 16),
+            "resource_calendar_id": self.calendar.id,
+            "struct_id": self.structure.id,
+        }
+        values.update(vals)
+        return self.env["hr.contract"].create(values), employee
+
+    def test_employee_cap_prorated_for_part_month(self):
+        contract, _employee = self._part_month_contract(20000.0)
+        self.assertEqual(
+            contract.l10n_sk_employee_social_cap(16764.0, date(2026, 11, 1)), 8382.0
+        )
+        self.assertEqual(
+            contract.l10n_sk_employee_social_cap(16764.0, date(2026, 12, 1)), 16764.0
+        )
+
+    def test_part_month_cap_reaches_the_employee_premium(self):
+        contract, employee = self._part_month_contract(20000.0)
+        p = self._make_payslip(contract, employee, date(2026, 11, 1), date(2026, 11, 30))
+        # Halved cap at 1.4 %, floored to the cent.
+        self.assertAlmostEqual(p.get_salary_line_total("SICK"), -117.34, places=2)
+
+    def test_health_allowance_reduced_for_a_part_month(self):
+        contract, employee = self._part_month_contract(400.0, l10n_sk_health_oop_claim=True)
+        p = self._make_payslip(contract, employee, date(2026, 11, 1), date(2026, 11, 30))
+        self.assertAlmostEqual(p.get_salary_line_total("HEALTH"), -11.5, places=2)
+
+    def test_sick_pay_counts_calendar_days(self):
+        contract, employee, _cal = self._abs_setup(wage=1500.0)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 8), date(2026, 6, 21)
+        )
+        p = self._worked_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30),
+            inputs=[("PN_DVZ", 60.0)],
+        )
+        self.assertAlmostEqual(p.get_salary_line_total("SICK_COMP"), 408.0, places=2)
+

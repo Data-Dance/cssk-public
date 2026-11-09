@@ -10,7 +10,7 @@ Czechia — Wage Surcharges (příplatky) — Base
 .. rubric:: Module facts
 
 - **Technical name:** ``l10n_cz_hr_payroll_surcharges``
-- **Version:** 18.0.1.0.0
+- **Version:** 18.0.1.2.0
 - **Licence:** AGPL-3
 - **Requires:** ``hr_contract``, ``hr``
 

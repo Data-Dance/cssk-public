@@ -43,7 +43,7 @@ Human-verify / assumptions
 .. rubric:: Module facts
 
 - **Technical name:** ``l10n_cz_hr_payroll_annual_tax_settlement``
-- **Version:** 18.0.1.0.1
+- **Version:** 18.0.1.1.2
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``
 

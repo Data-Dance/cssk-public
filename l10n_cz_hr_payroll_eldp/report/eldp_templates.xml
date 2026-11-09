@@ -4,8 +4,8 @@
       ELDP09 XML — matches the official ČSSZ schema ELDP09.xsd (root <RELDP>,
       ns http://schemas.cssz.cz/ELDP09, elementFormDefault="qualified",
       attributes unqualified). One <eldp09> per employee; annual pension
-      assessment base (t1/@inc) and days (t1/@din) are summed from the year's
-      payslips. Constant empty attributes (dre, sre, dex/dar, m1..m13) are
+      assessment base (t1/@inc) and days (t1/@din) per employment period
+      (one t1 row each), bases summed from the year's confirmed payslips. Constant empty attributes (dre, sre, dex/dar, m1..m13) are
       written literally so they are never dropped by the QWeb renderer.
     -->
     <template id="eldp_xml">
@@ -35,15 +35,16 @@
                        sdex="0"
                        t-att-sinc="e['sinc']"
                        sdar="0">
-                    <t1 t-att-row="e['row']"
-                        t-att-cod="e['cod']"
+                    <t1 t-foreach="e['rows']" t-as="r"
+                        t-att-row="r['row']"
+                        t-att-cod="r['cod']"
                         sre="N"
-                        t-att-fro="e['fro']"
-                        t-att-to="e['to']"
-                        t-att-din="e['din']"
+                        t-att-fro="r['fro']"
+                        t-att-to="r['to']"
+                        t-att-din="r['din']"
                         m1="" m2="" m3="" m4="" m5="" m6="" m7="" m8="" m9=""
                         m10="" m11="" m12="" m13=""
-                        t-att-inc="e['inc']"
+                        t-att-inc="r['inc']"
                         dex="0"
                         dar="0"/>
                 </items>

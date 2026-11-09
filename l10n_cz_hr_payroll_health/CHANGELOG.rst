@@ -2,6 +2,51 @@
 Changelog
 =========
 
+18.0.1.1.2 (2026-11-09)
+=======================
+
+Back-ported from 19.0: every change below, as released there.
+
+Unreleased
+==========
+
+* Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
+  everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
+  Enterprise, which OEEL forbids from carrying it. What differs between modules
+  is now whether they are published, not how they are licensed.
+
+[19.0.1.1.2] — 2026-11-05
+=========================
+
+- Slovak catalogue: translated the strings that were still English.
+
+[19.0.1.1.1] — 2026-10-27
+=========================
+
+* **PPPZ / HOZ: Street 2 no longer wins as the číslo popisné.** Whatever
+  *Street 2* held (a floor, a c/o line) was filed as
+  *adresaPlatceCisloPopisneOrientacni* ahead of the number in the street. The
+  address is now read by the shared helper of ``l10n_cssk_core``: the
+  trailing number of *Street*, *Street 2* only when it holds nothing but a
+  number.
+
+Fixed
+~~~~~
+
+- **A corrective PPPZ amends only the overview sent to the same insurer.**
+  A submitted overview to one insurer let a corrective overview for the same
+  month go out to another insurer that had never received a regular one. The
+  same scoping applies to the HOZ.
+- **The health fields are on the forms.** The company's *Default health
+  insurer* and *Health payer number* are on the company form (tab *Payroll
+  Reporting*), the employee's *Health insurer* next to *Identification No*.
+  Neither was on any form, so they could be set only by import.
+
+Changed
+~~~~~~~
+
+- **Czech translation.** The correction and submission fields every declaration shares (*Correction Type*, *Correction Reference*, *Delivery*, *Submissions*) showed in English; they are translated now.
+
 18.0.1.0.1 (2026-07-06)
 -----------------------
 

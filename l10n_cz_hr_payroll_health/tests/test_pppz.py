@@ -11,8 +11,12 @@ from datetime import date
 from lxml import etree
 
 from odoo.exceptions import UserError
+from odoo.addons.l10n_cssk_payroll_declaration_base.tests.common import (
+    confirm_payslips,
+)
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import file_path
+from odoo.addons.l10n_cz_hr_payroll_base.tests.compat import create_employee
 
 NS = {"p": "http://xmlns.vzp.cz/PrehledPlatbyZamestnavatele/v1"}
 
@@ -25,7 +29,7 @@ class TestPppz(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "CZ Health Co",
             "country_id": cls.env.ref("base.cz").id,
-            "company_registry": "12345678",
+            "company_registry": "25596641",
             "street": "Hluboká 1",
             "city": "Praha",
             "zip": "11000",
@@ -49,8 +53,7 @@ class TestPppz(TransactionCase):
         }
         if insurer:
             emp_vals["l10n_cz_health_insurer_code"] = insurer
-        employee = self.env["hr.employee"].with_company(
-            self.company).create(emp_vals)
+        employee = create_employee(self.env["hr.employee"].with_company(self.company), emp_vals)
         contract = self.env["hr.contract"].with_company(self.company).create({
             "name": "Contract %s" % name,
             "employee_id": employee.id,
@@ -72,6 +75,7 @@ class TestPppz(TransactionCase):
             "date_to": date(2026, 3, 31),
         })
         slip.compute_sheet()
+        confirm_payslips(slip)
         return employee, slip
 
     def test_generate_and_validate(self):
@@ -110,7 +114,7 @@ class TestPppz(TransactionCase):
         self.assertEqual(root.find(".//p:soucetPojistneho", NS).text, "6750")
         # Envelope constants.
         self.assertEqual(
-            root.find(".//p:identifikacniCisloPlatce", NS).text, "1234567800")
+            root.find(".//p:identifikacniCisloPlatce", NS).text, "2559664100")
 
     def test_submit_locks(self):
         self._employee_payslip("Pavel Novak", 50000.0)
@@ -163,3 +167,21 @@ class TestPppz(TransactionCase):
         fix = self._pppz(correction_type="corrective")
         with self.assertRaises(UserError):
             fix.action_generate()
+
+    def test_correction_scoped_to_insurer(self):
+        """A PPPZ is filed per insurer: a submitted overview to one insurer is
+        not something a corrective overview to another insurer can amend."""
+        self._employee_payslip("Jina Pojistovna", 50000.0, insurer="111")
+        self._employee_payslip("Druha Pojistovna", 50000.0, insurer="201")
+        first = self._pppz(insurer_code="111")
+        first.action_generate()
+        first.action_submit()
+
+        other = self._pppz(insurer_code="201", correction_type="corrective")
+        self.assertFalse(other._prior_submitted())
+        with self.assertRaises(UserError):
+            other.action_generate()
+
+        same = self._pppz(insurer_code="111", correction_type="corrective")
+        self.assertEqual(same._prior_submitted(), first)
+        same.action_generate()

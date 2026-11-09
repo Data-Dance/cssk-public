@@ -46,7 +46,7 @@ Human-verify / assumptions
 .. rubric:: Module facts
 
 - **Technical name:** ``l10n_cz_hr_payroll_eldp``
-- **Version:** 18.0.1.0.1
+- **Version:** 18.0.1.0.6
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``
 

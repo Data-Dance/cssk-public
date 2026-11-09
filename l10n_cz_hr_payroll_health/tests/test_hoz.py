@@ -12,6 +12,7 @@ from lxml import etree
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import file_path
+from odoo.addons.l10n_cz_hr_payroll_base.tests.compat import create_employee
 
 NS = {"h": "http://xmlns.vzp.cz/hromadneOznameniZamestnavatele/v1"}
 
@@ -24,7 +25,7 @@ class TestHoz(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "CZ HOZ Co",
             "country_id": cls.env.ref("base.cz").id,
-            "company_registry": "12345678",
+            "company_registry": "25596641",
             "street": "Dlouhá 5",
             "city": "Praha",
             "zip": "11000",
@@ -35,7 +36,7 @@ class TestHoz(TransactionCase):
             cls.env.context, allowed_company_ids=cls.company.ids))
         cls.calendar = cls.env["resource.calendar"].create(
             {"name": "CZ 40h", "company_id": cls.company.id})
-        cls.employee = cls.env["hr.employee"].with_company(cls.company).create({
+        cls.employee = create_employee(cls.env["hr.employee"].with_company(cls.company), {
             "name": "Jan Pokusny",
             "company_id": cls.company.id,
             "resource_calendar_id": cls.calendar.id,

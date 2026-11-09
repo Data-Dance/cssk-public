@@ -25,7 +25,7 @@ class TestHealth514(TransactionCase):
         cls.company = cls.env["res.company"].create({
             "name": "SK Health Co s.r.o.",
             "country_id": cls.env.ref("base.sk").id,
-            "company_registry": "12345678",
+            "company_registry": "11111119",
             "l10n_sk_health_insurer_code": "24",
             "l10n_sk_health_payer_number": "9900112233",
         })
@@ -67,6 +67,7 @@ class TestHealth514(TransactionCase):
             "date_to": date(2026, 3, 31),
         })
         slip.compute_sheet()
+        slip.action_payslip_done()
         return employee, slip
 
     def test_generate_and_validate(self):
@@ -104,7 +105,7 @@ class TestHealth514(TransactionCase):
         self.assertEqual(
             root.findtext("Identification/CodeOfHealthInsuranceCompany"),
             "2400")
-        self.assertEqual(root.findtext("Identification/IDCode"), "12345678")
+        self.assertEqual(root.findtext("Identification/IDCode"), "11111119")
         self.assertEqual(root.findtext("Identification/NumberOfRecords"), "1")
         self.assertEqual(root.findtext("CorporateBody/Period"), "2026-03")
 

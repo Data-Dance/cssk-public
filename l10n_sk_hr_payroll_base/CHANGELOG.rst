@@ -2,6 +2,11 @@
 Changelog
 =========
 
+18.0.1.1.0 (2026-11-09)
+-----------------------
+
+* Helpers for the part-month cap and the calendar-day sick-pay split.
+
 19.0.1.0.0 (2026-08-03)
 -----------------------
 
