@@ -43,6 +43,21 @@ Fixed
   in, so a payslip that crosses the year boundary counts once. Contributed
   by votrelec (cssk-public#20).
 
+- Read the tax pension fact from the native version in force on 1 January.
+  No manually advanced tax year or duplicate evidence field is required;
+  the retained taxpayer declaration supplies the fact. FS FAQ 3/7/9 distinguishes a January pension (no monthly
+  allowance, including small pensions) from a midyear award (allowance kept).
+  Insurance pension type and annual pension amount cannot replace that fact.
+  Preserve the native tax base and bands and the existing annual pension
+  deduction. Review affected historical payslips through a correction workflow.
+- Validate contradictions before salary rules and reconcile the January flag
+  with the reviewed annual pension amount before computing RZD. A May award
+  rolls into the following January without invalidating December payroll.
+- Correct the monthly-allowance statement introduced in 19.0.1.21.0. The
+  statutory annual high-income taper and the January pension exclusion are
+  different rules. Add regression examples for the declaration checkbox,
+  small pensions, midyear awards, disability, foreign pensions and annual consistency.
+
 [19.0.1.21.0] — 2026-11-08
 ==========================
 
@@ -58,8 +73,8 @@ Fixed
   version has a new *Pension at 1 January (yearly)* amount; the RZD takes it
   from the version in force on 1 January, shows it, and lets it be
   corrected to what the employee declared. The monthly advances are
-  unchanged: § 35 ods. 1 písm. b) applies the full monthly NČZD and leaves
-  ods. 6 to the reconciliation.
+  unchanged in that release. The claim that January pensioners receive the
+  full monthly allowance was incorrect; see the 19.0.1.21.1 correction above.
 
 [19.0.1.20.0] — 2026-11-06
 ==========================

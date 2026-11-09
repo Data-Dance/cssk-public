@@ -388,6 +388,17 @@ class L10nSkTaxReconciliation(models.Model):
 
     def action_compute(self):
         for rec in self:
+            january = date(rec.year, 1, 1)
+            version = rec.employee_id._get_version(january)
+            if version and version.date_version <= january:
+                if version.company_id != rec.company_id:
+                    raise UserError(_("Review the employee's 1 January pension version in the payroll company."))
+                flag = version.l10n_sk_tax_pensioner
+                if ((flag and rec.pension_annual <= 0) or (not flag and rec.pension_annual > 0)
+                        or (not flag and version.l10n_sk_pension_type in ("old_age", "early_old_age", "service_at_age"))):
+                    raise UserError(_("Reconcile the 1 January tax pension flag and the reviewed yearly pension amount before annual reconciliation."))
+            elif rec.pension_annual > 0 or (version and version.l10n_sk_tax_pensioner):
+                raise UserError(_("Record the employee's pension tax fact on a version effective at 1 January before annual reconciliation."))
             if rec.gather_from_payslips:
                 base = advance = bonus = 0.0
                 for slip in rec._l10n_sk_year_payslips():

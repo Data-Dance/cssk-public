@@ -7,6 +7,7 @@ from datetime import date, datetime, time, timedelta
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, models
+from odoo.exceptions import UserError
 
 from odoo.addons.l10n_sk_hr_payroll_base.sick_pay import split_sick_days
 
@@ -72,6 +73,40 @@ class HrPayslip(models.Model):
         """
         self.ensure_one()
         return self.env["hr.rule.parameter"]._get_parameter_value(code, self.date_to)
+
+    def l10n_sk_monthly_nczd(self, version):
+        """Sections 35/36 and 11(6), FS FAQ 7/9: no January-pension allowance.
+
+        The annual difference for a small pension belongs in RZD/personal DP.
+        Keep this eligibility hook separate from dated statutory parameters.
+        """
+        self.ensure_one()
+        if version.employee_id != self.employee_id or version.company_id != self.company_id:
+            raise UserError(_("Use the employee and company contract version for the monthly pension tax profile."))
+        if not version.l10n_sk_tax_declaration_signed:
+            return 0.0
+        january = date(self.date_to.year, 1, 1)
+        historical = self.employee_id._get_version(january)
+        if historical and historical.date_version <= january:
+            if historical.company_id != self.company_id:
+                raise UserError(_("Review the employee's 1 January pension version in the payroll company."))
+            if historical.l10n_sk_tax_pensioner:
+                return 0.0
+            if (historical.l10n_sk_pension_type in ("old_age", "early_old_age", "service_at_age")
+                    or historical.l10n_sk_nczd_pension_annual > 0):
+                raise UserError(_("The 1 January version indicates a pension. Review its tax-relevant pension flag against the retained declaration."))
+        elif version.l10n_sk_tax_pensioner or version.l10n_sk_pension_type in ("old_age", "early_old_age", "service_at_age"):
+            raise UserError(_("Record the employee's pension tax fact on a version effective at 1 January before claiming monthly allowance."))
+        return self.rule_parameter("l10n_sk_nczd_monthly")
+
+    def compute_sheet(self):
+        # A rule's safe_eval wraps UserError in a Python traceback. Validate
+        # before evaluation so the payroll officer gets the business message.
+        for slip in self:
+            version = slip._l10n_sk_version()
+            if len(version) == 1 and version.struct_id.country_id.code == "SK":
+                slip.l10n_sk_monthly_nczd(version)
+        return super().compute_sheet()
 
     # ------------------------------------------------------------------
     # Absence -> payroll code mapping

@@ -30,10 +30,21 @@ class HrVersion(models.Model):
         "year (or was granted back to it). The taxpayer's NČZD is reduced by "
         "it, to nothing when the pension is higher. Disability, widow's and "
         "orphan's pensions do not count. Leave empty when there is no such "
-        "pension. The monthly advances are not affected (§ 35 ods. 1 "
-        "písm. b)).",
+        "pension. This annual amount is not the monthly allowance: review "
+        "the tax pension fact on the version in force on 1 January for monthly advances.",
         groups="payroll.group_payroll_user",
         tracking=True,
+    )
+
+    l10n_sk_tax_pensioner = fields.Boolean(
+        string="Draws a tax-relevant pension",
+        help="The employee draws a pension under section 11(6), as recorded in the "
+             "retained taxpayer declaration. This is a fact at this version's effective "
+             "date, including retroactive awards, foreign equivalents and compensatory "
+             "supplements. Monthly advances read the version in force on 1 January. "
+             "A midyear award preserves that year's monthly allowance. Disability, "
+             "widow's and orphan's pensions alone do not set this flag.",
+        groups="payroll.group_payroll_user", tracking=True,
     )
 
     # --- Child tax bonus ----------------------------------------------------
@@ -324,11 +335,13 @@ class HrVersion(models.Model):
         tracking=True,
     )
 
-    @api.constrains("l10n_sk_nczd_pension_annual")
+    @api.constrains("l10n_sk_nczd_pension_annual", "l10n_sk_tax_pensioner")
     def _check_l10n_sk_nczd_pension_annual(self):
         for version in self:
             if version.l10n_sk_nczd_pension_annual < 0:
                 raise UserError(_("The pension at 1 January cannot be negative."))
+            if version.l10n_sk_nczd_pension_annual > 0 and not version.l10n_sk_tax_pensioner:
+                raise UserError(_("A yearly pension amount requires the tax-relevant pension flag on this version."))
 
     @api.model
     def _get_whitelist_fields_from_template(self):
@@ -341,6 +354,7 @@ class HrVersion(models.Model):
         whitelisted_fields += [
             "l10n_sk_tax_declaration_signed",
             "l10n_sk_nczd_pension_annual",
+            "l10n_sk_tax_pensioner",
             "l10n_sk_children_under_15",
             "l10n_sk_children_15_18",
             "l10n_sk_ztp",

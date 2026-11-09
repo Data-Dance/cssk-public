@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-27 22:27+0000\n"
-"PO-Revision-Date: 2026-10-27 22:27+0000\n"
+"POT-Creation-Date: 2026-11-08 21:31+0000\n"
+"PO-Revision-Date: 2026-11-08 21:31+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,14 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value
 msgid ""
 "A python literal (evaluated with safe_eval), e.g. a number, tuple or dict."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid ""
+"A yearly pension amount requires the tax-relevant pension flag on this "
+"version."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -373,6 +381,12 @@ msgid "Draft"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_tax_pensioner
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_tax_pensioner
+msgid "Draws a tax-relevant pension"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_employee
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__employee_id
 msgid "Employee"
@@ -475,8 +489,9 @@ msgid ""
 "employee was drawing at the start of the tax year (or was granted back to "
 "it). The taxpayer's NČZD is reduced by it, to nothing when the pension is "
 "higher. Disability, widow's and orphan's pensions do not count. Leave empty "
-"when there is no such pension. The monthly advances are not affected (§ 35 "
-"ods. 1 písm. b))."
+"when there is no such pension. This annual amount is not the monthly "
+"allowance: review the tax pension fact on the version in force on 1 January "
+"for monthly advances."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -945,6 +960,30 @@ msgid "Quarantine / Isolation (karanténa)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid ""
+"Reconcile the 1 January tax pension flag and the reviewed yearly pension "
+"amount before annual reconciliation."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid ""
+"Record the employee's pension tax fact on a version effective at 1 January "
+"before annual reconciliation."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+msgid ""
+"Record the employee's pension tax fact on a version effective at 1 January "
+"before claiming monthly allowance."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_income_regular
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_income_regular
 msgid "Regular monthly income"
@@ -963,6 +1002,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__result_type
 msgid "Result Type"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid ""
+"Review the employee's 1 January pension version in the payroll company."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1498,6 +1545,14 @@ msgid "Taxpayer Non-taxable Part (NČZD)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+msgid ""
+"The 1 January version indicates a pension. Review its tax-relevant pension "
+"flag against the retained declaration."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__l10n_sk_agreement_type
 msgid ""
 "The Slovak employment form this structure represents. Choosing the structure"
@@ -1511,6 +1566,18 @@ msgstr ""
 msgid ""
 "The contracted working time of %(value).1f hours %(basis)s exceeds the "
 "statutory ceiling of %(ceiling).0f for this agreement type."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_tax_pensioner
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_tax_pensioner
+msgid ""
+"The employee draws a pension under section 11(6), as recorded in the "
+"retained taxpayer declaration. This is a fact at this version's effective "
+"date, including retroactive awards, foreign equivalents and compensatory "
+"supplements. Monthly advances read the version in force on 1 January. A "
+"midyear award preserves that year's monthly allowance. Disability, widow's "
+"and orphan's pensions alone do not set this flag."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1620,6 +1687,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__neplatene
 msgid "Unpaid leave"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_payslip.py:0
+msgid ""
+"Use the employee and company contract version for the monthly pension tax "
+"profile."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
