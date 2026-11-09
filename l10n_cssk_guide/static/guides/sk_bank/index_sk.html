@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Banka</title>
+<title>Bankové účty</title>
 <meta name="cssk-guide-topic" content="banking">
 <meta name="cssk-guide-order" content="0">
 <meta name="cssk-guide-country" content="sk">
@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <p class="cssk-note"><a href="../../../../index_sk.html">← Používateľská príručka</a></p>
 <nav class="cssk-lang"><a href="index.html">English</a> · <b>Slovenčina</b></nav>
 <p class="cssk-note">Návod k úlohe</p>
-<h1>Banka</h1>
+<h1>Bankové účty</h1>
 <p class="cssk-summary">Bankový účet v Odoo, import výpisu CAMT, párovanie podľa variabilného symbolu, bankové poplatky a platobné príkazy dodávateľom — čo sa pri tom zaúčtuje.</p>
 <table class="cssk-facts"><tr><th>Krajina</th><td>Slovensko</td></tr><tr><th>Edícia</th><td>Odoo Community</td></tr><tr><th>Zahŕňa</th><td><code>account</code>, <code>account_statement_import_base</code>, <code>account_statement_import_file</code>, <code>account_statement_import_camt</code>, <a href="../../../../account_statement_import_camt_balance/static/description/index_sk.html"><code>account_statement_import_camt_balance</code></a>, <code>account_reconcile_oca</code>, <a href="../../../../account_reconcile_oca_counter_account/static/description/index_sk.html"><code>account_reconcile_oca_counter_account</code></a>, <a href="../../../../l10n_cssk_payment_symbols/static/description/index_sk.html"><code>l10n_cssk_payment_symbols</code></a>, <a href="../../../../l10n_cssk_payment_symbols_oca/static/description/index_sk.html"><code>l10n_cssk_payment_symbols_oca</code></a>, <code>account_payment_order</code>, <code>account_payment_mode</code>, <a href="../../../../l10n_cssk_payment_symbols_payment_order/static/description/index_sk.html"><code>l10n_cssk_payment_symbols_payment_order</code></a>, <code>account_banking_sepa_credit_transfer</code>, <a href="../../../../l10n_cssk_payment_symbols_sepa_oca/static/description/index_sk.html"><code>l10n_cssk_payment_symbols_sepa_oca</code></a>, <a href="../../../../account_fio/static/description/index_sk.html"><code>account_fio</code></a>, <a href="../../../../account_statement_fio/static/description/index_sk.html"><code>account_statement_fio</code></a>, <code>account_tatrabanka</code> <span class="cssk-note">(dodáva sa samostatne)</span>, <code>account_statement_tatrabanka</code> <span class="cssk-note">(dodáva sa samostatne)</span></td></tr></table>
 <h2 id="purpose">Na čo slúži tento návod</h2>
@@ -83,14 +83,15 @@ doplní partner, ak ho máte v Odoo s týmto účtom:
 nainštalujte si z <em>Aplikácií</em> opravu
 <a href="../../../../account_statement_import_camt_balance/static/description/index_sk.html"><code>account_statement_import_camt_balance</code></a>.</p>
 <p>Iné cesty k výpisu (pripojenie opisujú návody
-<a href="../../../../l10n_cssk_guide/static/guides/fio_bank/index_sk.html">Fio banka</a> a <a href="../../../../l10n_cssk_guide/static/guides/tatrabanka/index_sk.html">Tatra banka</a>):</p>
+<a href="../../../../l10n_cssk_guide/static/guides/tatrabanka/index_sk.html">Automatické bankové výpisy</a> a <a href="../../../../l10n_cssk_guide/static/guides/fio_bank/index_sk.html">Fio banka</a>):</p>
 <ul>
+<li><strong>Automatické bankové výpisy</strong> — pohyby z účtov v slovenských a českých
+  bankách sa sťahujú samy každú hodinu cez Premium API Tatra banky:
+  <code>account_statement_tatrabanka</code> <span class="cssk-note">(dodáva sa samostatne)</span>;
+  zapína ho na požiadanie náš tím.</li>
 <li><strong>Fio banka</strong> — výpisy sa sťahujú samy cez API Fio:
   <a href="../../../../account_statement_fio/static/description/index_sk.html"><code>account_statement_fio</code></a>, z
   <em>Aplikácií</em>.</li>
-<li><strong>Tatra banka</strong> — pohyby sa sťahujú samy každú hodinu cez Premium API:
-  <code>account_statement_tatrabanka</code> <span class="cssk-note">(dodáva sa samostatne)</span>;
-  zapína ho na požiadanie náš tím.</li>
 <li>Ručne — <em>Účtovníctvo → Účtovníctvo → Banka a pokladňa → Bankové výpisy →
   Nový</em>.</li>
 </ul>

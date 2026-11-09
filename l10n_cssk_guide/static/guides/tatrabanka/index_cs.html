@@ -4,9 +4,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Tatra banka — automatické výpisy</title>
+<title>Automatické bankovní výpisy</title>
 <meta name="cssk-guide-topic" content="banking">
-<meta name="cssk-guide-order" content="2">
+<meta name="cssk-guide-order" content="1">
 <meta name="cssk-guide-country" content="both">
 <meta name="cssk-guide-kind" content="task">
 <style>
@@ -33,13 +33,12 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <p class="cssk-note"><a href="../../../../index_cs.html">← Uživatelská příručka</a></p>
 <nav class="cssk-lang"><a href="index.html">English</a> · <a href="index_sk.html">Slovenčina</a> · <b>Čeština</b></nav>
 <p class="cssk-note">Návod k úloze</p>
-<h1>Tatra banka — automatické výpisy</h1>
-<p class="cssk-summary">Pohyby z bankovních účtů zpřístupněných přes Premium API Tatra banky přicházejí do Odoo samy každou hodinu — i z účtů u jiných slovenských a českých bank. Jen v placené hostované službě Data Dance.</p>
+<h1>Automatické bankovní výpisy</h1>
+<p class="cssk-summary">Pohyby z vašich účtů u slovenských a českých bank přicházejí do Odoo samy každou hodinu, přes Premium API Tatra banky. Jen v placené hostované službě Data Dance.</p>
 <table class="cssk-facts"><tr><th>Země</th><td>Česko a Slovensko</td></tr><tr><th>Edice</th><td>Odoo Community</td></tr><tr><th>Zahrnuje</th><td><code>account_tatrabanka</code> <span class="cssk-note">(dodává se samostatně)</span>, <code>account_statement_tatrabanka</code> <span class="cssk-note">(dodává se samostatně)</span>, <code>account_tatrabanka_webhook</code> <span class="cssk-note">(dodává se samostatně)</span>, <a href="../../../../l10n_cssk_payment_symbols/static/description/index_cs.html"><code>l10n_cssk_payment_symbols</code></a>, <a href="../../../../l10n_cssk_payment_symbols_oca/static/description/index_cs.html"><code>l10n_cssk_payment_symbols_oca</code></a></td></tr></table>
 <blockquote>
-<p><strong>Jen v placené hostované službě Data Dance.</strong> Připojení k Premium API Tatra
-banky vede přes službu Data Dance, která drží přístupové údaje k bance. Mimo
-hostovanou službu není dostupné; o zapnutí požádejte náš tým.</p>
+<p><strong>Jen v placené hostované službě Data Dance.</strong> Připojení zapíná náš tým;
+mimo hostovanou službu není dostupné.</p>
 </blockquote>
 <h2 id="purpose">K čemu tento návod slouží</h2>
 <p>S tímto připojením se bankovní deník plní sám: Odoo se každou hodinu zeptá
@@ -48,48 +47,83 @@ protistrany, variabilním, konstantním a specifickým symbolem a zprávou pro
 příjemce. Nic není třeba stahovat z internetového bankovnictví ani importovat.
 Řádky se pak párují stejně jako z importovaného výpisu — automaticky podle
 variabilního symbolu a ručně v <em>Párovat</em>.</p>
+<p>Premium API Tatra banky připojí vaše účty u slovenských a českých bank, nejen
+u Tatra banky.</p>
+<h2 id="access">Kdo má k čemu přístup</h2>
+<ul>
+<li><strong>Souhlas dáváte vy, přímo v bance.</strong> Na portál banky se přihlásíte svými
+  údaji a sami vyberete, které účty zpřístupníte. Přihlašovací údaje do
+  internetového bankovnictví nezadáváte do Odoo ani nám.</li>
+<li><strong>Pohyby jdou z banky rovnou do vašeho Odoo.</strong> Služba Data Dance jimi
+  neprochází a neukládá je.</li>
+<li><strong>My vaše účty nevidíme.</strong> Služba Data Dance zajišťuje jen připojení
+  k bance. Přístup, který udělíte, je uložen zapečetěný a bez vašeho Odoo se
+  k vašim účtům ani pohybům nedostaneme.</li>
+<li>Souhlas můžete kdykoli odvolat v Odoo nebo přímo v bance.</li>
+</ul>
 <h2 id="connect">Připojení</h2>
-<p>Premium API Tatra banky připojí účty u Tatra banky a přes tutéž autorizaci i
-účty u jiných slovenských a českých bank. Přístupové údaje k bance ve vašem
-Odoo nejsou — drží je služba Data Dance. <strong>Připojení zapne náš tým</strong>; vy pak
-jednou udělíte souhlas v bance:</p>
+<p>Začíná se v <em>Účetnictví → Konfigurace → Bankovní účty Premium API → Bankovní
+účty</em>.</p>
+<p><img alt="Nabídka Bankovní účty Premium API" src="img/menu.cs.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <ol>
-<li><em>Účetnictví → Konfigurace → Tatra banka Premium API → Autorizace → Nový</em>,
-   vyberte aplikaci, kterou připravil náš tým, uložte a klikněte na <strong>Udělit
-   přístup v bance</strong>.</li>
-<li>Na autorizačním portálu Tatra banky se přihlásí osoba, která má k účtům
-   aspoň <strong>pasivní práva do internetového bankovnictví</strong>, a označí účty, které
-   zpřístupní. Dokončete to do 30 minut.</li>
-<li>Zpět v Odoo se bankovní deník, jehož číslo účtu je přesně zpřístupněný
-   IBAN, připojí sám. Ostatní zpřístupněné účty přiřadíte tlačítkem
-   <strong>Propojit účty s deníky</strong> — ke každému <em>Existující deník</em>, <em>Nový deník</em>
-   nebo <em>Nepropojovat</em> — a kliknete na <strong>Propojit</strong>. Odoo u každého účtu volbu
-   navrhne.</li>
-<li>Na připojeném deníku nastavte <strong>Bankovní napojení</strong> na <strong>Tatra banka
-   Premium API</strong>. Na kartě <strong>Tatra banka</strong> zvolte <strong>Import</strong>: <em>Transakce</em>, nebo
-   <em>Transakce + měsíční výpisy</em> (jeden výpis za měsíc), a klikněte na
-   <strong>Stáhnout transakce</strong>.</li>
+<li>
+<p>Klikněte na <strong>Přidat bankovní účet</strong>. Dokud firma není s bankou spojená,
+   nabídne se jediné tlačítko, <strong>Připojit v bance</strong>: autorizace se vytvoří
+   sama a hned se otevře portál banky. Sem vede i tlačítko nastavení banky na
+   řídicím panelu. Účet u banky, kterou Premium API nepřipojuje, zadáte
+   tlačítkem <strong>Jiná banka nebo zadat ručně</strong>.</p>
+<p><img alt="Připojit v bance" src="img/connect.cs.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
+</li>
+<li>
+<p>Na portálu banky se přihlásí osoba, která má k účtům aspoň <strong>pasivní práva
+   do internetového bankovnictví</strong>, a označí účty, které zpřístupní. Dokončete
+   to do 30 minut. Jednotlivé obrazovky portálu popisuje
+   <a href="https://cdn.prod.website-files.com/65b38de4326eefb72c0d93b7/6aeaf082f48a42c355fc78ce_PremiumAPI_FLOWpresentation.pdf">uživatelský manuál Tatra banky (PDF, slovensky)</a>.</p>
+</li>
+<li>
+<p>Zpět v Odoo se bankovní deník, jehož číslo účtu je přesně zpřístupněný
+   IBAN, připojí sám, a skončíte v seznamu <strong>Bankovní účty</strong>. Pokud některý
+   účet deník nemá, Odoo vás pošle do autorizace: tlačítkem <strong>Propojit účty
+   s deníky</strong> mu přiřadíte <em>Existující deník</em>, <em>Nový deník</em> nebo
+   <em>Nepropojovat</em> a kliknete na <strong>Propojit</strong>. Odoo u každého účtu volbu
+   navrhne.</p>
+<p><img alt="Propojení zpřístupněných účtů s deníky" src="img/link.cs.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
+<p><img alt="Připojené bankovní účty" src="img/accounts.cs.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
+</li>
+<li>
+<p>Otevřete připojený deník a na kartě <strong>Účetní záznamy</strong> nastavte <strong>Bankovní
+   napojení</strong> na <strong>Tatra banka Premium API</strong>. Na kartě <strong>Tatra banka</strong> zvolte
+   <strong>Import</strong>: <em>Transakce</em>, nebo <em>Transakce + měsíční výpisy</em> (jeden výpis za
+   měsíc), a klikněte na <strong>Stáhnout transakce</strong>.</p>
+</li>
 </ol>
 <p>Od té doby se transakce stahují každou hodinu; tlačítkem <strong>Stáhnout rozsah…</strong>
 doplníte starší (15 měsíců zpět u účtů u Tatra banky, 13 u účtů u jiných
 bank). Importují se jen zaúčtované pohyby.</p>
 <h3 id="add-account">Další bankovní účet</h3>
-<p>Autorizace sahá jen na účty zaškrtnuté v bance. Další účet přidáte v
-<em>Účetnictví → Konfigurace → Tatra banka Premium API → Bankovní účty</em> tlačítkem
-<strong>Přidat bankovní účet</strong>: <strong>1. Vybrat účty v bance</strong> otevře portál banky, kde
-účet zaškrtnete, a <strong>2. Propojit uvolněné účty</strong> ho po návratu přiřadí k
-deníku.</p>
+<p>Autorizace sahá jen na účty zaškrtnuté v bance. Další účet přidáte ve stejném
+seznamu <strong>Bankovní účty</strong> tlačítkem <strong>Přidat bankovní účet</strong>: <strong>1. Vybrat účty
+v bance</strong> otevře portál banky, kde účet zaškrtnete, a <strong>2. Propojit uvolněné
+účty</strong> ho po návratu přiřadí k deníku.</p>
+<p><img alt="Přidat další bankovní účet" src="img/add.cs.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
 <p><strong>Souhlas platí 180 dní a patří osobě, která ho udělila.</strong> Dva týdny před
 koncem dostane autorizace aktivitu o blížícím se vypršení přístupu; souhlas
-obnovíte tlačítkem <strong>Přidat nebo odebrat účty v bance</strong> v autorizaci, deníky
-zůstanou připojené. Pokud osoba se souhlasem odchází, nechte autorizovat někoho
-jiného dřív, než odejde.</p>
+obnovíte tlačítkem <strong>Přidat nebo odebrat účty v bance</strong> v autorizaci
+(<em>Bankovní účty Premium API → Autorizace</em>), deníky zůstanou připojené. Pokud
+osoba se souhlasem odchází, nechte autorizovat někoho jiného dřív, než odejde.</p>
 <h2 id="check">Kontrola</h2>
 <ul>
-<li>Na kartě <strong>Tatra banka</strong> deníku vidíte <strong>Naposledy staženo</strong> a <strong>Poslední
-  pohyb</strong>.</li>
-<li>Neúspěšné stažení se zapíše do historie deníku s důvodem od banky; ostatní
-  deníky se stáhnou i tak.</li>
+<li>V seznamu <strong>Bankovní účty</strong> vidíte u každého účtu disponibilní zůstatek,
+  <strong>Naposledy staženo</strong> a kdy <strong>přístup vyprší</strong>.</li>
+<li>
+<p>Na kartě <strong>Tatra banka</strong> deníku jsou v části <strong>Bankovní výpisy</strong> pole
+  <strong>Naposledy staženo</strong> a <strong>Poslední pohyb</strong>.</p>
+<p><img alt="Karta Tatra banka na deníku" src="img/journal.cs.png" style="display:block;max-width:100%;height:auto;margin:12px 0;border:1px solid #d1d9e0;border-radius:6px"></p>
+</li>
+<li>
+<p>Neúspěšné stažení se zapíše do historie deníku s důvodem od banky; ostatní
+  deníky se stáhnou i tak.</p>
+</li>
 <li>Na konci měsíce porovnejte konečný zůstatek v Odoo se zůstatkem ve výpisu
   banky — zůstatky měsíčních výpisů se počítají z řádků, nepřebírají se z
   banky.</li>
