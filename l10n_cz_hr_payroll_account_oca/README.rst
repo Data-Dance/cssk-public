@@ -19,7 +19,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_account_oca``
-- **Version:** 19.0.1.1.1
+- **Version:** 19.0.1.1.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``payroll_account``, ``l10n_cz``, ``l10n_cz_hr_payroll_oca``

@@ -2,6 +2,22 @@
 Changelog
 =========
 
+[19.0.1.3.0] — 2026-11-09
+-------------------------
+
+Fixed
+~~~~~
+
+- several agreements of one person with one employer are added up for the insurance limit (§ 7 odst. 4, § 7a odst. 3 of Act 187/2006 Sb.).
+
+[19.0.1.2.0] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- the *Working pensioner discount* field.
+
 [19.0.1.1.2] — 2026-11-08
 -------------------------
 

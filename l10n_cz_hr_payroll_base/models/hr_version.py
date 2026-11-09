@@ -99,6 +99,16 @@ class HrVersion(models.Model):
         help="Pensioner / student / parental leave / jobseeker / disabled: "
              "the health-insurance minimum-base top-up does not apply.")
 
+    l10n_cz_pensioner_discount = fields.Boolean(
+        "Working pensioner discount",
+        groups=CZ_PAYROLL_GROUP, tracking=True,
+        help="Lowers the employee's social insurance by 6.5 % of the assessment "
+             "base. For an old-age pensioner at pension age, drawing the "
+             "pension in full, for the whole calendar month. The employee "
+             "applies to the employer with the proof; it cannot be applied "
+             "retroactively and is claimed once across all jobs with one "
+             "employer.")
+
     # --- Agreement type (DPP/DPČ) ------------------------------------------
     l10n_cz_agreement_type = fields.Selection(
         selection=[

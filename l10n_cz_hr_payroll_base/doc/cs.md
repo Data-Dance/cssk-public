@@ -150,6 +150,7 @@ paragrafy byly ověřeny proti úplným zněním účinným v říjnu 2026.
 | Stravenkový paušál / směna | Stravenkový paušál za směnu, omezený osvobozeným limitem a vyplácený za každý odpracovaný den. |
 | Průměrný hodinový výdělek | Nahradí vypočtený průměrný hodinový výdělek (nikdy ne pod hodinovou minimální mzdu). Ponechte prázdné, má-li ho páska spočítat sama. |
 | Vyživované osoby pro exekuci | Vyživované osoby zvyšující nezabavitelnou částku, zadává-li se srážka jako vstup výplatní pásky. |
+| Sleva pro pracujícího důchodce | Snižuje pojistné zaměstnance o 6,5 % vyměřovacího základu, zaokrouhleno na celé koruny nahoru. Zaškrtněte od měsíce, kdy zaměstnanec o slevu požádá a doloží nárok. |
 | Kategorie slevy na pojistném | Jedna z kategorií podle § 7a pro 5% slevu zaměstnavatele. |
 | Děti (1. dítě), Děti (2. dítě), Děti (3. a další dítě), z toho dětí se ZTP/P | Počet dětí pro daňové zvýhodnění podle pořadí. |
 
@@ -378,9 +379,13 @@ ustanovení. Stránka každého hlášení uvádí za která.
 
 ## Omezení {#limitations}
 
-- **Více DPP nebo DPČ.** Zákon příjmy z více dohod téže osoby u téhož
-  zaměstnavatele sčítá (§ 7 odst. 4 a § 7a odst. 3 zákona č. 187/2006 Sb.).
-  Modul ne: každá výplatní páska se s hranicí porovnává samostatně.
+- **Více DPP nebo DPČ.** Příjmy z více dohod téhož druhu u téhož
+  zaměstnavatele se pro limit účasti na pojištění sčítají (§ 7 odst. 4 a § 7a
+  odst. 3 zákona č. 187/2006 Sb.). Osobou je jeden záznam zaměstnance nebo více
+  záznamů se stejným *identifikačním číslem*; bez vyplněného rodného čísla se
+  dohody nepropojí. Potvrzení výplatní pásky se odmítne, dokud je jiná páska
+  téhož měsíce na špatné straně limitu. Limit pro daň se dál posuzuje po
+  jednotlivých páskách.
 - **Zaokrouhlení.** Sociální pojistné se u zaměstnance nezaokrouhluje na
   celé koruny nahoru, zdravotní ano. Sleva na pojistném se také
   nezaokrouhluje: zákon zaokrouhluje její úhrn za všechny zaměstnance.
@@ -391,6 +396,9 @@ ustanovení. Stránka každého hlášení uvádí za která.
   zaškrtnuté *Osobě, za kterou platí pojistné stát*.
 - **Sleva na pojistném.** Více zaměstnání u téhož zaměstnavatele se
   nesčítá; oznámení ČSSZ (§ 7a odst. 5) a samotný důvod nároku jsou na vás.
+- **Sleva pro pracujícího důchodce.** Podmínky ověřujete vy: důchodový věk,
+  důchod vyplácený v plné výši, celý kalendářní měsíc. Uplatňuje se jednou pro
+  všechna zaměstnání u téhož zaměstnavatele, zaškrtněte ji tedy jen u jednoho.
 - **Náhrada mzdy při nemoci.** 14 dnů se počítá od prvního dne nepřítomnosti;
   neschopnost vzniklá po odpracované směně (kdy lhůta začíná až následujícím
   dnem) a snížená či nepřiznaná náhrada (§ 192 odst. 4 a 5) vyžadují ruční

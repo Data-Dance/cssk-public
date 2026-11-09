@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_hr_payroll_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>Czech Payroll</h1>
 <p class="cssk-summary">The Czech payroll family in one place — the monthly payslip for a pracovní poměr, DPP and DPČ on either the OCA payroll app or Odoo Enterprise Payroll, with dated statutory rates, time off, the annual tax reconciliation and posting to the general ledger.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <code>hr_holidays</code></td></tr><tr><th>Extended by</th><td><code>l10n_cz_hr_payroll_ee</code>, <code>l10n_cz_hr_payroll_oca</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <code>hr_holidays</code></td></tr><tr><th>Extended by</th><td><code>l10n_cz_hr_payroll_ee</code>, <code>l10n_cz_hr_payroll_oca</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Czech payroll is delivered as a family of modules. This page describes the
@@ -266,6 +266,10 @@ checked against the consolidated texts in force in October 2026.</p>
 <tr>
 <td>Garnishment dependents</td>
 <td>Dependants raising the non-seizable amount when a garnishment is entered as a payslip input.</td>
+</tr>
+<tr>
+<td>Working pensioner discount</td>
+<td>Lowers the employee's social insurance by 6.5 % of the assessment base, rounded up to whole crowns. Tick it from the month the employee applies with proof.</td>
 </tr>
 <tr>
 <td>Social insurance discount category</td>
@@ -664,10 +668,13 @@ still filed only for the periods the transitional provisions leave to them.
 Each report's page says which.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li><strong>Several DPPs or DPČs.</strong> The law adds up the income from several
-  agreements of one person with the same employer (§ 7 odst. 4 and § 7a
-  odst. 3 of Act 187/2006 Sb.). The module does not: each payslip is tested
-  against the threshold on its own.</li>
+<li><strong>Several DPPs or DPČs.</strong> The income from several agreements of one kind
+  with the same employer is added up for the insurance limit (§ 7 odst. 4 and
+  § 7a odst. 3 of Act 187/2006 Sb.). A person is one employee record, or
+  several records with the same <em>Identification No</em>, with or without the slash;
+  fill in the birth number or the agreements are not linked. Confirming a payslip is refused while
+  another payslip of that month is on the wrong side of the limit. The income
+  tax limit is still tested per payslip.</li>
 <li><strong>Rounding.</strong> The social premium is not rounded up to whole crowns per
   employee; the health premium is. The social insurance discount is not
   rounded either: the law rounds the total over all employees.</li>
@@ -679,6 +686,9 @@ Each report's page says which.</p>
 <li><strong>Social insurance discount.</strong> Several employments with the same employer
   are not added up, and the notification to ČSSZ (§ 7a odst. 5) and the
   eligibility reason itself are up to you.</li>
+<li><strong>Working pensioner discount.</strong> The conditions are yours to check: pension
+  age, pension drawn in full, all of the calendar month. It is claimed once
+  across all jobs with one employer, so tick it on only one of them.</li>
 <li><strong>Sickness compensation.</strong> The 14 days are counted from the first day of
   the sick leave; an incapacity that began after a shift already worked
   (when the 14 days start the next day) and a reduced or forfeited

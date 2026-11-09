@@ -121,7 +121,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_pvpoj``
-- **Version:** 19.0.1.1.5
+- **Version:** 19.0.1.2.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``

@@ -38,7 +38,7 @@ eligible part-time employees) plus the per-employee eligibility field
 
 ``pojistneUhrada`` is reduced by the discount. When nobody has a discount the
 optional blocks are omitted entirely (all ``minOccurs="0"``) and the report is
-unchanged. ``slevyZamestnancu`` (employee-side discounts) stays out of scope.
+unchanged. ``slevyZamestnancu`` carries the working pensioners' employee-side discount.
 """
 import math
 from datetime import date
@@ -221,6 +221,22 @@ class L10nCzPvpoj(models.Model):
                 base_total * self._SOCIAL_DISCOUNT_RATE) if rows else 0,
         }
 
+    def _collect_employee_discount(self, data):
+        """Totals of the working pensioners' discount (``slevyZamestnancu``).
+
+        The discount is rounded per employee, so its total is the sum of the
+        payslip lines.
+        """
+        count = base_total = discount = 0
+        for bucket in data.get("per_employee", {}).values():
+            amount = bucket["totals"].get("SOCIAL_PENSIONER", 0.0)
+            if not amount:
+                continue
+            count += 1
+            base_total += self._employee_base(bucket)
+            discount += self._ceil_czk(amount)
+        return {"count": count, "base": base_total, "discount": discount}
+
     def _declaration_render_context(self, data):
         buckets = data.get("per_employee", {}).values()
         base_a = sum(self._employee_base(b) for b in buckets)
@@ -228,10 +244,14 @@ class L10nCzPvpoj(models.Model):
             base_a * self._EMPLOYER_SOCIAL_RATE_A)
         pojistne_ee_total = sum(
             # SOCIALEETOT is a deduction line, so its total is negative.
-            self._ceil_czk(-b["totals"].get("SOCIALEETOT", 0.0))
+            # The working pensioner's discount is reported apart, so the
+            # premium here is the one before it.
+            self._ceil_czk(-b["totals"].get("SOCIALEETOT", 0.0)
+                           + b["totals"].get("SOCIAL_PENSIONER", 0.0))
             for b in buckets)
         pojistne_celkem = pojistne_er_total + pojistne_ee_total
         sleva = self._collect_social_discount(data)
+        employee_discount = self._collect_employee_discount(data)
         # ulice / cisloDomu: the číslo popisné split off the street
         # (l10n_cssk_core), never Street 2 — a building, a floor or a c/o
         # line. uliceType is 50 characters, cisloDomuType 12.
@@ -255,5 +275,10 @@ class L10nCzPvpoj(models.Model):
             "sleva_uhrn_vz": sleva["sleva_uhrn_vz"],
             "sleva_pojistne": sleva["sleva_pojistne"],
             "sleva_zamestnanci": sleva["sleva_rows"],
-            "pojistne_uhrada": pojistne_celkem - sleva["sleva_pojistne"],
+            "has_employee_discount": bool(employee_discount["count"]),
+            "sleva_zam_pocet": employee_discount["count"],
+            "sleva_zam_uhrn_vz": employee_discount["base"],
+            "sleva_zam_pojistne": employee_discount["discount"],
+            "pojistne_uhrada": (pojistne_celkem - sleva["sleva_pojistne"]
+                                - employee_discount["discount"]),
         }

@@ -11,6 +11,10 @@ from odoo import _, models
 from odoo.addons.l10n_cz_hr_payroll_base.models.health_calc import (
     health_premiums,
 )
+from odoo.addons.l10n_cz_hr_payroll_base.models.insurance_month import (
+    check_month,
+    month_income,
+)
 
 # Stable Czech payroll worked-day codes for the absence taxonomy. Every one of
 # these is an ABSENCE: it prorates BASIC down. Holiday / paid-obstacle time is
@@ -275,6 +279,18 @@ class HrPayslip(models.Model):
                 if line.code == "SICK_HOURS"
             )
         return work + overtime + paid_absence
+
+    def l10n_cz_insurance_income(self, gross):
+        """The income the insurance limit of a DPP or DPČ is tested against."""
+        self.ensure_one()
+        return month_income(self, gross, "contract_id")
+
+    def action_payslip_done(self):
+        res = super().action_payslip_done()
+        check_month(self, "contract_id", lambda slip, kind: slip.env[
+            "hr.rule.parameter"]._get_parameter_value(
+                "l10n_cz_%s_threshold" % kind, slip.date_to))
+        return res
 
     def l10n_cz_social_discount_eligible(self, base):
         """Whether the employer may claim the sleva na pojistném (§ 7a zák. 589/1992).

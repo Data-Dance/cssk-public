@@ -27,6 +27,22 @@ tax on small agreements:
 On 18.0 the salary-rule localdict names the contract ``contract`` on both
 engines (19.0 Enterprise: ``version``).
 
+[19.0.1.18.0] — 2026-11-09
+--------------------------
+
+Fixed
+~~~~~
+
+- the insurance limit of a DPP or DPČ counts all of the person's agreements of that kind in the month; confirming is refused while a payslip is on the wrong side of it.
+
+[19.0.1.17.0] — 2026-11-09
+--------------------------
+
+Added
+~~~~~
+
+- the working pensioner discount, 6.5 % of the assessment base rounded up (rule ``SOCIAL_PENSIONER``).
+
 [19.0.1.16.1] — 2026-11-09
 --------------------------
 

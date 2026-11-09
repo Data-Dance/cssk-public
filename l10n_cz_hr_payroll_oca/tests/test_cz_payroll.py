@@ -12,6 +12,7 @@ from datetime import date, datetime, time
 
 from dateutil.relativedelta import relativedelta
 
+from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 
 
@@ -402,6 +403,70 @@ class TestCzPayroll(TransactionCase):
             p = self._payslip(emp, con, date(2027, 1, 1), date(2027, 1, 31))
             self.assertEqual(self._t(p, "PAR6BASE"), expected,
                              (agreement, wage, declared))
+
+    def test_working_pensioner_discount(self):
+        """Premium 7.1 % of 40 011 = 2 840.78; discount 6.5 % rounded up."""
+        emp, con = self._employee(
+            "Dana Duchodkyne", wage=40011.0, l10n_cz_pensioner_discount=True)
+        p = self._payslip(emp, con, date(2026, 3, 1), date(2026, 3, 31))
+        self.assertEqual(self._t(p, "SOCIAL_PENSIONER"), 2601.0)
+        self.assertAlmostEqual(self._t(p, "SOCIALEETOT"), -239.78, 2)
+        emp2, con2 = self._employee("Bez Slevy", wage=40011.0)
+        q = self._payslip(emp2, con2, date(2026, 3, 1), date(2026, 3, 31))
+        self.assertAlmostEqual(self._t(p, "NET") - self._t(q, "NET"), 2601.0, 2)
+
+    def test_no_pensioner_discount_without_a_premium(self):
+        emp, con = self._employee(
+            "Dana Dohoda", wage=8000.0, l10n_cz_agreement_type="dpp",
+            l10n_cz_pensioner_discount=True,
+            resource_calendar_id=self._part_time_calendar(5).id)
+        p = self._payslip(emp, con, date(2026, 3, 1), date(2026, 3, 31))
+        self.assertEqual(self._t(p, "SOCIAL_PENSIONER"), 0.0)
+
+    def _amt(self, slip, code):
+        return sum(slip.line_ids.filtered(lambda l: l.code == code).mapped("total"))
+
+    def _dpp(self, name, number):
+        emp, con = self._employee(
+            name, wage=8000.0, l10n_cz_agreement_type="dpp",
+            resource_calendar_id=self._part_time_calendar(5).id)
+        emp.identification_id = number
+        return emp, con
+
+    def test_agreements_of_one_person_add_up(self):
+        """Two DPPs of 8 000 with one birth number: 16 000 is over the limit."""
+        first = self._dpp("Prvni", "8001011234")
+        second = self._dpp("Druhy", "800101/1234")
+        slip1 = self._payslip(*first)
+        slip2 = self._payslip(*second)
+        self.assertTrue(self._amt(slip2, "SOCIALEE"))
+        slip1.compute_sheet()
+        self.assertTrue(self._amt(slip1, "SOCIALEE"))
+
+    def test_a_different_person_is_not_added(self):
+        first = self._dpp("Prvni", "8001011234")
+        second = self._dpp("Jiny", "9001011234")
+        self._payslip(*first)
+        slip2 = self._payslip(*second)
+        self.assertFalse(self._amt(slip2, "SOCIALEE"))
+
+    def test_a_confirmed_payslip_made_wrong_blocks_the_next(self):
+        first = self._dpp("Prvni", "8001011234")
+        second = self._dpp("Druhy", "8001011234")
+        slip1 = self._payslip(*first)
+        slip1.action_payslip_done()
+        slip2 = self._payslip(*second)
+        with self.assertRaisesRegex(UserError, "recomputed or corrected"):
+            slip2.action_payslip_done()
+
+    def test_a_credit_note_does_not_block_the_month(self):
+        first = self._dpp("Prvni", "8001011234")
+        second = self._dpp("Druhy", "8001011234")
+        slip1 = self._payslip(*first)
+        slip1.action_payslip_done()
+        slip2 = self._payslip(*second)
+        slip2.credit_note = True
+        slip2.action_payslip_done()
 
     def test_dpp_at_threshold_insured(self):
         """DPP, wage exactly 12000 (2026), no declaration.

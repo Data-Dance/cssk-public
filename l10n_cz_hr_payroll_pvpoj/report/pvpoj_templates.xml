@@ -52,6 +52,13 @@
                         <pojistneSleva t-out="sleva_pojistne"/>
                     </slevaZamestnavatele>
                 </t>
+                <t t-if="has_employee_discount">
+                    <slevyZamestnancu>
+                        <pocetZamestnancu t-out="sleva_zam_pocet"/>
+                        <uhrnVymerovacichZakladu t-out="sleva_zam_uhrn_vz"/>
+                        <pojistneSleva t-out="sleva_zam_pojistne"/>
+                    </slevyZamestnancu>
+                </t>
                 <pojistneUhrada t-out="pojistne_uhrada"/>
                 <datumVyplneni t-out="today"/>
                 <t t-if="has_discount">

@@ -146,6 +146,7 @@ checked against the consolidated texts in force in October 2026.
 | Meal allowance / shift | The *stravenkový paušál* per shift, capped at the tax-exempt limit and paid for each worked day. |
 | Average hourly earnings | Overrides the computed average hourly earnings (never below the hourly minimum wage). Leave empty to let the payslip compute it. |
 | Garnishment dependents | Dependants raising the non-seizable amount when a garnishment is entered as a payslip input. |
+| Working pensioner discount | Lowers the employee's social insurance by 6.5 % of the assessment base, rounded up to whole crowns. Tick it from the month the employee applies with proof. |
 | Social insurance discount category | One of the § 7a categories for the employer's 5 % discount. |
 | Children (1st tier), (2nd tier), (3rd+ tier), of which ZTP/P Children | Number of children for the child tax benefit, by order. |
 
@@ -371,10 +372,13 @@ Each report's page says which.
 
 ## Limitations {#limitations}
 
-- **Several DPPs or DPČs.** The law adds up the income from several
-  agreements of one person with the same employer (§ 7 odst. 4 and § 7a
-  odst. 3 of Act 187/2006 Sb.). The module does not: each payslip is tested
-  against the threshold on its own.
+- **Several DPPs or DPČs.** The income from several agreements of one kind
+  with the same employer is added up for the insurance limit (§ 7 odst. 4 and
+  § 7a odst. 3 of Act 187/2006 Sb.). A person is one employee record, or
+  several records with the same *Identification No*, with or without the slash;
+  fill in the birth number or the agreements are not linked. Confirming a payslip is refused while
+  another payslip of that month is on the wrong side of the limit. The income
+  tax limit is still tested per payslip.
 - **Rounding.** The social premium is not rounded up to whole crowns per
   employee; the health premium is. The social insurance discount is not
   rounded either: the law rounds the total over all employees.
@@ -386,6 +390,9 @@ Each report's page says which.
 - **Social insurance discount.** Several employments with the same employer
   are not added up, and the notification to ČSSZ (§ 7a odst. 5) and the
   eligibility reason itself are up to you.
+- **Working pensioner discount.** The conditions are yours to check: pension
+  age, pension drawn in full, all of the calendar month. It is claimed once
+  across all jobs with one employer, so tick it on only one of them.
 - **Sickness compensation.** The 14 days are counted from the first day of
   the sick leave; an incapacity that began after a shift already worked
   (when the 14 days start the next day) and a reduced or forfeited
