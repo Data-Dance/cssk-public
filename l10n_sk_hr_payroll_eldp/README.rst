@@ -14,6 +14,8 @@ SK Pension Insurance Record Sheet (ELDP)
 What it is for
 ================
 
+**Periods before 1 January 2026 only.** The employer's ELDP filing obligation ended for periods from 2026. Data for those periods is provided through the applicable monthly statements. Historical filings and corrections for older periods remain available; new records default to 2025.
+
 The *Evidenčný list dôchodkového poistenia* (**ELDP**) records, per employee and calendar year, the period of pension insurance and the assessment base on which pension premiums were paid. The Sociálna poisťovňa uses it to establish pension rights.
 
 This module builds the electronic batch ELDP (one ``eldpZec`` record per employee) for a whole year from that year's payslips and exports it as XML. Payslips are read through ``l10n_cssk_payroll_declaration_base``, so it works with either Slovak payroll engine — see the Slovak payroll guide.
@@ -25,7 +27,25 @@ References are to the `Social Insurance Act <https://www.slov-lex.sk/ezbierky/pr
 
 - **The employer's records.** The employer keeps a record of each employee for social-insurance purposes for as long as the insurance lasts (`§ 232 ods. 1 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-232.odsek-1>`__); among other things it contains the start and end of the employment and the employee's **unlimited assessment base** (*neobmedzený vymeriavací základ*, `§ 232 ods. 2 písm. e) <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-232.odsek-2.pismeno-e>`__).
 
-- **Submitting it.** The current text of the act does not name an annual ELDP filing; the employer submits documents to the Sociálna poisťovňa when asked to (`§ 231 ods. 1 písm. g) <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-1.pismeno-g>`__, last part), in the form the Sociálna poisťovňa determines (`§ 231 ods. 2 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-2>`__). File an ELDP when and for whom the Sociálna poisťovňa requires it.
+- **The filing is abolished from 2026.** Act No. 310/2024 Z. z. deleted the employer's duty to submit this record (§ 231 ods. 1 písm. j) as in force until 31 December 2025) with effect from 1 January 2026. The Sociálna poisťovňa now takes the data from its own systems; the one item only the ELDP carried, the wage compensation for serious operational reasons (§ 142 ods. 4 and § 250b ods. 6 of the Labour Code), moves to the monthly report (`Sociálna poisťovňa announcement <https://www.socpoist.sk/news/povinnost-zamestnavatelov-predkladat-evidencne-listy-dochodkoveho-poistenia-sa-od-roku-2026>`__).
+
+- **The one-off filing for periods before 2026.** `§ 293gl <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-293gl>`__ still requires the record for the period before 1 January 2026, for every employee, by:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Employees concerned
+     - Deadline
+   * - left before 2026, record never filed (or returned for correction)
+     - 31 January 2026
+   * - still employed, employer had fewer than 51 employees on 31 December 2025
+     - 30 June 2026
+   * - still employed, 51 to 500 employees
+     - 30 September 2026
+   * - still employed, more than 500 employees
+     - 31 December 2026
+
+The record covers every pre-2026 year not yet reported, not only 2025. This module builds one calendar year at a time from that year's payslips, from 2020 on; years before your payroll ran in Odoo have to be filed from the earlier system. A generated file for 2026 or later is refused, and so is marking such a file as submitted; existing attachments are kept.
 
 Setting it up
 ===============
@@ -103,7 +123,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_eldp``
-- **Version:** 19.0.1.1.2
+- **Version:** 19.0.1.1.3
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``

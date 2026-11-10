@@ -20,10 +20,12 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_res_company__l10n_sk_sp_vs
 msgid ""
 "10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
+"poisťovňa — the employer identifier (<icz>/<variabilnySymbol>) of the SP "
+"submissions."
 msgstr ""
 "10-miestne identifikačné číslo pridelené zamestnávateľovi Sociálnou "
-"poisťovňou — element <variabilnySymbol> výkazov SP (MVP / VPP)."
+"poisťovňou — identifikátor zamestnávateľa (<icz>/<variabilnySymbol>) v "
+"podaniach Sociálnej poisťovni."
 
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__sp_vs
@@ -168,6 +170,27 @@ msgstr "Zobrazovaný názov"
 #: model:ir.actions.act_window,name:l10n_sk_hr_payroll_eldp.action_l10n_sk_eldp
 msgid "ELDP (pension, annual)"
 msgstr "ELDP (dôchodkové, ročné)"
+
+#. module: l10n_sk_hr_payroll_eldp
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_eldp/models/l10n_sk_eldp.py:0
+msgid ""
+"ELDP is only for periods before 1 January 2026. For periods from 2026, "
+"provide pension-record data through the applicable monthly social-insurance "
+"statements."
+msgstr ""
+"ELDP je určený iba pre obdobia pred 1. januárom 2026. Za obdobia od roku "
+"2026 poskytnite dôchodkové údaje prostredníctvom príslušných mesačných "
+"výkazov sociálneho poistenia."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.view_l10n_sk_eldp_form
+msgid ""
+"ELDP is retained for periods before 1 January 2026.\n"
+"                        For periods from 2026, use the applicable monthly social-insurance statements."
+msgstr ""
+"ELDP sa používa pre obdobia pred 1. januárom 2026. Za obdobia od roku 2026 "
+"použite príslušné mesačné výkazy sociálneho poistenia."
 
 #. module: l10n_sk_hr_payroll_eldp
 #. odoo-python
@@ -487,3 +510,12 @@ msgstr "Príloha XML"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__year
 msgid "Year"
 msgstr "Rok"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_res_company__l10n_sk_sp_vs
+msgid ""
+"10-digit identification number assigned to the employer by the Sociálna "
+"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
+msgstr ""
+"10-miestne identifikačné číslo pridelené zamestnávateľovi Sociálnou "
+"poisťovňou — element <variabilnySymbol> výkazov SP (MVP / VPP)."

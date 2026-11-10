@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-10 12:58+0000\n"
+"POT-Creation-Date: 2026-11-10 19:59+0000\n"
 "PO-Revision-Date: 2026-11-10 12:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -35,11 +35,13 @@ msgid "Continue"
 msgstr "Pokračovať"
 
 #. module: l10n_sk_pos_cash_limit
+#: model:ir.model.fields,field_description:l10n_sk_pos_cash_limit.field_pos_config__display_name
 #: model:ir.model.fields,field_description:l10n_sk_pos_cash_limit.field_pos_order__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
 
 #. module: l10n_sk_pos_cash_limit
+#: model:ir.model.fields,field_description:l10n_sk_pos_cash_limit.field_pos_config__id
 #: model:ir.model.fields,field_description:l10n_sk_pos_cash_limit.field_pos_order__id
 msgid "ID"
 msgstr "ID"
@@ -50,9 +52,30 @@ msgid "L10N Sk Cash Limit Warning"
 msgstr "Upozornenie na limit platieb v hotovosti"
 
 #. module: l10n_sk_pos_cash_limit
+#: model:ir.model,name:l10n_sk_pos_cash_limit.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Nastavenie pokladnice"
+
+#. module: l10n_sk_pos_cash_limit
 #: model:ir.model,name:l10n_sk_pos_cash_limit.model_pos_order
 msgid "Point of Sale Orders"
 msgstr "Objednávky miesta predaja"
+
+#. module: l10n_sk_pos_cash_limit
+#. odoo-javascript
+#: code:addons/l10n_sk_pos_cash_limit/static/src/app/payment_screen_patch.js:0
+msgid ""
+"This order takes %(cash)s in cash and the customer already paid %(earlier)s "
+"in cash today, %(total)s together, above the 5 000 € limit of § 4 zákona č. "
+"394/2012 Z. z. Payments for one purchase are added together (§ 6 ods. 2). "
+"Continue only if these are separate purchases or an exemption under § 8 "
+"applies; otherwise take the rest by card or transfer."
+msgstr ""
+"Táto objednávka prijíma v hotovosti %(cash)s a zákazník dnes už zaplatil v "
+"hotovosti %(earlier)s, spolu %(total)s, čo je nad limitom 5 000 € podľa § 4 "
+"zákona č. 394/2012 Z. z. Platby za jeden nákup sa sčítavajú (§ 6 ods. 2). "
+"Pokračujte len vtedy, ak ide o samostatné nákupy alebo sa uplatní výnimka "
+"podľa § 8; inak zvyšok prijmite kartou alebo prevodom."
 
 #. module: l10n_sk_pos_cash_limit
 #. odoo-javascript

@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_pos_cash_limit/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Slovensko — limit platby v hotovosti na pokladnici</h1>
 <p class="cssk-summary">Pred prijatím viac ako 5 000 € v hotovosti na pokladnici Point of Sale sa spýta pokladníka a takú objednávku označí v back office.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.0.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><a href="/l10n_sk_invoice/static/description/index_sk.html"><code>l10n_sk_invoice</code></a>, <code>point_of_sale</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><a href="/l10n_sk_invoice/static/description/index_sk.html"><code>l10n_sk_invoice</code></a>, <code>point_of_sale</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Slovenský zákon zakazuje platbu v hotovosti nad 5 000 € a predaj na pokladnici
@@ -43,6 +43,16 @@ pokladníka o potvrdenie. „Späť“ vráti na obrazovku platby, aby sa zvyšo
 zaplatil kartou alebo prevodom; „Pokračovať“ objednávku potvrdí. Formulár
 objednávky v back office potom ukáže rovnaké upozornenie, takže sa také
 objednávky dajú nájsť a skontrolovať.</p>
+<p><strong>Hotovosť v cudzej mene</strong> sa ocení v eurách referenčným kurzom ECB alebo NBS
+platným v deň predchádzajúci dňu platby (§ 6 ods. 1), ktorý pokladnica dostane
+pri otvorení. Pokladnica v mene bez známeho kurzu kurz neháda a nepýta sa.</p>
+<p><strong>Ten istý zákazník platí v ten deň v hotovosti znova.</strong> Usmernenie finančnej
+správy považuje jeden nákup zaplatený po častiach za jednu platbu, ale samostatne
+uzavreté nákupy za samostatné (pokyn k zákonu 394/2012, čl. 2.3, príklady 15
+a 17). Pokladnica ich nerozlíši, preto keď má objednávka zákazníka, pripočíta
+hotovosť, ktorú zákazník v ten deň už zaplatil na ktorejkoľvek pokladnici
+spoločnosti, a ukáže ju v otázke; rozhodne pokladník. Back office pripočíta len
+skoršie objednávky, takže prvá objednávka série zostane bez upozornenia.</p>
 <p>Nainštaluje sa sám, keď sú prítomné
 <a href="/l10n_sk_invoice/static/description/index_sk.html"><code>l10n_sk_invoice</code></a> aj Point of Sale, a rovnako
 ako upozornenie pri platbách v tom module upozorňuje, neblokuje.</p>
@@ -51,14 +61,16 @@ ako upozornenie pri platbách v tom module upozorňuje, neblokuje.</p>
 <li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2012/394/">Zákon č. 394/2012 Z. z.</a>, § 4 ods. 1: platba v hotovosti
   nad 5 000 € je zakázaná; ods. 2 zvyšuje limit na 15 000 € len medzi fyzickými
   osobami nepodnikateľmi.</li>
+<li>§ 6 ods. 1: hotovosť v cudzej mene referenčným kurzom predchádzajúceho dňa;
+  ods. 2: časti jednej platby z jedného právneho vzťahu sa sčítavajú.</li>
 <li>§ 8 uvádza výnimky, napríklad platby pri správe daní alebo pri exekúcii,
   ktoré pokladnica nerozpozná; preto potvrdenie, nie blokovanie.</li>
 </ul>
 <h2 id="limits">Obmedzenia</h2>
-<p>Pokladnica sa pýta, len ak pracuje v eurách; v inej mene back office prepočíta
-a objednávku označí. Jedna objednávka je jedna platba: viac dokladov jedného
-obchodu (§ 6 ods. 2) pokladnica nesčítava.</p>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2012/394/">Zákon č. 394/2012 Z. z. o obmedzení platieb v hotovosti</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<p>Objednávky bez zákazníka sa posudzujú každá zvlášť a časti jedného nákupu zaplatené v rôzne dni sa nesčítavajú. Pri vrátení nad 5 000 € v hotovosti sa pokladnica tiež spýta: aj vyplatenie je platba v hotovosti, k platbám zákazníka sa však nepripočíta. Bez pripojenia pokladnica
+posúdi len samotnú objednávku a back office sčíta neskôr. Kurz je kurz dňa pred
+otvorením pokladnice; relácia otvorená cez polnoc si ho ponechá.</p>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2012/394/">Zákon č. 394/2012 Z. z. o obmedzení platieb v hotovosti</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

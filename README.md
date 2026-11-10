@@ -114,7 +114,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_account_oca` | 19.0.1.0.4 | Post Slovak payslips to the general ledger |
 | `l10n_sk_hr_payroll_annual_tax_report` | 19.0.2.1.1 | Annual Slovak employer income-tax report (Hlásenie o vyúčtovaní dane a o úhrne príjmov zo závislej činnosti, § 39 ods. 9) for the Finančná správa — aggregate… |
 | `l10n_sk_hr_payroll_base` | 19.0.1.2.1 | Engine-neutral base for the Slovak payroll: the employment forms (pracovný pomer, DoVP, DoPČ, DoBPŠ) and one table saying which contributions and entitlements… |
-| `l10n_sk_hr_payroll_eldp` | 19.0.1.1.2 | Annual per-employee Slovak pension record (ELDP) filed to the Sociálna poisťovňa — aggregates each year's pension assessment base and insured period per… |
+| `l10n_sk_hr_payroll_eldp` | 19.0.1.1.3 | Historical Slovak pension record (ELDP), for periods before 2026, filed to the Sociálna poisťovňa — aggregates each year's pension assessment base and insured… |
 | `l10n_sk_hr_payroll_health` | 19.0.1.2.3 | Monthly Slovak health-insurance advances statement (Mesačný výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / Union — employer header + per-employee… |
 | `l10n_sk_hr_payroll_income_allocation` | 19.0.1.2.0 | Reviewed historical social bases and dated premiums for additional income |
 | `l10n_sk_hr_payroll_income_settlement` | 19.0.1.0.2 | Reviewed monthly additional-income tax and health calculation |
@@ -135,7 +135,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_mis_reports` | 19.0.1.1.0 | Management P&L on the Slovak chart, for Community — the counterpart to Enterprise's account_reports. |
 | `l10n_sk_oss` | 19.0.1.0.1 | Slovak layer of the OSS return: the Finančná správa eForm DPOSS_EUv01 XML (daňové priznanie k DPH — osobitná úprava pre Úniu), on the EU OSSVATReturnMSCON… |
 | `l10n_sk_payment_reliability` | 19.0.1.1.3 | Slovak provider for the CZ/SK supplier-reliability check: registered bank accounts (ds_dph_iban) and the tax-reliability index (ds_iz_ran) from the Financial… |
-| `l10n_sk_pos_cash_limit` | 19.0.1.0.0 | Asks for confirmation before a Point of Sale order takes more than 5 000 € in cash (zákon č. 394/2012 Z. z.) and flags such orders in the back office. |
+| `l10n_sk_pos_cash_limit` | 19.0.1.1.0 | Asks for confirmation before a Point of Sale order takes more than 5 000 € in cash (zákon č. 394/2012 Z. z.) and flags such orders in the back office. |
 | `l10n_sk_purchase_order_advance_invoice` | 19.0.1.0.3 | Slovak chart wiring for purchase_order_advance_invoice. |
 | `l10n_sk_sale_order_advance_invoice` | 19.0.1.1.2 | Slovak chart wiring for advance invoices (preddavkové faktúry) |
 | `l10n_sk_single_entry_closing` | 19.0.1.1.1 | The closing a SZČO keeping jednoduché účtovníctvo files: výkaz o príjmoch a výdavkoch from the peňažný denník, výkaz o majetku a záväzkoch from the ledger. |

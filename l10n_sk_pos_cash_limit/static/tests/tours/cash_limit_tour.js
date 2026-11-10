@@ -41,3 +41,33 @@ registry.category("web_tour.tours").add("l10n_sk_pos_cash_limit_tour", {
             ReceiptScreen.isShown(),
         ].flat(),
 });
+
+registry.category("web_tour.tours").add("l10n_sk_pos_cash_limit_same_customer_tour", {
+    steps: () =>
+        [
+            Chrome.startPoS(),
+            Dialog.confirm("Open Register"),
+            // 4 000 € in cash from a customer: below the limit.
+            ProductScreen.addOrderline("Strieborná tehla", "1"),
+            ProductScreen.clickPartnerButton(),
+            ProductScreen.clickCustomer("Kupec Opakovaný"),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.clickPaymentMethod("Cash"),
+            PaymentScreen.clickValidate(),
+            ReceiptScreen.isShown(),
+            ReceiptScreen.clickNextOrder(),
+            // Another 4 000 € the same day: 8 000 € together (§ 6 ods. 2).
+            ProductScreen.addOrderline("Strieborná tehla", "1"),
+            ProductScreen.clickPartnerButton(),
+            ProductScreen.clickCustomer("Kupec Opakovaný"),
+            ProductScreen.clickPayButton(),
+            PaymentScreen.clickPaymentMethod("Cash"),
+            PaymentScreen.clickValidate(),
+            {
+                content: "the dialog adds the customer's earlier cash",
+                trigger: ".modal .modal-body:contains('§ 6 ods. 2')",
+            },
+            Dialog.confirm(false),
+            ReceiptScreen.isShown(),
+        ].flat(),
+});

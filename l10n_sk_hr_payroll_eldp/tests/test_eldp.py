@@ -5,6 +5,7 @@ payroll engines. Detects the installed SK payroll engine, drives it to a
 computed payslip inside the year, generates the annual ELDP and validates the
 produced XML against the shipped ``ELDP-v2015_1.3.xsd``."""
 import base64
+import unittest
 from datetime import date
 
 from lxml import etree
@@ -24,6 +25,8 @@ class TestEldp(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.engine = cls._detect_engine()
+        if not cls.engine:
+            raise unittest.SkipTest("No Slovak payroll engine installed")
         cls.company = cls.env["res.company"].create({
             "name": "SK ELDP Co",
             "country_id": cls.env.ref("base.sk").id,
@@ -55,9 +58,11 @@ class TestEldp(TransactionCase):
                 "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary",
                 raise_if_not_found=False):
             return "oca"
-        return "ee"
+        if cls.env.ref("l10n_sk_hr_payroll.hr_payroll_structure_sk_employee_salary", raise_if_not_found=False):
+            return "ee"
+        return None
 
-    def _employee_payslip(self, wage=2000.0, start=date(2026, 1, 1)):
+    def _employee_payslip(self, wage=2000.0, start=date(2025, 1, 1)):
         emp_vals = {
             "name": "Jozko Mrkvicka",
             "company_id": self.company.id,
@@ -80,8 +85,8 @@ class TestEldp(TransactionCase):
             "employee_id": employee.id,
             "struct_id": self.structure.id,
             "company_id": self.company.id,
-            "date_from": date(2026, 3, 1),
-            "date_to": date(2026, 3, 31),
+            "date_from": date(2025, 3, 1),
+            "date_to": date(2025, 3, 31),
         })
         if self.engine == "ee":
             slip = slip.with_context(salary_simulation=True)
@@ -97,12 +102,12 @@ class TestEldp(TransactionCase):
 
         decl = self.env["l10n.sk.eldp"].with_company(self.company).create({
             "company_id": self.company.id,
-            "year": "2026",
+            "year": "2025",
         })
         self.assertTrue(decl.version_id, "ELDP version should default")
         # Whole-year period.
-        self.assertEqual(decl.date_from, date(2026, 1, 1))
-        self.assertEqual(decl.date_to, date(2026, 12, 31))
+        self.assertEqual(decl.date_from, date(2025, 1, 1))
+        self.assertEqual(decl.date_to, date(2025, 12, 31))
         decl.action_generate()
         self.assertEqual(decl.state, "generated")
 
@@ -118,7 +123,7 @@ class TestEldp(TransactionCase):
         self.assertEqual(rows[0].find(".//e:poistenec/e:rc", NS).text,
                          "8501011234")
         vz = root.find(".//e:vzZaObdobiePoist", NS)
-        self.assertEqual(vz.get("rok"), "2026")
+        self.assertEqual(vz.get("rok"), "2025")
         self.assertAlmostEqual(float(vz.get("vzDP")), gross, 2)
         # Still employed -> relationship reported as ongoing (trva=1).
         self.assertEqual(rows[0].find(".//e:poistVztah/e:trva", NS).text, "1")
@@ -130,17 +135,17 @@ class TestEldp(TransactionCase):
         1 January, so an employee hired on 1 February was reported insured for
         January too.
         """
-        self._employee_payslip(start=date(2026, 2, 1))
+        self._employee_payslip(start=date(2025, 2, 1))
         decl = self.env["l10n.sk.eldp"].with_company(self.company).create({
             "company_id": self.company.id,
-            "year": "2026",
+            "year": "2025",
         })
         decl.action_generate()
         root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
         self.assertEqual(
-            root.find(".//e:poistVztah/e:datVzniku", NS).text, "01.02.2026")
+            root.find(".//e:poistVztah/e:datVzniku", NS).text, "01.02.2025")
         self.assertEqual(
-            root.find(".//e:vzZaObdobiePoist", NS).get("datOd"), "01.02.2026")
+            root.find(".//e:vzZaObdobiePoist", NS).get("datOd"), "01.02.2025")
 
     def test_multi_word_first_name_is_kept(self):
         """First word = first name, last word = surname dropped the middle
@@ -148,7 +153,7 @@ class TestEldp(TransactionCase):
         employee, _slip = self._employee_payslip()
         employee.name = "Ján Peter Novák"
         decl = self.env["l10n.sk.eldp"].with_company(self.company).create({
-            "company_id": self.company.id, "year": "2026"})
+            "company_id": self.company.id, "year": "2025"})
         decl.action_generate()
         root = etree.fromstring(base64.b64decode(decl.xml_attachment_id.datas))
         person = root.find(".//e:eldpZec//e:poistenec", NS)
@@ -162,7 +167,7 @@ class TestEldp(TransactionCase):
             [(False, "form")])["views"]["form"]["arch"]
         self.assertIn('name="sp_vs"', arch)
         decl = self.env["l10n.sk.eldp"].with_company(self.company).create({
-            "company_id": self.company.id, "year": "2026"})
+            "company_id": self.company.id, "year": "2025"})
         decl.sp_vs = "9988776655"
         self.assertEqual(self.company.l10n_sk_sp_vs, "9988776655")
 

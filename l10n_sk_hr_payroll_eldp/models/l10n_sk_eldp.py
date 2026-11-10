@@ -1,6 +1,6 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-"""SK ELDP — Evidenčný list dôchodkového poistenia (annual pension record).
+"""SK ELDP — pension records for periods before 1 January 2026.
 
 Filed to the Sociálna poisťovňa (ns http://socpoist.sk/xsd/eldpzec, root
 ``spELDPZec`` — the *hromadný* batch of per-employee pension records). Unlike
@@ -24,6 +24,9 @@ from datetime import date
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+#: The last calendar year an ELDP can be filed for (§ 293gl of 461/2003).
+ELDP_LAST_YEAR = 2025
+
 
 class L10nSkEldp(models.Model):
     _name = "l10n.sk.eldp"
@@ -35,6 +38,32 @@ class L10nSkEldp(models.Model):
     _report_code = "sk_eldp"
     _country_code = "SK"
     _xml_name_fallback = "eldp"
+
+    # Act No. 310/2024 deleted the filing duty (§ 231 ods. 1 písm. j) of
+    # 461/2003) from 1 January 2026; § 293gl still requires the record for the
+    # period before that date, filed during 2026. Later corrections of those
+    # periods remain possible, a record for 2026 or later is never filed.
+    year = fields.Selection(default=str(ELDP_LAST_YEAR))
+
+    def _check_legacy_period(self):
+        for record in self:
+            if record.year and int(record.year) > ELDP_LAST_YEAR:
+                raise UserError(_(
+                    "ELDP is only for periods before 1 January 2026. "
+                    "For periods from 2026, provide pension-record data through "
+                    "the applicable monthly social-insurance statements."))
+
+    def action_generate(self):
+        # Check before the generic version picker; old records can still
+        # carry the open-ended historical schema version after an upgrade.
+        self._check_legacy_period()
+        return super().action_generate()
+
+    def action_submit(self):
+        # Existing archived files remain readable; this guards a new filing
+        # of a generated record left over from before the period check.
+        self._check_legacy_period()
+        return super().action_submit()
 
     # The company field is required for every Sociálna poisťovňa filing but
     # appears on no company form (several modules declare it, and one view
@@ -66,6 +95,7 @@ class L10nSkEldp(models.Model):
 
     # ------------------------------------------------------------------
     def _preflight(self):
+        self._check_legacy_period()
         super()._preflight()
         for rec in self:
             company = rec.company_id

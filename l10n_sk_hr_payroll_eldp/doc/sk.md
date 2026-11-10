@@ -1,10 +1,15 @@
 ---
 title: SK ELDP — evidenčný list dôchodkového poistenia
 summary: Evidenčný list dôchodkového poistenia za kalendárny rok — vymeriavací základ a obdobie poistenia každého zamestnanca zostavené z výplatných pások roka a vyexportované ako hromadné XML pre Sociálnu poisťovňu.
-verified: 19.0.1.1.2
+verified: 19.0.1.1.3
 ---
 
 ## Na čo slúži {#purpose}
+
+**Iba obdobia pred 1. januárom 2026.** Povinnosť predkladať ELDP za nové
+obdobia bola od roku 2026 zrušená. Údaje za tieto obdobia sa poskytujú
+prostredníctvom príslušných mesačných výkazov. Modul ponecháva historické
+podania a opravy za staršie obdobia; nový záznam predvolí rok 2025.
 
 *Evidenčný list dôchodkového poistenia* (**ELDP**) zaznamenáva za každého
 zamestnanca a kalendárny rok obdobie dôchodkového poistenia a vymeriavací
@@ -28,13 +33,29 @@ Odkazy sú na [zákon o sociálnom poistení](law:sk/2003/461).
   deň vzniku a skončenia pracovného pomeru a **neobmedzený vymeriavací základ
   zamestnanca**
   ([§ 232 ods. 2 písm. e)](law:sk/2003/461#paragraf-232.odsek-2.pismeno-e)).
-- **Predloženie.** Platné znenie zákona ročné predkladanie ELDP výslovne
-  neupravuje; zamestnávateľ predkladá podklady na výzvu organizačnej zložky
-  Sociálnej poisťovne
-  ([§ 231 ods. 1 písm. g)](law:sk/2003/461#paragraf-231.odsek-1.pismeno-g),
-  záver), na tlačive, ktoré určí Sociálna poisťovňa
-  ([§ 231 ods. 2](law:sk/2003/461#paragraf-231.odsek-2)). ELDP podajte vtedy
-  a za tých zamestnancov, za ktorých ho Sociálna poisťovňa vyžaduje.
+- **Podávanie je od roku 2026 zrušené.** Zákon č. 310/2024 Z. z. vypustil
+  povinnosť zamestnávateľa predkladať túto evidenciu (§ 231 ods. 1 písm. j)
+  v znení účinnom do 31. decembra 2025) s účinnosťou od 1. januára 2026.
+  Sociálna poisťovňa údaje získava zo svojich systémov; jediný údaj, ktorý
+  niesol iba ELDP, náhrada mzdy z vážnych prevádzkových dôvodov (§ 142 ods. 4
+  a § 250b ods. 6 Zákonníka práce), sa presúva do mesačného výkazu
+  ([oznam Sociálnej poisťovne](https://www.socpoist.sk/news/povinnost-zamestnavatelov-predkladat-evidencne-listy-dochodkoveho-poistenia-sa-od-roku-2026)).
+- **Jednorazové podanie za obdobie pred rokom 2026.**
+  [§ 293gl](law:sk/2003/461#paragraf-293gl) ešte vyžaduje evidenciu za obdobie
+  pred 1. januárom 2026 za všetkých zamestnancov, a to do:
+
+  | Zamestnanci | Lehota |
+  |---|---|
+  | skončili pred rokom 2026 a evidencia nebola predložená (alebo bola vrátená na opravu) | 31. januára 2026 |
+  | právny vzťah trvá, zamestnávateľ mal k 31. decembru 2025 menej ako 51 zamestnancov | 30. júna 2026 |
+  | právny vzťah trvá, 51 až 500 zamestnancov | 30. septembra 2026 |
+  | právny vzťah trvá, viac ako 500 zamestnancov | 31. decembra 2026 |
+
+  Evidencia pokrýva každý doteraz nevykázaný rok pred rokom 2026, nielen rok
+  2025. Modul zostavuje vždy jeden kalendárny rok z výplatných pások toho roka,
+  od roku 2020; roky pred zavedením miezd v Odoo treba podať z pôvodného
+  systému. Súbor za rok 2026 a neskôr modul odmietne vygenerovať aj označiť
+  za podaný; uložené prílohy ponechá.
 
 ## Nastavenie {#setup}
 
