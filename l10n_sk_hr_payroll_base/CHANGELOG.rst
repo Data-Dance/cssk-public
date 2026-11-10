@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ----------
 
+* Concurrent interval edits advance the parent version. A stale review transaction retries rather than approving old insured days; covered with two real transactions on a committed calendar.
+
 * Add reviewed monthly insurance calendars with immutable revisions, company-scoped intervals and shared day/minimum facts for payroll/report adapters. Insured agreements use reviewed 2D days; a 2Y source identifies one day.
 
 * Share the employee health OP/base calculation with report adapters, distinguish eligible/other income, and retain dated written concurrent-employment minimum opt-out facts.

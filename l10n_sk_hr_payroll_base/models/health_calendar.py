@@ -163,6 +163,13 @@ class HealthCalendar(models.Model):
                 "ORDER BY id FOR UPDATE",
                 [self.ids],
             )
+            # Child-only writes must advance a non-key parent version. Row
+            # locking/cache invalidation alone preserves a stale RR snapshot.
+            self.env.cr.execute(
+                "UPDATE l10n_sk_health_calendar SET write_date = clock_timestamp() "
+                "WHERE id = ANY(%s)",
+                [self.ids],
+            )
             # A writer may have changed the month/company while we waited.
             # Recheck both constraints and access against the committed row.
             self.invalidate_recordset()
