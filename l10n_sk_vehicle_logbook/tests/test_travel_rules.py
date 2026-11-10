@@ -40,3 +40,15 @@ class TestTravelRules(BaseCase):
         self.assertEqual(rules.kilometre_allowance(100.2, 0.313), 31.61)
         self.assertEqual(rules.kilometre_allowance(100.0, 0.313, trailer=True), 36.0)
         self.assertEqual(rules.fuel_allowance(100.2, 6.6, 1.5), 10.0)
+
+    def test_meals_split_by_place(self):
+        free, abroad = (True, False, True), (False, False, True)
+        self.assertEqual(
+            rules.split_meals(free, abroad, True),
+            ((True, False, False), (False, False, True)),
+        )
+        # Without a foreign part every meal counts at home.
+        self.assertEqual(
+            rules.split_meals(free, abroad, False),
+            ((True, False, True), (False, False, False)),
+        )

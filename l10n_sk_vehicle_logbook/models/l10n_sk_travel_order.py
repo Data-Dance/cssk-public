@@ -14,7 +14,8 @@ from .. import travel_rules
 # employer set in writing before the trip (§ 3) and stays as approved.
 ACTUAL_FIELDS = {
     "date_start", "date_end", "border_out", "border_in", "stay_ids", "day_ids",
-    "kilometres", "consumption", "fuel_price", "trip_ids", "expense_ids",
+    "kilometres", "consumption", "fuel_price", "fuel_line_ids", "trip_ids",
+    "expense_ids",
 }
 # Set only by the process methods, never by a client: writing them directly
 # would skip the approval.
@@ -24,6 +25,10 @@ PROCESS_FIELDS = {
     "report_deadline", "advance_expense_id", "expense_id",
 }
 SETTLEMENT_DEADLINE_DAYS = 10  # § 36 ods. 7 and 8 zákona 283/2002 Z. z.
+# When a free meal is usually eaten, Slovak time: the default for whether it
+# was provided at home or abroad on a day the border is crossed. The
+# employee corrects it where the trip went otherwise.
+MEAL_TIMES = {"breakfast": time(8), "lunch": time(12), "dinner": time(18)}
 
 
 def _working_days_after(calendar, moment, days):
@@ -153,8 +158,16 @@ class L10nSkTravelOrder(models.Model):
              "under § 7 ods. 6 zákona 283/2002 Z. z.",
     )
     fuel_price = fields.Float(
-        digits=(8, 3), help="Unit price from the purchase receipt (§ 7 ods. 5)."
+        digits=(8, 3), help="Unit price from the purchase receipt (§ 7 ods. 5). "
+        "Used when the order has no fuel lines.",
     )
+    fuel_line_ids = fields.One2many(
+        "l10n.sk.travel.order.fuel", "order_id", string="Fuel",
+        help="Fuel reimbursement by part of the trip, each at its own unit "
+             "price and currency: abroad at the price on the foreign receipt "
+             "(§ 15 zákona 283/2002 Z. z.). Replaces the single fuel price.",
+    )
+    fuel_km_mismatch = fields.Boolean(compute="_compute_fuel_km_mismatch")
     advance = fields.Monetary(
         help="Requested advance. Approving the order creates it as an approved "
              "employee advance for accounting to pay out; the settlement clears "
@@ -265,6 +278,7 @@ class L10nSkTravelOrder(models.Model):
         "day_ids.amount", "vehicle_mode", "vehicle_category", "trailer",
         "kilometres", "consumption", "fuel_price", "advance", "date_start",
         "expense_ids.total_amount", "expense_ids.payment_mode",
+        "fuel_line_ids.amount", "fuel_line_ids.currency_id",
     )
     def _compute_amounts(self):
         for order in self:
@@ -281,9 +295,17 @@ class L10nSkTravelOrder(models.Model):
                 km_amount = travel_rules.kilometre_allowance(
                     order.kilometres, km_rate, order.trailer
                 )
-                fuel = travel_rules.fuel_allowance(
-                    order.kilometres, order.consumption, order.fuel_price
-                )
+                if order.fuel_line_ids:
+                    fuel = sum(
+                        travel_rules._cents(
+                            line.amount * order._conversion_rate(line.currency_id)
+                        )
+                        for line in order.fuel_line_ids
+                    )
+                else:
+                    fuel = travel_rules.fuel_allowance(
+                        order.kilometres, order.consumption, order.fuel_price
+                    )
             order.meal_amount = meals
             order.kilometre_amount = km_amount
             order.fuel_amount = fuel
@@ -292,18 +314,36 @@ class L10nSkTravelOrder(models.Model):
             # Costs the company paid directly are not owed to the employee.
             order.amount_due = order.allowance_amount + own_costs - order.advance
 
+    @api.depends("fuel_line_ids.kilometres", "kilometres", "vehicle_mode")
+    def _compute_fuel_km_mismatch(self):
+        for order in self:
+            lines = order.fuel_line_ids
+            order.fuel_km_mismatch = bool(lines) and order.vehicle_mode == "own" and (
+                round(sum(lines.mapped("kilometres")), 2) != round(order.kilometres, 2)
+            )
+
+    def _meal_abroad_default(self, day, meal):
+        """Whether ``meal`` of ``day`` falls in the time abroad, by MEAL_TIMES."""
+        self.ensure_one()
+        if self.trip_kind != "foreign" or not (self.border_out and self.border_in):
+            return False
+        moment = travel_rules.TIMEZONE.localize(datetime.combine(day, MEAL_TIMES[meal]))
+        moment = moment.astimezone(pytz.utc).replace(tzinfo=None)
+        return self.border_out <= moment < self.border_in
+
     def action_compute_days(self):
         """Rebuild the calendar days, keeping meals already ticked."""
+        meals = ("breakfast", "lunch", "dinner")
         for order in self:
             kept = {
-                d.date: (d.breakfast, d.lunch, d.dinner) for d in order.day_ids
+                d.date: {f: d[f] for m in meals for f in (m, f"{m}_abroad")}
+                for d in order.day_ids
             }
             values = []
             for day, (home_hours, abroad) in order._split_days().items():
                 # § 5 amounts change mid-year (280/2025 from 1. 12. 2025), so
                 # each day takes the set in force on that day.
                 rate = order._rate(day)
-                breakfast, lunch, dinner = kept.get(day, (False, False, False))
                 vals = {
                     "order_id": order.id,
                     "date": day,
@@ -312,13 +352,16 @@ class L10nSkTravelOrder(models.Model):
                         home_hours, rate.meal_5_12, rate.meal_12_18, rate.meal_18
                     ),
                     "rate_18": rate.meal_18,
-                    "breakfast": breakfast,
-                    "lunch": lunch,
-                    "dinner": dinner,
                 }
                 if abroad:
                     vals.update(order._foreign_day_values(day, abroad))
-                    vals["meals_abroad"] = vals["hours_abroad"] >= home_hours
+                if day in kept:
+                    vals.update(kept[day])
+                else:
+                    vals.update({
+                        f"{meal}_abroad": bool(abroad) and order._meal_abroad_default(day, meal)
+                        for meal in meals
+                    })
                 values.append(vals)
             order.day_ids.unlink()
             self.env["l10n.sk.travel.order.day"].create(values)
@@ -894,9 +937,17 @@ class L10nSkTravelOrderDay(models.Model):
              "the trip began (§ 36 ods. 6).",
     )
     pocket_money = fields.Float(digits=(10, 2), readonly=True)
-    meals_abroad = fields.Boolean(
-        help="The free meals of this day were abroad, so they cut the foreign "
-             "allowance (§ 13 ods. 7) instead of the domestic one (§ 5 ods. 6).",
+    breakfast_abroad = fields.Boolean(
+        help="The free breakfast was provided abroad, so it cuts the foreign "
+             "allowance (§ 13 ods. 7) and not the domestic one (§ 5 ods. 6).",
+    )
+    lunch_abroad = fields.Boolean(
+        help="The free lunch was provided abroad, so it cuts the foreign "
+             "allowance (§ 13 ods. 7) and not the domestic one (§ 5 ods. 6).",
+    )
+    dinner_abroad = fields.Boolean(
+        help="The free dinner was provided abroad, so it cuts the foreign "
+             "allowance (§ 13 ods. 7) and not the domestic one (§ 5 ods. 6).",
     )
     foreign_amount = fields.Float(
         string="Foreign meals", digits=(10, 2), compute="_compute_amount", store=True,
@@ -909,18 +960,22 @@ class L10nSkTravelOrderDay(models.Model):
     amount = fields.Monetary(compute="_compute_amount", store=True)
 
     @api.depends(
-        "rate", "rate_18", "breakfast", "lunch", "dinner", "meals_abroad",
-        "hours_abroad", "foreign_base", "foreign_rate", "pocket_money",
+        "rate", "rate_18", "breakfast", "lunch", "dinner", "breakfast_abroad",
+        "lunch_abroad", "dinner_abroad", "hours_abroad", "foreign_base",
+        "foreign_rate", "pocket_money",
     )
     def _compute_amount(self):
+        """Each free meal cuts the part of the day where it was provided, and
+        each part only down to zero (§ 5 ods. 6, § 13 ods. 7, § 16 ods. 1)."""
         for day in self:
-            meals = (day.breakfast, day.lunch, day.dinner)
-            abroad = bool(day.foreign_base) and day.meals_abroad
-            domestic = travel_rules.meal_allowance(
-                day.rate, day.rate_18, *((False,) * 3 if abroad else meals)
+            home, abroad = travel_rules.split_meals(
+                (day.breakfast, day.lunch, day.dinner),
+                (day.breakfast_abroad, day.lunch_abroad, day.dinner_abroad),
+                bool(day.foreign_base),
             )
+            domestic = travel_rules.meal_allowance(day.rate, day.rate_18, *home)
             foreign = travel_rules.foreign_meal_allowance(
-                day.foreign_base, day.hours_abroad, *(meals if abroad else (False,) * 3)
+                day.foreign_base, day.hours_abroad, *abroad
             ) if day.foreign_base else 0.0
             day.foreign_amount = foreign
             day.amount = domestic + travel_rules._cents(
@@ -941,3 +996,43 @@ class L10nSkTravelOrderStay(models.Model):
         help="When the trip enters this country. Empty on the first country "
              "means the moment it leaves Slovakia.",
     )
+
+
+class L10nSkTravelOrderFuel(models.Model):
+    """One part of the trip's fuel at one unit price (§ 7 ods. 4, § 15)."""
+    _name = "l10n.sk.travel.order.fuel"
+    _inherit = ["l10n.sk.travel.order.line.mixin"]
+    _description = "Travel order fuel line"
+    _order = "sequence, id"
+
+    order_id = fields.Many2one("l10n.sk.travel.order", required=True, ondelete="cascade")
+    sequence = fields.Integer(default=10)
+    abroad = fields.Boolean(
+        help="Kilometres driven abroad, or after re-entering Slovakia on fuel "
+             "bought abroad (§ 15 ods. 1 and 2).",
+    )
+    kilometres = fields.Float(required=True)
+    unit_price = fields.Float(
+        digits=(8, 3), required=True,
+        help="From the purchase receipt; abroad, the foreign receipt (an "
+             "average of several receipts is allowed). Without one, the price "
+             "at departure in that country, or the Štatistický úrad SR price.",
+    )
+    currency_id = fields.Many2one(
+        "res.currency", required=True,
+        default=lambda self: self.env.company.currency_id,
+        help="Euro in the euro area; the local currency elsewhere (§ 15 ods. 2). "
+             "Converted at the ECB or NBS rate valid on the first day of the "
+             "month the trip began.",
+    )
+    amount = fields.Float(
+        digits=(10, 2), compute="_compute_amount", store=True,
+        help="In the line's currency.",
+    )
+
+    @api.depends("kilometres", "unit_price", "order_id.consumption")
+    def _compute_amount(self):
+        for line in self:
+            line.amount = travel_rules.fuel_allowance(
+                line.kilometres, line.order_id.consumption, line.unit_price
+            )

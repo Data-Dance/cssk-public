@@ -9,9 +9,9 @@ on either without this module knowing which engine is installed.
 """
 
 from calendar import monthrange
+from decimal import Decimal, ROUND_DOWN
 
 from odoo import models
-from odoo.tools import float_round
 
 from ..applicability import EMPLOYMENT, applies
 
@@ -26,23 +26,31 @@ class HrVersion(models.Model):
         lasted only part of a calendar month, the base under ods. 9 is adjusted
         by the days for which premiums are paid. The provision names ods. 9
         only, so the employer's cap under ods. 10 is deliberately left whole.
-        The result is floored to the eurocent (§ 138 ods. 14).
+        Floor the daily base first (§ 138 ods. 13), then multiply the
+        insured days. A full month retains the unadjusted monthly maximum.
         """
         self.ensure_one()
-        ratio = self.l10n_sk_month_employed_ratio(day)
-        if ratio == 1.0:
+        days_in_month = monthrange(day.year, day.month)[1]
+        insured_days = self._l10n_sk_month_employed_days(day)
+        if insured_days == days_in_month:
             return cap
-        return float_round(cap * ratio, precision_digits=2, rounding_method="DOWN")
+        daily = (Decimal(str(cap)) / days_in_month).quantize(
+            Decimal("0.01"), rounding=ROUND_DOWN)
+        return float(daily * insured_days)
 
     def l10n_sk_month_employed_ratio(self, day):
         """Share of the calendar month of ``day`` covered by this employment."""
+        return self._l10n_sk_month_employed_days(day) / monthrange(day.year, day.month)[1]
+
+    def _l10n_sk_month_employed_days(self, day):
+        """Count whole calendar days without recovering them from a float ratio."""
         self.ensure_one()
         days_in_month = monthrange(day.year, day.month)[1]
         first = day.replace(day=1)
         last = day.replace(day=days_in_month)
         start = max(self.contract_date_start or first, first)
         end = min(self.contract_date_end or last, last)
-        return min(max((end - start).days + 1, 0) / days_in_month, 1.0)
+        return min(max((end - start).days + 1, 0), days_in_month)
 
     def l10n_sk_applies(self, concept):
         """Whether *concept* applies to this contract.

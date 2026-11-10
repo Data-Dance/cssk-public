@@ -7,7 +7,7 @@
                "statutory meal, pocket money, kilometre and fuel reimbursement.",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.2.0.0",
+    "version": "19.0.2.1.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["fleet", "hr_expense", "hr_expense_advance_clearing", "l10n_sk"],

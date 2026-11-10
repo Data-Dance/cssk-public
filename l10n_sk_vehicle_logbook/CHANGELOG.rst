@@ -14,6 +14,28 @@ Carry-over to 18.0
   ``hr.expense.sheet``, so the clearing calls differ from the 19.0 module
   vendored here.
 
+[19.0.2.1.0] — 2026-11-10
+-------------------------
+
+Changed
+~~~~~~~
+
+- Each free meal has its own "abroad" tick instead of one per day, so a
+  breakfast at home and a dinner abroad on a border-crossing day each cut
+  their own part (§ 5 ods. 6, § 13 ods. 7, § 16 ods. 1), each only down to
+  zero. The tick is preset from the usual meal time against the border
+  crossings. The migration copies the old per-day switch to all three
+  meals; amounts do not change.
+
+Added
+~~~~~
+
+- Fuel lines (§ 15): kilometres, unit price and currency per part of the
+  trip, abroad at the foreign receipt and in the local currency outside the
+  euro area, converted at the first-of-month rate of § 36 ods. 6. The form
+  warns when the lines do not add up to the trip's kilometres. Printed on
+  the settlement.
+
 [19.0.2.0.0] — 2026-11-10
 -------------------------
 

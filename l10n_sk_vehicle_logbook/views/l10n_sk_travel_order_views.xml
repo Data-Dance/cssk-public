@@ -166,7 +166,7 @@
                                    readonly="state not in ('draft', 'approved') or not is_traveller"/>
                             <field name="kilometres" invisible="vehicle_mode != 'own'" readonly="state not in ('draft', 'approved') or not is_traveller"/>
                             <field name="consumption" invisible="vehicle_mode != 'own'" readonly="state not in ('draft', 'approved') or not is_traveller"/>
-                            <field name="fuel_price" invisible="vehicle_mode != 'own'" readonly="state not in ('draft', 'approved') or not is_traveller"/>
+                            <field name="fuel_price" invisible="vehicle_mode != 'own' or fuel_line_ids" readonly="state not in ('draft', 'approved') or not is_traveller"/>
                             <field name="planned_date_start" invisible="not planned_date_start"/>
                             <field name="planned_date_end" invisible="not planned_date_end"/>
                         </group>
@@ -199,9 +199,11 @@
                                     <field name="foreign_base" column_invisible="parent.trip_kind != 'foreign'"/>
                                     <field name="foreign_currency_id" optional="hide" column_invisible="parent.trip_kind != 'foreign'"/>
                                     <field name="breakfast"/>
+                                    <field name="breakfast_abroad" string="abroad" column_invisible="parent.trip_kind != 'foreign'" readonly="not foreign_base"/>
                                     <field name="lunch"/>
+                                    <field name="lunch_abroad" string="abroad" column_invisible="parent.trip_kind != 'foreign'" readonly="not foreign_base"/>
                                     <field name="dinner"/>
-                                    <field name="meals_abroad" column_invisible="parent.trip_kind != 'foreign'" readonly="not foreign_base"/>
+                                    <field name="dinner_abroad" string="abroad" column_invisible="parent.trip_kind != 'foreign'" readonly="not foreign_base"/>
                                     <field name="foreign_amount" column_invisible="parent.trip_kind != 'foreign'"/>
                                     <field name="pocket_money" column_invisible="parent.trip_kind != 'foreign'"/>
                                     <field name="foreign_rate" optional="hide" column_invisible="parent.trip_kind != 'foreign'"/>
@@ -209,6 +211,27 @@
                                     <field name="amount"/>
                                 </list>
                             </field>
+                        </page>
+                        <page string="Fuel" name="fuel" invisible="vehicle_mode != 'own'">
+                            <div role="alert" class="alert alert-warning" invisible="not fuel_km_mismatch">
+                                The fuel lines do not add up to the kilometres of the trip.
+                            </div>
+                            <field name="fuel_km_mismatch" invisible="1"/>
+                            <field name="fuel_line_ids" readonly="state not in ('draft', 'approved') or not is_traveller">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="abroad"/>
+                                    <field name="kilometres" sum="Total"/>
+                                    <field name="unit_price"/>
+                                    <field name="currency_id"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
+                            <p class="text-muted small">
+                                Without lines the fuel is priced at the single unit price above.
+                                Abroad, use the price on the foreign receipt, in euro in the euro
+                                area and in the local currency elsewhere (§ 15 zákona 283/2002 Z. z.).
+                            </p>
                         </page>
                         <page string="Countries" name="countries" invisible="trip_kind != 'foreign'">
                             <field name="stay_ids" readonly="state not in ('draft', 'approved') or not is_traveller">

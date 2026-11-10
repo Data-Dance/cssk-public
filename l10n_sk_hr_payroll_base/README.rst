@@ -177,7 +177,7 @@ In the order the rules run:
 
 4. **Gross pay.**
 
-5. **Social insurance**, employee and employer, each fund on the capped base and rounded down to the cent. Sickness and unemployment insurance apply only with a regular income, and the *Pension granted* field takes them (and the disability premium) away where the law does — see `What it is for <#purpose>`__. The short-time work contribution is paid for a pracovný pomer only; on a dohoda the employer's unemployment rate is 1 % instead. Accident insurance is uncapped.
+5. **Social insurance**, employee and employer, each fund on the capped base and rounded down to the cent. Sickness and unemployment insurance apply only with a regular income, and the *Pension granted* field takes them (and the disability premium) away where the law does — see `What it is for <#purpose>`__. The short-time work contribution is paid for a pracovný pomer only; on a dohoda the employer's unemployment rate is 1 % instead. Accident insurance is uncapped. For a partial employment month, the employee limit uses the monthly maximum divided by the month's calendar days, rounded down to cents, then multiplied by insured days (`§ 138(13) <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-138.odsek-13>`__). For five days in March 2026: 16,764 / 31 → 540.77 per day → 2,703.85. A full month keeps the whole monthly limit; the employer's limit is not prorated by this provision.
 
 6. **Health insurance** on the full gross pay, at the standard or ZŤP rate, with the *odpočítateľná položka* if claimed. A state-insured agreement worker pays none.
 
@@ -407,7 +407,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_base``
-- **Version:** 19.0.1.2.1
+- **Version:** 19.0.1.2.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``

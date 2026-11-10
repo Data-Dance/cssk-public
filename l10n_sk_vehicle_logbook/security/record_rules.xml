@@ -95,6 +95,35 @@
         <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_user'))]"/>
     </record>
 
+    <record id="rule_fuel_company" model="ir.rule">
+        <field name="name">Travel order fuel: own companies</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_fuel"/>
+        <field name="domain_force">[('order_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_fuel_employee" model="ir.rule">
+        <field name="name">Travel order fuel: own and to approve</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_fuel"/>
+        <field name="domain_force">['|', '|', '|', '|',
+            ('order_id.employee_id.user_id', '=', user.id),
+            ('order_id.manager_id', '=', user.id),
+            ('order_id.employee_id.expense_manager_id', '=', user.id),
+            ('order_id.employee_id.department_id.manager_id.user_id', '=', user.id),
+            ('order_id.employee_id.parent_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_fuel_team_approver" model="ir.rule">
+        <field name="name">Travel order fuel: team</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_fuel"/>
+        <field name="domain_force">[('order_id.employee_id', 'child_of', user.employee_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_team_approver'))]"/>
+    </record>
+    <record id="rule_fuel_officer" model="ir.rule">
+        <field name="name">Travel order fuel: all</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_fuel"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_user'))]"/>
+    </record>
+
     <!-- Logbook: the driver's own trips, the team's, all for officers and
          fleet managers. -->
     <record id="rule_trip_employee" model="ir.rule">

@@ -1,7 +1,7 @@
 ---
 title: SK Vehicle Logbook and Travel Orders
 summary: A trip log per vehicle and domestic and foreign travel orders, approved before the trip and settled after it, with the advance, meal allowance, pocket money, kilometre and fuel reimbursement of zákon 283/2002 Z. z.
-verified: 19.0.2.0.0
+verified: 19.0.2.1.0
 ---
 
 ## What it does {#purpose}
@@ -75,9 +75,13 @@ goes to, each with its arrival time. Each calendar day then gets:
 - the foreign meal allowance of the country where most hours were spent that
   day, or of the better rate on a tie (§ 13 ods. 5): 25 % of the base rate up to
   6 hours abroad, 50 % up to 12 hours, the full rate above (§ 13 ods. 4);
-- free meals cut the allowance of the place they were eaten, abroad by 25, 40
-  and 35 % of the full base rate (§ 13 ods. 7); the day decides which by the
-  "Meals abroad" tick, preset to the part of the day that was longer;
+- each free meal cuts the allowance of the part of the day where it was
+  provided: at home by 25, 40 and 35 % of the domestic over-18-hour rate
+  (§ 5 ods. 6), abroad by the same shares of the full foreign base rate
+  (§ 13 ods. 7). Each meal has its own "abroad" tick, preset from the usual
+  meal time (breakfast 08:00, lunch 12:00, dinner 18:00) against the border
+  crossings; each part is cut only down to zero, and a meal at home on a day
+  with no domestic allowance cuts nothing;
 - optional pocket money of up to 40 % of the foreign allowance (§ 14).
 
 The base rates of all 193 countries of opatrenie MF SR č. 401/2012 Z. z. are
@@ -88,13 +92,21 @@ them. An allowance set in a foreign currency is converted at the ECB or NBS
 rate valid on the first day of the month the trip began (§ 36 ods. 6), and the
 order refuses to compute when that rate is missing rather than guessing one.
 
+With an own vehicle, the **Fuel** tab splits the fuel reimbursement into lines,
+each with its kilometres, unit price and currency (§ 15): at home at the
+Slovak receipt, abroad at the foreign receipt (an average of several is
+allowed), in euro in the euro area and in the local currency elsewhere. A
+foreign currency converts at the same first-of-month rate. The ministry's
+worked examples split by the fuel actually used, tank by tank; either way the
+lines should add up to the trip's kilometres, and the form warns when they do
+not. Without lines the single unit price applies to every kilometre.
+
 ## Limits {#limits}
 
-Days are Slovak calendar days, also abroad. The free meals of one day all count
-either at home or abroad; a day with a free meal in each place needs the amount
-checked by hand. The advance and the settlement are in euro; a foreign-currency
-advance (§ 36 ods. 5) is not handled. Abroad, enter the fuel price of the
-foreign receipt (§ 15) yourself. The fuel consumption is entered with its
+Days are Slovak calendar days, also abroad. Which part of the day a free meal
+cuts follows professional commentary (Mzdové centrum, 2014); no ministry text
+says it outright. The advance and the settlement are in euro; a foreign-currency
+advance (§ 36 ods. 5) is not handled. The fuel consumption is entered with its
 increase under § 7 ods. 6 already applied. The rates are maintained under
 Business Travel; the shipped set starts on 1 January 2026, with the meal
 allowance of oznámenie 255/2026 Z. z. from 1 December 2026, so earlier trips

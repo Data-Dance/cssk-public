@@ -5,12 +5,42 @@ Changelog
 Unreleased
 ----------
 
-- **19.0.1.2.0 (2026-11-09):** ``l10n_sk_employee_social_cap``, ``l10n_sk_month_employed_ratio`` and the calendar-day sick-pay split in ``sick_pay.py``.
-
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
+
+[19.0.1.2.2] — 2026-11-10
+-------------------------
+
+Fixed
+~~~~~
+
+- Floor the employee's daily social-insurance maximum before multiplying
+  insured calendar days in a partial month (§ 138(13)). Preserve the whole
+  monthly maximum for a full month and leave employer limits unchanged.
+- Tests: the Enterprise engine has the same payslip test as the OCA engine
+  (16 days of January 2026, employee disability premium 259.56).
+
+[19.0.1.2.1] — 2026-11-10
+-------------------------
+
+Fixed
+~~~~~
+
+- Shared decimal sick-pay arithmetic: four-place downward daily-base rounding
+  and upward eurocent compensation rounding, without binary-float artefacts.
+
+[19.0.1.2.0] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- ``l10n_sk_employee_social_cap`` and ``l10n_sk_month_employed_ratio``: the
+  employee's maximum assessment base for a part-month employment
+  (§ 138 ods. 13 zákona 461/2003), shared by both engines.
+- The calendar-day sick-pay split in ``sick_pay.py``.
 
 [19.0.1.1.2] — 2026-11-05
 -------------------------
@@ -55,12 +85,3 @@ Fixed
   condition on either engine, since both hand the version to every rule.
 * An unknown concept raises. Returning a default would let a typo look like a
   legal answer, and every caller is deciding whether to charge or pay someone.
-
-[19.0.1.2.1] — 2026-11-10
--------------------------
-
-Fixed
-~~~~~
-
-- Shared decimal sick-pay arithmetic: four-place downward daily-base rounding
-  and upward eurocent compensation rounding, without binary-float artefacts.

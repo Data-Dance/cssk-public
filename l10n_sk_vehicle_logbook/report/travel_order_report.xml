@@ -93,8 +93,7 @@
                                 <td class="text-end"><t t-if="d.foreign_base"><span t-out="'%.2f' % d.foreign_amount"/> <span t-out="d.foreign_currency_id.name"/></t></td>
                                 <td class="text-end"><t t-if="d.pocket_money"><span t-out="'%.2f' % d.pocket_money"/> <span t-out="d.foreign_currency_id.name"/></t></td>
                             </t>
-                            <td><t t-out="', '.join(n for n, f in (('raňajky', d.breakfast), ('obed', d.lunch), ('večera', d.dinner)) if f)"/>
-                                <t t-if="d.meals_abroad and (d.breakfast or d.lunch or d.dinner)"> (v zahraničí)</t></td>
+                            <td><t t-out="', '.join(n + (' (v zahraničí)' if a and d.foreign_base else '') for n, f, a in (('raňajky', d.breakfast, d.breakfast_abroad), ('obed', d.lunch, d.lunch_abroad), ('večera', d.dinner, d.dinner_abroad)) if f)"/></td>
                             <td class="text-end"><span t-field="d.amount"/></td>
                         </tr>
                     </tbody>
@@ -105,8 +104,17 @@
                     <h5>Použitie vlastného vozidla (§ 7)</h5>
                     <table class="table table-sm table-bordered">
                         <tr><th class="w-50">Základná náhrada, <span t-out="o.kilometres"/> km</th><td class="text-end"><span t-field="o.kilometre_amount"/></td></tr>
-                        <tr><th>Náhrada za pohonné látky, spotreba <span t-out="o.consumption"/> l/100 km, cena <span t-out="o.fuel_price"/> EUR</th>
-                            <td class="text-end"><span t-field="o.fuel_amount"/></td></tr>
+                        <t t-if="not o.fuel_line_ids">
+                            <tr><th>Náhrada za pohonné látky, spotreba <span t-out="o.consumption"/> l/100 km, cena <span t-out="o.fuel_price"/> EUR</th>
+                                <td class="text-end"><span t-field="o.fuel_amount"/></td></tr>
+                        </t>
+                        <t t-else="">
+                            <tr t-foreach="o.fuel_line_ids" t-as="f">
+                                <th>Náhrada za pohonné látky<t t-if="f.abroad"> v zahraničí (§ 15)</t>, <span t-out="f.kilometres"/> km, spotreba <span t-out="o.consumption"/> l/100 km, cena <span t-out="f.unit_price"/> <span t-out="f.currency_id.name"/></th>
+                                <td class="text-end"><span t-out="'%.2f' % f.amount"/> <span t-out="f.currency_id.name"/></td>
+                            </tr>
+                            <tr><th>Náhrada za pohonné látky spolu</th><td class="text-end"><span t-field="o.fuel_amount"/></td></tr>
+                        </t>
                     </table>
                 </t>
 
