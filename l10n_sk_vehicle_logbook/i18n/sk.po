@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-10 18:52+0000\n"
+"POT-Creation-Date: 2026-11-10 20:34+0000\n"
 "PO-Revision-Date: 2026-11-10 12:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -29,6 +29,11 @@ msgid "A foreign trip needs the times it leaves and returns to Slovakia."
 msgstr "Zahraničná cesta musí mať čas odchodu zo Slovenska a návratu naň."
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__abroad
+msgid "Abroad"
+msgstr "V zahraničí"
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_needaction
 msgid "Action Needed"
 msgstr "Vyžaduje sa akcia"
@@ -46,6 +51,7 @@ msgstr "Preddavok"
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__amount
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__amount
 msgid "Amount"
 msgstr "Suma"
 
@@ -88,6 +94,11 @@ msgid "Base rate"
 msgstr "Základná sadzba"
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__breakfast_abroad
+msgid "Breakfast Abroad"
+msgstr "Raňajky v zahraničí"
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_vehicle_trip__trip_type__business
 msgid "Business"
 msgstr "Služobná"
@@ -109,8 +120,8 @@ msgid ""
 "Company currency per unit, valid on the first day of the month the trip "
 "began (§ 36 ods. 6)."
 msgstr ""
-"Mena spoločnosti za jednotku, platná k prvému dňu mesiaca, v ktorom sa cesta "
-"začala (§ 36 ods. 6)."
+"Mena spoločnosti za jednotku, platná k prvému dňu mesiaca, v ktorom sa cesta"
+" začala (§ 36 ods. 6)."
 
 #. module: l10n_sk_vehicle_logbook
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
@@ -128,8 +139,8 @@ msgid ""
 "Consumption from the vehicle document including the increase under § 7 ods. "
 "6 zákona 283/2002 Z. z."
 msgstr ""
-"Spotreba z dokladu vozidla vrátane zvýšenia podľa § 7 ods. 6 zákona 283/2002 "
-"Z. z."
+"Spotreba z dokladu vozidla vrátane zvýšenia podľa § 7 ods. 6 zákona 283/2002"
+" Z. z."
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__stay_ids
@@ -153,6 +164,7 @@ msgstr "Krajina navštívená na zahraničnej pracovnej ceste"
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__create_uid
@@ -163,6 +175,7 @@ msgstr "Vytvoril"
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__create_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__create_date
@@ -189,6 +202,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__currency_id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__currency_id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__currency_id
 msgid "Currency"
 msgstr "Mena"
 
@@ -219,9 +233,15 @@ msgid "Destination"
 msgstr "Miesto určenia"
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__dinner_abroad
+msgid "Dinner Abroad"
+msgstr "Večera v zahraničí"
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__display_name
@@ -262,6 +282,15 @@ msgstr "Zamestnanec"
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__vehicle_mode__own
 msgid "Employee's own vehicle"
 msgstr "Vlastné vozidlo zamestnanca"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__currency_id
+msgid ""
+"Euro in the euro area; the local currency elsewhere (§ 15 ods. 2). Converted"
+" at the ECB or NBS rate valid on the first day of the month the trip began."
+msgstr ""
+"V eurozóne euro, inde miestna mena (§ 15 ods. 2). Prepočíta sa kurzom ECB "
+"alebo NBS platným k prvému dňu mesiaca, v ktorom sa cesta začala."
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__foreign_rate
@@ -330,14 +359,47 @@ msgid "From"
 msgstr "Odkiaľ"
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__unit_price
+msgid ""
+"From the purchase receipt; abroad, the foreign receipt (an average of "
+"several receipts is allowed). Without one, the price at departure in that "
+"country, or the Štatistický úrad SR price."
+msgstr ""
+"Z dokladu o kúpe; v zahraničí z dokladu zo zahraničia (možno aj aritmetický "
+"priemer viacerých dokladov). Bez dokladu cena v čase nástupu na cestu v "
+"danom štáte alebo cena zistená Štatistickým úradom SR."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Fuel"
+msgstr "Pohonné látky"
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_amount
 msgid "Fuel Amount"
 msgstr "Náhrada za pohonné látky"
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_km_mismatch
+msgid "Fuel Km Mismatch"
+msgstr "Kilometre pohonných látok nesedia"
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_price
 msgid "Fuel Price"
 msgstr "Jednotková cena pohonnej látky"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_line_ids
+msgid ""
+"Fuel reimbursement by part of the trip, each at its own unit price and "
+"currency: abroad at the price on the foreign receipt (§ 15 zákona 283/2002 "
+"Z. z.). Replaces the single fuel price."
+msgstr ""
+"Náhrada za pohonné látky po častiach cesty, každá s vlastnou jednotkovou "
+"cenou a menou: v zahraničí podľa ceny z dokladu zo zahraničia (§ 15 zákona "
+"283/2002 Z. z.). Nahrádza jednu jednotkovú cenu."
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__has_message
@@ -358,6 +420,7 @@ msgstr "Hodiny"
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__id
@@ -376,6 +439,11 @@ msgid "If checked, some messages have a delivery error."
 msgstr "Ak je označené, niektoré správy majú chybu doručenia."
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__amount
+msgid "In the line's currency."
+msgstr "V mene riadku."
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_is_follower
 msgid "Is Follower"
 msgstr "Je sledovateľ"
@@ -387,13 +455,24 @@ msgstr "Základná náhrada"
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__kilometres
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__kilometres
 msgid "Kilometres"
 msgstr "Kilometre"
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__abroad
+msgid ""
+"Kilometres driven abroad, or after re-entering Slovakia on fuel bought "
+"abroad (§ 15 ods. 1 and 2)."
+msgstr ""
+"Kilometre jazdy v zahraničí alebo po návrate na Slovensko na palivo kúpené v"
+" zahraničí (§ 15 ods. 1 a 2)."
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__write_uid
@@ -404,6 +483,7 @@ msgstr "Naposledy upravil"
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__write_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__write_date
@@ -421,14 +501,14 @@ msgid "Logbook Trips"
 msgstr "Jazdy v knihe jázd"
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__lunch_abroad
+msgid "Lunch Abroad"
+msgstr "Obed v zahraničí"
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__meal_amount
 msgid "Meal Amount"
 msgstr "Stravné"
-
-#. module: l10n_sk_vehicle_logbook
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__meals_abroad
-msgid "Meals Abroad"
-msgstr "Jedlo v zahraničí"
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__meal_5_12
@@ -482,8 +562,8 @@ msgstr ""
 #: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
 msgid "No foreign meal rate for %(country)s is valid on %(day)s."
 msgstr ""
-"K %(day)s nie je platná sadzba zahraničného stravného pre krajinu %"
-"(country)s."
+"K %(day)s nie je platná sadzba zahraničného stravného pre krajinu "
+"%(country)s."
 
 #. module: l10n_sk_vehicle_logbook
 #. odoo-python
@@ -546,11 +626,12 @@ msgid ""
 "Only the first country may go without an arrival time; enter when the trip "
 "reached %(country)s."
 msgstr ""
-"Bez času príchodu môže byť len prvá krajina; zadajte, kedy cesta dorazila do "
-"krajiny %(country)s."
+"Bez času príchodu môže byť len prvá krajina; zadajte, kedy cesta dorazila do"
+" krajiny %(country)s."
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__order_id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__order_id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__order_id
 msgid "Order"
 msgstr "Príkaz"
@@ -649,6 +730,11 @@ msgid "SMS Delivery error"
 msgstr "Chyba doručenia SMS"
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: l10n_sk_vehicle_logbook
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 msgid "Settle"
 msgstr "Vyúčtovať"
@@ -690,13 +776,36 @@ msgstr ""
 "návratom naň."
 
 #. module: l10n_sk_vehicle_logbook
-#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__meals_abroad
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__breakfast_abroad
 msgid ""
-"The free meals of this day were abroad, so they cut the foreign allowance (§ "
-"13 ods. 7) instead of the domestic one (§ 5 ods. 6)."
+"The free breakfast was provided abroad, so it cuts the foreign allowance (§ "
+"13 ods. 7) and not the domestic one (§ 5 ods. 6)."
 msgstr ""
-"Bezplatné jedlo v tento deň bolo poskytnuté v zahraničí, preto kráti "
-"zahraničné stravné (§ 13 ods. 7) namiesto tuzemského (§ 5 ods. 6)."
+"Bezplatné raňajky boli poskytnuté v zahraničí, preto krátia zahraničné "
+"stravné (§ 13 ods. 7), nie tuzemské (§ 5 ods. 6)."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__dinner_abroad
+msgid ""
+"The free dinner was provided abroad, so it cuts the foreign allowance (§ 13 "
+"ods. 7) and not the domestic one (§ 5 ods. 6)."
+msgstr ""
+"Bezplatná večera bola poskytnutá v zahraničí, preto kráti zahraničné stravné"
+" (§ 13 ods. 7), nie tuzemské (§ 5 ods. 6)."
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__lunch_abroad
+msgid ""
+"The free lunch was provided abroad, so it cuts the foreign allowance (§ 13 "
+"ods. 7) and not the domestic one (§ 5 ods. 6)."
+msgstr ""
+"Bezplatný obed bol poskytnutý v zahraničí, preto kráti zahraničné stravné (§"
+" 13 ods. 7), nie tuzemské (§ 5 ods. 6)."
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "The fuel lines do not add up to the kilometres of the trip."
+msgstr "Riadky pohonných látok nedávajú spolu kilometre cesty."
 
 #. module: l10n_sk_vehicle_logbook
 #. odoo-python
@@ -746,6 +855,7 @@ msgid "To"
 msgstr "Kam"
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_list
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_trip_list
 msgid "Total"
@@ -789,6 +899,11 @@ msgid "Travel order calendar day"
 msgstr "Kalendárny deň cestovného príkazu"
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_travel_order_fuel
+msgid "Travel order fuel line"
+msgstr "Riadok pohonných látok cestovného príkazu"
+
+#. module: l10n_sk_vehicle_logbook
 #: model:product.template,name:l10n_sk_vehicle_logbook.product_travel_settlement_product_template
 msgid "Travel order settlement"
 msgstr "Vyúčtovanie cestovného príkazu"
@@ -809,18 +924,27 @@ msgid "Two- or three-wheeler, quad"
 msgstr "Dvojkolesové alebo trojkolesové vozidlo, štvorkolka"
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__unit_price
+msgid "Unit Price"
+msgstr "Jednotková cena"
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_price
-msgid "Unit price from the purchase receipt (§ 7 ods. 5)."
-msgstr "Jednotková cena z dokladu o kúpe (§ 7 ods. 5)."
+msgid ""
+"Unit price from the purchase receipt (§ 7 ods. 5). Used when the order has "
+"no fuel lines."
+msgstr ""
+"Jednotková cena z dokladu o kúpe (§ 7 ods. 5). Použije sa, ak príkaz nemá "
+"riadky pohonných látok."
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__road_transport
 msgid ""
-"Uses the special base rates of § 1a opatrenia 401/2012 Z. z. where a country "
-"has one (§ 13 ods. 2 druhá veta)."
+"Uses the special base rates of § 1a opatrenia 401/2012 Z. z. where a country"
+" has one (§ 13 ods. 2 druhá veta)."
 msgstr ""
-"Použije osobitné základné sadzby podľa § 1a opatrenia 401/2012 Z. z., ak ich "
-"krajina má (§ 13 ods. 2 druhá veta)."
+"Použije osobitné základné sadzby podľa § 1a opatrenia 401/2012 Z. z., ak ich"
+" krajina má (§ 13 ods. 2 druhá veta)."
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__date_from
@@ -870,13 +994,29 @@ msgid ""
 "When the trip enters this country. Empty on the first country means the "
 "moment it leaves Slovakia."
 msgstr ""
-"Kedy cesta vstúpi do tejto krajiny. Prázdne pri prvej krajine znamená okamih "
-"odchodu zo Slovenska."
+"Kedy cesta vstúpi do tejto krajiny. Prázdne pri prvej krajine znamená okamih"
+" odchodu zo Slovenska."
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid ""
+"Without lines the fuel is priced at the single unit price above.\n"
+"                                Abroad, use the price on the foreign receipt, in euro in the euro\n"
+"                                area and in the local currency elsewhere (§ 15 zákona 283/2002 Z. z.)."
+msgstr ""
+"Bez riadkov sa pohonné látky ocenia jednou jednotkovou cenou vyššie. V "
+"zahraničí použite cenu z dokladu zo zahraničia, v eurozóne v eurách a inde v"
+" miestnej mene (§ 15 zákona 283/2002 Z. z.)."
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__rate
 msgid "Základná sadzba stravného, § 13 ods. 2 zákona 283/2002 Z. z."
 msgstr "Základná sadzba stravného, § 13 ods. 2 zákona 283/2002 Z. z."
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "abroad"
+msgstr "v zahraničí"
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__pocket_money_percent
@@ -887,3 +1027,16 @@ msgstr "§ 14: nepovinné, najviac 40 % zahraničného stravného."
 #: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__trailer
 msgid "§ 7 ods. 2: a trailer adds 15 % to the basic rate."
 msgstr "§ 7 ods. 2: príves zvyšuje základnú náhradu o 15 %."
+
+#~ msgid "Meals Abroad"
+#~ msgstr "Jedlo v zahraničí"
+
+#~ msgid ""
+#~ "The free meals of this day were abroad, so they cut the foreign allowance (§"
+#~ " 13 ods. 7) instead of the domestic one (§ 5 ods. 6)."
+#~ msgstr ""
+#~ "Bezplatné jedlo v tento deň bolo poskytnuté v zahraničí, preto kráti "
+#~ "zahraničné stravné (§ 13 ods. 7) namiesto tuzemského (§ 5 ods. 6)."
+
+#~ msgid "Unit price from the purchase receipt (§ 7 ods. 5)."
+#~ msgstr "Jednotková cena z dokladu o kúpe (§ 7 ods. 5)."

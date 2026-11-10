@@ -92,6 +92,20 @@ def decisive_country(hours_by_country, value_of):
     )
 
 
+def split_meals(free, abroad, has_foreign_part):
+    """Free meals as ``(home, abroad)`` triples of flags.
+
+    A meal cuts the part of the day where it was provided (§ 16 ods. 1 with
+    § 5 ods. 6 at home, § 13 ods. 7 abroad); on a day without a foreign part
+    every meal counts at home.
+    """
+    if not has_foreign_part:
+        return tuple(bool(f) for f in free), (False, False, False)
+    home = tuple(bool(f) and not a for f, a in zip(free, abroad))
+    away = tuple(bool(f) and bool(a) for f, a in zip(free, abroad))
+    return home, away
+
+
 def foreign_band_share(hours):
     """§ 13 ods. 4: 25 % up to 6 hours, 50 % up to 12, the full rate above."""
     if hours <= 0:

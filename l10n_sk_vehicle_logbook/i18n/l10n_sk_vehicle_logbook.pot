@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-10 18:52+0000\n"
-"PO-Revision-Date: 2026-11-10 18:52+0000\n"
+"POT-Creation-Date: 2026-11-10 20:34+0000\n"
+"PO-Revision-Date: 2026-11-10 20:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,11 @@ msgid "A foreign trip needs the times it leaves and returns to Slovakia."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__abroad
+msgid "Abroad"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_needaction
 msgid "Action Needed"
 msgstr ""
@@ -45,6 +50,7 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__amount
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__amount
 msgid "Amount"
 msgstr ""
 
@@ -84,6 +90,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__rate
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__foreign_base
 msgid "Base rate"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__breakfast_abroad
+msgid "Breakfast Abroad"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -148,6 +159,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__create_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__create_uid
@@ -158,6 +170,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__create_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__create_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__create_date
@@ -180,6 +193,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__currency_id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__currency_id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__currency_id
 msgid "Currency"
 msgstr ""
 
@@ -210,9 +224,15 @@ msgid "Destination"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__dinner_abroad
+msgid "Dinner Abroad"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__display_name
@@ -252,6 +272,13 @@ msgstr ""
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__vehicle_mode__own
 msgid "Employee's own vehicle"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__currency_id
+msgid ""
+"Euro in the euro area; the local currency elsewhere (§ 15 ods. 2). Converted"
+" at the ECB or NBS rate valid on the first day of the month the trip began."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -321,13 +348,40 @@ msgid "From"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__unit_price
+msgid ""
+"From the purchase receipt; abroad, the foreign receipt (an average of "
+"several receipts is allowed). Without one, the price at departure in that "
+"country, or the Štatistický úrad SR price."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_line_ids
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Fuel"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_amount
 msgid "Fuel Amount"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_km_mismatch
+msgid "Fuel Km Mismatch"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_price
 msgid "Fuel Price"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_line_ids
+msgid ""
+"Fuel reimbursement by part of the trip, each at its own unit price and "
+"currency: abroad at the price on the foreign receipt (§ 15 zákona 283/2002 "
+"Z. z.). Replaces the single fuel price."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -349,6 +403,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__id
@@ -367,6 +422,11 @@ msgid "If checked, some messages have a delivery error."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__amount
+msgid "In the line's currency."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__message_is_follower
 msgid "Is Follower"
 msgstr ""
@@ -378,13 +438,22 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__kilometres
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__kilometres
 msgid "Kilometres"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__abroad
+msgid ""
+"Kilometres driven abroad, or after re-entering Slovakia on fuel bought "
+"abroad (§ 15 ods. 1 and 2)."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__write_uid
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__write_uid
@@ -395,6 +464,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__write_date
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__write_date
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__write_date
@@ -412,13 +482,13 @@ msgid "Logbook Trips"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__meal_amount
-msgid "Meal Amount"
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__lunch_abroad
+msgid "Lunch Abroad"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__meals_abroad
-msgid "Meals Abroad"
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__meal_amount
+msgid "Meal Amount"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -533,6 +603,7 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__order_id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__order_id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__order_id
 msgid "Order"
 msgstr ""
@@ -628,6 +699,11 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 msgid "Settle"
 msgstr ""
@@ -667,10 +743,29 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
-#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__meals_abroad
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__breakfast_abroad
 msgid ""
-"The free meals of this day were abroad, so they cut the foreign allowance (§"
-" 13 ods. 7) instead of the domestic one (§ 5 ods. 6)."
+"The free breakfast was provided abroad, so it cuts the foreign allowance (§ "
+"13 ods. 7) and not the domestic one (§ 5 ods. 6)."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__dinner_abroad
+msgid ""
+"The free dinner was provided abroad, so it cuts the foreign allowance (§ 13 "
+"ods. 7) and not the domestic one (§ 5 ods. 6)."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__lunch_abroad
+msgid ""
+"The free lunch was provided abroad, so it cuts the foreign allowance (§ 13 "
+"ods. 7) and not the domestic one (§ 5 ods. 6)."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "The fuel lines do not add up to the kilometres of the trip."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -718,6 +813,7 @@ msgid "To"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_list
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_trip_list
 msgid "Total"
@@ -761,6 +857,11 @@ msgid "Travel order calendar day"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_travel_order_fuel
+msgid "Travel order fuel line"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:product.template,name:l10n_sk_vehicle_logbook.product_travel_settlement_product_template
 msgid "Travel order settlement"
 msgstr ""
@@ -781,8 +882,15 @@ msgid "Two- or three-wheeler, quad"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_fuel__unit_price
+msgid "Unit Price"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__fuel_price
-msgid "Unit price from the purchase receipt (§ 7 ods. 5)."
+msgid ""
+"Unit price from the purchase receipt (§ 7 ods. 5). Used when the order has "
+"no fuel lines."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -842,8 +950,21 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid ""
+"Without lines the fuel is priced at the single unit price above.\n"
+"                                Abroad, use the price on the foreign receipt, in euro in the euro\n"
+"                                area and in the local currency elsewhere (§ 15 zákona 283/2002 Z. z.)."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__rate
 msgid "Základná sadzba stravného, § 13 ods. 2 zákona 283/2002 Z. z."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "abroad"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook

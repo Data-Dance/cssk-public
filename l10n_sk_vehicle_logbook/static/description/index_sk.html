@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_vehicle_logbook/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK kniha jázd a cestovné príkazy</h1>
 <p class="cssk-summary">Evidencia jázd vozidla a tuzemské aj zahraničné cestovné príkazy so stravným, vreckovým, základnou náhradou a náhradou za pohonné látky podľa zákona 283/2002 Z. z.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>18.0.1.1.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>fleet</code>, <code>hr_expense</code>, <code>l10n_sk</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>18.0.1.2.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>fleet</code>, <code>hr_expense</code>, <code>l10n_sk</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Kniha jázd eviduje každú jazdu vozidla: vodiča, časy, trasu, účel a stav
@@ -49,9 +49,7 @@ potom dostane:</p>
 <li>zahraničné stravné krajiny, v ktorej zamestnanec v ten deň strávil najviac
   hodín, pri rovnosti výhodnejšie (§ 13 ods. 5): 25 % základnej sadzby do 6 hodín
   v zahraničí, 50 % do 12 hodín, nad 12 hodín celú sadzbu (§ 13 ods. 4);</li>
-<li>bezplatné jedlo kráti stravné tam, kde bolo poskytnuté, v zahraničí o 25, 40
-  a 35 % zo základnej sadzby (§ 13 ods. 7); kde, určuje voľba „Jedlo v zahraničí“,
-  predvolená podľa dlhšej časti dňa;</li>
+<li>každé bezplatné jedlo kráti stravné tej časti dňa, kde bolo poskytnuté: doma o 25, 40 a 35 % tuzemského stravného nad 18 hodín (§ 5 ods. 6), v zahraničí o rovnaké podiely zo základnej sadzby (§ 13 ods. 7). Každé jedlo má vlastnú voľbu „v zahraničí“, predvolenú podľa obvyklého času jedla (raňajky 8:00, obed 12:00, večera 18:00) voči prechodom hranice; každá časť sa kráti najviac na nulu;</li>
 <li>vreckové do 40 % zahraničného stravného, ak ho zamestnávateľ poskytuje (§ 14).</li>
 </ul>
 <p>Základné sadzby všetkých 193 krajín z opatrenia MF SR č. 401/2012 Z. z. sú
@@ -60,14 +58,14 @@ sadzbami pre mobilných zamestnancov v cestnej doprave podľa opatrenia
 č. 9/2026 Z. z. od 30. 1. 2026; použijú sa, ak je na príkaze označený „Mobilný
 zamestnanec v cestnej doprave“. Stravné v cudzej mene sa prepočíta kurzom ECB
 alebo NBS platným k prvému dňu mesiaca, v ktorom sa cesta začala (§ 36 ods. 6);
-ak kurz chýba, príkaz výpočet odmietne, namiesto toho, aby kurz hádal.</p>
+\1
+<p>Pri vlastnom vozidle karta Pohonné látky rozdelí náhradu na riadky, každý s kilometrami, jednotkovou cenou a menou (§ 15): v zahraničí podľa dokladu zo zahraničia, v eurozóne v eurách a inde v miestnej mene, prepočítané rovnakým kurzom k prvému dňu mesiaca. Formulár upozorní, ak riadky nedávajú spolu kilometre cesty.</p>
 <h2 id="limits">Obmedzenia</h2>
-<p>Dni sú slovenské kalendárne dni aj v zahraničí. Bezplatné jedlá jedného dňa sa započítajú buď celé doma, alebo celé v zahraničí; deň s bezplatným jedlom na oboch miestach treba prepočítať ručne. Preddavok a vyúčtovanie sú
-v eurách; preddavok v cudzej mene sa nespracúva. Jednotkovú cenu pohonnej látky
-z dokladu zo zahraničia (§ 15) treba zadať. Spotreba sa zadáva už so zvýšením podľa § 7 ods. 6 a sadzby
+<p>Dni sú slovenské kalendárne dni aj v zahraničí. Preddavok a vyúčtovanie sú
+v eurách; preddavok v cudzej mene sa nespracúva. Spotreba sa zadáva už so zvýšením podľa § 7 ods. 6 a sadzby
 sa udržiavajú v ponuke Pracovné cesty; dodaná sada platí od 1. 1. 2026, takže pre
 skoršie cesty treba najprv zadať ich sadzby.</p>
-<footer><p>Text overený voči verzii modulu: 18.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text overený voči verzii modulu: 18.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

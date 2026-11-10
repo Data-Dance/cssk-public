@@ -92,9 +92,62 @@ class TestForeignOrder(TransactionCase):
     def test_free_lunch_abroad_cuts_the_foreign_rate(self):
         order = self._order([(self.at, False)])
         second = order.day_ids[1]
-        self.assertTrue(second.meals_abroad)
+        self.assertTrue(second.lunch_abroad)
         second.lunch = True
         self.assertEqual(second.amount, 27.0)
+
+    def test_each_meal_cuts_where_it_was_provided(self):
+        # Leaves 06:00, crosses at 11:00: 5 h at home (9.30 EUR), then
+        # 13 h in Austria (45 EUR). Breakfast at 08:00 was at home and cuts
+        # 25 % of the domestic 20.60: 4.15 left. Dinner at 18:00 was abroad
+        # and cuts 35 % of 45: 29.25 left.
+        order = self._order([(self.at, False)], border_out=datetime(2026, 6, 8, 9))
+        first = order.day_ids[0]
+        self.assertFalse(first.breakfast_abroad)
+        self.assertTrue(first.dinner_abroad)
+        first.write({"breakfast": True, "dinner": True})
+        self.assertEqual(first.rate, 9.30)
+        self.assertEqual(first.foreign_amount, 29.25)
+        self.assertEqual(first.amount, 33.40)
+
+    def test_a_meal_at_home_without_a_domestic_allowance_cuts_nothing(self):
+        # Only 1 h at home on the first day: no domestic allowance to cut,
+        # and a breakfast there does not spill onto the foreign part.
+        order = self._order([(self.at, False)])
+        first = order.day_ids[0]
+        first.write({"breakfast": True, "breakfast_abroad": False})
+        self.assertEqual(first.amount, 45.0)
+
+    def test_meal_places_survive_a_recompute(self):
+        order = self._order([(self.at, False)])
+        order.day_ids[1].write({"lunch": True, "lunch_abroad": False})
+        order.action_compute_days()
+        self.assertTrue(order.day_ids[1].lunch)
+        self.assertFalse(order.day_ids[1].lunch_abroad)
+
+    def test_fuel_abroad_in_koruna(self):
+        czk = self.env.ref("base.CZK")
+        czk.active = True
+        self.env["res.currency.rate"].create({
+            "currency_id": czk.id, "company_id": self.company.id,
+            "name": "2026-06-01", "rate": 25.0,
+        })
+        order = self._order(
+            [(self.cz, False)], vehicle_mode="own", kilometres=300.0,
+            consumption=6.6, fuel_price=1.5,
+            fuel_line_ids=[
+                (0, 0, {"kilometres": 100.0, "unit_price": 1.5}),
+                (0, 0, {"kilometres": 200.0, "unit_price": 40.0,
+                        "currency_id": czk.id, "abroad": True}),
+            ],
+        )
+        # 100 km x 6.6 l x 1.50 EUR = 9.90 EUR; 200 km x 6.6 l x 40 CZK =
+        # 528 CZK, at 25 CZK/EUR = 21.12 EUR.
+        self.assertEqual(order.fuel_line_ids.mapped("amount"), [9.90, 528.0])
+        self.assertAlmostEqual(order.fuel_amount, 31.02, places=2)
+        self.assertFalse(order.fuel_km_mismatch)
+        order.kilometres = 250.0
+        self.assertTrue(order.fuel_km_mismatch)
 
     def test_long_home_leg_earns_domestic_meals_too(self):
         # Leaves at 06:00, crosses at 12:00 (6 h at home: 9.30 EUR), then
