@@ -48,7 +48,7 @@
                 <rfs>
                     <rfsZamtel t-out="funds['rfs']['zamtel']"/>
                 </rfs>
-                <pfp>
+                <pfp t-if="pfp_applicable">
                     <pfpZamtel t-out="pfp"/>
                 </pfp>
                 <spoluPoistne t-out="spolu_poistne"/>
@@ -71,17 +71,17 @@
                         t-att-pocDni="row['poc_dni']"
                         t-att-typZec="row['typ_zec']"
                         t-att-vynimkaVZ="row['vynimka_vz']"
-                        t-att-vzNp="row['vz']"
-                        t-att-vzSp="row['vz']"
-                        t-att-vzIp="row['vz']"
-                        t-att-vzPvn="row['vz']"
-                        t-att-vzUp="row['vz']"
-                        t-att-vzGp="row['vz']"
-                        t-att-vzRfs="row['vz']"
-                        t-att-vzZecNp="row['vz']"
-                        t-att-vzZecSp="row['vz']"
-                        t-att-vzZecIp="row['vz']"
-                        t-att-vzZecPvn="row['vz']"
+                        t-att-vzNp="row.get('fund_bases', {}).get('vzNp', row['vz'])"
+                        t-att-vzSp="row.get('fund_bases', {}).get('vzSp', row['vz'])"
+                        t-att-vzIp="row.get('fund_bases', {}).get('vzIp', row['vz'])"
+                        t-att-vzPvn="row.get('fund_bases', {}).get('vzPvn', row['vz'])"
+                        t-att-vzUp="row.get('fund_bases', {}).get('vzUp', row['vz'])"
+                        t-att-vzGp="row.get('fund_bases', {}).get('vzGp', row['vz'])"
+                        t-att-vzRfs="row.get('fund_bases', {}).get('vzRfs', row['vz'])"
+                        t-att-vzZecNp="row.get('fund_bases', {}).get('vzZecNp', row['vz'])"
+                        t-att-vzZecSp="row.get('fund_bases', {}).get('vzZecSp', row['vz'])"
+                        t-att-vzZecIp="row.get('fund_bases', {}).get('vzZecIp', row['vz'])"
+                        t-att-vzZecPvn="row.get('fund_bases', {}).get('vzZecPvn', row['vz'])"
                         t-att-npZamtel="row['np_zamtel']"
                         t-att-npZamnec="row['np_zamnec']"
                         t-att-spZamtel="row['sp_zamtel']"
@@ -93,6 +93,8 @@
                         t-att-upZamtel="row['up_zamtel']"
                         t-att-gpZamtel="row['gp_zamtel']"
                         t-att-rfsZamtel="row['rfs_zamtel']"
+                        t-att-vzPfp="row.get('fund_bases', {}).get('vzPfp', row['vz']) if row.get('pfp_applicable') else None"
+                        t-att-pfpZamtel="row['pfp_zamtel'] if row.get('pfp_applicable') else None"
                         t-att-pocetHodin="row['poc_hodin']"/>
                 </poistneZamestnancov>
             </priloha>

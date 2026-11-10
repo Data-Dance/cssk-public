@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy
 summary: Celá skupina modulov slovenských miezd na jednom mieste — mesačná výplatná páska pre pracovný pomer a tri dohody v Odoo Enterprise Payroll alebo v aplikácii OCA payroll, s datovanými zákonnými sadzbami, voľnom, ročným zúčtovaním dane a zaúčtovaním do hlavnej knihy.
-verified: 19.0.1.2.0
+verified: 19.0.1.4.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -421,3 +421,8 @@ a fungujú s oboma enginmi:
   aktualizácii Odoo overte, či do nich nepribudlo niečo nové.
 - Údaje sa dodávajú za roky 2024 – 2026. Pred použitím pre neskoršie obdobie
   ich overte voči zákonu.
+
+
+## Spoločný výpočet sociálneho poistenia {#social-assessment}
+
+`social_assessment.assessment_base` odpočíta OOP pred príslušným stropom, úrazové ponechá bez stropu a garančné neznižuje o OOP. `hr.version.l10n_sk_social_fund_base` vyberá zamestnanecký alebo zamestnávateľský strop a oprávnený fond. Príslušnosť k poisteniu a dátumované sadzby ostávajú v existujúcej tabuľke profilov a mzdovom engine. Adaptér OCA používa tento helper a uchováva výpočet; iný engine potrebuje vlastný zdrojový adaptér.

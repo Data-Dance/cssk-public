@@ -92,3 +92,8 @@ Fixed
   otherwise Slovak screen. The template and the catalogues now carry them,
   and the Slovak is written.
 
+
+[19.0.1.2.0] — 2026-11-10
+-------------------------
+
+* Retain individual monthly social-insurance bases and historical relationship facts; use the shared per-fund assessment helper in the OCA engine and MVP export. Preserve original filed XML. See the EN/SK source documentation for adapter and correction boundaries.

@@ -1,7 +1,7 @@
 ---
 title: SK Social Insurance Statement for Work Agreements (VPP)
 summary: The výkaz poistného a príspevkov for employees with an irregular income — in practice the DoVP and DoPČ work agreements — built from the month's payslips and exported as XML checked against the official schema.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## What it is for {#purpose}
@@ -116,3 +116,8 @@ Source: [SP header instructions](https://www.socpoist.sk/api/idsp/download/a4ab6
   and per-fund base exceptions still need their own handling. The exception flag is 0.
 - The VPP 2026 vintage is shipped; schema success is not portal acceptance.
 - Schema validation checks the shape of the file, not the figures.
+
+
+## Historical regularity {#historical-regularity}
+
+When the payroll adapter retains a monthly social-insurance source, classification reads its historical relationship and regularity before consulting the current HR profile. A later change from regular to irregular must not report the same historical pay in both MVP and VPP. Irregular and post-insurance income allocation, caps and financial corrections keep their own sources; this change does not infer those allocations.

@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.24.3
+verified: 19.0.1.26.1
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -67,3 +67,17 @@ Approved PN dates determine calendar-day tiers, while the native shared `SICKNES
 ## Actual worked time in the average {#average-worked-time}
 
 WORK100 is the gross scheduled time; separately recorded approved absence rows are deducted by absolute days and hours before applying the 21-day or168-hour threshold and wage/hour division. This follows the same absence-code taxonomy as BASIC, with identical results for either leave-sign setting. Refund direction remains applied once by the caller. An unsaved payslip preview excludes its persistent origin rather than passing a temporary NewId into the history domain.
+
+## Retained monthly social-insurance bases {#social-bases}
+
+The regular monthly calculation retains the exact base for each social-insurance fund together with the effective employment version, rates, dates, inputs and salary amounts. The same shared base helper is used by the salary rules and the retained evidence: agreement OOP is deducted before the applicable ceiling, accident insurance is uncapped and guarantee insurance does not use OOP. Employee and employer ceilings remain distinct for a partial month. A rounded premium is never divided by its rate to guess its assessment base.
+
+Confirmation validates this source, including when automatic recomputation is disabled. Confirmed salary lines and source identity remain protected after cancellation; use a payroll correction rather than changing the original. Version edits and confirmation coordinate under PostgreSQL repeatable-read, including inserting another version. A native refund payslip remains available for bookkeeping; it is not automatically a complete replacement monthly declaration.
+
+MVP reads the retained fund bases and employment interval. MVP and VPP both use the retained relationship when selecting regular versus irregular income, so editing today's HR card does not reroute historical pay. Missing old evidence requires an explicit reviewed compatibility adapter; existing generated XML is preserved. Allocation and correction adapters can override the source-policy hook and supply their own exact bases. A within-month change of insurance profile requires separate consolidation support; it is not silently combined into one profile. This public implementation verifies OCA payroll, not the proprietary Enterprise engine or authority acceptance.
+
+For a prorated wage, the salary-rule category may still contain a fractional cent while the recorded GROSS and general ledger have the currency-rounded amount. The fund helper first derives that actual monetary income, then applies the statutory base deduction/cap and downward rounding. For example,765.217391 is recorded as765.22; its14% employer pension premium is107.13, not107.12.
+
+Ordinary nonzero remuneration outside the employment period must use a reviewed historical income allocation; it cannot be retained as a regular monthly social-insurance source.
+
+Cooperating payroll features can extend _l10n_sk_payroll_extra_source_facts() with JSON-compatible calculation evidence. The same retained monthly source validates it before skip-compute confirmation; its writers must use the employee source coordinator. Existing confirmed snapshots remain unchanged.

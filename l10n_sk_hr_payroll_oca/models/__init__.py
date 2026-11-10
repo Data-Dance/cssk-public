@@ -6,4 +6,7 @@ from . import hr_employee
 from . import hr_leave_type
 from . import hr_leave_accrual_plan
 from . import hr_payslip
+from . import social_source
+from . import social_assessment
+from . import social_children
 from . import l10n_sk_tax_reconciliation

@@ -5,6 +5,12 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.26.1 (2026-11-10):** cooperating payroll features can extend the
+  retained calculation facts through ``_l10n_sk_payroll_extra_source_facts``.
+  Confirmation validates these facts even when recomputation is disabled;
+  existing confirmed evidence is preserved. Extension writers must use the
+  employee source coordinator.
+
 - **19.0.1.22.0 (2026-11-09), DISCHARGED on 18.0 by 997c7bbb:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
 
 Carry-over to 18.0
@@ -757,3 +763,10 @@ Fixed
   state. Repaired by ``tools/fix_po_code_comments.py``, which is also the CI
   check; the offline exporter now emits the comment itself.
 
+
+[19.0.1.26.0] — 2026-11-10
+--------------------------
+
+* Retain individual monthly social-insurance bases and historical relationship facts; use the shared per-fund assessment helper in the OCA engine and MVP export. Preserve original filed XML. See the EN/SK source documentation for adapter and correction boundaries.
+
+* Ordinary nonzero remuneration outside the employment period must use a reviewed historical income allocation; it cannot be retained as a regular monthly social-insurance source.

@@ -1,7 +1,7 @@
 ---
 title: SK MVP — mesačný výkaz poistného a príspevkov
 summary: Mesačný výkaz poistného a príspevkov pre Sociálnu poisťovňu zostavený z výplatných pások mesiaca — sumy za fondy a príloha po zamestnancoch, export do XML overený voči oficiálnej schéme.
-verified: 19.0.1.1.2
+verified: 19.0.1.2.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -128,3 +128,10 @@ a sumy zamestnanca za jednotlivé fondy.
   vyexportuje v tomto tvare.
 - Overenie voči schéme kontroluje tvar súboru, nie sumy. Prvý podaný výkaz
   odsúhlaste s výplatnými páskami ručne.
+
+
+## Vymeriavacie základy po fondoch {#fund-bases}
+
+S adaptérom OCA pochádza každý XML základ z uchovaného výpočtu príslušného fondu. Bežná mesačná mzda 25 000 eur v roku 2026 má zastropovaný základ 16 764 eur a úrazový základ 25 000 eur. Oprávnený dôchodca na dohode pod OOP má nulové dôchodkové základy a plný úrazový/garančný základ. Atribúty PFP sa vynechajú, ak sa príspevok neuplatňuje. Poistné dni spájajú uchované intervaly zamestnania bez dvojitého počítania spoločných dátumov. Ide o výpočtovú a XSD skúšku, nie prijaté podanie.
+
+Nový export odmietne chýbajúci historický dôkaz OCA namiesto odhadu z GROSS. Podané XML uchovajte a použite výslovne overený kompatibilný zdroj. Iný engine bez hooku zachová pôvodné vykreslenie; jeho základy touto zmenou nie sú certifikované. Odlišné poistné profily v mesiaci a finančné opravy majú samostatný postup.

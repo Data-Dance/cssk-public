@@ -2,13 +2,13 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — MVP (Mesačný výkaz poistného a príspevkov)",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.2.0",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
     "summary": "Monthly Slovak social-insurance statement (MVP/MVPP) for the "
-               "Sociálna poisťovňa — aggregate summary + per-employee annex, "
-               "XML validated against MVPP-v2026.xsd. Engine-neutral ("
-               "payroll or the hr_payroll engine).",
+    "Sociálna poisťovňa — aggregate summary + per-employee annex, "
+    "XML validated against MVPP-v2026.xsd. Engine-neutral ("
+    "payroll or the hr_payroll engine).",
     "author": "Data Dance s.r.o.",
     "website": "https://github.com/Data-Dance/l10n_cssk",
     "license": "AGPL-3",

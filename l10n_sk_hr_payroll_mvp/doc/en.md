@@ -1,7 +1,7 @@
 ---
 title: SK Monthly Social Insurance Statement (MVP)
 summary: The monthly výkaz poistného a príspevkov for the Sociálna poisťovňa, built from the month's payslips — fund totals and a per-employee annex, exported as XML checked against the official schema.
-verified: 19.0.1.1.2
+verified: 19.0.1.2.0
 ---
 
 ## What it is for {#purpose}
@@ -131,3 +131,10 @@ days, and the employee's amounts per fund.
   earlier period is also exported in that layout.
 - Schema validation checks the shape of the file, not the figures. Reconcile
   the first statement you file with the payslips by hand.
+
+
+## Individual fund bases {#fund-bases}
+
+With the OCA source adapter, each XML assessment field comes from the retained calculation of that fund. A EUR25,000 ordinary monthly wage in 2026 has a EUR16,764 capped base and EUR25,000 accident base. An eligible pensioner agreement under OOP has zero pension bases and its full accident/guarantee bases. PFP attributes are omitted when that contribution does not apply. Insured days merge the retained employment intervals without counting overlapping dates twice. These are calculation/XSD tests, not an accepted filing.
+
+A new export refuses missing legacy OCA evidence instead of guessing from GROSS. Preserve old filed XML and use an explicitly reviewed compatibility source. Engines without this hook keep their existing rendering; this change does not certify their fund bases. Different insurance profiles within a month and financial monthly corrections require their separate reviewed workflow.

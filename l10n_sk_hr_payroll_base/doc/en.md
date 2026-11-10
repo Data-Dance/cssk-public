@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll
 summary: The Slovak payroll family in one place — the monthly payslip for a pracovný pomer and the three dohody on either Odoo Enterprise Payroll or the OCA payroll app, with dated statutory rates, leave, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.2.0
+verified: 19.0.1.4.0
 ---
 
 ## What it is for {#purpose}
@@ -411,3 +411,8 @@ and work with either engine:
   Odoo upgrade, check that nothing new was added upstream.
 - The figures are shipped for 2024–2026. Check them against the law before
   using a later period.
+
+
+## Shared social-insurance assessment {#social-assessment}
+
+`social_assessment.assessment_base` applies the OOP deduction before the capped assessment, leaves accident insurance uncapped and never deducts OOP from guarantee insurance. `hr.version.l10n_sk_social_fund_base` selects employee/employer caps and the eligible fund. Applicability and dated rates remain with the engine and existing employment-profile table. The OCA adapter uses this helper and retains its calculation; another engine must implement its own source adapter. See [retained monthly bases](../l10n_sk_hr_payroll_oca/#social-bases).
