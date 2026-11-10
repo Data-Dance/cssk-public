@@ -44,7 +44,7 @@ class L10nSkVehicleTrip(models.Model):
                 raise ValidationError(_("The odometer cannot go backwards."))
             if trip.trip_type == "business" and not trip.purpose:
                 raise ValidationError(_("A business trip needs a purpose."))
-            previous = self.search(
+            previous = self.sudo().search(
                 [
                     ("vehicle_id", "=", trip.vehicle_id.id),
                     ("id", "!=", trip.id),

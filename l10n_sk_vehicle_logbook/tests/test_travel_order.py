@@ -36,25 +36,31 @@ class TestTravelOrder(TransactionCase):
         values.update(vals)
         return self.env["l10n.sk.vehicle.trip"].create(values)
 
-    def test_thirteen_hour_day_with_own_car_settles(self):
+    def test_thirteen_hour_day_with_own_car(self):
         order = self._order(
             vehicle_mode="own", kilometres=100.0, consumption=6.6,
             fuel_price=1.5, advance=10.0,
         )
-        order.action_approve()
+        order.action_compute_days()
         self.assertEqual(order.meal_amount, 13.80)
         self.assertEqual(order.kilometre_amount, 31.30)
         self.assertEqual(order.fuel_amount, 9.90)
+        self.assertEqual(order.allowance_amount, 55.0)
         self.assertAlmostEqual(order.amount_due, 45.0, places=2)
-        order.action_settle()
-        self.assertEqual(order.state, "settled")
-        self.assertAlmostEqual(order.expense_id.total_amount_currency, 45.0, places=2)
 
-    def test_advance_above_the_total_creates_no_expense(self):
-        order = self._order(advance=50.0)
-        order.action_approve()
-        order.action_settle()
-        self.assertFalse(order.expense_id)
+    def test_december_2026_rates(self):
+        # Oznámenie 255/2026 Z. z.: 14.60 EUR for over 12 to 18 hours from
+        # 1. 12. 2026; the last day of November keeps 13.80.
+        november = self._order(
+            date_start=datetime(2026, 11, 30, 6), date_end=datetime(2026, 11, 30, 19)
+        )
+        november.action_compute_days()
+        self.assertEqual(november.meal_amount, 13.80)
+        december = self._order(
+            date_start=datetime(2026, 12, 3, 6), date_end=datetime(2026, 12, 3, 19)
+        )
+        december.action_compute_days()
+        self.assertEqual(december.meal_amount, 14.60)
 
     def test_recompute_keeps_ticked_meals(self):
         order = self._order()

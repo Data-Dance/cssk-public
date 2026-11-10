@@ -20,7 +20,7 @@ contributor licence agreement.
 
 ## Requirements
 
-These modules depend on 26 module(s) that are not in
+These modules depend on 27 module(s) that are not in
 this repository. Add them to the addons path as well:
 
 | Source | Modules |
@@ -35,6 +35,7 @@ this repository. Add them to the addons path as well:
 | [OCA/calendar](https://github.com/OCA/calendar) | `calendar_public_holiday` |
 | [OCA/community-data-files](https://github.com/OCA/community-data-files) | `l10n_eu_nace` |
 | [OCA/currency](https://github.com/OCA/currency) | `currency_rate_update` |
+| [OCA/hr-expense](https://github.com/OCA/hr-expense) | `hr_expense_advance_clearing` |
 | [OCA/intrastat-extrastat](https://github.com/OCA/intrastat-extrastat) | `intrastat_product`, `intrastat_product_hscodes_import` |
 | [OCA/mis-builder](https://github.com/OCA/mis-builder) | `mis_builder` |
 | [OCA/payroll](https://github.com/OCA/payroll) | `payroll`, `payroll_account` |
@@ -145,7 +146,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_vat_registration` | 19.0.1.1.1 | Record which paragraph of the SK VAT Act a partner's IČ DPH was issued under, and warn when a § 69/12 reverse charge is aimed at a § 7 / § 7a registrant, who… |
 | `l10n_sk_vat_return` | 19.0.1.15.2 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
 | `l10n_sk_vehicle_expense` | 19.0.1.1.2 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
-| `l10n_sk_vehicle_logbook` | 19.0.1.1.0 | Trip log per vehicle and domestic and foreign travel orders with statutory meal, pocket money, kilometre and fuel reimbursement. |
+| `l10n_sk_vehicle_logbook` | 19.0.2.0.0 | Trip log per vehicle and domestic and foreign travel orders: approval before the trip, advance, settlement after it with the statutory meal, pocket money… |
 | `l10n_sk_vrp2_account` | 19.0.2.4.1 | Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2) |
 | `l10n_sk_vrp2_base` | 19.0.2.4.1 | Connection layer for the Slovak Virtual Cash Register (VRP 2) |
 

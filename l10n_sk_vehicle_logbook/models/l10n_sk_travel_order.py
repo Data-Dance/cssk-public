@@ -1,17 +1,57 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from datetime import date
+from datetime import date, datetime, time, timedelta
+
+import pytz
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 from .. import travel_rules
+
+# What the employee may still change once the order is approved: the trip as
+# it actually went (§ 36 ods. 7 settlement). Everything else is the order the
+# employer set in writing before the trip (§ 3) and stays as approved.
+ACTUAL_FIELDS = {
+    "date_start", "date_end", "border_out", "border_in", "stay_ids", "day_ids",
+    "kilometres", "consumption", "fuel_price", "trip_ids", "expense_ids",
+}
+# Set only by the process methods, never by a client: writing them directly
+# would skip the approval.
+PROCESS_FIELDS = {
+    "state", "approved_by_id", "approval_date", "planned_date_start",
+    "planned_date_end", "reported_date", "settled_by_id", "settlement_date",
+    "report_deadline", "advance_expense_id", "expense_id",
+}
+SETTLEMENT_DEADLINE_DAYS = 10  # § 36 ods. 7 and 8 zákona 283/2002 Z. z.
+
+
+def _working_days_after(calendar, moment, days):
+    """The date ``days`` working days after the day of ``moment``.
+
+    The deadline runs from the day after the event, so the count starts at
+    the next midnight. Without a calendar, Monday to Friday count.
+    """
+    tz = pytz.timezone(calendar.tz if calendar and calendar.tz else "Europe/Bratislava")
+    local = pytz.utc.localize(moment).astimezone(tz)
+    start = tz.localize(datetime.combine(local.date() + timedelta(days=1), time.min))
+    if calendar:
+        end = calendar.plan_days(days, start, compute_leaves=True)
+        if end:
+            return end.astimezone(tz).date()
+    day, found = start.date(), 0
+    while True:
+        if day.weekday() < 5:
+            found += 1
+            if found == days:
+                return day
+        day += timedelta(days=1)
 
 
 class L10nSkTravelOrder(models.Model):
     _name = "l10n.sk.travel.order"
     _description = "Travel order"
-    _inherit = ["mail.thread"]
+    _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "date_start desc, id desc"
 
     name = fields.Char(default="/", copy=False, readonly=True)
@@ -19,9 +59,29 @@ class L10nSkTravelOrder(models.Model):
         "res.company", required=True, default=lambda self: self.env.company
     )
     currency_id = fields.Many2one(related="company_id.currency_id")
-    employee_id = fields.Many2one("hr.employee", required=True, tracking=True)
+    employee_id = fields.Many2one(
+        "hr.employee", required=True, tracking=True, index=True,
+        default=lambda self: self.env.user.employee_id,
+    )
+    user_id = fields.Many2one(related="employee_id.user_id", string="Employee user")
+    department_id = fields.Many2one(related="employee_id.department_id", store=True)
+    manager_id = fields.Many2one(
+        "res.users", string="Approver", tracking=True, copy=False, index=True,
+        help="Who approves the order and its settlement. Filled on submission "
+             "from the employee's expense approver, department manager or "
+             "manager, as for expenses.",
+    )
     date_start = fields.Datetime(string="Departure", required=True)
     date_end = fields.Datetime(string="Return", required=True)
+    planned_date_start = fields.Datetime(
+        string="Planned departure", readonly=True, copy=False,
+        help="The departure as approved, before the trip (§ 3).",
+    )
+    planned_date_end = fields.Datetime(string="Planned return", readonly=True, copy=False)
+    origin = fields.Char(
+        string="Place of departure",
+        help="Where the trip starts and ends; usually the regular workplace.",
+    )
     destination = fields.Char(required=True)
     trip_kind = fields.Selection(
         [("domestic", "Domestic"), ("foreign", "Foreign")],
@@ -48,12 +108,38 @@ class L10nSkTravelOrder(models.Model):
     )
     purpose = fields.Char(required=True)
     state = fields.Selection(
-        [("draft", "Draft"), ("approved", "Approved"), ("settled", "Settled")],
-        default="draft", required=True, tracking=True, copy=False,
+        [
+            ("draft", "Draft"),
+            ("submitted", "To Approve"),
+            ("approved", "Approved"),
+            ("reported", "Settlement to Approve"),
+            ("settled", "Settled"),
+            ("refused", "Refused"),
+            ("cancel", "Cancelled"),
+        ],
+        default="draft", required=True, tracking=True, copy=False, index=True,
+    )
+    approved_by_id = fields.Many2one("res.users", readonly=True, copy=False)
+    approval_date = fields.Datetime(readonly=True, copy=False)
+    reported_date = fields.Datetime(
+        string="Settlement submitted", readonly=True, copy=False,
+    )
+    settled_by_id = fields.Many2one("res.users", readonly=True, copy=False)
+    settlement_date = fields.Datetime(readonly=True, copy=False)
+    report_deadline = fields.Date(
+        string="Settle by", readonly=True, copy=False,
+        help="10 working days after the return (§ 36 ods. 7 zákona "
+             "283/2002 Z. z.): the employee hands in the documents and returns "
+             "the unused advance.",
+    )
+    can_approve = fields.Boolean(compute="_compute_can_approve")
+    is_traveller = fields.Boolean(
+        compute="_compute_is_traveller",
+        help="The current user travels on this order or is an expense officer.",
     )
     vehicle_mode = fields.Selection(
         [("none", "Public transport or company vehicle"), ("own", "Employee's own vehicle")],
-        required=True, default="none",
+        string="Transport", required=True, default="none",
     )
     vehicle_category = fields.Selection(
         [("car", "Passenger car"), ("two_wheel", "Two- or three-wheeler, quad")],
@@ -69,15 +155,49 @@ class L10nSkTravelOrder(models.Model):
     fuel_price = fields.Float(
         digits=(8, 3), help="Unit price from the purchase receipt (§ 7 ods. 5)."
     )
-    advance = fields.Monetary()
+    advance = fields.Monetary(
+        help="Requested advance. Approving the order creates it as an approved "
+             "employee advance for accounting to pay out; the settlement clears "
+             "it. Mandatory on a foreign trip unless the employee declines "
+             "(§ 36 ods. 1).",
+    )
+    advance_expense_id = fields.Many2one(
+        "hr.expense", string="Advance expense", readonly=True, copy=False,
+    )
+    advance_state = fields.Selection(
+        related="advance_expense_id.state", string="Advance status", tracking=False,
+    )
+    advance_residual = fields.Monetary(
+        related="advance_expense_id.clearing_residual", string="Advance to clear",
+    )
     trip_ids = fields.One2many("l10n.sk.vehicle.trip", "travel_order_id")
     day_ids = fields.One2many("l10n.sk.travel.order.day", "order_id", copy=False)
-    expense_id = fields.Many2one("hr.expense", readonly=True, copy=False)
-    meal_amount = fields.Monetary(compute="_compute_amounts", store=True)
+    expense_ids = fields.One2many(
+        "hr.expense", "l10n_sk_travel_order_id", string="Other costs",
+        domain=[("advance", "=", False), ("l10n_sk_travel_allowance", "=", False)],
+        help="Tickets, accommodation, parking and other costs of the trip, "
+             "each with its receipt. They are approved with the settlement.",
+    )
+    expense_id = fields.Many2one(
+        "hr.expense", string="Allowance expense", readonly=True, copy=False,
+    )
+    meal_amount = fields.Monetary(
+        string="Meals and pocket money", compute="_compute_amounts", store=True,
+    )
     kilometre_amount = fields.Monetary(compute="_compute_amounts", store=True)
     fuel_amount = fields.Monetary(compute="_compute_amounts", store=True)
+    allowance_amount = fields.Monetary(
+        string="Allowances", compute="_compute_amounts", store=True,
+    )
+    other_amount = fields.Monetary(
+        string="Other costs total", compute="_compute_amounts", store=True,
+    )
     total_amount = fields.Monetary(compute="_compute_amounts", store=True)
-    amount_due = fields.Monetary(compute="_compute_amounts", store=True)
+    amount_due = fields.Monetary(
+        compute="_compute_amounts", store=True,
+        help="Total less the advance: positive is paid to the employee, "
+             "negative is returned by the employee.",
+    )
 
     @api.constrains("date_start", "date_end", "trip_kind", "border_out", "border_in")
     def _check_dates(self):
@@ -104,8 +224,27 @@ class L10nSkTravelOrder(models.Model):
             if not 0 <= order.pocket_money_percent <= 40:
                 raise ValidationError(_("Pocket money is at most 40 % (§ 14)."))
 
+    def _check_process_fields(self, vals):
+        if self.env.su:
+            return
+        forced = PROCESS_FIELDS & set(vals)
+        # The approver comes from the HR data; letting the traveller pick one
+        # would let them choose who approves their own trip.
+        if "manager_id" in vals and not self._is_expense_officer():
+            forced.add("manager_id")
+        if forced:
+            raise AccessError(_(
+                "%(fields)s change only through the travel order's buttons.",
+                fields=", ".join(
+                    self._fields[f]._description_string(self.env) for f in sorted(forced)
+                ),
+            ))
+
     @api.model_create_multi
     def create(self, vals_list):
+        for vals in vals_list:
+            vals = {k: v for k, v in vals.items() if not (k == "state" and v == "draft")}
+            self._check_process_fields(vals)
         orders = super().create(vals_list)
         for order in orders:
             if order.name == "/":
@@ -125,9 +264,15 @@ class L10nSkTravelOrder(models.Model):
     @api.depends(
         "day_ids.amount", "vehicle_mode", "vehicle_category", "trailer",
         "kilometres", "consumption", "fuel_price", "advance", "date_start",
+        "expense_ids.total_amount", "expense_ids.payment_mode",
     )
     def _compute_amounts(self):
         for order in self:
+            costs = order.expense_ids
+            own_costs = sum(
+                costs.filtered(lambda e: e.payment_mode == "own_account").mapped("total_amount")
+            )
+            order.other_amount = sum(costs.mapped("total_amount"))
             meals = sum(order.day_ids.mapped("amount"))
             km_amount = fuel = 0.0
             if order.vehicle_mode == "own" and order.date_start:
@@ -142,8 +287,10 @@ class L10nSkTravelOrder(models.Model):
             order.meal_amount = meals
             order.kilometre_amount = km_amount
             order.fuel_amount = fuel
-            order.total_amount = meals + km_amount + fuel
-            order.amount_due = order.total_amount - order.advance
+            order.allowance_amount = meals + km_amount + fuel
+            order.total_amount = order.allowance_amount + order.other_amount
+            # Costs the company paid directly are not owed to the employee.
+            order.amount_due = order.allowance_amount + own_costs - order.advance
 
     def action_compute_days(self):
         """Rebuild the calendar days, keeping meals already ticked."""
@@ -266,38 +413,470 @@ class L10nSkTravelOrder(models.Model):
             ),
         }
 
+    # ------------------------------------------------------------------
+    # Who may do what
+    # ------------------------------------------------------------------
+
+    def _is_expense_officer(self):
+        return self.env.su or self.env.user.has_group("hr_expense.group_hr_expense_user")
+
+    def _get_cannot_approve_reason(self):
+        """``{order id: reason or False}``, modelled on hr.expense's own check.
+
+        Unlike expenses, nobody approves their own trip, not even an expense
+        manager: the order is the employer's instruction to the employee.
+        """
+        user = self.env.user
+        officer = self._is_expense_officer()
+        team_approver = user.has_group("hr_expense.group_hr_expense_team_approver")
+        subordinates = set()
+        if team_approver and user.employee_ids:
+            subordinates = set(self.env["hr.employee"].sudo().search([
+                ("id", "in", self.employee_id.ids),
+                ("id", "child_of", user.employee_ids.ids),
+                ("id", "not in", user.employee_ids.ids),
+            ]).ids)
+        reasons = {}
+        for order in self:
+            employee = order.employee_id.sudo()
+            reason = False
+            if self.env.su:
+                pass
+            elif employee.user_id == user:
+                reason = _("%(order)s: it is your own trip.", order=order.name)
+            elif order.company_id not in self.env.companies:
+                reason = _("%(order)s: not a company you work in.", order=order.name)
+            elif not officer and user not in (
+                order.manager_id
+                | employee.expense_manager_id
+                | employee.department_id.manager_id.user_id
+            ) and employee.id not in subordinates:
+                reason = _(
+                    "%(order)s: you are neither its approver nor an expense officer.",
+                    order=order.name,
+                )
+            reasons[order.id] = reason
+        return reasons
+
+    @api.depends_context("uid")
+    @api.depends("employee_id", "manager_id", "company_id")
+    def _compute_can_approve(self):
+        reasons = self._get_cannot_approve_reason()
+        for order in self:
+            order.can_approve = not reasons.get(order.id)
+
+    @api.depends_context("uid")
+    @api.depends("employee_id")
+    def _compute_is_traveller(self):
+        officer = self._is_expense_officer()
+        for order in self:
+            order.is_traveller = officer or order.employee_id.sudo().user_id == self.env.user
+
+    def _check_can_approve(self):
+        reasons = [r for r in self._get_cannot_approve_reason().values() if r]
+        if reasons:
+            raise AccessError("\n".join(reasons))
+
+    def _check_is_traveller_or_officer(self):
+        """Submitting is for the employee who travels, or an expense officer
+        acting for them."""
+        if self._is_expense_officer():
+            return
+        for order in self:
+            if order.employee_id.sudo().user_id != self.env.user:
+                raise AccessError(_(
+                    "%(order)s: only the employee or an expense officer can do this.",
+                    order=order.name,
+                ))
+
+    def _check_state(self, *states):
+        for order in self:
+            if order.state not in states:
+                raise UserError(_(
+                    "%(order)s is %(state)s; this step is not available.",
+                    order=order.name,
+                    state=dict(self._fields["state"]._description_selection(self.env))[order.state],
+                ))
+
+    def _default_approver(self):
+        """The expense approver, the department manager or the manager, as
+        hr.expense resolves it, never the employee themself."""
+        self.ensure_one()
+        employee = self.employee_id.sudo()
+        candidates = (
+            employee.expense_manager_id,
+            employee.department_id.manager_id.user_id,
+            employee.parent_id.user_id,
+        )
+        for user in candidates:
+            user = user - employee.user_id
+            if user:
+                return user
+        return self.env["res.users"]
+
+    def write(self, vals):
+        self._check_process_fields(vals)
+        if not (self.env.su):
+            changed = {
+                field for field in vals
+                if field in self._fields
+                and not field.startswith(("message_", "activity_"))
+            }
+            for order in self:
+                if order.state == "draft":
+                    continue
+                allowed = set()
+                if order.state == "approved" and (
+                    self._is_expense_officer()
+                    or order.employee_id.sudo().user_id == self.env.user
+                ):
+                    allowed = ACTUAL_FIELDS
+                if self._is_expense_officer() and order.state in ("submitted", "reported"):
+                    allowed = allowed | {"manager_id"}
+                blocked = changed - allowed
+                if blocked:
+                    raise UserError(_(
+                        "%(order)s is no longer a draft; %(fields)s cannot be "
+                        "changed. Reset it to draft first.",
+                        order=order.name,
+                        fields=", ".join(
+                            self._fields[f]._description_string(self.env) for f in sorted(blocked)
+                        ),
+                    ))
+        return super().write(vals)
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_only_drafts(self):
+        for order in self:
+            if order.state not in ("draft", "cancel"):
+                raise UserError(_(
+                    "%(order)s can only be deleted as a draft or once cancelled.",
+                    order=order.name,
+                ))
+
+    def _set_state(self, vals):
+        # sudo, not a context flag: a client can send any context, never sudo.
+        return self.sudo().write(vals)
+
+    def _deadline_calendar(self):
+        self.ensure_one()
+        return self.employee_id.sudo().resource_calendar_id or self.company_id.resource_calendar_id
+
+    # ------------------------------------------------------------------
+    # The process: order before the trip, settlement after it
+    # ------------------------------------------------------------------
+
+    def action_submit(self):
+        """Send the order to the approver."""
+        self._check_state("draft", "refused")
+        self._check_is_traveller_or_officer()
+        for order in self:
+            # The approver sees what the trip is expected to cost.
+            order.sudo().action_compute_days()
+            approver = order.manager_id or order._default_approver()
+            order._set_state({"state": "submitted", "manager_id": approver.id})
+            if approver:
+                order.activity_schedule(
+                    "l10n_sk_vehicle_logbook.mail_act_travel_order_approval",
+                    user_id=approver.id,
+                    date_deadline=fields.Date.to_date(order.date_start),
+                )
+
     def action_approve(self):
+        """The employer sets the trip's conditions in writing (§ 3)."""
+        self._check_state("submitted")
+        self._check_can_approve()
         for order in self:
             if not order.day_ids:
-                order.action_compute_days()
-        self.state = "approved"
+                order.sudo().action_compute_days()
+            calendar = order._deadline_calendar()
+            order._set_state({
+                "state": "approved",
+                "planned_date_start": order.date_start,
+                "planned_date_end": order.date_end,
+                "approved_by_id": self.env.user.id,
+                "approval_date": fields.Datetime.now(),
+                "report_deadline": _working_days_after(
+                    calendar, order.date_end, SETTLEMENT_DEADLINE_DAYS
+                ),
+            })
+            order.activity_feedback(["l10n_sk_vehicle_logbook.mail_act_travel_order_approval"])
+            if order.currency_id.compare_amounts(order.advance, 0.0) > 0:
+                order._create_advance()
+            employee_user = order.employee_id.sudo().user_id
+            if employee_user:
+                order.activity_schedule(
+                    "l10n_sk_vehicle_logbook.mail_act_travel_order_report",
+                    user_id=employee_user.id,
+                    date_deadline=order.report_deadline,
+                )
+
+    def action_refuse(self):
+        """Refuse the order, or send a settlement back for correction."""
+        self._check_state("submitted", "reported")
+        self._check_can_approve()
+        for order in self:
+            if order.state == "submitted":
+                order._set_state({"state": "refused"})
+                order.activity_unlink(["l10n_sk_vehicle_logbook.mail_act_travel_order_approval"])
+                order.message_post(body=_("Travel order refused."))
+            else:
+                order._set_state({"state": "approved", "reported_date": False})
+                order.activity_unlink(["l10n_sk_vehicle_logbook.mail_act_travel_order_settlement"])
+                order.message_post(body=_("Settlement returned for correction."))
+                employee_user = order.employee_id.sudo().user_id
+                if employee_user:
+                    order.activity_schedule(
+                        "l10n_sk_vehicle_logbook.mail_act_travel_order_report",
+                        user_id=employee_user.id,
+                        date_deadline=order.report_deadline or fields.Date.today(),
+                    )
 
     def action_draft(self):
-        if self.expense_id:
-            raise UserError(_("This order already has an expense."))
-        self.state = "draft"
+        """Back to draft: the employee withdraws a submitted or refused order;
+        an approved one only an expense officer reopens, before its advance
+        is booked."""
+        self._check_state("submitted", "refused", "approved", "cancel")
+        if self.filtered(lambda o: o.state in ("approved", "cancel")):
+            if not self._is_expense_officer():
+                raise AccessError(_(
+                    "Only an expense officer can reopen an approved or cancelled order."
+                ))
+        else:
+            self._check_is_traveller_or_officer()
+        self._drop_advance()
+        self._set_state({
+            "state": "draft", "approved_by_id": False, "approval_date": False,
+            "planned_date_start": False, "planned_date_end": False,
+            "report_deadline": False,
+        })
+        self.activity_unlink([
+            "l10n_sk_vehicle_logbook.mail_act_travel_order_approval",
+            "l10n_sk_vehicle_logbook.mail_act_travel_order_report",
+        ])
+
+    def action_cancel(self):
+        """The trip does not take place. Once the advance is booked, settle
+        the order with no days instead, so the advance is returned."""
+        self._check_state("draft", "submitted", "approved", "refused")
+        if self.filtered(lambda o: o.state == "approved"):
+            self._check_can_approve()
+        else:
+            self._check_is_traveller_or_officer()
+        self._drop_advance()
+        self._set_state({"state": "cancel"})
+        self.activity_unlink([
+            "l10n_sk_vehicle_logbook.mail_act_travel_order_approval",
+            "l10n_sk_vehicle_logbook.mail_act_travel_order_report",
+        ])
+
+    def action_submit_settlement(self):
+        """After the trip: the actual times, meals and costs go to the approver
+        (§ 36 ods. 7), who has 10 working days to settle (ods. 8)."""
+        self._check_state("approved")
+        self._check_is_traveller_or_officer()
+        for order in self:
+            order.action_compute_days()
+            now = fields.Datetime.now()
+            order._set_state({"state": "reported", "reported_date": now})
+            order.activity_feedback(["l10n_sk_vehicle_logbook.mail_act_travel_order_report"])
+            approver = order.manager_id or order.approved_by_id
+            if approver:
+                order.activity_schedule(
+                    "l10n_sk_vehicle_logbook.mail_act_travel_order_settlement",
+                    user_id=approver.id,
+                    date_deadline=_working_days_after(
+                        order._deadline_calendar(), now, SETTLEMENT_DEADLINE_DAYS
+                    ),
+                )
 
     def action_settle(self):
-        """Hand the amount due to the expense approval flow."""
+        """Approve the settlement: the allowances and the other costs become
+        approved expenses, clearing the advance when one was paid."""
+        self._check_state("reported")
+        self._check_can_approve()
         product = self.env.ref("l10n_sk_vehicle_logbook.product_travel_settlement")
         for order in self:
-            if order.state != "approved":
-                raise UserError(_("Only an approved order can be settled."))
-            if order.currency_id.compare_amounts(order.amount_due, 0.0) > 0:
-                order.expense_id = self.env["hr.expense"].create({
-                    "name": order.name,
+            advance = order._advance_to_clear()
+            expenses = order.expense_ids.sudo()
+            if expenses.filtered(lambda e: e.state != "draft"):
+                raise UserError(_(
+                    "%(order)s: the other costs must still be drafts; they are "
+                    "approved here, with the settlement.",
+                    order=order.name,
+                ))
+            if order.currency_id.compare_amounts(order.allowance_amount, 0.0) > 0:
+                allowance = self.env["hr.expense"].sudo().create({
+                    "name": _("%(order)s travel allowances", order=order.name),
+                    "description": order._allowance_description(),
                     "employee_id": order.employee_id.id,
                     "company_id": order.company_id.id,
                     "product_id": product.id,
                     "payment_mode": "own_account",
                     "date": fields.Date.to_date(order.date_end),
-                    "total_amount_currency": order.amount_due,
+                    "total_amount_currency": order.allowance_amount,
+                    "tax_ids": [(5, 0, 0)],
+                    "l10n_sk_travel_order_id": order.id,
+                    "l10n_sk_travel_allowance": True,
                 })
-            order.state = "settled"
+                order._set_state({"expense_id": allowance.id})
+                expenses |= allowance
+            if advance:
+                expenses.filtered(
+                    lambda e: e.payment_mode == "own_account"
+                ).advance_id = advance
+            if expenses:
+                expenses.action_submit()
+                expenses._do_approve()
+            order._set_state({
+                "state": "settled",
+                "settled_by_id": self.env.user.id,
+                "settlement_date": fields.Datetime.now(),
+            })
+            order.activity_feedback(["l10n_sk_vehicle_logbook.mail_act_travel_order_settlement"])
+            if advance and order.currency_id.compare_amounts(order.amount_due, 0.0) < 0:
+                order.message_post(body=_(
+                    "The employee returns %(amount)s of the advance %(advance)s; "
+                    "record it with Return Advance once the clearing is posted.",
+                    amount=order.currency_id.format(-order.amount_due),
+                    advance=advance.display_name,
+                ))
+
+    def action_open_expenses(self):
+        self.ensure_one()
+        expenses = self.advance_expense_id | self.expense_id | self.expense_ids
+        return {
+            "type": "ir.actions.act_window",
+            "name": _("Expenses of %(order)s", order=self.name),
+            "res_model": "hr.expense",
+            "view_mode": "list,form",
+            "domain": [("id", "in", expenses.ids)],
+        }
+
+    # ------------------------------------------------------------------
+    # The advance
+    # ------------------------------------------------------------------
+
+    def _create_advance(self):
+        """An approved employee advance for accounting to post and pay."""
+        self.ensure_one()
+        if self.advance_expense_id:
+            return
+        product = self.env.ref("hr_expense_advance_clearing.product_emp_advance")
+        account = product.with_company(self.company_id).property_account_expense_id
+        if not account:
+            raise UserError(_(
+                "The Employee Advance product has no account for %(company)s. "
+                "Set it (account 335000 in the Slovak chart, with Allow "
+                "Reconciliation) before approving an order with an advance.",
+                company=self.company_id.name,
+            ))
+        advance = self.env["hr.expense"].sudo().with_company(self.company_id).create({
+            "name": _("Advance %(order)s", order=self.name),
+            "employee_id": self.employee_id.id,
+            "company_id": self.company_id.id,
+            "product_id": product.id,
+            "account_id": account.id,
+            "advance": True,
+            "payment_mode": "own_account",
+            "date": fields.Date.context_today(self),
+            "total_amount_currency": self.advance,
+            "tax_ids": [(5, 0, 0)],
+            "l10n_sk_travel_order_id": self.id,
+        })
+        advance.action_submit()
+        advance._do_approve()
+        self._set_state({"advance_expense_id": advance.id})
+
+    def _drop_advance(self):
+        """Withdraw an advance that is not booked yet."""
+        for order in self:
+            advance = order.advance_expense_id.sudo()
+            if not advance or advance.state == "refused":
+                continue
+            if advance.account_move_id:
+                raise UserError(_(
+                    "%(order)s: the advance %(advance)s is already booked. "
+                    "Settle the order instead, with no days if the trip did "
+                    "not take place, so the advance is returned.",
+                    order=order.name, advance=advance.display_name,
+                ))
+            advance._do_refuse(_("Travel order %(order)s withdrawn", order=order.name))
+            order._set_state({"advance_expense_id": False})
+
+    def _advance_to_clear(self):
+        """The paid advance the settlement clears, or nothing."""
+        self.ensure_one()
+        advance = self.advance_expense_id.sudo()
+        if not advance or advance.state == "refused":
+            return self.env["hr.expense"]
+        if advance.state not in ("in_payment", "paid"):
+            raise UserError(_(
+                "%(order)s: the advance %(advance)s is not paid out yet. Pay it, "
+                "or have it refused if it was never handed over, before "
+                "approving the settlement.",
+                order=self.name, advance=advance.display_name,
+            ))
+        if self.currency_id.is_zero(advance.clearing_residual):
+            return self.env["hr.expense"]
+        return advance
+
+    def _allowance_description(self):
+        self.ensure_one()
+        fmt = self.currency_id.format
+        lines = [_("Meal allowance and pocket money: %(amount)s", amount=fmt(self.meal_amount))]
+        if self.vehicle_mode == "own":
+            lines += [
+                _("Kilometre allowance, %(km)s km: %(amount)s",
+                  km=self.kilometres, amount=fmt(self.kilometre_amount)),
+                _("Fuel: %(amount)s", amount=fmt(self.fuel_amount)),
+            ]
+        return "\n".join(lines)
+
+
+
+class L10nSkTravelOrderLineMixin(models.AbstractModel):
+    """Day and country lines follow the order: editable while it is a draft
+    or, for the trip as it went, approved."""
+    _name = "l10n.sk.travel.order.line.mixin"
+    _description = "Travel order line editability"
+
+    def _check_order_editable(self, orders):
+        if self.env.su:
+            return
+        officer = self.env.user.has_group("hr_expense.group_hr_expense_user")
+        for order in orders:
+            traveller = officer or order.employee_id.sudo().user_id == self.env.user
+            if order.state not in ("draft", "approved") or (
+                order.state == "approved" and not traveller
+            ):
+                raise UserError(_(
+                    "%(order)s is no longer a draft; its days and countries "
+                    "cannot be changed.",
+                    order=order.name,
+                ))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        self._check_order_editable(records.order_id)
+        return records
+
+    def write(self, vals):
+        self._check_order_editable(self.order_id)
+        res = super().write(vals)
+        if "order_id" in vals:
+            self._check_order_editable(self.order_id)
+        return res
+
+    @api.ondelete(at_uninstall=False)
+    def _unlink_when_order_editable(self):
+        self._check_order_editable(self.order_id)
 
 
 class L10nSkTravelOrderDay(models.Model):
     _name = "l10n.sk.travel.order.day"
+    _inherit = ["l10n.sk.travel.order.line.mixin"]
     _description = "Travel order calendar day"
     _order = "date"
 
@@ -351,6 +930,7 @@ class L10nSkTravelOrderDay(models.Model):
 
 class L10nSkTravelOrderStay(models.Model):
     _name = "l10n.sk.travel.order.stay"
+    _inherit = ["l10n.sk.travel.order.line.mixin"]
     _description = "Country visited on a foreign trip"
     _order = "date_arrival, id"
 

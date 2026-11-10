@@ -31,14 +31,64 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <main class="cssk-doc">
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_vehicle_logbook/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Vehicle Logbook and Travel Orders</h1>
-<p class="cssk-summary">A trip log per vehicle and domestic and foreign travel orders with the meal allowance, pocket money, kilometre and fuel reimbursement of zákon 283/2002 Z. z.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>fleet</code>, <code>hr_expense</code>, <code>l10n_sk</code></td></tr></table>
+<p class="cssk-summary">A trip log per vehicle and domestic and foreign travel orders, approved before the trip and settled after it, with the advance, meal allowance, pocket money, kilometre and fuel reimbursement of zákon 283/2002 Z. z.</p>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.0.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>fleet</code>, <code>hr_expense</code>, <a href="/hr_expense_advance_clearing/static/description/index.html"><code>hr_expense_advance_clearing</code></a>, <code>l10n_sk</code></td></tr></table>
 
 <h2 id="purpose">What it does</h2>
 <p>The logbook records each trip of a vehicle: driver, times, route, purpose and
-odometer. A travel order computes the meal allowance for each calendar day and,
-for an employee's own vehicle, the kilometre and fuel reimbursement. Settling an
-approved order creates an expense for the amount due after any advance.</p>
+odometer. A travel order follows the trip in two steps, as zákon 283/2002 Z. z.
+does: the employer sets the trip's conditions in writing before it (§ 3), and
+the employee hands in the settlement after it (§ 36). The order computes the
+meal allowance for each calendar day and, for an employee's own vehicle, the
+kilometre and fuel reimbursement.</p>
+<h2 id="process">From order to settlement</h2>
+<ol>
+<li><strong>Draft.</strong> The employee, or an expense officer for them, fills in the
+   purpose, place of departure, destination, planned times, transport and the
+   advance they need, under <em>Expenses › Business Travel › My Travel Orders</em>.</li>
+<li><strong>To Approve.</strong> <em>Submit</em> sends the order to the approver: the employee's
+   expense approver, otherwise the department manager, otherwise the manager.
+   The approver gets an activity and sees the expected allowance.</li>
+<li><strong>Approved.</strong> <em>Approve</em> records the planned times and who approved the
+   order and when, which is what the printed <em>Cestovný príkaz</em> shows. An
+   advance becomes an approved employee advance for accounting to post and
+   pay. The employee gets an activity to hand in the settlement within
+   10 working days of the return (§ 36 ods. 7).</li>
+<li><strong>Settlement to Approve.</strong> Back from the trip, the employee enters the
+   actual times, the border crossings, the free meals of each day, the
+   kilometres, and the tickets, accommodation and other costs on the <em>Other
+   Costs</em> tab, each an expense with its receipt. <em>Submit Settlement</em>
+   recomputes the days and sends it to the approver, who has 10 working days
+   to settle it (§ 36 ods. 8). <em>Return for Correction</em> sends it back.</li>
+<li><strong>Settled.</strong> <em>Approve Settlement</em> turns the allowances into one approved
+   expense and approves the other costs with it. When an advance was paid,
+   these expenses clear it: accounting posts them through the clearing journal,
+   the employee is paid what exceeds the advance, and an unused remainder is
+   recorded with <em>Return Advance</em> on the advance. The printed <em>Vyúčtovanie
+   pracovnej cesty</em> shows the result.</li>
+</ol>
+<p><em>Cancel Trip</em> withdraws an order whose trip does not take place. Once the
+advance is booked, settle the order with no days instead, so the advance is
+returned.</p>
+<h2 id="access">Who can do what</h2>
+<ul>
+<li>An employee sees and enters only their own orders, and submits them.</li>
+<li>The approver, the department manager and the manager see their team's
+  orders and approve or refuse them. Nobody approves their own trip, not even
+  an expense manager.</li>
+<li>After approval the order stays as approved; only the employee, or an expense
+  officer, enters the trip as it went. A submitted order or settlement cannot
+  be changed until it is approved or sent back.</li>
+<li>Expense officers see all orders, reopen an approved one before its advance
+  is booked, and can reassign the approver.</li>
+</ul>
+<h2 id="advance">The advance</h2>
+<p>The advance uses the <em>Employee Advance and Clearing</em> module
+(<code>hr_expense_advance_clearing</code>). Installing this module points its <em>Employee
+Advance</em> product at account 335000 <em>Pohľadávky voči zamestnancom</em> in every
+company with the Slovak chart and allows reconciliation on it; set it by hand
+for a company added later. On a foreign trip the employer must give an advance
+unless the employee declines it (§ 36 ods. 1), and the form says so.</p>
 <h2 id="foreign">Foreign trips</h2>
 <p>A foreign travel order adds the times the trip leaves and returns to Slovakia
 (the border crossing, or the scheduled flight, § 16 ods. 2) and the countries it
@@ -62,12 +112,18 @@ them. An allowance set in a foreign currency is converted at the ECB or NBS
 rate valid on the first day of the month the trip began (§ 36 ods. 6), and the
 order refuses to compute when that rate is missing rather than guessing one.</p>
 <h2 id="limits">Limits</h2>
-<p>Days are Slovak calendar days, also abroad. The free meals of one day all count either at home or abroad; a day with a free meal in each place needs the amount checked by hand. The advance and the settlement are
-in euro; a foreign-currency advance is not handled. Abroad, enter the fuel
-price of the foreign receipt (§ 15) yourself. The fuel consumption is entered with its increase under
-§ 7 ods. 6 already applied, and the rates are maintained under Business Travel; the shipped set starts on
-1 January 2026, so earlier trips need their own rates entered first.</p>
-<footer><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<p>Days are Slovak calendar days, also abroad. The free meals of one day all count
+either at home or abroad; a day with a free meal in each place needs the amount
+checked by hand. The advance and the settlement are in euro; a foreign-currency
+advance (§ 36 ods. 5) is not handled. Abroad, enter the fuel price of the
+foreign receipt (§ 15) yourself. The fuel consumption is entered with its
+increase under § 7 ods. 6 already applied. The rates are maintained under
+Business Travel; the shipped set starts on 1 January 2026, with the meal
+allowance of oznámenie 255/2026 Z. z. from 1 December 2026, so earlier trips
+need their own rates entered first. The 10-working-day deadlines follow the
+employee's working schedule: public holidays count as working days unless they
+are entered in it.</p>
+<footer><p>Text checked against module version: 19.0.2.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

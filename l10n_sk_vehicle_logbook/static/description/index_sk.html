@@ -31,14 +31,67 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <main class="cssk-doc">
 <nav class="cssk-lang"><a href="/l10n_sk_vehicle_logbook/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK kniha jázd a cestovné príkazy</h1>
-<p class="cssk-summary">Evidencia jázd vozidla a tuzemské aj zahraničné cestovné príkazy so stravným, vreckovým, základnou náhradou a náhradou za pohonné látky podľa zákona 283/2002 Z. z.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>fleet</code>, <code>hr_expense</code>, <code>l10n_sk</code></td></tr></table>
+<p class="cssk-summary">Evidencia jázd vozidla a tuzemské aj zahraničné cestovné príkazy, schválené pred cestou a vyúčtované po nej, s preddavkom, stravným, vreckovým, základnou náhradou a náhradou za pohonné látky podľa zákona 283/2002 Z. z.</p>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.0.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>fleet</code>, <code>hr_expense</code>, <a href="/hr_expense_advance_clearing/static/description/index.html"><code>hr_expense_advance_clearing</code></a>, <code>l10n_sk</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Kniha jázd eviduje každú jazdu vozidla: vodiča, časy, trasu, účel a stav
-tachometra. Cestovný príkaz vypočíta stravné za každý kalendárny deň a pri
-vlastnom vozidle zamestnanca aj základnú náhradu a náhradu za pohonné látky.
-Vyúčtovaním schváleného príkazu vznikne výdavok na sumu po odpočítaní preddavku.</p>
+tachometra. Cestovný príkaz sleduje pracovnú cestu v dvoch krokoch, tak ako
+zákon 283/2002 Z. z.: zamestnávateľ pred cestou písomne určí jej podmienky
+(§ 3) a zamestnanec po nej predloží vyúčtovanie (§ 36). Príkaz vypočíta stravné
+za každý kalendárny deň a pri vlastnom vozidle zamestnanca aj základnú náhradu
+a náhradu za pohonné látky.</p>
+<h2 id="process">Od príkazu po vyúčtovanie</h2>
+<ol>
+<li><strong>Návrh.</strong> Zamestnanec, alebo za neho referent výdavkov, vyplní v ponuke
+   <em>Výdavky › Pracovné cesty › Moje cestovné príkazy</em> účel, miesto odchodu,
+   miesto výkonu práce, plánované časy, spôsob dopravy a preddavok, ktorý
+   potrebuje.</li>
+<li><strong>Na schválenie.</strong> <em>Odoslať</em> pošle príkaz schvaľovateľovi: schvaľovateľovi
+   výdavkov zamestnanca, inak vedúcemu oddelenia, inak nadriadenému.
+   Schvaľovateľ dostane aktivitu a vidí predpokladané stravné.</li>
+<li><strong>Schválený.</strong> <em>Schváliť</em> zaznamená plánované časy, kto príkaz schválil a
+   kedy; to ukazuje vytlačený <em>Cestovný príkaz</em>. Z preddavku vznikne schválený
+   preddavok zamestnanca, ktorý účtáreň zaúčtuje a vyplatí. Zamestnanec dostane
+   aktivitu predložiť vyúčtovanie do 10 pracovných dní od návratu (§ 36 ods. 7).</li>
+<li><strong>Vyúčtovanie na schválenie.</strong> Po návrate zamestnanec zadá skutočné časy,
+   prechody hraníc, bezplatné jedlá každého dňa, kilometre a na karte <em>Ostatné
+   výdavky</em> cestovné lístky, ubytovanie a ďalšie výdavky, každý ako výdavok
+   s dokladom. <em>Odoslať vyúčtovanie</em> prepočíta dni a pošle ho schvaľovateľovi,
+   ktorý ho má vyúčtovať do 10 pracovných dní (§ 36 ods. 8). <em>Vrátiť na
+   opravu</em> ho vráti zamestnancovi.</li>
+<li><strong>Vyúčtovaný.</strong> <em>Schváliť vyúčtovanie</em> zmení náhrady na jeden schválený
+   výdavok a spolu s ním schváli aj ostatné výdavky. Ak bol vyplatený preddavok,
+   tieto výdavky ho zúčtujú: účtáreň ich zaúčtuje cez denník zúčtovania,
+   zamestnancovi sa vyplatí suma nad preddavok a nevyčerpaný zvyšok sa zaeviduje
+   tlačidlom <em>Vrátiť preddavok</em> na preddavku. Výsledok ukazuje vytlačené
+   <em>Vyúčtovanie pracovnej cesty</em>.</li>
+</ol>
+<p><em>Zrušiť cestu</em> stiahne príkaz na cestu, ktorá sa neuskutoční. Ak je preddavok
+už zaúčtovaný, príkaz namiesto toho vyúčtujte bez dní, aby sa preddavok vrátil.</p>
+<h2 id="access">Kto čo smie</h2>
+<ul>
+<li>Zamestnanec vidí a zadáva len svoje príkazy a odosiela ich.</li>
+<li>Schvaľovateľ, vedúci oddelenia a nadriadený vidia príkazy svojho tímu a
+  schvaľujú alebo zamietajú ich. Nikto neschvaľuje vlastnú cestu, ani manažér
+  výdavkov.</li>
+<li>Schvaľovateľa určujú údaje zamestnanca; zamestnanec si ho vybrať nemôže,
+  zmeniť ho smie len referent výdavkov.</li>
+<li>Po schválení zostáva príkaz tak, ako bol schválený; cestu, ako prebehla,
+  zadáva len zamestnanec alebo referent výdavkov. Odoslaný príkaz ani
+  vyúčtovanie sa nedajú meniť, kým nie sú schválené alebo vrátené, a nové
+  výdavky sa k nim pridať nedajú.</li>
+<li>Referenti výdavkov vidia všetky príkazy a schválený príkaz môžu vrátiť do
+  návrhu, kým preddavok nie je zaúčtovaný.</li>
+</ul>
+<h2 id="advance">Preddavok</h2>
+<p>Preddavok používa modul <em>Employee Advance and Clearing</em>
+(<code>hr_expense_advance_clearing</code>). Inštalácia tohto modulu nastaví jeho produktu
+<em>Employee Advance</em> účet 335000 <em>Pohľadávky voči zamestnancom</em> vo všetkých
+spoločnostiach so slovenskou účtovou osnovou a povolí na ňom párovanie;
+v spoločnosti pridanej neskôr ho nastavte ručne. Pri zahraničnej ceste je
+zamestnávateľ povinný poskytnúť preddavok, ak sa ho zamestnanec nevzdá (§ 36
+ods. 1), a formulár na to upozorní.</p>
 <h2 id="foreign">Zahraničné cesty</h2>
 <p>Zahraničný cestovný príkaz má navyše čas odchodu zo Slovenska a návratu naň
 (prechod štátnej hranice alebo odlet a prílet lietadla podľa letového poriadku,
@@ -62,12 +115,17 @@ zamestnanec v cestnej doprave“. Stravné v cudzej mene sa prepočíta kurzom E
 alebo NBS platným k prvému dňu mesiaca, v ktorom sa cesta začala (§ 36 ods. 6);
 ak kurz chýba, príkaz výpočet odmietne, namiesto toho, aby kurz hádal.</p>
 <h2 id="limits">Obmedzenia</h2>
-<p>Dni sú slovenské kalendárne dni aj v zahraničí. Bezplatné jedlá jedného dňa sa započítajú buď celé doma, alebo celé v zahraničí; deň s bezplatným jedlom na oboch miestach treba prepočítať ručne. Preddavok a vyúčtovanie sú
-v eurách; preddavok v cudzej mene sa nespracúva. Jednotkovú cenu pohonnej látky
-z dokladu zo zahraničia (§ 15) treba zadať. Spotreba sa zadáva už so zvýšením podľa § 7 ods. 6 a sadzby
-sa udržiavajú v ponuke Pracovné cesty; dodaná sada platí od 1. 1. 2026, takže pre
-skoršie cesty treba najprv zadať ich sadzby.</p>
-<footer><p>Text overený voči verzii modulu: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<p>Dni sú slovenské kalendárne dni aj v zahraničí. Bezplatné jedlá jedného dňa sa
+započítajú buď celé doma, alebo celé v zahraničí; deň s bezplatným jedlom na
+oboch miestach treba prepočítať ručne. Preddavok a vyúčtovanie sú v eurách;
+preddavok v cudzej mene (§ 36 ods. 5) sa nespracúva. Jednotkovú cenu pohonnej
+látky z dokladu zo zahraničia (§ 15) treba zadať. Spotreba sa zadáva už so
+zvýšením podľa § 7 ods. 6. Sadzby sa udržiavajú v ponuke Pracovné cesty; dodaná
+sada platí od 1. 1. 2026 a od 1. 12. 2026 so stravným podľa oznámenia
+č. 255/2026 Z. z., takže pre skoršie cesty treba najprv zadať ich sadzby.
+Lehoty 10 pracovných dní sa riadia pracovným časom zamestnanca: štátne sviatky
+sa rátajú ako pracovné dni, ak v ňom nie sú zadané.</p>
+<footer><p>Text overený voči verzii modulu: 19.0.2.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

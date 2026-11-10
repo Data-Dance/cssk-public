@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- A cost of a travel order is submitted and cleared with the order's
+         settlement, so its own Submit and advance options are hidden. -->
+    <record id="hr_expense_view_form_travel_order" model="ir.ui.view">
+        <field name="name">hr.expense.form.l10n_sk_travel_order</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="l10n_sk_travel_order_id" invisible="not l10n_sk_travel_order_id"
+                       readonly="1"/>
+                <field name="l10n_sk_travel_allowance" invisible="1"/>
+            </xpath>
+            <xpath expr="(//header/button[@name='action_submit'])[1]" position="attributes">
+                <attribute name="invisible">nb_attachment == 0 or state != 'draft' or l10n_sk_travel_order_id</attribute>
+            </xpath>
+            <xpath expr="(//header/button[@name='action_submit'])[2]" position="attributes">
+                <attribute name="invisible">nb_attachment &gt;= 1 or state != 'draft' or l10n_sk_travel_order_id</attribute>
+            </xpath>
+        </field>
+    </record>
+    <record id="hr_expense_view_form_travel_order_advance" model="ir.ui.view">
+        <field name="name">hr.expense.form.l10n_sk_travel_order.advance</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense_advance_clearing.hr_expense_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//span[@name='advance_option']" position="attributes">
+                <attribute name="invisible">l10n_sk_travel_order_id and not advance</attribute>
+            </xpath>
+            <xpath expr="//field[@name='advance_id']" position="attributes">
+                <attribute name="invisible">advance or (l10n_sk_travel_order_id and not advance_id)</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

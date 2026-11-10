@@ -6,14 +6,178 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-10 12:58+0000\n"
-"PO-Revision-Date: 2026-11-10 12:58+0000\n"
+"POT-Creation-Date: 2026-11-10 20:02+0000\n"
+"PO-Revision-Date: 2026-11-10 20:02+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "% zahraničného stravného (§ 14)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/hr_expense.py:0
+msgid "%(expense)s belongs to the travel order %(order)s of another employee."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/hr_expense.py:0
+msgid "%(expense)s is part of the settlement of %(order)s."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/hr_expense.py:0
+msgid "%(expenses)s are part of a settlement waiting for approval."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/hr_expense.py:0
+msgid ""
+"%(expenses)s belong to a travel order; they are approved with its "
+"settlement, not on their own."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "%(fields)s change only through the travel order's buttons."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "%(order)s can only be deleted as a draft or once cancelled."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "%(order)s is %(state)s; this step is not available."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid ""
+"%(order)s is no longer a draft; %(fields)s cannot be changed. Reset it to "
+"draft first."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid ""
+"%(order)s is no longer a draft; its days and countries cannot be changed."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/hr_expense.py:0
+msgid "%(order)s no longer takes new costs."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "%(order)s travel allowances"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "%(order)s: it is your own trip."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "%(order)s: not a company you work in."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "%(order)s: only the employee or an expense officer can do this."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid ""
+"%(order)s: the advance %(advance)s is already booked. Settle the order "
+"instead, with no days if the trip did not take place, so the advance is "
+"returned."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid ""
+"%(order)s: the advance %(advance)s is not paid out yet. Pay it, or have it "
+"refused if it was never handed over, before approving the settlement."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid ""
+"%(order)s: the other costs must still be drafts; they are approved here, "
+"with the settlement."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "%(order)s: you are neither its approver nor an expense officer."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.actions.report,print_report_name:l10n_sk_vehicle_logbook.action_report_travel_order
+msgid "'Cestovny prikaz %s' % object.name.replace('/', '-')"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.actions.report,print_report_name:l10n_sk_vehicle_logbook.action_report_travel_settlement
+msgid "'Vyuctovanie %s' % object.name.replace('/', '-')"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "(v zahraničí)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid ""
+"),\n"
+"                                na základe písomnej dohody (§ 7 ods. 1)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid ", s prívesom"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__report_deadline
+msgid ""
+"10 working days after the return (§ 36 ods. 7 zákona 283/2002 Z. z.): the "
+"employee hands in the documents and returns the unused advance."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "<span>Expenses</span>"
+msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #. odoo-python
@@ -33,6 +197,26 @@ msgid "Action Needed"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
 msgid "Add the countries the trip goes to."
@@ -40,7 +224,50 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__advance
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 msgid "Advance"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "Advance %(order)s"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__advance_expense_id
+msgid "Advance expense"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__advance_state
+msgid "Advance status"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "Advance to Clear"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__advance_residual
+msgid "Advance to clear"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.actions.act_window,name:l10n_sk_vehicle_logbook.action_order_all
+#: model:ir.ui.menu,name:l10n_sk_vehicle_logbook.menu_travel_orders_all
+msgid "All Travel Orders"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__expense_id
+msgid "Allowance expense"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__allowance_amount
+msgid "Allowances"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -54,13 +281,53 @@ msgid "Amount Due"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__advance_residual
+msgid "Amount to clear of this advance in company currency"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Approval"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__approval_date
+msgid "Approval Date"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 msgid "Approve"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Approve Settlement"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:mail.activity.type,name:l10n_sk_vehicle_logbook.mail_act_travel_order_approval
+msgid "Approve travel order"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:mail.activity.type,name:l10n_sk_vehicle_logbook.mail_act_travel_order_settlement
+msgid "Approve travel settlement"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__approved
 msgid "Approved"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__approved_by_id
+msgid "Approved By"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__manager_id
+msgid "Approver"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -87,6 +354,11 @@ msgid "Base rate"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Bezplatné jedlo"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_vehicle_trip__trip_type__business
 msgid "Business"
 msgstr ""
@@ -94,6 +366,27 @@ msgstr ""
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.ui.menu,name:l10n_sk_vehicle_logbook.menu_travel_root
 msgid "Business Travel"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__can_approve
+msgid "Can Approve"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Cancel Trip"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__cancel
+msgid "Cancelled"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.actions.report,name:l10n_sk_vehicle_logbook.action_report_travel_order
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "Cestovný príkaz"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -199,8 +492,15 @@ msgid "Days"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__department_id
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "Department"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__date_start
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__date_start
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
 msgid "Departure"
 msgstr ""
 
@@ -210,9 +510,11 @@ msgid "Destination"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_hr_expense__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_line_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__display_name
@@ -235,6 +537,11 @@ msgid "Domestic or foreign"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Doplatok zamestnancovi"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__draft
 msgid "Draft"
 msgstr ""
@@ -245,8 +552,29 @@ msgid "Driver"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_header
+msgid "Druh cesty"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Dátum"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "EUR"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__employee_id
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
 msgid "Employee"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__user_id
+msgid "Employee user"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -260,8 +588,21 @@ msgid "Exchange rate"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__expense_id
+#: model:ir.model,name:l10n_sk_vehicle_logbook.model_hr_expense
 msgid "Expense"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "Expenses of %(order)s"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.actions.act_window,help:l10n_sk_vehicle_logbook.action_order
+msgid ""
+"Fill in where and why you travel and submit the order before the trip.\n"
+"                Once back, enter the actual times, free meals and costs and submit the settlement."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -280,7 +621,13 @@ msgid "Followers (Partners)"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__trip_kind__foreign
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
 msgid "Foreign"
 msgstr ""
 
@@ -331,8 +678,29 @@ msgid "Fuel Price"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "Fuel: %(amount)s"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:mail.activity.type,summary:l10n_sk_vehicle_logbook.mail_act_travel_order_report
+msgid "Hand in the settlement and return the unused advance (§ 36 ods. 7)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__has_message
 msgid "Has Message"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Hodiny v SR"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Hodiny v zahraničí"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -346,13 +714,25 @@ msgid "Hours in Slovakia"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_hr_expense__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_line_mixin__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__id
 msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_exception_icon
+msgid "Icon to indicate an exception activity."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -372,13 +752,39 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__is_traveller
+msgid "Is Traveller"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__kilometre_amount
 msgid "Kilometre Amount"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "Kilometre allowance, %(km)s km: %(amount)s"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__kilometres
 msgid "Kilometres"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "Koniec cesty"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Krajina"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "Krajiny"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -412,13 +818,26 @@ msgid "Logbook Trips"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__meal_amount
-msgid "Meal Amount"
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "Meal allowance and pocket money: %(amount)s"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_hr_expense__l10n_sk_travel_allowance
+msgid ""
+"Meal allowance, pocket money and vehicle reimbursement of a travel order "
+"settlement."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__meals_abroad
 msgid "Meals Abroad"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__meal_amount
+msgid "Meals and pocket money"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -447,13 +866,55 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Miesto výkonu práce"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__road_transport
 msgid "Mobile worker in road transport"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "Month"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.actions.act_window,name:l10n_sk_vehicle_logbook.action_order
+#: model:ir.ui.menu,name:l10n_sk_vehicle_logbook.menu_travel_orders
+msgid "My Travel Orders"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "My Trips"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__name
 msgid "Name"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_type_id
+msgid "Next Activity Type"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -498,6 +959,26 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Náhrada za pohonné látky, spotreba"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Náhrady spolu"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Náhrady za vozidlo"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Odchod"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_vehicle_trip__odometer_end
 msgid "Odometer End"
 msgstr ""
@@ -520,7 +1001,7 @@ msgstr ""
 #. module: l10n_sk_vehicle_logbook
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
-msgid "Only an approved order can be settled."
+msgid "Only an expense officer can reopen an approved or cancelled order."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -534,7 +1015,13 @@ msgstr ""
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_day__order_id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order_stay__order_id
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 msgid "Order"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "Order to Approve"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -542,6 +1029,26 @@ msgstr ""
 msgid ""
 "Osobitná základná sadzba stravného for mobile workers in road transport (§ "
 "13 ods. 2 druhá veta); empty where none is set."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Ostatné výdavky"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Other Costs"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__expense_ids
+msgid "Other costs"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__other_amount
+msgid "Other costs total"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -557,6 +1064,26 @@ msgstr ""
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__km_two_wheel
 msgid "Per km, two- and three-wheelers, quads"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__origin
+msgid "Place of departure"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.actions.act_window,help:l10n_sk_vehicle_logbook.action_order
+msgid "Plan a business trip"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__planned_date_start
+msgid "Planned departure"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__planned_date_end
+msgid "Planned return"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -576,8 +1103,46 @@ msgid "Pocket money is at most 40 % (§ 14)."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Použitie vlastného vozidla (§ 7)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Prechod hranice SR – návrat"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Prechod hranice SR – odchod"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Preddavok"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Preplatok – vráti zamestnanec"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid ""
+"Prepočet kurzom ECB/NBS platným k prvému dňu mesiaca, v ktorom sa cesta "
+"začala (§ 36 ods. 6)."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_vehicle_trip__trip_type__private
 msgid "Private"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Príchod"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -603,12 +1168,45 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Refuse"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__refused
+msgid "Refused"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__user_id
+msgid "Related user name for the resource to manage its access."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__advance
+msgid ""
+"Requested advance. Approving the order creates it as an approved employee "
+"advance for accounting to pay out; the settlement clears it. Mandatory on a "
+"foreign trip unless the employee declines (§ 36 ods. 1)."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 msgid "Reset to Draft"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_user_id
+msgid "Responsible User"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__date_end
 msgid "Return"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Return for Correction"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -628,13 +1226,51 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
-#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
-msgid "Settle"
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__report_deadline
+msgid "Settle by"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:mail.activity.type,summary:l10n_sk_vehicle_logbook.mail_act_travel_order_settlement
+msgid "Settle within 10 working days of submission (§ 36 ods. 8)"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__settled
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
 msgid "Settled"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__settled_by_id
+msgid "Settled By"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__settlement_date
+msgid "Settlement Date"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "Settlement Overdue"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "Settlement returned for correction."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__reported_date
+msgid "Settlement submitted"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__reported
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "Settlement to Approve"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -648,9 +1284,24 @@ msgid "Slovak foreign meal allowance rates"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "Slovenská republika"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__source
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_rate__source
 msgid "Source"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Spolu (EUR)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "Spôsob dopravy"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -659,11 +1310,99 @@ msgid "State"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "Status"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Stravné SR"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Stravné a vreckové"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Submit"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "Submit Settlement"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:mail.activity.type,name:l10n_sk_vehicle_logbook.mail_act_travel_order_report
+msgid "Submit travel settlement"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Suma"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid ""
+"The Employee Advance product has no account for %(company)s. Set it (account"
+" 335000 in the Slovak chart, with Allow Reconciliation) before approving an "
+"order with an advance."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid "The advance is approved but not paid out yet."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
 msgid ""
 "The arrival in %(country)s must lie between leaving and returning to "
 "Slovakia."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_hr_expense__l10n_sk_travel_order_id
+msgid "The cost is settled with this travel order and approved with it."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__is_traveller
+msgid "The current user travels on this order or is an expense officer."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__planned_date_start
+msgid "The departure as approved, before the trip (§ 3)."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid ""
+"The employee returns %(amount)s of the advance %(advance)s; record it with "
+"Return Advance once the clearing is posted."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
+msgid ""
+"The employer must give an advance for a foreign trip (§ 36 ods. 1 zákona 283/2002 Z. z.),\n"
+"                        unless the employee declines it."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -700,16 +1439,17 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #. odoo-python
-#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
-msgid "This order already has an expense."
-msgstr ""
-
-#. module: l10n_sk_vehicle_logbook
-#. odoo-python
 #: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_vehicle_trip.py:0
 msgid ""
 "This trip starts at %(start)s km, below the %(end)s km where the previous "
 "trip ended."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__expense_ids
+msgid ""
+"Tickets, accommodation, parking and other costs of the trip, each with its "
+"receipt. They are approved with the settlement."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -718,6 +1458,14 @@ msgid "To"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__state__submitted
+#: model:ir.ui.menu,name:l10n_sk_vehicle_logbook.menu_travel_orders_to_approve
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "To Approve"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_list
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_trip_list
 msgid "Total"
@@ -729,8 +1477,20 @@ msgid "Total Amount"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__amount_due
+msgid ""
+"Total less the advance: positive is paid to the employee, negative is "
+"returned by the employee."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__trailer
 msgid "Trailer"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__vehicle_mode
+msgid "Transport"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -739,9 +1499,8 @@ msgid "Travel Order"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
-#: model:ir.actions.act_window,name:l10n_sk_vehicle_logbook.action_order
-#: model:ir.ui.menu,name:l10n_sk_vehicle_logbook.menu_travel_orders
-msgid "Travel Orders"
+#: model:ir.actions.act_window,name:l10n_sk_vehicle_logbook.action_order_to_approve
+msgid "Travel Orders to Approve"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -751,13 +1510,42 @@ msgid "Travel Rates"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_hr_expense__l10n_sk_travel_allowance
+msgid "Travel allowances"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/hr_expense.py:0
+msgid "Travel allowances come only from a travel order settlement."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_travel_order
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_hr_expense__l10n_sk_travel_order_id
 msgid "Travel order"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "Travel order %(order)s withdrawn"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_travel_order_day
 msgid "Travel order calendar day"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_travel_order_line_mixin
+msgid "Travel order line editability"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_logbook/models/l10n_sk_travel_order.py:0
+msgid "Travel order refused."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -767,6 +1555,7 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__trip_ids
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_form
 msgid "Trip"
 msgstr ""
 
@@ -778,6 +1567,11 @@ msgstr ""
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_logbook.selection__l10n_sk_travel_order__vehicle_category__two_wheel
 msgid "Two- or three-wheeler, quad"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__activity_exception_decoration
+msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -815,13 +1609,30 @@ msgid "Vehicle Logbook"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__vehicle_mode
-msgid "Vehicle Mode"
+#: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_vehicle_trip
+msgid "Vehicle logbook entry"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
-#: model:ir.model,name:l10n_sk_vehicle_logbook.model_l10n_sk_vehicle_trip
-msgid "Vehicle logbook entry"
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Vreckové"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.actions.report,name:l10n_sk_vehicle_logbook.action_report_travel_settlement
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Vyúčtovanie pracovnej cesty"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Výdavok"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.view_order_search
+msgid "Waiting for Settlement"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -842,8 +1653,108 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__origin
+msgid "Where the trip starts and ends; usually the regular workplace."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__manager_id
+msgid ""
+"Who approves the order and its settlement. Filled on submission from the "
+"employee's expense approver, department manager or manager, as for expenses."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Zahr. stravné"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_header
+msgid "Zamestnanec"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "Začiatok cesty"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Základná náhrada,"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_foreign_rate__rate
 msgid "Základná sadzba stravného, § 13 ods. 2 zákona 283/2002 Z. z."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "hromadná doprava alebo služobné vozidlo"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "jednostopové, trojkolka, štvorkolka"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "km"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "l/100 km, cena"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "osobné"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "podpis zamestnanca"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "povolil (podpis vedúceho zamestnanca)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "schválil (podpis vedúceho zamestnanca)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_header
+msgid "tuzemská"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid ""
+"vlastné cestné motorové vozidlo zamestnanca\n"
+"                                ("
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_header
+msgid "zahraničná"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "zamestnanec"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "zamestnávateľ"
 msgstr ""
 
 #. module: l10n_sk_vehicle_logbook
@@ -854,4 +1765,24 @@ msgstr ""
 #. module: l10n_sk_vehicle_logbook
 #: model:ir.model.fields,help:l10n_sk_vehicle_logbook.field_l10n_sk_travel_order__trailer
 msgid "§ 7 ods. 2: a trailer adds 15 % to the basic rate."
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_settlement_document
+msgid "Úhrada"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_header
+msgid "Útvar"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_document
+msgid "Účel cesty"
+msgstr ""
+
+#. module: l10n_sk_vehicle_logbook
+#: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_logbook.report_travel_order_header
+msgid "Číslo príkazu"
 msgstr ""

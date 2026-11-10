@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="mail_act_travel_order_approval" model="mail.activity.type">
+        <field name="name">Approve travel order</field>
+        <field name="icon">fa-plane</field>
+        <field name="res_model">l10n.sk.travel.order</field>
+        <field name="category">default</field>
+    </record>
+    <record id="mail_act_travel_order_report" model="mail.activity.type">
+        <field name="name">Submit travel settlement</field>
+        <field name="icon">fa-file-text-o</field>
+        <field name="res_model">l10n.sk.travel.order</field>
+        <field name="category">default</field>
+    </record>
+    <record id="mail_act_travel_order_settlement" model="mail.activity.type">
+        <field name="name">Approve travel settlement</field>
+        <field name="icon">fa-check-square-o</field>
+        <field name="res_model">l10n.sk.travel.order</field>
+        <field name="category">default</field>
+    </record>
+</odoo>

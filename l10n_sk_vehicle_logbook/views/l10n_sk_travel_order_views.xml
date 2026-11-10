@@ -4,61 +4,192 @@
         <field name="name">l10n.sk.travel.order.list</field>
         <field name="model">l10n.sk.travel.order</field>
         <field name="arch" type="xml">
-            <list>
+            <list decoration-muted="state in ('cancel', 'refused')" decoration-info="state in ('submitted', 'reported')">
                 <field name="name"/>
-                <field name="employee_id"/>
+                <field name="employee_id" widget="many2one_avatar_employee"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
                 <field name="destination"/>
+                <field name="purpose" optional="hide"/>
                 <field name="trip_kind" optional="show"/>
+                <field name="manager_id" widget="many2one_avatar_user" optional="show"/>
+                <field name="report_deadline" optional="hide"/>
+                <field name="advance" optional="hide" sum="Total"/>
                 <field name="total_amount" sum="Total"/>
                 <field name="currency_id" column_invisible="1"/>
-                <field name="state" widget="badge"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="activity_ids" widget="list_activity" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('submitted', 'reported')"
+                       decoration-success="state == 'settled'"
+                       decoration-warning="state == 'approved'"
+                       decoration-danger="state == 'refused'"/>
             </list>
         </field>
     </record>
+
+    <record id="view_order_kanban" model="ir.ui.view">
+        <field name="name">l10n.sk.travel.order.kanban</field>
+        <field name="model">l10n.sk.travel.order</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column" quick_create="false" group_create="false" group_delete="false" records_draggable="false">
+                <field name="currency_id"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <field name="name" class="fw-bold"/>
+                            <field name="total_amount" widget="monetary"/>
+                        </div>
+                        <field name="destination"/>
+                        <div class="text-muted">
+                            <field name="date_start" widget="date"/> – <field name="date_end" widget="date"/>
+                        </div>
+                        <footer>
+                            <field name="employee_id" widget="many2one_avatar_employee"/>
+                            <field name="activity_ids" widget="kanban_activity" class="ms-auto"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_order_search" model="ir.ui.view">
+        <field name="name">l10n.sk.travel.order.search</field>
+        <field name="model">l10n.sk.travel.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="destination"/>
+                <field name="purpose"/>
+                <field name="manager_id"/>
+                <filter name="my" string="My Trips" domain="[('employee_id.user_id', '=', uid)]"/>
+                <filter name="to_approve" string="To Approve"
+                        domain="[('state', 'in', ('submitted', 'reported')), ('manager_id', '=', uid)]"/>
+                <separator/>
+                <filter name="submitted" string="Order to Approve" domain="[('state', '=', 'submitted')]"/>
+                <filter name="to_settle" string="Waiting for Settlement" domain="[('state', '=', 'approved')]"/>
+                <filter name="overdue" string="Settlement Overdue"
+                        domain="[('state', '=', 'approved'), ('report_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter name="reported" string="Settlement to Approve" domain="[('state', '=', 'reported')]"/>
+                <filter name="settled" string="Settled" domain="[('state', '=', 'settled')]"/>
+                <separator/>
+                <filter name="advance_open" string="Advance to Clear" domain="[('advance_expense_id.clearing_residual', '&gt;', 0)]"/>
+                <separator/>
+                <filter name="foreign" string="Foreign" domain="[('trip_kind', '=', 'foreign')]"/>
+                <filter name="date_start" string="Departure" date="date_start"/>
+                <separator/>
+                <filter name="group_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+                <filter name="group_department" string="Department" context="{'group_by': 'department_id'}"/>
+                <filter name="group_state" string="Status" context="{'group_by': 'state'}"/>
+                <filter name="group_month" string="Month" context="{'group_by': 'date_start:month'}"/>
+            </search>
+        </field>
+    </record>
+
     <record id="view_order_form" model="ir.ui.view">
         <field name="name">l10n.sk.travel.order.form</field>
         <field name="model">l10n.sk.travel.order</field>
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_compute_days" type="object" string="Compute Days" invisible="state != 'draft'"/>
-                    <button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'draft'" groups="hr_expense.group_hr_expense_team_approver"/>
-                    <button name="action_settle" type="object" string="Settle" class="btn-primary" invisible="state != 'approved'" groups="hr_expense.group_hr_expense_team_approver"/>
-                    <button name="action_draft" type="object" string="Reset to Draft" invisible="state != 'approved'"/>
-                    <field name="state" widget="statusbar"/>
+                    <button name="action_submit" type="object" string="Submit" class="btn-primary"
+                            invisible="state not in ('draft', 'refused') or not is_traveller"/>
+                    <button name="action_approve" type="object" string="Approve" class="btn-primary"
+                            invisible="state != 'submitted' or not can_approve"/>
+                    <button name="action_submit_settlement" type="object" string="Submit Settlement" class="btn-primary"
+                            invisible="state != 'approved' or not is_traveller"/>
+                    <button name="action_settle" type="object" string="Approve Settlement" class="btn-primary"
+                            invisible="state != 'reported' or not can_approve"/>
+                    <button name="action_refuse" type="object" string="Refuse"
+                            invisible="state != 'submitted' or not can_approve"/>
+                    <button name="action_refuse" type="object" string="Return for Correction"
+                            invisible="state != 'reported' or not can_approve"/>
+                    <button name="action_compute_days" type="object" string="Compute Days"
+                            invisible="state not in ('draft', 'approved') or not is_traveller"/>
+                    <button name="action_draft" type="object" string="Reset to Draft"
+                            invisible="state not in ('submitted', 'refused') or not is_traveller"/>
+                    <button name="action_draft" type="object" string="Reset to Draft"
+                            invisible="state not in ('approved', 'cancel')"
+                            groups="hr_expense.group_hr_expense_user"/>
+                    <button name="action_cancel" type="object" string="Cancel Trip"
+                            invisible="state not in ('draft', 'submitted', 'refused') or not is_traveller"/>
+                    <button name="action_cancel" type="object" string="Cancel Trip"
+                            invisible="state != 'approved' or not can_approve"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,reported,settled"/>
                 </header>
                 <sheet>
+                    <div name="button_box" class="oe_button_box">
+                        <button name="action_open_expenses" type="object" class="oe_stat_button" icon="fa-money"
+                                invisible="not expense_id and not advance_expense_id">
+                            <span>Expenses</span>
+                        </button>
+                    </div>
+                    <div class="alert alert-info" role="alert"
+                         invisible="trip_kind != 'foreign' or advance or state != 'draft'">
+                        The employer must give an advance for a foreign trip (§ 36 ods. 1 zákona 283/2002 Z. z.),
+                        unless the employee declines it.
+                    </div>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="state != 'approved' or not advance_expense_id or advance_state in ('in_payment', 'paid', 'refused')">
+                        The advance is approved but not paid out yet.
+                    </div>
                     <div class="oe_title"><h1><field name="name"/></h1></div>
                     <group>
-                        <group>
+                        <group string="Order">
                             <field name="employee_id" readonly="state != 'draft'"/>
-                            <field name="date_start" readonly="state != 'draft'"/>
-                            <field name="date_end" readonly="state != 'draft'"/>
+                            <field name="purpose" readonly="state != 'draft'"/>
+                            <field name="origin" readonly="state != 'draft'"/>
                             <field name="destination" readonly="state != 'draft'"/>
                             <field name="trip_kind" readonly="state != 'draft'"/>
-                            <field name="border_out" invisible="trip_kind != 'foreign'" required="trip_kind == 'foreign'" readonly="state != 'draft'"/>
-                            <field name="border_in" invisible="trip_kind != 'foreign'" required="trip_kind == 'foreign'" readonly="state != 'draft'"/>
                             <field name="road_transport" invisible="trip_kind != 'foreign'" readonly="state != 'draft'"/>
                             <field name="pocket_money_percent" invisible="trip_kind != 'foreign'" readonly="state != 'draft'"/>
-                            <field name="purpose" readonly="state != 'draft'"/>
-                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
-                            <field name="currency_id" invisible="1"/>
-                        </group>
-                        <group>
                             <field name="vehicle_mode" readonly="state != 'draft'"/>
                             <field name="vehicle_category" invisible="vehicle_mode != 'own'" readonly="state != 'draft'"/>
                             <field name="trailer" invisible="vehicle_mode != 'own'" readonly="state != 'draft'"/>
-                            <field name="kilometres" invisible="vehicle_mode != 'own'" readonly="state != 'draft'"/>
-                            <field name="consumption" invisible="vehicle_mode != 'own'" readonly="state != 'draft'"/>
-                            <field name="fuel_price" invisible="vehicle_mode != 'own'" readonly="state != 'draft'"/>
                             <field name="advance" readonly="state != 'draft'"/>
+                            <field name="advance_expense_id" invisible="not advance_expense_id"/>
+                            <field name="advance_state" invisible="not advance_expense_id"/>
+                            <field name="advance_residual" invisible="not advance_expense_id"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="can_approve" invisible="1"/>
+                            <field name="is_traveller" invisible="1"/>
+                        </group>
+                        <group string="Trip">
+                            <field name="date_start" readonly="state not in ('draft', 'approved') or not is_traveller"/>
+                            <field name="date_end" readonly="state not in ('draft', 'approved') or not is_traveller"/>
+                            <field name="border_out" invisible="trip_kind != 'foreign'" required="trip_kind == 'foreign'"
+                                   readonly="state not in ('draft', 'approved') or not is_traveller"/>
+                            <field name="border_in" invisible="trip_kind != 'foreign'" required="trip_kind == 'foreign'"
+                                   readonly="state not in ('draft', 'approved') or not is_traveller"/>
+                            <field name="kilometres" invisible="vehicle_mode != 'own'" readonly="state not in ('draft', 'approved') or not is_traveller"/>
+                            <field name="consumption" invisible="vehicle_mode != 'own'" readonly="state not in ('draft', 'approved') or not is_traveller"/>
+                            <field name="fuel_price" invisible="vehicle_mode != 'own'" readonly="state not in ('draft', 'approved') or not is_traveller"/>
+                            <field name="planned_date_start" invisible="not planned_date_start"/>
+                            <field name="planned_date_end" invisible="not planned_date_end"/>
+                        </group>
+                    </group>
+                    <group string="Approval">
+                        <group>
+                            <field name="manager_id" readonly="1" widget="many2one_avatar_user"
+                                   groups="!hr_expense.group_hr_expense_user"/>
+                            <field name="manager_id" readonly="state not in ('draft', 'submitted', 'reported')"
+                                   widget="many2one_avatar_user" groups="hr_expense.group_hr_expense_user"/>
+                            <field name="approved_by_id" invisible="not approved_by_id"/>
+                            <field name="approval_date" invisible="not approval_date"/>
+                        </group>
+                        <group>
+                            <field name="report_deadline" invisible="not report_deadline"/>
+                            <field name="reported_date" invisible="not reported_date"/>
+                            <field name="settled_by_id" invisible="not settled_by_id"/>
+                            <field name="settlement_date" invisible="not settlement_date"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Days" name="days">
-                            <field name="day_ids" readonly="state != 'draft'">
+                            <field name="day_ids" readonly="state not in ('draft', 'approved') or not is_traveller">
                                 <list editable="bottom" create="0" delete="0">
                                     <field name="date" readonly="1"/>
                                     <field name="hours" widget="float_time"/>
@@ -80,33 +211,73 @@
                             </field>
                         </page>
                         <page string="Countries" name="countries" invisible="trip_kind != 'foreign'">
-                            <field name="stay_ids" readonly="state != 'draft'">
+                            <field name="stay_ids" readonly="state not in ('draft', 'approved') or not is_traveller">
                                 <list editable="bottom">
                                     <field name="country_id"/>
                                     <field name="date_arrival"/>
                                 </list>
                             </field>
                         </page>
+                        <page string="Other Costs" name="costs">
+                            <field name="expense_ids" readonly="state not in ('draft', 'approved') or not is_traveller"
+                                   context="{'default_employee_id': employee_id, 'default_company_id': company_id, 'default_payment_mode': 'own_account'}">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="product_id"/>
+                                    <field name="payment_mode"/>
+                                    <field name="company_currency_id" column_invisible="1"/>
+                                    <field name="total_amount" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Logbook Trips" name="trips">
-                            <field name="trip_ids" readonly="state != 'draft'"/>
+                            <field name="trip_ids" readonly="state not in ('draft', 'approved') or not is_traveller"/>
                         </page>
                     </notebook>
                     <group class="oe_subtotal_footer">
                         <field name="meal_amount"/>
-                        <field name="kilometre_amount"/>
-                        <field name="fuel_amount"/>
+                        <field name="kilometre_amount" invisible="vehicle_mode != 'own'"/>
+                        <field name="fuel_amount" invisible="vehicle_mode != 'own'"/>
+                        <field name="allowance_amount"/>
+                        <field name="other_amount"/>
                         <field name="total_amount"/>
+                        <field name="advance" string="Advance" readonly="1"/>
                         <field name="amount_due"/>
-                        <field name="expense_id"/>
+                        <field name="expense_id" invisible="not expense_id"/>
                     </group>
                 </sheet>
                 <chatter/>
             </form>
         </field>
     </record>
+
     <record id="action_order" model="ir.actions.act_window">
-        <field name="name">Travel Orders</field>
+        <field name="name">My Travel Orders</field>
         <field name="res_model">l10n.sk.travel.order</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_order_search"/>
+        <field name="context">{'search_default_my': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Plan a business trip</p>
+            <p>
+                Fill in where and why you travel and submit the order before the trip.
+                Once back, enter the actual times, free meals and costs and submit the settlement.
+            </p>
+        </field>
+    </record>
+    <record id="action_order_to_approve" model="ir.actions.act_window">
+        <field name="name">Travel Orders to Approve</field>
+        <field name="res_model">l10n.sk.travel.order</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="view_order_search"/>
+        <field name="context">{'search_default_to_approve': 1}</field>
+    </record>
+    <record id="action_order_all" model="ir.actions.act_window">
+        <field name="name">All Travel Orders</field>
+        <field name="res_model">l10n.sk.travel.order</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_order_search"/>
     </record>
 </odoo>

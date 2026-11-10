@@ -9,12 +9,43 @@ SK Vehicle Logbook and Travel Orders
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
    :alt: License: AGPL-3
 
-**A trip log per vehicle and domestic and foreign travel orders with the meal allowance, pocket money, kilometre and fuel reimbursement of zákon 283/2002 Z. z.**
+**A trip log per vehicle and domestic and foreign travel orders, approved before the trip and settled after it, with the advance, meal allowance, pocket money, kilometre and fuel reimbursement of zákon 283/2002 Z. z.**
 
 What it does
 ==============
 
-The logbook records each trip of a vehicle: driver, times, route, purpose and odometer. A travel order computes the meal allowance for each calendar day and, for an employee's own vehicle, the kilometre and fuel reimbursement. Settling an approved order creates an expense for the amount due after any advance.
+The logbook records each trip of a vehicle: driver, times, route, purpose and odometer. A travel order follows the trip in two steps, as zákon 283/2002 Z. z. does: the employer sets the trip's conditions in writing before it (§ 3), and the employee hands in the settlement after it (§ 36). The order computes the meal allowance for each calendar day and, for an employee's own vehicle, the kilometre and fuel reimbursement.
+
+From order to settlement
+==========================
+
+1. **Draft.** The employee, or an expense officer for them, fills in the purpose, place of departure, destination, planned times, transport and the advance they need, under *Expenses › Business Travel › My Travel Orders*.
+
+2. **To Approve.** *Submit* sends the order to the approver: the employee's expense approver, otherwise the department manager, otherwise the manager. The approver gets an activity and sees the expected allowance.
+
+3. **Approved.** *Approve* records the planned times and who approved the order and when, which is what the printed *Cestovný príkaz* shows. An advance becomes an approved employee advance for accounting to post and pay. The employee gets an activity to hand in the settlement within 10 working days of the return (§ 36 ods. 7).
+
+4. **Settlement to Approve.** Back from the trip, the employee enters the actual times, the border crossings, the free meals of each day, the kilometres, and the tickets, accommodation and other costs on the *Other Costs* tab, each an expense with its receipt. *Submit Settlement* recomputes the days and sends it to the approver, who has 10 working days to settle it (§ 36 ods. 8). *Return for Correction* sends it back.
+
+5. **Settled.** *Approve Settlement* turns the allowances into one approved expense and approves the other costs with it. When an advance was paid, these expenses clear it: accounting posts them through the clearing journal, the employee is paid what exceeds the advance, and an unused remainder is recorded with *Return Advance* on the advance. The printed *Vyúčtovanie pracovnej cesty* shows the result.
+
+*Cancel Trip* withdraws an order whose trip does not take place. Once the advance is booked, settle the order with no days instead, so the advance is returned.
+
+Who can do what
+=================
+
+- An employee sees and enters only their own orders, and submits them.
+
+- The approver, the department manager and the manager see their team's orders and approve or refuse them. Nobody approves their own trip, not even an expense manager.
+
+- After approval the order stays as approved; only the employee, or an expense officer, enters the trip as it went. A submitted order or settlement cannot be changed until it is approved or sent back.
+
+- Expense officers see all orders, reopen an approved one before its advance is booked, and can reassign the approver.
+
+The advance
+=============
+
+The advance uses the *Employee Advance and Clearing* module (``hr_expense_advance_clearing``). Installing this module points its *Employee Advance* product at account 335000 *Pohľadávky voči zamestnancom* in every company with the Slovak chart and allows reconciliation on it; set it by hand for a company added later. On a foreign trip the employer must give an advance unless the employee declines it (§ 36 ods. 1), and the form says so.
 
 Foreign trips
 ===============
@@ -34,16 +65,16 @@ The base rates of all 193 countries of opatrenie MF SR č. 401/2012 Z. z. are sh
 Limits
 ========
 
-Days are Slovak calendar days, also abroad. The free meals of one day all count either at home or abroad; a day with a free meal in each place needs the amount checked by hand. The advance and the settlement are in euro; a foreign-currency advance is not handled. Abroad, enter the fuel price of the foreign receipt (§ 15) yourself. The fuel consumption is entered with its increase under § 7 ods. 6 already applied, and the rates are maintained under Business Travel; the shipped set starts on 1 January 2026, so earlier trips need their own rates entered first.
+Days are Slovak calendar days, also abroad. The free meals of one day all count either at home or abroad; a day with a free meal in each place needs the amount checked by hand. The advance and the settlement are in euro; a foreign-currency advance (§ 36 ods. 5) is not handled. Abroad, enter the fuel price of the foreign receipt (§ 15) yourself. The fuel consumption is entered with its increase under § 7 ods. 6 already applied. The rates are maintained under Business Travel; the shipped set starts on 1 January 2026, with the meal allowance of oznámenie 255/2026 Z. z. from 1 December 2026, so earlier trips need their own rates entered first. The 10-working-day deadlines follow the employee's working schedule: public holidays count as working days unless they are entered in it.
 
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_vehicle_logbook``
-- **Version:** 19.0.1.1.0
+- **Version:** 19.0.2.0.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
-- **Requires:** ``fleet``, ``hr_expense``, ``l10n_sk``
+- **Requires:** ``fleet``, ``hr_expense``, ``hr_expense_advance_clearing``, ``l10n_sk``
 
 Documentation
 =============

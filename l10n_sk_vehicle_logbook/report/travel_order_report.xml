@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Statutory documents: Slovak throughout, by design (§ 3 and § 36
+         zákona 283/2002 Z. z.). -->
+    <template id="report_travel_order_header">
+        <table class="table table-sm table-borderless mb-3">
+            <tr><td class="w-25">Zamestnanec</td><td><strong t-field="o.employee_id"/></td>
+                <td class="w-25">Útvar</td><td><span t-field="o.department_id"/></td></tr>
+            <tr><td>Číslo príkazu</td><td><span t-field="o.name"/></td>
+                <td>Druh cesty</td><td><t t-if="o.trip_kind == 'foreign'">zahraničná</t><t t-else="">tuzemská</t></td></tr>
+        </table>
+    </template>
+
+    <template id="report_travel_order_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h3>Cestovný príkaz</h3>
+                <t t-call="l10n_sk_vehicle_logbook.report_travel_order_header"/>
+                <table class="table table-sm table-bordered">
+                    <tr><th class="w-25">Začiatok cesty</th>
+                        <td><span t-out="o.planned_date_start or o.date_start" t-options="{'widget': 'datetime', 'hide_seconds': True}"/><t t-if="o.origin">, <span t-field="o.origin"/></t></td></tr>
+                    <tr><th>Miesto výkonu práce</th><td><span t-field="o.destination"/></td></tr>
+                    <tr><th>Účel cesty</th><td><span t-field="o.purpose"/></td></tr>
+                    <tr><th>Koniec cesty</th>
+                        <td><span t-out="o.planned_date_end or o.date_end" t-options="{'widget': 'datetime', 'hide_seconds': True}"/><t t-if="o.origin">, <span t-field="o.origin"/></t></td></tr>
+                    <tr><th>Krajiny</th>
+                        <td><t t-if="o.trip_kind == 'foreign'" t-out="', '.join(o.stay_ids.mapped('country_id.name'))"/>
+                            <t t-else="">Slovenská republika</t></td></tr>
+                    <tr><th>Spôsob dopravy</th>
+                        <td><t t-if="o.vehicle_mode == 'own'">vlastné cestné motorové vozidlo zamestnanca
+                                (<t t-if="o.vehicle_category == 'car'">osobné</t><t t-else="">jednostopové, trojkolka, štvorkolka</t><t t-if="o.trailer">, s prívesom</t>),
+                                na základe písomnej dohody (§ 7 ods. 1)</t>
+                            <t t-else="">hromadná doprava alebo služobné vozidlo</t></td></tr>
+                    <tr t-if="o.trip_kind == 'foreign'"><th>Vreckové</th><td><span t-out="'%g' % o.pocket_money_percent"/> % zahraničného stravného (§ 14)</td></tr>
+                    <tr><th>Preddavok</th><td><span t-field="o.advance"/></td></tr>
+                </table>
+                <table class="table table-sm table-borderless mt-5">
+                    <tr>
+                        <td class="w-50 text-center">
+                            <div style="border-top: 1px solid #000; margin: 0 2em; padding-top: .3em;">podpis zamestnanca</div>
+                        </td>
+                        <td class="w-50 text-center">
+                            <div t-if="o.approved_by_id"><span t-field="o.approved_by_id"/>, <span t-field="o.approval_date" t-options="{'widget': 'date'}"/></div>
+                            <div style="border-top: 1px solid #000; margin: 0 2em; padding-top: .3em;">povolil (podpis vedúceho zamestnanca)</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_travel_order">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_sk_vehicle_logbook.report_travel_order_document"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_travel_settlement_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h3>Vyúčtovanie pracovnej cesty</h3>
+                <t t-call="l10n_sk_vehicle_logbook.report_travel_order_header"/>
+                <table class="table table-sm table-bordered">
+                    <tr><th class="w-25">Odchod</th><td><span t-field="o.date_start" t-options="{'hide_seconds': True}"/></td>
+                        <th class="w-25">Príchod</th><td><span t-field="o.date_end" t-options="{'hide_seconds': True}"/></td></tr>
+                    <tr t-if="o.trip_kind == 'foreign'"><th>Prechod hranice SR – odchod</th><td><span t-field="o.border_out" t-options="{'hide_seconds': True}"/></td>
+                        <th>Prechod hranice SR – návrat</th><td><span t-field="o.border_in" t-options="{'hide_seconds': True}"/></td></tr>
+                    <tr><th>Miesto výkonu práce</th><td colspan="3"><span t-field="o.destination"/></td></tr>
+                </table>
+
+                <h5>Stravné a vreckové</h5>
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Dátum</th><th class="text-end">Hodiny v SR</th><th class="text-end">Stravné SR</th>
+                            <t t-if="o.trip_kind == 'foreign'">
+                                <th class="text-end">Hodiny v zahraničí</th><th>Krajina</th>
+                                <th class="text-end">Zahr. stravné</th><th class="text-end">Vreckové</th>
+                            </t>
+                            <th>Bezplatné jedlo</th><th class="text-end">Spolu (EUR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="o.day_ids" t-as="d">
+                            <td><span t-field="d.date"/></td>
+                            <td class="text-end"><span t-field="d.hours" t-options="{'widget': 'float_time'}"/></td>
+                            <td class="text-end" t-out="'%.2f' % d.rate"/>
+                            <t t-if="o.trip_kind == 'foreign'">
+                                <td class="text-end"><span t-field="d.hours_abroad" t-options="{'widget': 'float_time'}"/></td>
+                                <td t-out="d.country_id.name or ''"/>
+                                <td class="text-end"><t t-if="d.foreign_base"><span t-out="'%.2f' % d.foreign_amount"/> <span t-out="d.foreign_currency_id.name"/></t></td>
+                                <td class="text-end"><t t-if="d.pocket_money"><span t-out="'%.2f' % d.pocket_money"/> <span t-out="d.foreign_currency_id.name"/></t></td>
+                            </t>
+                            <td><t t-out="', '.join(n for n, f in (('raňajky', d.breakfast), ('obed', d.lunch), ('večera', d.dinner)) if f)"/>
+                                <t t-if="d.meals_abroad and (d.breakfast or d.lunch or d.dinner)"> (v zahraničí)</t></td>
+                            <td class="text-end"><span t-field="d.amount"/></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p t-if="o.trip_kind == 'foreign'" class="small">Prepočet kurzom ECB/NBS platným k prvému dňu mesiaca, v ktorom sa cesta začala (§ 36 ods. 6).</p>
+
+                <t t-if="o.vehicle_mode == 'own'">
+                    <h5>Použitie vlastného vozidla (§ 7)</h5>
+                    <table class="table table-sm table-bordered">
+                        <tr><th class="w-50">Základná náhrada, <span t-out="o.kilometres"/> km</th><td class="text-end"><span t-field="o.kilometre_amount"/></td></tr>
+                        <tr><th>Náhrada za pohonné látky, spotreba <span t-out="o.consumption"/> l/100 km, cena <span t-out="o.fuel_price"/> EUR</th>
+                            <td class="text-end"><span t-field="o.fuel_amount"/></td></tr>
+                    </table>
+                </t>
+
+                <t t-if="o.expense_ids">
+                    <h5>Ostatné výdavky</h5>
+                    <table class="table table-sm table-bordered">
+                        <thead><tr><th>Dátum</th><th>Výdavok</th><th>Úhrada</th><th class="text-end">Suma</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="o.expense_ids" t-as="e">
+                                <td><span t-field="e.date"/></td><td><span t-field="e.name"/></td>
+                                <td><t t-if="e.payment_mode == 'company_account'">zamestnávateľ</t><t t-else="">zamestnanec</t></td>
+                                <td class="text-end"><span t-field="e.total_amount"/></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </t>
+
+                <table class="table table-sm table-bordered w-50 ms-auto">
+                    <tr><th>Stravné a vreckové</th><td class="text-end"><span t-field="o.meal_amount"/></td></tr>
+                    <tr t-if="o.vehicle_mode == 'own'"><th>Náhrady za vozidlo</th>
+                        <td class="text-end"><span t-out="o.kilometre_amount + o.fuel_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td></tr>
+                    <tr><th>Ostatné výdavky</th><td class="text-end"><span t-field="o.other_amount"/></td></tr>
+                    <tr><th>Náhrady spolu</th><td class="text-end"><strong t-field="o.total_amount"/></td></tr>
+                    <tr><th>Preddavok</th><td class="text-end"><span t-field="o.advance"/></td></tr>
+                    <tr>
+                        <th><t t-if="o.amount_due &gt;= 0">Doplatok zamestnancovi</t><t t-else="">Preplatok – vráti zamestnanec</t></th>
+                        <td class="text-end"><strong t-out="abs(o.amount_due)" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                    </tr>
+                </table>
+
+                <table class="table table-sm table-borderless mt-5">
+                    <tr>
+                        <td class="w-50 text-center">
+                            <div t-if="o.reported_date"><span t-field="o.reported_date" t-options="{'widget': 'date'}"/></div>
+                            <div style="border-top: 1px solid #000; margin: 0 2em; padding-top: .3em;">podpis zamestnanca</div>
+                        </td>
+                        <td class="w-50 text-center">
+                            <div t-if="o.settled_by_id"><span t-field="o.settled_by_id"/>, <span t-field="o.settlement_date" t-options="{'widget': 'date'}"/></div>
+                            <div style="border-top: 1px solid #000; margin: 0 2em; padding-top: .3em;">schválil (podpis vedúceho zamestnanca)</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_travel_settlement">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_sk_vehicle_logbook.report_travel_settlement_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_travel_order" model="ir.actions.report">
+        <field name="name">Cestovný príkaz</field>
+        <field name="model">l10n.sk.travel.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_sk_vehicle_logbook.report_travel_order</field>
+        <field name="report_file">l10n_sk_vehicle_logbook.report_travel_order</field>
+        <field name="print_report_name">'Cestovny prikaz %s' % object.name.replace('/', '-')</field>
+        <field name="binding_model_id" ref="model_l10n_sk_travel_order"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_travel_settlement" model="ir.actions.report">
+        <field name="name">Vyúčtovanie pracovnej cesty</field>
+        <field name="model">l10n.sk.travel.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">l10n_sk_vehicle_logbook.report_travel_settlement</field>
+        <field name="report_file">l10n_sk_vehicle_logbook.report_travel_settlement</field>
+        <field name="print_report_name">'Vyuctovanie %s' % object.name.replace('/', '-')</field>
+        <field name="binding_model_id" ref="model_l10n_sk_travel_order"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

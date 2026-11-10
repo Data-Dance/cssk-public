@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_travel_root" name="Business Travel" parent="hr_expense.menu_hr_expense_root" sequence="30"/>
-    <menuitem id="menu_travel_orders" name="Travel Orders" parent="menu_travel_root" action="action_order" sequence="10"/>
+    <menuitem id="menu_travel_orders" name="My Travel Orders" parent="menu_travel_root" action="action_order" sequence="10"/>
+    <menuitem id="menu_travel_orders_to_approve" name="To Approve" parent="menu_travel_root" action="action_order_to_approve" sequence="12"
+              groups="hr_expense.group_hr_expense_team_approver"/>
+    <menuitem id="menu_travel_orders_all" name="All Travel Orders" parent="menu_travel_root" action="action_order_all" sequence="14"
+              groups="hr_expense.group_hr_expense_user"/>
     <menuitem id="menu_trips" name="Vehicle Logbook" parent="menu_travel_root" action="action_trip" sequence="20"/>
     <menuitem id="menu_rates" name="Travel Rates" parent="menu_travel_root" action="action_rate" sequence="30" groups="hr_expense.group_hr_expense_manager"/>
     <menuitem id="menu_foreign_rates" name="Foreign Meal Rates" parent="menu_travel_root" action="action_foreign_rate" sequence="40" groups="hr_expense.group_hr_expense_manager"/>

@@ -10,4 +10,107 @@
         <field name="model_id" ref="model_l10n_sk_travel_order"/>
         <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
+
+    <!-- Travel orders: the employee's own, the approver's and the team's;
+         expense officers and fleet managers see everything. -->
+    <record id="rule_order_employee" model="ir.rule">
+        <field name="name">Travel orders: own and to approve</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order"/>
+        <field name="domain_force">['|', '|', '|', '|',
+            ('employee_id.user_id', '=', user.id),
+            ('manager_id', '=', user.id),
+            ('employee_id.expense_manager_id', '=', user.id),
+            ('employee_id.department_id.manager_id.user_id', '=', user.id),
+            ('employee_id.parent_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_order_team_approver" model="ir.rule">
+        <field name="name">Travel orders: team</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order"/>
+        <field name="domain_force">[('employee_id', 'child_of', user.employee_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_team_approver'))]"/>
+    </record>
+    <record id="rule_order_officer" model="ir.rule">
+        <field name="name">Travel orders: all</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_user'))]"/>
+    </record>
+
+    <!-- Days and countries follow the access of their order. -->
+    <record id="rule_day_company" model="ir.rule">
+        <field name="name">Travel order days: own companies</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_day"/>
+        <field name="domain_force">[('order_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_day_employee" model="ir.rule">
+        <field name="name">Travel order days: own and to approve</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_day"/>
+        <field name="domain_force">['|', '|', '|', '|',
+            ('order_id.employee_id.user_id', '=', user.id),
+            ('order_id.manager_id', '=', user.id),
+            ('order_id.employee_id.expense_manager_id', '=', user.id),
+            ('order_id.employee_id.department_id.manager_id.user_id', '=', user.id),
+            ('order_id.employee_id.parent_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_day_team_approver" model="ir.rule">
+        <field name="name">Travel order days: team</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_day"/>
+        <field name="domain_force">[('order_id.employee_id', 'child_of', user.employee_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_team_approver'))]"/>
+    </record>
+    <record id="rule_day_officer" model="ir.rule">
+        <field name="name">Travel order days: all</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_day"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_user'))]"/>
+    </record>
+    <record id="rule_stay_company" model="ir.rule">
+        <field name="name">Travel order countries: own companies</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_stay"/>
+        <field name="domain_force">[('order_id.company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_stay_employee" model="ir.rule">
+        <field name="name">Travel order countries: own and to approve</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_stay"/>
+        <field name="domain_force">['|', '|', '|', '|',
+            ('order_id.employee_id.user_id', '=', user.id),
+            ('order_id.manager_id', '=', user.id),
+            ('order_id.employee_id.expense_manager_id', '=', user.id),
+            ('order_id.employee_id.department_id.manager_id.user_id', '=', user.id),
+            ('order_id.employee_id.parent_id.user_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_stay_team_approver" model="ir.rule">
+        <field name="name">Travel order countries: team</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_stay"/>
+        <field name="domain_force">[('order_id.employee_id', 'child_of', user.employee_ids.ids)]</field>
+        <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_team_approver'))]"/>
+    </record>
+    <record id="rule_stay_officer" model="ir.rule">
+        <field name="name">Travel order countries: all</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order_stay"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_user'))]"/>
+    </record>
+
+    <!-- Logbook: the driver's own trips, the team's, all for officers and
+         fleet managers. -->
+    <record id="rule_trip_employee" model="ir.rule">
+        <field name="name">Vehicle trips: own and team</field>
+        <field name="model_id" ref="model_l10n_sk_vehicle_trip"/>
+        <field name="domain_force">['|', '|', '|',
+            ('driver_id.user_id', '=', user.id),
+            ('driver_id.parent_id.user_id', '=', user.id),
+            ('driver_id.department_id.manager_id.user_id', '=', user.id),
+            ('travel_order_id.manager_id', '=', user.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+    <record id="rule_trip_all" model="ir.rule">
+        <field name="name">Vehicle trips: all</field>
+        <field name="model_id" ref="model_l10n_sk_vehicle_trip"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+        <field name="groups" eval="[(4, ref('hr_expense.group_hr_expense_user')), (4, ref('fleet.fleet_group_manager'))]"/>
+    </record>
 </odoo>
