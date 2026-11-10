@@ -78,3 +78,5 @@ WORK100 is the gross scheduled time; separately recorded approved absence rows a
 
 
 For a prorated wage, the salary-rule category may still contain a fractional cent while the recorded GROSS and general ledger have the currency-rounded amount. The fund helper first derives that actual monetary income, then applies the statutory base deduction/cap and downward rounding. For example,765.217391 is recorded as765.22; its14% employer pension premium is107.13, not107.12.
+
+Ordinary nonzero remuneration outside the employment period must use a reviewed historical income allocation; it cannot be retained as a regular monthly social-insurance source.

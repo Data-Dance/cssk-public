@@ -42,6 +42,21 @@ class TestMvp(TransactionCase):
         )
         if cls.engine == "oca":
             cls.env.user.group_ids |= cls.env.ref("payroll.group_payroll_manager")
+            if "journal_id" in cls.env["hr.payslip"]._fields:
+                cls.env["account.chart.template"].try_loading(
+                    "sk", company=cls.company, install_demo=False
+                )
+                journal = cls.env["account.journal"].search(
+                    [("company_id", "=", cls.company.id), ("type", "=", "general")],
+                    limit=1,
+                )
+                cls.env = cls.env(
+                    context=dict(
+                        cls.env.context,
+                        default_journal_id=journal.id,
+                        journal_id=journal.id,
+                    )
+                )
             cls.structure = cls.env.ref(
                 "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary"
             )
@@ -483,6 +498,21 @@ class TestMvp(TransactionCase):
         # Do not silently add the original positive bases a second time.
         with self.assertRaisesRegex(UserError, "missing retained|Consolidate"):
             declaration._build_annex()
+
+    def test_fund_bases_nonzero_pay_after_employment_needs_reviewed_allocation(self):
+        if self.engine != "oca":
+            self.skipTest("OCA monthly source")
+        employee, slip = self._employee_payslip(confirm=False)
+        self.assertEqual(slip.get_salary_line_total("GROSS"), 2000)
+        slip.contract_id = employee.version_id
+        # An unconfirmed calculation can outlive its employment settings.
+        # Keeping its nonzero income requires the historical allocation flow.
+        employee.version_id.contract_date_end = date(2026, 2, 28)
+        with self.assertRaisesRegex(UserError, "historical income allocation"):
+            slip._l10n_sk_checked_social_assessment(current=True)
+        with self.assertRaises(UserError):
+            slip.with_context(without_compute_sheet=True).action_payslip_done()
+        self.assertNotEqual(slip.state, "done")
 
     def test_fund_bases_prorated_income_matches_the_recorded_currency_amount(self):
         if self.engine != "oca":

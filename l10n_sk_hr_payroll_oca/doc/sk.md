@@ -75,3 +75,5 @@ MVP číta uchované fondové základy a interval zamestnania. MVP aj VPP použ�
 
 
 Pri pomernej mzde môže kategória pravidla ešte obsahovať zlomok centu, hoci GROSS a hlavná kniha už evidujú menovo zaokrúhlenú sumu. Fondový helper najprv odvodí tento skutočný peňažný príjem a až potom uplatní zákonný odpočet/strop a zaokrúhlenie základu nadol. Napríklad765,217391 sa eviduje ako765,22;14% dôchodkové poistné zamestnávateľa je107,13, nie107,12.
+
+Bežná nenulová odmena mimo obdobia pracovného vzťahu musí použiť overené historické rozpočítanie príjmu; nemožno ju uchovať ako bežný mesačný zdroj sociálneho poistenia.

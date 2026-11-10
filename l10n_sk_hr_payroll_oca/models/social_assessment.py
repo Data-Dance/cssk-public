@@ -239,6 +239,17 @@ class Payslip(models.Model):
         if gross < 0:
             return False
         facts = self._l10n_sk_social_source_facts()
+        if gross and (
+            (version.contract_date_start and version.contract_date_start > self.date_to)
+            or (
+                version.contract_date_end and version.contract_date_end < self.date_from
+            )
+        ):
+            raise UserError(
+                _(
+                    "Use a reviewed historical income allocation for payment outside the employment period."
+                )
+            )
         lines = {line.code: line for line in self.line_ids if line.code in FUND_FIELDS}
         bases = {
             field: version.l10n_sk_social_fund_base(
