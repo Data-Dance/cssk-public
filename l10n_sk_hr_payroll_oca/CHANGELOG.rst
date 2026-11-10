@@ -48,7 +48,7 @@ Carry-over to 18.0
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
 
-[19.0.1.24.3] — 2026-11-10
+[19.0.1.24.4] — 2026-11-10
 ==========================
 
 Fixed
