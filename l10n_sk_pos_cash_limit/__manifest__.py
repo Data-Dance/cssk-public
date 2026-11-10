@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Cash Payment Limit at the Point of Sale",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "summary": "Asks for confirmation before a Point of Sale order takes more "
                "than 5 000 € in cash (zákon č. 394/2012 Z. z.) and flags such "
                "orders in the back office.",
