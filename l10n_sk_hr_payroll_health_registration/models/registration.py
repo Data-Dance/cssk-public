@@ -185,6 +185,13 @@ class HealthRegistration(models.Model):
                 "ORDER BY id FOR UPDATE",
                 [self.ids],
             )
+            # Child-only changes advance a non-key parent version, forcing
+            # stale generation/filing transactions to retry under RR.
+            self.env.cr.execute(
+                "UPDATE l10n_sk_health_registration SET write_date = clock_timestamp() "
+                "WHERE id = ANY(%s)",
+                [self.ids],
+            )
             self.invalidate_recordset()
             self.check_access("write")
 

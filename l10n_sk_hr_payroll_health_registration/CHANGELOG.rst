@@ -16,6 +16,9 @@ Added
 Fixed
 ~~~~~
 
+* Child-event changes advance the batch version so a stale generation/filing
+  transaction retries. Covered with two real transactions on a committed batch.
+
 * Retain the company, insurer, period, serial and correction identity after a filed
   batch is reset, including when its working event rows are cleared. An unchanged
   native date write remains idempotent. The original archive cannot be reassigned.
