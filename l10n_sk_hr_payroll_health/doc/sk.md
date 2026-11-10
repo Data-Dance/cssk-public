@@ -93,6 +93,8 @@ neprihlasuje zamestnanca ani neodosiela oznámenie601.
 - Aktuálny TXT adaptér potrebuje jediný konsolidovaný zdroj za zamestnanca
   v kalendárnom mesiaci. Viaceré a nepravidelné opravné zdroje potrebujú
   príslušnú konsolidáciu, aby sa nezapočítali dvakrát.
+  To platí aj pre samostatné HR karty s rovnakým identifikátorom poistenca;
+  iné ID zamestnaneckého záznamu nevytvára ďalšieho poistenca.
 - Staršia páska bez uchovaného podkladu potrebuje kontrolované prevzatie
   pôvodných údajov. Inštalácia dôkaz nevymýšľa.
 - Počty prihlásených zostávajú overovanými vstupmi výkazu. Modul nevytvára

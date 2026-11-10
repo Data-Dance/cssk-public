@@ -98,6 +98,9 @@ Calendar review does not register an employee or submit a 601 notice.
 - The text adapter currently requires one consolidated payroll source per
   employee within the calendar month. Multiple/irregular correction sources
   need their own consolidation adapter rather than a silent double count.
+  Separate HR cards sharing one insured-person identifier are also refused
+  until their sources are consolidated; changing the HR record ID does not
+  create another insured person.
 - A legacy payslip without retained evidence needs a controlled review of
   original sources. No evidence is fabricated during module installation.
 - Registered counts remain reviewed statement inputs. This module does not

@@ -222,12 +222,18 @@ def render(ident, employer, summary, rows):
     ]
     records = [header, address, aggregate]
     total = Decimal(0)
+    insured_identifiers = set()
     for index, row in enumerate(rows, 1):
         rc = str(row["birth_number"])
         if not re.fullmatch(r"[0-9]{9,10}", rc):
             raise ValueError(
                 "A birth number must retain its original nine or ten digits"
             )
+        if rc in insured_identifiers:
+            raise ValueError(
+                "Consolidate all rows of the same insured person before serialising514"
+            )
+        insured_identifiers.add(rc)
         days = integer(row["days"], 2)
         if (
             int(days) > monthrange(int(period[:4]), int(period[4:]))[1]

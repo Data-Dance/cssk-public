@@ -82,6 +82,7 @@ class HealthText514(models.Model):
 
     def _text514_rows(self, data):
         rows = []
+        insured_identifiers = set()
         for employee, bucket in sorted(
             data["per_employee"].items(), key=lambda item: item[0].id
         ):
@@ -107,6 +108,13 @@ class HealthText514(models.Model):
                     )
                 )
             facts = getter()
+            if facts["birth_number"] in insured_identifiers:
+                raise UserError(
+                    _(
+                        "Consolidate health payroll sources sharing one insured-person identifier before generating this statement."
+                    )
+                )
+            insured_identifiers.add(facts["birth_number"])
             current_calendar = self.env["l10n.sk.health.calendar"].search(
                 [
                     ("company_id", "=", slip.company_id.id),

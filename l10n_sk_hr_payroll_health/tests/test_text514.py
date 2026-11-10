@@ -10,6 +10,13 @@ from .. import text514 as codec
 
 @tagged("post_install", "-at_install")
 class TestHealthTextCodec(BaseCase):
+    def test_different_hr_rows_must_not_duplicate_one_insured_person(self):
+        # An employee record is not the insurer's person identity: two
+        # concurrent jobs may have separate HR cards but the same RC.
+        self.rows.append(deepcopy(self.rows[0]))
+        with self.assertRaises(ValueError):
+            codec.render(self.ident, self.employer, self.summary, self.rows)
+
     def setUp(self):
         super().setUp()
         self.ident = {

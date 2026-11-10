@@ -14,6 +14,12 @@ from .test_health import TestHealth514
 
 @tagged("post_install", "-at_install")
 class TestHealthTextLifecycle(TestHealth514):
+    def test_two_job_cards_for_one_person_require_consolidation(self):
+        self._text_employee(500, weekly_hours=20, rc="8501011234")
+        self._text_employee(500, weekly_hours=20, rc="8501011234")
+        with self.assertRaises(UserError):
+            self._text_report(count=1).action_generate()
+
     def _text_employee(
         self,
         wage=2000,
