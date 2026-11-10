@@ -1,7 +1,7 @@
 ---
 title: Daňové odpisy — Community (register OCA)
 summary: Pridá český a slovenský daňový odpisový plán k majetku v registri OCA, ktorý sa používa v Odoo Community.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 family: account_asset_tax#oca
 ---
 

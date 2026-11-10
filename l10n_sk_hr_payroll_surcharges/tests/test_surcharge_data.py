@@ -26,14 +26,14 @@ class TestMinimumWageData(TransactionCase):
         cls.model = cls.env["l10n.sk.minimum.wage"]
 
     def test_every_year_has_all_six_levels(self):
-        for year in (2024, 2025, 2026):
+        for year in (2024, 2025, 2026, 2027):
             claims = self.model.search([("date_from", "=", date(year, 1, 1))])
             self.assertEqual(
                 len(claims), 6, "%s must ship all six stupne náročnosti" % year
             )
 
     def test_monthly_amounts_follow_the_statutory_formula(self):
-        for year in (2024, 2025, 2026):
+        for year in (2024, 2025, 2026, 2027):
             base = self.model._get_claim(date(year, 6, 30), "1").amount_monthly
             for level, coeff in COEFFICIENTS.items():
                 expected = (base - ANCHOR_2020) + ANCHOR_2020 * coeff
@@ -46,7 +46,7 @@ class TestMinimumWageData(TransactionCase):
                 )
 
     def test_hourly_amounts_are_the_monthly_over_174(self):
-        for year in (2024, 2025, 2026):
+        for year in (2024, 2025, 2026, 2027):
             for level in COEFFICIENTS:
                 claim = self.model._get_claim(date(year, 6, 30), level)
                 self.assertAlmostEqual(
@@ -63,6 +63,19 @@ class TestMinimumWageData(TransactionCase):
     def test_lookup_before_the_first_vintage_raises(self):
         with self.assertRaises(UserError):
             self.model._get_claim(date(2020, 1, 1), "1")
+
+    def test_2027_published_claims_and_year_boundary(self):
+        # Independent transcription from the official 233/2026 Z. z. table,
+        # not amounts derived from the data records under test.
+        expected = ((972, 5.586), (1088, 6.253), (1204, 6.920),
+                    (1320, 7.586), (1436, 8.253), (1552, 8.920))
+        for level, (monthly, hourly) in enumerate(expected, 1):
+            with self.subTest(level=level):
+                claim = self.model._get_claim(date(2027, 1, 1), str(level))
+                self.assertEqual(claim.date_from, date(2027, 1, 1))
+                self.assertEqual((claim.amount_monthly, claim.amount_hourly), (monthly, hourly))
+        self.assertEqual(self.model._get_base_hourly(date(2026, 12, 31)), 5.259)
+        self.assertEqual(self.model._get_base_hourly(date(2027, 1, 1)), 5.586)
 
 
 class TestSurchargeRateData(TransactionCase):

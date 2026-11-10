@@ -10,6 +10,11 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.24.1 (2026-11-09), not yet on 18.0:** hourly BASIC removes approved
+  absence hours before separate leave compensation is added. Before porting
+  to 18.0, review that engine's paid-time source; do not subtract absence
+  twice from an already net amount.
+
 - **19.0.1.24.0 (2026-11-09), not yet on 18.0:** the § 134 average
   (21 days or 168 hours, company and employment isolation, credit notes;
   cssk-public#28). On 18.0 the employment key is the contract.
@@ -37,6 +42,21 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+
+[19.0.1.24.1] — 2026-11-09
+==========================
+
+Fixed
+~~~~~
+
+- An hourly-paid employee with approved leave received BASIC for every
+  scheduled hour and the separate leave compensation on top. Hourly BASIC
+  now removes the absence hours first (§ 116 and § 118 Zákonníka práce).
+  The BASIC rule delegates to a cooperative country-level helper,
+  ``l10n_sk_basic_salary``, with an optional calendar divisor for dated
+  wage segments. Contributed by votrelec (cssk-public#30). Hourly BASIC
+  is floored at zero, should inconsistent leave data exceed the scheduled
+  hours.
 
 [19.0.1.24.0] — 2026-11-09
 ==========================

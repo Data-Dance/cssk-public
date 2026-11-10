@@ -17,6 +17,9 @@ Changed
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.2.8 (2026-11-09), not yet on 18.0:** the six 2027 minimum wage
+  claims (233/2026 Z. z.). Data only; the 18.0 model has the same fields.
+
 - DISCHARGED 2026-09-30 by 6f9cc41 on branch 18.0-catch-up (reaches 18.0
   when that branch lands) — do not port this again.
   **The rename (2026-09-30), not yet on 18.0.** 18.0 still ships
@@ -36,6 +39,18 @@ Carry-over to 20.0
   settlement and inventory verification modules). Rename every reference
   too: dependent manifests, ``odoo.addons.*`` imports, the ``.pot`` file
   name and ``module_*`` settings toggles. The 19.0 commit is the checklist.
+
+[19.0.1.2.8] — 2026-11-09
+-------------------------
+
+Added
+~~~~~
+
+- Six dated minimum wage claims for 1 January 2027, as published in
+  233/2026 Z. z. This also updates the level-1 hourly base used by surcharges.
+- Published-amount and year-boundary regression coverage; existing formula
+  and complete-level checks now include 2027.
+  Contributed by votrelec (cssk-public#29).
 
 [19.0.1.2.7] — 2026-11-05
 -------------------------

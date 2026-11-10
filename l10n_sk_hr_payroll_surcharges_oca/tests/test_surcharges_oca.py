@@ -141,6 +141,25 @@ class TestPriplatkyOca(TransactionCase):
         # 4 h x 100 % x 5.259 = 21.036 -> 21.04
         self.assertAlmostEqual(line("PRIPLATOK_NEDELA"), 21.04, places=2)
 
+    def test_2027_surcharges_use_the_new_dated_base(self):
+        contract, employee = self._make_contract('Dated 2027 wage surcharge', 2000.0)
+        slip = self._make_payslip(contract, employee, {'NOC': 10.0, 'SOBOTA': 8.0, 'NEDELA': 4.0})
+        self.assertAlmostEqual(slip.get_salary_line_total('PRIPLATOK_NOC'), 21.04, places=2)
+        slip.write({'date_from': date(2027, 1, 1), 'date_to': date(2027, 1, 31)})
+        slip.compute_sheet()
+        # Each statutory floor is 22.344 EUR, paid as 22.35 EUR.
+        for code in ('PRIPLATOK_NOC', 'PRIPLATOK_SOBOTA', 'PRIPLATOK_NEDELA'):
+            self.assertAlmostEqual(slip.get_salary_line_total(code), 22.35, places=2)
+        self.assertAlmostEqual(slip.get_salary_line_total('GROSS'), 2067.05, places=2)
+
+    def test_2027_level_two_topup_uses_the_published_monthly_claim(self):
+        contract, employee = self._make_contract('Dated 2027 minimum claim', 500.0, l10n_sk_wage_level='2')
+        slip = self._make_payslip(contract, employee)
+        slip.write({'date_from': date(2027, 1, 1), 'date_to': date(2027, 1, 31)})
+        slip.compute_sheet()
+        self.assertAlmostEqual(slip.get_salary_line_total('MIN_WAGE_TOPUP'), 588.0, places=2)
+        self.assertAlmostEqual(slip.get_salary_line_total('GROSS'), 1088.0, places=2)
+
     def test_surcharges_roll_into_gross(self):
         """A mzdové zvýhodnenie is insurable and taxable income."""
         contract, employee = self._make_contract("Vikendovy Robotnik", 2000.0)

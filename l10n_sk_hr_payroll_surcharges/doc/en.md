@@ -1,7 +1,7 @@
 ---
 title: SK Wage Surcharges and Minimum Wage Claims
 summary: Statutory Slovak wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work, and the top-up to the minimum wage claim of the job's stupeň náročnosti, on either payroll engine.
-verified: 19.0.1.2.7
+verified: 19.0.1.2.8
 ---
 
 ## What it is for {#purpose}
@@ -144,14 +144,14 @@ Percentages, effective from 1 June 2023 (the only record shipped):
 
 Minimum wage claims (monthly / hourly):
 
-| Level | 2024 | 2025 | 2026 |
-|---|---|---|---|
-| 1 — pomocné práce | 750 € / 4.310 € | 816 € / 4.690 € | 915 € / 5.259 € |
-| 2 — jednoduché odborné práce | 866 € / 4.977 € | 932 € / 5.356 € | 1 031 € / 5.925 € |
-| 3 — odborné práce | 982 € / 5.644 € | 1 048 € / 6.023 € | 1 147 € / 6.592 € |
-| 4 — zložité odborné práce | 1 098 € / 6.310 € | 1 164 € / 6.690 € | 1 263 € / 7.259 € |
-| 5 — veľmi zložité odborné práce | 1 214 € / 6.977 € | 1 280 € / 7.356 € | 1 379 € / 7.925 € |
-| 6 — vysoko špecializované práce | 1 330 € / 7.644 € | 1 396 € / 8.023 € | 1 495 € / 8.592 € |
+| Level | 2024 | 2025 | 2026 | 2027 |
+|---|---|---|---|---|
+| 1 — pomocné práce | 750 € / 4.310 € | 816 € / 4.690 € | 915 € / 5.259 € | 972 € / 5.586 € |
+| 2 — jednoduché odborné práce | 866 € / 4.977 € | 932 € / 5.356 € | 1 031 € / 5.925 € | 1 088 € / 6.253 € |
+| 3 — odborné práce | 982 € / 5.644 € | 1 048 € / 6.023 € | 1 147 € / 6.592 € | 1 204 € / 6.920 € |
+| 4 — zložité odborné práce | 1 098 € / 6.310 € | 1 164 € / 6.690 € | 1 263 € / 7.259 € | 1 320 € / 7.586 € |
+| 5 — veľmi zložité odborné práce | 1 214 € / 6.977 € | 1 280 € / 7.356 € | 1 379 € / 7.925 € | 1 436 € / 8.253 € |
+| 6 — vysoko špecializované práce | 1 330 € / 7.644 € | 1 396 € / 8.023 € | 1 495 € / 8.592 € | 1 552 € / 8.920 € |
 
 So a night hour in 2026 earns at least 40 % × 5.259 € = 2.11 € on top of the
 wage.
@@ -192,3 +192,5 @@ arithmetic and the same data from this module.
   collective agreements are not modelled.
 - **Periods before 1 June 2023** are not covered by the shipped rate record,
   and its percentage fields cannot express a surcharge set as a fixed amount.
+
+From 1 January 2027, all six dated monthly and hourly claims follow [233/2026 Z. z.](https://static.slov-lex.sk/static/SK/ZZ/2026/233/20260923.print.html). The level-1 hourly surcharge base changes from EUR 5.259 to EUR 5.586; earlier payslips retain their dated values.

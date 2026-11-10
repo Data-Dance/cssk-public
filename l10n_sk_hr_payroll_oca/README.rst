@@ -19,6 +19,11 @@ A tax-relevant pension drawn on 1 January also affects monthly allowance eligibi
 
 The annual difference for a small pension is settled in RZD or the personal return. Review the yearly pension, including the 13th pension, for each annual reconciliation. *Pension at 1 January (yearly)* supplies its default from the January version; a reviewed correction on the reconciliation is retained. A positive version amount without the flag is refused, and RZD refuses a January flag without a positive reviewed yearly amount or an amount without that flag. The annual reduction follows `§ 11(6) <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-11>`__. Monthly eligibility follows `§ 35 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-35>`__ and `§ 36 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-36>`__, together with the `Financial Administration FAQ, questions 3, 7, 9 <https://podpora.financnasprava.sk/260857-Nezdanite%C4%BEn%C3%A1-%C4%8Das%C5%A5-z%C3%A1kladu-dane-na-da%C5%88ovn%C3%ADka-za-rok-2026>`__. Retroactive awards require the historical fact and the applicable correction procedure; posted payslips are not silently rewritten.
 
+Hourly wage and approved absence
+==================================
+
+For hourly pay, BASIC covers the worked hours after approved absences have been removed. Paid leave receives its separate average-earnings compensation under `§116 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-116>`__, so those hours are not also paid as ordinary hourly work. Both supported signs of the absence lines give the same amount. For example, 176 scheduled hours at EUR 20/h with 8 hours of leave give BASIC 3360 and leave compensation 160 when the reviewed average is 20/h.
+
 Annual reconciliation sources
 ===============================
 
@@ -39,7 +44,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_oca``
-- **Version:** 19.0.1.24.0
+- **Version:** 19.0.1.24.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``payroll``, ``l10n_sk_hr_payroll_base``

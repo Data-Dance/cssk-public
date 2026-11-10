@@ -1,7 +1,7 @@
 ---
 title: SK mzdové zvýhodnenia a minimálne mzdové nároky
 summary: Zákonné mzdové zvýhodnenia za nočnú prácu, prácu v sobotu, v nedeľu a vo sviatok, za prácu nadčas, mzdová kompenzácia za sťažený výkon práce a náhrada za pracovnú pohotovosť, ako aj doplatok do minimálneho mzdového nároku podľa stupňa náročnosti, v oboch mzdových enginoch.
-verified: 19.0.1.2.7
+verified: 19.0.1.2.8
 ---
 
 ## Na čo slúži {#purpose}
@@ -149,14 +149,14 @@ Percentá účinné od 1. júna 2023 (jediný dodávaný záznam):
 
 Minimálne mzdové nároky (mesačne / za hodinu):
 
-| Stupeň | 2024 | 2025 | 2026 |
-|---|---|---|---|
-| 1 — pomocné práce | 750 € / 4,310 € | 816 € / 4,690 € | 915 € / 5,259 € |
-| 2 — jednoduché odborné práce | 866 € / 4,977 € | 932 € / 5,356 € | 1 031 € / 5,925 € |
-| 3 — odborné práce | 982 € / 5,644 € | 1 048 € / 6,023 € | 1 147 € / 6,592 € |
-| 4 — zložité odborné práce | 1 098 € / 6,310 € | 1 164 € / 6,690 € | 1 263 € / 7,259 € |
-| 5 — veľmi zložité odborné práce | 1 214 € / 6,977 € | 1 280 € / 7,356 € | 1 379 € / 7,925 € |
-| 6 — vysoko špecializované práce | 1 330 € / 7,644 € | 1 396 € / 8,023 € | 1 495 € / 8,592 € |
+| Stupeň | 2024 | 2025 | 2026 | 2027 |
+|---|---|---|---|---|
+| 1 — pomocné práce | 750 € / 4,310 € | 816 € / 4,690 € | 915 € / 5,259 € | 972 € / 5,586 € |
+| 2 — jednoduché odborné práce | 866 € / 4,977 € | 932 € / 5,356 € | 1 031 € / 5,925 € | 1 088 € / 6,253 € |
+| 3 — odborné práce | 982 € / 5,644 € | 1 048 € / 6,023 € | 1 147 € / 6,592 € | 1 204 € / 6,920 € |
+| 4 — zložité odborné práce | 1 098 € / 6,310 € | 1 164 € / 6,690 € | 1 263 € / 7,259 € | 1 320 € / 7,586 € |
+| 5 — veľmi zložité odborné práce | 1 214 € / 6,977 € | 1 280 € / 7,356 € | 1 379 € / 7,925 € | 1 436 € / 8,253 € |
+| 6 — vysoko špecializované práce | 1 330 € / 7,644 € | 1 396 € / 8,023 € | 1 495 € / 8,592 € | 1 552 € / 8,920 € |
 
 Hodina nočnej práce v roku 2026 teda prinesie popri mzde najmenej
 40 % × 5,259 € = 2,11 €.
@@ -197,3 +197,5 @@ výpočet a tie isté údaje z tohto modulu.
   zavádzajú niektoré kolektívne zmluvy, sa nemodelujú.
 - **Obdobia pred 1. júnom 2023** dodávaný záznam sadzieb nepokrýva a jeho
   percentuálne polia nevedia vyjadriť zvýhodnenie určené pevnou sumou.
+
+Od 1. januára 2027 sú doplnené mesačné aj hodinové nároky všetkých šiestich stupňov podľa [233/2026 Z. z.](https://static.slov-lex.sk/static/SK/ZZ/2026/233/20260923.print.html). Hodinový základ prvého stupňa pre príplatky sa mení z 5,259 EUR na 5,586 EUR; staršie pásky používajú hodnoty svojho obdobia.

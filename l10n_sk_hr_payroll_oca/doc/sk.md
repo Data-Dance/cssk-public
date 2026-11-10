@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.24.0
+verified: 19.0.1.24.1
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -12,6 +12,15 @@ Inštaluje sa zámerne, vyžaduje modul OCA `payroll` a funguje v Odoo Community
 Daňovo relevantný dôchodok poberaný k 1. januáru ovplyvňuje aj mesačný nárok na NČZD. Pole *Poberá daňovo relevantný dôchodok* zaznamenajte na natívnej verzii účinnej od priznania dôchodku podľa uchovaného vyhlásenia daňovníka. Mesačný výpočet číta verziu platnú k 1. januáru svojho roka. Januárový dôchodca nemá mesačnú NČZD ani pri podpísanom vyhlásení a nízkom dôchodku. Priznanie v máji 2026 zachová mesačnú NČZD za rok 2026 a od januára 2027 ju odníme bez úpravy májovej verzie či zablokovania prepočtu decembra 2026. Samotný invalidný, vdovský alebo sirotský dôchodok príznak nenastavuje. Relevantný poistný dôchodok bez príznaku na januárovej verzii zastaví mesačné uplatnenie zrozumiteľnou správou pred pravidlami. Pri skutočnom nástupe počas roka bez januárovej verzie, alebo pri opätovnom prijatí po pracovnom pomere skončenom pred 1. januárom, zaznamenajte januárový dôchodkový status z vyhlásenia pri nástupe na prvej verzii nového pracovného pomeru. Nástup spätne nedatujte; neskoršie priznanie zostáva neskorším údajom. Verzia po mzdovom období alebo z ďalšieho roka status nepreukazuje. Zákonné parametre a pásma sa nemenia.
 
 Ročný rozdiel pri nízkom dôchodku sa uplatňuje v RZD alebo osobnom priznaní. Ročnú sumu vrátane 13. dôchodku overte pre každé RZD. Pole *Dôchodok k 1. januáru (ročne)* poskytne predvolenú sumu z januárovej verzie; overená oprava sumy priamo v RZD sa zachová. Kladná suma na verzii bez príznaku sa odmietne. Výpočet RZD odmietne aj januárový príznak bez kladnej overenej ročnej sumy alebo sumu bez príznaku. Ročné zníženie upravuje [§ 11 ods. 6](law:sk/2003/595#paragraf-11). Mesačný nárok vychádza z [§ 35](law:sk/2003/595#paragraf-35) a [§ 36](law:sk/2003/595#paragraf-36) spolu s [FAQ Finančnej správy, otázky 3, 7, 9](https://podpora.financnasprava.sk/260857-Nezdanite%C4%BEn%C3%A1-%C4%8Das%C5%A5-z%C3%A1kladu-dane-na-da%C5%88ovn%C3%ADka-za-rok-2026). Spätné priznanie potrebuje historický údaj a príslušný opravný postup; zaúčtované pásky sa potichu neprepisujú.
+
+## Hodinová mzda a schválená absencia
+
+Pri hodinovej mzde zahŕňa BASIC odpracované hodiny po odpočítaní schválených
+absencií. Za platenú dovolenku patrí samostatná náhrada z priemerného zárobku
+podľa [§116](law:sk/2001/311#paragraf-116); tie isté hodiny sa preto nezaplatia
+aj ako bežná práca. Obe podporované znamienka absencií dávajú rovnakú sumu.
+Napríklad 176 plánovaných hodín pri 20 EUR/h a 8 h dovolenky znamená BASIC 3360
+a náhradu 160, ak overený priemer je 20 EUR/h.
 
 ## Podklady ročného zúčtovania
 

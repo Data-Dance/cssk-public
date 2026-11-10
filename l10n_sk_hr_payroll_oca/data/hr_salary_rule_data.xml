@@ -49,27 +49,7 @@
 # ABOVE the full wage for a 100 % reason that must leave it untouched. The
 # Enterprise engine has always prorated its paid_amount by hours, so this also
 # closes an 11 EUR gap between the two engines on the same input.
-if contract.l10n_sk_hourly_wage:
-    # Hourly worker (e.g. DoBPŠ student, paid per actual hour): BASIC = the real
-    # worked hours (WORK100) × the hourly rate. No proration.
-    _h = worked_days.WORK100.number_of_hours if 'WORK100' in worked_days.dict else 0.0
-    result = round(_h * contract.l10n_sk_hourly_wage, 2)
-else:
-    result = contract.wage
-    if 'WORK100' in worked_days.dict:
-        scheduled = payslip.l10n_sk_scheduled_hours()
-        worked = worked_days.WORK100.number_of_hours
-        # OCA models absence leaves as NEGATIVE worked-day lines (leaves_positive
-        # unset), so take the absolute value of the hour count. The code list
-        # lives in ONE place, models/hr_payslip.py, so the rule body and the
-        # Python side cannot drift apart.
-        absence = 0.0
-        for _code in payslip.l10n_sk_absence_codes():
-            if _code in worked_days.dict:
-                absence += abs(worked_days.dict[_code].number_of_hours)
-        paid_worked = worked - absence
-        if scheduled and paid_worked &lt; scheduled:
-            result = contract.wage * paid_worked / scheduled
+result = payslip.l10n_sk_basic_salary(contract, worked_days)
 </field>
     </record>
 

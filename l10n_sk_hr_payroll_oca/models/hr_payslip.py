@@ -55,6 +55,38 @@ class HrPayslip(models.Model):
         self.ensure_one()
         return self.contract_id or self._get_employee_contracts()[:1]
 
+    def l10n_sk_basic_salary(self, contract, worked_days, scheduled_hours=None):
+        """Compute BASIC through a cooperative country-level salary hook.
+
+        ``worked_days`` is the engine's WorkedDays object. An integration
+        processing a dated wage segment can supply that segment's full-period
+        calendar divisor; the default keeps the existing payslip calculation.
+        Tax and insurance rules still run once on the resulting BASIC amount.
+        """
+        self.ensure_one()
+        absence = sum(
+            abs(worked_days.dict[code].number_of_hours)
+            for code in self.l10n_sk_absence_codes()
+            if code in worked_days.dict
+        )
+        if contract.l10n_sk_hourly_wage:
+            if "WORK100" not in worked_days.dict:
+                return 0.0
+            hours = worked_days.WORK100.number_of_hours
+            # Never negative, even when inconsistent leave data exceeds WORK100.
+            return round(max(0.0, hours - absence) * contract.l10n_sk_hourly_wage, 2)
+        result = contract.wage
+        if "WORK100" in worked_days.dict:
+            scheduled = (
+                self.l10n_sk_scheduled_hours()
+                if scheduled_hours is None
+                else scheduled_hours
+            )
+            paid_worked = worked_days.WORK100.number_of_hours - absence
+            if scheduled and paid_worked < scheduled:
+                result = contract.wage * paid_worked / scheduled
+        return result
+
     def l10n_sk_absence_codes(self):
         """The worked-day codes that count as an absence, for the BASIC rule.
 
