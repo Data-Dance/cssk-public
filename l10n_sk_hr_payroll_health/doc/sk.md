@@ -1,130 +1,104 @@
 ---
-title: SK dávka 514 — mesačný výkaz preddavkov na zdravotné poistenie
-summary: Mesačný výkaz preddavkov na poistné pre slovenskú zdravotnú poisťovňu (VšZP, Dôvera, Union) v spoločnom formáte dávky 514, zostavený z výplatných pások mesiaca a vyexportovaný do XML.
-verified: 19.0.1.2.3
+title: SK dávka514 — mesačný výkaz preddavkov na zdravotné poistenie
+summary: Publikovaný textový formát514 od roku2023 z uchovaných zdravotných podkladov OCA pások, riadne a opravné podanie a spoločný archív. Starší XML formát zostáva pre existujúcich klientov.
+verified: 19.0.1.3.0
 ---
 
 ## Na čo slúži {#purpose}
 
-Zamestnávateľ každý mesiac vykazuje každej **zdravotnej poisťovni**
-preddavky na poistné, ktoré odvádza za zamestnancov a za seba: *mesačný výkaz
-preddavkov na poistné*. Všetky tri slovenské poisťovne — **VšZP** (25),
-**Dôvera** (24) a **Union** (27) — ho prijímajú v rovnakom elektronickom
-formáte, **dávke 514**.
+Mesačný výkaz pre VšZP (25), Dôveru (24) alebo Union (27). Menu ponúkne
+**Publikovaný text514 (2023+)**. Výkaz používa podklady uchované pri výpočte
+OCA pásky: skutočný zamestnanecký základ, OP, obe sadzby, zdravotné
+postihnutie, doplatok do minima, kalendárne dni, rodné číslo a poisťovňu.
+Sadzba sa neodvodzuje delením zaokrúhleného poistného hrubým príjmom.
 
-Modul zostaví dávku 514 z výplatných pások mesiaca a vyexportuje ju do súboru
-XML, ktorý nahráte cez elektronickú pobočku poisťovne. Výplatné pásky číta cez
-[module:l10n_cssk_payroll_declaration_base](module:l10n_cssk_payroll_declaration_base),
-takže funguje s oboma mzdovými jadrami — pozri
-[príručku slovenských miezd](module:l10n_sk_hr_payroll_base#declarations).
+Existujúcim API klientom zostáva predvolený **Starší XML formát**. Kontroluje
+sa jeho štruktúra; prijateľnosť podľa overenej schémy autority nie je
+preukázaná. Nový adaptér uchovaných podkladov poskytuje
+[module:l10n_sk_hr_payroll_oca](module:l10n_sk_hr_payroll_oca). Iné mzdové
+jadro potrebuje vlastný zodpovedajúci adaptér pre publikovaný TXT.
 
 ## Právny rámec {#legal}
 
-Odkazy sú na [zákon o zdravotnom poistení](law:sk/2004/580).
+[Zákon o zdravotnom poistení](law:sk/2004/580) upravuje mesačný výkaz (§20),
+splatnosť (§17), OP (§16 ods.16–18) a minimálny preddavok (§16a).
+Textový formát vychádza z [rozhrania zverejneného VšZP](https://www.vszp.sk/files/platitelia/tlaciva-platitelov/vykaz-preddavkov-zamestnavatela/struktura-vykazu-1.rtf).
+SHA256 zdroja je pri serializéri. Nenahrádza sa lokálne upraveným XSD.
+Správnosť formátu a skutočné prijatie poisťovňou sú odlišné výsledky.
 
-- **Mesačný výkaz.** Zamestnávateľ vykazuje príslušnej zdravotnej poisťovni
-  preddavky na poistné za kalendárny mesiac v členení podľa jednotlivých
-  zamestnancov a za zamestnávateľa. Uvádza celkový príjem, príjem na
-  uplatnenie a výšku odpočítateľnej položky, peňažné plnenie oslobodené od
-  dane, vymeriavací základ a preddavok a výkaz zasiela **elektronicky** —
-  [§ 20 ods. 1](law:sk/2004/580#paragraf-20.odsek-1).
-- **Splatnosť preddavkov.** Preddavok zamestnanca a zamestnávateľa je
-  splatný v deň určený na výplatu príjmov zamestnancov za príslušný mesiac;
-  ak taký deň nie je určený, posledný deň nasledujúceho kalendárneho mesiaca —
-  [§ 17 ods. 1](law:sk/2004/580#paragraf-17.odsek-1).
-- **Opravy.** Údaje, ktoré poisťovňa vráti v chybovom protokole, treba
-  elektronicky opraviť do 30 dní od jeho doručenia —
-  [§ 24 ods. 1 písm. m)](law:sk/2004/580#paragraf-24.odsek-1.pismeno-m).
+Príjem oprávnený na OP a ostatný príjem majú samostatné polia, aj keď si
+zamestnanec mesačnú OP neuplatnil. Písomné neuplatnenie doplatku pri súbehu
+zamestnaní podľa §16a ods.5 je samostatná skutočnosť. Neoznačujte ho len
+preto, že ide o dôchodcu, osobu so zdravotným postihnutím alebo poistenca štátu.
 
 ## Nastavenie {#setup}
 
-Na spoločnosti:
+Na zamestnávateľovi zadajte IČO, DIČ a predvolenú poisťovňu. Zamestnancovi
+nastavte skutočné rodné číslo a poisťovňu **pred výpočtom pásky**. Zdravotné
+postihnutie a nárok na OP patria na dátumovanú verziu pracovného vzťahu.
+Neuplatnenie doplatku pri súbehu potrebuje aj odkaz na uchované písomné
+oznámenie zamestnanca.
 
-| Údaj | Kde | Použije sa ako |
-|---|---|---|
-| *IČO*, 8 až 12 číslic | formulár spoločnosti | `IDCode`, `CompanyIDCode` |
-| *DIČ*, 10 číslic | formulár spoločnosti (zo slovenského základného modulu) | `CompanyIDTaxCode` |
-| *Číslo platiteľa poistného* | formulár spoločnosti alebo formulár dávky 514 | `CodeOfPayer` — číslo, ktoré zamestnávateľovi pridelila poisťovňa |
-| *Zdravotná poisťovňa (dávka 514)* | formulár spoločnosti | predvolená poisťovňa nového výkazu (ak nie je nastavená, VšZP) |
-| bankový účet | kontakt spoločnosti | `IBAN` — použije sa prvý účet |
+Na výkaze vyberte poisťovňu, zadajte číslo platiteľa pridelené touto
+poisťovňou, bankový účet zamestnávateľa, dátum výplaty a odoslania, poradie
+dávky a právnu formu. Vybraný účet musí patriť zamestnávateľovi; samotný
+platný IBAN cudzej osoby nestačí.
 
-Obidva údaje sú na formulári spoločnosti, karta *Mzdové výkazy*, skupina
-*Zdravotné poistenie (dávka 514)*. *Číslo platiteľa poistného* sa dá vyplniť aj
-priamo vo formulári dávky 514; ukladá sa vždy na spoločnosti, takže sa zadáva
-raz (na jeho zmenu treba právo upravovať spoločnosti).
-
-Každý zamestnanec vo výkaze musí mať **rodné číslo** v poli *Identifikačné č*
-a mal by mať vyplnenú **Zdravotnú poisťovňu (SK)**, hneď vedľa na karte
-*Personal*. Každá dávka 514 zoberie len zamestnancov poistených v poisťovni,
-ktorej je určená; zamestnanec bez vyplnenej poisťovne sa počíta do predvolenej
-poisťovne spoločnosti (VšZP, ak sa nezmenila). Poisťovňu radšej vyplňte pri
-každom zamestnancovi.
+Zadajte overený počet prihlásených osôb v tejto poisťovni a spolu vo všetkých
+poisťovniach. Počet sa neodvodzuje od kladného poistného: aj osoba počas
+celomesačnej PN môže zostať prihlásená pri nulovom poistnom.
 
 ## Zostavenie výkazu {#usage}
 
-*Mzdové hlásenia → SK dávka 514 (zdravotné)*, potom *Nové*.
+1. Vypočítajte a potvrďte mzdy podľa skutočného kalendára a schválených
+   absencií. Priamy API create nevykonáva formulárové onchange; API klient
+   musí naplniť natívne riadky dochádzky rovnako ako formulár alebo dávka miezd.
+2. Otvorte **Mzdové výkazy → SK dávka514**, vyberte obdobie,
+   **Publikovaný text514 (2023+)** a skontrolujte vstupy výkazu.
+3. **Generovať** uloží prílohu v spoločnom výkazovom postupe a overí polia,
+   dátumy, presnosť, členenie viet a súčty.
+4. Súbor odošlite oprávneným kanálom poisťovne. **Označiť ako podané** iba
+   eviduje túto skutočnosť; samo osebe nič neodosiela ani nepreukazuje prijatie.
+5. Po evidencii pôvodného podania možno pripraviť úplný **Opravný** výkaz
+   rovnakej firmy, obdobia a poisťovne. **Vrátiť do návrhu** umožní nové
+   generovanie; presné pôvodné podané bajty zostanú v spoločnom archíve.
 
-1. Zvoľte **Zdravotnú poisťovňu**, **Rok** a **Mesiac**. *Dátum výplaty*
-   určuje deň platby v `DateOfPayment`; ak ho nevyplníte, použije sa posledný
-   deň mesiaca.
-2. Kliknite na **Generovať**. Modul zoberie potvrdené výplatné pásky
-   spoločnosti, ktorých obdobie sa v danom mesiaci končí, vytvorí riadok za každého zamestnanca
-   a vygeneruje XML.
-3. Súbor nahrajte cez elektronickú pobočku poisťovne a kliknite na **Označiť
-   ako odoslané**. **Vrátiť do konceptu** výkaz znova otvorí.
-
-Generovanie sa zastaví, ak chýba IČO, DIČ, číslo platiteľa alebo poisťovňa,
-ak zamestnanec nemá platné rodné číslo alebo ak za mesiac neexistuje žiadna
-výplatná páska.
-
-**Kto sa nevykazuje.** Dohodár na DoVP alebo DoPČ sa nevykazuje a nepočíta sa
-medzi zamestnancov poisťovne, ak zmluva, podľa ktorej bola výplatná páska
-vypočítaná, má
-- vyplnený **Priznaný dôchodok (SK)**: zákon vylučuje príjem z dohody pri
-  všetkých skupinách dôchodcov, ktoré pole ponúka, bez limitu príjmu a bez
-  uplatnenia
-  ([§ 10b ods. 1 písm. a)](law:sk/2004/580#paragraf-10b.odsek-1.pismeno-a)); alebo
-- zaškrtnuté **Oslobodený od zdravotného poistenia** bez dôchodku, napríklad
-  pri dohodárovi, na ktorého sa vzťahujú právne predpisy iného štátu
-  (formulár A1). Doklad o tom uchovávate vy.
-
-Bežný pracovný pomer zostáva vo výkaze aj pri dôchodku. Dohoda s dôchodkom bez
-zaškrtnutého *Oslobodený od zdravotného poistenia* generovanie zastaví: jej
-výplatná páska obsahuje preddavky z príjmu, ktorý zákon vylučuje. Zaškrtnite
-pole na tejto zmluve a výplatnú pásku prepočítajte. Kontrola sa týka len
-poisťovne, ktorej je výkaz určený.
+Vylúčený príjem z dôchodkovej dohody nesmie obsahovať zdravotné odvody.
+Kontrola prebehne ešte pred vyradením pásky. Pri dostupnom uchovanom
+podklade sa používa vtedajší profil a poisťovňa; dnešná úprava karty ich nemení.
 
 ## Obsah výkazu {#output}
 
-| Časť | Obsah |
-|---|---|
-| `Identification` | typ 514, charakter *N*, IČO, číslo platiteľa, štvormiestny kód poisťovne (2500, 2400, 2700), dátum odoslania, poradové číslo 1, počet viet |
-| `CorporateBody` | obdobie, deň platby, názov spoločnosti, IČO, číslo platiteľa, DIČ, IBAN |
-| `InsuranceBody` | úhrny za zamestnávateľa: počet zamestnancov, dni, príjem, vymeriavací základ, preddavky zamestnávateľa a zamestnancov, doplatok, spolu |
-| `PersonData` | za zamestnanca: rodné číslo, dni, sadzba zamestnávateľa a zamestnanca, príjem, vymeriavací základ, preddavky, doplatok |
+Text používa UTF8, CRLF, desatinnú čiarku a oddeľovač `|` aj na konci každej
+vety. Názov má napríklad `N5142606.001` alebo `O5142606.002`. Tri hlavičkové
+vety majú10,13 a20 polí; každá veta poistenca má17 polí.
 
-Sumy sa berú z riadkov výplatných pások: *HEALTHEMPLOYER* (preddavok
-zamestnávateľa), *HEALTH* (preddavok zamestnanca) a doplatok do minimálneho
-základu (*HEALTHDOPLATOK* alebo *HEALTH_DOPLATOK* podľa jadra). Vymeriavací
-základ aj príjem sú *GROSS* zamestnanca. Sadzby sa neberú z tabuľky, spätne sa
-dopočítajú ako preddavok ÷ základ.
-
-**Kontrola súboru.** Oficiálna schéma `514-2023.xsd` si protirečí (vzory,
-ktoré pripúšťajú len jednu číslicu v poliach s dĺžkou 8 až 12 znakov,
-nemožné číselné hranice), takže ňou neprejde žiadny skutočný súbor. Modul ju
-preto spustí bez zastavenia a namiesto nej kontroluje štruktúru: koreňový
-element, tri bloky hlavičky a zhodu počtu viet.
+Obe skupiny zdravotného postihnutia sa sumarizujú samostatne. Zamestnanecké
+poistné v riadku nezahŕňa doplatok; celková suma riadka zahŕňa zamestnávateľa,
+zamestnanca aj doplatok. Zamestnanecký súčet v hlavičke už doplatok obsahuje.
+Príjem pre OP, ostatný príjem, OP a zamestnanecký základ zostávajú oddelené.
+Tabuľka zamestnancov zobrazuje rovnaký základ a dni ako text.
 
 ## Obmedzenia {#limitations}
 
-- **Poisťovňa je údaj zamestnanca, nie mesiaca.** Zmenu poisťovne počas roka
-  (možnú raz ročne, od 1. januára) treba pred generovaním zapísať pri
-  zamestnancovi; staršie výkazy sa neprepočítajú.
-- **Vymeriavací základ je GROSS z výplatnej pásky**, nie základ vypočítaný
-  podľa zákona o zdravotnom poistení; zobrazená sadzba sa odvodzuje z neho.
-- Každý zamestnanec má plný počet kalendárnych dní mesiaca a všetci sa
-  vykazujú v prvej skupine (druhá skupina počtov a základov je vždy nulová).
-- Len riadny výkaz (*N*) s poradovým číslom 1. Opravy po chybovom protokole
-  treba urobiť cez elektronickú pobočku poisťovne.
-- Keďže oficiálnu schému nemožno uplatniť, modul nezaručí, že poisťovňa súbor
-  prijme. Prvý výkaz odsúhlaste s poisťovňou.
+Skontrolované [poistné kalendáre](module:l10n_sk_hr_payroll_base#health-calendar)
+poskytujú skutočné poistné dni a výnimky minima cez uchovaný mzdový podklad.
+Nahradený alebo dodatočne doplnený kalendár vyžaduje pred novým výkazom kontrolu
+opravy mzdy. Pôvodné podané prílohy zostávajú dostupné. Kontrola kalendára
+neprihlasuje zamestnanca ani neodosiela oznámenie601.
+
+- Podporované je riadne **N** a úplné opravné **O**. Knižnica vie podpísané
+  rozdielové hodnoty, no automatické **A** potrebuje osobitný overený opravný
+  zdroj; formulár tento postup neponúka.
+- Aktuálny TXT adaptér potrebuje jediný konsolidovaný zdroj za zamestnanca
+  v kalendárnom mesiaci. Viaceré a nepravidelné opravné zdroje potrebujú
+  príslušnú konsolidáciu, aby sa nezapočítali dvakrát.
+- Staršia páska bez uchovaného podkladu potrebuje kontrolované prevzatie
+  pôvodných údajov. Inštalácia dôkaz nevymýšľa.
+- Počty prihlásených zostávajú overovanými vstupmi výkazu. Modul nevytvára
+  registrácie v poisťovni ani sieťovo neodosiela podania.
+- Samotný textový formát nepotvrdzuje správnosť všetkých poistných profilov.
+  Zmeny počas mesiaca, ďalšie výnimky z minima a dodatočné príjmy potrebujú
+  zodpovedajúce mzdové adaptéry.
+- Starší XML používa pôvodnú výpočtovú cestu a kontrolu štruktúry. Pre nový
+  postup s uchovanými zdravotnými podkladmi používajte publikovaný TXT.

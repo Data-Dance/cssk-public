@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy
 summary: Celá skupina modulov slovenských miezd na jednom mieste — mesačná výplatná páska pre pracovný pomer a tri dohody v Odoo Enterprise Payroll alebo v aplikácii OCA payroll, s datovanými zákonnými sadzbami, voľnom, ročným zúčtovaním dane a zaúčtovaním do hlavnej knihy.
-verified: 19.0.1.2.0
+verified: 19.0.1.3.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -11,7 +11,7 @@ jednotlivé doplnky majú krátke stránky, ktoré odkazujú sem.
 
 | Modul | Čo robí |
 |---|---|
-| [module:l10n_sk_hr_payroll_base](module:l10n_sk_hr_payroll_base) (tento modul) | Štyri formy zamestnania a jedna tabuľka, ktorá určuje, aké poistenie a nároky patria ku každej z nich. Nezávislý od mzdového enginu, bez vlastných obrazoviek. |
+| [module:l10n_sk_hr_payroll_base](module:l10n_sk_hr_payroll_base) (tento modul) | Štyri formy zamestnania a jedna tabuľka, ktorá určuje, aké poistenie a nároky patria ku každej z nich. Nezávislý od mzdového enginu; poskytuje aj skontrolované poistné kalendáre na zamestnancovi. |
 | [module:l10n_sk_hr_payroll_ee](module:l10n_sk_hr_payroll_ee) | Slovenská výplatná páska v **Odoo Enterprise Payroll** ako nadstavba nad vlastným modulom Odoo `l10n_sk_hr_payroll`. |
 | [module:l10n_sk_hr_payroll_oca](module:l10n_sk_hr_payroll_oca) | Tá istá výplatná páska v **aplikácii OCA payroll** (`payroll`) pre Odoo Community. |
 | [module:l10n_sk_hr_payroll_account_ee](module:l10n_sk_hr_payroll_account_ee), [module:l10n_sk_hr_payroll_account_oca](module:l10n_sk_hr_payroll_account_oca) | Zaúčtovanie výplatných pások do slovenskej účtovej osnovy, pre každý engine jeden. |
@@ -21,6 +21,28 @@ jednotlivé doplnky majú krátke stránky, ktoré odkazujú sem.
 Samotný základný modul obsahuje formy zamestnania a tabuľku uplatniteľnosti.
 Nainštaluje sa automaticky ako závislosť modulov enginu a stretnete sa s ním
 len cez ne.
+
+## Skontrolovaný kalendár zdravotného poistenia {#health-calendar}
+
+HR manažér otvorí na zamestnancovi **Poistné kalendáre** a zaznamená celý mesiac
+podľa uchovaných pracovných dní, oznámení alebo rozhodnutí poisťovne. Mesiac
+začína prvým dňom a intervaly zostávajú v jeho hraniciach. **2D** obsahuje
+overené pracovné dni a príslušný odpočinok; **2Y** určuje jediný zákonný deň.
+Program tieto dni neodhaduje z mesačnej odmeny ani rozvrhu.
+
+**Potvrdiť kontrolu** uzamkne intervaly a uloží osobu a čas kontroly.
+**Vytvoriť revíziu** zachová pôvodné údaje a vytvorí nový rozpracovaný návrh.
+Pred novým výpočtom mzdy treba aktuálny mesiac znovu skontrolovať. Prázdny
+skontrolovaný kalendár výslovne znamená nula poistných dní. Ide o faktický HR
+podklad, nie dôkaz odoslania registrácie do poisťovne.
+
+Spoločný podklad rozlišuje poistné dni, dni zamestnania pre OP a dni minima.
+Dni dávky neskracujú zamestnanie pre OP; prekrývajúce sa výnimky štát/SZČO sa
+započítajú iba raz. Jeden deň zdravotného postihnutia ovplyvní mesačnú sadzbu
+a neuplatnenie mesačného minima podľa
+[usmernenia poisťovne](https://www.dovera.sk/platitel/zamestnavatel/tema-legislativne-informacie/minimalny-preddavok-zamestnanca).
+Zdroj používa adaptér OCA. Samotný model nezávislý od enginu ešte nepreukazuje
+rovnaké zapojenie každého ďalšieho mzdového enginu.
 
 ## Výber enginu {#engines}
 

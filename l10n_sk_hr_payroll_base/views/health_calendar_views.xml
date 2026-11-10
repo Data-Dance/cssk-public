@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="health_calendar_form" model="ir.ui.view">
+        <field name="name">l10n.sk.health.calendar.form</field>
+        <field name="model">l10n.sk.health.calendar</field>
+        <field name="arch" type="xml">
+            <form string="Health-insurance calendar">
+                <header>
+                    <button name="action_review" type="object" string="Confirm review" invisible="state != 'draft'"/>
+                    <button name="action_create_revision" type="object" string="Create revision" invisible="state != 'reviewed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                        <field name="employee_id" readonly="state != 'draft'"/>
+                        <field name="month" readonly="state != 'draft'"/>
+                        <field name="evidence" readonly="state != 'draft'"/>
+                        <field name="complete" readonly="state != 'draft'"/>
+                        <field name="reviewed_by"/>
+                        <field name="reviewed_at"/>
+                        <field name="supersedes_id" invisible="not supersedes_id"/>
+                    </group>
+                    <field name="interval_ids" readonly="state != 'draft'">
+                        <list editable="bottom">
+                            <field name="kind"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="health_calendar_employee_form" model="ir.ui.view">
+        <field name="name">hr.employee.health.calendars</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Health calendars" groups="hr.group_hr_manager">
+                    <field name="l10n_sk_health_calendar_ids" context="{'default_employee_id': id, 'default_company_id': company_id}">
+                        <list>
+                            <field name="month"/>
+                            <field name="evidence"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -242,7 +242,7 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
         [("draft", "Draft"), ("generated", "Generated"),
          ("submitted", "Submitted")],
         default="draft", tracking=True)
-    xml_attachment_id = fields.Many2one("ir.attachment", readonly=True)
+    xml_attachment_id = fields.Many2one("ir.attachment", string="Generated file", readonly=True)
 
     def _submission_ready_states(self):
         """`generated` is this vocabulary's `exported` — the XML exists."""
@@ -270,7 +270,7 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
     submitted_date = fields.Datetime(readonly=True, copy=False)
     submission_reference = fields.Char(copy=False)
     submitted_attachment_id = fields.Many2one(
-        "ir.attachment", string="Filed XML", readonly=True, copy=False)
+        "ir.attachment", string="Filed file", readonly=True, copy=False)
     filed_history_ids = fields.Many2many(
         "ir.attachment", string="Filed history", readonly=True, copy=False)
 
@@ -677,8 +677,12 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
         self._validate_against_schema(xml_bytes)
         self._attach_xml(xml_bytes)
         self.state = "generated"
-        self.message_post(body=_("Declaration generated and XSD-validated."))
+        self.message_post(body=self._declaration_generated_message())
         return True
+
+    def _declaration_generated_message(self):
+        """Reports using another published wire format describe its check."""
+        return _("Declaration generated and XSD-validated.")
 
     def _preflight(self):
         """Master-data checks the XML template relies on. Concrete reports
@@ -820,12 +824,17 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
     def _attach_xml(self, xml_bytes):
         self.ensure_one()
         self.xml_attachment_id = self.env["ir.attachment"].create({
-            "name": "%s.xml" % (self.name or self._xml_name_fallback),
+            **self._declaration_attachment_metadata(),
             "datas": base64.b64encode(xml_bytes),
             "res_model": self._name,
             "res_id": self.id,
-            "mimetype": "application/xml",
         })
+
+    def _declaration_attachment_metadata(self):
+        """Filename and media type; attachment ownership stays in the mixin."""
+        self.ensure_one()
+        return {"name": "%s.xml" % (self.name or self._xml_name_fallback),
+                "mimetype": "application/xml"}
 
     # ------------------------------------------------------------------
     # State machine / retention

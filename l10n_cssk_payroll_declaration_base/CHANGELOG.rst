@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ==========
 
+* Add narrow attachment metadata and generation-message hooks so published non-XML wire formats use the existing declaration/archive workflow without claiming XSD validation.
+
 Added
 ~~~~~
 

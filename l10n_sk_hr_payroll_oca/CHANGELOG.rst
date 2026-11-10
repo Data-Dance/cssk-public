@@ -5,6 +5,10 @@ Changelog
 Unreleased
 ==========
 
+* Consume reviewed calendar days in monthly OP/minimum calculations, including dated state/SZCO exceptions, actual agreement days and the monthly disability-rate rule. Preserve the exact source calendar on the health snapshot.
+
+* Use the shared health base in the salary rule; retain protected health-assessment facts on computed payslips, verify confirmation sources, and support the written concurrent-employment minimum opt-out.
+
 - **19.0.1.22.0 (2026-11-09), DISCHARGED on 18.0 by 997c7bbb:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
 
 Carry-over to 18.0

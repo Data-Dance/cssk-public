@@ -17,16 +17,351 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "A 2Y source must identify one calendar day."
+msgstr "Podklad 2Y musí určovať jediný kalendárny deň."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__2d
+msgid "Agreement work/rest days (2D)"
+msgstr "Pracovné dni a odpočinok pri dohode (2D)"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__benefit
+msgid "Benefit / income-compensation days"
+msgstr "Dni dávky alebo náhrady príjmu"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__calendar_id
+msgid "Calendar"
+msgstr "Kalendár"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__company_id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_minimum_opt_out
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__l10n_sk_health_minimum_opt_out
+msgid "Concurrent-employment minimum opt-out"
+msgstr "Neuplatnenie minima pri súbehu zamestnaní"
+
+#. module: l10n_sk_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_base.health_calendar_form
+msgid "Confirm review"
+msgstr "Potvrdiť kontrolu"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Create a revision of a reviewed health calendar."
+msgstr "Vytvorte revíziu skontrolovaného poistného kalendára."
+
+#. module: l10n_sk_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_base.health_calendar_form
+msgid "Create revision"
+msgstr "Vytvoriť revíziu"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__create_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__create_date
+msgid "Created on"
+msgstr "Vytvorené"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__date_end
+msgid "Date End"
+msgstr "Dátum do"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__date_start
+msgid "Date Start"
+msgstr "Dátum od"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__missing
+msgid "Declared missing"
+msgstr "Vyhlásený za nezvestného"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
 
 #. module: l10n_sk_hr_payroll_base
-#: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_version
-msgid "Employee Contract"
-msgstr "Pracovná zmluva zamestnanca"
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar__state__draft
+msgid "Draft"
+msgstr "Návrh"
 
 #. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_employee
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__employee_id
+msgid "Employee"
+msgstr "Zamestnanec"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_version
+msgid "Employee Contract / Version"
+msgstr "Zmluva / verzia zamestnanca"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__2
+msgid "Employment (2)"
+msgstr "Zamestnanie (2)"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__other_employment
+msgid "Employment with another employer"
+msgstr "Zamestnanie u iného zamestnávateľa"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__complete
+msgid "Entire month reviewed"
+msgstr "Skontrolovaný celý mesiac"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_version.py:0
+msgid "Finish reviewing the employee's health calendar before calculation."
+msgstr "Pred výpočtom dokončite kontrolu poistného kalendára zamestnanca."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__month
+msgid "First day of the insurance month."
+msgstr "Prvý deň mesiaca zdravotného poistenia."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_calendar_ids
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_base.health_calendar_employee_form
+msgid "Health calendars"
+msgstr "Poistné kalendáre"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__disabled
+msgid "Health disability"
+msgstr "Zdravotné postihnutie"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Health-calendar intervals must stay inside their month."
+msgstr "Intervaly poistného kalendára musia patriť do príslušného mesiaca."
+
+#. module: l10n_sk_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_base.health_calendar_form
+msgid "Health-insurance calendar"
+msgstr "Kalendár zdravotného poistenia"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__id
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__interval_ids
+msgid "Interval"
+msgstr "Interval"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__kind
+msgid "Kind"
+msgstr "Druh"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__write_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_minimum_evidence
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__l10n_sk_health_minimum_evidence
+msgid "Minimum opt-out notice reference"
+msgstr "Odkaz na oznámenie o neuplatnení minima"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__month
+msgid "Month"
+msgstr "Mesiac"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__2n
+msgid "No-income employment exclusion (2N)"
+msgstr "Vyňatie zo zamestnania bez príjmu (2N)"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Only a draft health calendar can be reviewed."
+msgstr "Skontrolovať možno iba návrh poistného kalendára."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_version.py:0
+msgid ""
+"Record the employee's written concurrent-employment minimum opt-out notice "
+"before calculation."
+msgstr ""
+"Pred výpočtom zaevidujte písomné oznámenie zamestnanca o neuplatnení minima "
+"pri súbehu zamestnaní."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_minimum_evidence
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_version__l10n_sk_health_minimum_evidence
+msgid ""
+"Reference to the retained written notice and concurrent-employment facts "
+"effective on this version."
+msgstr ""
+"Odkaz na uchované písomné oznámenie a skutočnosti o súbehu zamestnaní platné"
+" pre túto verziu."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__evidence
+msgid ""
+"Retained work dates, employee notice or insurer decision supporting these "
+"facts."
+msgstr ""
+"Odkaz na uchované pracovné dni, oznámenie zamestnanca alebo rozhodnutie "
+"poisťovne, ktoré preukazujú tieto údaje."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Review the entire month and retain a source reference first."
+msgstr "Najprv skontrolujte celý mesiac a uveďte odkaz na uchovaný podklad."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar__state__reviewed
+msgid "Reviewed"
+msgstr "Skontrolované"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__reviewed_at
+msgid "Reviewed At"
+msgstr "Skontrolované dňa"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__reviewed_by
+msgid "Reviewed By"
+msgstr "Skontroloval"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Reviewed health-calendar facts are immutable. Create a revision."
+msgstr ""
+"Skontrolované údaje poistného kalendára nemožno meniť. Vytvorte novú "
+"revíziu."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_minimum_opt_out
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_version__l10n_sk_health_minimum_opt_out
+msgid ""
+"Section16a(5): the employee has concurrent employers and has given a written"
+" notice not to apply the minimum top-up here. This is different from "
+"disability or state-insured status."
+msgstr ""
+"§ 16a ods. 5: zamestnanec má súčasne viacerých zamestnávateľov a písomne "
+"oznámil, že si tu neuplatňuje doplatok do minima. Ide o inú skutočnosť ako "
+"zdravotné postihnutie alebo postavenie poistenca štátu."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__self_employed
+msgid "Self-employed status"
+msgstr "Postavenie SZČO"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__2y
+msgid "Single irregular-income day (2Y)"
+msgstr "Jediný deň nepravidelného príjmu (2Y)"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_l10n_sk_health_calendar_interval
+msgid "Slovak health-insurance calendar interval"
+msgstr "Interval slovenského zdravotného poistenia"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_l10n_sk_health_calendar
+msgid "Slovak monthly health-insurance calendar"
+msgstr "Slovenský mesačný kalendár zdravotného poistenia"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__evidence
+msgid "Source reference"
+msgstr "Odkaz na podklad"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__state
+msgid "State-insured status"
+msgstr "Poistenec štátu"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar__state__superseded
+msgid "Superseded"
+msgstr "Nahradené"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__supersedes_id
+msgid "Supersedes"
+msgstr "Nahrádza"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "The health calendar and employee must belong to the same company."
+msgstr "Poistný kalendár a zamestnanec musia patriť tej istej spoločnosti."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "The insurance month must start on its first day."
+msgstr "Mesiac zdravotného poistenia musí začínať jeho prvým dňom."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__complete
+msgid ""
+"The intervals describe the whole month, including days without insurance and"
+" all known minimum exceptions. An empty reviewed calendar explicitly means "
+"no insured days."
+msgstr ""
+"Intervaly opisujú celý mesiac vrátane dní bez poistenia a všetkých známych "
+"výnimiek z minima. Prázdny skontrolovaný kalendár výslovne znamená nulový "
+"počet poistných dní."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.constraint,message:l10n_sk_hr_payroll_base.constraint_l10n_sk_health_calendar_one_current_month
+msgid ""
+"There is already a current health calendar for this employee and month."
+msgstr "Pre tohto zamestnanca a mesiac už existuje aktuálny poistný kalendár."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Use the health-calendar review and revision actions."
+msgstr "Použite úkony kontroly a revízie poistného kalendára."

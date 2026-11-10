@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="health_calendar_company_rule" model="ir.rule">
+        <field name="name">Health calendar: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_health_calendar"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="health_calendar_interval_company_rule" model="ir.rule">
+        <field name="name">Health calendar interval: multi-company</field>
+        <field name="model_id" ref="model_l10n_sk_health_calendar_interval"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

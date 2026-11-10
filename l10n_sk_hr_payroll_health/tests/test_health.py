@@ -81,16 +81,17 @@ class TestHealth514(TransactionCase):
             return "ee"
         return None
 
-    def _employee_payslip(self, wage=2000.0, agreement="none", pension=False):
+    def _employee_payslip(self, wage=2000.0, agreement="none", pension=False,
+                         health_exempt=None, insurer=None, rc="8501011234", name="Jozko Mrkvicka"):
         structure = self.structure
         if agreement != "none":
             module = "l10n_sk_hr_payroll_oca" if self.engine == "oca" else "l10n_sk_hr_payroll"
             structure = self.env.ref(module + ".hr_payroll_structure_sk_" + agreement)
         emp_vals = {
-            "name": "Jozko Mrkvicka",
+            "name": name,
             "company_id": self.company.id,
             "resource_calendar_id": self.calendar.id,
-            "identification_id": "8501011234",
+            "identification_id": rc,
             "date_version": date(2026, 1, 1),
             "contract_date_start": date(2026, 1, 1),
             "wage": wage,
@@ -101,9 +102,13 @@ class TestHealth514(TransactionCase):
             emp_vals["structure_type_id"] = structure.type_id.id
         employee = self.env["hr.employee"].with_company(
             self.company).create(emp_vals)
+        if insurer is not None:
+            employee.l10n_sk_health_insurer_code = insurer
         if pension:
             employee.version_id.write({"l10n_sk_pension_type": pension,
                                        "l10n_sk_health_exempt": agreement != "none"})
+        if health_exempt is not None:
+            employee.version_id.l10n_sk_health_exempt = health_exempt
 
         slip = self.env["hr.payslip"].with_company(self.company).create({
             "name": "Payslip",
@@ -148,19 +153,15 @@ class TestHealth514(TransactionCase):
     def test_health_switch_must_match_statutory_pension_fact(self):
         for pension, exempt in (("disability", False), ("old_age", False)):
             with self.subTest(pension=pension, exempt=exempt):
-                _, slip = self._employee_payslip(200, "dopc", pension)
-                self._version(slip).l10n_sk_health_exempt = exempt
-                declaration = self.env["l10n.sk.health"].with_company(self.company).create({
-                    "company_id": self.company.id, "year": "2026", "month": "3"})
                 with self.assertRaises(UserError):
+                    _, slip = self._employee_payslip(200, "dopc", pension, health_exempt=exempt)
+                    declaration = self.env["l10n.sk.health"].with_company(self.company).create({
+                        "company_id": self.company.id, "year": "2026", "month": "3"})
                     declaration.action_generate()
 
     def test_foreign_insured_agreement_without_pension_is_excluded(self):
         for agreement in ("dopc", "dovp"):
-            _, slip = self._employee_payslip(200, agreement)
-            self._version(slip).l10n_sk_health_exempt = True
-            slip.compute_sheet()
-            slip.action_payslip_done()
+            _, slip = self._employee_payslip(200, agreement, health_exempt=True)
             declaration = self.env["l10n.sk.health"].with_company(self.company).create({
                 "company_id": self.company.id, "year": "2026", "month": "3"})
             declaration._preflight()
@@ -168,9 +169,8 @@ class TestHealth514(TransactionCase):
             self.assertEqual(slip.get_salary_line_total("HEALTH"), 0)
             self.assertEqual(slip.get_salary_line_total("HEALTHEMPLOYER"), 0)
 
-    def test_mismatch_at_another_insurer_does_not_block_this_insurer(self):
-        _, broken = self._employee_payslip(200, "dopc", "disability")
-        broken.employee_id.l10n_sk_health_insurer_code = "25"
+    def test_later_profile_at_another_insurer_does_not_reclassify_the_source(self):
+        _, broken = self._employee_payslip(200, "dopc", "disability", insurer="25")
         self._version(broken).l10n_sk_health_exempt = False
         good_employee, good = self._employee_payslip()
         good_employee.l10n_sk_health_insurer_code = "24"
@@ -180,7 +180,11 @@ class TestHealth514(TransactionCase):
         self.assertIn(good, declaration._get_period_payslips())
         self.assertNotIn(broken, declaration._get_period_payslips())
         declaration.insurer_code = "25"
-        with self.assertRaises(UserError): declaration._preflight()
+        if getattr(broken, 'l10n_sk_health_assessment_snapshot', None):
+            declaration._preflight()
+            self.assertNotIn(broken, declaration._get_period_payslips())
+        else:
+            with self.assertRaises(UserError): declaration._preflight()
 
     def _version(self, slip):
         return self.env["l10n.sk.health"]._payslip_version(slip)
@@ -287,9 +291,7 @@ class TestHealth514(TransactionCase):
     # One insurer per dávka (2026-10-27)
     # ------------------------------------------------------------------
     def _insured(self, name, rc, insurer):
-        employee, slip = self._employee_payslip()
-        employee.write({"name": name, "identification_id": rc,
-                        "l10n_sk_health_insurer_code": insurer})
+        employee, slip = self._employee_payslip(name=name, rc=rc, insurer=insurer)
         return employee
 
     def _rows(self, insurer):

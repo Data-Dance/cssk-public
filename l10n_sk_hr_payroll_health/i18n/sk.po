@@ -42,9 +42,41 @@ msgid "Activity Type Icon"
 msgstr "Ikona typu aktivity"
 
 #. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid ""
+"Allocate the health payroll source to its calendar month before generating "
+"text 514."
+msgstr ""
+"Pred vytvorením textového výkazu 514 priraďte zdravotný mzdový podklad do "
+"príslušného kalendárneho mesiaca."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
+msgid ""
+"An excluded health-income source contains health premiums. Review the "
+"payroll correction before generating the statement."
+msgstr ""
+"Vylúčený príjem obsahuje zdravotné poistné. Pred vytvorením výkazu "
+"skontrolujte opravu mzdy."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid "An exempt health-income source must not be included in this statement."
+msgstr ""
+"Príjem vyňatý zo zdravotného poistenia nesmie byť zahrnutý do tohto výkazu."
+
+#. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__message_attachment_count
 msgid "Attachment Count"
 msgstr "Počet príloh"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__batch_sequence
+msgid "Batch sequence"
+msgstr "Poradové číslo dávky"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model,name:l10n_sk_hr_payroll_health.model_res_company
@@ -104,12 +136,12 @@ msgstr "Krajina"
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__create_uid
 msgid "Created by"
-msgstr "Vytvoril(a)"
+msgstr "Vytvoril"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__create_date
 msgid "Created on"
-msgstr "Vytvorené dňa"
+msgstr "Vytvorené"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__currency_id
@@ -119,7 +151,7 @@ msgstr "Mena"
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__active_submission_id
 msgid "Current submission"
-msgstr "Aktuálne doručenie"
+msgstr "Aktuálne podanie"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__date_from
@@ -130,6 +162,16 @@ msgstr "Dátum od"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__date_to
 msgid "Date To"
 msgstr "Dátum do"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid ""
+"Declaration generated in the published 514 text layout; field and total "
+"checks passed."
+msgstr ""
+"Výkaz bol vytvorený v publikovanom textovom formáte 514; polia a súčty "
+"prešli kontrolou."
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__submission_state
@@ -175,9 +217,29 @@ msgid "Employees"
 msgstr "Zamestnanci"
 
 #. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__payment_bank_id
+msgid "Employer payment bank account"
+msgstr "Platobný bankový účet zamestnávateľa"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid ""
+"Enter the reviewed health-registration counts for this insurer and for all "
+"insurers."
+msgstr ""
+"Zadajte overené počty prihlásených v tejto zdravotnej poisťovni a spolu vo "
+"všetkých poisťovniach."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__export_format
+msgid "Export Format"
+msgstr "Formát výkazu"
+
+#. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__submitted_attachment_id
-msgid "Filed XML"
-msgstr "Podané XML"
+msgid "Filed file"
+msgstr "Podaný súbor"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__filed_history_ids
@@ -203,6 +265,11 @@ msgstr "Ikona písma font awesome, napr. fa-tasks"
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_health.view_l10n_sk_health_form
 msgid "Generate"
 msgstr "Generovať"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__xml_attachment_id
+msgid "Generated file"
+msgstr "Vygenerovaný súbor"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__has_message
@@ -285,12 +352,32 @@ msgstr "Je odberateľ"
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__write_uid
 msgid "Last Updated by"
-msgstr "Naposledy upravil(a)"
+msgstr "Naposledy upravil"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__write_date
 msgid "Last Updated on"
-msgstr "Naposledy upravené dňa"
+msgstr "Naposledy upravené"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid ""
+"Legacy 514 XML generated and structurally checked; authority XSD acceptance "
+"is not established."
+msgstr ""
+"Starší XML výkaz 514 bol vytvorený a jeho štruktúra skontrolovaná; "
+"prijateľnosť podľa XSD autority nie je preukázaná."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__l10n_sk_health__export_format__xml
+msgid "Legacy XML"
+msgstr "Starší XML formát"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__l10n_sk_health__payer_legal_form__po
+msgid "Legal entity"
+msgstr "Právnická osoba"
 
 #. module: l10n_sk_hr_payroll_health
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_health.view_l10n_sk_health_form
@@ -321,6 +408,11 @@ msgstr "Termín mojej aktivity"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__name
 msgid "Name"
 msgstr "Názov"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__l10n_sk_health__payer_legal_form__fo
+msgid "Natural person"
+msgstr "Fyzická osoba"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_calendar_event_id
@@ -363,6 +455,11 @@ msgid "Number of messages with delivery error"
 msgstr "Počet správ s chybou doručenia"
 
 #. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__employer_partner_id
+msgid "Partner"
+msgstr "Partner"
+
+#. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__payment_date
 msgid ""
 "Payday reported to the authority (SK denVyplaty). Defaults to the period "
@@ -370,6 +467,11 @@ msgid ""
 msgstr ""
 "Dátum výplaty hlásený úradu (SK denVyplaty). Predvolene je to koniec "
 "obdobia."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__payer_legal_form
+msgid "Payer Legal Form"
+msgstr "Právna forma platiteľa"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__payer_number
@@ -382,6 +484,11 @@ msgstr ""
 "čísla platiteľa v identifikačnom bloku dávky 514."
 
 #. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__text_payer_number
+msgid "Payer number at selected insurer"
+msgstr "Číslo platiteľa vo vybranej poisťovni"
+
+#. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__payment_date
 msgid "Payment Date"
 msgstr "Dátum výplaty"
@@ -390,14 +497,28 @@ msgstr "Dátum výplaty"
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
 msgid ""
-"Payslip '%(name)s': the pension type and health-exempt setting "
-"disagree for this agreement. Review the historical version and "
-"recalculate payroll before generating the 514."
+"Payslip '%(name)s': the pension type and health-exempt setting disagree for "
+"this agreement. Review the historical version and recalculate payroll before"
+" generating the 514."
 msgstr ""
-"Výplatná páska „%(name)s“: priznaný dôchodok a oslobodenie od "
-"zdravotného poistenia si pri tejto dohode odporujú. Skontrolujte "
-"historickú verziu zmluvy a pred generovaním dávky 514 prepočítajte "
-"mzdu."
+"Výplatná páska „%(name)s“: priznaný dôchodok a oslobodenie od zdravotného "
+"poistenia si pri tejto dohode odporujú. Skontrolujte historickú verziu "
+"zmluvy a pred generovaním dávky 514 prepočítajte mzdu."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_health.selection__l10n_sk_health__export_format__text2023
+msgid "Published 514 text (2023+)"
+msgstr "Publikovaný text 514 (2023+)"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__registered_all_insurers_count
+msgid "Registered at all insurers"
+msgstr "Prihlásení vo všetkých poisťovniach"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__registered_count
+msgid "Registered at this insurer"
+msgstr "Prihlásení v tejto poisťovni"
 
 #. module: l10n_sk_hr_payroll_health
 #. odoo-python
@@ -412,6 +533,16 @@ msgid "Report Code"
 msgstr "Kód výkazu"
 
 #. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid ""
+"Reset the text declaration to draft before changing its inputs; the filed "
+"copy is preserved."
+msgstr ""
+"Pred zmenou vstupov vráťte textový výkaz do návrhu; podaná kópia zostane "
+"zachovaná."
+
+#. module: l10n_sk_hr_payroll_health
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_health.view_l10n_sk_health_form
 msgid "Reset to Draft"
 msgstr "Vrátiť do konceptu"
@@ -420,6 +551,15 @@ msgstr "Vrátiť do konceptu"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_user_id
 msgid "Responsible User"
 msgstr "Zodpovedný užívateľ"
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__registered_count
+msgid ""
+"Reviewed registration count, including employees with no premium for a "
+"whole-month benefit period."
+msgstr ""
+"Overený počet prihlásených vrátane zamestnancov s nulovým poistným počas "
+"celomesačného poberania dávky."
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.ui.menu,name:l10n_sk_hr_payroll_health.menu_l10n_sk_health
@@ -438,9 +578,29 @@ msgstr "Chyba doručenia SMS"
 
 #. module: l10n_sk_hr_payroll_health
 #. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid "Select a bank account belonging to the payroll employer."
+msgstr ""
+"Vyberte bankový účet patriaci zamestnávateľovi, ktorého mzdy vykazujete."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
 #: code:addons/l10n_sk_hr_payroll_health/models/l10n_sk_health.py:0
 msgid "Select the target health insurer on the dávka 514."
 msgstr "Vyberte cieľovú zdravotnú poisťovňu v dávke 514."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__sending_date
+msgid "Sending date"
+msgstr "Dátum odoslania"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid "Set the sending date and payment date before generating text 514."
+msgstr ""
+"Pred vytvorením textového výkazu 514 zadajte dátum odoslania a dátum "
+"výplaty."
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__state
@@ -492,6 +652,24 @@ msgid "Technical: true for anything that amends an earlier filing."
 msgstr "Technické: pravda pre všetko, čo opravuje skoršie podanie."
 
 #. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid "The 514 text employee count is invalid."
+msgstr "Počet zamestnancov v textovom výkaze 514 je neplatný."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid "The 514 text fields failed validation: %s"
+msgstr "Polia textového výkazu 514 neprešli kontrolou: %s"
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid "The 514 text record framing is invalid."
+msgstr "Členenie viet textového výkazu 514 je neplatné."
+
+#. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__correction_reference
 msgid ""
 "The authority's reference for the filing being amended, where the receiving "
@@ -499,6 +677,16 @@ msgid ""
 msgstr ""
 "Referencia úradu na opravované podanie, ak ju prijímajúci systém potrebuje "
 "na spárovanie oboch."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid ""
+"The health calendar changed after payroll calculation. Review the payroll "
+"correction before generating a new statement."
+msgstr ""
+"Po výpočte mzdy sa zmenil poistný kalendár. Pred vytvorením nového výkazu "
+"skontrolujte opravu mzdy."
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_hr_employee__l10n_sk_health_insurer_code
@@ -510,6 +698,52 @@ msgstr ""
 "Zdravotná poisťovňa, v ktorej je zamestnanec poistený. Každá poisťovňa "
 "dostane vlastnú mesačnú dávku 514 len so svojimi poistencami. Nechajte "
 "prázdne, ak je zamestnanec poistený v predvolenej poisťovni spoločnosti."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid ""
+"The installed payroll engine has no retained health-assessment adapter for "
+"the text 514."
+msgstr ""
+"Nainštalované mzdové jadro nemá adaptér uchovaných zdravotných podkladov pre"
+" textový výkaz 514."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid "The retained health insurer does not match this statement."
+msgstr "Poisťovňa v uchovanom podklade nezodpovedá tomuto výkazu."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid ""
+"The text adapter supports full original and corrective filings; additive "
+"differences require their own reviewed source."
+msgstr ""
+"Textový adaptér podporuje úplný riadny a opravný výkaz; rozdielové podanie "
+"potrebuje vlastný overený podklad."
+
+#. module: l10n_sk_hr_payroll_health
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__export_format
+msgid ""
+"The text layout is pinned to the insurer-published 2023 interface. Legacy "
+"XML is only structurally checked, not authority-XSD validated."
+msgstr ""
+"Textový formát vychádza z rozhrania zverejneného poisťovňou od roku 2023. "
+"Pri staršom XML sa kontroluje iba štruktúra, nie prijateľnosť podľa XSD "
+"autority."
+
+#. module: l10n_sk_hr_payroll_health
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_health/models/text514.py:0
+msgid ""
+"This health statement needs one consolidated payroll source per employee. "
+"Review the payroll correction sources."
+msgstr ""
+"Tento zdravotný výkaz potrebuje jeden konsolidovaný mzdový podklad za "
+"zamestnanca. Skontrolujte podklady opráv mzdy."
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_health.field_l10n_sk_health__activity_exception_decoration
@@ -552,11 +786,6 @@ msgid ""
 msgstr ""
 "Či ide o riadne podanie za obdobie alebo o opravu už odoslaného. Voľby sú "
 "obmedzené na to, čo tento konkrétny úrad prijíma."
-
-#. module: l10n_sk_hr_payroll_health
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__xml_attachment_id
-msgid "Xml Attachment"
-msgstr "Príloha XML"
 
 #. module: l10n_sk_hr_payroll_health
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_health.field_l10n_sk_health__year

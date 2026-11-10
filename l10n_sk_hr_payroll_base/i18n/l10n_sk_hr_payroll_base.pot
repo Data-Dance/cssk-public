@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-27 22:27+0000\n"
-"PO-Revision-Date: 2026-10-27 22:27+0000\n"
+"POT-Creation-Date: 2026-11-10 00:58+0000\n"
+"PO-Revision-Date: 2026-11-10 00:58+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,16 +16,337 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "A 2Y source must identify one calendar day."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__2d
+msgid "Agreement work/rest days (2D)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__benefit
+msgid "Benefit / income-compensation days"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__calendar_id
+msgid "Calendar"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__company_id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_minimum_opt_out
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__l10n_sk_health_minimum_opt_out
+msgid "Concurrent-employment minimum opt-out"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_base.health_calendar_form
+msgid "Confirm review"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Create a revision of a reviewed health calendar."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_base.health_calendar_form
+msgid "Create revision"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__create_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__date_end
+msgid "Date End"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__date_start
+msgid "Date Start"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__missing
+msgid "Declared missing"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_base
-#: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_version
-msgid "Employee Contract"
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar__state__draft
+msgid "Draft"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_employee
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__employee_id
+msgid "Employee"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_version
+msgid "Employee Contract / Version"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__2
+msgid "Employment (2)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__other_employment
+msgid "Employment with another employer"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__complete
+msgid "Entire month reviewed"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_version.py:0
+msgid "Finish reviewing the employee's health calendar before calculation."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__month
+msgid "First day of the insurance month."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_calendar_ids
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_base.health_calendar_employee_form
+msgid "Health calendars"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__disabled
+msgid "Health disability"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Health-calendar intervals must stay inside their month."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_base.health_calendar_form
+msgid "Health-insurance calendar"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__id
 msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__interval_ids
+msgid "Interval"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__kind
+msgid "Kind"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__write_date
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar_interval__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_minimum_evidence
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__l10n_sk_health_minimum_evidence
+msgid "Minimum opt-out notice reference"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__month
+msgid "Month"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__2n
+msgid "No-income employment exclusion (2N)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Only a draft health calendar can be reviewed."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_version.py:0
+msgid ""
+"Record the employee's written concurrent-employment minimum opt-out notice "
+"before calculation."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_minimum_evidence
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_version__l10n_sk_health_minimum_evidence
+msgid ""
+"Reference to the retained written notice and concurrent-employment facts "
+"effective on this version."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__evidence
+msgid ""
+"Retained work dates, employee notice or insurer decision supporting these "
+"facts."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Review the entire month and retain a source reference first."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar__state__reviewed
+msgid "Reviewed"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__reviewed_at
+msgid "Reviewed At"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__reviewed_by
+msgid "Reviewed By"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Reviewed health-calendar facts are immutable. Create a revision."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_health_minimum_opt_out
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_version__l10n_sk_health_minimum_opt_out
+msgid ""
+"Section16a(5): the employee has concurrent employers and has given a written"
+" notice not to apply the minimum top-up here. This is different from "
+"disability or state-insured status."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__self_employed
+msgid "Self-employed status"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__2y
+msgid "Single irregular-income day (2Y)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_l10n_sk_health_calendar_interval
+msgid "Slovak health-insurance calendar interval"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_l10n_sk_health_calendar
+msgid "Slovak monthly health-insurance calendar"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__evidence
+msgid "Source reference"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__state
+msgid "State"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar_interval__kind__state
+msgid "State-insured status"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_base.selection__l10n_sk_health_calendar__state__superseded
+msgid "Superseded"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__supersedes_id
+msgid "Supersedes"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "The health calendar and employee must belong to the same company."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "The insurance month must start on its first day."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_l10n_sk_health_calendar__complete
+msgid ""
+"The intervals describe the whole month, including days without insurance and"
+" all known minimum exceptions. An empty reviewed calendar explicitly means "
+"no insured days."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.constraint,message:l10n_sk_hr_payroll_base.constraint_l10n_sk_health_calendar_one_current_month
+msgid ""
+"There is already a current health calendar for this employee and month."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/health_calendar.py:0
+msgid "Use the health-calendar review and revision actions."
 msgstr ""

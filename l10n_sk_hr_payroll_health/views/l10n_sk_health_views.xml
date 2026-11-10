@@ -39,17 +39,27 @@
                     <group>
                         <group>
                             <field name="company_id"/>
+                            <field name="export_format" readonly="state != 'draft'"/>
+                            <field name="correction_type" readonly="state != 'draft'"/>
                             <field name="insurer_code"/>
-                            <field name="payer_number"/>
+                            <field name="payer_number" invisible="export_format == 'text2023'"/>
+                            <field name="text_payer_number" invisible="export_format != 'text2023'" readonly="state != 'draft'"/>
                             <field name="year"/>
                             <field name="month"/>
                             <field name="payment_date"/>
+                            <field name="sending_date" invisible="export_format != 'text2023'" readonly="state != 'draft'"/>
+                            <field name="batch_sequence" invisible="export_format != 'text2023'" readonly="state != 'draft'"/>
                         </group>
                         <group>
                             <field name="version_id"/>
                             <field name="date_from"/>
                             <field name="date_to"/>
                             <field name="xml_attachment_id"/>
+                            <field name="registered_count" invisible="export_format != 'text2023'" readonly="state != 'draft'"/>
+                            <field name="registered_all_insurers_count" invisible="export_format != 'text2023'" readonly="state != 'draft'"/>
+                            <field name="payer_legal_form" invisible="export_format != 'text2023'" readonly="state != 'draft'"/>
+                            <field name="employer_partner_id" invisible="True"/>
+                            <field name="payment_bank_id" domain="[('partner_id', '=', employer_partner_id)]" invisible="export_format != 'text2023'" readonly="state != 'draft'"/>
                         </group>
                     </group>
                     <field name="line_ids">
@@ -70,6 +80,7 @@
         <field name="name">dávka 514 (health)</field>
         <field name="res_model">l10n.sk.health</field>
         <field name="view_mode">list,form</field>
+        <field name="context">{'default_export_format': 'text2023'}</field>
     </record>
 
     <menuitem id="menu_l10n_sk_health"

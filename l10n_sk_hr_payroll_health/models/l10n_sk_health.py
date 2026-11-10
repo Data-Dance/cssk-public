@@ -108,7 +108,7 @@ class L10nSkHealth(models.Model):
                     "Company '%(company)s' needs an 8-12 digit IČO "
                     "(Company Registry) for the dávka 514 identification "
                     "block.", company=company.display_name))
-            if not (company.l10n_sk_health_payer_number or "").strip():
+            if not (rec._health_payer_number() or "").strip():
                 raise UserError(_(
                     "Company '%(company)s' needs a health payer number "
                     "for the dávka 514. Fill in 'Health payer number' on "
@@ -120,12 +120,12 @@ class L10nSkHealth(models.Model):
             # Inspect the unfiltered set: excluded agreements must not hide a
             # disagreement between the statutory fact and the payroll switch.
             for slip in super(L10nSkHealth, rec)._get_period_payslips():
-                if slip.employee_id._l10n_sk_health_insurer() != rec.insurer_code:
+                if rec._health_insurer_of_payslip(slip) != rec.insurer_code:
                     continue
-                version = rec._payslip_version(slip)
-                if not version or version.l10n_sk_agreement_type not in ("dopc", "dovp"):
+                profile = rec._health_agreement_profile(slip)
+                if profile["agreement_type"] not in ("dopc", "dovp"):
                     continue
-                if rec._pension_agreement(slip) and not version.l10n_sk_health_exempt:
+                if rec._pension_agreement(slip) and not profile["exempt"]:
                     raise UserError(_(
                         "Payslip '%(name)s': the pension type and health-exempt "
                         "setting disagree for this agreement. Review the historical "
@@ -144,6 +144,10 @@ class L10nSkHealth(models.Model):
                     company=company.display_name))
         return True
 
+    def _health_payer_number(self):
+        self.ensure_one()
+        return self.company_id.l10n_sk_health_payer_number
+
     def _get_period_payslips(self):
         """Only the payslips of employees insured with THIS insurer.
 
@@ -156,9 +160,30 @@ class L10nSkHealth(models.Model):
         slips = super()._get_period_payslips()
         if not slips:
             return slips
+        for slip in slips:
+            if (self._health_insurer_of_payslip(slip) == self.insurer_code
+                    and self._excluded_agreement(slip)
+                    and any(line.total for line in slip.line_ids.filtered(
+                        lambda line: line.code in ('HEALTH', 'HEALTHEMPLOYER', 'HEALTHDOPLATOK', 'HEALTH_DOPLATOK')))):
+                raise UserError(_(
+                    "An excluded health-income source contains health premiums. "
+                    "Review the payroll correction before generating the statement."))
         return slips.filtered(
-            lambda s: s.employee_id._l10n_sk_health_insurer()
+            lambda s: self._health_insurer_of_payslip(s)
             == self.insurer_code and not self._excluded_agreement(s))
+
+    def _health_insurer_of_payslip(self, payslip):
+        snapshot = getattr(payslip, "l10n_sk_health_assessment_snapshot", None)
+        return (snapshot or {}).get("insurer") or payslip.employee_id._l10n_sk_health_insurer()
+
+    def _health_agreement_profile(self, payslip):
+        snapshot = getattr(payslip, "l10n_sk_health_assessment_snapshot", None)
+        if snapshot:
+            return snapshot
+        version = self._payslip_version(payslip)
+        return {"agreement_type": getattr(version, "l10n_sk_agreement_type", False),
+                "pension_type": getattr(version, "l10n_sk_pension_type", False),
+                "exempt": bool(getattr(version, "l10n_sk_health_exempt", False))}
 
     def _excluded_agreement(self, payslip):
         """Also respect other legislation, e.g. a documented foreign A1.
@@ -167,12 +192,10 @@ class L10nSkHealth(models.Model):
         The health-exempt flag is currently the payroll's way to express the
         latter case. Its legal evidence remains the operator's responsibility.
         """
-        version = self._payslip_version(payslip)
+        profile = self._health_agreement_profile(payslip)
         return bool(self._pension_agreement(payslip) or (
-            version and "l10n_sk_agreement_type" in version._fields
-            and "l10n_sk_health_exempt" in version._fields
-            and version.l10n_sk_agreement_type in ("dopc", "dovp")
-            and version.l10n_sk_health_exempt))
+            profile["agreement_type"] in ("dopc", "dovp")
+            and profile["exempt"]))
 
     def _pension_agreement(self, payslip):
         """§10b(1)(a) points 3/4, z.580/2004: excluded agreement income.
@@ -182,12 +205,9 @@ class L10nSkHealth(models.Model):
         A pension does not exempt an ordinary employment contract.
         The payslip's historical version decides, never today's employee card.
         """
-        version = self._payslip_version(payslip)
-        return bool(version
-                    and "l10n_sk_agreement_type" in version._fields
-                    and "l10n_sk_pension_type" in version._fields
-                    and version.l10n_sk_agreement_type in ("dopc", "dovp")
-                    and version.l10n_sk_pension_type)
+        profile = self._health_agreement_profile(payslip)
+        return bool(profile["agreement_type"] in ("dopc", "dovp")
+                    and profile["pension_type"])
 
     # ------------------------------------------------------------------
     @staticmethod
@@ -248,7 +268,7 @@ class L10nSkHealth(models.Model):
             iban = (banks[0].acc_number or "").replace(" ", "")[:34]
 
         ident = {
-            "charakter": "N",
+            "charakter": "O" if self.correction_type == "corrective" else "N",
             "typ": "514",
             "ico": self._company_ico(company),
             "cislo_platitela": self._digits(

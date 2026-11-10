@@ -394,31 +394,16 @@ result_rate = 100
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-if contract.l10n_sk_ztp:
+if contract.l10n_sk_health_is_disabled(payslip.date_from):
     rate = payslip.rule_parameter('l10n_sk_health_rate_employee_ztp')
 else:
     rate = payslip.rule_parameter('l10n_sk_health_rate_employee')
-base = categories.GROSS
-# Health OOP (odvodová odpočítateľná položka): reduces ONLY the employee health
-# assessment base, for a regular employment relationship (not a dohoda), when
-# claimed. OOP = max(0, max - slope*(gross - max)) with slope = max/(end-max)
-# (380/190 = 2), so base = max(0, gross - OOP). The employer base is untouched.
-if contract.l10n_sk_health_oop_claim and contract.l10n_sk_agreement_type == 'none':
-    oop_max = payslip.rule_parameter('l10n_sk_health_oop_max')
-    oop_end = payslip.rule_parameter('l10n_sk_health_oop_phaseout_end')
-    slope = oop_max / (oop_end - oop_max)
-    oop = max(0.0, oop_max - slope * max(0.0, base - oop_max))
-    # § 16 ods. 18: the allowance cannot exceed the income and is reduced by the
-    # calendar days of the month without this employment.
-    oop = min(oop, base) * contract.l10n_sk_month_employed_ratio(payslip.date_from)
-    base = max(0.0, base - oop)
-# §19 z.580/2004: floor the health preddavok DOWN to the eurocent.
-result = -(int(round(base * rate, 4)) / 100.0)
+assessment = contract.l10n_sk_health_employee_assessment(
+    categories.GROSS, rate, payslip.date_from,
+    payslip.rule_parameter('l10n_sk_health_oop_max'),
+    payslip.rule_parameter('l10n_sk_health_oop_phaseout_end'))
+result = -assessment['employee']
 result_rate = 100
-# Štátny poistenec (student on DoBPŠ / working pensioner) pays no health
-# insurance on agreement income (z. 580/2004).
-if contract.l10n_sk_health_exempt:
-    result = 0.0
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -432,7 +417,7 @@ if contract.l10n_sk_health_exempt:
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-if contract.l10n_sk_ztp:
+if contract.l10n_sk_health_is_disabled(payslip.date_from):
     rate = payslip.rule_parameter('l10n_sk_health_rate_employer_ztp')
 else:
     rate = payslip.rule_parameter('l10n_sk_health_rate_employer')
@@ -470,8 +455,15 @@ if contract.l10n_sk_health_exempt:
 #   * a DoBPŠ student is a poistenec štátu (§ 11 ods. 7 písm. a)) -> none;
 #   * PN days and days outside the contract shrink it proportionally.
 # The annual true-up is the insurer's (§ 13b, § 19); this is the monthly
-# advance only. A concurrent-employment opt-out (ods. 5) is not modelled.
-if contract.l10n_sk_health_exempt or contract.l10n_sk_ztp or contract.l10n_sk_agreement_type == 'dobps':
+# advance only. A reviewed calendar supplies daily state/SZCO exceptions; the written concurrent-employment opt-out is separate.
+calendar_minimum = contract.l10n_sk_health_calendar_minimum(
+    payslip.date_from, payslip.rule_parameter('l10n_sk_health_min_base'),
+    payslip.rule_parameter('l10n_sk_health_rate_employee'),
+    payslip.rule_parameter('l10n_sk_health_rate_employer'),
+    abs(result_rules.HEALTH.total), result_rules.HEALTHEMPLOYER.total)
+if calendar_minimum is not False:
+    result = -calendar_minimum['topup']
+elif contract.l10n_sk_health_exempt or contract.l10n_sk_ztp or contract.l10n_sk_agreement_type == 'dobps' or contract.l10n_sk_health_minimum_is_opted_out():
     result = 0.0
 else:
   min_base = payslip.rule_parameter('l10n_sk_health_min_base')
