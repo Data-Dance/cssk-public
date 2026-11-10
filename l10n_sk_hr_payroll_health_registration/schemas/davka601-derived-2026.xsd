@@ -1,0 +1,591 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">  
+   <xs:annotation>  
+      <xs:documentation>Dávka 601: Oznámenie zamestnávateľa o poistencoch pri zmene 
+platiteľa poistného na verejné zdravotné poistenie</xs:documentation>  
+   </xs:annotation>  
+ 
+   <xs:element name="davka601">  
+      <xs:complexType>  
+         <xs:sequence>  
+            <xs:element name="Identification" minOccurs="1" maxOccurs="1">  
+               <xs:annotation>  
+                  <xs:documentation>Hlavička</xs:documentation>  
+               </xs:annotation>  
+               <xs:complexType>  
+                  <xs:sequence>  
+                     <xs:element name="PatternOfBatch" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Charakter dávky -musí obsahovať jeden zo 
+znakov "N", alebo "O"</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:enumeration value="N" />  
+                              <xs:enumeration value="O" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                      <xs:element name="TypeOfBatch" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Typ dávky, nemenná hodnota 
+601</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{3}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="IDCode" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>IČO /Rodné číslo/ Číslo povolenia na 
+pobyt-odosielateľa dávky</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{8,10}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="IDCodeReceiver" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>IČO prijímateľa 
+dávky</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{8}" />  
+                            </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="CodeOfHealthInsuranceCompanyWithBranch" 
+minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Kód ZP a pobočky ZP</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{4}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="DateOfSending" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Dátum odoslania dávky vo formáte 
+RRRRMMDD</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{8}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="SerialNumberOfBatch" minOccurs="1" 
+maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Poradové číslo dávky platiteľa v 
+kalednárnom roku</xs:documentation>  
+                        </xs:annotation>  
+                         <xs:simpleType>  
+                           <xs:restriction base="xs:int">  
+                              <xs:pattern value="[0-9]{1,6}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="NumberOfRecords" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Počet viet tela dávky - zodpovedá počtu 
+oznamovaných poistencov</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:int">  
+                              <xs:pattern value="[0-9]{1,6}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="NumberOfDataMedium" minOccurs="0" 
+maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Počet médií, na ktorých je dávka 
+doručená</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:int">  
+                              <xs:pattern value="[0-9]{1,3}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="SerialNumberOfDataMedium" minOccurs="0" 
+maxOccurs="1">  
+                         <xs:annotation>  
+                           <xs:documentation>Poradové číslo 
+média(1,2,3..)</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:int">  
+                              <xs:pattern value="[0-9]{1,3}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                  </xs:sequence>  
+               </xs:complexType>  
+            </xs:element>  
+ 
+            <xs:element name="CorporateBody" minOccurs="1" maxOccurs="1">  
+               <xs:annotation>  
+                  <xs:documentation>Údaje o platiteľovi</xs:documentation>  
+               </xs:annotation>  
+               <xs:complexType>  
+                  <xs:sequence>  
+                     <xs:element name="CodeOfPayerSec" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Číslo platiteľa poistného, ktoré 
+prideľuje ZP</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="1" />  
+                              <xs:maxLength value="10" />  
+                           </xs:restriction>  
+                         </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="CodeOfHealthInsuranceCompany" minOccurs="1" 
+maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Kód ZP -kód zdravotnej poisťovne podľa 
+číselníka ZP</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{2}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="CodeOfBranchOfHealthInsuranceCompany" 
+minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Kód pobočky ZP -ak nemá zriadené pobočky, 
+uvedie sa 00</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{2}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="MonthOfChange" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Kalendárny mesiac vo formáte 
+MM</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                            <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{2}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="YearOfChange" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Kalendárny rok vo formáte 
+RR</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{2}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="CorporateBodyFullName" minOccurs="1" 
+maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Meno a priezvisko/obchodné meno 
+platiteľa</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="1" />  
+                              <xs:maxLength value="60" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:choice minOccurs="1" maxOccurs="3">  
+                         <xs:element name="CompanyIDCode">  
+                           <xs:annotation>  
+                              <xs:documentation>IČO platiteľa /treba vyplniť jednu z 
+položiek IČO, Rodné číslo, Číslo povolenia na pobyt/</xs:documentation>  
+                           </xs:annotation>  
+                           <xs:simpleType>  
+                              <xs:restriction base="xs:string">  
+                                 <xs:pattern value="[0-9]{8}" />  
+                              </xs:restriction>  
+                           </xs:simpleType>  
+                        </xs:element>  
+                        <xs:element name="IdentificationNumberOfPayer">  
+                           <xs:annotation>  
+                              <xs:documentation>Rodné číslo platiteľa /treba vyplniť 
+jednu z položiek IČO, Rodné číslo, Číslo povolenia na pobyt/</xs:documentation>  
+                           </xs:annotation>  
+                           <xs:simpleType>  
+                              <xs:restriction base="xs:string">  
+                                 <xs:pattern value="[0-9]{9,10}" />  
+                              </xs:restriction>  
+                           </xs:simpleType>  
+                        </xs:element>  
+                        <xs:element name="NumberOfResidencePermit">  
+                           <xs:annotation>  
+                              <xs:documentation>Číslo povolenia na pobyt platiteľa 
+/treba vyplniť jednu z položiek IČO, Rodné číslo, Číslo povolenia na 
+pobyt/</xs:documentation>  
+                           </xs:annotation>  
+                           <xs:simpleType>  
+                              <xs:restriction base="xs:string">  
+                                 <xs:minLength value="1" />  
+                                  <xs:maxLength value="10" />  
+                              </xs:restriction>  
+                           </xs:simpleType>  
+                        </xs:element>  
+                     </xs:choice>  
+                     <xs:element name="CompanyIDTaxCode" minOccurs="0" 
+maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>DIČ / IČ DPH</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="1" />  
+                              <xs:maxLength value="13" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="LegalForm" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Právna forma, FO -fyzická osoba, PO -
+právnická osoba</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:enumeration value="FO" />  
+                              <xs:enumeration value="PO" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+ 
+                      <xs:element name="Address">  
+                        <xs:annotation>  
+                           <xs:documentation>Adresa sídla platiteľa 
+poistného</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:complexType>  
+                           <xs:sequence>  
+                              <xs:element minOccurs="1" name="Town">  
+                                 <xs:annotation>  
+                                    <xs:documentation>Obec -Názov obce platiteľa 
+poistného</xs:documentation>  
+                                 </xs:annotation>  
+                                 <xs:simpleType>  
+                                    <xs:restriction base="xs:string">  
+                                       <xs:minLength value="1" />  
+                                       <xs:maxLength value="25" />  
+                                    </xs:restriction>  
+                                 </xs:simpleType>  
+                              </xs:element>  
+                              <xs:element minOccurs="0" name="DescriptiveNumber">  
+                                 <xs:annotation>  
+                                    <xs:documentation>Súpisné číslo adresy sídla 
+platiteľa poistného</xs:documentation>  
+                                 </xs:annotation>  
+                                 <xs:simpleType>  
+                                    <xs:restriction base="xs:string">  
+                                       <xs:minLength value="1" />  
+                                       <xs:maxLength value="8" />  
+                                    </xs:restriction>  
+                                 </xs:simpleType>  
+                               </xs:element>  
+                              <xs:element minOccurs="1" name="StreetNumber">  
+                                 <xs:annotation>  
+                                    <xs:documentation>Ulica a číslo sídla platiteľa 
+poistného</xs:documentation>  
+                                 </xs:annotation>  
+                                 <xs:simpleType>  
+                                    <xs:restriction base="xs:string">  
+                                       <xs:minLength value="1" />  
+                                       <xs:maxLength value="35" />  
+                                    </xs:restriction>  
+                                 </xs:simpleType>  
+                              </xs:element>  
+                              <xs:element minOccurs="1" name="PostalCode">  
+                                 <xs:annotation>  
+                                    <xs:documentation>PSČ adresy sídla platiteľa 
+poistného</xs:documentation>  
+                                 </xs:annotation>  
+                                 <xs:simpleType>  
+                                    <xs:restriction base="xs:string">  
+                                       <xs:pattern value="[0-9]{5}" />  
+                                    </xs:restriction>  
+                                 </xs:simpleType>  
+                              </xs:element>  
+                              <xs:element minOccurs="0" name="Country">  
+                                 <xs:annotation>  
+                                    <xs:documentation>Štát - kód štatu podľa ISO 3166 -
+1, povinný parameter, ak ide o iný štát ako SR</xs:documentation>  
+                                 </xs:annotation>  
+                                 <xs:simpleType>  
+                                     <xs:restriction base="xs:string">  
+                                       <xs:length value="2" />  
+                                    </xs:restriction>  
+                                 </xs:simpleType>  
+                              </xs:element>  
+                           </xs:sequence>  
+                        </xs:complexType>  
+                     </xs:element>  
+ 
+                     <xs:element name="Telephone" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Telefón platiteľa 
+poistného</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="8" />  
+                              <xs:maxLength value="15" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="Fax" minOccurs="0" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Fax platiteľa 
+poistného</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="8" />  
+                              <xs:maxLength value="15" />  
+                            </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="Email" minOccurs="0" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Email platiteľa 
+poistného</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="1" />  
+                              <xs:maxLength value="75" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+ 
+                     <xs:element name="BankAccount">  
+                        <xs:annotation>  
+                           <xs:documentation>Bankové spojenie</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:complexType>  
+                           <xs:sequence>  
+                              <xs:element name="BankName" minOccurs="0" 
+maxOccurs="1">  
+                                 <xs:annotation>  
+                                    <xs:documentation>Názov banky alebo pobočky 
+zahraničnej banky platiteľa</xs:documentation>  
+                                 </xs:annotation>  
+                                 <xs:simpleType>  
+                                    <xs:restriction base="xs:string">  
+                                        <xs:minLength value="1" />  
+                                       <xs:maxLength value="60" />  
+                                    </xs:restriction>  
+                                 </xs:simpleType>  
+                              </xs:element>  
+                              <xs:element name="AccountPrefix" minOccurs="0" 
+maxOccurs="1">  
+                                 <xs:annotation>  
+                                    <xs:documentation>Predčíslie účtu platiteľa 
+poistného v banke</xs:documentation>  
+                                 </xs:annotation>  
+                                 <xs:simpleType>  
+                                    <xs:restriction base="xs:string">  
+                                       <xs:minLength value="1" />  
+                                       <xs:maxLength value="6" />  
+                                    </xs:restriction>  
+                                 </xs:simpleType>  
+                              </xs:element>  
+                              <xs:element name="AccountNumber" minOccurs="0" 
+maxOccurs="1">  
+                                 <xs:annotation>  
+                                    <xs:documentation>Číslo účtu platiteľa poistného 
+v banke</xs:documentation>  
+                                 </xs:annotation>  
+                                 <xs:simpleType>  
+                                    <xs:restriction base="xs:string">  
+                                       <xs:minLength value="1" />  
+                                       <xs:maxLength value="10" />  
+                                    </xs:restriction>  
+                                 </xs:simpleType>  
+                              </xs:element>  
+                               <xs:element name="BankCode" minOccurs="0" 
+maxOccurs="1">  
+                                 <xs:annotation>  
+                                    <xs:documentation>Kód banky - 4-miestny kód banky 
+platiteľa</xs:documentation>  
+                                 </xs:annotation>  
+                                 <xs:simpleType>  
+                                    <xs:restriction base="xs:string">  
+                                       <xs:length value="4" />  
+                                    </xs:restriction>  
+                                 </xs:simpleType>  
+                              </xs:element>  
+ 
+                           </xs:sequence>  
+                        </xs:complexType>  
+                     </xs:element>  
+ 
+                     <xs:element name="ResponsiblePerson" minOccurs="1" 
+maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Osoba zodpovedná za spracovanie u 
+platiteľa poistného</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="1" />  
+                              <xs:maxLength value="50" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="IBAN" minOccurs="1" maxOccurs="1">  
+                         <xs:annotation>  
+                           <xs:documentation>IBAN -uvádza sa v súlade s nariadením 
+Európskeho parlamentu a Rady (EÚ) č. 260/2012 zo 14. marca 2012, ktorým sa ustanovujú 
+technické a obchodné požiadavky na úhrady a inkasá v eurách a ktorým sa mení a dopĺňa 
+nariadenie (ES) č. 924/2009</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="5" />  
+                              <xs:maxLength value="34" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                  </xs:sequence>  
+               </xs:complexType>  
+            </xs:element>  
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="PersonData" 
+nillable="true">  
+               <xs:annotation>  
+                  <xs:documentation>Údaje o poistencovi</xs:documentation>  
+               </xs:annotation>  
+               <xs:complexType>  
+                  <xs:sequence>  
+                     <xs:element name="SerialNumberOfLine" minOccurs="1" 
+maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Poradové číslo poistenca v 
+dávke</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{1,5}" />  
+                            </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:choice minOccurs="1" maxOccurs="1">  
+                        <xs:element name="IdentificationNumberOfInsured">  
+                           <xs:annotation>  
+                              <xs:documentation>Rodné číslo poistenca -ak nie je 
+vyplnené rodné číslo, treba vyplniť identifikačné číslo poistenca</xs:documentation>  
+                           </xs:annotation>  
+                           <xs:simpleType>  
+                              <xs:restriction base="xs:string">  
+                                 <xs:pattern value="[0-9]{9,10}" />  
+                              </xs:restriction>  
+                           </xs:simpleType>  
+                        </xs:element>  
+                        <xs:element name="NonSemanticIdentificationNumber" >  
+                           <xs:annotation>  
+                              <xs:documentation>Bezvýznamové identifikačné číslo 
+poistenca vo formáte XX7XXXYYYY, ktoré prideľuje ÚDZS </xs:documentation>  
+                           </xs:annotation>  
+                           <xs:simpleType>  
+                              <xs:restriction base="xs:string">  
+                                 <xs:pattern value="[0-9]{10}" />  
+                              </xs:restriction>  
+                           </xs:simpleType>  
+                        </xs:element>  
+                     </xs:choice>  
+                     <xs:element name="Title" minOccurs="0" maxOccurs="1">  
+                        <xs:annotation>  
+                            <xs:documentation>Titul pred menom 
+poistenca</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="3" />  
+                              <xs:maxLength value="12" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="Name" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Meno poistenca</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="1" />  
+                              <xs:maxLength value="24" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="Surname" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Priezvisko poistenca</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:minLength value="1" />  
+                              <xs:maxLength value="36" />  
+                            </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="CodeOfChange" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Kód zmeny -jednomiestny alebo 
+dvojmiestny kód podľa metodického usmernenia (napr. 1A, 1B, ..., 1U, 
+2)</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="1[A-W]|2|2D|2N|2P|2Y|2S {1,2}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="ValidationOfChange" minOccurs="1" 
+maxOccurs="1">  
+                        <xs:annotation>  
+                           <xs:documentation>Platnosť zmeny -hodnoty Z, K, X podľa 
+metodického usmernenia</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:enumeration value="Z" />  
+                              <xs:enumeration value="K" />  
+                              <xs:enumeration value="X" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                     <xs:element name="DateOfChange" minOccurs="1" maxOccurs="1">  
+                        <xs:annotation>  
+                            <xs:documentation>Dátum zmeny vo formáte RRRRMMDD, kedy 
+došlo u poistenca k zmene platiteľa poistného</xs:documentation>  
+                        </xs:annotation>  
+                        <xs:simpleType>  
+                           <xs:restriction base="xs:string">  
+                              <xs:pattern value="[0-9]{8}" />  
+                           </xs:restriction>  
+                        </xs:simpleType>  
+                     </xs:element>  
+                  </xs:sequence>  
+               </xs:complexType>  
+            </xs:element>  
+         </xs:sequence>  
+      </xs:complexType>  
+   </xs:element>  
+</xs:schema>

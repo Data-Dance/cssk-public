@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Payroll Declarations
 summary: The common ground of the Czech and Slovak payroll filings — the Payroll Declarations menu, the Generate / Mark Submitted workflow, corrections, form versions, and how payslips are read from either payroll engine.
-verified: 19.0.1.5.2
+verified: 19.0.1.6.0
 ---
 
 ## What it is for {#purpose}
@@ -29,6 +29,7 @@ on its own.
 | SK | [module:l10n_sk_hr_payroll_rlfo](module:l10n_sk_hr_payroll_rlfo) | Registration and deregistration of employees | Sociálna poisťovňa |
 | SK | [module:l10n_sk_hr_payroll_eldp](module:l10n_sk_hr_payroll_eldp) | Evidenčný list dôchodkového poistenia | Sociálna poisťovňa |
 | SK | [module:l10n_sk_hr_payroll_health](module:l10n_sk_hr_payroll_health) | Mesačný výkaz preddavkov na poistné (dávka 514) | health insurers |
+| SK | [module:l10n_sk_hr_payroll_health_registration](module:l10n_sk_hr_payroll_health_registration) | Reviewed registration/change events (601), without a payroll-engine dependency | health insurers |
 | SK | [module:l10n_sk_hr_payroll_monthly_tax_overview](module:l10n_sk_hr_payroll_monthly_tax_overview) | Prehľad o zrazených a odvedených preddavkoch | Finančná správa |
 | SK | [module:l10n_sk_hr_payroll_annual_tax_report](module:l10n_sk_hr_payroll_annual_tax_report) | Hlásenie o vyúčtovaní dane | Finančná správa |
 | CZ | [module:l10n_cz_hr_payroll_pvpoj](module:l10n_cz_hr_payroll_pvpoj) | Přehled o výši pojistného (PVPOJ) | ČSSZ |

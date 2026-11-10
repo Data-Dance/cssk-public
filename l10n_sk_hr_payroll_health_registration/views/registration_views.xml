@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="health_registration_list" model="ir.ui.view">
+        <field name="name">l10n.sk.health.registration.list</field>
+        <field name="model">l10n.sk.health.registration</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="insurer_code"/>
+                <field name="sending_date"/>
+                <field name="batch_sequence"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+    <record id="health_registration_form" model="ir.ui.view">
+        <field name="name">l10n.sk.health.registration.form</field>
+        <field name="model">l10n.sk.health.registration</field>
+        <field name="arch" type="xml">
+            <form string="Health registration601">
+                <header>
+                    <button name="action_generate" type="object" string="Generate" invisible="state != 'draft'" groups="hr.group_hr_manager"/>
+                    <button name="action_submit" type="object" string="Record as submitted" invisible="state != 'generated'" groups="hr.group_hr_manager"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to draft" invisible="state == 'draft'" groups="hr.group_hr_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                            <field name="year" readonly="state != 'draft'"/>
+                            <field name="month" readonly="state != 'draft'"/>
+                            <field name="sending_date" readonly="state != 'draft'"/>
+                            <field name="version_id" readonly="state != 'draft'"/>
+                            <field name="export_format" readonly="state != 'draft'"/>
+                        </group>
+                        <group>
+                            <field name="insurer_code" readonly="state != 'draft'"/>
+                            <field name="receiver_ico" readonly="state != 'draft'"/>
+                            <field name="payer_number" readonly="state != 'draft'"/>
+                            <field name="legal_form" readonly="state != 'draft'"/>
+                            <field name="batch_sequence" readonly="state != 'draft'"/>
+                            <field name="payment_bank_id" readonly="state != 'draft'"/>
+                            <field name="phone" readonly="state != 'draft'"/>
+                            <field name="responsible_person" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="correction_type" readonly="state != 'draft'"/>
+                        <field name="amends_id" readonly="state != 'draft'" invisible="correction_type == 'regular'"/>
+                        <field name="correction_reference" readonly="state != 'draft'" invisible="correction_type == 'regular'"/>
+                        <field name="xml_attachment_id"/>
+                        <field name="submitted_attachment_id"/>
+                        <field name="filed_history_ids" widget="many2many_tags"/>
+                        <field name="submission_reference"/>
+                    </group>
+                    <field name="event_ids" readonly="state != 'draft'">
+                        <list editable="bottom">
+                            <field name="employee_id"/>
+                            <field name="first_name"/>
+                            <field name="last_name"/>
+                            <field name="birth_number"/>
+                            <field name="insurer_identifier" optional="hide"/>
+                            <field name="title" optional="hide"/>
+                            <field name="code"/>
+                            <field name="validity"/>
+                            <field name="changed_on"/>
+                            <field name="source_reference"/>
+                            <field name="employer_notice_reviewed"/>
+                            <field name="source_calendar_id" optional="hide"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_health_registration" model="ir.actions.act_window">
+        <field name="name">SK health registration601</field>
+        <field name="res_model">l10n.sk.health.registration</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_health_registration" name="SK health registration601"
+              parent="l10n_cssk_payroll_declaration_base.menu_cssk_payroll_declaration_root"
+              action="action_health_registration" sequence="26"/>
+</odoo>
