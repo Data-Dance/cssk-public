@@ -1,6 +1,7 @@
 # Copyright 2026 votrelec
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 import base64
+import hashlib
 from copy import deepcopy
 
 from lxml import etree
@@ -13,6 +14,19 @@ MODEL = "l10n.sk.health.registration"
 
 @tagged("post_install", "-at_install")
 class TestHealthRegistration(TransactionCase):
+    def test_forged_attachment_checksum_does_not_authorize_content_replacement(self):
+        batch = self.batch()
+        batch.action_generate()
+        attachment = batch.xml_attachment_id
+        original = attachment.raw
+        tampered = b"synthetic changed filing"
+        attachment.write({"checksum": hashlib.sha1(tampered).hexdigest()})
+        # Stock ir.attachment.write discards this computed-field override.
+        self.assertEqual(attachment.checksum, hashlib.sha1(original).hexdigest())
+        with self.assertRaises(UserError):
+            attachment.write({"raw": tampered})
+        self.assertEqual(attachment.raw, original)
+
     def test_dated_exemption_blocks_start_but_allows_end_and_cancellation(self):
         if "l10n_sk_health_exempt" not in self.env["hr.version"]._fields:
             self.skipTest("Optional country payroll eligibility is not installed")
