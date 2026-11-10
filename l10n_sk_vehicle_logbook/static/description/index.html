@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_vehicle_logbook/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Vehicle Logbook and Travel Orders</h1>
 <p class="cssk-summary">A trip log per vehicle and domestic and foreign travel orders, approved before the trip and settled after it, with the advance, meal allowance, pocket money, kilometre and fuel reimbursement of zákon 283/2002 Z. z.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.0.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>fleet</code>, <code>hr_expense</code>, <code>hr_expense_advance_clearing</code>, <code>l10n_sk</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>fleet</code>, <code>hr_expense</code>, <code>hr_expense_advance_clearing</code>, <code>l10n_sk</code></td></tr></table>
 
 <h2 id="purpose">What it does</h2>
 <p>The logbook records each trip of a vehicle: driver, times, route, purpose and
@@ -100,9 +100,13 @@ goes to, each with its arrival time. Each calendar day then gets:</p>
 <li>the foreign meal allowance of the country where most hours were spent that
   day, or of the better rate on a tie (§ 13 ods. 5): 25 % of the base rate up to
   6 hours abroad, 50 % up to 12 hours, the full rate above (§ 13 ods. 4);</li>
-<li>free meals cut the allowance of the place they were eaten, abroad by 25, 40
-  and 35 % of the full base rate (§ 13 ods. 7); the day decides which by the
-  "Meals abroad" tick, preset to the part of the day that was longer;</li>
+<li>each free meal cuts the allowance of the part of the day where it was
+  provided: at home by 25, 40 and 35 % of the domestic over-18-hour rate
+  (§ 5 ods. 6), abroad by the same shares of the full foreign base rate
+  (§ 13 ods. 7). Each meal has its own "abroad" tick, preset from the usual
+  meal time (breakfast 08:00, lunch 12:00, dinner 18:00) against the border
+  crossings; each part is cut only down to zero, and a meal at home on a day
+  with no domestic allowance cuts nothing;</li>
 <li>optional pocket money of up to 40 % of the foreign allowance (§ 14).</li>
 </ul>
 <p>The base rates of all 193 countries of opatrenie MF SR č. 401/2012 Z. z. are
@@ -112,19 +116,26 @@ mobile workers in road transport added by opatrenie č. 9/2026 Z. z. from
 them. An allowance set in a foreign currency is converted at the ECB or NBS
 rate valid on the first day of the month the trip began (§ 36 ods. 6), and the
 order refuses to compute when that rate is missing rather than guessing one.</p>
+<p>With an own vehicle, the <strong>Fuel</strong> tab splits the fuel reimbursement into lines,
+each with its kilometres, unit price and currency (§ 15): at home at the
+Slovak receipt, abroad at the foreign receipt (an average of several is
+allowed), in euro in the euro area and in the local currency elsewhere. A
+foreign currency converts at the same first-of-month rate. The ministry's
+worked examples split by the fuel actually used, tank by tank; either way the
+lines should add up to the trip's kilometres, and the form warns when they do
+not. Without lines the single unit price applies to every kilometre.</p>
 <h2 id="limits">Limits</h2>
-<p>Days are Slovak calendar days, also abroad. The free meals of one day all count
-either at home or abroad; a day with a free meal in each place needs the amount
-checked by hand. The advance and the settlement are in euro; a foreign-currency
-advance (§ 36 ods. 5) is not handled. Abroad, enter the fuel price of the
-foreign receipt (§ 15) yourself. The fuel consumption is entered with its
+<p>Days are Slovak calendar days, also abroad. Which part of the day a free meal
+cuts follows professional commentary (Mzdové centrum, 2014); no ministry text
+says it outright. The advance and the settlement are in euro; a foreign-currency
+advance (§ 36 ods. 5) is not handled. The fuel consumption is entered with its
 increase under § 7 ods. 6 already applied. The rates are maintained under
 Business Travel; the shipped set starts on 1 January 2026, with the meal
 allowance of oznámenie 255/2026 Z. z. from 1 December 2026, so earlier trips
 need their own rates entered first. The 10-working-day deadlines follow the
 employee's working schedule: public holidays count as working days unless they
 are entered in it.</p>
-<footer><p>Text checked against module version: 19.0.2.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.2.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
