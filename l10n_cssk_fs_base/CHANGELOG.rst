@@ -142,7 +142,7 @@ Fixed
 
 - **Editing a manual figure sends the statement back to draft**, so it
   cannot be exported until *Compute* has brought the totals over it up to
-  date (found in review by gpt-5.3-codex: an edited row beside stale totals
+  date (found in code review: an edited row beside stale totals
   was exportable).
 - **Totals cannot be overridden.** A total typed over its own rows no
   longer adds them up. A constraint refuses it, and an override left on an

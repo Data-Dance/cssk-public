@@ -526,7 +526,7 @@ class ResCompanyCzDeduction(models.Model):
              # that means something else; without the second, an invoice leg
              # can be built from a refund leg's account. They coincide on the
              # Czech chart, which is exactly why neither would have been
-             # noticed here. Raised by a GPT-5.3-Codex review.
+             # noticed here. Raised by a code review.
              if any(_cz_tag_key(t.name) in CZ_SELFASSESSED_BAND
                     for t in other.repartition_line_ids.filtered(
                         lambda r: r.repartition_type == "base").tag_ids)
@@ -562,7 +562,7 @@ class ResCompanyCzDeduction(models.Model):
         14 534 001.54 of tax — while the output side of the same returns agreed
         to within 0.03 %.
 
-        Confirmed with a second opinion (gpt-5.3-codex) before building:
+        Confirmed with a second-opinion review before building:
         ř43/ř44 are the deduction of tax self-assessed on ř3–13, split
         základní/snížená, and they DO require a base as well as a tax figure;
         tagging the −100 leg is the right mechanism rather than deriving the

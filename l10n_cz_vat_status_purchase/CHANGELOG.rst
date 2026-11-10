@@ -30,7 +30,7 @@ Carry-over to 19.0
   here, so nothing is broken today. **The loop is 19.0's, unchanged** — this
   port only renamed the key to ``taxes_id`` — so the same gap is on that
   branch and a fix belongs there first, not as a divergence here. Raised by a
-  GPT-5.3-Codex review of the port, 2026-10-19.
+  Code review of the port, 2026-10-19.
 
 [19.0.1.0.0] — 2026-09-28
 -------------------------

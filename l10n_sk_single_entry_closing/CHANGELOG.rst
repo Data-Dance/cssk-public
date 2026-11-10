@@ -97,7 +97,7 @@ Fixed
   computed from the zero the framework's own pass had left and never revisited:
   no error, just a wrong total. It now walks the framework's dependency order.
   The shipped rows are sequenced safely, so this would have waited for whoever
-  added the next row. Found by a second opinion from **gpt-5.3-codex**, and
+  added the next row. Found by a second-opinion review, and
   pinned by a test whose aggregates point forward — verified to fail (0.00
   against 640.00) on the old code.
 

@@ -115,7 +115,7 @@ class TestSkVehicleExpense(AccountTestInvoicingCommon):
         self.assertEqual(sum(deductible.mapped("balance")), 11.50)
 
     def test_split_respects_a_discount_instead_of_reapplying_it(self):
-        """price_subtotal is already net of the discount — Copilot review."""
+        """price_subtotal is already net of the discount — code review."""
         bill = self._bill(net=200.0)
         bill.invoice_line_ids.discount = 50.0  # subtotal becomes 100.00
         self.assertEqual(bill.invoice_line_ids.price_subtotal, 100.0)
@@ -136,7 +136,7 @@ class TestSkVehicleExpense(AccountTestInvoicingCommon):
         self.assertFalse(any(bill.invoice_line_ids.mapped("discount")))
 
     def test_splitting_twice_is_refused(self):
-        """Compounding the reclassification would be silent — Copilot review."""
+        """Compounding the reclassification would be silent — code review."""
         bill = self._bill(net=100.0)
         wizard_vals = {
             "move_id": bill.id,

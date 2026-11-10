@@ -334,7 +334,7 @@ Changed
   before that script runs, so the old INSERT would have failed on a column that
   no longer exists.
 
-Reviewed by GPT-5.3-Codex. Two of its points were already covered — the drop is
+Code-reviewed. Two of its points were already covered — the drop is
 guarded by an ``information_schema`` check so it IS idempotent, and the new
 tests assert inclusion rather than a global selection list. It hedged on the
 migration ordering, so that was verified in the source rather than argued:
@@ -444,7 +444,7 @@ Added
   matches line DEFINITIONS precisely so a document can be asked what it feeds
   before any return for its period exists. The dialog says so.
 
-Robustness (from a GPT-5.3-Codex review of the new code)
+Robustness (from a code review of the new code)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - **``_cssk_comparison`` was a search-then-create race.** It is reached from a
@@ -476,7 +476,7 @@ Robustness (from a GPT-5.3-Codex review of the new code)
   refuses above 40 candidates rather than grinding — leaving the link blank
   rather than answering it from part of the set.
 
-Not changed, and why: Copilot flagged ``tracking=True`` on a ``mail.thread``
+Not changed, and why: Code review flagged ``tracking=True`` on a ``mail.thread``
 model written by a machine process. The tracked fields are ``signed_off_uid``
 and ``signed_off_date``, which only a person sets; everything the comparison
 run writes — the counts, the state, ``last_run_date`` — is untracked, so no

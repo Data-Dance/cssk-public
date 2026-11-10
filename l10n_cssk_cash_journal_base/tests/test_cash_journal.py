@@ -460,7 +460,7 @@ class TestCashJournalGeneration(TestCashJournalCommon):
 
 
 class TestCashJournalAllocation(TestCashJournalCommon):
-    """The cases a second-opinion review (gpt-5.3-codex) raised on the draft."""
+    """The cases a second-opinion review raised on the draft."""
 
     def test_a_receipt_net_of_a_charge_keeps_both_full_amounts(self):
         """120 in, 20 deducted: the book says 120 income and 20 expense.

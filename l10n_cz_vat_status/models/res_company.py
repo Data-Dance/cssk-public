@@ -279,7 +279,7 @@ class ResCompany(models.Model):
         An unresolved source is kept in the result so a draft stays editable,
         but it is REPORTED: comparing the result with the line would find them
         equal and let the source through silently, which is exactly the
-        failure a status check exists to prevent (raised by a GPT-5.3-Codex
+        failure a status check exists to prevent (raised by a code
         review). The posting check refuses on it.
         """
         self.ensure_one()

@@ -31,7 +31,7 @@ Fixed
 - ``authenticated`` and ``_retried`` are **keyword-only** on both methods.
   ``authenticated`` was inserted ahead of ``_retried``, so an inheriting module
   calling ``_orsf_probe(path, params, True)`` in the old meaning would have
-  silently asked for a session instead — raised in review by GPT-5.3-Codex.
+  silently asked for a session instead — raised in code review.
   No caller in this repository passes either positionally.
 
 [19.0.1.0.1] — 2026-09-13

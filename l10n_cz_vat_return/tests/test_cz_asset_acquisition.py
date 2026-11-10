@@ -374,7 +374,7 @@ class TestCzAssetAcquisition(AccountTestInvoicingCommon):
 
         So ``source.name`` reads "21 % G" under cs_CZ and "21% G" under
         en_US, and a name-keyed lookup finds nothing the second time round and
-        twins the whole chart again. Raised by a GPT-5.3-Codex review of this
+        twins the whole chart again. Raised by a code review of this
         change; the fix is to look the twin up by ``cz_asset_source_tax_id``.
         """
         self._czech_source()
@@ -413,7 +413,7 @@ class TestCzAssetAcquisition(AccountTestInvoicingCommon):
         """Adoption is by name, so it has to refuse to steal another's twin.
 
         Rebinding would orphan the source it belonged to and silently
-        re-point its replacement links. Raised by a GPT-5.3-Codex review.
+        re-point its replacement links. Raised by a code review.
         """
         twin = self._twin("l10n_cz_21_receipt_domestic_supplies")
         # A twin of a DIFFERENT tax_scope, so the rename below does not trip

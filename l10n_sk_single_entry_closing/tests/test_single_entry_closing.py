@@ -199,7 +199,7 @@ class TestJuZavierkaCashRows(AccountTestInvoicingCommon):
         The recompute pass has to run in dependency order. In sequence order it
         computes `outer` from `inner`'s stale zero and only then fixes `inner`,
         so `outer` comes back 0 against a perfectly good cash row — no error,
-        just a wrong total. Raised by a gpt-5.3-codex review of the override.
+        just a wrong total. Raised by a code review of the override.
         """
         version = self.env["cssk.fs.statement.version"].create({
             "name": "Test — forward-pointing aggregates",

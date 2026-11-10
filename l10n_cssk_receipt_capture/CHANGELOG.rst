@@ -172,7 +172,7 @@ Added
   auto-create seller. The VAT-rate → tax map is borrowed from
   ``account_invoice_ai_extract`` when installed.
 
-- Hardening from an adversarial review of the money logic (GPT-5.3-Codex,
+- Hardening from an adversarial review of the money logic (code review,
   2026-10-06):
 
   - every VAT bucket's own arithmetic is checked (``base + tax`` grossed up at
