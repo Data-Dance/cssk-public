@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.24.3
+verified: 19.0.1.24.5
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -64,3 +64,7 @@ Dátumy schválenej PN určujú kalendárne dni jednotlivých pásiem; nárok ur
 ## Skutočne odpracovaný čas pri priemere {#average-worked-time}
 
 WORK100 obsahuje plánovaný čas. Pred overením hranice21 dní alebo168 hodín a delením mzdy hodinami sa odpočítajú absolútne dni a hodiny samostatne evidovaných absencií. Používa sa rovnaký zoznam kódov ako pri BASIC; obe nastavenia znamienok absencie majú rovnaký výsledok. Znamienko refundu naďalej uplatní volajúci iba raz. Neuložený náhľad pásky z histórie vylučuje svoj uložený originál namiesto dočasného NewId.
+
+## Predvolené typy absencií pri aktualizácii {#leave-upgrade}
+
+Dodané slovenské typy absencií sú počiatočné nastavenia. Aktualizácia modulu zachová firemné nastavenia aj dátumy schválených absencií. Opätovný zápis rovnakej jednotky žiadosti môže spustiť prepočet dátumov a natívnu ochranu schválenej absencie. Preto XML používa štandardné noupdate. Budúca zmena existujúcej predvolenej hodnoty vyžaduje výslovnú migráciu s posúdením existujúcich absencií; bežný update nevracia firemné nastavenie potichu späť. Test načíta skutočný dátový súbor so schválenou PN aj dovolenkou a overí dátumy, stav, trvanie a firemný názov typu.

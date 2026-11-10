@@ -19,6 +19,7 @@ from psycopg2 import IntegrityError
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import mute_logger
+from odoo.tools.convert import convert_file
 from odoo.addons.payroll.models.base_browsable import WorkedDays
 
 
@@ -2056,6 +2057,29 @@ class TestSkPayroll(TransactionCase):
         target.contract_id = target.employee_id._get_version(date(2026, 6, 1))
         self.assertIn(source, target._l10n_sk_average_payslips())
         self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(), 28.5714, places=4)
+
+    def test_leave_starter_upgrade_preserves_approved_absence_and_configuration(self):
+        checked_fields = ["date_from", "date_to", "state", "number_of_days"]
+        for xmlid in ("l10n_sk_leave_type_pn", "l10n_sk_leave_type_dovolenka"):
+            with self.subTest(leave_type=xmlid):
+                _contract, employee, _calendar = self._abs_setup(wage=1500)
+                leave = self._make_leave(
+                    employee, xmlid, date(2026, 6, 5), date(2026, 6, 9)
+                )
+                original = leave.read(checked_fields)
+                leave_type = leave.holiday_status_id
+                leave_type.name = "Company reviewed absence type"
+                convert_file(
+                    self.env,
+                    "l10n_sk_hr_payroll_oca",
+                    "data/hr_leave_type_data.xml",
+                    {},
+                    mode="update",
+                )
+                self.env.flush_all()
+                leave.invalidate_recordset()
+                self.assertEqual(leave.read(checked_fields), original)
+                self.assertEqual(leave_type.name, "Company reviewed absence type")
 
     def test_sickness_calendar_weekend_is_paid_for_five_calendar_days(self):
         contract, employee, _calendar = self._abs_setup(wage=1500)

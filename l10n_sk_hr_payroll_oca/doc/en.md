@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.24.3
+verified: 19.0.1.24.5
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -67,3 +67,7 @@ Approved PN dates determine calendar-day tiers, while the native shared `SICKNES
 ## Actual worked time in the average {#average-worked-time}
 
 WORK100 is the gross scheduled time; separately recorded approved absence rows are deducted by absolute days and hours before applying the 21-day or168-hour threshold and wage/hour division. This follows the same absence-code taxonomy as BASIC, with identical results for either leave-sign setting. Refund direction remains applied once by the caller. An unsaved payslip preview excludes its persistent origin rather than passing a temporary NewId into the history domain.
+
+## Starter absence settings on upgrade {#leave-upgrade}
+
+The supplied Slovak absence types are installation defaults. A module upgrade preserves the company's reviewed settings and approved absence dates. Rewriting even the same request unit can recompute dates and invoke the native protection of approved leave. The starter XML therefore uses Odoo's noupdate policy. A future change to an existing default needs an explicit migration that reviews its effect on existing absences; ordinary updates do not silently reset company configuration. The regression reloads the actual data file with approved PN and ordinary holiday records and verifies their dates, state, duration and the company's type name.
