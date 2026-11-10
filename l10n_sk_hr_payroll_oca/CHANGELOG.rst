@@ -757,3 +757,12 @@ Fixed
   state. Repaired by ``tools/fix_po_code_comments.py``, which is also the CI
   check; the offline exporter now emits the comment itself.
 
+
+[19.0.1.24.3] — 2026-11-10
+--------------------------
+
+Fixed
+~~~~~
+
+- Stop employer PN compensation at employment end, keep the illness-onset
+  limits and daily cap across a year boundary, and round compensation upward.

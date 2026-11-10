@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.24.3
+verified: 19.0.1.24.4
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -64,3 +64,21 @@ Dátumy schválenej PN určujú kalendárne dni jednotlivých pásiem; nárok ur
 ## Skutočne odpracovaný čas pri priemere {#average-worked-time}
 
 WORK100 obsahuje plánovaný čas. Pred overením hranice21 dní alebo168 hodín a delením mzdy hodinami sa odpočítajú absolútne dni a hodiny samostatne evidovaných absencií. Používa sa rovnaký zoznam kódov ako pri BASIC; obe nastavenia znamienok absencie majú rovnaký výsledok. Znamienko refundu naďalej uplatní volajúci iba raz. Neuložený náhľad pásky z histórie vylučuje svoj uložený originál namiesto dočasného NewId.
+
+## Dátumové hranice náhrady PN {#sickness-dates}
+
+Náhrada zamestnávateľa končí skončením poisteného vzťahu, aj keď schválená PN
+pokračuje. Pri ohraničení plateného obdobia sa zachová skutočný začiatok PN;
+prvá sadzba sa nezačína znova v ďalšom mesiaci. Každá natívna PN používa počet
+dní zamestnávateľa, sadzby a strop DVZ platné pri jej vzniku. PN začatá v roku 2025
+zostáva v desaťdňovom režime aj v roku 2026.
+
+DVZ zamestnávateľa sa zaokrúhli na štyri desatinné miesta nadol. Výsledná mesačná
+náhrada sa podľa §10 ods.2 zákona 462/2003 zaokrúhli na eurocenty nahor.
+Desiatková aritmetika nepridáva cent spôsobený binárnou nepresnosťou. Rovnaké
+peňažné zaokrúhlenie používa pôvodný manuálny vstup. Jeho pokračovanie a určenie
+zadaného DVZ naďalej vyžadujú overenie; samotný počet dní nenahrádza dátumy PN.
+
+Podklady: [prechodové pravidlá SP](https://www.socpoist.sk/node/6844),
+[DVZ podľa MPSVR](https://www.employment.gov.sk/sk/socialne-poistenie-dochodkovy-system/nahrada-prijmu-pri-pracovnej-neschopnosti/denny-vymeriavaci-zaklad.html)
+a [zákon 462/2003](law:sk/2003/462).

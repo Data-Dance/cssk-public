@@ -9,6 +9,22 @@ month has already used part of its allowance when this month's payslip runs.
 """
 
 from datetime import timedelta
+from decimal import Decimal, ROUND_CEILING, ROUND_DOWN
+
+
+def sick_pay_amount(daily_base, tier1, tier2, rate1, rate2):
+    """Unrounded compensation with the employer DVZ truncated to four places."""
+    values = [Decimal(str(value)) for value in (daily_base, tier1, tier2, rate1, rate2)]
+    if any(not value.is_finite() or value < 0 for value in values):
+        raise ValueError("Use finite nonnegative sick-pay inputs")
+    base, first_days, later_days, first_rate, later_rate = values
+    base = base.quantize(Decimal("0.0001"), rounding=ROUND_DOWN)
+    return base * (first_days * first_rate + later_days * later_rate)
+
+
+def round_sick_pay(amount):
+    """Section 10(2): round the resulting compensation upward to eurocents."""
+    return float(Decimal(str(amount)).quantize(Decimal("0.01"), rounding=ROUND_CEILING))
 
 
 def merge_spans(spans):

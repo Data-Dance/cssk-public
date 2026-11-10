@@ -2074,6 +2074,81 @@ class TestSkPayroll(TransactionCase):
         # Fri-Sun 3 x25%, Mon-Tue 2 x55%; calendar days, not three workdays.
         self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 37)
 
+    def test_sickness_calendar_employer_stops_at_employment_end(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        contract.contract_date_end = date(2026, 6, 9)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 5), date(2026, 6, 18)
+        )
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+            inputs=[("PN_DVZ", 20)],
+        )
+        # Employer pays only June5-9. SP pays from the day after termination.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 37)
+
+    def test_sickness_calendar_2025_claim_keeps_ten_day_limit_in_2026(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2025, 12, 30), date(2026, 1, 12)
+        )
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 1, 1),
+            date(2026, 1, 31),
+            inputs=[("PN_DVZ", 20)],
+        )
+        # January1 is day3; only January2-8 (days4-10) use the second rate.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 82)
+
+    def test_sickness_calendar_2025_claim_keeps_its_daily_cap_and_rounds_up(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2025, 12, 30), date(2026, 1, 12)
+        )
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 1, 1),
+            date(2026, 1, 31),
+            inputs=[("PN_DVZ", 100)],
+        )
+        # 2025 cap94.0274 x (one day25% + seven days55%) =385.51234.
+        # Section10(2) requires upward rounding, hence385.52.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 385.52)
+
+    def test_sickness_calendar_zero_after_termination_does_not_use_manual_fallback(
+        self,
+    ):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        contract.contract_date_end = date(2026, 6, 9)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 10), date(2026, 6, 23)
+        )
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+            inputs=[("PN_DVZ", 20), ("PN_DAYS", 14)],
+        )
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 0)
+
+    def test_sickness_manual_compensation_uses_statutory_upward_rounding(self):
+        contract, employee = self._make_plain_worker(1500)
+        slip = self._payslip_with_inputs(
+            contract,
+            employee,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+            [("PN_DAYS", 1), ("PN_DVZ", 20.00019)],
+        )
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 5.01)
+
     def test_sickness_calendar_month_boundary_does_not_restart_first_tier(self):
         contract, employee, _calendar = self._abs_setup(wage=1500)
         leave = self._make_leave(
