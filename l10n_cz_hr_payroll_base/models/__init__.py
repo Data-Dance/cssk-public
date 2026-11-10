@@ -1,5 +1,6 @@
 from . import hr_contract
 from . import hr_employee
+from . import hr_employee_child
 from . import hr_leave_accrual_plan
 from . import health_calc
 from . import insurance_month

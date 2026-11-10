@@ -210,6 +210,23 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         return self.env["hr.rule.parameter"]._get_parameter_value(
             code, date(self.year, 12, 31))
 
+    def _l10n_cz_child_entitlement(self):
+        """The year's child tax benefit, month by month (§ 35c ZDP): each
+        month's children (the child records, else the counts of the contract
+        in force on the month's first day) at that month's rate. A child
+        born in September is four months, not twelve."""
+        self.ensure_one()
+        Parameter = self.env["hr.rule.parameter"]
+        total = 0.0
+        for month in range(1, 13):
+            first = date(self.year, month, 1)
+            contract = self.employee_id._l10n_cz_contract_at(first)
+            if not contract:
+                continue
+            total += contract._l10n_cz_child_benefit(
+                first, lambda code, day=first: Parameter._get_parameter_value(code, day))
+        return total
+
     def _l10n_cz_year_payslips(self):
         """The employee's done payslips for the tax year."""
         self.ensure_one()
@@ -292,13 +309,7 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         tax_after_slevy = max(annual_tax - slevy, 0.0)
 
         # -- §35c child tax benefit + annual daňový bonus --
-        c1 = self._l10n_cz_rule_parameter("l10n_cz_child_1_year")
-        c2 = self._l10n_cz_rule_parameter("l10n_cz_child_2_year")
-        c3 = self._l10n_cz_rule_parameter("l10n_cz_child_3_year")
-        entitlement = (version.l10n_cz_children_t1 * c1
-                       + version.l10n_cz_children_t2 * c2
-                       + version.l10n_cz_children_t3 * c3
-                       + version.l10n_cz_children_ztpp * c1)
+        entitlement = self._l10n_cz_child_entitlement()
         child_benefit = min(entitlement, tax_after_slevy)
         final_tax = tax_after_slevy - child_benefit
         bonus_min = self._l10n_cz_rule_parameter("l10n_cz_bonus_min_income_year")

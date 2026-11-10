@@ -8,6 +8,24 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[18.0.1.1.1] — 2026-11-10
+-------------------------
+
+Fixed
+~~~~~
+
+- The export refuses a company with no tax office, or a tax office with no
+  submission code. The XSD types ``danovyUrad`` as a plain string, so such a
+  return validated and exported with the element empty. Port of 19.0.1.15.1.
+
+Not ported from 19.0.1.15.1
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- The warning for an empty *Oprávnená osoba*: 18.0 has no authorised-person
+  field and always exports the element empty, and it has no export-warnings
+  field to show the warning in. Both arrive with a port of the 19.0 header
+  fields.
+
 [18.0.1.1.0] — 2026-07-04
 -------------------------
 

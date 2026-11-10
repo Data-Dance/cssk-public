@@ -144,11 +144,75 @@ class AccountMove(models.Model):
             or self.env.user.has_group("account.group_account_manager"))
         # Odoo's own full cancellation (the wizard's "Modify", a reversal
         # forced by a lock date) posts the reversal in the same call: there is
-        # no supplier's document behind it to number. Whether such a storno
-        # belongs in C.2 at all is the export's question, and it names it.
+        # no supplier's document behind it to number. It is an internal
+        # credit note, which stays out of the statement altogether
+        # (``_l10n_sk_kv_left_out``), so there is nothing to ask for.
         if not skip and not self.env.context.get("move_reverse_cancel"):
             posted._l10n_sk_kv_check_supplier_numbers()
         return posted
+
+    # --- internal credit notes stay out of the statement --------------------
+    def _l10n_sk_kv_is_internal_cancellation(self):
+        """Whether this is OUR reversal of a received document, not the
+        supplier's correction of it.
+
+        A Slovak accountant: internal credit notes do not belong in the
+        control statement. A bill booked wrongly is put right by the
+        supplier's credit note (a C.2 row with its numbers) or by reopening
+        the period, correcting it and filing supplementary returns. Odoo's
+        reversal of a received bill, credit note or entry that carries no
+        supplier's number is the internal kind. A cash-basis entry's reversal
+        is not: it follows an unreconciled payment and moves real tax. Nor is
+        the reversal of an entry carrying any tax but purchase tax: an entry
+        with output VAT is a supply of ours, outside this ruling."""
+        self.ensure_one()
+        original = self.reversed_entry_id
+        if (self.move_type not in ("in_invoice", "in_refund", "entry")
+                or not original):
+            return False
+        if (self.tax_cash_basis_origin_move_id
+                or original.tax_cash_basis_origin_move_id):
+            return False
+        if self.move_type == "entry":
+            taxes = (original.line_ids.tax_ids
+                     | original.line_ids.tax_line_id)
+            if not taxes or any(
+                    t.type_tax_use != "purchase" for t in taxes):
+                return False
+        return not "".join((self._l10n_sk_kv_supplier_ref() or "").split())
+
+    def _l10n_sk_kv_left_out(self):
+        """Of these moves (one statement period), those the statement omits,
+        and the internal cancellations whose omission leaves the statement
+        apart from the ledger.
+
+        Returns ``(left_out, unmatched)``. Every internal cancellation is left
+        out. The document it cancels is left out with it only when internal
+        cancellations IN THE SAME SET cancel it in full: then the pair nets to
+        nothing in the VAT return as well. A cancellation dated in another
+        period, or a partial one, is left out alone, and its tax is still in
+        this period's VAT return; ``unmatched`` names those for the warning."""
+        candidates = self.filtered(
+            lambda m: m.reversed_entry_id or m.reversal_move_ids)
+        internal = candidates.filtered(
+            lambda m: m._l10n_sk_kv_is_internal_cancellation())
+        left_out = internal
+        for original in internal.reversed_entry_id & self:
+            cancels = original.reversal_move_ids & internal
+            # In the document's currency where the cancellations share it: a
+            # full reversal posted at a later rate differs in company currency.
+            if all(c.currency_id == original.currency_id for c in cancels):
+                currency, field = original.currency_id, "amount_total"
+            else:
+                currency = original.company_id.currency_id
+                field = "amount_total_signed"
+            if currency.compare_amounts(
+                    sum(abs(c[field]) for c in cancels),
+                    abs(original[field])) >= 0:
+                left_out |= original
+        unmatched = internal.filtered(
+            lambda m: m.reversed_entry_id not in left_out)
+        return left_out, unmatched
 
     def _l10n_sk_kv_check_supplier_numbers(self):
         """Refuse a received credit or debit note bound for C.2 without the

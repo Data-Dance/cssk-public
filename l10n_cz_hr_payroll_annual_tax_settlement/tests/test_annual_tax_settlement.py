@@ -155,7 +155,7 @@ class TestVyuctovani(TransactionCase):
             self.company).create({"company_id": self.company.id,
                                   "year": "2027"})
         with self.assertRaisesRegex(UserError, "discontinued.*JMHZ"):
-            decl.action_generate()
+            decl.with_context(lang="en_US").action_generate()
 
     def test_submit_locks(self):
         self._employee_payslip()

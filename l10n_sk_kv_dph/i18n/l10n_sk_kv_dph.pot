@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-10 13:12+0000\n"
-"PO-Revision-Date: 2026-11-10 13:12+0000\n"
+"POT-Creation-Date: 2026-11-10 22:10+0000\n"
+"PO-Revision-Date: 2026-11-10 22:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -46,6 +46,18 @@ msgstr ""
 msgid ""
 "%(goods)s: the base on this invoice is %(total).2f €, under 5 000 €, so "
 "reverse charge does not apply and VAT is due."
+msgstr ""
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"%(n)d interný(ch) dobropis(ov) bez čísla dokladu dodávateľa sa do "
+"kontrolného výkazu neuvádza: %(docs)s. Opravovaný doklad je v inom období "
+"alebo nie je stornovaný celý, takže výkaz sa rozchádza s daňovým priznaním, "
+"v ktorom daň interného dobropisu ostáva. Počkajte na dobropis od dodávateľa,"
+" alebo otvorte obdobie pôvodného dokladu, opravte ho a podajte dodatočné "
+"daňové priznanie a kontrolný výkaz."
 msgstr ""
 
 #. module: l10n_sk_kv_dph
@@ -428,6 +440,12 @@ msgstr ""
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__goods_kind__io
 msgid "IO — integrované obvody"
+msgstr ""
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid "Interný dobropis mimo kontrolného výkazu"
 msgstr ""
 
 #. module: l10n_sk_kv_dph

@@ -129,3 +129,75 @@ class TestCzAnnualReconRules(TransactionCase):
             [(False, "form")])["views"]["form"]["arch"]
         self.assertIn('name="action_post_settlement"', arch)
         self.assertIn('name="l10n_cz_prev_income"', arch)
+
+    # -- the child tax benefit, month by month (§ 35c ZDP) --------------------
+
+    def _child_employee(self):
+        employee = create_employee(self.env["hr.employee"].with_company(self.company), {
+            "name": "Rodic Zuctovani",
+            "company_id": self.company.id,
+            "resource_calendar_id": self.calendar.id,
+            "contract_date_start": date(2024, 1, 1),
+            "wage": 50000.0,
+            "struct_id": self.structure.id,
+        })
+        employee.contract_id.write({"l10n_cz_tax_declaration": True})
+        return employee
+
+    def _child_amount(self, month):
+        return self.env["hr.rule.parameter"]._get_parameter_value(
+            "l10n_cz_child_1", date(2026, month, 1))
+
+    def _recon_for(self, employee):
+        recon = self.env["hr.payroll.cz.annual.tax.recon"].create({
+            "employee_id": employee.id,
+            "company_id": self.company.id,
+            "year": 2026,
+        })
+        recon.action_compute()
+        return recon
+
+    def test_child_born_in_september_is_claimed_from_september(self):
+        """The payslips claim the child from the month of birth, and the
+        reconciliation counts those four months, not the whole year."""
+        employee = self._child_employee()
+        self.env["l10n.cz.employee.child"].create({
+            "employee_id": employee.id, "first_name": "Novorozenec",
+            "surname": "Zuctovani", "birthday": date(2026, 9, 15),
+        })
+        slips = {m: self._slip(employee, m) for m in range(1, 13)}
+        lines = {m: {line.code: line.total for line in s.line_ids}
+                 for m, s in slips.items()}
+        self.assertNotIn("CHILDBEN", lines[8])
+        self.assertAlmostEqual(lines[9]["CHILDBEN"], self._child_amount(9), 2)
+        recon = self._recon_for(employee)
+        expected = sum(self._child_amount(m) for m in range(9, 13))
+        self.assertAlmostEqual(recon.l10n_cz_annual_child_benefit, expected, 2)
+        # Paid monthly in full, so the reconciliation owes nothing for it.
+        self.assertAlmostEqual(recon.l10n_cz_bonus_paid, 0.0, 2)
+
+    def test_child_counts_follow_the_contract_of_each_month(self):
+        """Without child records the counts of the contract in force on each
+        month's first day decide: a child added on a contract from July is
+        six months."""
+        employee = self._child_employee()
+        first = employee.contract_id
+        first.write({"date_end": date(2026, 6, 30), "state": "close"})
+        second = self.env["hr.contract"].with_company(self.company).create({
+            "name": "From July", "employee_id": employee.id,
+            "company_id": self.company.id,
+            "resource_calendar_id": self.calendar.id,
+            "date_start": date(2026, 7, 1), "wage": 50000.0,
+            "struct_id": self.structure.id, "state": "open",
+            "l10n_cz_tax_declaration": True, "l10n_cz_children_t1": 1,
+        })
+        self.assertEqual(employee._l10n_cz_contract_at(date(2026, 6, 1)), first)
+        self.assertEqual(employee._l10n_cz_contract_at(date(2026, 7, 1)), second)
+        for m in range(1, 13):
+            slip = self._slip(employee, m, done=False)
+            slip.contract_id = employee._l10n_cz_contract_at(date(2026, m, 1))
+            slip.compute_sheet()
+            slip.write({"state": "done"})
+        recon = self._recon_for(employee)
+        expected = sum(self._child_amount(m) for m in range(7, 13))
+        self.assertAlmostEqual(recon.l10n_cz_annual_child_benefit, expected, 2)

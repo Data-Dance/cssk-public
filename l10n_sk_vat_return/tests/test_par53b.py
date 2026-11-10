@@ -14,6 +14,12 @@ class TestSkPar53b(AccountTestInvoicingCommon):
         cls.company = cls.company_data["company"]
         cls.company.write({"vat": "SK2023456787", "city": "Bratislava",
                            "country_id": cls.env.ref("base.sk").id})
+        cls.company.l10n_cssk_tax_authority_id = cls.env["cssk.tax.authority"].sudo().create({
+            "name": "Daňový úrad Test",
+            "code": "SK-TEST",
+            "country_id": cls.env.ref("base.sk").id,
+            "submission_code": "Daňový úrad Test",
+        })
         cls.version = cls.env.ref("l10n_sk_vat_return.dph_version_2025")
         Tag = cls.env["account.account.tag"]
         cls.tag29 = Tag._get_tax_tags("29", cls.env.ref("base.sk").id)

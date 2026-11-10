@@ -292,6 +292,12 @@ class TestSubmissionLifecycle(AccountTestInvoicingCommon):
         super().setUpClass()
         cls.company = cls.company_data["company"]
         cls.company.vat = "SK2023456787"
+        cls.company.l10n_cssk_tax_authority_id = cls.env["cssk.tax.authority"].sudo().create({
+            "name": "Daňový úrad Test",
+            "code": "SK-TEST",
+            "country_id": cls.env.ref("base.sk").id,
+            "submission_code": "Daňový úrad Test",
+        })
         template = cls.env["ir.ui.view"].create({
             "name": "cssk vat return lifecycle test template",
             "type": "qweb",

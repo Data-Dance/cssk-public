@@ -2,6 +2,27 @@
 Changelog
 =========
 
+[18.0.1.3.0] — 2026-11-10
+-------------------------
+
+Added
+~~~~~
+
+- **Children for the child tax benefit** (``l10n.cz.employee.child``, on the
+  employee): name, date of birth or birth number, ZTP/P, the order of the
+  claim, and an optional *Claimed from* / *Claimed to*. A child counts in the
+  month of birth and in every month of the claim (§ 35c odst. 10 ZDP); a
+  ZTP/P child is doubled at its own order's amount (§ 35c odst. 7). Two
+  children cannot be claimed as the first, or as the second, in the same
+  months. The payslip and the annual tax reconciliation of both engines read
+  the month's children from here; without any record they use the counts on
+  the contract, as before. Ported from 19.0.1.2.0.
+
+18.0 differences: the month helpers sit on ``hr.contract``; the
+reconciliation reads the contract in force on each month's first day
+(``hr.employee._l10n_cz_contract_at``: the latest running or closed contract
+started by then, as 19.0's ``_get_version``).
+
 [18.0.1.2.0] — 2026-11-09
 -------------------------
 

@@ -11,6 +11,26 @@ those releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+[18.0.2.8.0] — 2026-11-10
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Internal credit notes are left out of the statement** (port of
+  19.0.2.10.0). A Slovak accountant confirmed that they do not belong in it:
+  a wrongly booked bill is put right by the supplier's credit note, or by
+  reopening the period, correcting it and filing a supplementary return and
+  statement. A reversal of a received bill or credit note, or of an entry
+  carrying only purchase tax, that has no supplier's number (Odoo's "Modify"
+  or full cancellation, typically) is no longer reported, and neither is the
+  document it cancels when it cancels it in full within the same period. A
+  cash-basis entry's reversal is not affected.
+- A new warning, ``KV_INTERNAL_STORNO``, names an internal credit note dated
+  in another period than the document it cancels, or cancelling it only in
+  part: the statement then disagrees with the VAT return, which still carries
+  its tax.
+
 [18.0.2.7.0] — 2026-11-10
 -------------------------
 

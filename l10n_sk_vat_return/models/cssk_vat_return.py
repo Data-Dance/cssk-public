@@ -24,11 +24,28 @@ Likewise the settlement / amendment line codes (r32 / r33 / r36) come from
 the version's ``own_tax_line_code`` / ``excess_line_code`` /
 ``diff_line_code``.
 """
-from odoo import models
+from odoo import _, models
+from odoo.exceptions import UserError
 
 
 class CSSKVatReturn(models.Model):
     _inherit = "cssk.vat.return"
+
+    def _cssk_preflight_export(self):
+        """The XSD types ``danovyUrad`` as a plain string, so a return with no
+        tax office validates and exports with the element empty."""
+        res = super()._cssk_preflight_export()
+        for rec in self:
+            if rec.country_id.code != "SK":
+                continue
+            if not rec.company_id.l10n_cssk_tax_authority_id.submission_code:
+                raise UserError(_(
+                    "Company '%(company)s' has no tax office with a submission "
+                    "code, but the VAT return must name it (danovyUrad). Set "
+                    "the Tax Authority on the company (Settings → Users & "
+                    "Companies → Companies → %(company)s) and export again.",
+                    company=rec.company_id.display_name))
+        return res
 
     def _kontroly_rules(self):
         rules = super()._kontroly_rules()

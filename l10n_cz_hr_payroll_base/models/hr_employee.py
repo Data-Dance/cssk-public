@@ -67,6 +67,25 @@ class HrEmployee(models.Model):
         related="contract_id.l10n_cz_pensioner_discount",
         readonly=True, groups=CZ_PAYROLL_GROUP)
 
+    l10n_cz_child_ids = fields.One2many(
+        "l10n.cz.employee.child", "employee_id", "Children (tax benefit)",
+        groups=CZ_PAYROLL_GROUP,
+        help="The children the child tax benefit is claimed for, with the "
+             "months of the claim. When any is recorded, the payslip and the "
+             "annual tax reconciliation count these month by month and the "
+             "child counts on the contract are not used.")
+
+    def _l10n_cz_contract_at(self, day):
+        """The contract in force on *day*, as 19.0's ``_get_version``: the
+        latest running or closed contract started by then, else the earliest
+        one, else the current contract. The annual reconciliation reads the
+        child counts of each month's first day from it."""
+        self.ensure_one()
+        contracts = self.sudo().with_context(active_test=False).contract_ids.filtered(
+            lambda c: c.state in ("open", "close")).sorted("date_start")
+        started = contracts.filtered(lambda c: c.date_start <= day)
+        return (started[-1:] or contracts[:1] or self.sudo().contract_id).with_env(self.env)
+
     def _l10n_cz_sick_hours_after_employer_period(
         self, date_from, date_to, calendar, is_sick_type
     ):

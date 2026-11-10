@@ -299,7 +299,7 @@ class TestPvpoj(TransactionCase):
         decl = self.env["l10n.cz.pvpoj"].with_company(self.company).create({
             "company_id": self.company.id, "year": "2026", "month": "4"})
         with self.assertRaisesRegex(UserError, "discontinued"):
-            decl.action_generate()
+            decl.with_context(lang="en_US").action_generate()
 
     def _generate_root(self, year="2025", month="3"):
         import base64
@@ -317,7 +317,7 @@ class TestPvpoj(TransactionCase):
         decl = self.env["l10n.cz.pvpoj"].with_company(self.company).create({
             "company_id": self.company.id, "year": "2025", "month": "3"})
         with self.assertRaisesRegex(UserError, "No payslips found"):
-            decl.action_generate()
+            decl.with_context(lang="en_US").action_generate()
 
     def test_payslip_across_a_month_boundary_is_reported(self):
         """A payslip for 15 February - 14 March belongs to March (its end

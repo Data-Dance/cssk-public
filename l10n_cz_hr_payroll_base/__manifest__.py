@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic — Payroll Base",
-    "version": "18.0.1.2.0",
+    "version": "18.0.1.3.0",
     "category": "Human Resources/Payroll",
     "summary": "Engine-neutral base for the Czech payroll: the Czech employee "
     "data (agreement type, taxpayer declaration, children, insurance flags) "
@@ -20,6 +20,7 @@
         "hr_holidays",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "data/hr_leave_accrual_plan_data.xml",
         "views/res_config_settings_views.xml",
     ],

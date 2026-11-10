@@ -6,14 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l10n_cz_hr_payroll_oca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-07 11:58+0000\n"
+"POT-Creation-Date: 2026-11-08 13:04+0000\n"
 "Last-Translator: Data Dance s.r.o.\n"
 "Language-Team: Czech\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : n != 1 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n>=2 && n<=4) ? 1 : n != 1 && "
+"n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 2 : 3);\n"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value
@@ -36,12 +37,11 @@ msgid ""
 "overpayment is worked out."
 msgstr ""
 "Zálohy sražené předchozími plátci po měsíčních slevách, podle jejich "
-"Potvrzení. Při výpočtu přeplatku se počítají spolu se zálohami tohoto "
-"plátce."
+"Potvrzení. Při výpočtu přeplatku se počítají spolu se zálohami tohoto plátce."
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_agreement_type
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_agreement_type
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_agreement_type
 msgid "Agreement Type"
 msgstr "Typ pracovněprávního vztahu"
 
@@ -99,10 +99,10 @@ msgid ""
 "eligible amount: the spouse's own income must be below 68 000 CZK/year and "
 "(since 2024) the couple must care for a child under 3. §35ba(1)(b)."
 msgstr ""
-"Roční sleva na manžela/manželku (24 840; 49 680 pro manžela/manželku se "
-"ZTP/P). Zadejte nárokovou částku: vlastní příjem manžela/manželky musí být "
-"nižší než 68 000 Kč/rok a (od roku 2024) musí pár pečovat o dítě do 3 let. "
-"§35ba odst. 1 písm. b)."
+"Roční sleva na manžela/manželku (24 840; 49 680 pro manžela/manželku se ZTP/"
+"P). Zadejte nárokovou částku: vlastní příjem manžela/manželky musí být nižší "
+"než 68 000 Kč/rok a (od roku 2024) musí pár pečovat o dítě do 3 let. §35ba "
+"odst. 1 písm. b)."
 
 #. module: l10n_cz_hr_payroll_oca
 #. odoo-python
@@ -121,18 +121,17 @@ msgid "Attachment of Salary"
 msgstr "Srážka ze mzdy (výkon rozhodnutí)"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_avg_hourly_earnings
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_avg_hourly_earnings
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_avg_hourly_earnings
 msgid "Average hourly earnings"
 msgstr "Průměrný hodinový výdělek"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_avg_hourly_earnings
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_avg_hourly_earnings
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_avg_hourly_earnings
 msgid ""
 "Average hourly earnings from the previous quarter, used to compute the "
-"sickness compensation for the first 14 calendar days of temporary "
-"incapacity."
+"sickness compensation for the first 14 calendar days of temporary incapacity."
 msgstr ""
 "Průměrný hodinový výdělek z předchozího čtvrtletí, používaný pro výpočet "
 "náhrady mzdy při nemoci za prvních 14 kalendářních dnů dočasné pracovní "
@@ -187,27 +186,32 @@ msgstr "Daňové zvýhodnění na děti (§35c)"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_contract_view_form_l10n_cz
-#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_employee_view_form_l10n_cz_payroll
 msgid "Children"
 msgstr "Děti"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_children_t1
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t1
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_t1
 msgid "Children (1st tier)"
 msgstr "Děti (1. dítě)"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_children_t2
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t2
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_t2
 msgid "Children (2nd tier)"
 msgstr "Děti (2. dítě)"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_children_t3
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t3
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_t3
 msgid "Children (3rd+ tier)"
 msgstr "Děti (3. a další dítě)"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_child_ids
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_employee_view_form_l10n_cz_payroll
+msgid "Children (tax benefit)"
+msgstr "Děti (daňové zvýhodnění)"
 
 #. module: l10n_cz_hr_payroll_oca
 #. odoo-python
@@ -273,6 +277,7 @@ msgstr ""
 "pojištěním limitováno 48 000 Kč/rok (§15 odst. 5)."
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_leave_type__country_id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_structure__country_id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter__country_id
 msgid "Country"
@@ -281,13 +286,20 @@ msgstr "Země"
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_structure__country_id
 msgid ""
-"Country this salary structure belongs to. Leave empty for a structure shared"
-" by companies of any country. The payroll configuration is filtered so a "
+"Country this salary structure belongs to. Leave empty for a structure shared "
+"by companies of any country. The payroll configuration is filtered so a "
 "company only sees the salary structures of its own country."
 msgstr ""
 "Země, do které tato mzdová struktura patří. Nechte prázdné pro strukturu "
 "sdílenou společnostmi z libovolné země. Konfigurace mezd je filtrována tak, "
 "aby společnost viděla jen mzdové struktury své země."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_leave_type__country_id
+msgid ""
+"Country this time-off type belongs to. The time-off configuration is "
+"filtered so a company only sees the leave types of its own country."
+msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__create_uid
@@ -307,11 +319,6 @@ msgstr "Vytvořeno dne"
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__currency_id
 msgid "Currency"
 msgstr "Měna"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_employee_view_form_l10n_cz_payroll
-msgid "Czech Payroll"
-msgstr "Česká mzdová agenda"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_leave_type__l10n_cz_payroll_code
@@ -512,8 +519,7 @@ msgstr "Česká republika: Limit základu slevy na pojistném (x prům. mzda)"
 #: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_social_disc_hourly_pct
 msgid "Czech Republic: Social discount max base per hour (% of avg wage)"
 msgstr ""
-"Česká republika: Sleva na pojistném - max. základ na hodinu (% průměrné "
-"mzdy)"
+"Česká republika: Sleva na pojistném - max. základ na hodinu (% průměrné mzdy)"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_social_disc_hours_month_max
@@ -556,6 +562,11 @@ msgid "Czech Republic: Taxpayer credit / year"
 msgstr "Česká republika: Sleva na poplatníka / rok"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_social_pensioner_rate
+msgid "Czech Republic: Working pensioner discount %"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_credit_ztpp
 msgid "Czech Republic: ZTP/P holder credit / month"
 msgstr "Česká republika: Sleva na držitele ZTP/P / měsíc"
@@ -564,6 +575,11 @@ msgstr "Česká republika: Sleva na držitele ZTP/P / měsíc"
 #: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_credit_ztpp_year
 msgid "Czech Republic: ZTP/P holder credit / year"
 msgstr "Česká republika: Sleva na držitele ZTP/P / rok"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_wh_tax_dependent
+msgid "Czech Republic: withholding tax on low employment income"
+msgstr "Česká republika: Srážková daň z nízkých příjmů ze závislé činnosti"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_prekazka_povetrnost_pct
@@ -605,20 +621,15 @@ msgid "Description"
 msgstr "Popis"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_disability
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_disability
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_disability
 msgid "Determines the disability tax credit (basic / extended)."
 msgstr "Určuje slevu na invaliditu (základní / rozšířenou)."
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__display_name
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_leave_type__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__display_name
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_structure__display_name
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payslip__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter__display_name
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter_value__display_name
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný název"
 
@@ -637,8 +648,8 @@ msgstr ""
 "za březen po skončení zdaňovacího období (§ 35d odst. 8 ZDP)."
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_agreement_type
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_agreement_type
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_agreement_type
 msgid ""
 "Drives the insurance-liability threshold and the tax treatment. Below the "
 "threshold such an agreement pays no social/health insurance and, without a "
@@ -649,19 +660,19 @@ msgstr ""
 "podepsaného prohlášení se uplatní 15% srážková daň."
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_social_discount_category
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_social_discount_category
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_social_discount_category
 msgid ""
 "Eligibility category for the 5 % employer social-insurance discount (§7a of "
 "Act 589/1992). The discount applies only for a shorter working time of 8-30 "
-"h/week (except employees under 21) with a monthly assessment base up to 1.5x"
-" the average wage. Only one employer may claim it per employee; the intent "
+"h/week (except employees under 21) with a monthly assessment base up to 1.5x "
+"the average wage. Only one employer may claim it per employee; the intent "
 "must be notified to ČSSZ."
 msgstr ""
 "Kategorie nároku na 5% slevu zaměstnavatele na pojistném (§7a zák. "
 "589/1992). Sleva náleží pouze při kratší pracovní době 8-30 h/týden (kromě "
-"zaměstnanců do 21 let) a měsíčním vyměřovacím základu do 1,5násobku průměrné"
-" mzdy. Nárok může uplatnit jen jeden zaměstnavatel; úmysl je nutné oznámit "
+"zaměstnanců do 21 let) a měsíčním vyměřovacím základu do 1,5násobku průměrné "
+"mzdy. Nárok může uplatnit jen jeden zaměstnavatel; úmysl je nutné oznámit "
 "ČSSZ."
 
 #. module: l10n_cz_hr_payroll_oca
@@ -671,19 +682,19 @@ msgid "Employee"
 msgstr "Zaměstnanec"
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_version
+#: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_contract
 msgid "Employee Contract"
 msgstr "Smlouva zaměstnance"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_claim_ztpp
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_claim_ztpp
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_claim_ztpp
 msgid "Employee Holds ZTP/P"
 msgstr "Zaměstnanec je držitelem ZTP/P"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_claim_ztpp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_claim_ztpp
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_claim_ztpp
 msgid "Employee is a ZTP/P card holder, entitled to the ZTP/P tax credit."
 msgstr ""
 "Zaměstnanec je držitelem průkazu ZTP/P a má nárok na slevu na dani pro "
@@ -733,8 +744,8 @@ msgstr "Překážka na straně zaměstnavatele — částečná nezaměstnanost 
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czpovetrnost
 msgid "Employer obstacle — weather (§ 207 b)"
 msgstr ""
-"Překážka na straně zaměstnavatele — přerušení práce způsobené počasím (§ 207"
-" b)"
+"Překážka na straně zaměstnavatele — přerušení práce způsobené počasím (§ 207 "
+"b)"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_obstacle_doprovod
@@ -768,8 +779,8 @@ msgid "Garnishment / Sickness"
 msgstr "Exekuce / nemoc"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_garnishment_dependents
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_garnishment_dependents
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_garnishment_dependents
 msgid "Garnishment dependents"
 msgstr "Vyživované osoby pro exekuci"
 
@@ -839,20 +850,15 @@ msgid "Holiday Pay"
 msgstr "Náhrada mzdy za dovolenou"
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__id
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_leave_type__id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__id
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_structure__id
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payslip__id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter__id
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter_value__id
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__id
 msgid "ID"
 msgstr "ID"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_tax_declaration
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_tax_declaration
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_tax_declaration
 msgid ""
 "If signed with this employer, monthly tax credits and the child tax benefit "
 "are applied on the payslip."
@@ -876,11 +882,11 @@ msgstr "Daň z příjmů celkem"
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_prev_income
 msgid ""
 "Income from dependent activity paid by previous employers in the year, from "
-"their Potvrzení o zdanitelných příjmech (§ 38j odst. 3). Added to the annual"
-" tax base (§ 38ch odst. 4)."
+"their Potvrzení o zdanitelných příjmech (§ 38j odst. 3). Added to the annual "
+"tax base (§ 38ch odst. 4)."
 msgstr ""
-"Příjmy ze závislé činnosti vyplacené v roce předchozími plátci, podle jejich"
-" Potvrzení o zdanitelných příjmech (§ 38j odst. 3). Přičítají se k ročnímu "
+"Příjmy ze závislé činnosti vyplacené v roce předchozími plátci, podle jejich "
+"Potvrzení o zdanitelných příjmech (§ 38j odst. 3). Přičítají se k ročnímu "
 "základu daně (§ 38ch odst. 4)."
 
 #. module: l10n_cz_hr_payroll_oca
@@ -893,8 +899,8 @@ msgstr ""
 "sjednané před rokem 2021 - zjednodušeno: 150 000). §15 odst. 3-4."
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_disability
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_disability
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_disability
 msgid "Invalidity Degree"
 msgstr "Stupeň invalidity"
 
@@ -913,6 +919,15 @@ msgid "Last Updated on"
 msgstr "Naposledy upraveno dne"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_birth_number
+msgid ""
+"Leave empty for a spouse with no Czech birth number; the date of birth then "
+"identifies them."
+msgstr ""
+"Nechte prázdné u manžela bez českého rodného čísla; identifikuje ho pak "
+"datum narození."
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_life_insurance
 msgid "Life insurance"
 msgstr "Životní pojištění"
@@ -923,17 +938,33 @@ msgid "Long-term family care — limit 90 days"
 msgstr "Dlouhodobé ošetřovné — limit 90 dní"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_pensioner_discount
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_pensioner_discount
+msgid ""
+"Lowers the employee's social insurance by 6.5 % of the assessment base. For "
+"an old-age pensioner at pension age, drawing the pension in full, for the "
+"whole calendar month. The employee applies to the employer with the proof; "
+"it cannot be applied retroactively and is claimed once across all jobs with "
+"one employer."
+msgstr ""
+"Snižuje pojistné zaměstnance na sociální pojištění o 6,5 % vyměřovacího "
+"základu. Pro starobního důchodce v důchodovém věku, který pobírá důchod v "
+"plné výši, po celý kalendářní měsíc. Zaměstnanec o slevu žádá u "
+"zaměstnavatele a doloží nárok; nelze ji uplatnit zpětně a uplatňuje se "
+"jednou pro všechna zaměstnání u jednoho zaměstnavatele."
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_leave_type__l10n_cz_payroll_code
 msgid ""
-"Maps this leave type to a stable Czech payroll worked-day code so the salary"
-" rules can read absence hours per code and decide paid/unpaid and the "
+"Maps this leave type to a stable Czech payroll worked-day code so the salary "
+"rules can read absence hours per code and decide paid/unpaid and the "
 "compensation rate. Holiday and paid-obstacle time is compensated at the "
 "average hourly earnings; sickness drives the sickness compensation; OČR and "
 "unpaid leave get no employer pay (and unpaid leave prorates BASIC down)."
 msgstr ""
 "Přiřazuje tomuto typu nepřítomnosti stabilní český mzdový kód, aby mzdová "
-"pravidla mohla číst hodiny nepřítomnosti podle kódu a rozhodnout o placení a"
-" sazbě náhrady. Dovolená a placené překážky se hradí průměrným hodinovým "
+"pravidla mohla číst hodiny nepřítomnosti podle kódu a rozhodnout o placení a "
+"sazbě náhrady. Dovolená a placené překážky se hradí průměrným hodinovým "
 "výdělkem; nemoc řídí náhradu mzdy; OČR a neplacené volno se ze strany "
 "zaměstnavatele nehradí (a neplacené volno poměrně snižuje základní mzdu)."
 
@@ -963,8 +994,8 @@ msgid "Meal Allowance / Agreement"
 msgstr "Stravné / dohoda"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_meal_allowance
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_meal_allowance
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_meal_allowance
 msgid "Meal allowance / shift"
 msgstr "Stravenkový paušál / směna"
 
@@ -979,6 +1010,16 @@ msgid ""
 "Monthly child tax bonuses paid by previous employers, from their Potvrzení."
 msgstr ""
 "Měsíční daňové bonusy vyplacené předchozími plátci, podle jejich Potvrzení."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_months
+msgid ""
+"Months at whose start the employee lived in one household with the spouse "
+"and a maintained child under 3 (§ 35ba odst. 1 písm. b) ZDP)."
+msgstr ""
+"Měsíce, na jejichž počátku zaměstnanec žil ve společně hospodařící "
+"domácnosti s manželem a vyživovaným dítětem do 3 let (§ 35ba odst. 1 písm. "
+"b) ZDP)."
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_mortgage_interest
@@ -1026,18 +1067,23 @@ msgid "Non-taxable Parts (§15)"
 msgstr "Nezdanitelné části základu daně (§15)"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_children_ztpp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_ztpp
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_ztpp
-msgid "Number of children holding a ZTP/P card (benefit doubled)."
+msgid ""
+"Number of children holding a ZTP/P card (benefit doubled). Used only while "
+"no child is recorded under Children (tax benefit); with records the payslip "
+"counts those, month by month."
 msgstr ""
-"Počet dětí, které jsou držiteli průkazu ZTP/P (zvýhodnění se zdvojnásobuje)."
+"Počet dětí s průkazem ZTP/P (zvýhodnění se zdvojnásobuje). Použije se jen "
+"tehdy, když v části Děti (daňové zvýhodnění) není zapsané žádné dítě; se "
+"záznamy výplatní páska počítá je, měsíc po měsíci."
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_garnishment_dependents
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_garnishment_dependents
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_garnishment_dependents
 msgid ""
-"Number of dependents (spouse/children) counted for the non-attachable amount"
-" when computing a wage garnishment. Each adds 1/4 of the base protected "
+"Number of dependents (spouse/children) counted for the non-attachable amount "
+"when computing a wage garnishment. Each adds 1/4 of the base protected "
 "amount."
 msgstr ""
 "Počet vyživovaných osob (manžel/ka, děti) započtených do nezabavitelné "
@@ -1064,8 +1110,8 @@ msgid ""
 msgstr ""
 "Skutečně vyplácený přeplatek a doplatek na daňovém bonusu; zaúčtuje se na "
 "výplatní pásku pravidlem ANNUAL_TAX_SETTLEMENT (zvyšuje čistou mzdu). Nula, "
-"pokud obě částky dohromady nepřesahují 50 Kč: § 35d odst. 8 / § 38ch odst. 5"
-" ZDP je vyplácí jen nad 50 Kč."
+"pokud obě částky dohromady nepřesahují 50 Kč: § 35d odst. 8 / § 38ch odst. 5 "
+"ZDP je vyplácí jen nad 50 Kč."
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_obstacle_nahrada_rule
@@ -1110,25 +1156,30 @@ msgid "Pension / DPS / DIP Contributions"
 msgstr "Příspěvky na penzijní připojištění / DPS / DIP"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_is_state_insured
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_is_state_insured
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_is_state_insured
 msgid ""
 "Pensioner / student / parental leave / jobseeker / disabled: the health-"
 "insurance minimum-base top-up does not apply."
 msgstr ""
-"Důchodce / student / rodičovská dovolená / uchazeč o zaměstnání / invalidní:"
-" doplatek do minimálního vyměřovacího základu zdravotního pojištění se "
+"Důchodce / student / rodičovská dovolená / uchazeč o zaměstnání / invalidní: "
+"doplatek do minimálního vyměřovacího základu zdravotního pojištění se "
 "neuplatní."
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_meal_allowance
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_meal_allowance
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_meal_allowance
 msgid ""
 "Per-shift meal allowance. Tax-exempt up to the statutory limit; the excess "
 "(taxable) is P2."
 msgstr ""
 "Stravenkový paušál na směnu. Do zákonného limitu osvobozen od daně; "
 "zdanitelný přebytek je součástí fáze P2."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_performed_date
+msgid "Performed on"
+msgstr "Provedeno dne"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
@@ -1225,6 +1276,12 @@ msgid "Salary Structure"
 msgstr "Mzdová struktura"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_tax_base_par6_rule
+#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_tax_base_par6
+msgid "Separate Tax Base (§ 6 odst. 4)"
+msgstr "Samostatný základ pro výpočet zálohy (§ 6 odst. 4)"
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_payroll_cz_annual_tax_recon__state__done
 msgid "Settled"
 msgstr "Vyrovnáno"
@@ -1299,192 +1356,20 @@ msgid "Social Total (Employer)"
 msgstr "Sociální pojištění celkem (zaměstnavatel)"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_social_discount_category
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_social_discount_category
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_social_discount_category
 msgid "Social insurance discount category"
 msgstr "Kategorie slevy na pojistném"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_credit
-msgid "Spouse credit"
-msgstr "Sleva na manžela/manželku"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__state
-msgid "State"
-msgstr "Stav"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_is_state_insured
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_is_state_insured
-msgid "State-insured person"
-msgstr "Osoba, za kterou platí pojistné stát"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_vzdelavani
-msgid "Study Leave, paid (zvyšování kvalifikace, § 232)"
-msgstr "Studijní volno, placené (zvyšování kvalifikace, § 232)"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_vzdelavani_unpaid
-msgid "Study Leave, unpaid (zvyšování kvalifikace, § 232)"
-msgstr "Studijní volno, neplacené (zvyšování kvalifikace, § 232)"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_tax_base_rule
-#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_tax_base
-msgid "Tax Base"
-msgstr "Základ daně"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_tax_credit_rule
-#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_tax_credit
-msgid "Tax Credits"
-msgstr "Slevy na dani"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_annual_tax_after_slevy
-msgid "Tax after Credits"
-msgstr "Daň po slevách"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__year
-msgid "Tax year that is being reconciled."
-msgstr "Zdaňovací období, které se zúčtovává."
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_tax_declaration
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_tax_declaration
-msgid "Taxpayer declaration signed"
-msgstr "Podepsané prohlášení poplatníka"
-
-#. module: l10n_cz_hr_payroll_oca
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
-msgid ""
-"There is nothing to pay: the overpayment and the bonus top-up together are "
-"50 Kč or less, which the Income Tax Act does not pay out (§ 35d odst. 8, § "
-"38ch odst. 5)."
-msgstr ""
-"Není co vyplatit: přeplatek a doplatek na daňovém bonusu dohromady "
-"nepřesahují 50 Kč, a takovou částku zákon o daních z příjmů nevyplácí (§ 35d"
-" odst. 8, § 38ch odst. 5)."
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_leave_type
-msgid "Time Off Type"
-msgstr "Typ nepřítomnosti"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_employer_cost_rule
-msgid "Total Employer Cost"
-msgstr "Celkové náklady zaměstnavatele"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_obstacle_transport_disabled
-msgid "Transport of a Disabled Child to a Facility — 6 days/year (paid)"
-msgstr ""
-"Doprovod zdravotně postiženého dítěte do zařízení — 6 dní ročně (placené)"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.constraint,message:l10n_cz_hr_payroll_oca.constraint_hr_rule_parameter_code_uniq
-msgid "Two rule parameters cannot share the same code."
-msgstr "Dva parametry pravidel nemohou mít stejný kód."
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_union_dues
-msgid "Union dues"
-msgstr "Odborové příspěvky"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_unpaid
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czunpaid
-msgid "Unpaid Leave"
-msgstr "Neplacené volno"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value
-msgid "Value"
-msgstr "Hodnota"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_gifts
-msgid ""
-"Value of donations; deductible from 1 000 CZK / 2 % of the base up to 30 % "
-"of the base."
-msgstr ""
-"Hodnota darů; odečitatelné od 1 000 Kč / 2 % základu až do 30 % základu."
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter__parameter_value_ids
-msgid "Values"
-msgstr "Hodnoty"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_garnishment_rule
-msgid "Wage Garnishment"
-msgstr "Exekuční srážky ze mzdy"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_wh_tax_rule
-#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_wh_tax
-msgid "Withholding Tax"
-msgstr "Srážková daň"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.leave.accrual.plan,name:l10n_cz_hr_payroll_oca.accrual_plan_cz_obstacle_transport_disabled_6d
-msgid "Work obstacle — transport of a disabled child, 6 days/year"
-msgstr "Překážka v práci — doprovod zdravotně postiženého dítěte, 6 dní ročně"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__year
-msgid "Year"
-msgstr "Rok"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_ztpp
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_ztpp
-msgid "of which ZTP/P Children"
-msgstr "z toho dětí se ZTP/P"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_wh_tax_dependent
-msgid "Czech Republic: withholding tax on low employment income"
-msgstr "Česká republika: Srážková daň z nízkých příjmů ze závislé činnosti"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_version
-msgid "Employee Contract / Version"
-msgstr "Pracovní smlouva / verze"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_birth_number
-msgid ""
-"Leave empty for a spouse with no Czech birth number; the date of birth then "
-"identifies them."
-msgstr ""
-"Nechte prázdné u manžela bez českého rodného čísla; identifikuje ho pak "
-"datum narození."
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_months
-msgid ""
-"Months at whose start the employee lived in one household with the spouse "
-"and a maintained child under 3 (§ 35ba odst. 1 písm. b) ZDP)."
-msgstr ""
-"Měsíce, na jejichž počátku zaměstnanec žil ve společně hospodařící "
-"domácnosti s manželem a vyživovaným dítětem do 3 let (§ 35ba odst. 1 písm. "
-"b) ZDP)."
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_performed_date
-msgid "Performed on"
-msgstr "Provedeno dne"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.view_hr_payroll_cz_annual_tax_recon_form
 msgid "Spouse (§ 35ba odst. 1 písm. b))"
 msgstr "Manžel (§ 35ba odst. 1 písm. b))"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_credit
+msgid "Spouse credit"
+msgstr "Sleva na manžela/manželku"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_months
@@ -1522,29 +1407,210 @@ msgid "Spouse: surname"
 msgstr "Manžel: příjmení"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_is_state_insured
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_is_state_insured
+msgid "State-insured person"
+msgstr "Osoba, za kterou platí pojistné stát"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_vzdelavani
+msgid "Study Leave, paid (zvyšování kvalifikace, § 232)"
+msgstr "Studijní volno, placené (zvyšování kvalifikace, § 232)"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_vzdelavani_unpaid
+msgid "Study Leave, unpaid (zvyšování kvalifikace, § 232)"
+msgstr "Studijní volno, neplacené (zvyšování kvalifikace, § 232)"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_tax_base_rule
+#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_tax_base
+msgid "Tax Base"
+msgstr "Základ daně"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_tax_credit_rule
+#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_tax_credit
+msgid "Tax Credits"
+msgstr "Slevy na dani"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_annual_tax_after_slevy
+msgid "Tax after Credits"
+msgstr "Daň po slevách"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__year
+msgid "Tax year that is being reconciled."
+msgstr "Zdaňovací období, které se zúčtovává."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_tax_declaration
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_tax_declaration
+msgid "Taxpayer declaration signed"
+msgstr "Podepsané prohlášení poplatníka"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_child_ids
+msgid ""
+"The children the child tax benefit is claimed for, with the months of the "
+"claim. When any is recorded, the payslip and the annual tax reconciliation "
+"count these month by month and the child counts on the contract are not used."
+msgstr ""
+"Děti, na které se uplatňuje daňové zvýhodnění, s měsíci uplatňování. Je-li "
+"zapsané alespoň jedno, výplatní páska i roční zúčtování daně je počítají "
+"měsíc po měsíci a počty dětí na smlouvě nepoužijí."
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_ztpp
 msgid ""
-"The spouse was granted a ZTP/P card; the credit is doubled for the months at"
-" whose start this was so."
+"The spouse was granted a ZTP/P card; the credit is doubled for the months at "
+"whose start this was so."
 msgstr ""
 "Manželovi byl přiznán průkaz ZTP/P; sleva se zdvojnásobuje za měsíce, na "
 "jejichž počátku tomu tak bylo."
+
+#. module: l10n_cz_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_oca/models/hr_payroll_cz_annual_tax_recon.py:0
+msgid ""
+"There is nothing to pay: the overpayment and the bonus top-up together are "
+"50 Kč or less, which the Income Tax Act does not pay out (§ 35d odst. 8, § "
+"38ch odst. 5)."
+msgstr ""
+"Není co vyplatit: přeplatek a doplatek na daňovém bonusu dohromady "
+"nepřesahují 50 Kč, a takovou částku zákon o daních z příjmů nevyplácí (§ 35d "
+"odst. 8, § 38ch odst. 5)."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model,name:l10n_cz_hr_payroll_oca.model_hr_leave_type
+msgid "Time Off Type"
+msgstr "Typ nepřítomnosti"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_employer_cost_rule
+msgid "Total Employer Cost"
+msgstr "Celkové náklady zaměstnavatele"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_obstacle_transport_disabled
+msgid "Transport of a Disabled Child to a Facility — 6 days/year (paid)"
+msgstr ""
+"Doprovod zdravotně postiženého dítěte do zařízení — 6 dní ročně (placené)"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.constraint,message:l10n_cz_hr_payroll_oca.constraint_hr_rule_parameter_code_uniq
+msgid "Two rule parameters cannot share the same code."
+msgstr "Dva parametry pravidel nemohou mít stejný kód."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_union_dues
+msgid "Union dues"
+msgstr "Odborové příspěvky"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_unpaid
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_oca.selection__hr_leave_type__l10n_cz_payroll_code__czunpaid
+msgid "Unpaid Leave"
+msgstr "Neplacené volno"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_children_t1
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_children_t2
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_children_t3
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t1
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t2
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_t3
+msgid ""
+"Used only while no child is recorded under Children (tax benefit); with "
+"records the payslip counts those, month by month."
+msgstr ""
+"Použije se jen tehdy, když v části Děti (daňové zvýhodnění) není zapsané "
+"žádné dítě; se záznamy výplatní páska počítá je, měsíc po měsíci."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value
+msgid "Value"
+msgstr "Hodnota"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_gifts
+msgid ""
+"Value of donations; deductible from 1 000 CZK / 2 % of the base up to 30 % "
+"of the base."
+msgstr ""
+"Hodnota darů; odečitatelné od 1 000 Kč / 2 % základu až do 30 % základu."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_rule_parameter__parameter_value_ids
+msgid "Values"
+msgstr "Hodnoty"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_garnishment_rule
+msgid "Wage Garnishment"
+msgstr "Exekuční srážky ze mzdy"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_performed_date
 msgid ""
 "When the reconciliation was done. Set when it is first computed. A "
 "reconciliation paid out on a payslip is reported in the monthly employer "
-"report of that payslip's month; one with nothing to pay out, in the month of"
-" this date."
+"report of that payslip's month; one with nothing to pay out, in the month of "
+"this date."
 msgstr ""
-"Kdy bylo roční zúčtování provedeno. Nastaví se při prvním výpočtu. Zúčtování"
-" vyplacené na výplatní pásce se vykáže v měsíčním hlášení zaměstnavatele za "
+"Kdy bylo roční zúčtování provedeno. Nastaví se při prvním výpočtu. Zúčtování "
+"vyplacené na výplatní pásce se vykáže v měsíčním hlášení zaměstnavatele za "
 "měsíc této pásky; zúčtování, ze kterého není co vyplatit, v měsíci tohoto "
 "data."
 
 #. module: l10n_cz_hr_payroll_oca
-#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_tax_base_par6_rule
-#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_tax_base_par6
-msgid "Separate Tax Base (§ 6 odst. 4)"
-msgstr "Samostatný základ pro výpočet zálohy (§ 6 odst. 4)"
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_wh_tax_rule
+#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_wh_tax
+msgid "Withholding Tax"
+msgstr "Srážková daň"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.leave.accrual.plan,name:l10n_cz_hr_payroll_oca.accrual_plan_cz_obstacle_transport_disabled_6d
+msgid "Work obstacle — transport of a disabled child, 6 days/year"
+msgstr "Překážka v práci — doprovod zdravotně postiženého dítěte, 6 dní ročně"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_social_pensioner_rule
+msgid "Working Pensioner Discount (Employee)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_pensioner_discount
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_pensioner_discount
+msgid "Working pensioner discount"
+msgstr "Sleva pro pracujícího důchodce"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__year
+msgid "Year"
+msgstr "Rok"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_contract__l10n_cz_children_ztpp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_ztpp
+msgid "of which ZTP/P Children"
+msgstr "z toho dětí se ZTP/P"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_oca.hr_employee_view_form_l10n_cz_payroll
+msgid "Czech Payroll"
+msgstr "Česká mzdová agenda"
+
+#~ msgid "Number of children holding a ZTP/P card (benefit doubled)."
+#~ msgstr ""
+#~ "Počet dětí, které jsou držiteli průkazu ZTP/P (zvýhodnění se "
+#~ "zdvojnásobuje)."
+
+#~ msgid "Employee Contract / Version"
+#~ msgstr "Pracovní smlouva / verze"

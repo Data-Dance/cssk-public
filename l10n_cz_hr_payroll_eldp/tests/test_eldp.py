@@ -191,7 +191,7 @@ class TestEldp(TransactionCase):
         decl = self.env["l10n.cz.eldp"].with_company(self.company).create({
             "company_id": self.company.id, "year": "2027"})
         with self.assertRaisesRegex(UserError, "discontinued"):
-            decl.action_generate()
+            decl.with_context(lang="en_US").action_generate()
 
     def _t1_rows(self):
         decl = self.env["l10n.cz.eldp"].with_company(self.company).create({

@@ -16,13 +16,41 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_cz_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/hr_employee_child.py:0
+msgid ""
+"%(one)s and %(two)s are both claimed as child %(order)s for the same months."
+" Give one of them the next order, or end one claim before the other starts."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__l10n_cz_employee_child__order__1
+msgid "1 – first child"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__l10n_cz_employee_child__order__2
+msgid "2 – second child"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__l10n_cz_employee_child__order__3
+msgid "3 – third and further child"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_base.res_config_settings_view_form_l10n_cz_payroll
+msgid "<span>%</span>"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
 #: model:ir.model,name:l10n_cz_hr_payroll_base.model_hr_leave_accrual_plan
 msgid "Accrual Plan"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_agreement_type
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_agreement_type
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_agreement_type
 msgid "Agreement Type"
 msgstr ""
 
@@ -42,14 +70,14 @@ msgid "Annual leave — 5 weeks, full entitlement on 1 Jan (200 h)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_avg_hourly_earnings
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_avg_hourly_earnings
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_avg_hourly_earnings
 msgid "Average hourly earnings"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_avg_hourly_earnings
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_avg_hourly_earnings
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_avg_hourly_earnings
 msgid ""
 "Average hourly earnings from the previous quarter, used to compute the "
 "sickness compensation for the first 14 calendar days of temporary "
@@ -57,54 +85,107 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__carer
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__birth_number
+msgid "Birth number"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_social_discount_category__carer
 msgid "Carer of a dependent person (§7a/1/c)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model,name:l10n_cz_hr_payroll_base.model_l10n_cz_employee_child
+msgid "Child maintained by a Czech employee (tax benefit)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_children_t1
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t1
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_t1
 msgid "Children (1st tier)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_children_t2
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t2
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_t2
 msgid "Children (2nd tier)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_children_t3
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t3
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_t3
 msgid "Children (3rd+ tier)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_agreement_type__dpp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_child_ids
+msgid "Children (tax benefit)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__date_from
+msgid "Claimed from"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__date_to
+msgid "Claimed to"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model,name:l10n_cz_hr_payroll_base.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_company_country_code
+msgid "Company Country (Czech payroll)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model,name:l10n_cz_hr_payroll_base.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_agreement_type__dpp
 msgid "DPP (agreement to perform work)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_agreement_type__dpc
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_agreement_type__dpc
 msgid "DPČ (agreement to perform working activity)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__birthday
+msgid "Date of birth"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_disability
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_disability
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_disability
 msgid "Determines the disability tax credit (basic / extended)."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__display_name
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_leave_accrual_plan__display_name
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_agreement_type
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_agreement_type
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_agreement_type
 msgid ""
 "Drives the insurance-liability threshold and the tax treatment. Below the "
 "threshold such an agreement pays no social/health insurance and, without a "
@@ -112,8 +193,8 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_social_discount_category
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_social_discount_category
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_social_discount_category
 msgid ""
 "Eligibility category for the 5 % employer social-insurance discount (§7a of "
 "Act 589/1992). The discount applies only for a shorter working time of 8-30 "
@@ -124,67 +205,116 @@ msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
 #: model:ir.model,name:l10n_cz_hr_payroll_base.model_hr_employee
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__employee_id
 msgid "Employee"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model,name:l10n_cz_hr_payroll_base.model_hr_version
-msgid "Employee Contract / Version"
+#: model:ir.model,name:l10n_cz_hr_payroll_base.model_hr_contract
+msgid "Employee Contract"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_claim_ztpp
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_claim_ztpp
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_claim_ztpp
 msgid "Employee Holds ZTP/P"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_claim_ztpp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_claim_ztpp
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_claim_ztpp
 msgid "Employee is a ZTP/P card holder, entitled to the ZTP/P tax credit."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__first_name
+msgid "First name"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_garnishment_dependents
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_garnishment_dependents
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_garnishment_dependents
 msgid "Garnishment dependents"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__id
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_leave_accrual_plan__id
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_tax_declaration
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_tax_declaration
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_tax_declaration
 msgid ""
 "If signed with this employer, monthly tax credits and the child tax benefit "
 "are applied on the payslip."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_disability
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_disability
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_disability
 msgid "Invalidity Degree"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_disability__1_2
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_disability__1_2
 msgid "Invalidity I / II degree"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_disability__3
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_disability__3
 msgid "Invalidity III degree"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__date_to
+msgid ""
+"Last day the conditions are met: the child left the household, ended their "
+"studies, or the other parent claims from the next month. The month of that "
+"day is still claimed."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__date_from
+msgid ""
+"Leave empty to claim from the month of birth. Otherwise a day of the first "
+"month the benefit is due (§ 35c odst. 10 ZDP): the month of adoption, of "
+"placement into care replacing the parents' or of the start of studies counts"
+" itself; any other start (the child came to the household, the other parent "
+"stopped claiming) counts from the next month, so enter the first day of that"
+" month."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_pensioner_discount
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_pensioner_discount
+msgid ""
+"Lowers the employee's social insurance by 6.5 % of the assessment base. For "
+"an old-age pensioner at pension age, drawing the pension in full, for the "
+"whole calendar month. The employee applies to the employer with the proof; "
+"it cannot be applied retroactively and is claimed once across all jobs with "
+"one employer."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_meal_allowance
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_meal_allowance
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_meal_allowance
 msgid "Meal allowance / shift"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__l10n_cz_employee_child__order__n
+msgid "N – not claimed"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
@@ -193,20 +323,23 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_disability__none
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__none
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_disability__none
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_social_discount_category__none
 msgid "None"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_children_ztpp
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_ztpp
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_ztpp
-msgid "Number of children holding a ZTP/P card (benefit doubled)."
+msgid ""
+"Number of children holding a ZTP/P card (benefit doubled). Used only while "
+"no child is recorded under Children (tax benefit); with records the payslip "
+"counts those, month by month."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_garnishment_dependents
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_garnishment_dependents
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_garnishment_dependents
 msgid ""
 "Number of dependents (spouse/children) counted for the non-attachable amount"
 " when computing a wage garnishment. Each adds 1/4 of the base protected "
@@ -214,83 +347,57 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__over55
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__order
+msgid "Order (tax benefit)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_social_discount_category__over55
 msgid "Over 55 (§7a/1/a)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__parent_under10
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_social_discount_category__parent_under10
 msgid "Parent of a child under 10 (§7a/1/b)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_is_state_insured
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_is_state_insured
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_is_state_insured
 msgid ""
 "Pensioner / student / parental leave / jobseeker / disabled: the health-"
 "insurance minimum-base top-up does not apply."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_meal_allowance
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_meal_allowance
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_meal_allowance
 msgid ""
 "Per-shift meal allowance. Tax-exempt up to the statutory limit; the excess "
 "(taxable) is P2."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__disabled
+#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_base.res_config_settings_view_form_l10n_cz_payroll
+msgid ""
+"Percentage of average earnings paid for částečná nezaměstnanost. 100 % "
+"unless an agreement with the trade union or an internal regulation sets less"
+" (not below 60 %)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_social_discount_category__disabled
 msgid "Person with a disability (§7a/1/f)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__retraining
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_social_discount_category__retraining
 msgid "Retraining participant (§7a/1/e)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_social_discount_category
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_social_discount_category
-msgid "Social insurance discount category"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_agreement_type__standard
-msgid "Standard employment"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_is_state_insured
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_is_state_insured
-msgid "State-insured person"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_base
-#: model:hr.leave.accrual.plan,name:l10n_cz_hr_payroll_base.accrual_plan_cz_holiday_4w
-msgid "Statutory annual leave — 4 weeks (160 h/year)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__student
-msgid "Student preparing for a profession (§7a/1/d)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_tax_declaration
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_tax_declaration
-msgid "Taxpayer declaration signed"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_version__l10n_cz_social_discount_category__under21
-msgid "Younger than 21 (§7a/1/g)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_ztpp
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_children_ztpp
-msgid "of which ZTP/P Children"
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__sequence
+msgid "Sequence"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
@@ -305,17 +412,119 @@ msgid "Short-time work compensation (§ 209)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_social_discount_category
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_social_discount_category
+msgid "Social insurance discount category"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_agreement_type__standard
+msgid "Standard employment"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_is_state_insured
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_is_state_insured
+msgid "State-insured person"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:hr.leave.accrual.plan,name:l10n_cz_hr_payroll_base.accrual_plan_cz_holiday_4w
+msgid "Statutory annual leave — 4 weeks (160 h/year)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_social_discount_category__student
+msgid "Student preparing for a profession (§7a/1/d)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__surname
+msgid "Surname"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_tax_declaration
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_tax_declaration
+msgid "Taxpayer declaration signed"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/annual_parameters.py:0
+msgid ""
+"The %(year)s value of salary rule parameter %(code)s has not been entered "
+"yet; the latest one is from %(found)s."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_company_country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/insurance_month.py:0
+msgid ""
+"The agreements of %(employee)s add up to %(total).2f this month, so these "
+"payslips must be recomputed or corrected before confirming: %(payslips)s"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/hr_employee_child.py:0
+msgid "The birth number of %(child)s must have 9 or 10 digits."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__ztpp
+msgid ""
+"The child holds a ZTP/P card: the benefit for the child is doubled (§ 35c "
+"odst. 7 ZDP)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_child_ids
+msgid ""
+"The children the child tax benefit is claimed for, with the months of the "
+"claim. When any is recorded, the payslip and the annual tax reconciliation "
+"count these month by month and the child counts on the contract are not "
+"used."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_cz_hr_payroll_base/models/hr_employee_child.py:0
+msgid "The claim period of %(child)s ends before it starts."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__order
+msgid ""
+"The order the employee claims the benefit in — 1, 2, 3 for the third and "
+"every further child — or N for a child maintained in the household but not "
+"claimed by this employee. The employee chooses the order; it need not follow"
+" age."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_base
 #. odoo-python
 #: code:addons/l10n_cz_hr_payroll_base/models/res_company.py:0
 msgid "The short-time work compensation must be between 0 % and 100 %."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model_terms:ir.ui.view,arch_db:l10n_cz_hr_payroll_base.res_config_settings_view_form_l10n_cz_payroll
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_children_t1
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_children_t2
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_children_t3
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t1
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t2
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_t3
 msgid ""
-"Percentage of average earnings paid for částečná nezaměstnanost. 100 % "
-"unless an agreement with the trade union or an internal regulation sets less"
-" (not below 60 %)."
+"Used only while no child is recorded under Children (tax benefit); with "
+"records the payslip counts those, month by month."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
@@ -331,26 +540,23 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_res_config_settings__l10n_cz_company_country_code
-msgid "Company Country (Czech payroll)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_pensioner_discount
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_pensioner_discount
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_pensioner_discount
 msgid "Working pensioner discount"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_base
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_base.field_hr_version__l10n_cz_pensioner_discount
-msgid "Lowers the employee's social insurance by 6.5 % of the assessment base. For an old-age pensioner at pension age, drawing the pension in full, for the whole calendar month. The employee applies to the employer with the proof; it cannot be applied retroactively and is claimed once across all jobs with one employer."
+#: model:ir.model.fields.selection,name:l10n_cz_hr_payroll_base.selection__hr_contract__l10n_cz_social_discount_category__under21
+msgid "Younger than 21 (§7a/1/g)"
 msgstr ""
 
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_base/models/insurance_month.py:0
-msgid "The agreements of %(employee)s add up to %(total).2f this month, so these payslips must be recomputed or corrected before confirming: %(payslips)s"
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_l10n_cz_employee_child__ztpp
+msgid "ZTP/P holder"
 msgstr ""
 
-#. odoo-python
-#: code:addons/l10n_cz_hr_payroll_base/models/annual_parameters.py:0
-msgid "The %(year)s value of salary rule parameter %(code)s has not been entered yet; the latest one is from %(found)s."
+#. module: l10n_cz_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_contract__l10n_cz_children_ztpp
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_base.field_hr_employee__l10n_cz_children_ztpp
+msgid "of which ZTP/P Children"
 msgstr ""

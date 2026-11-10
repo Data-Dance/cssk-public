@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        The children the Czech child tax benefit is claimed for, on the
+        employee's Settings page. 18.0 keeps the rest of the Czech payroll
+        data on the contract form (hr_contract_views.xml); the children belong
+        to the employee, whatever contract runs.
+    -->
+    <record id="hr_employee_view_form_l10n_cz_payroll" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.l10n_cz_payroll_oca</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <page name="hr_settings" position="inside">
+                <group string="Children (tax benefit)" name="l10n_cz_child_records"
+                       groups="payroll.group_payroll_user"
+                       invisible="company_country_code != 'CZ'">
+                    <field name="l10n_cz_child_ids" nolabel="1" colspan="2">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="first_name"/>
+                            <field name="surname"/>
+                            <field name="birthday"/>
+                            <field name="birth_number" optional="show"/>
+                            <field name="ztpp"/>
+                            <field name="order"/>
+                            <field name="date_from" optional="show"/>
+                            <field name="date_to" optional="show"/>
+                        </list>
+                    </field>
+                </group>
+            </page>
+        </field>
+    </record>
+</odoo>

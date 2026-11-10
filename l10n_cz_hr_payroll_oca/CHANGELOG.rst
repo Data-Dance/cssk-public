@@ -2,6 +2,31 @@
 Changelog
 =========
 
+[18.0.1.18.0] — 2026-11-10
+--------------------------
+
+Fixed
+~~~~~
+
+- **The child tax benefit is counted month by month.** The annual tax
+  reconciliation multiplied today's child counts by twelve, so a child born
+  in September was reconciled as twelve months instead of four, and a child
+  who left the household in the spring as the whole year. It now adds up
+  each month: the employee's child records, or else the counts of the
+  contract in force on the month's first day. The payslip reads the same
+  month's children.
+- **A ZTP/P child is doubled at its own order's amount**, not at the first
+  child's (§ 35c odst. 7 ZDP), when the children are recorded.
+- **The monthly child bonus is paid only from 50 Kč** (§ 35d odst. 4 ZDP);
+  a smaller one is left to the annual reconciliation.
+
+Added
+~~~~~
+
+- The children list on the employee form (page *Settings*).
+
+Ported from 19.0.
+
 [18.0.1.17.0] — 2026-11-09
 --------------------------
 

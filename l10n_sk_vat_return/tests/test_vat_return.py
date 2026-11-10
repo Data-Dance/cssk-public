@@ -36,6 +36,12 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
             "vat": "SK2023456787", "city": "Bratislava",
             "country_id": cls.env.ref("base.sk").id,
         })
+        cls.company.l10n_cssk_tax_authority_id = cls.env["cssk.tax.authority"].sudo().create({
+            "name": "Daňový úrad Test",
+            "code": "SK-TEST",
+            "country_id": cls.env.ref("base.sk").id,
+            "submission_code": "Daňový úrad Test",
+        })
         cls.tax_sale = cls.tax_sale_a
         cls.version = cls.env.ref("l10n_sk_vat_return.dph_version_2025")
 
@@ -46,6 +52,22 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
             "period_type": "month",
             "statement_type_id": self.version.statement_type_ids[0].id,
         })
+
+    def test_export_refuses_a_company_without_a_tax_office(self):
+        """The schema accepts an empty danovyUrad, so only this check stops it."""
+        ret = self._make_return()
+        ret.action_compute_lines()
+        self.company.l10n_cssk_tax_authority_id = False
+        with self.assertRaisesRegex(UserError, "tax office"):
+            ret.action_export_xml()
+        self.assertNotEqual(ret.state, "exported")
+
+    def test_export_refuses_a_tax_office_without_a_submission_code(self):
+        ret = self._make_return()
+        ret.action_compute_lines()
+        self.company.l10n_cssk_tax_authority_id.submission_code = False
+        with self.assertRaisesRegex(UserError, "tax office"):
+            ret.action_export_xml()
 
     def test_compute_and_export(self):
         self.init_invoice(

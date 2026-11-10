@@ -63,6 +63,14 @@ CZ_HEALTH_MIN_BASE_EXCLUDED_CODES = (
 )
 
 
+#: The child counts are used only while the employee has no child records
+#: (``hr.employee.l10n_cz_child_ids``): counts cannot say in which months a
+#: child was claimed.
+CHILD_COUNT_HELP = ("Used only while no child is recorded under Children "
+                    "(tax benefit); with records the payslip counts those, "
+                    "month by month.")
+
+
 class HrContract(models.Model):
     _inherit = "hr.contract"
 
@@ -86,14 +94,18 @@ class HrContract(models.Model):
 
     # --- Children -------------------------------------
     l10n_cz_children_t1 = fields.Integer(
-        "Children (1st tier)", groups=CZ_PAYROLL_GROUP, tracking=True)
+        "Children (1st tier)", groups=CZ_PAYROLL_GROUP, tracking=True,
+        help=CHILD_COUNT_HELP)
     l10n_cz_children_t2 = fields.Integer(
-        "Children (2nd tier)", groups=CZ_PAYROLL_GROUP, tracking=True)
+        "Children (2nd tier)", groups=CZ_PAYROLL_GROUP, tracking=True,
+        help=CHILD_COUNT_HELP)
     l10n_cz_children_t3 = fields.Integer(
-        "Children (3rd+ tier)", groups=CZ_PAYROLL_GROUP, tracking=True)
+        "Children (3rd+ tier)", groups=CZ_PAYROLL_GROUP, tracking=True,
+        help=CHILD_COUNT_HELP)
     l10n_cz_children_ztpp = fields.Integer(
         "of which ZTP/P Children", groups=CZ_PAYROLL_GROUP, tracking=True,
-        help="Number of children holding a ZTP/P card (benefit doubled).")
+        help="Number of children holding a ZTP/P card (benefit doubled). "
+             + CHILD_COUNT_HELP)
 
     # --- Insurance flags ---------------------------------------------------
     l10n_cz_is_state_insured = fields.Boolean(
@@ -207,3 +219,46 @@ class HrContract(models.Model):
                 days.discard(day)
                 day += timedelta(days=1)
         return len(days) / period_days
+
+    # --- Child tax benefit, month by month (§ 35c ZDP) --------------------
+    def _l10n_cz_child_counts(self, day):
+        """The children the benefit is claimed for in the month of *day*, as
+        ``{order: [children, of which ZTP/P]}`` for the orders 1, 2 and 3.
+
+        From the employee's child records when there are any: a child counts
+        from the month of birth or of *Claimed from* to the month of *Claimed
+        to* (see ``l10n.cz.employee.child._l10n_cz_maintained_in``). Without
+        records, from this contract's counts, which hold for any month the
+        contract is used for; a ZTP/P child is then doubled at the first
+        child's amount, the counts saying nothing about its order.
+        """
+        self.ensure_one()
+        counts = {"1": [0, 0], "2": [0, 0], "3": [0, 0]}
+        kids = self.employee_id.sudo().l10n_cz_child_ids
+        if kids:
+            for kid in kids:
+                if kid._l10n_cz_claimed_in(day.year, day.month):
+                    counts[kid.order][0] += 1
+                    counts[kid.order][1] += int(kid.ztpp)
+            return counts
+        if not (self.l10n_cz_children_t1 + self.l10n_cz_children_t2
+                + self.l10n_cz_children_t3):
+            return counts
+        counts["1"] = [self.l10n_cz_children_t1, self.l10n_cz_children_ztpp]
+        counts["2"][0] = self.l10n_cz_children_t2
+        counts["3"][0] = self.l10n_cz_children_t3
+        return counts
+
+    def _l10n_cz_child_benefit(self, day, parameter):
+        """The month's child tax benefit before it is set against the tax.
+
+        *parameter* returns a rule parameter's value for the month (each
+        engine reads its parameters its own way). A ZTP/P child counts twice
+        at its own order's amount (§ 35c odst. 7 ZDP).
+        """
+        self.ensure_one()
+        total = 0.0
+        for order, (children, ztpp) in self._l10n_cz_child_counts(day).items():
+            if children or ztpp:
+                total += (children + ztpp) * parameter("l10n_cz_child_%s" % order)
+        return total
