@@ -251,7 +251,7 @@ class L10nCzKhRowMixin(models.AbstractModel):
         this section is large, and preferring it would demote a document that
         belongs in the detail section. Taking the larger magnitude keeps the
         threshold reading the whole document without ever contradicting the
-        figures the row itself carries. (Raised by a Copilot review of the
+        figures the row itself carries. (Raised by a code review of the
         first version, which took the fallback literally — the docstring
         claimed this property before the code had it.)
         """

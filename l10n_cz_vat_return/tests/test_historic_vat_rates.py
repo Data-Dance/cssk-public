@@ -270,7 +270,7 @@ class TestCzHistoricVatRates(AccountTestInvoicingCommon):
         created by hand discards their mapping twice over. The generated
         clones are rewritten outright — their inherited list is the current
         rate's and means nothing for a vintage — but an adopted one is not.
-        Raised by a GPT-5.3-Codex review.
+        Raised by a code review.
         """
         twenty = self._historic(20.0).filtered(
             lambda t: t.type_tax_use == "purchase")[:1]

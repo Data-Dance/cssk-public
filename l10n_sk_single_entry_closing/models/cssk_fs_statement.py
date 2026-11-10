@@ -212,8 +212,8 @@ class CsskFsStatement(models.Model):
         # with A = B and B = a cash row, a pass in sequence order computes A
         # from B's zero and only then fixes B, returning a wrong A and no error.
         # The shipped rows happen to be sequenced safely, so this would have sat
-        # here until somebody added a row — found by a second opinion from
-        # gpt-5.3-codex, and pinned by a test whose aggregates point forward.
+        # here until somebody added a row — found by a second-opinion
+        # review, and pinned by a test whose aggregates point forward.
         for ldef in self._cssk_eval_order():
             if ldef.kind != "aggregate" or ldef.code in overrides:
                 continue

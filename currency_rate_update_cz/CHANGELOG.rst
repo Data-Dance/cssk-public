@@ -126,7 +126,7 @@ Added
   ``res.company.currency_rates_autoupdate`` defaults to True, so a provider
   created here starts writing ``res.currency.rate`` on the next cron run.
 
-Robustness (from a GPT-5.3-Codex review)
+Robustness (from a code review)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - **The record rule could fool the existence check into creating a duplicate.**

@@ -383,7 +383,7 @@ class ResCompany(models.Model):
         its links swapped one at a time and nothing else removed. An exact-set
         write on an adopted rate would discard the user's own mapping — twice
         over, these two fields being one table read from both ends. Raised by
-        a GPT-5.3-Codex review of this change.
+        a code review of this change.
 
         Idempotent, and it has to be: the generator runs on install, on every
         chart load and from migrations, and ``_cssk_historic_vat_rates``
@@ -431,7 +431,7 @@ class ResCompany(models.Model):
                     # remove nothing else. ⚠️ An exact-set write here would
                     # discard a user's own mapping, and both these fields are
                     # the same table read from opposite ends, so it would do it
-                    # twice over. Raised by a GPT-5.3-Codex review.
+                    # twice over. Raised by a code review.
                     swap = {
                         tax.id: clones[tax].id
                         for tax in related if tax in clones

@@ -83,7 +83,7 @@ Added
   but it is a side effect of installing, and the off switch is the per-company
   setting, not this module.
 
-Robustness (from a GPT-5.3-Codex review)
+Robustness (from a code review)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - **The record rule could fool the existence check into creating a duplicate.**

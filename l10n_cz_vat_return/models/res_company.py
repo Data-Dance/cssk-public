@@ -147,7 +147,7 @@ class ResCompany(models.Model):
             # ⚠️ Per company. A counter hoisted out of this loop makes the
             # second company log the first one's changes as its own — the
             # shape this was copied from had exactly that bug, and it is
-            # fixed below too. Raised by a GPT-5.3-Codex review.
+            # fixed below too. Raised by a code review.
             touched = 0
             ref = ChartTemplate.with_company(company).ref
             for dest_xmlid, (right_xmlid, wrong_xmlid) in \
@@ -397,7 +397,7 @@ class ResCompanyCzDeduction(models.Model):
              # that means something else; without the second, an invoice leg
              # can be built from a refund leg's account. They coincide on the
              # Czech chart, which is exactly why neither would have been
-             # noticed here. Raised by a GPT-5.3-Codex review.
+             # noticed here. Raised by a code review.
              if any(t.name in CZ_SELFASSESSED_BAND
                     for t in other.repartition_line_ids.filtered(
                         lambda r: r.repartition_type == "base").tag_ids)
@@ -433,7 +433,7 @@ class ResCompanyCzDeduction(models.Model):
         14 534 001.54 of tax — while the output side of the same returns agreed
         to within 0.03 %.
 
-        Confirmed with a second opinion (gpt-5.3-codex) before building:
+        Confirmed with a second-opinion review before building:
         ř43/ř44 are the deduction of tax self-assessed on ř3–13, split
         základní/snížená, and they DO require a base as well as a tax figure;
         tagging the −100 leg is the right mechanism rather than deriving the
@@ -719,7 +719,7 @@ class ResCompanyCzAssetAcquisition(models.Model):
                 # ``source.name`` reads "21 % G" under cs_CZ and "21% G" under
                 # en_US: a name-keyed lookup finds nothing on the second
                 # language and creates a duplicate twin for every tax. The
-                # field is why it exists. Raised by a GPT-5.3-Codex review.
+                # field is why it exists. Raised by a code review.
                 existing = Tax.search([
                     ("company_id", "=", company.id),
                     ("cz_asset_source_tax_id", "=", source.id),
@@ -740,7 +740,7 @@ class ResCompanyCzAssetAcquisition(models.Model):
                     # collision unseen, and then ``copy()`` raises "Tax names
                     # must be unique!" and takes the whole chart load or
                     # upgrade down with it. Both halves of that were found by
-                    # a negative control after a GPT-5.3-Codex review.
+                    # a negative control after a code review.
                     taken = Tax.search([
                         ("company_id", "child_of", company.root_id.id),
                         ("name", "=", name),

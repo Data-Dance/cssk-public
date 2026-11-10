@@ -133,8 +133,8 @@ Added
   instead of returning 0 %. Every figure it returns is a statutory minimum, so
   a rate record that predates a newly added surcharge code would otherwise pay
   nothing at all, silently and unlawfully.
-* Both defects were found by an independent review from a different model
-  family (gpt-5.3-codex), not by the test suite.
+* Both defects were found by an independent code review,
+  not by the test suite.
 
 19.0.1.0.0 (2026-08-03)
 =======================

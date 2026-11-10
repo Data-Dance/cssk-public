@@ -132,7 +132,7 @@ class TestSkZavierka(AccountTestInvoicingCommon):
         self.assertEqual(sum(on_702.mapped("balance")), 0.0)
 
     def test_mirrors_use_each_mapping_own_destination(self):
-        """Copilot review: mirroring everything onto the first dest is wrong
+        """Code review: mirroring everything onto the first dest is wrong
         when a config maps different sources to different accounts."""
         self._post_result()
         closing = self._closing()

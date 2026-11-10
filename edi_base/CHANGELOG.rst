@@ -249,7 +249,7 @@ Migration
   interchange is left unacknowledged (re-fetched next poll) — no
   ack-without-persist data loss. **EDIFACT is unchanged** (hook stays
   ``False`` → original savepoint path). *Live-validated* against Editel eXite;
-  reviewed via GPT-5.3-codex.
+  code-reviewed.
 
 [19.0.1.3.0] — 2026-07-08
 -------------------------

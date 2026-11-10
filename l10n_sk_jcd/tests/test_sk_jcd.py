@@ -303,7 +303,7 @@ class TestSkJcd(AccountTestInvoicingCommon):
         )
 
     def test_duty_is_billed_to_the_account_the_landed_cost_credits(self):
-        """Copilot review: different accounts would double-count the duty.
+        """Code review: different accounts would double-count the duty.
 
         The bill debits the duty as an expense; validating the landed cost
         credits it back and debits stock. Same account on both legs or the duty

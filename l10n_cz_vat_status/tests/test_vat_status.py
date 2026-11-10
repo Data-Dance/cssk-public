@@ -373,7 +373,7 @@ class TestCzVatStatus(AccountTestInvoicingCommon):
     def test_a_tax_that_cannot_be_twinned_blocks_instead_of_slipping_through(self):
         """A self-assessed tax of an unexpected shape gets no identified-person
         twin. Mapping keeps it — and posting must say so rather than let the
-        plátce tax, with its deduction, through (GPT-5.3-Codex review)."""
+        plátce tax, with its deduction, through (code review)."""
         odd = self.purch_eu_g.copy({"name": "21% EU G odd"})
         # One tax leg instead of the +100/−100 pair.
         for reps in (odd.invoice_repartition_line_ids,
