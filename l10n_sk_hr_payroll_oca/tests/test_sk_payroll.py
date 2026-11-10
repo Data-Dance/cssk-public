@@ -19,11 +19,26 @@ from psycopg2 import IntegrityError
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
 from odoo.tools import mute_logger
+from odoo.tools.convert import convert_file
 from odoo.addons.payroll.models.base_browsable import WorkedDays
 
 
 @tagged("post_install", "-at_install")
 class TestSkPayroll(TransactionCase):
+    def setUp(self):
+        super().setUp()
+        # These tests compute the engine with synthetic wages (100, 500) below
+        # the statutory minimum wage claim. With l10n_sk_hr_payroll_surcharges
+        # installed, its MIN_WAGE_TOPUP rule would raise them to the claim and
+        # change every figure; the top-up is that module's to test, not this
+        # one's. Switch it off here, and only when the module is present.
+        Payslip = type(self.env["hr.payslip"])
+        if hasattr(Payslip, "_l10n_sk_min_wage_claim_applies"):
+            patcher = patch.object(
+                Payslip, "_l10n_sk_min_wage_claim_applies", return_value=False)
+            patcher.start()
+            self.addCleanup(patcher.stop)
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -2057,6 +2072,39 @@ class TestSkPayroll(TransactionCase):
         self.assertIn(source, target._l10n_sk_average_payslips())
         self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(), 28.5714, places=4)
 
+    def test_leave_starter_upgrade_preserves_approved_absence_and_configuration(self):
+        checked_fields = ["date_from", "date_to", "state", "number_of_days"]
+        for data_file, xmlid in (
+                ("data/hr_leave_type_data.xml", "l10n_sk_leave_type_pn"),
+                ("data/hr_leave_type_data.xml", "l10n_sk_leave_type_dovolenka"),
+                ("data/hr_leave_options_data.xml", "l10n_sk_leave_type_obstacle_exam")):
+            with self.subTest(leave_type=xmlid):
+                _contract, employee, _calendar = self._abs_setup(wage=1500)
+                leave_type = self.env.ref("l10n_sk_hr_payroll_oca.%s" % xmlid)
+                if leave_type.requires_allocation:
+                    self.env["hr.leave.allocation"].create({
+                        "name": "Upgrade test", "holiday_status_id": leave_type.id,
+                        "employee_id": employee.id, "number_of_days": 10,
+                        "date_from": date(2026, 1, 1),
+                    }).action_approve()
+                leave = self._make_leave(
+                    employee, xmlid, date(2026, 6, 5), date(2026, 6, 9)
+                )
+                original = leave.read(checked_fields)
+                leave_type = leave.holiday_status_id.with_context(lang="en_US")
+                leave_type.name = "Company reviewed absence type"
+                convert_file(
+                    self.env,
+                    "l10n_sk_hr_payroll_oca",
+                    data_file,
+                    {},
+                    mode="update",
+                )
+                self.env.flush_all()
+                leave.invalidate_recordset()
+                self.assertEqual(leave.read(checked_fields), original)
+                self.assertEqual(leave_type.name, "Company reviewed absence type")
+
     def test_sickness_calendar_weekend_is_paid_for_five_calendar_days(self):
         contract, employee, _calendar = self._abs_setup(wage=1500)
         leave = self._make_leave(
@@ -2073,6 +2121,81 @@ class TestSkPayroll(TransactionCase):
         )
         # Fri-Sun 3 x25%, Mon-Tue 2 x55%; calendar days, not three workdays.
         self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 37)
+
+    def test_sickness_calendar_employer_stops_at_employment_end(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        contract.contract_date_end = date(2026, 6, 9)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 5), date(2026, 6, 18)
+        )
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+            inputs=[("PN_DVZ", 20)],
+        )
+        # Employer pays only June5-9. SP pays from the day after termination.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 37)
+
+    def test_sickness_calendar_2025_claim_keeps_ten_day_limit_in_2026(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2025, 12, 30), date(2026, 1, 12)
+        )
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 1, 1),
+            date(2026, 1, 31),
+            inputs=[("PN_DVZ", 20)],
+        )
+        # January1 is day3; only January2-8 (days4-10) use the second rate.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 82)
+
+    def test_sickness_calendar_2025_claim_keeps_its_daily_cap_and_rounds_up(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2025, 12, 30), date(2026, 1, 12)
+        )
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 1, 1),
+            date(2026, 1, 31),
+            inputs=[("PN_DVZ", 100)],
+        )
+        # 2025 cap94.0274 x (one day25% + seven days55%) =385.51234.
+        # Section10(2) requires upward rounding, hence385.52.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 385.52)
+
+    def test_sickness_calendar_zero_after_termination_does_not_use_manual_fallback(
+        self,
+    ):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        contract.contract_date_end = date(2026, 6, 9)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 10), date(2026, 6, 23)
+        )
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+            inputs=[("PN_DVZ", 20), ("PN_DAYS", 14)],
+        )
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 0)
+
+    def test_sickness_manual_compensation_uses_statutory_upward_rounding(self):
+        contract, employee = self._make_plain_worker(1500)
+        slip = self._payslip_with_inputs(
+            contract,
+            employee,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+            [("PN_DAYS", 1), ("PN_DVZ", 20.00019)],
+        )
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 5.01)
 
     def test_sickness_calendar_month_boundary_does_not_restart_first_tier(self):
         contract, employee, _calendar = self._abs_setup(wage=1500)

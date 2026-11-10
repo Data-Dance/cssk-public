@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- The hr.leave.type records below are starter types in noupdate
+         blocks: reloading them on a module update rewrites request_unit,
+         which recomputes approved absences and fails the native leave state
+         check, and it overwrites a company's own settings (cssk-public#40).
+         The accrual plans stay updatable. -->
     <!--
         OPTIONAL / ALTERNATIVE CZ leave configuration (statutory limits).
 
@@ -89,26 +94,30 @@
          PER CASE, its date_from/date_to bounding that case — which is exactly
          what requires_allocation buys here. Contrast section C1, where the
          limit really is annual and an accrual plan is right. -->
-    <record id="leave_type_cz_ocr_shortterm" model="hr.leave.type">
-        <field name="name">Short-term family care (OČR) — limit 9 days (16 for a lone parent)</field>
-        <field name="requires_allocation" eval="True"/>
-        <field name="leave_validation_type">no_validation</field>
-        <field name="request_unit">day</field>
-        <field name="time_type">leave</field>
-        <field name="l10n_cz_payroll_code">CZOCR</field>
-        <field name="country_id" ref="base.cz"/>
-        <field name="company_id" eval="False"/>
-    </record>
-    <record id="leave_type_cz_ocr_longterm" model="hr.leave.type">
-        <field name="name">Long-term family care — limit 90 days</field>
-        <field name="requires_allocation" eval="True"/>
-        <field name="leave_validation_type">no_validation</field>
-        <field name="request_unit">day</field>
-        <field name="time_type">leave</field>
-        <field name="l10n_cz_payroll_code">CZOCR</field>
-        <field name="country_id" ref="base.cz"/>
-        <field name="company_id" eval="False"/>
-    </record>
+    <data noupdate="1">
+        <record id="leave_type_cz_ocr_shortterm" model="hr.leave.type">
+            <field name="name">Short-term family care (OČR) — limit 9 days (16 for a lone parent)</field>
+            <field name="requires_allocation" eval="True"/>
+            <field name="leave_validation_type">no_validation</field>
+            <field name="request_unit">day</field>
+            <field name="time_type">leave</field>
+            <field name="l10n_cz_payroll_code">CZOCR</field>
+            <field name="country_id" ref="base.cz"/>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="leave_type_cz_ocr_longterm" model="hr.leave.type">
+            <field name="name">Long-term family care — limit 90 days</field>
+            <field name="requires_allocation" eval="True"/>
+            <field name="leave_validation_type">no_validation</field>
+            <field name="request_unit">day</field>
+            <field name="time_type">leave</field>
+            <field name="l10n_cz_payroll_code">CZOCR</field>
+            <field name="country_id" ref="base.cz"/>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
 
     <!-- ===== C) Paid-obstacle statutory day-limit leave types (ACTIVE) =====
          Same payroll code CZOBSTACLE. Per-reason limits documented in the header.
@@ -125,16 +134,18 @@
     <!-- C1) Doprovod zdravotně postiženého dítěte do zařízení: 6 pracovních
          dnů/ROK, paid — the CZ counterpart of the SK §141 ZŤP allowance and the
          only paid obstacle with an annual budget, so the only one that accrues. -->
-    <record id="leave_type_cz_obstacle_transport_disabled" model="hr.leave.type">
-        <field name="name">Transport of a Disabled Child to a Facility — 6 days/year (paid)</field>
-        <field name="requires_allocation" eval="True"/>
-        <field name="leave_validation_type">no_validation</field>
-        <field name="request_unit">day</field>
-        <field name="time_type">leave</field>
-        <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
-        <field name="country_id" ref="base.cz"/>
-        <field name="company_id" eval="False"/>
-    </record>
+    <data noupdate="1">
+        <record id="leave_type_cz_obstacle_transport_disabled" model="hr.leave.type">
+            <field name="name">Transport of a Disabled Child to a Facility — 6 days/year (paid)</field>
+            <field name="requires_allocation" eval="True"/>
+            <field name="leave_validation_type">no_validation</field>
+            <field name="request_unit">day</field>
+            <field name="time_type">leave</field>
+            <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
+            <field name="country_id" ref="base.cz"/>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
     <record id="accrual_plan_cz_obstacle_transport_disabled_6d" model="hr.leave.accrual.plan">
         <field name="name">Work obstacle — transport of a disabled child, 6 days/year</field>
         <field name="time_off_type_id" ref="leave_type_cz_obstacle_transport_disabled"/>
@@ -156,14 +167,16 @@
     <!-- C2) Doprovod rodinného příslušníka k lékaři: max 1 den PER TRIP, paid.
          No accrual plan on purpose — the cap is per event, so the company
          allocates one day per occurrence. -->
-    <record id="leave_type_cz_obstacle_doprovod" model="hr.leave.type">
-        <field name="name">Escort to a doctor — max 1 day (paid)</field>
-        <field name="requires_allocation" eval="True"/>
-        <field name="leave_validation_type">no_validation</field>
-        <field name="request_unit">day</field>
-        <field name="time_type">leave</field>
-        <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
-        <field name="country_id" ref="base.cz"/>
-        <field name="company_id" eval="False"/>
-    </record>
+    <data noupdate="1">
+        <record id="leave_type_cz_obstacle_doprovod" model="hr.leave.type">
+            <field name="name">Escort to a doctor — max 1 day (paid)</field>
+            <field name="requires_allocation" eval="True"/>
+            <field name="leave_validation_type">no_validation</field>
+            <field name="request_unit">day</field>
+            <field name="time_type">leave</field>
+            <field name="l10n_cz_payroll_code">CZOBSTACLE</field>
+            <field name="country_id" ref="base.cz"/>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
 </odoo>

@@ -20,4 +20,34 @@
         <field name="res_model">l10n.sk.travel.rate</field>
         <field name="view_mode">list</field>
     </record>
+    <record id="view_foreign_rate_list" model="ir.ui.view">
+        <field name="name">l10n.sk.travel.foreign.rate.list</field>
+        <field name="model">l10n.sk.travel.foreign.rate</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="country_id"/>
+                <field name="date_from"/>
+                <field name="currency_id"/>
+                <field name="rate"/>
+                <field name="special_rate"/>
+                <field name="source" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_foreign_rate_search" model="ir.ui.view">
+        <field name="name">l10n.sk.travel.foreign.rate.search</field>
+        <field name="model">l10n.sk.travel.foreign.rate</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="country_id"/>
+                <field name="currency_id"/>
+                <filter name="with_special" string="Road transport rate" domain="[('special_rate', '!=', 0)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_foreign_rate" model="ir.actions.act_window">
+        <field name="name">Foreign Meal Rates</field>
+        <field name="res_model">l10n.sk.travel.foreign.rate</field>
+        <field name="view_mode">list</field>
+    </record>
 </odoo>

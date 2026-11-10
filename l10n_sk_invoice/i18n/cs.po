@@ -1,18 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_sk_invoice
+# 	* l10n_sk_invoice
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-10 12:57+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: cs_CZ\n"
 
 #. module: l10n_sk_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_sk_invoice.report_invoice_document_sk
@@ -35,85 +36,9 @@ msgid "Additional statutory note printed on the SK invoice…"
 msgstr "Další zákonná poznámka tištěná na slovenské faktuře…"
 
 #. module: l10n_sk_invoice
-#: model_terms:ir.ui.view,arch_db:l10n_sk_invoice.report_invoice_document_sk
-msgid "DIČ:"
-msgstr "DIČ:"
-
-#. module: l10n_sk_invoice
-#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_tax__display_name
-msgid "Display Name"
-msgstr "Zobrazovaný název"
-
-#. module: l10n_sk_invoice
-#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_tax__id
-msgid "ID"
-msgstr "ID"
-
-#. module: l10n_sk_invoice
-#: model:ir.model,name:l10n_sk_invoice.model_account_move
-msgid "Journal Entry"
-msgstr "Účetní záznam"
-
-#. module: l10n_sk_invoice
-#: model:ir.model,name:l10n_sk_invoice.model_account_tax
-msgid "Tax"
-msgstr "Daň"
-
-#. module: l10n_sk_invoice
-#: model:ir.model.fields,help:l10n_sk_invoice.field_account_move__l10n_sk_legal_note_manual
-msgid ""
-"Free-text statutory note printed on the SK invoice in addition to any auto-"
-"detected phrase (e.g. a specific exemption reference)."
-msgstr ""
-"Volný text zákonné poznámky tištěné na slovenské faktuře navíc k automaticky"
-" zjištěné formulaci (např. odkaz na konkrétní osvobození)."
-
-#. module: l10n_sk_invoice
-#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__l10n_sk_legal_note_manual
-msgid "Invoice Legal Note (manual)"
-msgstr "Zákonná poznámka faktury (ručně)"
-
-#. module: l10n_sk_invoice
-#: model:ir.model.fields,help:l10n_sk_invoice.field_account_move__l10n_sk_legal_notes
-msgid ""
-"Mandatory §74 phrases printed on the invoice — auto-detected from the taxes "
-"and the customer's country, plus the manual note."
-msgstr ""
-"Povinné formulace podle § 74 tištěné na faktuře — automaticky zjištěné z "
-"daní a země zákazníka, plus ruční poznámka."
-
-#. module: l10n_sk_invoice
-#: model:ir.module.module,shortdesc:base.module_l10n_sk_invoice
-msgid "SK Invoice (statutory PDF)"
-msgstr "SK faktura (zákonné PDF)"
-
-#. module: l10n_sk_invoice
-#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_tax__l10n_sk_reverse_charge
-msgid "SK Reverse Charge (§69/12)"
-msgstr "SK přenesení daňové povinnosti (§ 69/12)"
-
-#. module: l10n_sk_invoice
-#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__l10n_sk_legal_notes
-msgid "SK Statutory Phrases"
-msgstr "SK zákonné formulace"
-
-#. module: l10n_sk_invoice
-#: model:ir.module.module,summary:base.module_l10n_sk_invoice
-msgid ""
-"Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, "
-"supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, "
-"exemptions). Language-driven labels."
-msgstr "Slovenské rozložení faktury: blok strany s DIČ/IČO/IČ DPH, platební symboly, data dodání, vystavení a splatnosti a povinné zákonné formulace podle § 74 (přenesení daňové povinnosti, osvobození). Popisky se řídí jazykem."
-
-#. module: l10n_sk_invoice
-#: model:ir.model.fields,help:l10n_sk_invoice.field_account_tax__l10n_sk_reverse_charge
-msgid ""
-"This tax represents a domestic reverse-charge supply (prenesenie daňovej "
-"povinnosti). When used on an invoice line, the mandatory §69 ods. 12 phrase "
-"is printed on the SK invoice."
-msgstr "Tato daň představuje tuzemské dodání s přenesením daňové povinnosti. Při použití na řádku faktury se na slovenské faktuře vytiskne povinná formulace podle § 69 ods. 12."
+#: model:ir.model,name:l10n_sk_invoice.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "Položka bankovního výpisu"
 
 #. module: l10n_sk_invoice
 #. odoo-python
@@ -123,13 +48,72 @@ msgid ""
 " of § 4 zákona č. 394/2012 Z. z. Parts of one payment are added together (§ "
 "6 ods. 2). Check that an exemption under § 8 applies, or pay by bank "
 "transfer."
-msgstr "Hotovostní platby za tento doklad celkem činí %(total).2f €, což je nad limitem 5 000 € podle § 4 zákona č. 394/2012 Z. z. Části jedné platby se sčítají (§ 6 ods. 2). Ověřte, zda se uplatní výjimka podle § 8, nebo zaplaťte bankovním převodem."
+msgstr ""
+"Hotovostní platby za tento doklad celkem činí %(total).2f €, což je nad "
+"limitem 5 000 € podle § 4 zákona č. 394/2012 Z. z. Části jedné platby se "
+"sčítají (§ 6 ods. 2). Ověřte, zda se uplatní výjimka podle § 8, nebo "
+"zaplaťte bankovním převodem."
 
 #. module: l10n_sk_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_sk_invoice.report_invoice_document_sk
+msgid "DIČ:"
+msgstr "DIČ:"
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment__display_name
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment_register__display_name
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_tax__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,help:l10n_sk_invoice.field_account_bank_statement_line__l10n_sk_legal_note_manual
+#: model:ir.model.fields,help:l10n_sk_invoice.field_account_move__l10n_sk_legal_note_manual
+msgid ""
+"Free-text statutory note printed on the SK invoice in addition to any auto-"
+"detected phrase (e.g. a specific exemption reference)."
+msgstr ""
+"Volný text zákonné poznámky tištěné na slovenské faktuře navíc k automaticky"
+" zjištěné formulaci (např. odkaz na konkrétní osvobození)."
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment__id
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment_register__id
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_tax__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_bank_statement_line__l10n_sk_legal_note_manual
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__l10n_sk_legal_note_manual
+msgid "Invoice Legal Note (manual)"
+msgstr "Zákonná poznámka faktury (ručně)"
+
+#. module: l10n_sk_invoice
+#: model:ir.model,name:l10n_sk_invoice.model_account_move
+msgid "Journal Entry"
+msgstr "Účetní záznam"
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_bank_statement_line__l10n_sk_cash_limit_warning
 #: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment__l10n_sk_cash_limit_warning
 #: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_payment_register__l10n_sk_cash_limit_warning
 msgid "L10N Sk Cash Limit Warning"
 msgstr "Upozornění na limit plateb v hotovosti"
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,help:l10n_sk_invoice.field_account_bank_statement_line__l10n_sk_legal_notes
+#: model:ir.model.fields,help:l10n_sk_invoice.field_account_move__l10n_sk_legal_notes
+msgid ""
+"Mandatory §74 phrases printed on the invoice — auto-detected from the taxes "
+"and the customer's country, plus the manual note."
+msgstr ""
+"Povinné formulace podle § 74 tištěné na faktuře — automaticky zjištěné z "
+"daní a země zákazníka, plus ruční poznámka."
 
 #. module: l10n_sk_invoice
 #: model:ir.model,name:l10n_sk_invoice.model_account_payment_register
@@ -140,3 +124,42 @@ msgstr "Zaplatit"
 #: model:ir.model,name:l10n_sk_invoice.model_account_payment
 msgid "Payments"
 msgstr "Platby"
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_tax__l10n_sk_reverse_charge
+msgid "SK Reverse Charge (§69/12)"
+msgstr "SK přenesení daňové povinnosti (§ 69/12)"
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_bank_statement_line__l10n_sk_legal_notes
+#: model:ir.model.fields,field_description:l10n_sk_invoice.field_account_move__l10n_sk_legal_notes
+msgid "SK Statutory Phrases"
+msgstr "SK zákonné formulace"
+
+#. module: l10n_sk_invoice
+#: model:ir.model,name:l10n_sk_invoice.model_account_tax
+msgid "Tax"
+msgstr "Daň"
+
+#. module: l10n_sk_invoice
+#: model:ir.model.fields,help:l10n_sk_invoice.field_account_tax__l10n_sk_reverse_charge
+msgid ""
+"This tax represents a domestic reverse-charge supply (prenesenie daňovej "
+"povinnosti). When used on an invoice line, the mandatory §69 ods. 12 phrase "
+"is printed on the SK invoice."
+msgstr ""
+"Tato daň představuje tuzemské dodání s přenesením daňové povinnosti. Při "
+"použití na řádku faktury se na slovenské faktuře vytiskne povinná formulace "
+"podle § 69 ods. 12."
+
+#~ msgid "SK Invoice (statutory PDF)"
+#~ msgstr "SK faktura (zákonné PDF)"
+
+#~ msgid ""
+#~ "Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, "
+#~ "supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, "
+#~ "exemptions). Language-driven labels."
+#~ msgstr ""
+#~ "Slovenské rozložení faktury: blok strany s DIČ/IČO/IČ DPH, platební symboly,"
+#~ " data dodání, vystavení a splatnosti a povinné zákonné formulace podle § 74 "
+#~ "(přenesení daňové povinnosti, osvobození). Popisky se řídí jazykem."

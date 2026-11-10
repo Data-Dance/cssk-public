@@ -870,15 +870,15 @@ tier1_days = payslip.rule_parameter('l10n_sk_pn_tier1_days')
 employer_days = payslip.rule_parameter('l10n_sk_pn_employer_days')
 rate1 = payslip.rule_parameter('l10n_sk_pn_rate_tier1') / 100.0
 rate2 = payslip.rule_parameter('l10n_sk_pn_rate_tier2') / 100.0
-_split = payslip.l10n_sk_pn_split(tier1_days, employer_days)
-if _split:
-    d1, d2, _calendar_days = _split
+_native_compensation = payslip.l10n_sk_pn_compensation(inputs.PN_DVZ.amount)
+if _native_compensation is not False:
+    result = _native_compensation
 else:
     days = abs(worked_days.dict['PN'].number_of_days) if 'PN' in worked_days.dict else inputs.PN_DAYS.amount
     paid = min(days, employer_days)
     d1 = min(paid, tier1_days)
     d2 = max(0.0, paid - tier1_days)
-result = round(dvz * (d1 * rate1 + d2 * rate2), 2)
+    result = payslip.l10n_sk_pn_manual_compensation(dvz, d1, d2, rate1, rate2)
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>

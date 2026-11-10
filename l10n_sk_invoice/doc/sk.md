@@ -153,3 +153,11 @@ Platba alebo sprievodca platbou v pokladničnom denníku zobrazí upozornenie, k
 platby v hotovosti za doklad presiahnu 5 000 € (§ 4 zákona 394/2012 Z. z.).
 Predchádzajúce platby v hotovosti tých istých faktúr sa spočítavajú (§ 6 ods. 2).
 Platbu neblokuje, pretože výnimky podľa § 8 nie je možné rozpoznať.
+
+Rovnaké upozornenie má aj riadok výpisu pokladne s partnerom iným ako samotná
+spoločnosť a zanechá ho ako poznámku v chatteri dokladu, takže je viditeľné
+v ktorejkoľvek obrazovke, ktorou sa riadok zadáva. Platby a riadky výpisu tých
+istých faktúr sa sčítajú. Riadky bez partnera, napríklad vklad do banky alebo
+oprava stavu pokladne, nie sú platbou nikomu a upozornenie nemajú. Na pokladnici
+Point of Sale sa [module:l10n_sk_pos_cash_limit](module:l10n_sk_pos_cash_limit)
+pred prijatím viac ako 5 000 € v hotovosti spýta pokladníka.

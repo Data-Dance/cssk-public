@@ -290,6 +290,10 @@ class TestSubmissionLifecycle(AccountTestInvoicingCommon):
     @AccountTestInvoicingCommon.setup_country("sk")
     def setUpClass(cls):
         super().setUpClass()
+        # These tests match English messages; pin the language so they also
+        # pass in a database with Slovak or Czech loaded.
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
+        cls.env.user.lang = "en_US"
         cls.company = cls.company_data["company"]
         cls.company.vat = "SK2023456787"
         cls.company.l10n_cssk_tax_authority_id = cls.env["cssk.tax.authority"].sudo().create({
@@ -827,6 +831,10 @@ class TestLegacyFilings(AccountTestInvoicingCommon):
     @AccountTestInvoicingCommon.setup_country("sk")
     def setUpClass(cls):
         super().setUpClass()
+        # These tests match English messages; pin the language so they also
+        # pass in a database with Slovak or Czech loaded.
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
+        cls.env.user.lang = "en_US"
         cls.company = cls.company_data["company"]
         # The base module cannot depend on the SK return that provides the
         # version; skip where it is not installed, as setup_country does for

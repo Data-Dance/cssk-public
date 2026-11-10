@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_order_form_cash_limit" model="ir.ui.view">
+        <field name="name">pos.order.form.l10n_sk_cash_limit</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div role="alert" class="alert alert-warning mb-0" invisible="not l10n_sk_cash_limit_warning">
+                    <field name="l10n_sk_cash_limit_warning" nolabel="1" readonly="1"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

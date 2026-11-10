@@ -1,7 +1,7 @@
 ---
 title: SK Vehicle Logbook and Travel Orders
-summary: A trip log per vehicle and domestic travel orders with the meal, kilometre and fuel reimbursement of zákon 283/2002 Z. z.
-verified: 19.0.1.0.1
+summary: A trip log per vehicle and domestic and foreign travel orders with the meal allowance, pocket money, kilometre and fuel reimbursement of zákon 283/2002 Z. z.
+verified: 19.0.1.1.0
 ---
 
 ## What it does {#purpose}
@@ -11,8 +11,34 @@ odometer. A travel order computes the meal allowance for each calendar day and,
 for an employee's own vehicle, the kilometre and fuel reimbursement. Settling an
 approved order creates an expense for the amount due after any advance.
 
+## Foreign trips {#foreign}
+
+A foreign travel order adds the times the trip leaves and returns to Slovakia
+(the border crossing, or the scheduled flight, § 16 ods. 2) and the countries it
+goes to, each with its arrival time. Each calendar day then gets:
+
+- the domestic meal allowance for the hours spent in Slovakia that day (§ 16
+  ods. 1 and § 5);
+- the foreign meal allowance of the country where most hours were spent that
+  day, or of the better rate on a tie (§ 13 ods. 5): 25 % of the base rate up to
+  6 hours abroad, 50 % up to 12 hours, the full rate above (§ 13 ods. 4);
+- free meals cut the allowance of the place they were eaten, abroad by 25, 40
+  and 35 % of the full base rate (§ 13 ods. 7); the day decides which by the
+  "Meals abroad" tick, preset to the part of the day that was longer;
+- optional pocket money of up to 40 % of the foreign allowance (§ 14).
+
+The base rates of all 193 countries of opatrenie MF SR č. 401/2012 Z. z. are
+shipped under Business Travel › Foreign Meal Rates, with the special rates for
+mobile workers in road transport added by opatrenie č. 9/2026 Z. z. from
+30 January 2026; tick "Mobile worker in road transport" on the order to use
+them. An allowance set in a foreign currency is converted at the ECB or NBS
+rate valid on the first day of the month the trip began (§ 36 ods. 6), and the
+order refuses to compute when that rate is missing rather than guessing one.
+
 ## Limits {#limits}
 
-Domestic trips only. The fuel consumption is entered with its increase under
+Days are Slovak calendar days, also abroad. The free meals of one day all count either at home or abroad; a day with a free meal in each place needs the amount checked by hand. The advance and the settlement are
+in euro; a foreign-currency advance is not handled. Abroad, enter the fuel
+price of the foreign receipt (§ 15) yourself. The fuel consumption is entered with its increase under
 § 7 ods. 6 already applied, and the rates are maintained under Business Travel; the shipped set starts on
 1 January 2026, so earlier trips need their own rates entered first.

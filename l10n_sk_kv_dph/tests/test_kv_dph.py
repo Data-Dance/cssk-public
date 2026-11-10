@@ -166,6 +166,10 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
     @AccountTestInvoicingCommon.setup_country("sk")
     def setUpClass(cls):
         super().setUpClass()
+        # These tests match English messages; pin the language so they also
+        # pass in a database with Slovak or Czech loaded.
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
+        cls.env.user.lang = "en_US"
         cls.company = cls.company_data["company"]
         # Identification fields required by the official KVDPH schema.
         cls.company.write({

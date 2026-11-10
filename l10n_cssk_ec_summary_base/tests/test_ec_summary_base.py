@@ -6,6 +6,14 @@ from odoo.tests.common import TransactionCase
 class TestEcSummaryBase(TransactionCase):
     """Smoke tests for the shared EC sales list framework."""
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        # These tests match English messages; pin the language so they also
+        # pass in a database with Slovak or Czech loaded.
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
+        cls.env.user.lang = "en_US"
+
     def test_models_load(self):
         for model in (
             "cssk.ec.summary.statement.version",

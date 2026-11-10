@@ -10,6 +10,7 @@
                 <field name="date_start"/>
                 <field name="date_end"/>
                 <field name="destination"/>
+                <field name="trip_kind" optional="show"/>
                 <field name="total_amount" sum="Total"/>
                 <field name="currency_id" column_invisible="1"/>
                 <field name="state" widget="badge"/>
@@ -36,6 +37,11 @@
                             <field name="date_start" readonly="state != 'draft'"/>
                             <field name="date_end" readonly="state != 'draft'"/>
                             <field name="destination" readonly="state != 'draft'"/>
+                            <field name="trip_kind" readonly="state != 'draft'"/>
+                            <field name="border_out" invisible="trip_kind != 'foreign'" required="trip_kind == 'foreign'" readonly="state != 'draft'"/>
+                            <field name="border_in" invisible="trip_kind != 'foreign'" required="trip_kind == 'foreign'" readonly="state != 'draft'"/>
+                            <field name="road_transport" invisible="trip_kind != 'foreign'" readonly="state != 'draft'"/>
+                            <field name="pocket_money_percent" invisible="trip_kind != 'foreign'" readonly="state != 'draft'"/>
                             <field name="purpose" readonly="state != 'draft'"/>
                             <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
                             <field name="currency_id" invisible="1"/>
@@ -57,11 +63,27 @@
                                     <field name="date" readonly="1"/>
                                     <field name="hours" widget="float_time"/>
                                     <field name="rate"/>
+                                    <field name="hours_abroad" widget="float_time" column_invisible="parent.trip_kind != 'foreign'"/>
+                                    <field name="country_id" column_invisible="parent.trip_kind != 'foreign'"/>
+                                    <field name="foreign_base" column_invisible="parent.trip_kind != 'foreign'"/>
+                                    <field name="foreign_currency_id" optional="hide" column_invisible="parent.trip_kind != 'foreign'"/>
                                     <field name="breakfast"/>
                                     <field name="lunch"/>
                                     <field name="dinner"/>
+                                    <field name="meals_abroad" column_invisible="parent.trip_kind != 'foreign'" readonly="not foreign_base"/>
+                                    <field name="foreign_amount" column_invisible="parent.trip_kind != 'foreign'"/>
+                                    <field name="pocket_money" column_invisible="parent.trip_kind != 'foreign'"/>
+                                    <field name="foreign_rate" optional="hide" column_invisible="parent.trip_kind != 'foreign'"/>
                                     <field name="currency_id" column_invisible="1"/>
                                     <field name="amount"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Countries" name="countries" invisible="trip_kind != 'foreign'">
+                            <field name="stay_ids" readonly="state != 'draft'">
+                                <list editable="bottom">
+                                    <field name="country_id"/>
+                                    <field name="date_arrival"/>
                                 </list>
                             </field>
                         </page>

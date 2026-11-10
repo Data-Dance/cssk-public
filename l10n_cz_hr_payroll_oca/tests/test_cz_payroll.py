@@ -14,6 +14,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo.exceptions import UserError
 from odoo.tests import TransactionCase, tagged
+from odoo.tools.convert import convert_file
 
 
 @tagged("post_install", "-at_install")
@@ -713,6 +714,33 @@ class TestCzPayroll(TransactionCase):
             )
         )
         return leave
+
+    def test_leave_starter_upgrade_preserves_approved_absence_and_configuration(self):
+        """Reloading the starter leave types (a module update) must not touch
+        approved absences or a company's own settings (cssk-public#40)."""
+        checked = ["request_date_from", "request_date_to", "state", "number_of_days"]
+        for data_file, xmlid in (("data/hr_leave_type_data.xml", "leave_type_cz_holiday"),
+                                ("data/hr_leave_options_data.xml", "leave_type_cz_ocr_shortterm")):
+            with self.subTest(leave_type=xmlid):
+                employee, _contract = self._employee("Upgrade %s" % xmlid, wage=50000.0)
+                leave_type = self.env.ref("l10n_cz_hr_payroll_oca.%s" % xmlid)
+                if leave_type.requires_allocation:
+                    self.env["hr.leave.allocation"].create({
+                        "name": "Upgrade test", "holiday_status_id": leave_type.id,
+                        "employee_id": employee.id, "number_of_days": 10,
+                        "date_from": date(2026, 1, 1),
+                    }).action_approve()
+                leave = self._make_leave(employee, xmlid, date(2026, 6, 8), date(2026, 6, 10))
+                self.assertEqual(leave.state, "validate")
+                original = leave.read(checked)
+                leave_type = leave.holiday_status_id.with_context(lang="en_US")
+                leave_type.name = "Company reviewed absence type"
+                convert_file(self.env, "l10n_cz_hr_payroll_oca", data_file, {}, mode="update")
+                self.env.flush_all()
+                leave.invalidate_recordset()
+                leave_type.invalidate_recordset()
+                self.assertEqual(leave.read(checked), original)
+                self.assertEqual(leave_type.name, "Company reviewed absence type")
 
     def _payslip_march(self, employee, contract):
         """A March-2026 payslip with worked-day lines populated (incl. leaves)."""

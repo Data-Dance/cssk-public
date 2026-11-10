@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- The hr.leave.type records below are starter types in noupdate
+         blocks: reloading them on a module update rewrites request_unit,
+         which recomputes approved absences and fails the native leave state
+         check, and it overwrites a company's own settings (cssk-public#40).
+         The accrual plans stay updatable. -->
     <!--
         OPTIONAL / ALTERNATIVE Slovak leave configuration.
 
@@ -198,33 +203,39 @@
          so the statutory day-cap is enforced when the leave is booked. They
          all carry the OBSTACLE payroll code, so the payslip cannot tell them
          apart from the generic paid obstacle. -->
-    <record id="l10n_sk_leave_type_obstacle_exam" model="hr.leave.type">
-        <field name="name">Paid Obstacle — Medical Examination (7 days/year)</field>
-        <field name="l10n_sk_payroll_code">OBSTACLE</field>
-        <field name="country_id" ref="base.sk"/>
-        <field name="company_id" eval="False"/>
-        <field name="requires_allocation" eval="True"/>
-        <field name="request_unit">day</field>
-        <field name="leave_validation_type">no_validation</field>
-    </record>
-    <record id="l10n_sk_leave_type_obstacle_accompany" model="hr.leave.type">
-        <field name="name">Paid Obstacle — Accompanying a Family Member (7 days/year)</field>
-        <field name="l10n_sk_payroll_code">OBSTACLE</field>
-        <field name="country_id" ref="base.sk"/>
-        <field name="company_id" eval="False"/>
-        <field name="requires_allocation" eval="True"/>
-        <field name="request_unit">day</field>
-        <field name="leave_validation_type">no_validation</field>
-    </record>
-    <record id="l10n_sk_leave_type_obstacle_accompany_disabled" model="hr.leave.type">
-        <field name="name">Paid Obstacle — Accompanying a Disabled Child ZŤP (10 days/year)</field>
-        <field name="l10n_sk_payroll_code">OBSTACLE</field>
-        <field name="country_id" ref="base.sk"/>
-        <field name="company_id" eval="False"/>
-        <field name="requires_allocation" eval="True"/>
-        <field name="request_unit">day</field>
-        <field name="leave_validation_type">no_validation</field>
-    </record>
+    <data noupdate="1">
+        <record id="l10n_sk_leave_type_obstacle_exam" model="hr.leave.type">
+            <field name="name">Paid Obstacle — Medical Examination (7 days/year)</field>
+            <field name="l10n_sk_payroll_code">OBSTACLE</field>
+            <field name="country_id" ref="base.sk"/>
+            <field name="company_id" eval="False"/>
+            <field name="requires_allocation" eval="True"/>
+            <field name="request_unit">day</field>
+            <field name="leave_validation_type">no_validation</field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="l10n_sk_leave_type_obstacle_accompany" model="hr.leave.type">
+            <field name="name">Paid Obstacle — Accompanying a Family Member (7 days/year)</field>
+            <field name="l10n_sk_payroll_code">OBSTACLE</field>
+            <field name="country_id" ref="base.sk"/>
+            <field name="company_id" eval="False"/>
+            <field name="requires_allocation" eval="True"/>
+            <field name="request_unit">day</field>
+            <field name="leave_validation_type">no_validation</field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="l10n_sk_leave_type_obstacle_accompany_disabled" model="hr.leave.type">
+            <field name="name">Paid Obstacle — Accompanying a Disabled Child ZŤP (10 days/year)</field>
+            <field name="l10n_sk_payroll_code">OBSTACLE</field>
+            <field name="country_id" ref="base.sk"/>
+            <field name="company_id" eval="False"/>
+            <field name="requires_allocation" eval="True"/>
+            <field name="request_unit">day</field>
+            <field name="leave_validation_type">no_validation</field>
+        </record>
+    </data>
 
     <!-- Vyšetrenie/ošetrenie v zdravotníckom zariadení: 7 dní/rok -->
     <record id="l10n_sk_accrual_plan_obstacle_exam_7d" model="hr.leave.accrual.plan">

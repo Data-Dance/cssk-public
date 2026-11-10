@@ -11,6 +11,11 @@ of the preceding day.
 
 Warn, do not block: § 8 lists exemptions the system cannot see, such as payments
 in tax administration or enforcement proceedings.
+
+Payments and cash statement lines are both counted: a document settled partly
+through each still adds up to one payment. A statement line warns only when it
+has a partner other than the company itself, so cash deposited to the bank or
+taken out of a point-of-sale drawer is left alone.
 """
 
 from datetime import timedelta
@@ -21,13 +26,17 @@ CASH_PAYMENT_LIMIT = 5000.0
 PAID_STATES = ("in_process", "paid")
 
 
-def _limit_warning(env, company, currency, amount, day, earlier_payments):
-    """The warning text for one cash payment, or ``False``."""
+def _limit_warning(env, company, currency, amount, day, earlier_total):
+    """The warning text for one cash payment, or ``False``.
+
+    ``earlier_total`` is what other cash payments of the same documents
+    already came to, in company currency.
+    """
     if company.account_fiscal_country_id.code != "SK" or not amount or not currency:
         return False
     rate_day = (day or fields.Date.context_today(env.user)) - timedelta(days=1)
-    value = currency._convert(amount, company.currency_id, company, rate_day)
-    total = value + sum(abs(x.amount_company_currency_signed) for x in earlier_payments)
+    value = currency._convert(abs(amount), company.currency_id, company, rate_day)
+    total = value + earlier_total
     if company.currency_id.compare_amounts(total, CASH_PAYMENT_LIMIT) <= 0:
         return False
     return _(
@@ -39,9 +48,22 @@ def _limit_warning(env, company, currency, amount, day, earlier_payments):
     )
 
 
-def _earlier_cash_payments(invoices, exclude):
-    return (invoices.matched_payment_ids - exclude).filtered(
+def _earlier_cash_total(invoices, exclude_payment=None, exclude_line=None):
+    """Cash already paid on ``invoices`` by payments and statement lines."""
+    payments = invoices.matched_payment_ids.filtered(
         lambda p: p.journal_id.type == "cash" and p.state in PAID_STATES
+    )
+    if exclude_payment:
+        payments -= exclude_payment
+    lines = invoices._get_reconciled_statement_lines().filtered(
+        lambda line: line.journal_id.type == "cash"
+    )
+    if exclude_line:
+        lines -= exclude_line
+    # A payment reconciled through a statement line would count twice.
+    lines = lines.filtered(lambda line: not line.move_id.origin_payment_id)
+    return sum(abs(p.amount_company_currency_signed) for p in payments) + sum(
+        abs(sum(line._seek_for_lines()[0].mapped("balance"))) for line in lines
     )
 
 
@@ -60,7 +82,7 @@ class AccountPayment(models.Model):
                 and _limit_warning(
                     self.env, payment.company_id, payment.currency_id,
                     payment.amount, payment.date,
-                    _earlier_cash_payments(payment.invoice_ids, payment),
+                    _earlier_cash_total(payment.invoice_ids, exclude_payment=payment),
                 )
             ) or False
 
@@ -80,8 +102,61 @@ class AccountPaymentRegister(models.TransientModel):
                 and _limit_warning(
                     self.env, wizard.company_id, wizard.currency_id,
                     wizard.amount, wizard.payment_date,
-                    _earlier_cash_payments(
-                        wizard.line_ids.move_id, self.env["account.payment"]
-                    ),
+                    _earlier_cash_total(wizard.line_ids.move_id),
                 )
             ) or False
+
+
+class AccountBankStatementLine(models.Model):
+    _inherit = "account.bank.statement.line"
+
+    l10n_sk_cash_limit_warning = fields.Char(
+        compute="_compute_l10n_sk_cash_limit_warning",
+    )
+
+    def _l10n_sk_is_third_party_cash(self):
+        self.ensure_one()
+        return (
+            self.journal_id.type == "cash"
+            and self.partner_id
+            and self.partner_id.commercial_partner_id
+            != self.company_id.partner_id.commercial_partner_id
+        )
+
+    @api.depends("amount", "date", "journal_id", "partner_id", "is_reconciled")
+    def _compute_l10n_sk_cash_limit_warning(self):
+        for line in self:
+            warning = False
+            if line._l10n_sk_is_third_party_cash():
+                invoices = line.move_id._get_reconciled_invoices()
+                warning = _limit_warning(
+                    self.env, line.company_id,
+                    line.journal_id.currency_id or line.company_id.currency_id,
+                    line.amount, line.date,
+                    _earlier_cash_total(invoices, exclude_line=line),
+                )
+            line.l10n_sk_cash_limit_warning = warning
+
+    def _l10n_sk_note_cash_limit(self):
+        """Leave the warning in the chatter, which every statement UI shows."""
+        for line in self:
+            warning = line.l10n_sk_cash_limit_warning
+            if warning and line.move_id:
+                line.move_id.message_post(body=warning, message_type="comment",
+                                          subtype_xmlid="mail.mt_note")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        lines = super().create(vals_list)
+        lines._l10n_sk_note_cash_limit()
+        return lines
+
+    def write(self, vals):
+        before = {line.id: line.l10n_sk_cash_limit_warning for line in self}
+        result = super().write(vals)
+        if {"amount", "partner_id", "journal_id"} & set(vals):
+            self.filtered(
+                lambda line: line.l10n_sk_cash_limit_warning
+                and line.l10n_sk_cash_limit_warning != before.get(line.id)
+            )._l10n_sk_note_cash_limit()
+        return result

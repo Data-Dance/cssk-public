@@ -50,11 +50,25 @@ Actual worked time in the average
 
 WORK100 is the gross scheduled time; separately recorded approved absence rows are deducted by absolute days and hours before applying the 21-day or168-hour threshold and wage/hour division. This follows the same absence-code taxonomy as BASIC, with identical results for either leave-sign setting. Refund direction remains applied once by the caller. An unsaved payslip preview excludes its persistent origin rather than passing a temporary NewId into the history domain.
 
+Dated sickness compensation
+=============================
+
+Employer compensation stops at the end of the insured relationship, even if the validated PN continues. Preserve the actual illness onset when clipping that payment window: the first-rate days do not restart with a new month. Each native PN episode uses the statutory employer-day limit, rates and maximum daily base at its onset. A PN beginning in 2025 retains the ten-day regime in 2026.
+
+The employer daily base is truncated to four decimals. The resulting monthly compensation is rounded upward to eurocents under section 10(2) of Act 462/2003; Decimal arithmetic avoids an extra cent from binary-float accumulation. The existing manual fallback uses the same monetary rounding. Its continuation facts and the determination of the supplied DVZ still require review; a manual day count alone does not reconstruct a medical episode.
+
+References: `SP transition guidance <https://www.socpoist.sk/node/6844>`__, `MPSVR daily base <https://www.employment.gov.sk/sk/socialne-poistenie-dochodkovy-system/nahrada-prijmu-pri-pracovnej-neschopnosti/denny-vymeriavaci-zaklad.html>`__ and `Act 462/2003 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/>`__.
+
+Starter absence settings on upgrade
+=====================================
+
+The supplied Slovak absence types are installation defaults. A module upgrade preserves the company's reviewed settings and approved absence dates. Rewriting even the same request unit can recompute dates and invoke the native protection of approved leave. The starter XML therefore uses Odoo's noupdate policy. A future change to an existing default needs an explicit migration that reviews its effect on existing absences; ordinary updates do not silently reset company configuration. The regression reloads the actual data file with approved PN and ordinary holiday records and verifies their dates, state, duration and the company's type name.
+
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_oca``
-- **Version:** 19.0.1.24.3
+- **Version:** 19.0.1.24.5
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``payroll``, ``l10n_sk_hr_payroll_base``

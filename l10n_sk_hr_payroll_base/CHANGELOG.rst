@@ -55,3 +55,12 @@ Fixed
   condition on either engine, since both hand the version to every rule.
 * An unknown concept raises. Returning a default would let a typo look like a
   legal answer, and every caller is deciding whether to charge or pay someone.
+
+[19.0.1.2.1] — 2026-11-10
+-------------------------
+
+Fixed
+~~~~~
+
+- Shared decimal sick-pay arithmetic: four-place downward daily-base rounding
+  and upward eurocent compensation rounding, without binary-float artefacts.

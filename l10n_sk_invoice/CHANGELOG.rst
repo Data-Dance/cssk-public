@@ -8,6 +8,14 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- **Cash limit on cash statement lines.** A cash-journal statement line with
+  a third-party partner warns above 5 000 € (§ 4 zákona 394/2012 Z. z.) and
+  notes it in the chatter; payments and statement lines of the same invoices
+  are added together (§ 6 ods. 2), in both directions.
+
 Fixed
 ~~~~~
 

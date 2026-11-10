@@ -33,6 +33,20 @@ children's counts on ``hr.contract``; the month helpers go on the contract,
 and the reconciliation reads the contract in force on each month's first day
 instead of ``_get_version``.
 
+[19.0.1.20.1] — 2026-11-10
+--------------------------
+
+Fixed
+~~~~~
+
+- **Updating the module failed with approved leave, and reset company
+  settings.** Reloading the starter leave types rewrote their
+  ``request_unit``, which recomputed approved absences and failed the
+  native leave state check, and overwrote each company's own choices. The
+  starter leave types are now installation defaults (``noupdate``); the
+  accrual plans stay updatable. The same defect as cssk-public#40 in the
+  Slovak engines.
+
 [19.0.1.20.0] — 2026-11-09
 --------------------------
 

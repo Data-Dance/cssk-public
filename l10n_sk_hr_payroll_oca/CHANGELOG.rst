@@ -10,6 +10,11 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.24.4 and 19.0.1.24.5 (2026-11-10), not yet on 18.0:** employer
+  sick pay clipped to the employment and on the onset's terms
+  (cssk-public#39), and the starter leave types as noupdate data
+  (cssk-public#40). On 18.0 the employment dates are on ``hr.contract``.
+
 - **19.0.1.24.2 and 19.0.1.24.3 (2026-11-10), not yet on 18.0:** sick pay
   only where the agreement is sickness-insured (cssk-public#31), and the
   average's worked time without absences (cssk-public#32). Check how the
@@ -47,6 +52,38 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+
+[19.0.1.24.5] — 2026-11-10
+==========================
+
+Fixed
+~~~~~
+
+- **Updating the module failed with approved leave, and reset company
+  settings.** Reloading the starter leave types rewrote ``request_unit``,
+  which recomputed approved PN and holiday dates and failed the native
+  leave state check, and it overwrote each company's own choices. The
+  starter leave types are now installation defaults (``noupdate``); a
+  change to existing defaults needs a migration. Contributed by votrelec
+  (cssk-public#40). The three leave types in
+  ``data/hr_leave_options_data.xml`` had the same problem and are covered
+  too, as are both Czech engines and the Enterprise engine.
+
+[19.0.1.24.4] — 2026-11-10
+==========================
+
+Fixed
+~~~~~
+
+- **Employer sick pay at the end of employment and across the year.** The
+  employer stops paying when the employment ends (a PN from 5 to 18 June
+  with employment ending on 9 June paid 136 instead of 37). Each PN episode
+  uses the terms in force at its onset, so a PN begun in 2025 keeps the
+  ten-day employer period and the 2025 daily-base cap in 2026. The daily
+  base is cut to four decimals (§ 8 ods. 8 zákona 462/2003) and the
+  compensation rounded up to the cent (§ 10 ods. 2). An actual zero after
+  termination no longer falls through to the manual inputs. Contributed by
+  votrelec (cssk-public#39).
 
 [19.0.1.24.3] — 2026-11-10
 ==========================
@@ -757,3 +794,12 @@ Fixed
   state. Repaired by ``tools/fix_po_code_comments.py``, which is also the CI
   check; the offline exporter now emits the comment itself.
 
+
+[19.0.1.24.3] — 2026-11-10
+--------------------------
+
+Fixed
+~~~~~
+
+- Stop employer PN compensation at employment end, keep the illness-onset
+  limits and daily cap across a year boundary, and round compensation upward.

@@ -157,3 +157,12 @@ A payment or the payment wizard on a cash journal shows a warning when cash
 payments for the document exceed 5 000 € (§ 4 zákona 394/2012 Z. z.). Earlier
 cash payments of the same invoices are added (§ 6 ods. 2). It does not block,
 because the exemptions in § 8 cannot be detected.
+
+A cash statement line with a partner other than the company itself carries the
+same warning and leaves it as a note in the entry's chatter, so it is seen
+whichever screen enters the line. Payments and statement lines settling the
+same invoices are added together. Lines without a partner, such as a bank
+deposit or a cash drawer correction, are not payments to anyone and are left
+alone. At the Point of Sale,
+[module:l10n_sk_pos_cash_limit](module:l10n_sk_pos_cash_limit) asks the
+cashier before an order takes more than 5 000 € in cash.

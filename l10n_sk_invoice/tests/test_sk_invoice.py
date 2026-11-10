@@ -207,3 +207,40 @@ class TestSkCashLimit(AccountTestInvoicingCommon):
         wizard = self._wizard(invoice, 9000.0)
         wizard.journal_id = bank
         self.assertFalse(wizard.l10n_sk_cash_limit_warning)
+
+    def _cash_line(self, amount, partner=None, **vals):
+        values = {
+            "journal_id": self.cash.id,
+            "date": "2026-06-08",
+            "payment_ref": "Hotovosť",
+            "amount": amount,
+            "partner_id": (partner or self.partner_a).id if partner is not False else False,
+        }
+        values.update(vals)
+        return self.env["account.bank.statement.line"].create(values)
+
+    def _reconcile(self, st_line, invoice):
+        _liquidity, suspense, _other = st_line._seek_for_lines()
+        receivable = invoice.line_ids.filtered(
+            lambda line: line.account_id.account_type == "asset_receivable"
+        )
+        suspense.with_context(skip_readonly_check=True).account_id = receivable.account_id
+        (suspense + receivable).reconcile()
+
+    def test_cash_statement_line_above_the_limit_warns_in_the_chatter(self):
+        line = self._cash_line(5000.01)
+        self.assertIn("394/2012", line.l10n_sk_cash_limit_warning)
+        self.assertIn("394/2012", line.move_id.message_ids[:1].body)
+
+    def test_cash_out_without_a_partner_is_not_a_payment(self):
+        line = self._cash_line(-9000.0, partner=False)
+        self.assertFalse(line.l10n_sk_cash_limit_warning)
+
+    def test_statement_line_and_payment_add_up(self):
+        invoice = self._invoice(6000.0)
+        line = self._cash_line(3000.0)
+        self.assertFalse(line.l10n_sk_cash_limit_warning)
+        self._reconcile(line, invoice)
+        self.assertEqual(invoice.amount_residual, 3000.0)
+        self.assertTrue(self._wizard(invoice, 2500.0).l10n_sk_cash_limit_warning)
+        self.assertFalse(self._wizard(invoice, 1500.0).l10n_sk_cash_limit_warning)
