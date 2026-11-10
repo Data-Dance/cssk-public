@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.26.0
+verified: 19.0.1.26.1
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -80,3 +80,5 @@ WORK100 is the gross scheduled time; separately recorded approved absence rows a
 For a prorated wage, the salary-rule category may still contain a fractional cent while the recorded GROSS and general ledger have the currency-rounded amount. The fund helper first derives that actual monetary income, then applies the statutory base deduction/cap and downward rounding. For example,765.217391 is recorded as765.22; its14% employer pension premium is107.13, not107.12.
 
 Ordinary nonzero remuneration outside the employment period must use a reviewed historical income allocation; it cannot be retained as a regular monthly social-insurance source.
+
+Cooperating payroll features can extend _l10n_sk_payroll_extra_source_facts() with JSON-compatible calculation evidence. The same retained monthly source validates it before skip-compute confirmation; its writers must use the employee source coordinator. Existing confirmed snapshots remain unchanged.

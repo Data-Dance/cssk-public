@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.26.0
+verified: 19.0.1.26.1
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -77,3 +77,5 @@ MVP číta uchované fondové základy a interval zamestnania. MVP aj VPP použ�
 Pri pomernej mzde môže kategória pravidla ešte obsahovať zlomok centu, hoci GROSS a hlavná kniha už evidujú menovo zaokrúhlenú sumu. Fondový helper najprv odvodí tento skutočný peňažný príjem a až potom uplatní zákonný odpočet/strop a zaokrúhlenie základu nadol. Napríklad765,217391 sa eviduje ako765,22;14% dôchodkové poistné zamestnávateľa je107,13, nie107,12.
 
 Bežná nenulová odmena mimo obdobia pracovného vzťahu musí použiť overené historické rozpočítanie príjmu; nemožno ju uchovať ako bežný mesačný zdroj sociálneho poistenia.
+
+Spolupracujúce mzdové funkcie môžu cez _l10n_sk_payroll_extra_source_facts() doplniť podklady výpočtu kompatibilné s JSON. Rovnaký uchovaný mesačný zdroj ich overí aj pred potvrdením bez prepočtu; zapisovatelia musia používať zamestnanecký koordinátor zdrojov. Existujúce potvrdené snímky zostanú nezmenené.

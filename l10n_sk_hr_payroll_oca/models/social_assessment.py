@@ -200,6 +200,7 @@ class Payslip(models.Model):
                 "l10n_sk_social_unemployment_er_no_shorttime"
             )
         return {
+            "extensions": self._l10n_sk_payroll_extra_source_facts(),
             "company": self.company_id.id,
             "employee": self.employee_id.id,
             "version": version.id,
@@ -231,6 +232,15 @@ class Payslip(models.Model):
                 for row in self.worked_days_line_ids
             ),
         }
+
+    def _l10n_sk_payroll_extra_source_facts(self):
+        """JSON-compatible evidence from cooperating payroll features.
+
+        Providers coordinate their writers with the employee source lock used
+        by monthly confirmation. Original confirmed snapshots remain retained.
+        """
+        self.ensure_one()
+        return {}
 
     def _l10n_sk_build_social_assessment(self):
         self.ensure_one()

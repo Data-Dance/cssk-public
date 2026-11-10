@@ -8,6 +8,7 @@ against the shipped ``MVPP-v2026.xsd``."""
 
 import base64
 from datetime import date
+from unittest.mock import patch
 
 from lxml import etree
 from odoo import Command
@@ -512,6 +513,31 @@ class TestMvp(TransactionCase):
             slip._l10n_sk_checked_social_assessment(current=True)
         with self.assertRaises(UserError):
             slip.with_context(without_compute_sheet=True).action_payslip_done()
+        self.assertNotEqual(slip.state, "done")
+
+    def test_optional_payroll_evidence_is_retained_and_checked_before_confirmation(
+        self,
+    ):
+        if self.engine != "oca":
+            self.skipTest("OCA monthly source")
+        _employee, slip = self._employee_payslip(confirm=False)
+        with patch.object(
+            type(slip),
+            "_l10n_sk_payroll_extra_source_facts",
+            return_value={"review": "document-v1"},
+        ):
+            slip.compute_sheet()
+        self.assertEqual(
+            slip.l10n_sk_social_assessment["facts"]["extensions"],
+            {"review": "document-v1"},
+        )
+        with patch.object(
+            type(slip),
+            "_l10n_sk_payroll_extra_source_facts",
+            return_value={"review": "document-v2"},
+        ):
+            with self.assertRaisesRegex(UserError, "sources changed"):
+                slip.with_context(without_compute_sheet=True).action_payslip_done()
         self.assertNotEqual(slip.state, "done")
 
     def test_fund_bases_prorated_income_matches_the_recorded_currency_amount(self):
