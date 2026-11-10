@@ -39,7 +39,9 @@ možné. Bez mzdového modulu sa oprávnenosť overuje ručne.
 
 Generovanie preverí rozhranie a uchová presný súbor aj zdroj. Označenie
 podania iba zaeviduje externý úkon, súbor neodosiela a nepotvrdzuje prijatie
-poisťovňou. Návrat do návrhu zachová podané kópie. Úplná opravná dávka O má
+poisťovňou. Návrat do návrhu zachová podané kópie. Podaná dávka si aj po resete
+alebo odstránení pracovných riadkov zachová firmu, poisťovňu, obdobie, číslo a
+typ podania. Nové podanie či oprava patrí do samostatného záznamu. Úplná opravná dávka O má
 výslovný odkaz na podanú dávku rovnakej firmy/poisťovne. Obsah opravy a reakciu
 poisťovne treba skontrolovať; storno sa neodvodzuje automaticky a neprepisuje
 zdrojový poistný ani mzdový kalendár.

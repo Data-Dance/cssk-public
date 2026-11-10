@@ -41,7 +41,10 @@ manual eligibility review; the module does not invent missing payroll facts.
 
 Generate checks the interface and retains the exact attachment and source.
 Record as submitted records an external action; it does not send the file or
-claim insurer acceptance. Reset preserves filed copies. An explicit full O
+claim insurer acceptance. Reset preserves filed copies. A filed batch retains
+its company, insurer, period, serial and correction identity even after reset
+or removal of working event rows. Use a separate record for a genuinely new
+filing/correction. An explicit full O
 batch references a filed batch of the same company and insurer. The operator
 must review the correction contents and insurer response; cancellations are
 not inferred or automatically propagated into coverage/payroll calendars.

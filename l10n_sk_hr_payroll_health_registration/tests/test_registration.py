@@ -14,6 +14,34 @@ MODEL = "l10n.sk.health.registration"
 
 @tagged("post_install", "-at_install")
 class TestHealthRegistration(TransactionCase):
+    def test_filed_history_cannot_be_relabelled_to_another_company_after_reset(self):
+        batch = self.batch()
+        batch.action_generate()
+        batch.action_submit()
+        batch.action_reset_to_draft()
+        batch.write(
+            {"sending_date": batch.sending_date, "company_id": batch.company_id.id}
+        )
+        other = self.env["res.company"].create(
+            {
+                "name": "Other synthetic archive owner",
+                "country_id": self.env.ref("base.sk").id,
+            }
+        )
+        with self.assertRaises(UserError):
+            batch.write({"event_ids": [Command.clear()], "company_id": other.id})
+        for values in (
+            {"insurer_code": "24"},
+            {"correction_type": "corrective"},
+            {"batch_sequence": 2},
+            {"sending_date": "2026-08-01"},
+            {"month": "7"},
+        ):
+            with self.subTest(values=values), self.assertRaises(UserError):
+                batch.write(values)
+        self.assertEqual(batch.company_id, self.company)
+        self.assertEqual(len(batch.event_ids), 2)
+
     def test_forged_attachment_checksum_does_not_authorize_content_replacement(self):
         batch = self.batch()
         batch.action_generate()

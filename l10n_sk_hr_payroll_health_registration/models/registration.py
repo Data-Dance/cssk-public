@@ -136,6 +136,33 @@ class HealthRegistration(models.Model):
                 )
             )
         self._lock_for_change()
+        identity = {
+            "company_id",
+            "insurer_code",
+            "correction_type",
+            "amends_id",
+            "sending_date",
+            "batch_sequence",
+            "year",
+            "month",
+        }
+        if identity & values.keys():
+            for row in self.filtered("filed_history_ids"):
+                for key in identity & values.keys():
+                    current = row[key]
+                    if key in {"company_id", "amends_id"}:
+                        current = current.id
+                    supplied = (
+                        fields.Date.to_date(values[key])
+                        if key == "sending_date"
+                        else values[key]
+                    )
+                    if supplied != current:
+                        raise UserError(
+                            _(
+                                "A filed registration batch retains its company, insurer and filing identity after reset. Create a separate correction."
+                            )
+                        )
         if DOCUMENT & values.keys() and any(row.state != "draft" for row in self):
             raise UserError(
                 _("Reset the registration batch to draft before changing its inputs.")
