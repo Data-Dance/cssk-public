@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_hr_payroll_surcharges/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Wage Surcharges and Minimum Wage Claims</h1>
 <p class="cssk-summary">Statutory Slovak wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work, and the top-up to the minimum wage claim of the job&#x27;s stupeň náročnosti, on either payroll engine.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.7</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Extended by</th><td><code>l10n_sk_hr_payroll_surcharges_ee</code>, <code>l10n_sk_hr_payroll_surcharges_oca</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.8</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Extended by</th><td><code>l10n_sk_hr_payroll_surcharges_ee</code>, <code>l10n_sk_hr_payroll_surcharges_oca</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Zákonník práce entitles an employee to a <em>mzdové zvýhodnenie</em> for work at
@@ -292,6 +292,7 @@ alongside ordinary work, or use the inputs.</p>
 <th>2024</th>
 <th>2025</th>
 <th>2026</th>
+<th>2027</th>
 </tr>
 </thead>
 <tbody>
@@ -300,36 +301,42 @@ alongside ordinary work, or use the inputs.</p>
 <td>750 € / 4.310 €</td>
 <td>816 € / 4.690 €</td>
 <td>915 € / 5.259 €</td>
+<td>972 € / 5.586 €</td>
 </tr>
 <tr>
 <td>2 — jednoduché odborné práce</td>
 <td>866 € / 4.977 €</td>
 <td>932 € / 5.356 €</td>
 <td>1 031 € / 5.925 €</td>
+<td>1 088 € / 6.253 €</td>
 </tr>
 <tr>
 <td>3 — odborné práce</td>
 <td>982 € / 5.644 €</td>
 <td>1 048 € / 6.023 €</td>
 <td>1 147 € / 6.592 €</td>
+<td>1 204 € / 6.920 €</td>
 </tr>
 <tr>
 <td>4 — zložité odborné práce</td>
 <td>1 098 € / 6.310 €</td>
 <td>1 164 € / 6.690 €</td>
 <td>1 263 € / 7.259 €</td>
+<td>1 320 € / 7.586 €</td>
 </tr>
 <tr>
 <td>5 — veľmi zložité odborné práce</td>
 <td>1 214 € / 6.977 €</td>
 <td>1 280 € / 7.356 €</td>
 <td>1 379 € / 7.925 €</td>
+<td>1 436 € / 8.253 €</td>
 </tr>
 <tr>
 <td>6 — vysoko špecializované práce</td>
 <td>1 330 € / 7.644 €</td>
 <td>1 396 € / 8.023 €</td>
 <td>1 495 € / 8.592 €</td>
+<td>1 552 € / 8.920 €</td>
 </tr>
 </tbody>
 </table>
@@ -371,7 +378,8 @@ arithmetic and the same data from this module.</p>
 <li><strong>Periods before 1 June 2023</strong> are not covered by the shipped rate record,
   and its percentage fields cannot express a surcharge set as a fixed amount.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2007/663/">Zákon č. 663/2007 Z. z. o minimálnej mzde</a></li></ul><p>Text checked against module version: 19.0.1.2.7 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<p>From 1 January 2027, all six dated monthly and hourly claims follow <a href="https://static.slov-lex.sk/static/SK/ZZ/2026/233/20260923.print.html">233/2026 Z. z.</a>. The level-1 hourly surcharge base changes from EUR 5.259 to EUR 5.586; earlier payslips retain their dated values.</p>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2007/663/">Zákon č. 663/2007 Z. z. o minimálnej mzde</a></li></ul><p>Text checked against module version: 19.0.1.2.8 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
