@@ -1,10 +1,15 @@
 ---
 title: SK ELDP — evidenčný list dôchodkového poistenia
 summary: Evidenčný list dôchodkového poistenia za kalendárny rok — vymeriavací základ a obdobie poistenia každého zamestnanca zostavené z výplatných pások roka a vyexportované ako hromadné XML pre Sociálnu poisťovňu.
-verified: 19.0.1.1.2
+verified: 19.0.1.1.3
 ---
 
 ## Na čo slúži {#purpose}
+
+**Iba obdobia pred 1. januárom 2026.** Povinnosť predkladať ELDP za nové
+obdobia bola od roku 2026 zrušená. Údaje za tieto obdobia sa poskytujú
+prostredníctvom príslušných mesačných výkazov. Modul ponecháva historické
+podania a opravy za staršie obdobia; nový záznam predvolí rok 2025.
 
 *Evidenčný list dôchodkového poistenia* (**ELDP**) zaznamenáva za každého
 zamestnanca a kalendárny rok obdobie dôchodkového poistenia a vymeriavací
@@ -28,13 +33,11 @@ Odkazy sú na [zákon o sociálnom poistení](law:sk/2003/461).
   deň vzniku a skončenia pracovného pomeru a **neobmedzený vymeriavací základ
   zamestnanca**
   ([§ 232 ods. 2 písm. e)](law:sk/2003/461#paragraf-232.odsek-2.pismeno-e)).
-- **Predloženie.** Platné znenie zákona ročné predkladanie ELDP výslovne
-  neupravuje; zamestnávateľ predkladá podklady na výzvu organizačnej zložky
-  Sociálnej poisťovne
-  ([§ 231 ods. 1 písm. g)](law:sk/2003/461#paragraf-231.odsek-1.pismeno-g),
-  záver), na tlačive, ktoré určí Sociálna poisťovňa
-  ([§ 231 ods. 2](law:sk/2003/461#paragraf-231.odsek-2)). ELDP podajte vtedy
-  a za tých zamestnancov, za ktorých ho Sociálna poisťovňa vyžaduje.
+- **Historické podania.** [Sociálna poisťovňa potvrdzuje zrušenie ELDP od roku 2026](https://www.socpoist.sk/news/povinnost-zamestnavatelov-predkladat-evidencne-listy-dochodkoveho-poistenia-sa-od-roku-2026).
+  Neskoršie doplnenie alebo oprava sa týka obdobia pred 1. januárom 2026,
+  nie nového ELDP za rok 2026 alebo 2027. Kontrola obdobia blokuje nové
+  generovanie aj označenie starého nepodaného súboru za podaný; uložené
+  historické prílohy nevymazáva.
 
 ## Nastavenie {#setup}
 

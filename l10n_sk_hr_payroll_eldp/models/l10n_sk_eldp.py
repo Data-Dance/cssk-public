@@ -1,6 +1,6 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-"""SK ELDP — Evidenčný list dôchodkového poistenia (annual pension record).
+"""SK ELDP — pension records for periods before 1 January 2026.
 
 Filed to the Sociálna poisťovňa (ns http://socpoist.sk/xsd/eldpzec, root
 ``spELDPZec`` — the *hromadný* batch of per-employee pension records). Unlike
@@ -36,6 +36,30 @@ class L10nSkEldp(models.Model):
     _country_code = "SK"
     _xml_name_fallback = "eldp"
 
+    # The employer filing obligation ended for periods from 1 January 2026.
+    # Older periods can still be filed or corrected after that date.
+    year = fields.Selection(default="2025")
+
+    def _check_legacy_period(self):
+        for record in self:
+            if record.year and int(record.year) >= 2026:
+                raise UserError(_(
+                    "ELDP is only for periods before 1 January 2026. "
+                    "For periods from 2026, provide pension-record data through "
+                    "the applicable monthly social-insurance statements."))
+
+    def action_generate(self):
+        # Check before the generic version picker; old records can still
+        # carry the open-ended historical schema version after an upgrade.
+        self._check_legacy_period()
+        return super().action_generate()
+
+    def action_submit(self):
+        # Existing archived files remain readable; this guards a new filing
+        # of a generated record left over from before the period check.
+        self._check_legacy_period()
+        return super().action_submit()
+
     # The company field is required for every Sociálna poisťovňa filing but
     # appears on no company form (several modules declare it, and one view
     # per module would show the input several times). Edit it here instead.
@@ -66,6 +90,7 @@ class L10nSkEldp(models.Model):
 
     # ------------------------------------------------------------------
     def _preflight(self):
+        self._check_legacy_period()
         super()._preflight()
         for rec in self:
             company = rec.company_id

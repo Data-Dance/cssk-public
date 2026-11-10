@@ -10,6 +10,24 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.3] — 2026-11-10
+-------------------------
+
+Fixed
+~~~~~
+
+- Refuse new ELDP generation or submission for periods from 2026. The
+  employer filing obligation ended for those periods; later filings and
+  corrections for older periods remain available.
+- Keep existing archived files readable when a new filing is refused.
+
+Changed
+~~~~~~~
+
+- Default new records to 2025 and explain the historical scope on the form.
+- Exercise valid historical exports in 2025 fixtures; skip engine-dependent
+  tests when no Slovak payroll engine is installed.
+
 [19.0.1.1.2] — 2026-11-05
 -------------------------
 
