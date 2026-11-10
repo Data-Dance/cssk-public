@@ -1,7 +1,7 @@
 ---
 title: Mzdové hlásenia CZ/SK
 summary: Spoločný základ českých a slovenských mzdových hlásení — ponuka Mzdové hlásenia, postup Generovať / Označiť ako odoslané, opravné hlásenia, verzie tlačív a čítanie výplatných pások z oboch mzdových jadier.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -28,6 +28,7 @@ nerobí nič.
 | SK | [module:l10n_sk_hr_payroll_rlfo](module:l10n_sk_hr_payroll_rlfo) | Registračný list fyzickej osoby — prihlásenie a odhlásenie zamestnancov | Sociálna poisťovňa |
 | SK | [module:l10n_sk_hr_payroll_eldp](module:l10n_sk_hr_payroll_eldp) | Evidenčný list dôchodkového poistenia | Sociálna poisťovňa |
 | SK | [module:l10n_sk_hr_payroll_health](module:l10n_sk_hr_payroll_health) | Mesačný výkaz preddavkov na poistné (dávka 514) | zdravotné poisťovne |
+| SK | [module:l10n_sk_hr_payroll_health_registration](module:l10n_sk_hr_payroll_health_registration) | Skontrolované registračné/zmenové udalosti601 aj bez mzdového enginu | zdravotné poisťovne |
 | SK | [module:l10n_sk_hr_payroll_monthly_tax_overview](module:l10n_sk_hr_payroll_monthly_tax_overview) | Prehľad o zrazených a odvedených preddavkoch | finančná správa |
 | SK | [module:l10n_sk_hr_payroll_annual_tax_report](module:l10n_sk_hr_payroll_annual_tax_report) | Hlásenie o vyúčtovaní dane | finančná správa |
 | CZ | [module:l10n_cz_hr_payroll_pvpoj](module:l10n_cz_hr_payroll_pvpoj) | Přehled o výši pojistného (PVPOJ) | ČSSZ |

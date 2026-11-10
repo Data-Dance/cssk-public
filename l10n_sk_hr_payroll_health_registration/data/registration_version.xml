@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Required by the shared version model; this event adapter supplies
+         its own rendering rather than duplicating the common workflow. -->
+    <template id="registration_framework_template"><davka601/></template>
+    <record id="registration_version_2026" model="cssk.payroll.declaration.version">
+        <field name="name">601 MU12/14/2014 — bulletin1/2026</field>
+        <field name="code">sk_health_registration</field>
+        <field name="country_id" ref="base.sk"/>
+        <field name="valid_from">2026-01-01</field>
+        <field name="xml_template_ref_id" ref="registration_framework_template"/>
+        <field name="xml_root_element">davka601</field>
+        <field name="xml_schema_module">l10n_sk_hr_payroll_health_registration</field>
+        <field name="xml_schema_filename">schemas/davka601-derived-2026.xsd</field>
+    </record>
+</odoo>

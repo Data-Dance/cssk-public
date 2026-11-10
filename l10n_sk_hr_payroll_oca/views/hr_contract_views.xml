@@ -20,6 +20,8 @@
                     <field name="l10n_sk_children_15_18"/>
                     <field name="l10n_sk_health_oop_claim"
                            invisible="l10n_sk_agreement_type != 'none'"/>
+                    <field name="l10n_sk_health_minimum_opt_out"/>
+                    <field name="l10n_sk_health_minimum_evidence" invisible="not l10n_sk_health_minimum_opt_out"/>
                 </group>
                 <group string="Meal Allowance (Slovakia)" groups="payroll.group_payroll_user">
                     <field name="l10n_sk_meal_allowance_type"/>
@@ -76,6 +78,8 @@
                         <field name="l10n_sk_children_15_18"/>
                         <field name="l10n_sk_health_oop_claim"
                                invisible="l10n_sk_agreement_type != 'none'"/>
+                        <field name="l10n_sk_health_minimum_opt_out"/>
+                        <field name="l10n_sk_health_minimum_evidence" invisible="not l10n_sk_health_minimum_opt_out"/>
                     </group>
                     <group string="Meal Allowance (Slovakia)" groups="payroll.group_payroll_user">
                         <field name="l10n_sk_meal_allowance_type"/>

@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Payroll Base (employment forms)",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.3.0",
     "category": "Human Resources/Payroll",
     "summary": "Engine-neutral base for the Slovak payroll: the employment "
     "forms (pracovný pomer, DoVP, DoPČ, DoBPŠ) and one table saying which "
@@ -14,6 +14,11 @@
     # Depends on NEITHER payroll engine: both country modules sit on top of it.
     "depends": [
         "hr",
+    ],
+    "data": [
+        "security/health_calendar_security.xml",
+        "security/ir.model.access.csv",
+        "views/health_calendar_views.xml",
     ],
     "installable": True,
 }

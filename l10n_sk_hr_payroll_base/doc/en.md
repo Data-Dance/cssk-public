@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll
 summary: The Slovak payroll family in one place — the monthly payslip for a pracovný pomer and the three dohody on either Odoo Enterprise Payroll or the OCA payroll app, with dated statutory rates, leave, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.2.0
+verified: 19.0.1.3.0
 ---
 
 ## What it is for {#purpose}
@@ -12,7 +12,7 @@ here.
 
 | Module | What it does |
 |---|---|
-| [module:l10n_sk_hr_payroll_base](module:l10n_sk_hr_payroll_base) (this module) | The four employment forms and one table saying which contributions and entitlements apply to each. Engine-neutral, no screens of its own. |
+| [module:l10n_sk_hr_payroll_base](module:l10n_sk_hr_payroll_base) (this module) | The four employment forms and one table saying which contributions and entitlements apply to each. Engine-neutral; also provides reviewed health calendars on the employee. |
 | [module:l10n_sk_hr_payroll_ee](module:l10n_sk_hr_payroll_ee) | The Slovak payslip on **Odoo Enterprise Payroll**, as an overlay on Odoo's own `l10n_sk_hr_payroll`. |
 | [module:l10n_sk_hr_payroll_oca](module:l10n_sk_hr_payroll_oca) | The same payslip on the **OCA payroll app** (`payroll`), for Odoo Community. |
 | [module:l10n_sk_hr_payroll_account_ee](module:l10n_sk_hr_payroll_account_ee), [module:l10n_sk_hr_payroll_account_oca](module:l10n_sk_hr_payroll_account_oca) | Posting payslips to the Slovak chart of accounts, one per engine. |
@@ -22,6 +22,28 @@ here.
 The base module itself holds the employment forms and the applicability
 table. It installs automatically as a dependency of the engine modules, and
 you meet it only through them.
+
+## Reviewed health-insurance calendar {#health-calendar}
+
+An HR manager can open **Health calendars** on the employee and record a
+complete month supported by retained work dates, notices or insurer decisions.
+The month starts on its first day. Intervals stay within that month; **2D**
+contains reviewed work/qualifying rest days and **2Y** identifies one statutory
+day. The program does not invent these dates from monthly pay or a schedule.
+
+**Confirm review** freezes the intervals and records the reviewer/time.
+**Create revision** keeps the original facts and creates an unfinished draft.
+The current month must be reviewed again before new payroll calculations.
+An explicitly reviewed empty calendar means zero insured days. This is a
+factual HR source, not proof that any registration was filed with an insurer.
+
+The shared context separates insured days, OP employment days and minimum
+days. Benefit days do not shorten OP employment; overlapping state/SZCO
+exceptions are unioned. One disability day changes the monthly rate and
+exempts the monthly minimum, as described by the
+[insurer's minimum-advance guidance](https://www.dovera.sk/platitel/zamestnavatel/tema-legislativne-informacie/minimalny-preddavok-zamestnanca).
+The OCA adapter consumes this source. An engine-neutral model alone does not
+establish equivalent integration with every other payroll engine.
 
 ## Choosing an engine {#engines}
 

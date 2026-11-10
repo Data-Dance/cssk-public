@@ -5,6 +5,12 @@ Changelog
 Unreleased
 ==========
 
+* Add ``_declaration_source_data`` and private ``_declaration_write`` hooks so
+  reviewed HR-event declarations reuse generation, filing and archive retention
+  without creating a second payslip ledger or a public write-bypass context flag.
+
+* Add narrow attachment metadata and generation-message hooks so published non-XML wire formats use the existing declaration/archive workflow without claiming XSD validation.
+
 Added
 ~~~~~
 

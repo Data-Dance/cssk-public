@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "CZ/SK Payroll e-Reporting — Declaration Base",
-    "version": "19.0.1.5.1",
+    "version": "19.0.1.6.0",
     "category": "Human Resources/Payroll",
     "summary": "Engine-neutral base for Czech/Slovak payroll authority "
                "e-submissions: XSD-validated XML export, a submission state "

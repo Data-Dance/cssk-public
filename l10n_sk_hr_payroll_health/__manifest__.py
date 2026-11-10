@@ -2,14 +2,13 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — Health monthly advances (dávka 514)",
-    "version": "19.0.1.2.3",
+    "version": "19.0.1.3.0",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
-    "summary": "Monthly Slovak health-insurance advances statement (Mesačný "
-               "výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / "
-               "Union — employer header + per-employee rows, well-formed + "
-               "structurally checked XML. Engine-neutral (payroll or the "
-               "hr_payroll engine).",
+    "summary": "Monthly Slovak health statements for VšZP / Dôvera / Union: "
+               "published text514 from retained OCA payroll assessments, "
+               "original/full corrective batches and filed-copy archive. "
+               "The legacy structurally checked XML path remains available.",
     "author": "Data Dance s.r.o.",
     "website": "https://github.com/Data-Dance/l10n_cssk",
     "license": "AGPL-3",

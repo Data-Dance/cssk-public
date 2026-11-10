@@ -80,6 +80,12 @@ SICKNESS_FORMS = (EMPLOYMENT, DOVP, DOPC)
 #   "why":     the statutory hook, so a reader can check the row,
 # }
 APPLICABILITY = {
+    "HEALTH_ALLOWANCE": {
+        "forms": (EMPLOYMENT,), "regular": None,
+        "why": "zák.580/2004 §16(16): OP applies to employment/service "
+        "relationships, not work agreements. Non-employment statutory "
+        "remuneration adapters must override this concept explicitly.",
+    },
     # --- social insurance funds -------------------------------------------
     # Old-age and disability are owed by everyone, on every form.
     "PENSION_INSURANCE": {

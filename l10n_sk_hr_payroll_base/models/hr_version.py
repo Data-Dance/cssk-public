@@ -10,14 +10,139 @@ on either without this module knowing which engine is installed.
 
 from calendar import monthrange
 
-from odoo import models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 from odoo.tools import float_round
 
 from ..applicability import EMPLOYMENT, applies
+from ..health_assessment import employee_assessment, minimum_assessment
 
 
 class HrVersion(models.Model):
     _inherit = "hr.version"
+
+    l10n_sk_health_minimum_opt_out = fields.Boolean(
+        string="Concurrent-employment minimum opt-out",
+        help="Section16a(5): the employee has concurrent employers and has "
+        "given a written notice not to apply the minimum top-up here. "
+        "This is different from disability or state-insured status.",
+    )
+    l10n_sk_health_minimum_evidence = fields.Char(
+        string="Minimum opt-out notice reference",
+        help="Reference to the retained written notice and concurrent-employment facts effective on this version.",
+    )
+
+    def l10n_sk_health_minimum_is_opted_out(self):
+        self.ensure_one()
+        if (
+            self.l10n_sk_health_minimum_opt_out
+            and not (self.l10n_sk_health_minimum_evidence or "").strip()
+        ):
+            raise UserError(
+                _(
+                    "Record the employee's written concurrent-employment minimum opt-out notice before calculation."
+                )
+            )
+        return bool(self.l10n_sk_health_minimum_opt_out)
+
+    @api.model
+    def _get_whitelist_fields_from_template(self):
+        values = super()._get_whitelist_fields_from_template() or []
+        return values + [
+            name
+            for name in (
+                "l10n_sk_health_minimum_opt_out",
+                "l10n_sk_health_minimum_evidence",
+            )
+            if name not in values
+        ]
+
+    def l10n_sk_health_employee_assessment(
+        self, income, rate, day, maximum, phaseout_end
+    ):
+        """Canonical source for both payroll and the health declaration.
+
+        This engine-neutral method receives dated parameters from its caller;
+        it does not depend on either salary-rule parameter model.
+        """
+        self.ensure_one()
+        employment_ratio = self.l10n_sk_month_employed_ratio(day)
+        calendar = self._l10n_sk_health_calendar_context(day)
+        if calendar:
+            employment_ratio = (
+                calendar["op_employment_days"] / calendar["calendar_days"]
+            )
+        eligible = self.l10n_sk_applies("HEALTH_ALLOWANCE") and employment_ratio > 0
+        concurrent = calendar and (
+            calendar["concurrent_self_employment"]
+            or calendar["concurrent_other_employment"]
+        )
+        result = employee_assessment(
+            income,
+            income if eligible else 0,
+            claim=bool(
+                getattr(self, "l10n_sk_health_oop_claim", False)
+                and eligible
+                and not concurrent
+            ),
+            employment_ratio=employment_ratio,
+            rate=rate,
+            maximum=maximum,
+            phaseout_end=phaseout_end,
+            exempt=bool(getattr(self, "l10n_sk_health_exempt", False)),
+        )
+        return {
+            key: float(value) if key != "exempt" else value
+            for key, value in result.items()
+        }
+
+    def _l10n_sk_health_calendar_context(self, day):
+        """The effective reviewed month, never a superseded or unfinished revision."""
+        self.ensure_one()
+        self.check_access("read")
+        month = fields.Date.to_date(day).replace(day=1)
+        calendar = self.env["l10n.sk.health.calendar"].search(
+            [
+                ("company_id", "=", self.company_id.id),
+                ("employee_id", "=", self.employee_id.id),
+                ("month", "=", month),
+                ("state", "!=", "superseded"),
+            ]
+        )
+        if calendar and calendar.state != "reviewed":
+            raise UserError(
+                _("Finish reviewing the employee's health calendar before calculation.")
+            )
+        return calendar._calendar_context() if calendar else False
+
+    def l10n_sk_health_is_disabled(self, day):
+        self.ensure_one()
+        calendar = self._l10n_sk_health_calendar_context(day)
+        return (
+            calendar["disability_in_month"]
+            if calendar
+            else bool(getattr(self, "l10n_sk_ztp", False))
+        )
+
+    def l10n_sk_health_calendar_minimum(
+        self, day, base, ee_rate, er_rate, employee, employer
+    ):
+        calendar = self._l10n_sk_health_calendar_context(day)
+        if not calendar:
+            return False
+        facts = minimum_assessment(
+            base,
+            ee_rate,
+            er_rate,
+            0
+            if getattr(self, "l10n_sk_health_exempt", False)
+            else calendar["minimum_days"],
+            calendar["calendar_days"],
+            employee,
+            employer,
+            opt_out=self.l10n_sk_health_minimum_is_opted_out(),
+        )
+        return {key: float(value) for key, value in facts.items()}
 
     def l10n_sk_employee_social_cap(self, cap, day):
         """The employee's maximum assessment base for the month of ``day``.
@@ -56,9 +181,12 @@ class HrVersion(models.Model):
         agreement type and hoping every other rule derived it the same way.
         """
         self.ensure_one()
-        return applies(concept, self.l10n_sk_employment_form(),
-                       self.l10n_sk_income_is_regular(),
-                       self.l10n_sk_pension_status())
+        return applies(
+            concept,
+            self.l10n_sk_employment_form(),
+            self.l10n_sk_income_is_regular(),
+            self.l10n_sk_pension_status(),
+        )
 
     def l10n_sk_employment_form(self):
         """This contract's employment form, defaulting to a pracovný pomer.

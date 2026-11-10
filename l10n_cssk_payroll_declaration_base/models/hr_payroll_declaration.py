@@ -242,7 +242,7 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
         [("draft", "Draft"), ("generated", "Generated"),
          ("submitted", "Submitted")],
         default="draft", tracking=True)
-    xml_attachment_id = fields.Many2one("ir.attachment", readonly=True)
+    xml_attachment_id = fields.Many2one("ir.attachment", string="Generated file", readonly=True)
 
     def _submission_ready_states(self):
         """`generated` is this vocabulary's `exported` — the XML exists."""
@@ -270,7 +270,7 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
     submitted_date = fields.Datetime(readonly=True, copy=False)
     submission_reference = fields.Char(copy=False)
     submitted_attachment_id = fields.Many2one(
-        "ir.attachment", string="Filed XML", readonly=True, copy=False)
+        "ir.attachment", string="Filed file", readonly=True, copy=False)
     filed_history_ids = fields.Many2many(
         "ir.attachment", string="Filed history", readonly=True, copy=False)
 
@@ -661,6 +661,17 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                 "Reset the declaration to draft before regenerating it."))
         self._ensure_period_version()
         self._preflight()
+        data = self._declaration_source_data()
+        self._prepare_employee_declarations(data)
+        xml_bytes = self._render_xml(data)
+        self._validate_against_schema(xml_bytes)
+        self._attach_xml(xml_bytes)
+        self._declaration_write({"state": "generated"})
+        self.message_post(body=self._declaration_generated_message())
+        return True
+
+    def _declaration_source_data(self):
+        """One generation pipeline for payslip and HR-event declarations."""
         payslips = self._get_period_payslips()
         if payslips is None:
             raise UserError(_(
@@ -671,14 +682,19 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                 "No payslips found for %(company)s in %(month)s/%(year)s.",
                 company=self.company_id.display_name,
                 month=self.month, year=self.year))
-        data = self._collect_payslip_totals(payslips)
-        self._prepare_employee_declarations(data)
-        xml_bytes = self._render_xml(data)
-        self._validate_against_schema(xml_bytes)
-        self._attach_xml(xml_bytes)
-        self.state = "generated"
-        self.message_post(body=_("Declaration generated and XSD-validated."))
-        return True
+        return self._collect_payslip_totals(payslips)
+
+    def _declaration_write(self, values):
+        """Private workflow writes; the default preserves the ORM/access chain.
+
+        Protected reports can refine this without exposing context flags
+        that would allow an API caller to forge filing evidence.
+        """
+        return self.write(values)
+
+    def _declaration_generated_message(self):
+        """Reports using another published wire format describe its check."""
+        return _("Declaration generated and XSD-validated.")
 
     def _preflight(self):
         """Master-data checks the XML template relies on. Concrete reports
@@ -819,13 +835,19 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
 
     def _attach_xml(self, xml_bytes):
         self.ensure_one()
-        self.xml_attachment_id = self.env["ir.attachment"].create({
-            "name": "%s.xml" % (self.name or self._xml_name_fallback),
+        attachment = self.env["ir.attachment"].create({
+            **self._declaration_attachment_metadata(),
             "datas": base64.b64encode(xml_bytes),
             "res_model": self._name,
             "res_id": self.id,
-            "mimetype": "application/xml",
         })
+        self._declaration_write({"xml_attachment_id": attachment.id})
+
+    def _declaration_attachment_metadata(self):
+        """Filename and media type; attachment ownership stays in the mixin."""
+        self.ensure_one()
+        return {"name": "%s.xml" % (self.name or self._xml_name_fallback),
+                "mimetype": "application/xml"}
 
     # ------------------------------------------------------------------
     # State machine / retention
@@ -846,10 +868,12 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                     "submitted."))
             if not rec.xml_attachment_id:
                 raise UserError(_("There is no generated XML to submit."))
-            rec.submitted_attachment_id = rec.xml_attachment_id
-            rec.filed_history_ids = [Command.link(rec.xml_attachment_id.id)]
-            rec.submitted_date = fields.Datetime.now()
-            rec.state = "submitted"
+            rec._declaration_write({
+                "submitted_attachment_id": rec.xml_attachment_id.id,
+                "filed_history_ids": [Command.link(rec.xml_attachment_id.id)],
+                "submitted_date": fields.Datetime.now(),
+                "state": "submitted",
+            })
             # Markup on the TEMPLATE and ``%`` for the value: a plain str
             # posts the tags as visible text, and Markup(_(..., arg)) would
             # render whatever the attachment name contains.
@@ -863,7 +887,7 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
             if rec.state == "draft":
                 continue
             was = rec.state
-            rec.state = "draft"
+            rec._declaration_write({"state": "draft"})
             rec.message_post(body=_(
                 "Reset to draft (from %s). Filed copy preserved: %s",
                 was, rec.submitted_attachment_id.name or "—"))

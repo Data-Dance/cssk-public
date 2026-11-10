@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.24.0
+verified: 19.0.1.25.0
 family: l10n_sk_hr_payroll_base#engines
 ---
 
