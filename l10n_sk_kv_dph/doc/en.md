@@ -1,7 +1,7 @@
 ---
 title: SK VAT Control Statement (KV DPH)
 summary: The Slovak kontrolný výkaz DPH — sections A.1 to D.2 computed from the books, checked against the form's requirements and exported as the Finančná správa XML in the form version in force for the period.
-verified: 19.0.2.7.0
+verified: 19.0.2.9.0
 ---
 
 ## What it is for {#purpose}
@@ -188,6 +188,19 @@ Prepare and export the statement as in the
   dodatočný statement compares against the state after the first, so chained
   corrections stay consistent.
 
+**Posting a supplier's credit or debit note.** A Slovak company cannot post a
+vendor credit note, or a vendor debit note linked to its bill, that goes to
+C.2 without the supplier's number of the document (*Bill Reference*) and the
+supplier's number of the invoice it corrects (the linked bill's *Bill
+Reference*, *Original document number*, or the *Source Document*). Found
+missing only when the statement is prepared, the supplier's documents may no
+longer be at hand. The *Credit Note* button leaves the reference empty for
+you to type rather than writing "Reversal of: …" there. Ordinary bills post
+as before (the export names any without a number), and so do journal entries
+and Odoo's own full cancellation (*Modify*). An accounting administrator
+importing historical documents can post past the check with the context key
+`l10n_sk_kv_skip_supplier_numbers`.
+
 Before rendering, the export stops and names the documents at fault when:
 
 - a row in A.2, B.2 or B.3.2 has no IČ DPH of the counterparty, or one that is
@@ -196,9 +209,11 @@ Before rendering, the export stops and names the documents at fault when:
   are removed automatically; the number is not shortened, because the tax
   administration matches it against the supplier's own filing);
 - a row in A.1, A.2, B.1 or B.2 has no supply date;
-- a C.2 row has no supplier's number of the credit or debit note (enter it as
-  the *Bill Reference*); both numbers on a C.2 row are the supplier's, never
-  our internal ones;
+- a B.1 or B.2 row has no supplier's invoice number, or a C.2 row no
+  supplier's number of the credit or debit note (enter it as the *Bill
+  Reference*); the numbers on received documents are always the supplier's,
+  never our internal ones, and a reference containing our own number of the
+  corrected bill (Odoo's "Reversal of: …") does not count;
 - a C.1 or C.2 row has no number of the corrected invoice (enter it as
   *Original document number* on the credit note; on a vendor credit note the
   *Source Document* is read too, unless it names a purchase order);

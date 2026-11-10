@@ -844,9 +844,9 @@ else:
          the day after employer_days the Sociálna poisťovňa pays nemocenské.
          employer_days is dated: 10 days in 2025, 14 days from 1.1.2026.
          Modelled as exempt from the social/health/tax bases (kept out of GROSS)
-         and added to NET via DED — a documented SIMPLIFICATION (in reality the
-         náhrada is exempt from odvody but is subject to income tax; the tax is
-         not modelled here). Sources: podnikajte.sk "PN zamestnanca od 1.1.2026"
+         and added to NET via DED. Statutory compensation is also income-tax
+         exempt under § 5 ods. 7 písm. f) zákona 595/2003 Z. z.; keeping it out
+         of the taxable base is intentional. Sources: podnikajte.sk "PN zamestnanca od 1.1.2026"
          <https://www.podnikajte.sk/socialne-a-zdravotne-odvody/pn-zamestnanca-od-1-1-2026-zmeny>,
          MPSVR SR "Náhrada príjmu pri PN"; max DVZ 2026 = 100,2083 €
          (= 2 × 1524 × 12 / 365). -->
@@ -857,7 +857,7 @@ else:
         <field name="code">SICK_COMP</field>
         <field name="sequence">178</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = ('PN' in worked_days.dict or 'PN_DAYS' in inputs.dict) and 'PN_DVZ' in inputs.dict</field>
+        <field name="condition_python">result = contract.l10n_sk_applies('SICKNESS_COMPENSATION') and ('PN' in worked_days.dict or 'PN_DAYS' in inputs.dict) and 'PN_DVZ' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 # Sick days are driven from the PN leave (worked_days.PN); the manual PN_DAYS

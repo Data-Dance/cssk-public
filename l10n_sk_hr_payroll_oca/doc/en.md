@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.24.1
+verified: 19.0.1.24.3
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -59,3 +59,11 @@ all minimum-wage grades or an independently reviewed probable-wage input.
 Source: [Labour Code § 134](https://static.slov-lex.sk/static/SK/ZZ/2001/311/20261202.html),
 including paragraphs 1–7, verified against the published version applying from
 2 December 2026. Review future amendments for each actual payroll period.
+
+## Sickness compensation entitlement {#sickness-entitlement}
+
+Approved PN dates determine calendar-day tiers, while the native shared `SICKNESS_COMPENSATION` applicability policy determines entitlement. A valid absence or entered DVZ alone does not confer insurance. Regular employment remains entitled even for an old-age pensioner; irregular agreements, student agreements and pensioner DoVP/DoPC agreements receive no employer sickness compensation. See [Act462/2003](law:sk/2003/462) and [Act461/2003](law:sk/2003/461). The statutory compensation is income-tax exempt under §5(7)(f) of Act595/2003, as confirmed by the [Financial Administration](https://podpora.financnasprava.sk/589698-N%C3%A1hrada-pr%C3%ADjmu-a-pr%C3%ADplatok-k-n%C3%A1hrade-pr%C3%ADjmu-pri-do%C4%8Dasnej-PN); its exclusion from taxable GROSS is retained. DVZ determination, missing/overlapping medical evidence and manual continuation inputs still require their separate review.
+
+## Actual worked time in the average {#average-worked-time}
+
+WORK100 is the gross scheduled time; separately recorded approved absence rows are deducted by absolute days and hours before applying the 21-day or168-hour threshold and wage/hour division. This follows the same absence-code taxonomy as BASIC, with identical results for either leave-sign setting. Refund direction remains applied once by the caller. An unsaved payslip preview excludes its persistent origin rather than passing a temporary NewId into the history domain.

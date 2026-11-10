@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.24.1
+verified: 19.0.1.24.3
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -56,3 +56,11 @@ vstup pravdepodobnej mzdy.
 Zdroj: [Zákonník práce § 134](https://static.slov-lex.sk/static/SK/ZZ/2001/311/20261202.html),
 vrátane odsekov 1–7, overené v publikovanom znení od 2. decembra 2026.
 Pri skutočnom mzdovom období preveriť ďalšie novelizácie.
+
+## Nárok na náhradu príjmu počas PN {#sickness-entitlement}
+
+Dátumy schválenej PN určujú kalendárne dni jednotlivých pásiem; nárok určuje spoločné natívne pravidlo `SICKNESS_COMPENSATION`. Samotná absencia alebo zadaný DVZ nezakladajú nemocenské poistenie. Pri pravidelnom pracovnom pomere zostáva nárok aj starobnému dôchodcovi. Pri nepravidelných dohodách, študentskej dohode a dôchodkových DoVP/DoPČ sa náhrada neposkytuje. Právny základ: [462/2003](law:sk/2003/462) a [461/2003](law:sk/2003/461). Zákonná náhrada je podľa §5 ods.7 písm.f) zákona595/2003 oslobodená od dane, čo potvrdzuje [Finančná správa](https://podpora.financnasprava.sk/589698-N%C3%A1hrada-pr%C3%ADjmu-a-pr%C3%ADplatok-k-n%C3%A1hrade-pr%C3%ADjmu-pri-do%C4%8Dasnej-PN). Jej vylúčenie zo zdaniteľného GROSS zostáva zachované. Určenie DVZ, chýbajúce či prekrývajúce sa lekárske podklady a ručne zadané pokračovanie vyžadujú samostatné overenie.
+
+## Skutočne odpracovaný čas pri priemere {#average-worked-time}
+
+WORK100 obsahuje plánovaný čas. Pred overením hranice21 dní alebo168 hodín a delením mzdy hodinami sa odpočítajú absolútne dni a hodiny samostatne evidovaných absencií. Používa sa rovnaký zoznam kódov ako pri BASIC; obe nastavenia znamienok absencie majú rovnaký výsledok. Znamienko refundu naďalej uplatní volajúci iba raz. Neuložený náhľad pásky z histórie vylučuje svoj uložený originál namiesto dočasného NewId.

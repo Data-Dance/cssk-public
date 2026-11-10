@@ -1,7 +1,7 @@
 ---
 title: Kontrolný výkaz DPH (KV DPH)
 summary: Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.
-verified: 19.0.2.7.0
+verified: 19.0.2.9.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -182,6 +182,18 @@ Slovenské osobitosti:
   Nezmenené riadky vypadnú. Druhý dodatočný výkaz sa porovnáva so stavom po
   prvom, takže reťazené opravy zostanú konzistentné.
 
+**Účtovanie dobropisu alebo ťarchopisu od dodávateľa.** Slovenská spoločnosť
+nezaúčtuje dobropis od dodávateľa ani ťarchopis prepojený s jeho faktúrou,
+ktorý patrí do C.2, bez čísla tohto dokladu od dodávateľa (*referencia
+faktúry*) a bez dodávateľovho čísla opravovanej faktúry (*referencia faktúry*
+prepojenej faktúry, *Original document number* alebo *Zdrojový dokument*).
+Ak by sa chýbajúce číslo zistilo až pri príprave výkazu, doklady dodávateľa
+už nemusia byť poruke. Tlačidlo *Credit Note* nechá referenciu prázdnu na
+vyplnenie namiesto textu „Reversal of: …“. Bežné prijaté faktúry sa účtujú
+ako doteraz (export vymenuje tie bez čísla), rovnako interné doklady a úplné
+storno cez *Modify*. Správca účtovníctva môže pri importe historických
+dokladov kontrolu obísť kľúčom kontextu `l10n_sk_kv_skip_supplier_numbers`.
+
 Pred vytvorením súboru export zastaví a vymenuje chybné doklady, ak:
 
 - riadok v A.2, B.2 alebo B.3.2 nemá IČ DPH druhej strany alebo má iné ako
@@ -190,9 +202,11 @@ Pred vytvorením súboru export zastaví a vymenuje chybné doklady, ak:
   odstránia automaticky; číslo sa neskracuje, lebo finančná správa ho páruje
   s podaním dodávateľa);
 - riadok v A.1, A.2, B.1 alebo B.2 nemá deň dodania;
-- riadok v C.2 nemá číslo dobropisu alebo ťarchopisu od dodávateľa (zadajte ho
-  ako *referenciu faktúry*); obe čísla v C.2 sú dodávateľove, nikdy nie naše
-  interné;
+- riadok v B.1 alebo B.2 nemá číslo faktúry od dodávateľa alebo riadok v C.2
+  číslo dobropisu či ťarchopisu od dodávateľa (zadajte ho ako *referenciu
+  faktúry*); čísla prijatých dokladov sú vždy dodávateľove, nikdy nie naše
+  interné, a referencia s naším číslom opravovanej faktúry (Odoo „Reversal of:
+  …“) sa nepočíta;
 - riadok v C.1 alebo C.2 nemá číslo opravovanej faktúry (zadajte ho na
   dobropise ako *Original document number*; pri dodávateľskom dobropise sa
   číta aj *Zdrojový dokument*, ak neobsahuje číslo nákupnej objednávky);

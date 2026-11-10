@@ -8,6 +8,15 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **Installing Slovak or Czech failed.** One code message (the bad-debt correction on A.4) had no ``#. module:``
+  comment in the template and both catalogues, and Odoo 19's PoFileReader
+  stops on such an entry, so loading either language failed in every
+  database with this module installed. The line is restored; the same
+  defect as cssk-public#33 in l10n_sk_vat_return.
+
 Added
 ~~~~~
 

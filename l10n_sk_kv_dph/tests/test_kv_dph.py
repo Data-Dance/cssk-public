@@ -1,4 +1,5 @@
 import base64
+import re
 from unittest.mock import patch
 
 from lxml import etree
@@ -901,11 +902,13 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         hand. If ``O`` were still rendered from ``tax_amount`` the override
         would be invisible in the filing — which is what it was.
         """
-        self.init_invoice(
+        bill = self.init_invoice(
             "in_invoice", partner=self.partner_a,
             invoice_date="2026-06-12", amounts=[500.0],
-            taxes=self.tax_purchase, post=True,
+            taxes=self.tax_purchase,
         )
+        bill.ref = "DF-2026-0500"
+        bill.action_post()
         st = self._make_statement()
         st.action_compute_lines()
         b2 = st.sk_section_b2_ids
@@ -1854,9 +1857,11 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
     def test_a_half_deduction_files_half_in_O(self):
         """"do stĺpca Odpočítaná daň musí ísť len tých 50 %" — from the tax."""
         half = self._partial_tax(self.tax_purchase, 50, "23 % 50/50")
-        self.init_invoice("in_invoice", partner=self.partner_a,
-                          invoice_date="2026-06-12", amounts=[1000.0],
-                          taxes=half, post=True)
+        bill = self.init_invoice("in_invoice", partner=self.partner_a,
+                                 invoice_date="2026-06-12", amounts=[1000.0],
+                                 taxes=half)
+        bill.ref = "DF-2026-0501"
+        bill.action_post()
         st = self._make_statement()
         st.action_compute_lines()
         b2 = st.sk_section_b2_ids
@@ -2090,13 +2095,160 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         self.assertEqual(self._c1_fp(st), [invoice.name.replace(" ", "")])
 
     # --- C.2 original from the vendor credit note's Source Document ----
-    def _vendor_credit(self, **vals):
+    def _vendor_credit(self, skip_check=False, **vals):
         credit = self.init_invoice(
             "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
             amounts=[200.0], taxes=self.tax_purchase)
         credit.write(dict(ref="DOB-77", **vals))
-        credit.action_post()
+        credit.with_context(
+            l10n_sk_kv_skip_supplier_numbers=skip_check).action_post()
         return credit
+
+    def _post_unchecked(self, move):
+        """Post past the posting check, to prove the export's own."""
+        move.with_context(l10n_sk_kv_skip_supplier_numbers=True).action_post()
+
+    # --- posting a received correction needs the supplier's numbers ----
+    def test_posting_refuses_a_vendor_credit_note_without_its_number(self):
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        credit.cssk_control_original_ref = "DF-2026-0315"
+        with self.assertRaisesRegex(UserError, "Bill Reference"):
+            credit.action_post()
+
+    def test_posting_refuses_a_vendor_credit_note_without_the_original(self):
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=True)
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        # Linked to a bill with no supplier's number: the bill's internal
+        # name does not count.
+        credit.write({"ref": "DOB-80", "reversed_entry_id": bill.id})
+        with self.assertRaisesRegex(UserError, "invoice it corrects"):
+            credit.action_post()
+
+    def test_posting_accepts_a_vendor_credit_note_with_both_numbers(self):
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=False)
+        bill.ref = "DF-2026-0400"
+        bill.action_post()
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        credit.write({"ref": "DOB-81", "reversed_entry_id": bill.id})
+        credit.action_post()
+        self.assertEqual(credit.state, "posted")
+        self.assertEqual(self._c2_original(), "DF-2026-0400")
+
+    def test_posting_refuses_a_vendor_debit_note_without_its_number(self):
+        if "debit_origin_id" not in self.env["account.move"]._fields:
+            self.skipTest("account_debit_note is not installed")
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=False)
+        bill.ref = "DF-2026-0401"
+        bill.action_post()
+        note = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-20",
+            amounts=[100.0], taxes=self.tax_purchase, post=False)
+        note.debit_origin_id = bill
+        with self.assertRaisesRegex(UserError, "Bill Reference"):
+            note.action_post()
+
+    def test_only_an_administrator_may_skip_the_posting_check(self):
+        """The bypass flag arrives with any RPC call's context."""
+        clerk = self.env["res.users"].create({
+            "name": "Billing clerk", "login": "kv_billing_clerk",
+            "company_id": self.company.id,
+            "company_ids": [Command.set(self.company.ids)],
+            "group_ids": [Command.set([
+                self.env.ref("account.group_account_invoice").id])],
+        })
+        self.assertFalse(clerk.has_group("account.group_account_manager"))
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        with self.assertRaisesRegex(UserError, "Bill Reference"):
+            credit.with_user(clerk).with_context(
+                l10n_sk_kv_skip_supplier_numbers=True).action_post()
+
+    def _bill_with_ref(self, ref):
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=False)
+        bill.ref = ref
+        bill.action_post()
+        return bill
+
+    def _reversal_wizard(self, bill, **vals):
+        return self.env["account.move.reversal"].with_context(
+            active_model="account.move", active_ids=bill.ids).create({
+                "date": "2026-06-19", "journal_id": bill.journal_id.id,
+                **vals})
+
+    def test_the_credit_note_button_leaves_the_reference_to_the_user(self):
+        """Odoo writes "Reversal of: BILL/…" there, our own number."""
+        bill = self._bill_with_ref("DF-2026-0402")
+        action = self._reversal_wizard(bill, reason="price").refund_moves()
+        credit = self.env["account.move"].browse(action["res_id"])
+        self.assertFalse(credit.ref)
+        with self.assertRaisesRegex(UserError, "Bill Reference"):
+            credit.action_post()
+
+    def test_a_reversal_text_is_not_the_supplier_number(self):
+        bill = self._bill_with_ref("DF-2026-0403")
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        credit.write({"ref": "Reversal of: %s, price" % bill.name,
+                      "reversed_entry_id": bill.id})
+        self.assertFalse(credit._l10n_sk_kv_supplier_ref())
+        with self.assertRaisesRegex(UserError, "Bill Reference"):
+            credit.action_post()
+
+    def test_a_short_internal_number_does_not_void_a_real_reference(self):
+        bill = self._bill_with_ref("DF-2026-0404")
+        bill.name = "1"
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        credit.write({"ref": "DOB-2026-0001", "reversed_entry_id": bill.id})
+        self.assertEqual(credit._l10n_sk_kv_supplier_ref(), "DOB-2026-0001")
+
+    def test_odoos_full_cancellation_is_not_held_at_posting(self):
+        """"Modify" posts the reversal at once; no supplier document exists."""
+        bill = self._bill_with_ref("DF-2026-0405")
+        self._reversal_wizard(bill).modify_moves()
+        self.assertTrue(bill.reversal_move_ids.filtered(
+            lambda m: m.state == "posted"))
+
+    def test_posting_check_leaves_ordinary_bills_and_sales_alone(self):
+        """Only C.2 documents are held: a bill without a reference posts (the
+        export names it), and so does a customer credit note."""
+        self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=True)
+        self.init_invoice(
+            "out_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_sale, post=True)
+
+    # --- B.1 / B.2 carry the supplier's number, never ours -------------
+    def test_b2_does_not_file_the_internal_number(self):
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=True)
+        self.assertFalse(bill.ref)
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertFalse(st.sk_section_b2_ids.entry_ref)
+        with self.assertRaisesRegex(
+                UserError, "B.2: 1 row\\(s\\) without the supplier's invoice "
+                "number.*" + re.escape(bill.name)):
+            st.action_export_xml()
 
     def _c2_original(self):
         st = self._make_statement()
@@ -2108,7 +2260,7 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
             "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
             amounts=[200.0], taxes=self.tax_purchase)
         credit.write({"invoice_origin": "DF-2026-0315"})
-        credit.action_post()
+        self._post_unchecked(credit)
         st = self._make_statement()
         st.action_compute_lines()
         with self.assertRaisesRegex(UserError, "supplier's number"):
@@ -2123,7 +2275,7 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
             "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
             amounts=[200.0], taxes=self.tax_purchase)
         credit.write({"ref": "DOB-78", "reversed_entry_id": bill.id})
-        credit.action_post()
+        self._post_unchecked(credit)
         st = self._make_statement()
         st.action_compute_lines()
         with self.assertRaisesRegex(UserError, "invoice being corrected"):
@@ -2158,7 +2310,7 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
             self.skipTest("purchase not installed")
         order = self.env["purchase.order"].create({
             "partner_id": self.partner_a.id, "company_id": self.company.id})
-        self._vendor_credit(invoice_origin="%s, X" % order.name)
+        self._vendor_credit(skip_check=True, invoice_origin="%s, X" % order.name)
         st = self._make_statement()
         st.action_compute_lines()
         with self.assertRaisesRegex(UserError, "invoice being corrected"):

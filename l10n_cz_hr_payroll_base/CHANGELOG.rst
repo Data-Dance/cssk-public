@@ -5,6 +5,15 @@ Changelog
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **Installing Slovak or Czech failed.** Two code messages (the agreements total and the yearly parameter check) and one selection label had no ``#. module:``
+  comment in the template and both catalogues, and Odoo 19's PoFileReader
+  stops on such an entry, so loading either language failed in every
+  database with this module installed. The line is restored; the same
+  defect as cssk-public#33 in l10n_sk_vat_return.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

@@ -10,6 +10,32 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 
 Carry-over to 18.0: the FO / FP correction of 19.0.2.6.0. DISCHARGED (18.0.2.4.0).
 
+Carry-over to 18.0: the posting check and the B.1 / B.2 rule of 19.0.2.9.0. DISCHARGED (18.0.2.7.0; debit notes not held there, as they still report in B.2).
+
+[19.0.2.9.0] — 2026-11-10
+-------------------------
+
+Changed
+~~~~~~~
+
+- **A supplier's credit or debit note bound for C.2 does not post without the
+  supplier's numbers**: its own (*Bill Reference*) and that of the invoice it
+  corrects. Discovered missing only when the statement is prepared, the
+  supplier's documents may no longer be at hand. Journal entries and Odoo's
+  full cancellation are not held; an accounting administrator can pass
+  ``l10n_sk_kv_skip_supplier_numbers`` to post historical documents.
+- **B.1 and B.2 no longer fall back to internal numbers** either. The export
+  refuses a row without the supplier's invoice number and names the document
+  by our number.
+
+Fixed
+~~~~~
+
+- **"Reversal of: BILL/…" was filed as the supplier's number.** Odoo's credit
+  note wizard writes our number of the bill into the reference; on a Slovak
+  supplier's bill it now leaves the reference empty, and a reference
+  containing our number of the corrected bill is not taken as the supplier's.
+
 [19.0.2.8.0] — 2026-11-09
 -------------------------
 

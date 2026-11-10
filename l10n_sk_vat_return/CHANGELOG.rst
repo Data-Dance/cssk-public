@@ -24,6 +24,17 @@ Carry-over to 18.0
   CSV mirrors 19.0's ``vs_tuz_*`` / ``vs_rc_*``, and 18.0 maps through
   ``account.fiscal.position.tax`` rows rather than ``original_tax_ids``.
 
+[19.0.1.15.2] — 2026-11-10
+--------------------------
+
+Fixed
+~~~~~
+
+- Restore the module comment on the two tax-office/authorised-person messages
+  in the POT and Slovak/Czech catalogs. Missing metadata made Odoo 19 language
+  installation fail in PoFileReader before the VAT translations could load.
+  Contributed by votrelec (cssk-public#33).
+
 [19.0.1.15.1] — 2026-11-09
 --------------------------
 

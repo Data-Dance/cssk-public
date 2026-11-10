@@ -729,6 +729,53 @@ class TestSkPayroll(TransactionCase):
         self.assertAlmostEqual(hours, 176.0, places=2)
         return p
 
+    def _check_average_source_with_approved_leave(self, positive):
+        self.env["ir.config_parameter"].sudo().set_param(
+            "payroll.leaves_positive", "1" if positive else False
+        )
+        contract, employee, _cal = self._abs_setup()
+        self._make_leave(
+            employee, "l10n_sk_leave_type_dovolenka", date(2026, 3, 9), date(2026, 3, 9)
+        )
+        source = self._worked_payslip(
+            contract, employee, date(2026, 3, 1), date(2026, 3, 31)
+        )
+        source.action_payslip_done()
+        self.assertEqual(source._l10n_sk_average_worked_time(), (21.0, 168.0))
+        self.assertAlmostEqual(
+            source._l10n_sk_average_counted_wage(), 1909.09, places=2
+        )
+        target = self._worked_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+        )
+        self.assertAlmostEqual(
+            target.l10n_sk_average_hourly_earnings(), 11.3636, places=4
+        )
+
+    def test_average_source_excludes_approved_negative_leave(self):
+        self._check_average_source_with_approved_leave(False)
+
+    def test_average_source_excludes_approved_positive_leave(self):
+        self._check_average_source_with_approved_leave(True)
+
+    def test_virtual_average_assessment_uses_confirmed_sources(self):
+        contract, employee, _cal = self._abs_setup()
+        source = self._seed_prior_quarter(contract, employee, bonus=400.0)
+        preview = self.env["hr.payslip"].new(
+            {
+                "company_id": self.company.id,
+                "employee_id": employee.id,
+                "contract_id": contract.id,
+                "struct_id": contract.struct_id.id,
+                "date_from": date(2026, 6, 1),
+                "date_to": date(2026, 6, 30),
+            }
+        )
+        self.assertEqual(preview._l10n_sk_average_payslips(), source)
+        self.assertAlmostEqual(
+            preview.l10n_sk_average_hourly_earnings(), 13.6364, places=4
+        )
+
     def test_average_hourly_earnings_from_prior_quarter(self):
         """PHZ comes from the SEEDED quarter, not the fallback.
 
@@ -2009,3 +2056,129 @@ class TestSkPayroll(TransactionCase):
         target.contract_id = target.employee_id._get_version(date(2026, 6, 1))
         self.assertIn(source, target._l10n_sk_average_payslips())
         self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(), 28.5714, places=4)
+
+    def test_sickness_calendar_weekend_is_paid_for_five_calendar_days(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        leave = self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 5), date(2026, 6, 9)
+        )
+        self.assertEqual(leave.state, "validate")
+        self.assertEqual(leave.request_date_to, date(2026, 6, 9))
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+            inputs=[("PN_DVZ", 20)],
+        )
+        # Fri-Sun 3 x25%, Mon-Tue 2 x55%; calendar days, not three workdays.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 37)
+
+    def test_sickness_calendar_month_boundary_does_not_restart_first_tier(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        leave = self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 29), date(2026, 7, 12)
+        )
+        self.assertEqual(leave.state, "validate")
+        june = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+            inputs=[("PN_DVZ", 20)],
+        )
+        july = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 7, 1),
+            date(2026, 7, 31),
+            inputs=[("PN_DVZ", 20)],
+        )
+        self.assertEqual(june.get_salary_line_total("SICK_COMP"), 10)
+        # July1 is day3; July2-12 are days4-14, including both weekends.
+        self.assertEqual(july.get_salary_line_total("SICK_COMP"), 126)
+
+    def test_sickness_calendar_uninsured_old_age_agreement_has_no_employer_pay(self):
+        calendar = self._make_mon_fri_calendar()
+        contract, employee = self._make_contract(
+            "Synthetic uninsured pensioner",
+            200,
+            date(2024, 1, 1),
+            calendar,
+            l10n_sk_agreement_type="dopc",
+            l10n_sk_income_regular=True,
+            l10n_sk_pension_type="old_age",
+        )
+        leave = self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 5), date(2026, 6, 9)
+        )
+        self.assertEqual(leave.state, "validate")
+        slip = self._worked_payslip(
+            contract,
+            employee,
+            date(2026, 6, 1),
+            date(2026, 6, 30),
+            inputs=[("PN_DVZ", 20)],
+        )
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 0)
+
+    def test_sickness_calendar_entitlement_matrix_uses_the_actual_salary_rule(self):
+        cases = [
+            ("none", True, False, 136),
+            ("none", True, "old_age", 136),
+            ("dopc", True, False, 136),
+            ("dovp", True, False, 136),
+            ("dopc", False, False, 0),
+            ("dovp", False, False, 0),
+            ("dobps", True, False, 0),
+            ("dobps", False, False, 0),
+        ]
+        pensions = (
+            "old_age",
+            "early_old_age",
+            "disability_over_70",
+            "disability",
+            "disability_at_age",
+            "service_at_age",
+            "disability_service",
+        )
+        cases += [
+            (form, True, pension, 0)
+            for form in ("dopc", "dovp")
+            for pension in pensions
+        ]
+        calendar = self._make_mon_fri_calendar()
+        calendar.attendance_ids.filtered(
+            lambda row: row.day_period == "afternoon"
+        ).unlink()
+        calendar.attendance_ids.write({"hour_from": 8, "hour_to": 8.5})
+        for form, regular, pension, expected in cases:
+            with self.subTest(form=form, regular=regular, pension=pension):
+                contract, employee = self._make_contract(
+                    "Synthetic sickness entitlement",
+                    200,
+                    date(2024, 1, 1),
+                    calendar,
+                    l10n_sk_agreement_type=form,
+                    l10n_sk_income_regular=regular,
+                    l10n_sk_pension_type=pension,
+                )
+                leave = self._make_leave(
+                    employee,
+                    "l10n_sk_leave_type_pn",
+                    date(2026, 6, 1),
+                    date(2026, 6, 14),
+                )
+                self.assertEqual(leave.state, "validate")
+                slip = self._worked_payslip(
+                    contract,
+                    employee,
+                    date(2026, 6, 1),
+                    date(2026, 6, 30),
+                    inputs=[("PN_DVZ", 20)],
+                )
+                self.assertEqual(slip.get_salary_line_total("SICK_COMP"), expected)
+                self.assertEqual(
+                    slip.get_salary_line_total("GROSS"),
+                    slip.get_salary_line_total("BASIC"),
+                )

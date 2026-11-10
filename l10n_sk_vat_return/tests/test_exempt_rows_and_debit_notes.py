@@ -172,12 +172,17 @@ class TestSkDebitNotes(AccountTestInvoicingCommon):
 
     def _debit_note(self, tax):
         if self.has_origin:
-            original = self._bill(tax, "2026-05-10")
-            return self._bill(tax, "2026-06-10", debit_origin_id=original.id)
+            # The supplier's numbers: with l10n_sk_kv_dph installed a
+            # received debit note does not post without them.
+            original = self._bill(tax, "2026-05-10", ref="DF-2026-0001")
+            return self._bill(tax, "2026-06-10", debit_origin_id=original.id,
+                              ref="TAR-2026-0001")
         self.assertTrue(self.has_declared,
                         "neither account_debit_note nor l10n_cssk_kv_kh_base "
                         "is installed: nothing can mark a debit note")
-        return self._bill(tax, "2026-06-10", cssk_vat_correction="yes")
+        return self._bill(tax, "2026-06-10", cssk_vat_correction="yes",
+                          ref="TAR-2026-0001",
+                          cssk_control_original_ref="DF-2026-0001")
 
     def test_an_ordinary_bill_still_deducts_on_r21(self):
         self._bill(self.domestic, "2026-06-10")
@@ -216,7 +221,8 @@ class TestSkDebitNotes(AccountTestInvoicingCommon):
         """An imported ťarchopis whose original lives in another agenda."""
         if not self.has_declared:
             self.skipTest("l10n_cssk_kv_kh_base is not installed")
-        self._bill(self.domestic, "2026-06-10", cssk_vat_correction="yes")
+        self._bill(self.domestic, "2026-06-10", cssk_vat_correction="yes",
+                   ref="TAR-2026-0002", cssk_control_original_ref="DF-2026-0002")
         _ret, vals = self._june()
         self.assertAlmostEqual(vals["r21"], 0.0, places=2)
         self.assertAlmostEqual(vals["r28"], -23.0, places=2)

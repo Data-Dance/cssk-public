@@ -10,6 +10,11 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.24.2 and 19.0.1.24.3 (2026-11-10), not yet on 18.0:** sick pay
+  only where the agreement is sickness-insured (cssk-public#31), and the
+  average's worked time without absences (cssk-public#32). Check how the
+  18.0 engine's worked days carry leave before porting the second.
+
 - **19.0.1.24.1 (2026-11-09), not yet on 18.0:** hourly BASIC removes approved
   absence hours before separate leave compensation is added. Before porting
   to 18.0, review that engine's paid-time source; do not subtract absence
@@ -42,6 +47,31 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+
+[19.0.1.24.3] — 2026-11-10
+==========================
+
+Fixed
+~~~~~
+
+- The average's worked time subtracts the separately recorded absence days
+  and hours from WORK100, with either leave-sign setting, so a holiday in
+  the determining quarter no longer understates the next quarter's rate.
+  An unsaved payslip uses its persistent origin in the history search.
+  Contributed by votrelec (cssk-public#32).
+
+[19.0.1.24.2] — 2026-11-10
+==========================
+
+Fixed
+~~~~~
+
+- **Sick pay where there is no sickness insurance.** The salary rule now
+  asks the shared ``SICKNESS_COMPENSATION`` applicability, so a pensioner's,
+  student's or irregular dohoda gets no employer sick pay, while ordinary
+  employment of a pensioner stays insured. The rule comment now says that
+  the compensation is income-tax exempt (§ 5 ods. 7 písm. f) zákona
+  595/2003). Contributed by votrelec (cssk-public#31).
 
 [19.0.1.24.1] — 2026-11-09
 ==========================

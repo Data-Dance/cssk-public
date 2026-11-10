@@ -64,8 +64,8 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
         return self._cssk_ref_for_xml(self.entry_ref)
 
     # Received-document sections (B.1, B.2, C.2) must report the SUPPLIER's
-    # poradové číslo faktúry (move.ref), not our internal move name — for the
-    # correction sections that applies to the original-document column too.
+    # poradové číslo faktúry (move.ref), never our internal move name, not even
+    # as a fallback — for C.2 that applies to the original-document column too.
     _kv_inbound = False
 
     @api.model
@@ -126,24 +126,23 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
         # refuses it rather than filing the credit note's own number as its
         # original, which is what the template used to fall back to.
         original = move._cssk_control_original()
-        manual = move.cssk_control_original_ref or False
-        if self._kv_inbound and not manual:
-            # A received credit note's "Source Document" is where the
-            # supplier's original invoice number is commonly typed, and on
-            # some agendas it is mandatory before posting — one customer's requires
-            # it on every SK vendor credit note. Read last: a link or the
-            # dedicated field stays authoritative where filled. Not on the
-            # sales side, where invoice_origin is the SALES ORDER number and
-            # would be filed as the corrected invoice.
-            manual = self._cssk_origin_as_invoice_number(move) or False
         if self._kv_inbound:
-            entry_ref = move.ref or move.name
-            entry_ref_original = (
-                (original.ref or original.name) if original else manual
-            )
+            # Received documents carry the SUPPLIER's numbers only, never our
+            # internal ones: the tax administration matches B.1 / B.2 / C.2
+            # rows against the supplier's own statement, where our sequence
+            # does not exist. A missing number stays missing, and the export
+            # names the document. The original's number comes from the linked
+            # bill's reference, the typed number, or the Source Document (see
+            # ``account.move._l10n_sk_kv_original_supplier_number``); not on
+            # the sales side, where invoice_origin is the SALES ORDER.
+            entry_ref = move._l10n_sk_kv_supplier_ref()
+            entry_ref_original = move._l10n_sk_kv_original_supplier_number()
         else:
             entry_ref = move.name
-            entry_ref_original = original.name if original else manual
+            entry_ref_original = (
+                original.name if original
+                else move.cssk_control_original_ref or False
+            )
         vals = {
             "statement_id": statement.id,
             "move_line_id": line.id,
@@ -170,24 +169,6 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
                 statement, group
             )
         return vals
-
-    def _cssk_origin_as_invoice_number(self, move):
-        """``invoice_origin`` when it can be the supplier's invoice number.
-
-        A vendor credit note raised from a purchase order carries the ORDER
-        name there ("P00012", or several, comma-separated). That is not the
-        corrected invoice, and filing it as FP would pass the export's check
-        that a number is present. So an origin naming a purchase order is not
-        read, and the export asks for the real number instead."""
-        origin = (move.invoice_origin or "").strip()
-        if not origin or "purchase.order" not in self.env:
-            return origin
-        names = [n.strip() for n in origin.split(",") if n.strip()]
-        if self.env["purchase.order"].sudo().search_count(
-                [("name", "in", names), ("company_id", "=", move.company_id.id)],
-                limit=1):
-            return ""
-        return origin
 
     def _cssk_deducted_amount(self, statement, group):
         """Odpočítaná daň — attribute ``O`` (``OR`` on C.2).
@@ -382,24 +363,6 @@ class L10nSKKvDphSectionC2(models.Model):
     _inherit = "l10n.sk.kv.dph.detail.mixin"
     _description = "KV DPH Section C.2"
     _kv_inbound = True
-
-    def _cssk_row_vals(self, statement, group):
-        """Both numbers of a C.2 row are the supplier's.
-
-        An internal number cannot be matched to the supplier's own filing, so
-        where the supplier's is missing the row carries none and the export
-        says which document needs it.
-        """
-        vals = super()._cssk_row_vals(statement, group)
-        move = group["move"]
-        vals["entry_ref"] = move.ref or False
-        original = move._cssk_control_original()
-        if original and not original.ref:
-            vals["entry_ref_original"] = (
-                move.cssk_control_original_ref
-                or self._cssk_origin_as_invoice_number(move)
-                or False)
-        return vals
 
     @api.model
     def _populate_for_statement(self, statement, section_code):

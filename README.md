@@ -43,7 +43,7 @@ this repository. Add them to the addons path as well:
 
 ## Modules
 
-188 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
+189 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
 
 ### Czech Republic (38)
 
@@ -88,7 +88,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_vat_status_purchase` | 19.0.1.0.0 | Purchase order lines propose the taxes the company's VAT status allows on the order date (l10n_cz_vat_status). |
 | `l10n_cz_vat_status_sale` | 19.0.1.0.0 | Sales order lines propose the taxes the company's VAT status allows on the order date (l10n_cz_vat_status). |
 
-### Slovakia (54)
+### Slovakia (55)
 
 | Module | Version | What it does |
 |---|---|---|
@@ -105,6 +105,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_currency_revaluation` | 19.0.1.3.1 | Pre-fills the OCA multicurrency-revaluation accounts with the Slovak 563/663 (kurzové rozdiely) accounts. |
 | `l10n_sk_datadance` | 19.0.1.4.4 | One-click Slovak statutory localization: installs the core statutory reporting + invoice modules, with optional workflow pieces selectable in Settings. |
 | `l10n_sk_dppo` | 19.0.1.5.0 | Slovak DPPO return on the income-tax framework: full r-line set + header mapping + XSD-validated XML export against the official dppo2025 schema. |
+| `l10n_sk_dppo_annexes` | 19.0.1.0.0 | Itemised expenses feed native versioned Table A return lines |
 | `l10n_sk_dppo_fs` | 19.0.1.1.4 | Tie the DPPO r100 to the VZS r56 of the účtovná závierka (UZPODv14) and flag a disagreement before filing. |
 | `l10n_sk_ec_sales` | 19.0.1.5.1 | Slovak EC sales list (Súhrnný výkaz) — codes 0/1/2 (goods / triangulation / services), FS SR SDV XML export. Built on the shared l10n_cssk_ec_summary_base… |
 | `l10n_sk_ekasa_receipt` | 19.0.1.1.2 | Read the QR code on a Slovak fiscal receipt and fetch the registered receipt — items, quantities and the VAT recap — from Finančná správa's… |
@@ -119,7 +120,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_income_settlement` | 19.0.1.0.2 | Reviewed monthly additional-income tax and health calculation |
 | `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.1.2 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
 | `l10n_sk_hr_payroll_mvp` | 19.0.1.1.2 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
-| `l10n_sk_hr_payroll_oca` | 19.0.1.24.1 | Slovak payroll rules for the payroll engine |
+| `l10n_sk_hr_payroll_oca` | 19.0.1.24.3 | Slovak payroll rules for the payroll engine |
 | `l10n_sk_hr_payroll_parity` | 19.0.1.8.1 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and… |
 | `l10n_sk_hr_payroll_rlfo` | 19.0.1.3.1 | Slovak social-insurance registration of employees (RLFO / RLZEC) filed to the Sociálna poisťovňa — prihláška / odhláška events built from the employee +… |
 | `l10n_sk_hr_payroll_surcharges` | 19.0.1.2.8 | Engine-neutral statutory wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work (§§ 121–124 and § 96… |
@@ -129,7 +130,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_inventory_verification` | 19.0.1.1.1 | Statutory Slovak inventory verification: inventúrne súpisy (§ 30 ods. 2) and the inventarizačný zápis (§ 30 ods. 3). |
 | `l10n_sk_invoice` | 19.0.1.1.0 | Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, exemptions)… |
 | `l10n_sk_jcd` | 19.0.1.2.1 | Slovak import customs declaration: duty into stock value, import VAT onto the right DPH rows, deduction gated on the confirmed customs document. |
-| `l10n_sk_kv_dph` | 19.0.2.8.0 | Slovak VAT control statement (Kontrolný výkaz DPH) — sections A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared l10n_cssk_kv_kh_base framework. |
+| `l10n_sk_kv_dph` | 19.0.2.9.0 | Slovak VAT control statement (Kontrolný výkaz DPH) — sections A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared l10n_cssk_kv_kh_base framework. |
 | `l10n_sk_kv_dph_pos` | 19.0.1.0.0 | Reports the sales of Point of Sale sessions in oddiel D.1 of the Slovak kontrolný výkaz DPH (eKasa turnover) instead of D.2. |
 | `l10n_sk_mis_reports` | 19.0.1.1.0 | Management P&L on the Slovak chart, for Community — the counterpart to Enterprise's account_reports. |
 | `l10n_sk_oss` | 19.0.1.0.1 | Slovak layer of the OSS return: the Finančná správa eForm DPOSS_EUv01 XML (daňové priznanie k DPH — osobitná úprava pre Úniu), on the EU OSSVATReturnMSCON… |
@@ -141,7 +142,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_trade_registry` | 19.0.2.0.2 | Keep the register, court and oddiel/vložka as data and compose the § 3a Obchodného zákonníka sentence from them, instead of typing it once into the company… |
 | `l10n_sk_ubl_bis3` | 19.0.3.4.1 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
 | `l10n_sk_vat_registration` | 19.0.1.1.1 | Record which paragraph of the SK VAT Act a partner's IČ DPH was issued under, and warn when a § 69/12 reverse charge is aimed at a § 7 / § 7a registrant, who… |
-| `l10n_sk_vat_return` | 19.0.1.15.1 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
+| `l10n_sk_vat_return` | 19.0.1.15.2 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
 | `l10n_sk_vehicle_expense` | 19.0.1.1.2 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
 | `l10n_sk_vehicle_logbook` | 19.0.1.0.1 | Trip log per vehicle and domestic travel orders with statutory meal, kilometre and fuel reimbursement. |
 | `l10n_sk_vrp2_account` | 19.0.2.4.1 | Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2) |

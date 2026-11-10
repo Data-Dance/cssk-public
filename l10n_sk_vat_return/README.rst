@@ -238,7 +238,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_vat_return``
-- **Version:** 19.0.1.15.1
+- **Version:** 19.0.1.15.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_vat_return_base``, ``l10n_sk``, ``l10n_sk_statutory``
