@@ -14,10 +14,64 @@ from odoo import models
 from odoo.tools import float_round
 
 from ..applicability import EMPLOYMENT, applies
+from ..social_assessment import assessment_base
 
 
 class HrVersion(models.Model):
     _inherit = "hr.version"
+
+    def l10n_sk_social_assessment_base(self, gross, ceiling=None, deduction=0):
+        """One arithmetic source; callers select the fund's cap and deduction."""
+        self.ensure_one()
+        return assessment_base(gross, ceiling, deduction)
+
+    def l10n_sk_social_fund_base(self, gross, code, monthly_cap, day, oop=0):
+        """The exact base used by one social salary rule, before its rate.
+
+        Applicability remains in the existing salary-rule conditions. The
+        declaration records zero for a fund whose rule did not apply.
+        """
+        self.ensure_one()
+        employee_codes = {"SICK", "PENSION", "DISABILITY", "UNEMPLOYMENT"}
+        pension_codes = {
+            "PENSION",
+            "DISABILITY",
+            "PENSIONEMPLOYER",
+            "DISABILITYEMPLOYER",
+            "RESERVEFUNDEMPLOYER",
+        }
+        known = (
+            employee_codes
+            | pension_codes
+            | {
+                "SICKEMPLOYER",
+                "UNEMPLOYMENTEMPLOYER",
+                "SHORTTIMEEMPLOYER",
+                "ACCIDENT",
+                "GUARANTEEEMPLOYER",
+            }
+        )
+        if code not in known:
+            raise ValueError("Unknown social-insurance salary code")
+        if code == "GUARANTEEEMPLOYER" and getattr(
+            self, "l10n_sk_guarantee_exempt", False
+        ):
+            return 0.0
+        ceiling = (
+            None
+            if code == "ACCIDENT"
+            else self.l10n_sk_employee_social_cap(monthly_cap, day)
+            if code in employee_codes
+            else monthly_cap
+        )
+        deduction = (
+            oop
+            if code in pension_codes
+            and self.l10n_sk_is_agreement()
+            and getattr(self, "l10n_sk_agreement_oop", False)
+            else 0
+        )
+        return self.l10n_sk_social_assessment_base(gross, ceiling, deduction)
 
     def l10n_sk_employee_social_cap(self, cap, day):
         """The employee's maximum assessment base for the month of ``day``.
@@ -56,9 +110,12 @@ class HrVersion(models.Model):
         agreement type and hoping every other rule derived it the same way.
         """
         self.ensure_one()
-        return applies(concept, self.l10n_sk_employment_form(),
-                       self.l10n_sk_income_is_regular(),
-                       self.l10n_sk_pension_status())
+        return applies(
+            concept,
+            self.l10n_sk_employment_form(),
+            self.l10n_sk_income_is_regular(),
+            self.l10n_sk_pension_status(),
+        )
 
     def l10n_sk_employment_form(self):
         """This contract's employment form, defaulting to a pracovný pomer.

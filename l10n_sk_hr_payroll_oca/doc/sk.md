@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.24.3
+verified: 19.0.1.26.0
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -64,3 +64,11 @@ Dátumy schválenej PN určujú kalendárne dni jednotlivých pásiem; nárok ur
 ## Skutočne odpracovaný čas pri priemere {#average-worked-time}
 
 WORK100 obsahuje plánovaný čas. Pred overením hranice21 dní alebo168 hodín a delením mzdy hodinami sa odpočítajú absolútne dni a hodiny samostatne evidovaných absencií. Používa sa rovnaký zoznam kódov ako pri BASIC; obe nastavenia znamienok absencie majú rovnaký výsledok. Znamienko refundu naďalej uplatní volajúci iba raz. Neuložený náhľad pásky z histórie vylučuje svoj uložený originál namiesto dočasného NewId.
+
+## Uchované mesačné základy sociálneho poistenia {#social-bases}
+
+Pravidelný mesačný výpočet uchová presný základ každého fondu, použitú verziu zamestnania, sadzby, dátumy, vstupy a mzdové sumy. Mzdové pravidlá a dôkaz používajú rovnaký helper: OOP dohody sa odpočíta pred stropom, úrazové nemá strop a garančné sa neznižuje o OOP. Pri neúplnom mesiaci sa rozlišujú stropy zamestnanca a zamestnávateľa. Základ sa neodvodzuje delením zaokrúhleného poistného sadzbou.
+
+Potvrdenie kontroluje zdroj aj pri vypnutom automatickom prepočte. Potvrdené riadky a identita zdroja ostávajú chránené aj po zrušení; použite opravu mzdy. Zmeny aj vloženie verzie zamestnania koordinujú súbeh s potvrdením pásky pri PostgreSQL repeatable-read. Natívne refundovanie pásky ostáva účtovne dostupné; samo osebe nepredstavuje úplný opravný mesačný výkaz.
+
+MVP číta uchované fondové základy a interval zamestnania. MVP aj VPP používajú historickú pravidelnosť, takže zmena dnešnej HR karty nepresunie starú mzdu do druhého výkazu. Chýbajúci starý dôkaz vyžaduje overený kompatibilný adaptér; existujúce XML sa neprepisuje. Adaptéry rozpočítania a opráv môžu zmeniť zdrojovú politiku a poskytnúť vlastné presné základy. Zmena poistného profilu vnútri mesiaca vyžaduje osobitnú konsolidáciu. Verejne je overený engine OCA, nie proprietárny Enterprise engine ani prijatie úradom.

@@ -35,6 +35,7 @@ rfs     rezervný fond solidarity          RESERVEFUNDEMPLOYER    — (unused)
 ``spoluPoistne`` ← the sum of the fund rows above (never the payslip's
 ``SOCIAL*TOTAL`` categories, which include health insurance on the OCA engine).
 """
+
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
@@ -57,16 +58,15 @@ AGREEMENTS = ("dovp", "dopc", "dobps")
 
 # dohoda agreement type -> VPP typZec relationship code (nepravidelný príjem).
 AGREEMENT_TYP_ZEC = {
-    "dovp": "ZECD1N",   # DoVP (dohoda o vykonaní práce)
-    "dopc": "ZECD2N",   # DoPČ (dohoda o pracovnej činnosti)
+    "dovp": "ZECD1N",  # DoVP (dohoda o vykonaní práce)
+    "dopc": "ZECD2N",  # DoPČ (dohoda o pracovnej činnosti)
     "dobps": "ZECD3N",  # DoBPŠ (dohoda o brigádnickej práci študentov)
 }
 
 
 class L10nSkVpp(models.Model):
     _name = "l10n.sk.vpp"
-    _inherit = ["cssk.payroll.declaration.mixin", "mail.thread",
-                "mail.activity.mixin"]
+    _inherit = ["cssk.payroll.declaration.mixin", "mail.thread", "mail.activity.mixin"]
     _description = "SK VPP insurance statement for work agreements"
     _order = "date_from desc, id desc"
 
@@ -78,11 +78,13 @@ class L10nSkVpp(models.Model):
     # appears on no company form (several modules declare it, and one view
     # per module would show the input several times). Edit it here instead.
     sp_vs = fields.Char(
-        related="company_id.l10n_sk_sp_vs", readonly=False,
+        related="company_id.l10n_sk_sp_vs",
+        readonly=False,
         string="Sociálna poisťovňa variable symbol",
         help="10-digit number the Sociálna poisťovňa assigned to the "
         "company. It is stored on the company and shared by every Sociálna "
-        "poisťovňa filing (MVP, VPP, ELDP, RLFO).")
+        "poisťovňa filing (MVP, VPP, ELDP, RLFO).",
+    )
 
     # ------------------------------------------------------------------
     # Scope: only dohoda payslips with irregular income feed the VPP.
@@ -91,6 +93,10 @@ class L10nSkVpp(models.Model):
         """``(agreement type, regular income)`` of the contract *payslip* was
         computed on — its own version, not the employee's current one, so a
         later edit of the employee card does not reclassify a past period."""
+        retained = getattr(payslip, "_l10n_sk_social_relationship", None)
+        relationship = retained() if retained else False
+        if relationship:
+            return relationship
         version = self._payslip_version(payslip)
         if not version or "l10n_sk_agreement_type" not in version._fields:
             return "none", True
@@ -125,17 +131,23 @@ class L10nSkVpp(models.Model):
             company = rec.company_id
             vs = (company.l10n_sk_sp_vs or "").strip()
             if not (vs.isdigit() and len(vs) == 10):
-                raise UserError(_(
-                    "Company '%(company)s' needs a 10-digit Sociálna poisťovňa "
-                    "variable symbol for the VPP <variabilnySymbol> element. "
-                    "Fill in 'Sociálna poisťovňa variable symbol' on this "
-                    "form.",
-                    company=company.display_name))
+                raise UserError(
+                    _(
+                        "Company '%(company)s' needs a 10-digit Sociálna poisťovňa "
+                        "variable symbol for the VPP <variabilnySymbol> element. "
+                        "Fill in 'Sociálna poisťovňa variable symbol' on this "
+                        "form.",
+                        company=company.display_name,
+                    )
+                )
             if not rec._company_ico(company):
-                raise UserError(_(
-                    "Company '%(company)s' needs an 8-12 digit IČO "
-                    "(Company Registry) for the VPP <identifikator> element.",
-                    company=company.display_name))
+                raise UserError(
+                    _(
+                        "Company '%(company)s' needs an 8-12 digit IČO "
+                        "(Company Registry) for the VPP <identifikator> element.",
+                        company=company.display_name,
+                    )
+                )
         return True
 
     @staticmethod
@@ -179,10 +191,13 @@ class L10nSkVpp(models.Model):
         # HEALTHDOPLATOK in SOCIALEMPLOYEE, HEALTHEMPLOYER in SOCIALEMPLOYER),
         # and health insurance is owed to the health insurers, not to the
         # Sociálna poisťovňa. The MVP made the same correction.
-        spolu = "%.2f" % round(sum(
-            a(er_code) + (a(ee_code) if ee_code else 0.0)
-            for _elem, er_code, ee_code in FUND_MAP
-        ), 2)
+        spolu = "%.2f" % round(
+            sum(
+                a(er_code) + (a(ee_code) if ee_code else 0.0)
+                for _elem, er_code, ee_code in FUND_MAP
+            ),
+            2,
+        )
 
         annex = self._build_annex()
         fo = self._fo_osoba()
@@ -199,8 +214,7 @@ class L10nSkVpp(models.Model):
             "spolu_poistne": spolu,
             "annex": annex,
             "fo": fo,
-            "datum_vystavenia": fields.Date.context_today(self).strftime(
-                "%d.%m.%Y"),
+            "datum_vystavenia": fields.Date.context_today(self).strftime("%d.%m.%Y"),
         }
 
     def _build_annex(self):
@@ -218,37 +232,44 @@ class L10nSkVpp(models.Model):
             employee = line.employee_id
             rc = self._digits(employee.identification_id)
             if not (9 <= len(rc) <= 10):
-                raise UserError(_(
-                    "Employee '%(name)s' needs a 9-10 digit birth number "
-                    "in the Identification No. field for the VPP "
-                    "per-employee annex.", name=employee.display_name))
+                raise UserError(
+                    _(
+                        "Employee '%(name)s' needs a 9-10 digit birth number "
+                        "in the Identification No. field for the VPP "
+                        "per-employee annex.",
+                        name=employee.display_name,
+                    )
+                )
             typ_zec = AGREEMENT_TYP_ZEC.get(
-                agreement_by_employee.get(employee.id), "ZECN")
+                agreement_by_employee.get(employee.id), "ZECN"
+            )
             totals = line.values_json or {}
 
             def t(code):
                 return "%.2f" % abs(round(totals.get(code, 0.0), 2))
 
             vz = "%.2f" % abs(round(line.vz_base, 2))
-            rows.append({
-                "pc": pc,
-                "obdobie": obdobie,
-                "rc": rc,
-                "poc_dni": line.insured_days,
-                "typ_zec": typ_zec,
-                "vynimka_vz": "0",
-                "vz": vz,
-                "poc_hodin": "%.2f" % abs(round(line.worked_hours, 2)),
-                "np_zamtel": t("SICKEMPLOYER"),
-                "np_zamnec": t("SICK"),
-                "sp_zamtel": t("PENSIONEMPLOYER"),
-                "sp_zamnec": t("PENSION"),
-                "ip_zamtel": t("DISABILITYEMPLOYER"),
-                "ip_zamnec": t("DISABILITY"),
-                "pvn_zamtel": t("UNEMPLOYMENTEMPLOYER"),
-                "pvn_zamnec": t("UNEMPLOYMENT"),
-                "up_zamtel": t("ACCIDENT"),
-                "gp_zamtel": t("GUARANTEEEMPLOYER"),
-                "rfs_zamtel": t("RESERVEFUNDEMPLOYER"),
-            })
+            rows.append(
+                {
+                    "pc": pc,
+                    "obdobie": obdobie,
+                    "rc": rc,
+                    "poc_dni": line.insured_days,
+                    "typ_zec": typ_zec,
+                    "vynimka_vz": "0",
+                    "vz": vz,
+                    "poc_hodin": "%.2f" % abs(round(line.worked_hours, 2)),
+                    "np_zamtel": t("SICKEMPLOYER"),
+                    "np_zamnec": t("SICK"),
+                    "sp_zamtel": t("PENSIONEMPLOYER"),
+                    "sp_zamnec": t("PENSION"),
+                    "ip_zamtel": t("DISABILITYEMPLOYER"),
+                    "ip_zamnec": t("DISABILITY"),
+                    "pvn_zamtel": t("UNEMPLOYMENTEMPLOYER"),
+                    "pvn_zamnec": t("UNEMPLOYMENT"),
+                    "up_zamtel": t("ACCIDENT"),
+                    "gp_zamtel": t("GUARANTEEEMPLOYER"),
+                    "rfs_zamtel": t("RESERVEFUNDEMPLOYER"),
+                }
+            )
         return rows

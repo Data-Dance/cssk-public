@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 13:35+0000\n"
-"PO-Revision-Date: 2026-11-09 13:35+0000\n"
+"POT-Creation-Date: 2026-11-10 11:30+0000\n"
+"PO-Revision-Date: 2026-11-10 11:30+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -286,6 +286,14 @@ msgid "Computed reconciliation"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid ""
+"Consolidate the employee's monthly remuneration before confirming another "
+"independent social-insurance calculation."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__country_id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter__country_id
 msgid "Country"
@@ -350,9 +358,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_leave_type__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_input__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_worked_days__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_social_source_child__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__display_name
 msgid "Display Name"
 msgstr ""
@@ -591,9 +603,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_leave_type__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_input__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_line__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_worked_days__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_social_source_child__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__id
 msgid "ID"
 msgstr ""
@@ -653,6 +669,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability_service
 msgid "Invalidný výsluhový dôchodok (service disability)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_social_source_epoch
+msgid "L10N Sk Social Source Epoch"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -890,6 +911,21 @@ msgid "Payslip"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_payslip_input
+msgid "Payslip Input"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_payslip_line
+msgid "Payslip Line"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_payslip_worked_days
+msgid "Payslip Worked Days"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__settlement_payslip_id
 msgid ""
 "Payslip of the annual-reconciliation month onto which the "
@@ -994,6 +1030,46 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__result_type
 msgid "Result Type"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid ""
+"Retain confirmed payroll; use a payroll correction instead of recalculation."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_children.py:0
+msgid "Retain confirmed social-insurance sources; use a payroll correction."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model,name:l10n_sk_hr_payroll_oca.model_l10n_sk_social_source_child
+msgid "Retained monthly social-insurance source protection"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip__l10n_sk_social_assessment
+msgid "Retained social-insurance bases"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid ""
+"Review a changed social-insurance profile within the month before monthly "
+"consolidation."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid ""
+"Review missing retained social-insurance bases before creating a new monthly"
+" declaration."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1431,6 +1507,29 @@ msgid "Social Security Total (Employer)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid "Social-insurance evidence is generated by payroll calculation."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip__l10n_sk_social_confirmed_at
+msgid "Social-insurance source confirmed at"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_source.py:0
+msgid "Social-insurance source coordination is internal."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid "Social-insurance sources changed. Recalculate the unconfirmed payslip."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__nczd_spouse
 msgid "Spouse Non-taxable Part (NČZD)"
 msgstr ""
@@ -1613,6 +1712,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid "The retained social-insurance bases no longer match the payslip."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_health_exempt
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_health_exempt
 msgid ""
@@ -1688,6 +1793,12 @@ msgstr ""
 msgid ""
 "Use the employee and company contract version for the monthly pension tax "
 "profile."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid "Use the employee and company version for social insurance."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca

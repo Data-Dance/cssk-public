@@ -1,7 +1,7 @@
 ---
 title: SK VPP — výkaz poistného a príspevkov (dohody)
 summary: Výkaz poistného a príspevkov za zamestnancov s nepravidelným príjmom — v praxi dohody DoVP a DoPČ — zostavený z výplatných pások mesiaca a vyexportovaný do XML overeného voči oficiálnej schéme.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -116,3 +116,8 @@ Zdroj: [poučenie SP k hlavičke](https://www.socpoist.sk/api/idsp/download/a4ab
   a fondové výnimky vyžadujú vlastné spracovanie. Príznak výnimky je 0.
 - Dodáva sa vzor VPP 2026; úspešná schéma nepotvrdzuje prijatie portálom.
 - Overenie voči schéme kontroluje tvar súboru, nie sumy.
+
+
+## Historická pravidelnosť príjmu {#historical-regularity}
+
+Ak mzdový adaptér uchováva mesačný zdroj sociálneho poistenia, zaradenie prednostne číta jeho historický vzťah a pravidelnosť pred dnešnou HR kartou. Neskoršia zmena pravidelného príjmu na nepravidelný nesmie vykázať tú istú historickú mzdu v MVP aj VPP. Rozpočítanie nepravidelného príjmu a príjmu po skončení poistenia, stropy a finančné opravy si ponechávajú vlastné zdroje; táto zmena ich rozpočítanie neodhaduje.

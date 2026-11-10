@@ -2025,9 +2025,8 @@ class TestSkPayroll(TransactionCase):
         source, target = self._average_short_day_fixture()
         contract = source.contract_id
         contract.wage = 2400
-        refund = source.copy({'credit_note': True})
-        refund.compute_sheet()
-        refund.action_payslip_done()
+        source.refund_sheet()
+        refund = source.refunded_id
         contract.wage = 2000
         self.assertAlmostEqual(refund.get_salary_line_total('GROSS'), 2400)
         self.assertAlmostEqual(target.l10n_sk_average_hourly_earnings(),

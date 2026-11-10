@@ -95,3 +95,8 @@ Fixed
 * Scoped to dohoda contracts (``l10n_sk_agreement_type`` in ``dovp`` / ``dopc``)
   via the engine-neutral employee accessor; reuses the MVP fund → rule-code
   mapping. ``typZec`` defaults to the irregular-income variant (ZECD1N / ZECD2N).
+
+[19.0.1.2.1] — 2026-11-10
+-------------------------
+
+* Retain individual monthly social-insurance bases and historical relationship facts; use the shared per-fund assessment helper in the OCA engine and MVP export. Preserve original filed XML. See the EN/SK source documentation for adapter and correction boundaries.

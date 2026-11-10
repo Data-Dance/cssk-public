@@ -132,9 +132,10 @@ result = categories.BASIC + categories.ALW
         <field name="condition_python">result = contract.l10n_sk_applies('SICKNESS_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'SICK', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_sickness_ee')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = -(int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
@@ -151,12 +152,10 @@ result_rate = 100
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
-    base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'PENSION', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_pension_ee')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((base) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = -(int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
@@ -173,12 +172,10 @@ result_rate = 100
         <field name="condition_python">result = contract.l10n_sk_applies('DISABILITY_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
-    base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'DISABILITY', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_disability_ee')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((base) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = -(int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
@@ -194,9 +191,10 @@ result_rate = 100
         <field name="condition_python">result = contract.l10n_sk_applies('UNEMPLOYMENT_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'UNEMPLOYMENT', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_unemployment_ee')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = -(int(round((min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = -(int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="True"/>
@@ -215,9 +213,10 @@ result_rate = 100
         <field name="condition_python">result = contract.l10n_sk_applies('SICKNESS_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'SICKEMPLOYER', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_sickness_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = (int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
@@ -232,12 +231,10 @@ result_rate = 100
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
-    base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'PENSIONEMPLOYER', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_pension_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((base) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = (int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
@@ -253,12 +250,10 @@ result_rate = 100
         <field name="condition_python">result = contract.l10n_sk_applies('DISABILITY_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
-    base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'DISABILITYEMPLOYER', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_disability_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((base) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = (int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
@@ -274,14 +269,13 @@ result_rate = 100
         <field name="condition_python">result = contract.l10n_sk_applies('UNEMPLOYMENT_INSURANCE')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-# § 136 písm. b): 0.5 % where the employer also pays the short-time
-# financing (a pracovný pomer, § 128 ods. 1 písm. g)), the full 1 % otherwise.
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'UNEMPLOYMENTEMPLOYER', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter(
     'l10n_sk_social_unemployment_er'
     if contract.l10n_sk_applies('SHORTTIME_CONTRIBUTION')
     else 'l10n_sk_social_unemployment_er_no_shorttime')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = (int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
@@ -297,9 +291,10 @@ result_rate = 100
         <field name="condition_python">result = contract.l10n_sk_applies('SHORTTIME_CONTRIBUTION')</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'SHORTTIMEEMPLOYER', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_shorttime_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = (int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
@@ -314,13 +309,11 @@ result_rate = 100
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'GUARANTEEEMPLOYER', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_guarantee_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = (int(round(base * _r, 4)) / 100.0)
 result_rate = 100
-# ≥50% statutory owner is not guarantee-insured (§ 4 ods. 4 z. 461/2003).
-if contract.l10n_sk_guarantee_exempt:
-    result = 0.0
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -335,9 +328,10 @@ if contract.l10n_sk_guarantee_exempt:
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'ACCIDENT', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_accident_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((categories.GROSS) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = (int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>
@@ -352,12 +346,10 @@ result_rate = 100
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
-    base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
+base = contract.l10n_sk_social_fund_base(categories.GROSS, 'RESERVEFUNDEMPLOYER', payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from, payslip.rule_parameter('l10n_sk_dohoda_oop'))
 _r = payslip.rule_parameter('l10n_sk_social_reserve_er')
-# §138 z.461/2003: floor each premium DOWN to the eurocent.
-result = (int(round((base) * _r, 4)) / 100.0)
+# §138: floor each premium, after selecting the fund-specific base.
+result = (int(round(base * _r, 4)) / 100.0)
 result_rate = 100
         </field>
         <field name="appears_on_payslip" eval="False"/>

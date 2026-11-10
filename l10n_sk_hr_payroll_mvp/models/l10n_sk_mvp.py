@@ -25,6 +25,7 @@ pfp     skrátená práca (kurzarbeit)       SHORTTIMEEMPLOYER      — (n/a)
 
 ``spoluPoistne`` ← ``SOCIALEMPLOYERTOTAL`` + ``SOCIALEMPLOYEETOTAL``.
 """
+
 from odoo import _, fields, models
 from odoo.exceptions import UserError
 
@@ -47,17 +48,16 @@ AGREEMENTS = ("dovp", "dopc", "dobps")
 
 # employment form -> MVP typZec relationship code (pravidelný príjem).
 TYP_ZEC = {
-    "none": "ZEC",     # zamestnanec v pracovnom pomere
-    "dovp": "ZECD1",   # DoVP - pravidelný príjem
-    "dopc": "ZECD2",   # DoPČ - pravidelný príjem
+    "none": "ZEC",  # zamestnanec v pracovnom pomere
+    "dovp": "ZECD1",  # DoVP - pravidelný príjem
+    "dopc": "ZECD2",  # DoPČ - pravidelný príjem
     "dobps": "ZECD3",  # DoBPŠ - pravidelný príjem
 }
 
 
 class L10nSkMvp(models.Model):
     _name = "l10n.sk.mvp"
-    _inherit = ["cssk.payroll.declaration.mixin", "mail.thread",
-                "mail.activity.mixin"]
+    _inherit = ["cssk.payroll.declaration.mixin", "mail.thread", "mail.activity.mixin"]
     _description = "SK MVP monthly social-insurance statement"
     _order = "date_from desc, id desc"
 
@@ -69,11 +69,13 @@ class L10nSkMvp(models.Model):
     # appears on no company form (several modules declare it, and one view
     # per module would show the input several times). Edit it here instead.
     sp_vs = fields.Char(
-        related="company_id.l10n_sk_sp_vs", readonly=False,
+        related="company_id.l10n_sk_sp_vs",
+        readonly=False,
         string="Sociálna poisťovňa variable symbol",
         help="10-digit number the Sociálna poisťovňa assigned to the "
         "company. It is stored on the company and shared by every Sociálna "
-        "poisťovňa filing (MVP, VPP, ELDP, RLFO).")
+        "poisťovňa filing (MVP, VPP, ELDP, RLFO).",
+    )
 
     # ------------------------------------------------------------------
     # Scope: everything except dohody with irregular income (those are VPP).
@@ -82,6 +84,10 @@ class L10nSkMvp(models.Model):
         """``(agreement type, regular income)`` of the contract *payslip* was
         computed on — its own version, not the employee's current one, so a
         later edit of the employee card does not reclassify a past period."""
+        retained = getattr(payslip, "_l10n_sk_social_relationship", None)
+        relationship = retained() if retained else False
+        if relationship:
+            return relationship
         version = self._payslip_version(payslip)
         if not version or "l10n_sk_agreement_type" not in version._fields:
             return "none", True
@@ -109,17 +115,23 @@ class L10nSkMvp(models.Model):
             company = rec.company_id
             vs = (company.l10n_sk_sp_vs or "").strip()
             if not (vs.isdigit() and len(vs) == 10):
-                raise UserError(_(
-                    "Company '%(company)s' needs a 10-digit Sociálna poisťovňa "
-                    "variable symbol for the MVP <variabilnySymbol> element. "
-                    "Fill in 'Sociálna poisťovňa variable symbol' on this "
-                    "form.",
-                    company=company.display_name))
+                raise UserError(
+                    _(
+                        "Company '%(company)s' needs a 10-digit Sociálna poisťovňa "
+                        "variable symbol for the MVP <variabilnySymbol> element. "
+                        "Fill in 'Sociálna poisťovňa variable symbol' on this "
+                        "form.",
+                        company=company.display_name,
+                    )
+                )
             if not rec._company_ico(company):
-                raise UserError(_(
-                    "Company '%(company)s' needs an 8-12 digit IČO "
-                    "(Company Registry) for the MVP <identifikator> element.",
-                    company=company.display_name))
+                raise UserError(
+                    _(
+                        "Company '%(company)s' needs an 8-12 digit IČO "
+                        "(Company Registry) for the MVP <identifikator> element.",
+                        company=company.display_name,
+                    )
+                )
         return True
 
     @staticmethod
@@ -177,6 +189,7 @@ class L10nSkMvp(models.Model):
         fo = self._fo_osoba()
         payment = self.payment_date or self.date_to
         return {
+            "pfp_applicable": any(row.get("pfp_applicable") for row in annex),
             "typ_doc": "MVP00001",
             "obdobie": "%02d%04d" % (int(self.month), int(self.year)),
             "den_vyplaty": payment.strftime("%d.%m.%Y"),
@@ -189,16 +202,16 @@ class L10nSkMvp(models.Model):
             "spolu_poistne": spolu,
             "annex": annex,
             "fo": fo,
-            "datum_vystavenia": fields.Date.context_today(self).strftime(
-                "%d.%m.%Y"),
+            "datum_vystavenia": fields.Date.context_today(self).strftime("%d.%m.%Y"),
         }
 
     def _build_annex(self):
         """Per-employee annex rows (pre-formatted for the QWeb template)."""
         self.ensure_one()
+        payslips = self._get_period_payslips()
         agreement_by_employee = {
             slip.employee_id.id: self._l10n_sk_relationship(slip)[0]
-            for slip in self._get_period_payslips() or []
+            for slip in payslips or []
         }
         rows = []
         pc = 0
@@ -207,35 +220,101 @@ class L10nSkMvp(models.Model):
             employee = line.employee_id
             rc = self._digits(employee.identification_id)
             if not (9 <= len(rc) <= 10):
-                raise UserError(_(
-                    "Employee '%(name)s' needs a 9-10 digit birth number "
-                    "in the Identification No. field for the MVP "
-                    "per-employee annex.", name=employee.display_name))
+                raise UserError(
+                    _(
+                        "Employee '%(name)s' needs a 9-10 digit birth number "
+                        "in the Identification No. field for the MVP "
+                        "per-employee annex.",
+                        name=employee.display_name,
+                    )
+                )
             totals = line.values_json or {}
 
             def t(code):
                 return "%.2f" % abs(round(totals.get(code, 0.0), 2))
 
             vz = "%.2f" % abs(round(line.vz_base, 2))
-            rows.append({
-                "pc": pc,
-                "rc": rc,
-                "poc_dni": line.insured_days,
-                "typ_zec": TYP_ZEC.get(
-                    agreement_by_employee.get(employee.id), "ZEC"),
-                "vynimka_vz": "0",
-                "vz": vz,
-                "poc_hodin": "%.2f" % abs(round(line.worked_hours, 2)),
-                "np_zamtel": t("SICKEMPLOYER"),
-                "np_zamnec": t("SICK"),
-                "sp_zamtel": t("PENSIONEMPLOYER"),
-                "sp_zamnec": t("PENSION"),
-                "ip_zamtel": t("DISABILITYEMPLOYER"),
-                "ip_zamnec": t("DISABILITY"),
-                "pvn_zamtel": t("UNEMPLOYMENTEMPLOYER"),
-                "pvn_zamnec": t("UNEMPLOYMENT"),
-                "up_zamtel": t("ACCIDENT"),
-                "gp_zamtel": t("GUARANTEEEMPLOYER"),
-                "rfs_zamtel": t("RESERVEFUNDEMPLOYER"),
-            })
+            sources = payslips.filtered(lambda slip: slip.employee_id == employee)
+            bases = self._l10n_sk_mvp_employee_fund_bases(sources)
+            rows.append(
+                {
+                    "fund_bases": {key: "%.2f" % value for key, value in bases.items()},
+                    "pfp_applicable": any(
+                        row.code == "SHORTTIMEEMPLOYER" for row in sources.line_ids
+                    ),
+                    "pfp_zamtel": t("SHORTTIMEEMPLOYER"),
+                    "pc": pc,
+                    "rc": rc,
+                    "poc_dni": self._l10n_sk_mvp_insured_days(
+                        sources, line.insured_days
+                    ),
+                    "typ_zec": TYP_ZEC.get(
+                        agreement_by_employee.get(employee.id), "ZEC"
+                    ),
+                    "vynimka_vz": "0",
+                    "vz": vz,
+                    "poc_hodin": "%.2f" % abs(round(line.worked_hours, 2)),
+                    "np_zamtel": t("SICKEMPLOYER"),
+                    "np_zamnec": t("SICK"),
+                    "sp_zamtel": t("PENSIONEMPLOYER"),
+                    "sp_zamnec": t("PENSION"),
+                    "ip_zamtel": t("DISABILITYEMPLOYER"),
+                    "ip_zamnec": t("DISABILITY"),
+                    "pvn_zamtel": t("UNEMPLOYMENTEMPLOYER"),
+                    "pvn_zamnec": t("UNEMPLOYMENT"),
+                    "up_zamtel": t("ACCIDENT"),
+                    "gp_zamtel": t("GUARANTEEEMPLOYER"),
+                    "rfs_zamtel": t("RESERVEFUNDEMPLOYER"),
+                }
+            )
         return rows
+
+    def _l10n_sk_mvp_employee_fund_bases(self, payslips):
+        """Engine adapters return retained fund bases, never inferred premiums.
+
+        Engines without this hook retain their existing rendering. The public
+        OCA adapter supplies the captured assessment; other engines can adopt
+        the same hook without importing the OCA engine.
+        """
+        if len(payslips) > 1 and any(
+            "l10n_sk_social_assessment" in slip._fields
+            and slip.l10n_sk_social_assessment
+            for slip in payslips
+        ):
+            raise UserError(
+                _(
+                    "Consolidate the employee's monthly remuneration before exporting independently calculated fund bases."
+                )
+            )
+        result = {}
+        for slip in payslips:
+            getter = getattr(slip, "_l10n_sk_mvp_fund_bases", None)
+            if not getter:
+                continue
+            for key, value in getter().items():
+                result[key] = result.get(key, 0.0) + value
+        return result
+
+    def _l10n_sk_mvp_insured_days(self, payslips, fallback):
+        intervals = []
+        for slip in payslips:
+            getter = getattr(slip, "_l10n_sk_mvp_source_facts", None)
+            if not getter:
+                return fallback
+            facts = getter()
+            first = max(
+                fields.Date.to_date(facts["from"]),
+                fields.Date.to_date(facts["employment_from"]),
+            )
+            last = fields.Date.to_date(facts["to"])
+            if facts["employment_to"]:
+                last = min(last, fields.Date.to_date(facts["employment_to"]))
+            if last >= first:
+                intervals.append((first, last))
+        merged = []
+        for first, last in sorted(intervals):
+            if merged and first <= merged[-1][1]:
+                merged[-1] = (merged[-1][0], max(merged[-1][1], last))
+            else:
+                merged.append((first, last))
+        return sum((last - first).days + 1 for first, last in merged)

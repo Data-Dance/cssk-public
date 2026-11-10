@@ -757,3 +757,8 @@ Fixed
   state. Repaired by ``tools/fix_po_code_comments.py``, which is also the CI
   check; the offline exporter now emits the comment itself.
 
+
+[19.0.1.26.0] — 2026-11-10
+--------------------------
+
+* Retain individual monthly social-insurance bases and historical relationship facts; use the shared per-fund assessment helper in the OCA engine and MVP export. Preserve original filed XML. See the EN/SK source documentation for adapter and correction boundaries.

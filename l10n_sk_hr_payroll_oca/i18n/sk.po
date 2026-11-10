@@ -10,7 +10,7 @@ msgstr ""
 "PO-Revision-Date: 2026-11-09 09:28+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: sk\n"
+"Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
@@ -307,6 +307,16 @@ msgid "Computed reconciliation"
 msgstr "Vypočítané zúčtovanie"
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid ""
+"Consolidate the employee's monthly remuneration before confirming another "
+"independent social-insurance calculation."
+msgstr ""
+"Pred potvrdením ďalšieho samostatného výpočtu sociálneho poistenia zlúčte "
+"mesačnú odmenu zamestnanca."
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__country_id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter__country_id
 msgid "Country"
@@ -374,9 +384,13 @@ msgstr "Invalidné poistenie (zamestnávateľ)"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_leave_type__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_input__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_worked_days__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_social_source_child__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
@@ -633,9 +647,13 @@ msgstr "Hodinová mzda (SK)"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_leave_type__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_input__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_line__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip_worked_days__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_social_source_child__id
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__id
 msgid "ID"
 msgstr "ID"
@@ -700,6 +718,11 @@ msgstr "Invalidný dôchodok, pokles nad 70 %"
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_pension_type__disability_service
 msgid "Invalidný výsluhový dôchodok (service disability)"
 msgstr "Invalidný výsluhový dôchodok"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_social_source_epoch
+msgid "L10N Sk Social Source Epoch"
+msgstr "Revízia podkladov sociálneho poistenia"
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter__write_uid
@@ -953,6 +976,21 @@ msgid "Payslip"
 msgstr "Výplatná páska"
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_payslip_input
+msgid "Payslip Input"
+msgstr "Vstup mzdového listu"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_payslip_line
+msgid "Payslip Line"
+msgstr "Riadok mzdového listu"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model,name:l10n_sk_hr_payroll_oca.model_hr_payslip_worked_days
+msgid "Payslip Worked Days"
+msgstr "Odpracovaný čas mzdového listu"
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__settlement_payslip_id
 msgid ""
 "Payslip of the annual-reconciliation month onto which the "
@@ -1068,6 +1106,51 @@ msgstr "Rezervný fond solidarity (zamestnávateľ)"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__result_type
 msgid "Result Type"
 msgstr "Typ výsledku"
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid ""
+"Retain confirmed payroll; use a payroll correction instead of recalculation."
+msgstr "Potvrdenú mzdu uchovajte; namiesto prepočtu použite opravu mzdy."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_children.py:0
+msgid "Retain confirmed social-insurance sources; use a payroll correction."
+msgstr ""
+"Uchovajte potvrdené podklady sociálneho poistenia; použite opravu mzdy."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model,name:l10n_sk_hr_payroll_oca.model_l10n_sk_social_source_child
+msgid "Retained monthly social-insurance source protection"
+msgstr "Ochrana uchovaných mesačných podkladov sociálneho poistenia"
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip__l10n_sk_social_assessment
+msgid "Retained social-insurance bases"
+msgstr "Uchované vymeriavacie základy sociálneho poistenia"
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid ""
+"Review a changed social-insurance profile within the month before monthly "
+"consolidation."
+msgstr ""
+"Pred mesačným zlúčením overte zmenu profilu sociálneho poistenia počas "
+"mesiaca."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid ""
+"Review missing retained social-insurance bases before creating a new monthly"
+" declaration."
+msgstr ""
+"Pred vytvorením nového mesačného výkazu overte chýbajúce uchované "
+"vymeriavacie základy sociálneho poistenia."
 
 #. module: l10n_sk_hr_payroll_oca
 #. odoo-python
@@ -1525,6 +1608,31 @@ msgid "Social Security Total (Employer)"
 msgstr "Sociálne poistenie spolu (zamestnávateľ)"
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid "Social-insurance evidence is generated by payroll calculation."
+msgstr "Doklady výpočtu sociálneho poistenia vytvára mzdový výpočet."
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip__l10n_sk_social_confirmed_at
+msgid "Social-insurance source confirmed at"
+msgstr "Čas potvrdenia podkladov sociálneho poistenia"
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_source.py:0
+msgid "Social-insurance source coordination is internal."
+msgstr "Koordinácia podkladov sociálneho poistenia je interná."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid "Social-insurance sources changed. Recalculate the unconfirmed payslip."
+msgstr ""
+"Podklady sociálneho poistenia sa zmenili. Nepotvrdený mzdový list "
+"prepočítajte."
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__nczd_spouse
 msgid "Spouse Non-taxable Part (NČZD)"
 msgstr "NČZD na manželku/manžela"
@@ -1747,6 +1855,14 @@ msgstr ""
 "zozname nie sú."
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid "The retained social-insurance bases no longer match the payslip."
+msgstr ""
+"Uchované vymeriavacie základy sociálneho poistenia sa už nezhodujú s mzdovým"
+" listom."
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_health_exempt
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_health_exempt
 msgid ""
@@ -1837,6 +1953,13 @@ msgid ""
 msgstr ""
 "Pre mesačný dôchodkový daňový profil použite verziu zmluvy príslušného "
 "zamestnanca a firmy."
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/social_assessment.py:0
+msgid "Use the employee and company version for social insurance."
+msgstr ""
+"Pre sociálne poistenie použite verziu správneho zamestnanca a spoločnosti."
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value

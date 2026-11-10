@@ -1,13 +1,21 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.24.3
+verified: 19.0.1.26.0
 family: l10n_sk_hr_payroll_base#engines
 ---
 
 A complete Slovak salary structure for the OCA `payroll` app: four structures, one per employment form, sharing one rule set — social and health insurance, the tax base, the non-taxable part per taxpayer, the progressive income tax, the child tax bonus, holiday and obstacle pay at average earnings, employer sick pay, garnishments and the meal allowance. It also ships the dated rule parameters the rules read, Slovak time-off types with a *Slovak Payroll Code* and accrual plans, and the annual tax reconciliation. The Slovak fields appear on the employee form, *Payroll* tab, and on contract templates; the rule parameters are under *Payroll → Configuration → Rule Parameters*.
 
 Install it on purpose; it needs the OCA `payroll` module and works on Odoo Community. For posting to the general ledger add the OCA accounting bridge; for wage surcharges the surcharges family.
+
+## Retained monthly social-insurance bases {#social-bases}
+
+The regular monthly calculation retains the exact base for each social-insurance fund together with the effective employment version, rates, dates, inputs and salary amounts. The same shared base helper is used by the salary rules and the retained evidence: agreement OOP is deducted before the applicable ceiling, accident insurance is uncapped and guarantee insurance does not use OOP. Employee and employer ceilings remain distinct for a partial month. A rounded premium is never divided by its rate to guess its assessment base.
+
+Confirmation validates this source, including when automatic recomputation is disabled. Confirmed salary lines and source identity remain protected after cancellation; use a payroll correction rather than changing the original. Version edits and confirmation coordinate under PostgreSQL repeatable-read, including inserting another version. A native refund payslip remains available for bookkeeping; it is not automatically a complete replacement monthly declaration.
+
+MVP reads the retained fund bases and employment interval. MVP and VPP both use the retained relationship when selecting regular versus irregular income, so editing today's HR card does not reroute historical pay. Missing old evidence requires an explicit reviewed compatibility adapter; existing generated XML is preserved. Allocation and correction adapters can override the source-policy hook and supply their own exact bases. A within-month change of insurance profile requires separate consolidation support; it is not silently combined into one profile. This public implementation verifies OCA payroll, not the proprietary Enterprise engine or authority acceptance.
 
 A tax-relevant pension drawn on 1 January also affects monthly allowance eligibility. Record *Draws a tax-relevant pension* on the native version effective from the pension award date, using the retained taxpayer declaration. Monthly payroll reads the version in force on 1 January of its own year. A January pensioner receives no monthly NČZD even if the declaration is signed and the pension is small. A May 2026 award keeps the 2026 monthly allowance and removes it from January 2027, without editing the May version or preventing a December 2026 recomputation. Disability, widow's and orphan's pensions alone do not set this flag. A relevant insurance pension without the flag on the January version stops a monthly claim with a plain message before salary rules run. For a genuine midyear hire without a January version, or a rehire whose earlier employment ended before 1 January, the first version of the new employment records the January pension status declared at hiring. Do not backdate employment; a later award remains a later fact. A version later than the payslip or belonging to a later year cannot establish that status. Statutory parameters and tax bands remain unchanged.
 
