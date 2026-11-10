@@ -387,6 +387,24 @@ class L10nSKKvDphSectionC2(models.Model):
     _description = "KV DPH Section C.2"
     _kv_inbound = True
 
+    def _cssk_row_vals(self, statement, group):
+        """Both numbers of a C.2 row are the supplier's.
+
+        An internal number cannot be matched to the supplier's own filing, so
+        where the supplier's is missing the row carries none and the export
+        says which document needs it.
+        """
+        vals = super()._cssk_row_vals(statement, group)
+        move = group["move"]
+        vals["entry_ref"] = move.ref or False
+        original = move._cssk_control_original()
+        if original and not original.ref:
+            vals["entry_ref_original"] = (
+                move.cssk_control_original_ref
+                or self._cssk_origin_as_invoice_number(move)
+                or False)
+        return vals
+
     @api.model
     def _populate_for_statement(self, statement, section_code):
         # Normal C.2 rows (received credit/debit notes) + § 53b corrections.
@@ -438,7 +456,7 @@ class L10nSKKvDphSectionC2(models.Model):
                 "partner_vat_stripped": stripped,
                 "partner_country_code": (partner.country_id.code or "")[:2],
                 "entry_ref": move.name,
-                "entry_ref_original": origin.ref or origin.name,
+                "entry_ref_original": origin.ref or False,
                 "supply_date": move.date,
                 "tax_base_amount": base,
                 "tax_amount": tax,

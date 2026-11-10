@@ -11,6 +11,17 @@ those releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+[18.0.2.6.0] — 2026-11-10
+-------------------------
+
+Fixed
+~~~~~
+
+- **C.2 no longer falls back to internal numbers.** FO and FP are the
+  supplier's; the tax administration cannot match our own. The export refuses
+  a row without them and says which document needs the number. Ported from
+  19.0.
+
 [18.0.2.5.0] — 2026-11-09
 -------------------------
 

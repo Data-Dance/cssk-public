@@ -1976,6 +1976,46 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         st.action_compute_lines()
         return st._collect_sections_by_code()["C.2"].entry_ref_original
 
+    def test_c2_refuses_a_credit_note_without_the_supplier_number(self):
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        credit.write({"invoice_origin": "DF-2026-0315"})
+        credit.action_post()
+        st = self._make_statement()
+        st.action_compute_lines()
+        with self.assertRaisesRegex(UserError, "supplier's number"):
+            st.action_export_xml()
+
+    def test_c2_does_not_file_the_internal_number_of_the_original(self):
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=True)
+        self.assertFalse(bill.ref)
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        credit.write({"ref": "DOB-78", "reversed_entry_id": bill.id})
+        credit.action_post()
+        st = self._make_statement()
+        st.action_compute_lines()
+        with self.assertRaisesRegex(UserError, "invoice being corrected"):
+            st.action_export_xml()
+
+    def test_c2_a_typed_number_replaces_a_missing_supplier_number(self):
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-06-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=True)
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        credit.write({"ref": "DOB-79", "reversed_entry_id": bill.id,
+                      "cssk_control_original_ref": "DF-9"})
+        credit.action_post()
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertEqual(st._collect_sections_by_code()["C.2"].entry_ref_original, "DF-9")
+
     def test_a_vendor_credit_note_reads_its_source_document(self):
         self._vendor_credit(invoice_origin="DF-2026-0315")
         self.assertEqual(self._c2_original(), "DF-2026-0315")

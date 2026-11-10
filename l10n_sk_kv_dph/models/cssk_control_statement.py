@@ -218,6 +218,15 @@ class CSSKControlStatement(models.Model):
                         "%(refs)s",
                         sec=code, n=len(bad),
                         refs=self._kv_offenders_detail(bad)))
+            # C.2 files the supplier's number of the correction (FO). A § 53b
+            # row is the payer's own entry and carries that entry's number.
+            bad = [r for r in sections.get("C.2", []) if not r.entry_ref_xml]
+            if bad:
+                problems.append(_(
+                    "C.2: %(n)d row(s) without the supplier's number of the "
+                    "credit or debit note; enter it as the Bill Reference and "
+                    "recompute: %(refs)s",
+                    n=len(bad), refs=self._kv_offenders_detail(bad)))
             # C.1 / C.2 name the corrected invoice (FP), and the form requires
             # it. A credit note created by hand has no link to it, so without
             # the number typed on the document there is nothing true to file.
