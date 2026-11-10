@@ -211,7 +211,7 @@ Pro popis číselníku Pracoviště FÚ klikněte &lt;a href="https://mojedane.g
                   </xs:attribute>
                   <xs:attribute name="dic" use="required">
                     <xs:annotation>
-                      <xs:documentation>Kmenová část daňového identifikačního čísla (pouze číselná část), pokud bylo daňovému subjektu přiděleno. Neplátce fyzická osoba uvede rodné číslo (RČ), neplátce právnická osoba uvede identifikační číslo (IČ).</xs:documentation>
+                      <xs:documentation>Kmenová část daňového identifikačního čísla (pouze číselná část), pokud bylo daňovému subjektu přiděleno. U daňového subjektu typu fyzická osoba musí být kmenová část DIČ tvořena RČ nebo vlastním číslem plátce. U daňového subjektu typu právnická osoba musí být kmenová část DIČ tvořena IČ nebo vlastním číslem plátce.</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                       <xs:restriction base="xs:string">
@@ -1619,7 +1619,7 @@ Pro popis číselníku Země klikněte &lt;a href="https://mojedane.gov.cz/pmd/d
                             </xs:attribute>
                             <xs:attribute name="jm_souboru" use="optional" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                               <xs:annotation>
-                                <xs:documentation>&lt;strong&gt;Název přiloženého souboru.&lt;/strong&gt;&lt;br/&gt;Povolené typy souborů jsou: DOC, DOCX, RTF, XLS, XLSX, PDF, JPG, TXT a TXT/CSV. Dále je možné přiložit podepsané (formát PKCS#7) a komprimované (formát ZIP) soubory, vždy však jde o jeden podepsaný nebo jeden komprimovaný soubor některého z podporovaných formátů. Součet velikostí všech souborů přiložených v elektronické podobě (tzv. e-příloh) může být nejvýše 10 240 kilobajtů.</xs:documentation>
+                                <xs:documentation>&lt;strong&gt;Název přiloženého souboru.&lt;/strong&gt;&lt;br/&gt;Povolené typy souborů jsou: DOC, DOCX, RTF, XLS, XLSX, PDF, JPG, JPEG, TXT a TXT/CSV. Dále je možné přiložit podepsané (formát PKCS#7) a komprimované (formát ZIP) soubory, vždy však jde o jeden podepsaný nebo jeden komprimovaný soubor některého z podporovaných formátů. Součet velikostí všech souborů přiložených v elektronické podobě (tzv. e-příloh) může být nejvýše 10 240 kilobajtů.</xs:documentation>
                               </xs:annotation>
                               <xs:simpleType>
                                 <xs:restriction base="xs:string">

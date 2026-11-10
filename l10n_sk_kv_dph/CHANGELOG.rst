@@ -11,6 +11,32 @@ those releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+[18.0.2.7.0] — 2026-11-10
+-------------------------
+
+Changed
+~~~~~~~
+
+- **A supplier's credit note bound for C.2 does not post without the
+  supplier's numbers**: its own (*Bill Reference*) and that of the invoice it
+  corrects. Journal entries and Odoo's full cancellation are not held; an
+  accounting administrator can pass ``l10n_sk_kv_skip_supplier_numbers`` to
+  post historical documents. Debit notes are not held on this branch: they
+  still report in B.2 here, as 19.0's debit-note handling is not ported.
+- **B.1 and B.2 no longer fall back to internal numbers.** The export refuses
+  a row without the supplier's invoice number and names the document by our
+  number.
+
+Fixed
+~~~~~
+
+- **"Reversal of: BILL/…" was filed as the supplier's number.** The credit
+  note wizard leaves the reference empty on a Slovak supplier's bill, and a
+  reference containing our number of the corrected bill is not taken as the
+  supplier's.
+
+Ported from 19.0 (19.0.2.9.0).
+
 [18.0.2.6.0] — 2026-11-10
 -------------------------
 

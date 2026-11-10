@@ -2,7 +2,7 @@
 <odoo>
   <template id="dphdp3_xml">
     <Pisemnost nazevSW="Odoo / Data Dance">
-      <DPHDP3 verzePis="02.01">
+      <DPHDP3 verzePis="03.01.04">
         <VetaD
             dokument="DP3"
             t-att-c_okec="company.partner_id.nace_code or None"
@@ -90,9 +90,9 @@
                 <Veta6
                     t-att-dan_vrac="'%.0f' % values.get('dan_vrac', 0.0)"
                     t-att-dan_zocelk="'%.0f' % values.get('dan_zocelk', 0.0)"
-                    t-att-dano="'%.0f' % values.get('dano', 0.0)"
-                    t-att-dano_da="'%.0f' % values.get('dano_da', 0.0)"
-                    t-att-dano_no="'%.0f' % values.get('dano_no', 0.0)"
+                    t-att-dano="('%.0f' % values.get('dano', 0.0)) if statement.cz_filing_code in ('D', 'E') else None"
+                    t-att-dano_da="None if statement.cz_filing_code in ('D', 'E') else '%.0f' % values.get('dano_da', 0.0)"
+                    t-att-dano_no="None if statement.cz_filing_code in ('D', 'E') else '%.0f' % values.get('dano_no', 0.0)"
                     t-att-odp_zocelk="'%.0f' % values.get('odp_zocelk', 0.0)"
                     t-att-uprav_odp="'%.0f' % values.get('uprav_odp', 0.0)"/>
             

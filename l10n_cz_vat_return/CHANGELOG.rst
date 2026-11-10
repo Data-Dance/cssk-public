@@ -25,6 +25,37 @@ Carried over
   lock-date protected, and re-tagging a filed period adds reporting to a
   return that was already filed.
 
+[18.0.1.14.0] — 2026-11-10
+--------------------------
+
+Fixed
+~~~~~
+
+- **ř. 46 and ř. 62 – 66 are computed.** They were manual lines, so a return
+  filed vlastní daň, nadměrný odpočet and the totals as 0 unless every one
+  was overridden by hand. They now follow the EPO structure's own
+  definitions (ř. 62 = 1 … 13 − 61, ř. 63 = 46 + 52 + 53 + 60, ř. 64 / 65
+  the positive difference, ř. 66 the difference on a dodatečné přiznání
+  only), summed from the rows as filed so the totals foot. An override on
+  any of them is kept. The § 108 odst. 4 písm. g) and h) tax, which has no
+  row of its own, still has to be added to ř. 62 by override.
+- **One discovery date.** The return had two (the shared one, asked for on
+  an amendment, and the Czech *Důvody zjištěny dne* the XML read); they are
+  now the same field, and existing values of the Czech one are kept.
+- The settlement (*To pay / (refund)* and the excess carry-forward) now
+  works for Czech returns: the version names ř. 64 and ř. 65.
+- Content checks: ř. 64 and ř. 65 must not be negative and are never both
+  filled.
+- The bundled ``dphdp3_epo2.xsd`` is refreshed to the published structure
+  03.01.04 (documentation changes only), ``verzePis`` states that version
+  (it said 02.01), and both are pinned in ``data/SCHEMA_VERSION`` with a
+  test.
+
+Ported from 19.0 (19.0.1.11.0, 390c4422). Not ported: the drill-down of
+ř. 33 / ř. 34 as a whole, which needs a framework hook this branch lacks.
+A return computed before this version keeps its manual totals until it is
+recomputed.
+
 [18.0.1.13.0] — 2026-11-09
 --------------------------
 

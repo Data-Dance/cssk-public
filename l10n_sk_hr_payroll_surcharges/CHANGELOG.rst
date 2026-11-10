@@ -25,7 +25,7 @@ Changed
   dated value: a statutory change is a data change.
 
 19.0.1.0.1 (2026-08-03)
------------------------
+=======================
 
 * **Fix a silent overpayment in the minimum-wage top-up.** The ordinary hours
   driving the comparison were taken from the ``WORK100`` worked-day line, but
@@ -49,7 +49,7 @@ Changed
   not by the test suite.
 
 19.0.1.0.0 (2026-08-03)
------------------------
+=======================
 
 * Initial release.
 * ``l10n.sk.wage.surcharge.rate`` — dated statutory percentages for the night,
@@ -89,7 +89,7 @@ Changed
   same OOP arithmetic.
 
 19.0.1.1.0 (2026-08-03)
------------------------
+=======================
 
 * ``hr.job.l10n_sk_wage_level`` — the § 120 difficulty level now lives on the
   POST, which is what Annex 1 to the Zákonník práce actually classifies, and
@@ -109,7 +109,7 @@ Changed
   (outside § 120) and for hourly contracts (compared per hour on the payslip).
 
 19.0.1.1.1 (2026-08-03)
------------------------
+=======================
 
 * **Fix: no minimum-wage top-up for a dohodár.** § 120 sets minimum wage
   claims for a pracovný pomer. A worker on an agreement is entitled to the

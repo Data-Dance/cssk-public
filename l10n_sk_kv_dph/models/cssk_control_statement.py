@@ -137,7 +137,14 @@ class CSSKControlStatement(models.Model):
     @staticmethod
     def _kv_row_label(row):
         ref = getattr(row, "entry_ref", False)
-        return ref or row.partner_id.display_name or ("#%d" % row.id)
+        if ref:
+            return ref
+        # A received document with no supplier's number: our own number
+        # finds it in the books, which a partner name alone does not.
+        line = getattr(row, "move_line_id", False)
+        move = line.move_id._cssk_vat_document() if line else False
+        return ((move and move.name not in (False, "/") and move.name)
+                or row.partner_id.display_name or ("#%d" % row.id))
 
     @staticmethod
     def _kv_offenders_detail(rows):
@@ -218,8 +225,20 @@ class CSSKControlStatement(models.Model):
                         "%(refs)s",
                         sec=code, n=len(bad),
                         refs=self._kv_offenders_detail(bad)))
-            # C.2 files the supplier's number of the correction (FO). A § 53b
-            # row is the payer's own entry and carries that entry's number.
+            # B.1 / B.2 file the supplier's invoice number (FAK), C.2 the
+            # supplier's number of the correction (FO). There is no internal
+            # fallback to catch here; a row without one has no number at all.
+            # A § 53b row is the payer's own entry and carries that entry's
+            # number.
+            for code in ("B.1", "B.2"):
+                bad = [r for r in sections.get(code, []) if not r.entry_ref_xml]
+                if bad:
+                    problems.append(_(
+                        "%(sec)s: %(n)d row(s) without the supplier's invoice "
+                        "number; enter it as the Bill Reference and "
+                        "recompute: %(refs)s",
+                        sec=code, n=len(bad),
+                        refs=self._kv_offenders_detail(bad)))
             bad = [r for r in sections.get("C.2", []) if not r.entry_ref_xml]
             if bad:
                 problems.append(_(
