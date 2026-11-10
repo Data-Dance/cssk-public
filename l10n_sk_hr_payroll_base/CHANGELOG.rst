@@ -12,6 +12,16 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.2.2] — 2026-11-10
+-------------------------
+
+Fixed
+~~~~~
+
+- Floor the employee's daily social-insurance maximum before multiplying
+  insured calendar days in a partial month (§ 138(13)). Preserve the whole
+  monthly maximum for a full month and leave employer limits unchanged.
+
 [19.0.1.1.2] — 2026-11-05
 -------------------------
 

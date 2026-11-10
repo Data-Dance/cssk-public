@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll
 summary: The Slovak payroll family in one place — the monthly payslip for a pracovný pomer and the three dohody on either Odoo Enterprise Payroll or the OCA payroll app, with dated statutory rates, leave, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.2.1
+verified: 19.0.1.2.2
 ---
 
 ## What it is for {#purpose}
@@ -195,7 +195,12 @@ In the order the rules run:
    (and the disability premium) away where the law does — see
    [What it is for](#purpose). The short-time work contribution is paid for
    a pracovný pomer only; on a dohoda the employer's unemployment rate is
-   1 % instead. Accident insurance is uncapped.
+   1 % instead. Accident insurance is uncapped. For a partial employment
+   month, the employee limit uses the monthly maximum divided by the month's
+   calendar days, rounded down to cents, then multiplied by insured days
+   ([§ 138(13)](law:sk/2003/461#paragraf-138.odsek-13)). For five days in March
+   2026: 16,764 / 31 → 540.77 per day → 2,703.85. A full month keeps the whole
+   monthly limit; the employer's limit is not prorated by this provision.
 6. **Health insurance** on the full gross pay, at the standard or ZŤP rate,
    with the *odpočítateľná položka* if claimed. A state-insured agreement
    worker pays none.

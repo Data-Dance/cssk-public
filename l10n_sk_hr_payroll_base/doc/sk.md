@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy
 summary: Celá skupina modulov slovenských miezd na jednom mieste — mesačná výplatná páska pre pracovný pomer a tri dohody v Odoo Enterprise Payroll alebo v aplikácii OCA payroll, s datovanými zákonnými sadzbami, voľnom, ročným zúčtovaním dane a zaúčtovaním do hlavnej knihy.
-verified: 19.0.1.2.1
+verified: 19.0.1.2.2
 ---
 
 ## Na čo slúži {#purpose}
@@ -201,7 +201,12 @@ V poradí, v akom pravidlá bežia:
    tam, kde to zákon určuje — pozri [Na čo slúži](#purpose). Poistné na
    financovanie podpory sa platí len pri pracovnom pomere; pri dohode platí
    zamestnávateľ poistenie v nezamestnanosti 1 %. Úrazové poistenie nemá
-   strop.
+   strop. Pri neúplnom mesiaci pracovného vzťahu sa mesačné maximum
+   zamestnanca vydelí počtom kalendárnych dní mesiaca, zaokrúhli nadol na
+   centy a až potom vynásobí počtom dní poistenia
+   ([§ 138 ods. 13](law:sk/2003/461#paragraf-138.odsek-13)). Pri piatich dňoch
+   v marci 2026: 16 764 / 31 → 540,77 denne → 2 703,85. Celý mesiac zachová
+   celé mesačné maximum; maximum zamestnávateľa toto ustanovenie nekráti.
 6. **Zdravotné poistenie** z celej hrubej mzdy, v bežnej sadzbe alebo v sadzbe
    pre ZŤP, s odpočítateľnou položkou, ak je uplatnená. Štátny poistenec na
    dohode neplatí nič.

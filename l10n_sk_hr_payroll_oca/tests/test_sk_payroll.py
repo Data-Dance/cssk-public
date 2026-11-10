@@ -1769,7 +1769,7 @@ class TestSkPayroll(TransactionCase):
         )
         contract.contract_date_end = date(2026, 12, 10)
         self.assertEqual(
-            contract.l10n_sk_employee_social_cap(16764.0, date(2026, 12, 1)), 5407.74
+            contract.l10n_sk_employee_social_cap(16764.0, date(2026, 12, 1)), 5407.70
         )
 
     def test_part_month_cap_reaches_the_employee_premium(self):
@@ -1780,6 +1780,17 @@ class TestSkPayroll(TransactionCase):
         self.assertGreater(p.get_salary_line_total("GROSS"), 8382.0)
         # 1.4 % of the halved cap, floored to the cent.
         self.assertAlmostEqual(p.get_salary_line_total("SICK"), -117.34, places=2)
+
+    def test_daily_cap_rounding_reaches_the_actual_disability_premium(self):
+        contract, employee = self._make_contract(
+            "Daily rounded premium", 50000.0, date(2026, 1, 16), self.calendar
+        )
+        slip = self._make_payslip(contract, employee, date(2026, 1, 1), date(2026, 1, 31))
+        self.assertGreater(slip.get_salary_line_total("GROSS"), 16764)
+        # § 138(13): floor(16764 / 31, 2) x 16 = 8652.32.
+        # Employee disability: floor(8652.32 x 3%, 2) = 259.56.
+        self.assertAlmostEqual(slip.get_salary_line_total("DISABILITY"), -259.56, places=2)
+        self.assertAlmostEqual(slip.get_salary_line_total("DISABILITYEMPLOYER"), 502.92, places=2)
 
     def test_sick_pay_counts_calendar_days(self):
         """Fourteen calendar days span two weekends and still pay 3 + 11 days."""
