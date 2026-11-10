@@ -33,9 +33,13 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_hr_payroll_eldp/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK ELDP — evidenčný list dôchodkového poistenia</h1>
 <p class="cssk-summary">Evidenčný list dôchodkového poistenia za kalendárny rok — vymeriavací základ a obdobie poistenia každého zamestnanca zostavené z výplatných pások roka a vyexportované ako hromadné XML pre Sociálnu poisťovňu.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.3</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
+<p><strong>Iba obdobia pred 1. januárom 2026.</strong> Povinnosť predkladať ELDP za nové
+obdobia bola od roku 2026 zrušená. Údaje za tieto obdobia sa poskytujú
+prostredníctvom príslušných mesačných výkazov. Modul ponecháva historické
+podania a opravy za staršie obdobia; nový záznam predvolí rok 2025.</p>
 <p><em>Evidenčný list dôchodkového poistenia</em> (<strong>ELDP</strong>) zaznamenáva za každého
 zamestnanca a kalendárny rok obdobie dôchodkového poistenia a vymeriavací
 základ, z ktorého sa platilo poistné na dôchodkové poistenie. Sociálna
@@ -55,14 +59,48 @@ takže funguje s oboma mzdovými jadrami — pozri
   deň vzniku a skončenia pracovného pomeru a <strong>neobmedzený vymeriavací základ
   zamestnanca</strong>
   (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-232.odsek-2.pismeno-e">§ 232 ods. 2 písm. e)</a>).</li>
-<li><strong>Predloženie.</strong> Platné znenie zákona ročné predkladanie ELDP výslovne
-  neupravuje; zamestnávateľ predkladá podklady na výzvu organizačnej zložky
-  Sociálnej poisťovne
-  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-1.pismeno-g">§ 231 ods. 1 písm. g)</a>,
-  záver), na tlačive, ktoré určí Sociálna poisťovňa
-  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-2">§ 231 ods. 2</a>). ELDP podajte vtedy
-  a za tých zamestnancov, za ktorých ho Sociálna poisťovňa vyžaduje.</li>
+<li><strong>Podávanie je od roku 2026 zrušené.</strong> Zákon č. 310/2024 Z. z. vypustil
+  povinnosť zamestnávateľa predkladať túto evidenciu (§ 231 ods. 1 písm. j)
+  v znení účinnom do 31. decembra 2025) s účinnosťou od 1. januára 2026.
+  Sociálna poisťovňa údaje získava zo svojich systémov; jediný údaj, ktorý
+  niesol iba ELDP, náhrada mzdy z vážnych prevádzkových dôvodov (§ 142 ods. 4
+  a § 250b ods. 6 Zákonníka práce), sa presúva do mesačného výkazu
+  (<a href="https://www.socpoist.sk/news/povinnost-zamestnavatelov-predkladat-evidencne-listy-dochodkoveho-poistenia-sa-od-roku-2026">oznam Sociálnej poisťovne</a>).</li>
+<li><strong>Jednorazové podanie za obdobie pred rokom 2026.</strong>
+  <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-293gl">§ 293gl</a> ešte vyžaduje evidenciu za obdobie
+  pred 1. januárom 2026 za všetkých zamestnancov, a to do:</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>Zamestnanci</th>
+<th>Lehota</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>skončili pred rokom 2026 a evidencia nebola predložená (alebo bola vrátená na opravu)</td>
+<td>31. januára 2026</td>
+</tr>
+<tr>
+<td>právny vzťah trvá, zamestnávateľ mal k 31. decembru 2025 menej ako 51 zamestnancov</td>
+<td>30. júna 2026</td>
+</tr>
+<tr>
+<td>právny vzťah trvá, 51 až 500 zamestnancov</td>
+<td>30. septembra 2026</td>
+</tr>
+<tr>
+<td>právny vzťah trvá, viac ako 500 zamestnancov</td>
+<td>31. decembra 2026</td>
+</tr>
+</tbody>
+</table>
+<p>Evidencia pokrýva každý doteraz nevykázaný rok pred rokom 2026, nielen rok
+  2025. Modul zostavuje vždy jeden kalendárny rok z výplatných pások toho roka,
+  od roku 2020; roky pred zavedením miezd v Odoo treba podať z pôvodného
+  systému. Súbor za rok 2026 a neskôr modul odmietne vygenerovať aj označiť
+  za podaný; uložené prílohy ponechá.</p>
 <h2 id="setup">Nastavenie</h2>
 <p>Na spoločnosti:</p>
 <table>
@@ -162,7 +200,7 @@ nemá platné rodné číslo alebo dátum narodenia, alebo ak za rok neexistuje
   (verzia 1.3).</li>
 <li>Overenie voči schéme kontroluje tvar súboru, nie sumy.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.3 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
