@@ -71,7 +71,12 @@ class HrVersion(models.Model):
             and getattr(self, "l10n_sk_agreement_oop", False)
             else 0
         )
-        return self.l10n_sk_social_assessment_base(gross, ceiling, deduction)
+        # Salary-rule categories can retain an unrounded prorated wage while
+        # the native payslip/ledger records currency-rounded GROSS. Assess the
+        # actual monetary income (e.g.765.217391 ->765.22), then apply the
+        # statutory deduction/cap and downward rounding of the base itself.
+        income = self.company_id.currency_id.round(gross)
+        return self.l10n_sk_social_assessment_base(income, ceiling, deduction)
 
     def l10n_sk_employee_social_cap(self, cap, day):
         """The employee's maximum assessment base for the month of ``day``.

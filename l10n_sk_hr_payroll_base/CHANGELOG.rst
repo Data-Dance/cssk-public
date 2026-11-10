@@ -60,3 +60,5 @@ Fixed
 -------------------------
 
 * Retain individual monthly social-insurance bases and historical relationship facts; use the shared per-fund assessment helper in the OCA engine and MVP export. Preserve original filed XML. See the EN/SK source documentation for adapter and correction boundaries.
+
+* Derive social bases from currency-rounded payroll income before statutory base rounding, preserving fractional-cent prorated wages consistently with the payslip and ledger.

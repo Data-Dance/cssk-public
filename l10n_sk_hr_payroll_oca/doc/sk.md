@@ -72,3 +72,6 @@ Pravidelný mesačný výpočet uchová presný základ každého fondu, použit
 Potvrdenie kontroluje zdroj aj pri vypnutom automatickom prepočte. Potvrdené riadky a identita zdroja ostávajú chránené aj po zrušení; použite opravu mzdy. Zmeny aj vloženie verzie zamestnania koordinujú súbeh s potvrdením pásky pri PostgreSQL repeatable-read. Natívne refundovanie pásky ostáva účtovne dostupné; samo osebe nepredstavuje úplný opravný mesačný výkaz.
 
 MVP číta uchované fondové základy a interval zamestnania. MVP aj VPP používajú historickú pravidelnosť, takže zmena dnešnej HR karty nepresunie starú mzdu do druhého výkazu. Chýbajúci starý dôkaz vyžaduje overený kompatibilný adaptér; existujúce XML sa neprepisuje. Adaptéry rozpočítania a opráv môžu zmeniť zdrojovú politiku a poskytnúť vlastné presné základy. Zmena poistného profilu vnútri mesiaca vyžaduje osobitnú konsolidáciu. Verejne je overený engine OCA, nie proprietárny Enterprise engine ani prijatie úradom.
+
+
+Pri pomernej mzde môže kategória pravidla ešte obsahovať zlomok centu, hoci GROSS a hlavná kniha už evidujú menovo zaokrúhlenú sumu. Fondový helper najprv odvodí tento skutočný peňažný príjem a až potom uplatní zákonný odpočet/strop a zaokrúhlenie základu nadol. Napríklad765,217391 sa eviduje ako765,22;14% dôchodkové poistné zamestnávateľa je107,13, nie107,12.

@@ -484,6 +484,15 @@ class TestMvp(TransactionCase):
         with self.assertRaisesRegex(UserError, "missing retained|Consolidate"):
             declaration._build_annex()
 
+    def test_fund_bases_prorated_income_matches_the_recorded_currency_amount(self):
+        if self.engine != "oca":
+            self.skipTest("OCA retained monthly source")
+        _, slip = self._employee_payslip(wage=2200, worked_hours=61.2175)
+        self.assertEqual(slip.get_salary_line_total("GROSS"), 765.22)
+        bases = slip._l10n_sk_mvp_fund_bases()
+        self.assertEqual(bases["vzSp"], 765.22)
+        self.assertEqual(slip.get_salary_line_total("PENSIONEMPLOYER"), 107.13)
+
     def test_fund_bases_second_independent_monthly_calculation_is_not_confirmed(self):
         if self.engine != "oca":
             self.skipTest("OCA retained monthly source")

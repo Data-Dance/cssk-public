@@ -75,3 +75,6 @@ Approved PN dates determine calendar-day tiers, while the native shared `SICKNES
 ## Actual worked time in the average {#average-worked-time}
 
 WORK100 is the gross scheduled time; separately recorded approved absence rows are deducted by absolute days and hours before applying the 21-day or168-hour threshold and wage/hour division. This follows the same absence-code taxonomy as BASIC, with identical results for either leave-sign setting. Refund direction remains applied once by the caller. An unsaved payslip preview excludes its persistent origin rather than passing a temporary NewId into the history domain.
+
+
+For a prorated wage, the salary-rule category may still contain a fractional cent while the recorded GROSS and general ledger have the currency-rounded amount. The fund helper first derives that actual monetary income, then applies the statutory base deduction/cap and downward rounding. For example,765.217391 is recorded as765.22; its14% employer pension premium is107.13, not107.12.
