@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="rule_trip_company" model="ir.rule">
+        <field name="name">Vehicle trips: own companies</field>
+        <field name="model_id" ref="model_l10n_sk_vehicle_trip"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_order_company" model="ir.rule">
+        <field name="name">Travel orders: own companies</field>
+        <field name="model_id" ref="model_l10n_sk_travel_order"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

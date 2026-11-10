@@ -8,6 +8,15 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- Ported from 19.0: a warning on cash payments, the payment wizard and
+  cash-journal statement lines with a third-party partner above 5 000 €
+  (§ 4 zákona 394/2012 Z. z.), adding together the cash already paid on the
+  same invoices by payments and statement lines (§ 6 ods. 2). A statement
+  line also notes it in the chatter.
+
 [18.0.1.0.3] — 2026-11-02
 -------------------------
 

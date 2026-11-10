@@ -41,6 +41,7 @@ mapping for your tax setup; a manual note field is provided for edge cases.
         "views/account_tax_views.xml",
         "views/account_move_views.xml",
         "report/report_invoice.xml",
+        "views/account_payment_views.xml",
     ],
     "installable": True,
 }

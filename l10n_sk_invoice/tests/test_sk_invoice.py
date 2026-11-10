@@ -109,3 +109,84 @@ class TestSkInvoiceRegistryLabel(AccountTestInvoicingCommon):
         for registry in ("11111119", "12345679"):
             self.assertRegex(html, r"IČO:\s*<span[^>]*>\s*%s" % registry)
         self.assertNotRegex(html, r"\bID:\s*<span")
+
+
+@tagged("post_install", "-at_install")
+class TestSkCashLimit(AccountTestInvoicingCommon):
+    @classmethod
+    @AccountTestInvoicingCommon.setup_country("sk")
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.cash = cls.env["account.journal"].search(
+            [("company_id", "=", cls.company_data["company"].id), ("type", "=", "cash")],
+            limit=1,
+        )
+
+    def _invoice(self, amount):
+        return self.init_invoice(
+            "out_invoice", amounts=[amount], post=True, taxes=self.env["account.tax"]
+        )
+
+    def _wizard(self, invoice, amount):
+        return (
+            self.env["account.payment.register"]
+            .with_context(active_model="account.move", active_ids=invoice.ids)
+            .create({"journal_id": self.cash.id, "amount": amount})
+        )
+
+    def test_exactly_the_limit_is_allowed(self):
+        wizard = self._wizard(self._invoice(5000.0), 5000.0)
+        self.assertFalse(wizard.l10n_sk_cash_limit_warning)
+
+    def test_above_the_limit_warns(self):
+        wizard = self._wizard(self._invoice(5000.01), 5000.01)
+        self.assertIn("394/2012", wizard.l10n_sk_cash_limit_warning)
+
+    def test_split_payments_are_added_together(self):
+        invoice = self._invoice(6000.0)
+        self._wizard(invoice, 3000.0)._create_payments()
+        self.assertTrue(self._wizard(invoice, 2500.0).l10n_sk_cash_limit_warning)
+
+    def test_bank_payment_is_not_limited(self):
+        invoice = self._invoice(9000.0)
+        bank = self.company_data["default_journal_bank"]
+        wizard = self._wizard(invoice, 9000.0)
+        wizard.journal_id = bank
+        self.assertFalse(wizard.l10n_sk_cash_limit_warning)
+
+    def _cash_line(self, amount, partner=None, **vals):
+        values = {
+            "journal_id": self.cash.id,
+            "date": "2026-06-08",
+            "payment_ref": "Hotovosť",
+            "amount": amount,
+            "partner_id": (partner or self.partner_a).id if partner is not False else False,
+        }
+        values.update(vals)
+        return self.env["account.bank.statement.line"].create(values)
+
+    def _reconcile(self, st_line, invoice):
+        _liquidity, suspense, _other = st_line._seek_for_lines()
+        receivable = invoice.line_ids.filtered(
+            lambda line: line.account_id.account_type == "asset_receivable"
+        )
+        suspense.with_context(skip_readonly_check=True).account_id = receivable.account_id
+        (suspense + receivable).reconcile()
+
+    def test_cash_statement_line_above_the_limit_warns_in_the_chatter(self):
+        line = self._cash_line(5000.01)
+        self.assertIn("394/2012", line.l10n_sk_cash_limit_warning)
+        self.assertIn("394/2012", line.move_id.message_ids[:1].body)
+
+    def test_cash_out_without_a_partner_is_not_a_payment(self):
+        line = self._cash_line(-9000.0, partner=False)
+        self.assertFalse(line.l10n_sk_cash_limit_warning)
+
+    def test_statement_line_and_payment_add_up(self):
+        invoice = self._invoice(6000.0)
+        line = self._cash_line(3000.0)
+        self.assertFalse(line.l10n_sk_cash_limit_warning)
+        self._reconcile(line, invoice)
+        self.assertEqual(invoice.amount_residual, 3000.0)
+        self.assertTrue(self._wizard(invoice, 2500.0).l10n_sk_cash_limit_warning)
+        self.assertFalse(self._wizard(invoice, 1500.0).l10n_sk_cash_limit_warning)

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="product_travel_settlement" model="product.product">
+        <field name="name">Travel order settlement</field>
+        <field name="type">service</field>
+        <field name="can_be_expensed" eval="True"/>
+        <field name="purchase_ok" eval="False"/>
+        <field name="sale_ok" eval="False"/>
+        <field name="supplier_taxes_id" eval="[(5, 0, 0)]"/>
+    </record>
+</odoo>
