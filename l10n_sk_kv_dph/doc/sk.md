@@ -1,7 +1,7 @@
 ---
 title: Kontrolný výkaz DPH (KV DPH)
 summary: Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.
-verified: 19.0.2.9.0
+verified: 19.0.2.10.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -194,6 +194,18 @@ ako doteraz (export vymenuje tie bez čísla), rovnako interné doklady a úpln�
 storno cez *Modify*. Správca účtovníctva môže pri importe historických
 dokladov kontrolu obísť kľúčom kontextu `l10n_sk_kv_skip_supplier_numbers`.
 
+**Interné dobropisy sa nevykazujú.** Storno prijatej faktúry, dobropisu
+alebo interného dokladu bez čísla dokladu od dodávateľa je náš doklad, nie
+oprava od dodávateľa, a podľa slovenskej účtovníčky do kontrolného výkazu
+nepatrí. Takéto storno (úplné storno v Odoo alebo dobropis, ktorý správca
+zaúčtoval bez *referencie faktúry*) sa vynechá. Stornovaný doklad sa vynechá
+tiež, ak ho storno ruší celý v tom istom období; výkaz sa tak naďalej zhoduje
+s daňovým priznaním. Ak je storno v neskoršom období alebo ruší doklad len
+čiastočne, vynechá sa len storno a kontrola *KV_INTERNAL_STORNO* upozorní,
+že daň storna ostáva v daňovom priznaní. Vtedy buď počkajte na dobropis od
+dodávateľa, alebo otvorte obdobie pôvodného dokladu, faktúru v ňom opravte
+a podajte dodatočné daňové priznanie a kontrolný výkaz.
+
 Pred vytvorením súboru export zastaví a vymenuje chybné doklady, ak:
 
 - riadok v A.2, B.2 alebo B.3.2 nemá IČ DPH druhej strany alebo má iné ako
@@ -223,9 +235,10 @@ mesiac alebo rok a štvrťrok).
   denníky nastavené na `D.1` a s modulom
   [module:l10n_sk_kv_dph_pos](module:l10n_sk_kv_dph_pos) pokladničné relácie;
   každý iný predaj cez pokladnicu bez identifikovaného odberateľa-podnikateľa
-  sa vykáže v **D.2**. Či majú Z / D / ZZn / DZn v D.1 na tlačivách od roku
-  2021 (ktorých poučenie žiada len obrat) niesť rozdelenie podľa sadzieb
-  alebo nuly, ešte musí potvrdiť účtovník.
+  sa vykáže v **D.2**. Na tlačivách od roku 2021 poučenie žiada len obrat;
+  modul napriek tomu vypĺňa Z / D / ZZn / DZn základom a daňou podľa sadzieb.
+  Účtovníčka potvrdila, že tieto údaje navyše nie sú chybou: nikde nie sú
+  zakázané.
 - **Ťarchopisy** sa dostanú do C.1 / C.2, len ak sú prepojené s opravovanou
   faktúrou (tlačidlo *Debit Note*). Ťarchopis vystavený ako bežná faktúra sa
   stále vykáže v A.1 / B.2.
@@ -242,7 +255,7 @@ mesiac alebo rok a štvrťrok).
 - Atribút `ONP` v C.1 / C.2 (oprava pri nedobytnej pohľadávke, od vzoru 2023)
   sa nevypĺňa nikdy.
 - Pravidlá zaradenia sú najlepším možným odhadom; najmä zoznam tovarov podľa
-  § 69 ods. 12 a oddiel D.1 ešte musí potvrdiť slovenský účtovník. Každý
+  § 69 ods. 12 ešte musí potvrdiť slovenský účtovník. Každý
   výkaz pred podaním skontrolujte.
 
 ## Prenos mimo výkazu {#rc-a-e}

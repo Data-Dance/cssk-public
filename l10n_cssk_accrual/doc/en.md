@@ -101,6 +101,20 @@ Click **Post Estimate**. The module creates and posts one entry, numbered
 Both lines carry the partner. The entry has no VAT: an estimate is not a tax
 document.
 
+For Slovakia, an accountant confirmed the following:
+- **Domestic purchases.** VAT may be deducted only on an invoice or a
+  simplified invoice ([§ 51 ods. 1 písm. a) of the VAT Act](law:sk/2004/222#paragraf-51.odsek-1.pismeno-a)).
+  An unbilled supply (for example 131 / 326) therefore carries no VAT, even
+  when the purchase order shows it.
+- **Goods acquired from another EU member state.** The tax is due in the
+  period in which the taxable supply took place, and it is deducted only once
+  the invoice is in hand. When that taxable supply occurs is complicated
+  enough that, in practice, it is all booked when the invoice arrives. If the
+  invoice arrives late, file a supplementary VAT return for the right period,
+  declaring both the tax and its deduction there; the tax effect is nil. Left
+  uncorrected, a tax audit would assess the tax in the right period but leave
+  the deduction in the period of the invoice, which is a basis for a penalty.
+
 ## Settling against the invoice {#settle}
 
 Book the real invoice the usual way, to the expense or income account, and

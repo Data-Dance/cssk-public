@@ -2230,6 +2230,100 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         self.assertTrue(bill.reversal_move_ids.filtered(
             lambda m: m.state == "posted"))
 
+    # --- internal credit notes stay out of the statement ---------------
+    def _storno_warnings(self, st):
+        return [c for c in st.check_kontroly()
+                if c["code"] == "KV_INTERNAL_STORNO"]
+
+    def test_a_cancellation_in_the_same_period_leaves_both_out(self):
+        """Internal credit notes do not belong in KV; with the bill it cancels
+        in full in the same period, the pair nets out of the return too."""
+        bill = self._bill_with_ref("DF-2026-0406")
+        self._reversal_wizard(bill).modify_moves()
+        storno = bill.reversal_move_ids
+        self.assertTrue(storno._l10n_sk_kv_is_internal_cancellation())
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertFalse(st.sk_section_b2_ids)
+        self.assertFalse(st.sk_section_c2_ids)
+        self.assertFalse(self._storno_warnings(st))
+
+    def test_a_cancellation_in_a_later_period_is_left_out_and_named(self):
+        bill = self.init_invoice(
+            "in_invoice", partner=self.partner_a, invoice_date="2026-05-05",
+            amounts=[1000.0], taxes=self.tax_purchase, post=False)
+        bill.ref = "DF-2026-0407"
+        bill.action_post()
+        self._reversal_wizard(bill).modify_moves()
+        storno = bill.reversal_move_ids
+        self.assertEqual(str(storno.date), "2026-06-19")
+        june = self._make_statement()
+        june.action_compute_lines()
+        self.assertFalse(june.sk_section_c2_ids)
+        warnings = self._storno_warnings(june)
+        self.assertEqual(len(warnings), 1)
+        self.assertIn(storno.name, warnings[0]["detail"])
+        # The bill stays in its own period: its return still carries it.
+        may = self._statement_for(self.version, "2026-05-01", "2026-05-31")
+        may.action_compute_lines()
+        self.assertEqual(may.sk_section_b2_ids.entry_ref, "DF-2026-0407")
+
+    def test_a_partial_internal_credit_note_leaves_the_bill_in(self):
+        bill = self._bill_with_ref("DF-2026-0408")
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[200.0], taxes=self.tax_purchase)
+        credit.reversed_entry_id = bill
+        self._post_unchecked(credit)
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertFalse(st.sk_section_c2_ids)
+        self.assertEqual(st.sk_section_b2_ids.entry_ref, "DF-2026-0408")
+        self.assertEqual(len(self._storno_warnings(st)), 1)
+
+    def _cancelled_entry(self, tax, account):
+        gross = 100.0 * (1 + tax.amount / 100.0)
+        sign = 1 if tax.type_tax_use == "purchase" else -1
+        entry = self.env["account.move"].create({
+            "move_type": "entry", "date": "2026-06-05",
+            "line_ids": [
+                Command.create({
+                    "name": "base", "account_id": account.id,
+                    "balance": sign * 100.0,
+                    "tax_ids": [Command.set(tax.ids)]}),
+                Command.create({
+                    "name": "counterpart",
+                    "account_id": self.company_data[
+                        "default_account_payable"].id,
+                    "balance": -sign * gross}),
+            ],
+        })
+        entry.action_post()
+        return entry._reverse_moves(cancel=True)
+
+    def test_only_a_purchase_entry_reversal_is_internal(self):
+        """The ruling covers received documents; an entry with output VAT is
+        a supply of ours and keeps being reported."""
+        purchase = self._cancelled_entry(
+            self.tax_purchase, self.company_data["default_account_expense"])
+        self.assertTrue(purchase._l10n_sk_kv_is_internal_cancellation())
+        sale = self._cancelled_entry(
+            self.tax_sale, self.company_data["default_account_revenue"])
+        self.assertFalse(sale._l10n_sk_kv_is_internal_cancellation())
+
+    def test_the_suppliers_credit_note_is_not_internal(self):
+        bill = self._bill_with_ref("DF-2026-0409")
+        credit = self.init_invoice(
+            "in_refund", partner=self.partner_a, invoice_date="2026-06-19",
+            amounts=[1000.0], taxes=self.tax_purchase)
+        credit.write({"ref": "DOB-82", "reversed_entry_id": bill.id})
+        credit.action_post()
+        self.assertFalse(credit._l10n_sk_kv_is_internal_cancellation())
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertEqual(st.sk_section_c2_ids.entry_ref, "DOB-82")
+        self.assertEqual(st.sk_section_b2_ids.entry_ref, "DF-2026-0409")
+
     def test_posting_check_leaves_ordinary_bills_and_sales_alone(self):
         """Only C.2 documents are held: a bill without a reference posts (the
         export names it), and so does a customer credit note."""

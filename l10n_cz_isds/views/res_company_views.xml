@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_company_view_form_cz_isds" model="ir.ui.view">
+        <field name="name">res.company.form.cz.isds</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Data box" name="cz_isds"
+                      invisible="country_code != 'CZ'"
+                      groups="l10n_cssk_submission_base.group_cssk_submission_manager">
+                    <group>
+                        <group>
+                            <field name="l10n_cz_isds_environment"/>
+                            <field name="l10n_cz_isds_auth"/>
+                            <field name="l10n_cz_isds_login"
+                                   invisible="l10n_cz_isds_auth == 'system_cert'"/>
+                            <field name="l10n_cz_isds_password" password="True"
+                                   invisible="l10n_cz_isds_auth == 'system_cert'"/>
+                            <field name="l10n_cz_isds_p12"
+                                   invisible="l10n_cz_isds_auth == 'password'"/>
+                            <field name="l10n_cz_isds_p12_password" password="True"
+                                   invisible="l10n_cz_isds_auth == 'password'"/>
+                            <field name="l10n_cz_isds_cert_subject"
+                                   invisible="l10n_cz_isds_auth == 'password' or not l10n_cz_isds_cert_subject"/>
+                            <field name="l10n_cz_isds_cert_valid_to"
+                                   invisible="l10n_cz_isds_auth == 'password' or not l10n_cz_isds_cert_valid_to"/>
+                        </group>
+                        <group>
+                            <field name="l10n_cz_isds_box_id"/>
+                            <field name="l10n_cz_isds_box_name"/>
+                            <button name="action_l10n_cz_isds_test" type="object"
+                                    string="Test Connection" class="btn-secondary"
+                                    help="Sign in to the data box and show whose it is. Sends nothing."/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

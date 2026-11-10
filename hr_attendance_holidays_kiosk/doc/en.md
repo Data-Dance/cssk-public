@@ -1,0 +1,93 @@
+---
+title: Attendance Kiosk: Reason for Leaving (CZ/SK)
+summary: The attendance kiosk asks why an employee is leaving and turns the answer into a draft time off for HR to approve.
+verified: 19.0.1.0.0
+---
+
+## What it is for {#purpose}
+
+Out of the box the attendance kiosk only checks people in and out. In Czech and
+Slovak workplaces an employee who leaves during the day usually says why: a
+visit to the doctor, accompanying a family member, an errand, an office visit.
+This module asks that question at the kiosk. When an employee checks **out**,
+the kiosk shows a **Work ended** button and one button per reason. Work ended
+is an ordinary check-out. A reason records the check-out, stores the reason on
+the attendance, and creates a **draft time off** (*To Approve*) from the
+check-out time to the end of the working day, for HR to approve.
+
+It depends only on Odoo's *Attendances* and *Time Off*, and works with either
+payroll engine or without payroll.
+
+## Legal background {#legal}
+
+The usual reasons are the personal obstacles to work in the labour codes:
+
+- **Czech Republic.** Examination or treatment at a doctor and accompanying a
+  family member are obstacles on the employee's side under
+  [§ 199 zákoníku práce](law:cz/2006/262); their scope and whether the wage is
+  compensated are set by nařízení vlády č. 590/2006 Sb. (annex, points 1
+  and 8).
+- **Slovakia.** Examination or treatment in a medical facility and
+  accompanying a family member are important personal obstacles under
+  [§ 141 ods. 2 písm. a) and b) Zákonníka práce](law:sk/2001/311#paragraf-141.odsek-2);
+  paid time off for one's own examination is limited to seven days a year.
+
+The module records the time away and leaves the judgement to HR: whether the
+absence is justified, and whether it is paid, is decided when the draft is
+approved and by the time off type it carries.
+
+## Setting it up {#setup}
+
+The module creates no time off types of its own: the types, and what each
+pays, belong to the national payroll modules or to you. The Czech payroll
+modules ship *Paid Obstacle - Doctor Visit / Escort*; the Slovak ones ship
+*Paid Obstacle — Medical Examination* and *Paid Obstacle — Accompanying a
+Family Member*, each with its seven-day yearly quota. Offer a type at the kiosk by ticking **Show in Attendance
+Kiosk** on it (*Time Off › Configuration › Time Off Types*). The flagged types
+are listed under **Time Off › Configuration › Kiosk Reasons**, where you drag
+them into order, give each a colour for its button, and add new ones.
+Recommended for a kiosk reason:
+
+- **Duration** in hours, since a departure is part of a day;
+- **Requires allocation** off: with it on, an employee without an allocation
+  gets no draft time off (the attendance is still tagged), and the form warns
+  about it;
+- an **approval** step, so the draft stays *To Approve*. With no approval the
+  time off is validated at once.
+
+The kiosk itself is set up as usual under *Attendances › Configuration ›
+Settings*. With no reason flagged, it behaves exactly as without the module.
+
+## At the kiosk {#usage}
+
+1. The employee scans a badge, or picks their name and enters the PIN.
+2. If they are about to check out, the reason screen appears.
+3. **Work ended** checks them out normally; a reason checks them out and
+   creates the draft time off.
+
+**Returning the same day.** When the employee checks in again the same day, the
+draft is shortened to end at the return, so it covers only the time away. Each
+departure gets its own draft. Time off HR has already approved is never
+changed.
+
+**After an automatic check-out.** If Odoo's *Automatic Check Out* closed a
+forgotten attendance, the next scan asks for the reason of that earlier
+departure and says when the automatic check-out happened. A reason tags that
+attendance and creates its draft; the default just checks the employee in. The
+real departure time is unknown here, so HR corrects the hours on approval.
+
+HR finds the drafts among ordinary time off requests (*Time Off › Management*).
+The reason is shown on each attendance and can be grouped by (*Departure
+Reason*).
+
+## Limits {#limits}
+
+- Shortening the draft on return works for a kiosk check-in only, not for a
+  check-in from the backend.
+- A departure entirely outside working hours gets a one-hour draft that counts
+  no working hours; HR adjusts it.
+- With *Absence Management* on, only approved time off reduces the expected
+  hours, so approve the drafts promptly or the departures show as a shortfall
+  in the meantime.
+- In a multi-company database the draft belongs to the kiosk's company; an
+  approver sees it only with that company active.

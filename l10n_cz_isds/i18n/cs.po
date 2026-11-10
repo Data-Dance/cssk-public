@@ -1,0 +1,208 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_isds
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-10 12:46+0000\n"
+"PO-Revision-Date: 2026-11-10 11:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_isds
+#. odoo-python
+#: code:addons/l10n_cz_isds/models/res_company.py:0
+msgid ""
+"%(company)s has no data box certificate: upload it on the company's Data box "
+"tab."
+msgstr ""
+"%(company)s nemá certifikát datové schránky: nahrajte ho na záložce firmy "
+"Datová schránka."
+
+#. module: l10n_cz_isds
+#. odoo-python
+#: code:addons/l10n_cz_isds/models/res_company.py:0
+msgid ""
+"%(company)s has no data box login: fill it in on the company's Data box tab."
+msgstr ""
+"%(company)s nemá přihlašovací údaje k datové schránce: vyplňte je na záložce "
+"firmy Datová schránka."
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,help:l10n_cz_isds.field_res_company__l10n_cz_isds_p12
+msgid ""
+"A commercial certificate with its private key (PostSignum, I.CA, eIdentity), "
+"registered for the data box or its user."
+msgstr ""
+"Komerční certifikát se soukromým klíčem (PostSignum, I.CA, eIdentity), "
+"registrovaný pro datovou schránku nebo jejího uživatele."
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_cert_subject
+msgid "Certificate"
+msgstr "Certifikát"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_p12_password
+msgid "Certificate password"
+msgstr "Heslo certifikátu"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_cert_valid_to
+msgid "Certificate valid to"
+msgstr "Certifikát platí do"
+
+#. module: l10n_cz_isds
+#: model:ir.model,name:l10n_cz_isds.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: l10n_cz_isds
+#: model_terms:ir.ui.view,arch_db:l10n_cz_isds.res_company_view_form_cz_isds
+msgid "Data box"
+msgstr "Datová schránka"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_box_id
+msgid "Data box ID"
+msgstr "ID datové schránky"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_p12
+msgid "Data box certificate (.p12 / .pfx)"
+msgstr "Certifikát datové schránky (.p12 / .pfx)"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_environment
+msgid "Data box environment"
+msgstr "Prostředí datové schránky"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_login
+msgid "Data box login"
+msgstr "Přihlašovací jméno"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_box_name
+msgid "Data box owner"
+msgstr "Vlastník datové schránky"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_password
+msgid "Data box password"
+msgstr "Heslo"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__l10n_cz_isds_auth
+msgid "Data box sign-in"
+msgstr "Přihlášení do datové schránky"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,help:l10n_cz_isds.field_res_company__l10n_cz_isds_box_id
+msgid "Filled in by Test Connection from what the login opens."
+msgstr "Vyplní Test připojení podle toho, kam přihlašovací údaje vedou."
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,field_description:l10n_cz_isds.field_res_company__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields.selection,name:l10n_cz_isds.selection__res_company__l10n_cz_isds_auth__password
+msgid "Login and password"
+msgstr "Jméno a heslo"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,help:l10n_cz_isds.field_res_company__l10n_cz_isds_auth
+msgid ""
+"Login and password: a data box user. Login, password and certificate: a data "
+"box user whose login also requires the commercial certificate below. System "
+"certificate: a commercial certificate the box's administrator registered on "
+"the box for an external application; no login or password, so nothing breaks "
+"when a person's password changes."
+msgstr ""
+"Jméno a heslo: uživatel datové schránky. Jméno, heslo a certifikát: "
+"uživatel datové schránky, jehož přihlášení navíc vyžaduje komerční "
+"certifikát níže. Systémový certifikát: komerční certifikát, který "
+"administrátor schránky zaregistroval pro externí aplikaci; bez jména a "
+"hesla, takže se nic nerozbije, když se něčí heslo změní."
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields.selection,name:l10n_cz_isds.selection__res_company__l10n_cz_isds_auth__password_cert
+msgid "Login, password and certificate"
+msgstr "Jméno, heslo a certifikát"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields.selection,name:l10n_cz_isds.selection__res_company__l10n_cz_isds_environment__production
+msgid "Production (datovka.gov.cz)"
+msgstr "Produkce (datovka.gov.cz)"
+
+#. module: l10n_cz_isds
+#: model_terms:ir.ui.view,arch_db:l10n_cz_isds.res_company_view_form_cz_isds
+msgid "Sign in to the data box and show whose it is. Sends nothing."
+msgstr "Přihlásí se do datové schránky a ukáže, čí je. Nic neposílá."
+
+#. module: l10n_cz_isds
+#. odoo-python
+#: code:addons/l10n_cz_isds/models/res_company.py:0
+msgid "Signed in to data box %(box)s (%(name)s)."
+msgstr "Přihlášeno do datové schránky %(box)s (%(name)s)."
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields.selection,name:l10n_cz_isds.selection__res_company__l10n_cz_isds_auth__system_cert
+msgid "System certificate (no password)"
+msgstr "Systémový certifikát (bez hesla)"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields.selection,name:l10n_cz_isds.selection__res_company__l10n_cz_isds_environment__test
+msgid "Test (datovka-test.gov.cz)"
+msgstr "Test (datovka-test.gov.cz)"
+
+#. module: l10n_cz_isds
+#: model_terms:ir.ui.view,arch_db:l10n_cz_isds.res_company_view_form_cz_isds
+msgid "Test Connection"
+msgstr "Test připojení"
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,help:l10n_cz_isds.field_res_company__l10n_cz_isds_environment
+msgid ""
+"Test: the operator's test environment, with test boxes and no legal effect; "
+"production boxes cannot be reached from it. Production: the company's real "
+"data box."
+msgstr ""
+"Test: testovací prostředí provozovatele s testovacími schránkami a bez "
+"právních účinků; produkční schránky z něj nejsou dostupné. Produkce: "
+"skutečná datová schránka firmy."
+
+#. module: l10n_cz_isds
+#. odoo-python
+#: code:addons/l10n_cz_isds/models/res_company.py:0
+msgid "The data box certificate cannot be opened: %(error)s"
+msgstr "Certifikát datové schránky nelze otevřít: %(error)s"
+
+#. module: l10n_cz_isds
+#. odoo-python
+#: code:addons/l10n_cz_isds/models/res_company.py:0
+msgid "The data box certificate expired on %(date)s."
+msgstr "Platnost certifikátu datové schránky skončila %(date)s."
+
+#. module: l10n_cz_isds
+#: model:ir.model.fields,help:l10n_cz_isds.field_res_company__l10n_cz_isds_login
+msgid ""
+"The login of a data box user allowed to send messages, preferably one "
+"created for this purpose."
+msgstr ""
+"Přihlašovací jméno uživatele datové schránky s právem posílat zprávy, "
+"nejlépe založeného právě k tomu."

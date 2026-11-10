@@ -142,6 +142,8 @@ The statement types are **Riadny** (R), **Opravný** (O) and **Dodatočný** (D)
 
 **Posting a supplier's credit or debit note.** A Slovak company cannot post a vendor credit note, or a vendor debit note linked to its bill, that goes to C.2 without the supplier's number of the document (*Bill Reference*) and the supplier's number of the invoice it corrects (the linked bill's *Bill Reference*, *Original document number*, or the *Source Document*). Found missing only when the statement is prepared, the supplier's documents may no longer be at hand. The *Credit Note* button leaves the reference empty for you to type rather than writing "Reversal of: …" there. Ordinary bills post as before (the export names any without a number), and so do journal entries and Odoo's own full cancellation (*Modify*). An accounting administrator importing historical documents can post past the check with the context key ``l10n_sk_kv_skip_supplier_numbers``.
 
+**Internal credit notes are not reported.** A reversal of a received bill, credit note or entry that carries no supplier's number is our own document, not the supplier's correction, and a Slovak accountant confirmed that it does not belong in the statement. Such a reversal (Odoo's full cancellation, or a credit note posted without a *Bill Reference* by an administrator) is left out. The document it cancels is left out too when the reversal cancels it in full within the same period, so the statement still agrees with the VAT return. When the reversal is dated in a later period, or cancels only part of the document, it alone is left out and the check *KV_INTERNAL_STORNO* warns: the VAT return still carries its tax. Then either wait for the supplier's credit note, or reopen the original's period, correct the bill there and file a supplementary VAT return and control statement.
+
 Before rendering, the export stops and names the documents at fault when:
 
 - a row in A.2, B.2 or B.3.2 has no IČ DPH of the counterparty, or one that is not Slovak (these sections take only ``SK`` + 10 digits);
@@ -161,7 +163,7 @@ The XML carries the company's IČ DPH, name and address, the filing type and the
 Limitations
 =============
 
-- **D.1 (eKasa) is not derived from ordinary documents.** Journals set to ``D.1`` and, with ``l10n_sk_kv_dph_pos``, POS sessions report there; any other cash-register sale without an identified business customer is reported in **D.2**. Whether D.1's Z / D / ZZn / DZn should carry the rate split or zeros on the forms from 2021 (whose poučenie asks only for the turnover) is still to be confirmed by an accountant.
+- **D.1 (eKasa) is not derived from ordinary documents.** Journals set to ``D.1`` and, with ``l10n_sk_kv_dph_pos``, POS sessions report there; any other cash-register sale without an identified business customer is reported in **D.2**. On the forms from 2021 the poučenie asks only for the turnover; the module still fills Z / D / ZZn / DZn with the base and tax by rate. An accountant confirmed that the extra figures are not an error: nothing forbids them.
 
 - **Debit notes** reach C.1 / C.2 only when linked to the invoice they correct (the *Debit Note* button). One raised as a plain invoice is still reported in A.1 / B.2.
 
@@ -173,7 +175,7 @@ Limitations
 
 - The ``ONP`` attribute of C.1 / C.2 (correction of an uncollectible receivable, available from the 2023 form) is never filled.
 
-- The section rules are a best effort; the § 69 ods. 12 goods list and D.1 in particular still need confirmation by a Slovak accountant. Review each statement before filing.
+- The section rules are a best effort; the § 69 ods. 12 goods list in particular still needs confirmation by a Slovak accountant. Review each statement before filing.
 
 Reverse charge outside the statement
 ======================================
@@ -184,7 +186,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_kv_dph``
-- **Version:** 19.0.2.9.0
+- **Version:** 19.0.2.10.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_kv_kh_base``, ``l10n_sk``

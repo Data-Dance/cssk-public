@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="hr_attendance_holidays_kiosk.public_kiosk_app_reason"
+       t-inherit="hr_attendance.public_kiosk_app" t-inherit-mode="extension">
+        <xpath expr="//t[@t-if=&quot;this.state.active_display === 'pin'&quot;]" position="after">
+            <t t-if="this.state.active_display === 'reason'">
+                <KioskLeaveReason
+                    employeeData="this.employeeData"
+                    reasons="this.currentReasons"
+                    greeting="this.reasonGreeting"
+                    prompt="this.reasonPrompt"
+                    defaultLabel="this.reasonDefaultLabel"
+                    notice="this.reasonNotice"
+                    onSelectReason="(id) => this.onReasonSelected(id)"
+                    onWorkEnded="() => this.onReasonSelected(false)"
+                    onClickBack="() => this.kioskReturn()"/>
+            </t>
+        </xpath>
+    </t>
+
+</templates>

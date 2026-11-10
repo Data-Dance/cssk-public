@@ -165,7 +165,12 @@ rozlíšeniami OCA uvedenými vyššie alebo ručným zápisom.
 - Oba moduly len nastavujú predvolené účty a denníky. Samy nič nepočítajú
   ani neúčtujú.
 - Výdavky a príjmy budúcich období sa účtujú bez DPH. Spoločnosť, ktorá nie
-  je platiteľom DPH a pre ktorú je DPH nákladom, musí DPH doplniť ručne.
+  je platiteľom DPH a pre ktorú je DPH nákladom, musí DPH doplniť ručne. Pri
+  tovare nadobudnutom z iného členského štátu EÚ sa daň odvádza v období
+  zdaniteľného plnenia, v praxi sa však účtuje až s faktúrou; ak faktúra
+  príde neskoro, v dodatočnom daňovom priznaní za správne obdobie sa uvedie
+  daň aj jej odpočet (pozri
+  [module:l10n_cssk_accrual](module:l10n_cssk_accrual)).
 - Zápisy časového rozlíšenia sa nestornujú automaticky.
 - Slovenská osnova Odoo nazýva účet 385000 *Náklady budúcich období
   (krátkodobé)* a 383000 *Výdaje budúcich období*; opatrenie ich nazýva

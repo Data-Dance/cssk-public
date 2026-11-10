@@ -1,0 +1,204 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_attendance_holidays_kiosk
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-10 20:15+0000\n"
+"PO-Revision-Date: 2026-11-10 20:15+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: hr_attendance_holidays_kiosk
+#: model_terms:ir.actions.act_window,help:hr_attendance_holidays_kiosk.action_kiosk_leave_reasons
+msgid "Add a reason for leaving"
+msgstr "Pridajte dôvod odchodu"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model,name:hr_attendance_holidays_kiosk.model_hr_attendance
+msgid "Attendance"
+msgstr "Dochádzka"
+
+#. module: hr_attendance_holidays_kiosk
+#: model_terms:ir.ui.view,arch_db:hr_attendance_holidays_kiosk.edit_holiday_status_form_kiosk
+msgid "Attendance Kiosk"
+msgstr "Kiosk dochádzky"
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/kiosk_reason/kiosk_reason.xml:0
+msgid "Back"
+msgstr "Späť"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_attendance__checkout_reason_id
+#: model_terms:ir.ui.view,arch_db:hr_attendance_holidays_kiosk.hr_attendance_view_filter_kiosk
+msgid "Departure Reason"
+msgstr "Dôvod odchodu"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_attendance__display_name
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_leave_type__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,help:hr_attendance_holidays_kiosk.field_hr_attendance__checkout_leave_id
+msgid "Draft time off created from the kiosk departure reason."
+msgstr "Návrh voľna vytvorený z dôvodu odchodu zadaného na kiosku."
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model,name:hr_attendance_holidays_kiosk.model_hr_employee
+msgid "Employee"
+msgstr "Zamestnanec"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_attendance__checkout_leave_id
+msgid "Generated Time Off"
+msgstr "Vytvorené voľno"
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "Goodbye"
+msgstr "Dovidenia"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_attendance__id
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_employee__id
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_leave_type__id
+msgid "ID"
+msgstr "ID"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_leave_type__kiosk_sequence
+msgid "Kiosk Order"
+msgstr "Poradie na kiosku"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.actions.act_window,name:hr_attendance_holidays_kiosk.action_kiosk_leave_reasons
+#: model:ir.ui.menu,name:hr_attendance_holidays_kiosk.menu_kiosk_leave_reasons
+msgid "Kiosk Reasons"
+msgstr "Dôvody pre kiosk"
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-python
+#: code:addons/hr_attendance_holidays_kiosk/models/hr_employee.py:0
+msgid "Kiosk check-out — %(reason)s"
+msgstr "Odchod z kiosku — %(reason)s"
+
+#. module: hr_attendance_holidays_kiosk
+#: model_terms:ir.ui.view,arch_db:hr_attendance_holidays_kiosk.edit_holiday_status_form_kiosk
+msgid ""
+"Kiosk reasons should normally not require an allocation, otherwise\n"
+"                        the time off generated at check-out is skipped when the employee\n"
+"                        has no valid allocation."
+msgstr ""
+"Dôvody pre kiosk by spravidla nemali vyžadovať nárok, inak sa voľno\n"
+"                        vytvorené pri odchode vynechá, ak zamestnanec nemá platný nárok."
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "No employee corresponding to Badge ID '%(barcode)s.'"
+msgstr "Žiadny zamestnanec nezodpovedá ID karty '%(barcode)s.'"
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "No reason / check in"
+msgstr "Bez dôvodu / príchod"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,help:hr_attendance_holidays_kiosk.field_hr_leave_type__kiosk_visible
+msgid ""
+"Offer this reason when an employee checks out at the attendance kiosk.\n"
+"Kiosk reason types should normally not require an allocation, otherwise the generated time off is skipped when the employee has no allocation."
+msgstr ""
+"Ponúknuť tento dôvod, keď sa zamestnanec odhlasuje na kiosku dochádzky.\n"
+"Typy voľna pre kiosk by spravidla nemali vyžadovať nárok, inak sa vytvorené voľno vynechá, ak zamestnanec nemá nárok."
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,help:hr_attendance_holidays_kiosk.field_hr_leave_type__kiosk_sequence
+msgid "Order of the reason buttons on the kiosk check-out screen."
+msgstr "Poradie tlačidiel s dôvodmi na obrazovke odchodu na kiosku."
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "Reason for leaving"
+msgstr "Dôvod odchodu"
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "Reason for your earlier departure?"
+msgstr "Dôvod vášho skoršieho odchodu?"
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,help:hr_attendance_holidays_kiosk.field_hr_attendance__checkout_reason_id
+msgid ""
+"Reason selected at the kiosk when checking out. Empty means a normal check-"
+"out (work ended)."
+msgstr ""
+"Dôvod zvolený na kiosku pri odchode. Prázdne znamená bežný odchod (koniec "
+"práce)."
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model.fields,field_description:hr_attendance_holidays_kiosk.field_hr_leave_type__kiosk_visible
+msgid "Show in Attendance Kiosk"
+msgstr "Zobraziť v kiosku dochádzky"
+
+#. module: hr_attendance_holidays_kiosk
+#: model_terms:ir.actions.act_window,help:hr_attendance_holidays_kiosk.action_kiosk_leave_reasons
+msgid ""
+"These Time Off Types appear as buttons when employees check out at the\n"
+"                attendance kiosk. Drag the handle to change their order, and set a colour\n"
+"                to tell them apart on the touchscreen."
+msgstr ""
+"Tieto typy voľných dní sa zobrazia ako tlačidlá, keď sa zamestnanci odhlasujú\n"
+"                na kiosku dochádzky. Poradie zmeníte potiahnutím úchytu a farbou ich\n"
+"                rozlíšite na dotykovej obrazovke."
+
+#. module: hr_attendance_holidays_kiosk
+#: model:ir.model,name:hr_attendance_holidays_kiosk.model_hr_leave_type
+msgid "Time Off Type"
+msgstr "Typ voľných dní"
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "Welcome back"
+msgstr "Vitajte späť"
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "Work ended"
+msgstr "Koniec práce"
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "Wrong Pin"
+msgstr "Nesprávny PIN"
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "You were automatically checked out at %(time)s."
+msgstr "Boli ste automaticky odhlásený o %(time)s."
+
+#. module: hr_attendance_holidays_kiosk
+#. odoo-javascript
+#: code:addons/hr_attendance_holidays_kiosk/static/src/public_kiosk_app/public_kiosk_app_patch.js:0
+msgid "You were automatically checked out earlier."
+msgstr "Boli ste skôr automaticky odhlásený."

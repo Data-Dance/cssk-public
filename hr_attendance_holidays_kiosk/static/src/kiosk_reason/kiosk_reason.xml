@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="hr_attendance_holidays_kiosk.KioskLeaveReason">
+        <div class="o_hr_kiosk_mode_main d-flex flex-grow-1 justify-content-center align-items-center">
+            <div class="o_hr_attendance_kiosk_card card rounded-3">
+                <div class="card-body rounded-3">
+                    <div class="o_hr_attendance_kiosk_card_wrapper d-flex flex-column align-items-center justify-content-center">
+                        <div class="o_hr_attendance_kiosk_card_main p-3 mx-3 mx-xl-0 text-center">
+                            <t t-call="hr_attendance.EmployeeBadge">
+                                <t t-set="employeeAvatar" t-value="this.employeeAvatar"/>
+                            </t>
+                            <h5 class="text-muted mt-2 mb-0"><t t-esc="props.greeting"/></h5>
+                            <h2><t t-esc="this.employeeName"/></h2>
+                        </div>
+                        <div t-if="props.notice" class="alert alert-warning text-center p-2 mb-3" role="status">
+                            <t t-esc="props.notice"/>
+                        </div>
+                        <h4 class="text-center mb-3"><t t-esc="props.prompt"/></h4>
+                        <div class="row row-cols-2 row-cols-md-3 g-2 w-100 justify-content-center">
+                            <div class="col">
+                                <button class="btn btn-success btn-lg rounded-3 px-3 py-3 w-100 h-100"
+                                        t-on-click="() => this.select(false)">
+                                    <i class="fa fa-sign-out me-2"/>
+                                    <span><t t-esc="props.defaultLabel"/></span>
+                                </button>
+                            </div>
+                            <div t-foreach="props.reasons" t-as="reason" t-key="reason.id" class="col">
+                                <button class="btn btn-light btn-lg rounded-3 px-3 py-3 w-100 h-100"
+                                        t-att-style="this.reasonStyle(reason.color)"
+                                        t-on-click="() => this.select(reason.id)">
+                                    <t t-esc="reason.name"/>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="o_hr_kiosk_mode_bottom my-4 mx-auto">
+            <button class="btn btn-secondary btn-lg rounded-pill px-5" t-on-click="props.onClickBack">
+                <i class="oi oi-chevron-left me-2"/>
+                <span>Back</span>
+            </button>
+        </div>
+    </t>
+
+</templates>

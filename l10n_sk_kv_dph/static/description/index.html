@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_kv_dph/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK VAT Control Statement (KV DPH)</h1>
 <p class="cssk-summary">The Slovak kontrolný výkaz DPH — sections A.1 to D.2 computed from the books, checked against the form&#x27;s requirements and exported as the Finančná správa XML in the form version in force for the period.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.9.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a>, <a href="/l10n_sk_kv_dph_pos/static/description/index.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.10.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a>, <a href="/l10n_sk_kv_dph_pos/static/description/index.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Slovak VAT payer files a <strong>kontrolný výkaz DPH</strong> (VAT control statement)
@@ -282,6 +282,18 @@ as before (the export names any without a number), and so do journal entries
 and Odoo's own full cancellation (<em>Modify</em>). An accounting administrator
 importing historical documents can post past the check with the context key
 <code>l10n_sk_kv_skip_supplier_numbers</code>.</p>
+<p><strong>Internal credit notes are not reported.</strong> A reversal of a received bill,
+credit note or entry that carries no supplier's number is our own document,
+not the supplier's correction, and a Slovak accountant confirmed that it does
+not belong in the statement. Such a reversal (Odoo's full cancellation, or a
+credit note posted without a <em>Bill Reference</em> by an administrator) is left
+out. The document it cancels is left out too when the reversal cancels it in
+full within the same period, so the statement still agrees with the VAT
+return. When the reversal is dated in a later period, or cancels only part of
+the document, it alone is left out and the check <em>KV_INTERNAL_STORNO</em> warns:
+the VAT return still carries its tax. Then either wait for the supplier's
+credit note, or reopen the original's period, correct the bill there and file
+a supplementary VAT return and control statement.</p>
 <p>Before rendering, the export stops and names the documents at fault when:</p>
 <ul>
 <li>a row in A.2, B.2 or B.3.2 has no IČ DPH of the counterparty, or one that is
@@ -309,9 +321,10 @@ the period (year and month, or year and quarter).</p>
 <li><strong>D.1 (eKasa) is not derived from ordinary documents.</strong> Journals set to
   <code>D.1</code> and, with <a href="/l10n_sk_kv_dph_pos/static/description/index.html"><code>l10n_sk_kv_dph_pos</code></a>, POS
   sessions report there; any other cash-register sale without an identified
-  business customer is reported in <strong>D.2</strong>. Whether D.1's Z / D / ZZn / DZn
-  should carry the rate split or zeros on the forms from 2021 (whose poučenie
-  asks only for the turnover) is still to be confirmed by an accountant.</li>
+  business customer is reported in <strong>D.2</strong>. On the forms from 2021 the
+  poučenie asks only for the turnover; the module still fills Z / D / ZZn /
+  DZn with the base and tax by rate. An accountant confirmed that the extra
+  figures are not an error: nothing forbids them.</li>
 <li><strong>Debit notes</strong> reach C.1 / C.2 only when linked to the invoice they
   correct (the <em>Debit Note</em> button). One raised as a plain invoice is still
   reported in A.1 / B.2.</li>
@@ -327,15 +340,15 @@ the period (year and month, or year and quarter).</p>
   tax is not changed for you.</li>
 <li>The <code>ONP</code> attribute of C.1 / C.2 (correction of an uncollectible receivable,
   available from the 2023 form) is never filled.</li>
-<li>The section rules are a best effort; the § 69 ods. 12 goods list and D.1 in
-  particular still need confirmation by a Slovak accountant. Review each
+<li>The section rules are a best effort; the § 69 ods. 12 goods list in
+  particular still needs confirmation by a Slovak accountant. Review each
   statement before filing.</li>
 </ul>
 <h2 id="rc-a-e">Reverse charge outside the statement</h2>
 <p>Use the sale tax for § 69 ods. 12 písm. a) to e) on scrap, emission quotas, opted
 or forced property sales and collateral goods. Only the recipient reports these
 supplies, in B.1, so they appear nowhere in the supplier's statement.</p>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.2.9.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.2.10.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

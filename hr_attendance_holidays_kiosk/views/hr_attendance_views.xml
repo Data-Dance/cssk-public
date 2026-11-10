@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_attendance_tree_kiosk" model="ir.ui.view">
+        <field name="name">hr.attendance.list.kiosk</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <field name="out_mode" position="after">
+                <field name="checkout_reason_id" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="hr_attendance_view_form_kiosk" model="ir.ui.view">
+        <field name="name">hr.attendance.form.kiosk</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <field name="out_mode" position="after">
+                <field name="checkout_reason_id"/>
+                <field name="checkout_leave_id" readonly="1"
+                       invisible="not checkout_leave_id"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="hr_attendance_view_filter_kiosk" model="ir.ui.view">
+        <field name="name">hr.attendance.search.kiosk</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+        <field name="arch" type="xml">
+            <filter name="groupby_mode_in" position="after">
+                <filter string="Departure Reason" name="groupby_checkout_reason"
+                        context="{'group_by': 'checkout_reason_id'}"/>
+            </filter>
+        </field>
+    </record>
+
+</odoo>

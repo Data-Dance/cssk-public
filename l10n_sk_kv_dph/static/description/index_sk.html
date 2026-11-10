@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_kv_dph/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Kontrolný výkaz DPH (KV DPH)</h1>
 <p class="cssk-summary">Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.9.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index_sk.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a>, <a href="/l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.10.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index_sk.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a>, <a href="/l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Platiteľ DPH podáva <strong>kontrolný výkaz DPH</strong> za každé zdaňovacie obdobie, za
@@ -275,6 +275,17 @@ vyplnenie namiesto textu „Reversal of: …“. Bežné prijaté faktúry sa ú
 ako doteraz (export vymenuje tie bez čísla), rovnako interné doklady a úplné
 storno cez <em>Modify</em>. Správca účtovníctva môže pri importe historických
 dokladov kontrolu obísť kľúčom kontextu <code>l10n_sk_kv_skip_supplier_numbers</code>.</p>
+<p><strong>Interné dobropisy sa nevykazujú.</strong> Storno prijatej faktúry, dobropisu
+alebo interného dokladu bez čísla dokladu od dodávateľa je náš doklad, nie
+oprava od dodávateľa, a podľa slovenskej účtovníčky do kontrolného výkazu
+nepatrí. Takéto storno (úplné storno v Odoo alebo dobropis, ktorý správca
+zaúčtoval bez <em>referencie faktúry</em>) sa vynechá. Stornovaný doklad sa vynechá
+tiež, ak ho storno ruší celý v tom istom období; výkaz sa tak naďalej zhoduje
+s daňovým priznaním. Ak je storno v neskoršom období alebo ruší doklad len
+čiastočne, vynechá sa len storno a kontrola <em>KV_INTERNAL_STORNO</em> upozorní,
+že daň storna ostáva v daňovom priznaní. Vtedy buď počkajte na dobropis od
+dodávateľa, alebo otvorte obdobie pôvodného dokladu, faktúru v ňom opravte
+a podajte dodatočné daňové priznanie a kontrolný výkaz.</p>
 <p>Pred vytvorením súboru export zastaví a vymenuje chybné doklady, ak:</p>
 <ul>
 <li>riadok v A.2, B.2 alebo B.3.2 nemá IČ DPH druhej strany alebo má iné ako
@@ -303,9 +314,10 @@ mesiac alebo rok a štvrťrok).</p>
   denníky nastavené na <code>D.1</code> a s modulom
   <a href="/l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a> pokladničné relácie;
   každý iný predaj cez pokladnicu bez identifikovaného odberateľa-podnikateľa
-  sa vykáže v <strong>D.2</strong>. Či majú Z / D / ZZn / DZn v D.1 na tlačivách od roku
-  2021 (ktorých poučenie žiada len obrat) niesť rozdelenie podľa sadzieb
-  alebo nuly, ešte musí potvrdiť účtovník.</li>
+  sa vykáže v <strong>D.2</strong>. Na tlačivách od roku 2021 poučenie žiada len obrat;
+  modul napriek tomu vypĺňa Z / D / ZZn / DZn základom a daňou podľa sadzieb.
+  Účtovníčka potvrdila, že tieto údaje navyše nie sú chybou: nikde nie sú
+  zakázané.</li>
 <li><strong>Ťarchopisy</strong> sa dostanú do C.1 / C.2, len ak sú prepojené s opravovanou
   faktúrou (tlačidlo <em>Debit Note</em>). Ťarchopis vystavený ako bežná faktúra sa
   stále vykáže v A.1 / B.2.</li>
@@ -322,14 +334,14 @@ mesiac alebo rok a štvrťrok).</p>
 <li>Atribút <code>ONP</code> v C.1 / C.2 (oprava pri nedobytnej pohľadávke, od vzoru 2023)
   sa nevypĺňa nikdy.</li>
 <li>Pravidlá zaradenia sú najlepším možným odhadom; najmä zoznam tovarov podľa
-  § 69 ods. 12 a oddiel D.1 ešte musí potvrdiť slovenský účtovník. Každý
+  § 69 ods. 12 ešte musí potvrdiť slovenský účtovník. Každý
   výkaz pred podaním skontrolujte.</li>
 </ul>
 <h2 id="rc-a-e">Prenos mimo výkazu</h2>
 <p>Daň pre § 69 ods. 12 písm. a) až e) použite pri šrote, emisných kvótach,
 nehnuteľnostiach a tovare ako predmete záruky. Tieto dodania uvádza len príjemca
 v B.1, vo výkaze dodávateľa sa preto neobjavia.</p>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.9.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.10.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

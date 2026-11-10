@@ -98,6 +98,62 @@ class CSSKControlStatement(models.Model):
         "l10n.sk.kv.dph.section.d2", "statement_id"
     )
 
+    # ------------------------------------------------------------------
+    # internal credit notes
+    # ------------------------------------------------------------------
+    def _cssk_period_move_ids(self, company, date_from, date_to):
+        """The period's moves without internal credit notes.
+
+        Every line the Slovak statement reads comes through here, so this is
+        the one place to leave them out; the VAT return keeps its own call to
+        the shared rule and still sees the ledger as it is."""
+        ids = super()._cssk_period_move_ids(company, date_from, date_to)
+        if not ids or company.account_fiscal_country_id.code != "SK":
+            return ids
+        left_out, _unmatched = self.env["account.move"].browse(
+            ids)._l10n_sk_kv_left_out()
+        if not left_out:
+            return ids
+        drop = set(left_out.ids)
+        return [i for i in ids if i not in drop]
+
+    def _kv_check_internal_cancellations(self):
+        """Warn where an internal credit note was left out but the document
+        it cancels was not.
+
+        Then the statement and the VAT return part: the cancellation's tax is
+        still in the return of its period, and the cancelled bill was (or will
+        be) reported in its own. The accountant's two ways out are named."""
+        self.ensure_one()
+        if self.company_id.account_fiscal_country_id.code != "SK":
+            return []
+        ids = super()._cssk_period_move_ids(
+            self.company_id, self.date_from, self.date_to)
+        _left_out, unmatched = self.env["account.move"].browse(
+            ids)._l10n_sk_kv_left_out()
+        if not unmatched:
+            return []
+        return [{
+            "code": "KV_INTERNAL_STORNO",
+            "severity": "warning",
+            "desc": _("Interný dobropis mimo kontrolného výkazu"),
+            "detail": _(
+                "%(n)d interný(ch) dobropis(ov) bez čísla dokladu dodávateľa "
+                "sa do kontrolného výkazu neuvádza: %(docs)s. Opravovaný "
+                "doklad je v inom období alebo nie je stornovaný celý, takže "
+                "výkaz sa rozchádza s daňovým priznaním, v ktorom daň "
+                "interného dobropisu ostáva. Počkajte na dobropis od "
+                "dodávateľa, alebo otvorte obdobie pôvodného dokladu, opravte "
+                "ho a podajte dodatočné daňové priznanie a kontrolný výkaz.",
+                n=len(unmatched),
+                docs=", ".join(
+                    "%s (%s)" % (m.name, m.reversed_entry_id.name)
+                    for m in unmatched[:10])
+                + (", … (+%d)" % (len(unmatched) - 10)
+                   if len(unmatched) > 10 else ""),
+            ),
+        }]
+
     def _kv_identity_key(self, identity):
         """Whitespace removed from the text of a Slovak row identity, so a
         chained dodatočný baseline snapshotted before the identity dropped it
@@ -317,6 +373,7 @@ class CSSKControlStatement(models.Model):
         """Add the D.2 data-quality check to the shared kontroly."""
         out = super().check_kontroly()
         out += self._kv_check_d2_looks_like_a_business()
+        out += self._kv_check_internal_cancellations()
         return out
 
     def _kv_check_d2_looks_like_a_business(self):

@@ -1,7 +1,7 @@
 ---
 title: SK VAT Control Statement (KV DPH)
 summary: The Slovak kontrolný výkaz DPH — sections A.1 to D.2 computed from the books, checked against the form's requirements and exported as the Finančná správa XML in the form version in force for the period.
-verified: 19.0.2.9.0
+verified: 19.0.2.10.0
 ---
 
 ## What it is for {#purpose}
@@ -201,6 +201,19 @@ and Odoo's own full cancellation (*Modify*). An accounting administrator
 importing historical documents can post past the check with the context key
 `l10n_sk_kv_skip_supplier_numbers`.
 
+**Internal credit notes are not reported.** A reversal of a received bill,
+credit note or entry that carries no supplier's number is our own document,
+not the supplier's correction, and a Slovak accountant confirmed that it does
+not belong in the statement. Such a reversal (Odoo's full cancellation, or a
+credit note posted without a *Bill Reference* by an administrator) is left
+out. The document it cancels is left out too when the reversal cancels it in
+full within the same period, so the statement still agrees with the VAT
+return. When the reversal is dated in a later period, or cancels only part of
+the document, it alone is left out and the check *KV_INTERNAL_STORNO* warns:
+the VAT return still carries its tax. Then either wait for the supplier's
+credit note, or reopen the original's period, correct the bill there and file
+a supplementary VAT return and control statement.
+
 Before rendering, the export stops and names the documents at fault when:
 
 - a row in A.2, B.2 or B.3.2 has no IČ DPH of the counterparty, or one that is
@@ -229,9 +242,10 @@ the period (year and month, or year and quarter).
 - **D.1 (eKasa) is not derived from ordinary documents.** Journals set to
   `D.1` and, with [module:l10n_sk_kv_dph_pos](module:l10n_sk_kv_dph_pos), POS
   sessions report there; any other cash-register sale without an identified
-  business customer is reported in **D.2**. Whether D.1's Z / D / ZZn / DZn
-  should carry the rate split or zeros on the forms from 2021 (whose poučenie
-  asks only for the turnover) is still to be confirmed by an accountant.
+  business customer is reported in **D.2**. On the forms from 2021 the
+  poučenie asks only for the turnover; the module still fills Z / D / ZZn /
+  DZn with the base and tax by rate. An accountant confirmed that the extra
+  figures are not an error: nothing forbids them.
 - **Debit notes** reach C.1 / C.2 only when linked to the invoice they
   correct (the *Debit Note* button). One raised as a plain invoice is still
   reported in A.1 / B.2.
@@ -247,8 +261,8 @@ the period (year and month, or year and quarter).
   tax is not changed for you.
 - The `ONP` attribute of C.1 / C.2 (correction of an uncollectible receivable,
   available from the 2023 form) is never filled.
-- The section rules are a best effort; the § 69 ods. 12 goods list and D.1 in
-  particular still need confirmation by a Slovak accountant. Review each
+- The section rules are a best effort; the § 69 ods. 12 goods list in
+  particular still needs confirmation by a Slovak accountant. Review each
   statement before filing.
 
 ## Reverse charge outside the statement {#rc-a-e}

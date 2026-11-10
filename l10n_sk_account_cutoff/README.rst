@@ -160,7 +160,7 @@ Limitations
 
 - Both modules only set default accounts and journals. They neither compute nor post anything themselves.
 
-- Accrued items are booked without VAT. For a company that is not a VAT payer, whose VAT is a cost, add the VAT to the accrual by hand.
+- Accrued items are booked without VAT. For a company that is not a VAT payer, whose VAT is a cost, add the VAT to the accrual by hand. For goods acquired from another EU member state the tax is due in the period of the taxable supply, but in practice it is booked with the invoice; when the invoice arrives late, a supplementary VAT return for the right period declares both the tax and its deduction (see ``l10n_cssk_accrual``).
 
 - Cut-off entries are not reversed automatically.
 

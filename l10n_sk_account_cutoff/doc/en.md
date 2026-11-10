@@ -160,7 +160,12 @@ items on 383 and 385 need the cut-offs above or a manual entry.
 - Both modules only set default accounts and journals. They neither compute
   nor post anything themselves.
 - Accrued items are booked without VAT. For a company that is not a VAT
-  payer, whose VAT is a cost, add the VAT to the accrual by hand.
+  payer, whose VAT is a cost, add the VAT to the accrual by hand. For goods
+  acquired from another EU member state the tax is due in the period of the
+  taxable supply, but in practice it is booked with the invoice; when the
+  invoice arrives late, a supplementary VAT return for the right period
+  declares both the tax and its deduction (see
+  [module:l10n_cssk_accrual](module:l10n_cssk_accrual)).
 - Cut-off entries are not reversed automatically.
 - Odoo's Slovak chart names account 385000 *Náklady budúcich období
   (krátkodobé)* and 383000 *Výdaje budúcich období*; the opatrenie calls them

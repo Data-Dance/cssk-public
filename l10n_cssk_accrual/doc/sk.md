@@ -97,6 +97,20 @@ Kliknite na **Zaúčtovať odhad**. Modul vytvorí a zaúčtuje jeden zápis,
 
 Oba riadky nesú partnera. Zápis je bez DPH: odhad nie je daňový doklad.
 
+Pre Slovensko to účtovníčka potvrdila takto:
+- **Tuzemský nákup.** DPH možno odpočítať len na základe faktúry alebo
+  zjednodušenej faktúry ([§ 51 ods. 1 písm. a) zákona o DPH](law:sk/2004/222#paragraf-51.odsek-1.pismeno-a)).
+  Nevyfaktúrovaná dodávka (napríklad 131 / 326) preto DPH neobsahuje, ani keď
+  ju nákupná objednávka uvádza.
+- **Tovar nadobudnutý z iného členského štátu EÚ.** Daň sa odvádza
+  v období, v ktorom vzniklo zdaniteľné plnenie, a odpočítať ju možno až
+  s faktúrou. Kedy zdaniteľné plnenie vzniká, je také zložité, že sa
+  v praxi všetko účtuje až s faktúrou. Ak faktúra príde neskoro, podá sa
+  dodatočné daňové priznanie za správne obdobie a daň sa v ňom odvedie aj
+  odpočíta; vplyv na daň je nulový. Bez opravy by pri daňovej kontrole daň
+  dorubili v správnom období, ale odpočet by nechali v období faktúry, čo je
+  základ pre penále.
+
 ## Vyrovnanie so skutočnou faktúrou {#settle}
 
 Skutočnú faktúru zaúčtujte obvyklým spôsobom na nákladový alebo výnosový

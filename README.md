@@ -44,9 +44,9 @@ this repository. Add them to the addons path as well:
 
 ## Modules
 
-190 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
+192 module(s), grouped by the country or domain they serve. Every one of them is licensed `AGPL-3`.
 
-### Czech Republic (38)
+### Czech Republic (39)
 
 | Module | Version | What it does |
 |---|---|---|
@@ -78,6 +78,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_intrastat_oca` | 19.0.1.0.0 | INTRASTAT-CZ Celní správa InstatOnline CSV on the OCA intrastat_product engine (CE-clean). EE uses Odoo EE l10n_cz_intrastat instead. |
 | `l10n_cz_invoice` | 19.0.1.1.1 | Czech invoice layout: customer DIČ, payment symbols and the mandatory statutory phrases (reverse charge §92a, exemptions §64/§66). |
 | `l10n_cz_invoice_payment_mode` | 19.0.1.0.0 | Prints the payment mode as 'Forma úhrady' in the header of the Czech invoice. |
+| `l10n_cz_isds` | 19.0.1.1.0 | Signs in to the company's Czech data box and sends and receives data messages through the operator's web services, for the filing channels that use it. |
 | `l10n_cz_kh` | 19.0.1.11.0 | Czech VAT control statement on the shared KV/KH framework: per-document A1–B3 sections with the 10 000 CZK split + the EPO Pisemnost/DPHKH1 XML export. |
 | `l10n_cz_oss` | 19.0.1.0.1 | Czech layer of the OSS return: the EPO Pisemnost/OSSEI1 XML (daňové přiznání k DPH ve zvláštním režimu jednoho správního místa — režim Evropské unie)… |
 | `l10n_cz_payment_reliability` | 19.0.1.2.1 | Czech provider for the CZ/SK supplier-reliability check: nespolehlivý plátce + zveřejněné účty from the MFČR ADIS web service (rozhraniCRPDPH). |
@@ -131,7 +132,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_inventory_verification` | 19.0.1.1.1 | Statutory Slovak inventory verification: inventúrne súpisy (§ 30 ods. 2) and the inventarizačný zápis (§ 30 ods. 3). |
 | `l10n_sk_invoice` | 19.0.1.1.0 | Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, exemptions)… |
 | `l10n_sk_jcd` | 19.0.1.2.1 | Slovak import customs declaration: duty into stock value, import VAT onto the right DPH rows, deduction gated on the confirmed customs document. |
-| `l10n_sk_kv_dph` | 19.0.2.9.0 | Slovak VAT control statement (Kontrolný výkaz DPH) — sections A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared l10n_cssk_kv_kh_base framework. |
+| `l10n_sk_kv_dph` | 19.0.2.10.0 | Slovak VAT control statement (Kontrolný výkaz DPH) — sections A.1–D.2 incl. D.1, with FS SR XML export. Built on the shared l10n_cssk_kv_kh_base framework. |
 | `l10n_sk_kv_dph_pos` | 19.0.1.0.0 | Reports the sales of Point of Sale sessions in oddiel D.1 of the Slovak kontrolný výkaz DPH (eKasa turnover) instead of D.2. |
 | `l10n_sk_mis_reports` | 19.0.1.1.0 | Management P&L on the Slovak chart, for Community — the counterpart to Enterprise's account_reports. |
 | `l10n_sk_oss` | 19.0.1.0.1 | Slovak layer of the OSS return: the Finančná správa eForm DPOSS_EUv01 XML (daňové priznanie k DPH — osobitná úprava pre Úniu), on the EU OSSVATReturnMSCON… |
@@ -208,10 +209,11 @@ this repository. Add them to the addons path as well:
 | `edi_epostak_connector_sapi` | 19.0.1.2.0 | Concrete REST connector for the ePošťák Peppol access point (SAPI-SK 1.0): send and receive UBL, acknowledge, track delivery |
 | `edi_epostak_peppol` | 19.0.1.1.1 | Send & receive Peppol BIS Billing 3.0 (invoices, credit notes, business responses) through the ePošťák access point |
 
-### Payroll (2)
+### Payroll (3)
 
 | Module | Version | What it does |
 |---|---|---|
+| `hr_attendance_holidays_kiosk` | 19.0.1.0.0 | Pick a Time Off reason when checking out at the attendance kiosk; a draft time off is created for HR to approve. |
 | `payroll_dashboard` | 19.0.1.2.0 | A lightweight graph + pivot dashboard of payroll headline figures (gross, net, employer cost, income tax) per period and employee, for the community payroll… |
 | `payroll_worked_days_timeline` | 19.0.1.0.0 | Timeline and pivot views of payslip worked days and inputs, per employee over time — a community alternative to the Enterprise work-entries gantt for reviewing… |
 

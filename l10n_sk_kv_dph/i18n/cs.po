@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-10 13:05+0000\n"
+"POT-Creation-Date: 2026-11-10 21:31+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
@@ -18,80 +18,147 @@ msgstr ""
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/account_move.py:0
-msgid "%(doc)s: enter the supplier's number of the invoice it corrects (Other Info → Original document number), or the Bill Reference on the linked original bill."
-msgstr "%(doc)s: zadejte číslo opravované faktury od dodavatele (Další informace → Číslo původního dokladu) nebo referenci faktury na propojené původní faktuře."
+msgid ""
+"%(doc)s: enter the supplier's number of the invoice it corrects (Other Info "
+"→ Original document number), or the Bill Reference on the linked original "
+"bill."
+msgstr ""
+"%(doc)s: zadejte číslo opravované faktury od dodavatele (Další informace → "
+"Číslo původního dokladu) nebo referenci faktury na propojené původní faktuře."
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/account_move.py:0
-msgid "%(doc)s: enter the supplier's number of this credit or debit note as the Bill Reference."
-msgstr "%(doc)s: zadejte číslo tohoto dobropisu nebo vrubopisu od dodavatele jako referenci faktury."
+msgid ""
+"%(doc)s: enter the supplier's number of this credit or debit note as the "
+"Bill Reference."
+msgstr ""
+"%(doc)s: zadejte číslo tohoto dobropisu nebo vrubopisu od dodavatele jako "
+"referenci faktury."
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/account_move.py:0
-msgid "%(goods)s: the base on this invoice is %(total).2f €, so reverse charge applies if the customer is a VAT payer."
-msgstr "%(goods)s: základ daně na této faktuře je %(total).2f €, proto se uplatní přenesení daňové povinnosti, pokud je odběratel plátcem DPH."
+msgid ""
+"%(goods)s: the base on this invoice is %(total).2f €, so reverse charge "
+"applies if the customer is a VAT payer."
+msgstr ""
+"%(goods)s: základ daně na této faktuře je %(total).2f €, proto se uplatní "
+"přenesení daňové povinnosti, pokud je odběratel plátcem DPH."
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/account_move.py:0
-msgid "%(goods)s: the base on this invoice is %(total).2f €, under 5 000 €, so reverse charge does not apply and VAT is due."
-msgstr "%(goods)s: základ daně na této faktuře je %(total).2f €, tedy pod 5 000 €, proto se přenesení daňové povinnosti neuplatní a daň je třeba uvést."
+msgid ""
+"%(goods)s: the base on this invoice is %(total).2f €, under 5 000 €, so "
+"reverse charge does not apply and VAT is due."
+msgstr ""
+"%(goods)s: základ daně na této faktuře je %(total).2f €, tedy pod 5 000 €, "
+"proto se přenesení daňové povinnosti neuplatní a daň je třeba uvést."
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "%(n)d odberateľ(ov) v oddiele D.2 nemá IČ DPH ani IČO, ale podľa vlastného záznamu ide o podnikateľa: %(names)s. Ak IČO chýba len v evidencii, doplňte ho — dodanie potom patrí do A.1 (IČ DPH sa v A.1 neuvádza povinne). D.2 je súhrn, takže v samotnom výkaze odberateľa nevidno."
+msgid ""
+"%(n)d interný(ch) dobropis(ov) bez čísla dokladu dodávateľa sa do "
+"kontrolného výkazu neuvádza: %(docs)s. Opravovaný doklad je v inom období "
+"alebo nie je stornovaný celý, takže výkaz sa rozchádza s daňovým priznaním, "
+"v ktorom daň interného dobropisu ostáva. Počkajte na dobropis od dodávateľa, "
+"alebo otvorte obdobie pôvodného dokladu, opravte ho a podajte dodatočné "
+"daňové priznanie a kontrolný výkaz."
+msgstr ""
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid ""
+"%(n)d odberateľ(ov) v oddiele D.2 nemá IČ DPH ani IČO, ale podľa vlastného "
+"záznamu ide o podnikateľa: %(names)s. Ak IČO chýba len v evidencii, doplňte "
+"ho — dodanie potom patrí do A.1 (IČ DPH sa v A.1 neuvádza povinne). D.2 je "
+"súhrn, takže v samotnom výkaze odberateľa nevidno."
 msgstr ""
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/product.py:0
-msgid "%(product)s: commodity code %(code)s is outside § 69 ods. 12 písm. %(goods)s) (%(scope)s)."
-msgstr "%(product)s: kód zboží %(code)s nespadá pod § 69 ods. 12 písm. %(goods)s) (%(scope)s)."
+msgid ""
+"%(product)s: commodity code %(code)s is outside § 69 ods. 12 písm. %"
+"(goods)s) (%(scope)s)."
+msgstr ""
+"%(product)s: kód zboží %(code)s nespadá pod § 69 ods. 12 písm. %(goods)s) (%"
+"(scope)s)."
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/product.py:0
-msgid "%(product)s: the KV DPH commodity code must be four digits, not \"%(code)s\"."
-msgstr "%(product)s: kód zboží pro KV DPH musí mít čtyři číslice, ne „%(code)s“."
+msgid ""
+"%(product)s: the KV DPH commodity code must be four digits, not \"%(code)s\"."
+msgstr ""
+"%(product)s: kód zboží pro KV DPH musí mít čtyři číslice, ne „%(code)s“."
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "%(sec)s: %(n)d row(s) whose counterparty IČ DPH is not Slovak — this section reports domestic supplies only (the form types it SK+10 digits), so the document belongs in another section or the partner's country/VAT disagree: %(refs)s"
+msgid ""
+"%(sec)s: %(n)d row(s) whose counterparty IČ DPH is not Slovak — this section "
+"reports domestic supplies only (the form types it SK+10 digits), so the "
+"document belongs in another section or the partner's country/VAT disagree: %"
+"(refs)s"
 msgstr ""
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "%(sec)s: %(n)d row(s) whose document reference is longer than the 32 characters the form allows — shorten it on the document; it is cross-matched against the supplier's own filing, so it cannot be truncated here: %(refs)s"
-msgstr "%(sec)s: %(n)d řádků, jejichž označení dokladu je delší než 32 znaků povolených formulářem — zkraťte ho na dokladu; páruje se s vlastním hlášením dodavatele, proto ho zde nelze oříznout: %(refs)s"
+msgid ""
+"%(sec)s: %(n)d row(s) whose document reference is longer than the 32 "
+"characters the form allows — shorten it on the document; it is cross-matched "
+"against the supplier's own filing, so it cannot be truncated here: %(refs)s"
+msgstr ""
+"%(sec)s: %(n)d řádků, jejichž označení dokladu je delší než 32 znaků "
+"povolených formulářem — zkraťte ho na dokladu; páruje se s vlastním hlášením "
+"dodavatele, proto ho zde nelze oříznout: %(refs)s"
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "%(sec)s: %(n)d row(s) without the counterparty's IČ DPH — set the VAT number on the partner (Contacts → partner → Tax ID): %(refs)s"
+msgid ""
+"%(sec)s: %(n)d row(s) without the counterparty's IČ DPH — set the VAT number "
+"on the partner (Contacts → partner → Tax ID): %(refs)s"
 msgstr ""
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "%(sec)s: %(n)d row(s) without the number of the invoice being corrected — the credit note is not linked to it; enter it on the credit note (Other Info → Original document number; on a vendor credit note the Source Document is read too) and recompute: %(refs)s"
-msgstr "%(sec)s: %(n)d řádek/řádků bez čísla opravované faktury — dobropis s ní není propojen; zadejte ho na dobropisu (Další informace → Číslo původního dokladu; u dobropisu od dodavatele se čte i Zdrojový doklad) a přepočítejte: %(refs)s"
+msgid ""
+"%(sec)s: %(n)d row(s) without the number of the invoice being corrected — "
+"the credit note is not linked to it; enter it on the credit note (Other Info "
+"→ Original document number; on a vendor credit note the Source Document is "
+"read too) and recompute: %(refs)s"
+msgstr ""
+"%(sec)s: %(n)d řádek/řádků bez čísla opravované faktury — dobropis s ní není "
+"propojen; zadejte ho na dobropisu (Další informace → Číslo původního "
+"dokladu; u dobropisu od dodavatele se čte i Zdrojový doklad) a přepočítejte: "
+"%(refs)s"
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "%(sec)s: %(n)d row(s) without the supplier's invoice number; enter it as the Bill Reference and recompute: %(refs)s"
-msgstr "%(sec)s: %(n)d řádek/řádků bez čísla faktury od dodavatele; zadejte ho jako referenci faktury a přepočítejte: %(refs)s"
+msgid ""
+"%(sec)s: %(n)d row(s) without the supplier's invoice number; enter it as the "
+"Bill Reference and recompute: %(refs)s"
+msgstr ""
+"%(sec)s: %(n)d řádek/řádků bez čísla faktury od dodavatele; zadejte ho jako "
+"referenci faktury a přepočítejte: %(refs)s"
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "%(sec)s: %(n)d row(s) without the supply date (Den) — set the invoice/delivery date on the document: %(refs)s"
-msgstr "%(sec)s: %(n)d řádků bez data dodání (Den) — nastavte na dokladu datum faktury/dodání: %(refs)s"
+msgid ""
+"%(sec)s: %(n)d row(s) without the supply date (Den) — set the invoice/"
+"delivery date on the document: %(refs)s"
+msgstr ""
+"%(sec)s: %(n)d řádků bez data dodání (Den) — nastavte na dokladu datum "
+"faktury/dodání: %(refs)s"
 
 #. module: l10n_sk_kv_dph
 #: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
@@ -106,25 +173,46 @@ msgstr ""
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "A.2: %(n)d row(s) of § 69 ods. 12 goods whose unit converts to none of kg, t, m, ks — the only units the form accepts; invoice them in one of those: %(refs)s"
-msgstr "A.2: %(n)d řádků zboží podle § 69 odst. 12, jejichž jednotku nelze převést na žádnou z kg, t, m, ks — jediných jednotek, které formulář přijímá; fakturujte je v jedné z nich: %(refs)s"
+msgid ""
+"A.2: %(n)d row(s) of § 69 ods. 12 goods whose unit converts to none of kg, "
+"t, m, ks — the only units the form accepts; invoice them in one of those: %"
+"(refs)s"
+msgstr ""
+"A.2: %(n)d řádků zboží podle § 69 odst. 12, jejichž jednotku nelze převést "
+"na žádnou z kg, t, m, ks — jediných jednotek, které formulář přijímá; "
+"fakturujte je v jedné z nich: %(refs)s"
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "A.2: %(n)d row(s) of § 69 ods. 12 písm. f)/g) goods without the 4-digit commodity code — set it on the product (KV DPH commodity code, or its intrastat/HS code): %(refs)s"
+msgid ""
+"A.2: %(n)d row(s) of § 69 ods. 12 písm. f)/g) goods without the 4-digit "
+"commodity code — set it on the product (KV DPH commodity code, or its "
+"intrastat/HS code): %(refs)s"
 msgstr ""
 
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "A.2: %(n)d row(s) whose commodity code is outside the chapters § 69 ods. 12 names for its goods (písm. f: %(f)s; písm. g: %(g)s) — correct the product's KV DPH commodity code or its HS code, or its § 69 ods. 12 category: %(refs)s"
-msgstr "A.2: %(n)d řádek/řádků, jejichž kód zboží je mimo kapitoly, které § 69 ods. 12 pro dané zboží uvádí (písm. f: %(f)s; písm. g: %(g)s) — opravte kód zboží pro KV DPH nebo kód HS produktu, případně jeho kategorii podle § 69 ods. 12: %(refs)s"
+msgid ""
+"A.2: %(n)d row(s) whose commodity code is outside the chapters § 69 ods. 12 "
+"names for its goods (písm. f: %(f)s; písm. g: %(g)s) — correct the product's "
+"KV DPH commodity code or its HS code, or its § 69 ods. 12 category: %(refs)s"
+msgstr ""
+"A.2: %(n)d řádek/řádků, jejichž kód zboží je mimo kapitoly, které § 69 ods. "
+"12 pro dané zboží uvádí (písm. f: %(f)s; písm. g: %(g)s) — opravte kód zboží "
+"pro KV DPH nebo kód HS produktu, případně jeho kategorii podle § 69 ods. 12: "
+"%(refs)s"
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model,name:l10n_sk_kv_dph.model_account_chart_template
 msgid "Account Chart Template"
 msgstr "Šablona účtového rozvrhu"
+
+#. module: l10n_sk_kv_dph
+#: model:ir.model,name:l10n_sk_kv_dph.model_account_move_reversal
+msgid "Account Move Reversal"
+msgstr "Storno účetního záznamu"
 
 #. module: l10n_sk_kv_dph
 #: model_terms:ir.ui.view,arch_db:l10n_sk_kv_dph.cssk_control_statement_view_form_sk
@@ -164,8 +252,12 @@ msgstr ""
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
-msgid "C.2: %(n)d row(s) without the supplier's number of the credit or debit note; enter it as the Bill Reference and recompute: %(refs)s"
-msgstr "C.2: %(n)d řádek/řádků bez čísla dobropisu nebo vrubopisu od dodavatele; zadejte ho jako referenci faktury a přepočítejte: %(refs)s"
+msgid ""
+"C.2: %(n)d row(s) without the supplier's number of the credit or debit note; "
+"enter it as the Bill Reference and recompute: %(refs)s"
+msgstr ""
+"C.2: %(n)d řádek/řádků bez čísla dobropisu nebo vrubopisu od dodavatele; "
+"zadejte ho jako referenci faktury a přepočítejte: %(refs)s"
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model,name:l10n_sk_kv_dph.model_res_company
@@ -186,8 +278,12 @@ msgstr "Společnosti"
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__kod_opravy
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__kod_opravy
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__kod_opravy
-msgid "Correction code — filled only in an amended KV DPH (1 = cancellation of the original data, 2 = new / corrected data)."
-msgstr "Kód opravy — vyplňuje se jen v dodatečném KV DPH (1 = storno původních údajů, 2 = nové / opravené údaje)."
+msgid ""
+"Correction code — filled only in an amended KV DPH (1 = cancellation of the "
+"original data, 2 = new / corrected data)."
+msgstr ""
+"Kód opravy — vyplňuje se jen v dodatečném KV DPH (1 = storno původních "
+"údajů, 2 = nové / opravené údaje)."
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__create_uid
@@ -267,6 +363,7 @@ msgstr "Odečtená částka"
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move_reversal__display_name
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__display_name
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__display_name
@@ -345,13 +442,30 @@ msgstr "Reference dokladu (XML)"
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_product__l10n_sk_kv_cn_code
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_cn_code
-msgid "First four digits of the Spoločný colný sadzobník code, reported in A.2 for § 69 ods. 12 písm. f) and g). The statute bounds it: písm. f) to chapters 10 and 12, písm. g) to chapter 72 and headings 7301, 7308 and 7314. Leave empty to reuse the product's customs classification (HS / intrastat code) — that code is checked against the same chapters when the kontrolný výkaz is exported."
-msgstr "První čtyři číslice kódu podle společného celního sazebníku, uváděné v A.2 u zboží podle § 69 ods. 12 písm. f) a g). Zákon ho omezuje: písm. f) na kapitoly 10 a 12, písm. g) na kapitolu 72 a položky 7301, 7308 a 7314. Pokud zůstane prázdné, použije se celní zařazení produktu (kód HS / Intrastat) — i to se při exportu kontrolního výkazu ověří vůči stejným kapitolám."
+msgid ""
+"First four digits of the Spoločný colný sadzobník code, reported in A.2 for "
+"§ 69 ods. 12 písm. f) and g). The statute bounds it: písm. f) to chapters 10 "
+"and 12, písm. g) to chapter 72 and headings 7301, 7308 and 7314. Leave empty "
+"to reuse the product's customs classification (HS / intrastat code) — that "
+"code is checked against the same chapters when the kontrolný výkaz is "
+"exported."
+msgstr ""
+"První čtyři číslice kódu podle společného celního sazebníku, uváděné v A.2 u "
+"zboží podle § 69 ods. 12 písm. f) a g). Zákon ho omezuje: písm. f) na "
+"kapitoly 10 a 12, písm. g) na kapitolu 72 a položky 7301, 7308 a 7314. Pokud "
+"zůstane prázdné, použije se celní zařazení produktu (kód HS / Intrastat) — i "
+"to se při exportu kontrolního výkazu ověří vůči stejným kapitolám."
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_account_tax__l10n_sk_kv_supplier_excluded
-msgid "For a sale-side domestic reverse charge under § 69 ods. 12 písm. a) to e). The supplier does not report these supplies in the kontrolný výkaz; only the recipient reports them, in B.1."
-msgstr "Při tuzemském přenesení daňové povinnosti na straně prodeje podle § 69 ods. 12 písm. a) až e). Dodavatel tato dodání v kontrolním výkazu neuvádí; uvádí je pouze příjemce v B.1."
+msgid ""
+"For a sale-side domestic reverse charge under § 69 ods. 12 písm. a) to e). "
+"The supplier does not report these supplies in the kontrolný výkaz; only the "
+"recipient reports them, in B.1."
+msgstr ""
+"Při tuzemském přenesení daňové povinnosti na straně prodeje podle § 69 ods. "
+"12 písm. a) až e). Dodavatel tato dodání v kontrolním výkazu neuvádí; uvádí "
+"je pouze příjemce v B.1."
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_a1__product_code
@@ -362,6 +476,7 @@ msgstr "Kód HS (4místný)"
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_chart_template__id
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_move_reversal__id
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_cssk_control_statement__id
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__id
@@ -386,6 +501,12 @@ msgstr ""
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields.selection,name:l10n_sk_kv_dph.selection__l10n_sk_kv_dph_section_a2__goods_kind__io
 msgid "IO — integrované obvody"
+msgstr ""
+
+#. module: l10n_sk_kv_dph
+#. odoo-python
+#: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
+msgid "Interný dobropis mimo kontrolného výkazu"
 msgstr ""
 
 #. module: l10n_sk_kv_dph
@@ -463,8 +584,12 @@ msgstr "KV DPH oddíl D.2"
 #. module: l10n_sk_kv_dph
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/account_move.py:0
-msgid "KV DPH section C.2 reports the supplier's own numbers, so these documents cannot be posted without them:"
-msgstr "Oddíl C.2 slovenského kontrolního výkazu DPH uvádí čísla dokladů dodavatele, proto tyto doklady nelze zaúčtovat bez nich:"
+msgid ""
+"KV DPH section C.2 reports the supplier's own numbers, so these documents "
+"cannot be posted without them:"
+msgstr ""
+"Oddíl C.2 slovenského kontrolního výkazu DPH uvádí čísla dokladů dodavatele, "
+"proto tyto doklady nelze zaúčtovat bez nich:"
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__kod_opravy
@@ -538,8 +663,12 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_account_bank_statement_line__l10n_sk_kv_is_simplified
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_account_move__l10n_sk_kv_is_simplified
 msgid ""
-"Mark received documents that are simplified invoices / receipts (zjednodušená faktúra, bloček z e-kasy). Their input VAT is reported in KV DPH section B.3 — aggregated in B.3.1 below the 3 000 EUR period threshold, or per supplier in B.3.2 at/above it.\n"
-"NB: toggling this on an already-posted move does not auto-recompute the section tag; recompute the statement (or the line) afterwards."
+"Mark received documents that are simplified invoices / receipts "
+"(zjednodušená faktúra, bloček z e-kasy). Their input VAT is reported in KV "
+"DPH section B.3 — aggregated in B.3.1 below the 3 000 EUR period threshold, "
+"or per supplier in B.3.2 at/above it.\n"
+"NB: toggling this on an already-posted move does not auto-recompute the "
+"section tag; recompute the statement (or the line) afterwards."
 msgstr ""
 
 #. module: l10n_sk_kv_dph
@@ -654,7 +783,9 @@ msgstr "Produktová varianta"
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__entry_ref_original
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__entry_ref_original
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__entry_ref_original
-msgid "Reference of the original document for corrections (SK C.1/C.2, CZ negative rows)."
+msgid ""
+"Reference of the original document for corrections (SK C.1/C.2, CZ negative "
+"rows)."
 msgstr "Reference původního dokladu pro opravy (SK C.1/C.2, CZ záporné řádky)."
 
 #. module: l10n_sk_kv_dph
@@ -680,7 +811,12 @@ msgstr "SK KV DPH – oddíl s podrobnostmi (mixin)"
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_product__l10n_sk_kv_rc_goods
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_product_template__l10n_sk_kv_rc_goods
-msgid "Set on goods whose domestic supply is reverse-charged under § 69 ods. 12 písm. f) to i). Oddiel A.2 of the kontrolný výkaz then reports, per invoice, the commodity code (f, g) or the kind of goods (h, i), and the quantity with its unit. Leave empty for everything else, including the other § 69 ods. 12 supplies (construction work), for which A.2 carries only the base."
+msgid ""
+"Set on goods whose domestic supply is reverse-charged under § 69 ods. 12 "
+"písm. f) to i). Oddiel A.2 of the kontrolný výkaz then reports, per invoice, "
+"the commodity code (f, g) or the kind of goods (h, i), and the quantity with "
+"its unit. Leave empty for everything else, including the other § 69 ods. 12 "
+"supplies (construction work), for which A.2 carries only the base."
 msgstr ""
 
 #. module: l10n_sk_kv_dph
@@ -882,7 +1018,8 @@ msgstr "Sazba daně"
 #. odoo-python
 #: code:addons/l10n_sk_kv_dph/models/cssk_control_statement.py:0
 msgid ""
-"The kontrolný výkaz cannot be exported — the official KVDPH form requires data that is missing:\n"
+"The kontrolný výkaz cannot be exported — the official KVDPH form requires "
+"data that is missing:\n"
 "%s"
 msgstr ""
 
@@ -894,8 +1031,12 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_b2__entry_ref_xml
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c1__entry_ref_xml
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__entry_ref_xml
-msgid "The reference as the STATEMENT can carry it: the KV DPH schema types it '\\S{1,32}', which forbids whitespace outright."
-msgstr "Reference ve tvaru, v jakém ji HLÁŠENÍ dokáže nést: schéma KV DPH ji typuje jako '\\S{1,32}', což zcela zakazuje mezery."
+msgid ""
+"The reference as the STATEMENT can carry it: the KV DPH schema types it "
+"'\\S{1,32}', which forbids whitespace outright."
+msgstr ""
+"Reference ve tvaru, v jakém ji HLÁŠENÍ dokáže nést: schéma KV DPH ji typuje "
+"jako '\\S{1,32}', což zcela zakazuje mezery."
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__is_overridden
@@ -911,8 +1052,14 @@ msgstr "Reference ve tvaru, v jakém ji HLÁŠENÍ dokáže nést: schéma KV DP
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_c2__is_overridden
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d1__is_overridden
 #: model:ir.model.fields,help:l10n_sk_kv_dph.field_l10n_sk_kv_dph_section_d2__is_overridden
-msgid "Tick to manually correct this row's amounts. The correction is preserved across recompute and re-applied to the row with the same identity (partner VAT / document / rate)."
-msgstr "Zaškrtněte pro ruční opravu částek tohoto řádku. Oprava se při přepočtu zachová a znovu se uplatní na řádek se stejnou identitou (DIČ partnera / doklad / sazba)."
+msgid ""
+"Tick to manually correct this row's amounts. The correction is preserved "
+"across recompute and re-applied to the row with the same identity (partner "
+"VAT / document / rate)."
+msgstr ""
+"Zaškrtněte pro ruční opravu částek tohoto řádku. Oprava se při přepočtu "
+"zachová a znovu se uplatní na řádek se stejnou identitou (DIČ partnera / "
+"doklad / sazba)."
 
 #. module: l10n_sk_kv_dph
 #: model:ir.model.fields,field_description:l10n_sk_kv_dph.field_l10n_sk_kv_dph_b3_mixin__total_deducted_amount

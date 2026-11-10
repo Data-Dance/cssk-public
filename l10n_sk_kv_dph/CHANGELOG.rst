@@ -12,6 +12,27 @@ Carry-over to 18.0: the FO / FP correction of 19.0.2.6.0. DISCHARGED (18.0.2.4.0
 
 Carry-over to 18.0: the posting check and the B.1 / B.2 rule of 19.0.2.9.0. DISCHARGED (18.0.2.7.0; debit notes not held there, as they still report in B.2).
 
+Carry-over to 18.0: internal credit notes left out of the statement (19.0.2.10.0). DISCHARGED (18.0.2.8.0).
+
+[19.0.2.10.0] — 2026-11-10
+--------------------------
+
+Changed
+~~~~~~~
+
+- **Internal credit notes are left out of the statement.** A Slovak
+  accountant confirmed that they do not belong in it: a wrongly booked bill
+  is put right by the supplier's credit note, or by reopening the period,
+  correcting it and filing a supplementary return and statement. A reversal
+  of a received bill, credit note or entry that carries no supplier's number
+  (Odoo's "Modify" or full cancellation, typically) is no longer reported, and
+  neither is the document it cancels when it cancels it in full within the
+  same period. A cash-basis entry's reversal is not affected.
+- A new warning, ``KV_INTERNAL_STORNO``, names an internal credit note dated
+  in another period than the document it cancels, or cancelling it only in
+  part: the statement then disagrees with the VAT return, which still carries
+  its tax.
+
 [19.0.2.9.0] — 2026-11-10
 -------------------------
 
