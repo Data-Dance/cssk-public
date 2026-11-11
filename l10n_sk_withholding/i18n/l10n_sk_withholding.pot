@@ -403,6 +403,12 @@ msgid "Every dividend source must belong to the notice company."
 msgstr ""
 
 #. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/income_capacity.py:0
+msgid "Every linked author credit must belong to the original bill's company."
+msgstr ""
+
+#. module: l10n_sk_withholding
 #: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
 msgid "Export XML"
 msgstr ""
@@ -653,6 +659,14 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_sk_withholding/models/withholding.py:0
 msgid "Notice allocations exceed the actual posted source line."
+msgstr ""
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Notice income allocations exceed the original author source after its linked"
+" credit notes."
 msgstr ""
 
 #. module: l10n_sk_withholding
@@ -910,6 +924,28 @@ msgstr ""
 msgid ""
 "Review the completed profit period, distribution decision and actual payment"
 " dates."
+msgstr ""
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/income_capacity.py:0
+msgid "Review the cyclic native author-bill reversal links."
+msgstr ""
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/income_capacity.py:0
+msgid ""
+"Review the linked author credit's payable account and recipient before "
+"allocating the remaining income."
+msgstr ""
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/income_capacity.py:0
+msgid ""
+"Review the original author bill's payable lines and recipient before "
+"allocating its income."
 msgstr ""
 
 #. module: l10n_sk_withholding
@@ -1301,6 +1337,14 @@ msgstr ""
 #. module: l10n_sk_withholding
 #: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__activity_exception_decoration
 msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/income_capacity.py:0
+msgid ""
+"Use matching native invoice or journal reversal links for the remaining "
+"author income."
 msgstr ""
 
 #. module: l10n_sk_withholding

@@ -18,6 +18,7 @@ from odoo.addons.l10n_cssk_core.tools import split_street
 
 from .. import wire4311
 from ..deadline4311 import regular_deadline
+from .income_capacity import income_pool_facts, income_pool_key
 
 MODEL = "l10n.sk.withholding"
 
@@ -598,7 +599,10 @@ class Withholding(models.Model):
                             "Use posted source lines of the correct company, account and direction."
                         )
                     )
-                if (
+                income_pool = (
+                    income_pool_facts(event, line) if kind == "income" else None
+                )
+                if not income_pool and (
                     line.move_id.reversed_entry_id
                     or line.move_id.reversal_move_ids.filtered(
                         lambda move: move.state == "posted"
@@ -651,6 +655,8 @@ class Withholding(models.Model):
                     self._claim_settlement(
                         settlement, value, settlement_allocated, reserved
                     )
+                if income_pool:
+                    self._claim_income_capacity(income_pool, value, allocated, reserved)
                 source["lines"].append(
                     {
                         "kind": kind,
@@ -663,6 +669,8 @@ class Withholding(models.Model):
                         "settlement": settlement,
                     }
                 )
+                if income_pool:
+                    source["lines"][-1]["income_pool"] = income_pool
             person = event.partner_id
             person_street, person_number = split_street(person)
             data["events"].append(
@@ -866,6 +874,25 @@ class Withholding(models.Model):
                     self._claim_settlement(
                         settlement, line["allocated"], claimed, other
                     )
+                if line.get("income_pool"):
+                    self._claim_income_capacity(
+                        line["income_pool"], line["allocated"], claimed, other
+                    )
+
+    def _claim_income_capacity(self, facts, amount, claimed, other):
+        key = facts["key"]
+        claimed[key] += amount
+        if (
+            self.currency_id.compare_amounts(
+                claimed[key] + other[key], facts["capacity"]
+            )
+            > 0
+        ):
+            raise UserError(
+                _(
+                    "Notice income allocations exceed the original author source after its linked credit notes."
+                )
+            )
 
     def _claim_settlement(self, facts, amount, claimed, other):
         """One physical credit pool may back several counterpart allocations."""
@@ -909,6 +936,10 @@ class Withholding(models.Model):
             for source in self.source_history[-1]["payload"]["sources"]:
                 for line in source["lines"]:
                     claimed[line["id"]] += line["allocated"]
+                    if line["kind"] == "income":
+                        claimed[
+                            income_pool_key(line["move_id"], line["account_id"])
+                        ] += line["allocated"]
                     if line.get("settlement"):
                         claimed[_settlement_key(line["settlement"])] += line[
                             "allocated"
@@ -920,6 +951,10 @@ class Withholding(models.Model):
             for source in self.payload["sources"]:
                 for line in source["lines"]:
                     exported[line["id"]] += line["allocated"]
+                    if line["kind"] == "income":
+                        exported[
+                            income_pool_key(line["move_id"], line["account_id"])
+                        ] += line["allocated"]
                     if line.get("settlement"):
                         exported[_settlement_key(line["settlement"])] += line[
                             "allocated"
@@ -930,6 +965,13 @@ class Withholding(models.Model):
             return claimed
         working = defaultdict(float)
         for event in self.event_ids:
+            if event.distribution_line_id:
+                working[
+                    income_pool_key(
+                        event.distribution_line_id.move_id.id,
+                        event.distribution_line_id.account_id.id,
+                    )
+                ] += max(event.gross, 0)
             for line, amount in (
                 (event.distribution_line_id, event.gross),
                 (event.payment_line_id, event.net_amount),
