@@ -1,6 +1,6 @@
 import base64
 from lxml import etree
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tests.common import TransactionCase, tagged
 
 
@@ -693,3 +693,24 @@ class TestVehicleTax(TransactionCase):
         rec.action_add_fleet_vehicles()
         self.assertEqual(rec.line_ids.vehicle_id, vehicle)
         self.assertEqual(str(rec.line_ids.liability_from), '2020-04-01')
+
+    def test_import_propagates_fleet_and_schedule_access_errors(self):
+        from unittest.mock import patch
+
+        rec = self.make_return()
+        vehicle = rec.line_ids.vehicle_id
+        rec.line_ids.unlink()
+        # AccessError inherits UserError in Odoo19. It is never an ordinary
+        # missing-facts skip, even when raised inside the readiness check.
+        with patch.object(type(vehicle), '_l10n_sk_vehicle_tax_facts',
+                          side_effect=AccessError('Synthetic fleet source access denied')):
+            with self.assertRaisesRegex(AccessError, 'fleet source access denied'):
+                rec.action_add_fleet_vehicles()
+        self.assertFalse(rec.line_ids)
+        version = rec.version_id
+        version.invalidate_recordset(['schedule'])
+        with patch.object(type(version), '_fetch_field',
+                          side_effect=AccessError('Synthetic schedule access denied')):
+            with self.assertRaisesRegex(AccessError, 'schedule access denied'):
+                rec.action_add_fleet_vehicles()
+        self.assertFalse(rec.line_ids)

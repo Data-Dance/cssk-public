@@ -17,7 +17,7 @@ from decimal import Decimal
 from lxml import etree
 
 from odoo import _, api, fields, models, Command
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 from odoo.tools import file_open
 from odoo.tools.translate import LazyTranslate
 from odoo.addons.l10n_cssk_core.tools import split_street
@@ -607,6 +607,8 @@ class VehicleTaxReturn(models.Model):
                         liability_to=fields.Date.to_date(facts['liability_to']) or None,
                         propulsion=facts['propulsion'], engine_cm3=facts['engine_cm3'],
                         power_kw=facts['power_kw'], weight_kg=facts['weight_kg'], schedule=self.version_id.schedule)
+                except AccessError:
+                    raise
                 except UserError as error:
                     reason = str(error)
                 except (ValueError, TypeError, KeyError) as error:
