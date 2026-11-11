@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dft_list" model="ir.ui.view">
+        <field name="name">l10n.sk.transaction.tax.list</field>
+        <field name="model">l10n.sk.transaction.tax</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="company_id" groups="base.group_multi_company"/><field name="filing_type"/><field name="tax_total"/><field name="state"/><field name="submission_state"/></list></field>
+    </record>
+    <record id="dft_form" model="ir.ui.view">
+        <field name="name">l10n.sk.transaction.tax.form</field>
+        <field name="model">l10n.sk.transaction.tax</field>
+        <field name="arch" type="xml">
+            <form string="Financial transaction tax">
+                <header>
+                    <button name="action_compute_lines" type="object" string="Review sources" invisible="state != 'draft'"/>
+                    <button name="action_export_xml" type="object" string="Export XML" invisible="state != 'preview'"/>
+                    <button name="action_post_provision" type="object" string="Post tax" invisible="state == 'draft'"/>
+                    <button name="action_reverse_provision" type="object" string="Reverse unfiled provision" invisible="not provision_move_id or state == 'submitted'"/>
+                    <button name="action_submit" type="object" string="Record filing" invisible="state != 'exported'"/>
+                    <button name="action_create_amendment" type="object" string="Create correction" invisible="state != 'submitted'"/>
+                    <button name="action_check_recharge_dependencies" type="object"
+                            string="Check earlier recharges" invisible="state != 'submitted'"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to draft" invisible="state in ('draft','submitted')"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset filed notice" invisible="state != 'submitted'" groups="account.group_account_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group><field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/><field name="period" readonly="state != 'draft'"/><field name="period_from" readonly="state != 'draft'"/><field name="period_to" readonly="state != 'draft'"/><field name="signed_on" readonly="state != 'draft'"/><field name="filing_on" readonly="state != 'draft'"/><field name="filing_type" readonly="state != 'draft'"/><field name="original_return_id" readonly="state != 'draft'"/><field name="discovery_date" readonly="state != 'draft'" invisible="filing_type != 'additional'"/></group>
+                        <group><field name="deadline" readonly="1"/><field name="deadline_reference" readonly="state != 'draft'"/><field name="grounds_c" readonly="state != 'draft'"/><field name="grounds_d" readonly="state != 'draft'"/><field name="grounds_e" readonly="state != 'draft'"/><field name="tax_total"/></group>
+                    </group>
+                    <group string="Submitting person"><field name="representative_id" readonly="state != 'draft'"/><field name="representative_kind" readonly="state != 'draft'"/><field name="representative_first_name" readonly="state != 'draft'"/><field name="representative_last_name" readonly="state != 'draft'"/></group>
+                    <notebook>
+                        <page string="Native transaction sources">
+                            <field name="source_ids" readonly="state != 'draft'"><list editable="bottom"><field name="move_line_id" domain="[('company_id', '=', parent.company_id), ('move_id.state', '=', 'posted')] + ([('balance', '&gt;', 0)] if kind in ['recharge_unknown', 'recharge_known', 'recharge_excluded'] else [('balance', '&lt;', 0), ('journal_id.type', '=', 'bank')])"/><field name="kind"/><field name="actual_on"/><field name="source_amount"/><field name="euro_quote"/><field name="exchange_reference"/><field name="bank_batch"/><field name="transaction_reference"/><field name="card_reference"/><field name="classification_reference"/><field name="source_reference"/><field name="reviewed"/></list></field>
+                        </page>
+                        <page string="Reductions and corrections">
+                            <field name="adjustment_ids" readonly="state != 'draft'"><list editable="bottom"><field name="move_line_id"/><field name="amount"/><field name="source_reference"/><field name="reviewed"/></list></field>
+                        </page>
+                        <page string="Accounting and refund">
+                            <group><field name="provision_journal_id" readonly="state != 'draft'"/><field name="provision_expense_account_id" readonly="state != 'draft'"/><field name="provision_payable_account_id" readonly="state != 'draft'"/><field name="provision_move_id"/><field name="provision_history_ids" widget="many2many_tags"/></group>
+                            <group><field name="refund_requested" readonly="state != 'draft'"/><field name="refund_bank_id" readonly="state != 'draft'"/><field name="refund_date" readonly="state != 'draft'"/></group>
+                        </page>
+                        <page string="Filed evidence"><group><field name="xml_attachment_id"/><field name="submitted_attachment_id"/><field name="filed_history_ids" widget="many2many_tags"/><field name="submission_ids"/><field name="payload"/><field name="source_history"/></group></page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="dft_action" model="ir.actions.act_window"><field name="name">SK financial transaction tax</field><field name="res_model">l10n.sk.transaction.tax</field><field name="view_mode">list,form</field></record>
+    <menuitem id="dft_menu" name="SK financial transaction tax" parent="account.menu_finance_reports" action="dft_action" groups="account.group_account_user"/>
+</odoo>
