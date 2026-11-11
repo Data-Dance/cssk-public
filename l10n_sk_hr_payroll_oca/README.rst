@@ -83,3 +83,9 @@ Credits
 =======
 
 Authors: Data Dance s.r.o., Odoo Community Association (OCA)
+
+Recorded payroll funds
+----------------------
+
+Capture actual signed fund bases, rates and charges during compute_sheet without changing the existing premium formulas.
+Direct rule evaluation no longer rewrites evidence. Store the statutory profile once and do not copy restricted birth numbers.

@@ -1,7 +1,7 @@
 ---
 title: Mzdové hlásenia CZ/SK
 summary: Spoločný základ českých a slovenských mzdových hlásení — ponuka Mzdové hlásenia, postup Generovať / Označiť ako odoslané, opravné hlásenia, verzie tlačív a čítanie výplatných pások z oboch mzdových jadier.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -188,3 +188,13 @@ Zákonné výkazy → Doručenia*. Pozri
   postavené nič úradom neodosielajú.
 - **Kontrola voči schéme overuje tvar, nie sumy.** Prvé hlásenie každého
   tlačiva odsúhlaste ručne.
+
+## Čítačka zaznamenaných fondov {#recorded-funds}
+
+Plural čítačka vracia mapu podľa ID pások a recordset bez podkladov. Framework
+uplatňuje politiku automaticky pri súčtoch MVP, VPP, zdravotného výkazu a historického
+ELDP; nevynucuje fondové podklady pri nesúvisiacich daňových výkazoch. Chýbajúci
+alebo nezhodný dôkaz vyvolá v pôvodnom výkaze pomenované upozornenie a ponechá
+existujúcu náhradu; oprava sa odmietne. Chyba prístupu sa nikdy nepotlačí. Volajúci
+nemá príznak povoľujúci náhradu. Párovanie a znamienko vratky patria bridge.
+XML šablóny zostávajú pôvodné do samostatnej aktualizácie konzumentov.

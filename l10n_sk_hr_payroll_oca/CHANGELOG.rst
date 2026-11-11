@@ -53,6 +53,29 @@ Carry-over to 18.0
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
 
+[19.0.1.25.0] — 2026-11-11
+==========================
+
+Added
+~~~~~
+
+* Capture actual signed fund bases, rates and charges during compute_sheet without changing the existing premium formulas.
+
+Changed
+~~~~~~~
+
+* Arithmetic corrections, reviewed calendars and source/confirmation controls are separate contributions. Existing premium arithmetic is preserved.
+
+Fixed
+~~~~~
+
+* Direct rule evaluation no longer rewrites evidence. Store the statutory profile once and do not copy restricted birth numbers.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* Not yet ported. Adapt the bridge to 18.0 contract/rule-loop APIs and rerun the signed, sub-cent, refund and missing-evidence matrix.
+
 [19.0.1.24.5] — 2026-11-10
 ==========================
 

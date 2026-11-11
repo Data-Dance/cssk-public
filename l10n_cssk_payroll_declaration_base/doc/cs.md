@@ -1,7 +1,7 @@
 ---
 title: Mzdová hlášení CZ/SK
 summary: Společný základ českých a slovenských mzdových hlášení — nabídka Mzdová hlášení, postup Vygenerovat / Označit jako odeslané, opravná hlášení, verze tiskopisů a čtení výplatních pásek z obou mzdových jader.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -183,3 +183,12 @@ výkazy → Doručení*. Viz [Podání výkazu](module:l10n_cssk_submission_base
   postavené nic úřadům neodesílají.
 - **Kontrola proti schématu ověřuje tvar, ne částky.** První hlášení každého
   tiskopisu odsouhlaste ručně.
+
+## Čtení zaznamenaných fondů {#recorded-funds}
+
+Plural čtečka vrací mapu podle ID pásek a sadu bez podkladů. Framework automaticky
+uplatňuje politiku při součtech slovenských pojistných výkazů; netýká se to
+nesouvisejících daňových výkazů. Chybějící nebo neshodný důkaz původní výkaz
+pojmenuje ve varování a ponechá stávající náhradu; oprava se odmítne. Chyby
+přístupu se nepotlačují. Volající nemá přepínač pro povolení náhrady. Párování
+a znaménko vratky patří bridge. XML šablony jsou předmětem navazujícího příspěvku.

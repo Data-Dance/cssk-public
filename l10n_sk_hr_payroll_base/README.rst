@@ -422,3 +422,9 @@ Credits
 =======
 
 Authors: Data Dance s.r.o.
+
+Recorded payroll funds
+----------------------
+
+Add the engine-neutral signed fund-record shape and abstract validation protocol. Physical storage remains in each engine bridge.
+Optional invalid rule metadata is missing evidence rather than a new payroll refusal.

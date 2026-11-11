@@ -214,3 +214,9 @@ Credits
 =======
 
 Authors: Data Dance s.r.o.
+
+Recorded payroll funds
+----------------------
+
+Add a plural fund accessor and apply original/corrective evidence policy during insurance-declaration totals collection.
+Missing or inconsistent evidence warns for originals and refuses corrections; access errors still propagate. Native refund pairing and signs are bridge hooks.

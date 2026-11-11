@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Payroll Declarations
 summary: The common ground of the Czech and Slovak payroll filings — the Payroll Declarations menu, the Generate / Mark Submitted workflow, corrections, form versions, and how payslips are read from either payroll engine.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 ---
 
 ## What it is for {#purpose}
@@ -189,3 +189,13 @@ Statutory Reports → Submissions*. See
   by this module or the forms built on it.
 - **The schema check proves the shape, not the figures.** Reconcile the
   first filing of every form by hand.
+
+## Recorded fund accessor {#recorded-funds}
+
+The plural accessor returns records by payslip ID and a missing recordset. The
+framework applies policy automatically while collecting MVP, VPP, health and
+historical ELDP totals; it does not require fund evidence for unrelated tax reports.
+Missing or inconsistent evidence warns on originals, retaining the existing
+fallback, and refuses corrections. Access failures always propagate. There is
+no caller fallback flag. Native refund pairing/direction are bridge hooks;
+country XML templates remain unchanged until their separate consumer updates.

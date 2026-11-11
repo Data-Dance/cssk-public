@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll
 summary: The Slovak payroll family in one place — the monthly payslip for a pracovný pomer and the three dohody on either Odoo Enterprise Payroll or the OCA payroll app, with dated statutory rates, leave, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.2.2
+verified: 19.0.1.3.0
 ---
 
 ## What it is for {#purpose}
@@ -416,3 +416,13 @@ and work with either engine:
   Odoo upgrade, check that nothing new was added upstream.
 - The figures are shipped for 2024–2026. Check them against the law before
   using a later period.
+
+## Shared recorded funds {#recorded-funds}
+
+The signed base and charge are the values actually used by the rule; neither
+is reconstructed from a rounded premium. Zero is distinct from missing evidence.
+The base supplies the shape and abstract identity/salary checks, with no engine
+import and no physical storage fields. Invalid optional metadata stays missing
+without blocking native payroll. A bridge applies its own native refund sign.
+This evidence-only contribution does not alter statutory arithmetic. Proposed
+rounding, OOP/cap-order and exemption corrections require separate reviewed fixes.

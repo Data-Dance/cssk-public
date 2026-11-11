@@ -26,6 +26,29 @@ Fixed
   identify the original (``_amendment_scope_fields``), such as the health
   insurer of a per-insurer overview.
 
+[19.0.1.6.0] — 2026-11-11
+=========================
+
+Added
+~~~~~
+
+* Add a plural fund accessor and apply original/corrective evidence policy during insurance-declaration totals collection.
+
+Changed
+~~~~~~~
+
+* Arithmetic corrections, reviewed calendars and source/confirmation controls are separate contributions. Existing premium arithmetic is preserved.
+
+Fixed
+~~~~~
+
+* Missing or inconsistent evidence warns for originals and refuses corrections; access errors still propagate. Native refund pairing and signs are bridge hooks.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* Not yet ported. Adapt the bridge to 18.0 contract/rule-loop APIs and rerun the signed, sub-cent, refund and missing-evidence matrix.
+
 [19.0.1.5.0] — 2026-10-27
 =========================
 
