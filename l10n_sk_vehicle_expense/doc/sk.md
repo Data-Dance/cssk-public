@@ -1,7 +1,7 @@
 ---
 title: SK vozidlá a PHL — paušály pre DPH a daň z príjmov
 summary: 50 % odpočet DPH pri osobných vozidlách používaných aj na súkromné účely (§ 85n) cez sadzby dane a 80 % paušál na PHL pre daň z príjmov cez rozúčtovanie prijatej faktúry — dva nezávislé režimy.
-verified: 19.0.1.1.2
+verified: 19.0.1.2.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -11,7 +11,7 @@ dvakrát a od 1. 1. 2026 sú obe obmedzenia na sebe nezávislé:
 
 | Režim | Predpis | Podiel | Ako to rieši modul |
 |---|---|---|---|
-| Odpočet DPH | § 85n zákona o DPH | **50 %** DPH z vozidla a všetkého, čo sa preň obstaráva | dve sadzby dane na vstupe, ktoré odpočítajú len polovicu DPH — pozri [DPH](#vat) |
+| Odpočet DPH | § 85n zákona o DPH | **50 %** DPH z vozidla a všetkého, čo sa preň obstaráva | sadzby dane na vstupe, ktoré odpočítajú len polovicu DPH — pozri [DPH](#vat) |
 | Daňový výdavok na PHL | § 19 ods. 2 písm. l) bod 3 zákona o dani z príjmov | paušál do **80 %** nákupu PHL | sprievodca na prijatej faktúre, ktorý zvyšok presunie na účet daňovo neuznaných nákladov — pozri [Rozúčtovanie PHL](#fuel) |
 
 Každú polovicu možno použiť bez druhej: sadzby DPH na faktúre za opravu,
@@ -73,8 +73,11 @@ hodnoty nárok, pričom ak ide o daň z pridanej hodnoty vzťahujúcu sa na hmot
 majetok …, táto nie je súčasťou vstupnej ceny“*, kde osobitným predpisom je
 § 85n zákona o DPH. Neodpočítaná polovica preto **nie je daňovým výdavkom** a
 pri kúpenom vozidle **nie je súčasťou vstupnej ceny** na daňové odpisovanie.
-Modul ju zaúčtuje na ten istý účet ako daňovo neuznanú časť PHL (pozri
-[DPH](#vat)), odkiaľ sa v daňovom priznaní pripočíta.
+Slovenská účtovníčka potvrdila, že **účtovná** obstarávacia cena vozidla ju
+napriek tomu zahŕňa: účtovníctvo ju aktivuje a len vstupná cena na daňové
+účely ju vynecháva. Pri prevádzkových nákladoch ju modul zaúčtuje na ten istý
+účet ako daňovo neuznanú časť PHL, odkiaľ sa v daňovom priznaní pripočíta;
+pri kúpe vozidla ju zaúčtuje na účet majetku (pozri [DPH](#vat)).
 
 ## Nastavenie {#setup}
 
@@ -88,8 +91,10 @@ je zabudovaný v oboch sadzbách dane pre vozidlá.
 | Daňový podiel PHL (%) | 80 | Podiel, ktorý rozúčtovanie PHL ponechá ako daňový výdavok; ponúkne sa v sprievodcovi. |
 | Daňovo neuznané náklady na vozidlo | 548000 *Ostatné náklady na hospodársku činnosť* | Účet, na ktorý rozúčtovanie PHL presunie zvyšok; ponúkne sa v sprievodcovi. |
 
-Obe sadzby, **23 % vozidlo (50 % odpočet)** a **19 % vozidlo (50 %
-odpočet)**, nájdete v *Účtovníctvo → Konfigurácia → Dane*. Vytvoria sa pri
+Štyri sadzby, **23 % vozidlo (50 % odpočet)** a **19 % vozidlo (50 %
+odpočet)** pre prevádzkové náklady a **23 % obstaranie vozidla (50 % odpočet,
+do ceny)** a **19 % obstaranie vozidla (50 % odpočet, do ceny)** pre kúpu
+vozidla, nájdete v *Účtovníctvo → Konfigurácia → Dane*. Vytvoria sa pri
 inštalácii modulu v každej spoločnosti, ktorá už slovenskú osnovu má, a pri
 neskoršom načítaní slovenskej osnovy do spoločnosti. Sadzbu, ktorú
 spoločnosť už má, inštalácia nemení. Ak v osnove spoločnosti chýba účet alebo
@@ -117,6 +122,30 @@ Rozdelenie DPH priamo v sadzbe dane zaručuje správne priznanie: daňovú
 mriežku nesie len odpočítateľná polovica. Keby sa polovica plne odpočítanej
 DPH presunula do nákladov dodatočným zápisom, priznanie by stále vykázalo
 odpočet celej sumy.
+
+**Na kúpu vozidla** zvoľte namiesto toho **23 % obstaranie vozidla (50 %
+odpočet, do ceny)** (prípadne 19 %). Odpočíta tú istú polovicu a druhú
+polovicu zaúčtuje na účet riadku faktúry — účet majetku —, takže sa stane
+súčasťou obstarávacej ceny vozidla:
+
+| Časť DPH | Účet | Daňová mriežka |
+|---|---|---|
+| 50 % — odpočítaná | 343120 (23 %), 343110 (19 %) | ten istý riadok odpočtu ako vyššie |
+| 50 % — neodpočítaná | účet majetku na riadku (napríklad 022) | žiadna |
+
+Príklad: auto za 20 000,00 € plus 23 % DPH. Faktúra je na 24 600,00 €;
+2 300,00 € sa odpočíta na 343120 a 22 300,00 € je obstarávacia cena auta.
+Majetok vytvorený z faktúry (Odoo Assets alebo register OCA s modulom
+[module:account_asset_tax_oca](module:account_asset_tax_oca)) má hodnotu
+22 300,00 € a v účtovníctve sa odpisuje z nej. Vstupnú cenu na daňové účely
+navrhne modul
+[module:l10n_sk_account_asset_tax](module:l10n_sk_account_asset_tax) vo výške
+20 000,00 € (§ 52zzzk) a rozdiel medzi oboma odpismi sa do daňového priznania
+dostane cez jeho tabuľku B.
+
+Každá sadzba pre vozidlá má zaškrtnuté **DPH z vozidla obmedzená § 85n**
+(formulár dane, *Ďalšie možnosti*). Podľa neho daňové odpisy vedia, ktorú
+DPH vynechať; na kópii týchto sadzieb, ktorú si vytvoríte sami, ho nastavte.
 
 Pre vozidlá, na ktoré sa § 85n nevzťahuje — iné kategórie, výnimky podľa
 ods. 4 alebo vozidlo používané výlučne na podnikanie so záznamami podľa
@@ -156,6 +185,9 @@ prípade nezmení.
   [module:l10n_sk_dppo](module:l10n_sk_dppo#usage). Neodpočítaná DPH podľa
   § 85n aj daňovo neuznaná časť PHL sú pripočítateľnými položkami (pozri
   [Právny rámec](#legal)), ak sa na tento účet neúčtuje nič iné.
+- Neodpočítaná DPH aktivovaná pri kúpe vozidla sa do priznania dostane cez
+  jeho odpisy: daňové odpisy ju vynechajú zo vstupnej ceny a tabuľka B
+  priznania zachytí rozdiel medzi účtovnými a daňovými odpismi.
 
 ## Obmedzenia {#limitations}
 
@@ -165,11 +197,14 @@ prípade nezmení.
   použitie na podnikanie nie sú modelované, nevedie knihu jázd ani
   elektronické záznamy podľa § 85n ods. 6 a nevytvorí oznámenie podľa
   ods. 9.
-- Neodpočítaná DPH ide vždy na 548000 (účet je v sadzbe dane), aj keď
-  zmeníte *Daňovo neuznané náklady na vozidlo*. Pri kúpe vozidla skončí v
-  nákladoch, nie v obstarávacej cene majetku — pre daň z príjmov správne
-  (§ 52zzzk), či ju má zahrnúť do obstarávacej ceny účtovníctvo, posúdi váš
-  účtovník.
+- Sadzby pre prevádzkové náklady dávajú neodpočítanú DPH vždy na 548000
+  (účet je v sadzbe dane), aj keď zmeníte *Daňovo neuznané náklady na
+  vozidlo*.
+- Výber sadzby pre kúpu je na vás. Sadzba pre prevádzkové náklady na kúpe
+  vozidla zaúčtuje DPH na 548000, do nákladov, a nie do obstarávacej ceny
+  majetku; Odoo Assets potom majetok ocení bez nej. Sadzba pre kúpu na inom
+  ako majetkovom riadku zaúčtuje DPH na nákladový účet riadku, kde nie je
+  oddelená na pripočítanie.
 - Nový riadok rozúčtovania nemá produkt a pôvodný riadok stratí množstvo
   (litre).
 - Či možno paušál 80 % uplatniť — primeraný počet kilometrov podľa

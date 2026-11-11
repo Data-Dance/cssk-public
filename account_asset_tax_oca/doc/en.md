@@ -1,7 +1,7 @@
 ---
 title: Tax Depreciation — Community (OCA register)
 summary: Puts the Czech/Slovak tax depreciation board on assets of the OCA asset register used on Odoo Community.
-verified: 19.0.1.6.0
+verified: 19.0.1.7.0
 family: account_asset_tax#oca
 ---
 

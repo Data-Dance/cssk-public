@@ -17,6 +17,9 @@ Fixed
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+DISCHARGED 2026-11-10 by 713e20d6 on 18.0 (merged as bdd84c1d) — do not
+port this again.
+
 Owed to the 18.0 branch: the child records and the month helpers
 (19.0.1.5.0, 2026-11-09). 18.0 keeps the
 children's counts on ``hr.contract``; the month helpers go on the contract,

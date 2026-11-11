@@ -1,7 +1,7 @@
 ---
 title: Tax Depreciation (CZ/SK)
 summary: A second, never-posted depreciation board per asset for Czech and Slovak tax depreciation, next to the accounting depreciation, with the year-end book-versus-tax comparison, deferred tax and a tax depreciation register.
-verified: 19.0.1.12.0
+verified: 19.0.1.13.0
 ---
 
 ## What it is for {#purpose}
@@ -361,6 +361,10 @@ board to the OCA `account_asset_management` register:
   disposal on the removal date;
 - book depreciation = the register's depreciation lines (posted = those with
   a journal entry);
+- an asset created from a bill also takes the tax its line books on the
+  asset account — a non-deductible VAT leg with no account of its own, such as
+  the undeducted half of a passenger car's VAT — so it is worth what the asset
+  account holds; the register alone takes the line's net amount;
 - it also relabels the register's *Number of Years* field on the asset form as
   *Number of years* or *Number of periods*, depending on the time method, and
   shows the period length next to it.
@@ -381,7 +385,12 @@ board to Odoo Enterprise *Assets*:
 - disposing of or selling the asset records the tax disposal on the disposal
   date;
 - book depreciation = the asset's depreciation entries (posted = posted
-  entries; cancelled ones are ignored).
+  entries; cancelled ones are ignored);
+- for Czech and Slovak companies, an asset created from a bill takes only the
+  non-deductible VAT booked on the asset account. Odoo Assets adds a
+  non-deductible leg booked on an expense account as well (the running-cost
+  vehicle taxes put theirs on 548000), which valued the asset above what the
+  ledger capitalised.
 
 Only one bridge can be installed, because only one of the two asset registers
 can be.

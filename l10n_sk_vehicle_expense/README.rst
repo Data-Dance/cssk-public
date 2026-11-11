@@ -26,7 +26,7 @@ A passenger car used for business and private purposes is restricted twice, and 
    * - VAT deduction (*odpočet DPH*)
      - § 85n of the VAT Act
      - **50 %** of the VAT on the vehicle and everything bought for it
-     - two purchase taxes that deduct only half the VAT — see `VAT <#vat>`__
+     - purchase taxes that deduct only half the VAT — see `VAT <#vat>`__
    * - Fuel as an income-tax expense (*daňový výdavok na PHL*)
      - § 19 ods. 2 písm. l) bod 3 of the Income Tax Act
      - flat rate up to **80 %** of fuel bought
@@ -49,7 +49,7 @@ Until 31 December 2025 the last part of `§ 49 ods. 5 <https://www.slov-lex.sk/e
 
 **Income tax.** Fuel consumed is a tax expense, among other methods, as a **flat rate up to 80 %** of the total proven fuel purchase for the period, provided the number of kilometres driven, per the odometer at the start and end of the period, is reasonable — for each vehicle separately (`§ 19 ods. 2 písm. l) bod 3 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-19.odsek-2.pismeno-l.bod-3>`__). It is one of four methods the provision allows; choosing it is the taxpayer's decision.
 
-**The VAT that is not deducted.** As a rule the Income Tax Act counts VAT the payer has no right to deduct as a tax expense (`§ 19 ods. 3 písm. k) bod 2 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-19.odsek-3.pismeno-k.bod-2>`__) and, on tangible assets, as part of the entry price (`§ 25 ods. 5 písm. b) <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-25.odsek-5.pismeno-b>`__). For the VAT that § 85n leaves undeducted, a transitional provision in force from 1 January 2026 says the opposite: `§ 52zzzk <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-52zzzk>`__ — *"Za daňový výdavok podľa § 2 písm. i) a § 19 sa nepovažuje daň z pridanej hodnoty podľa osobitného predpisu, ak na jej odpočítanie nemá platiteľ dane z pridanej hodnoty nárok, pričom ak ide o daň z pridanej hodnoty vzťahujúcu sa na hmotný majetok …, táto nie je súčasťou vstupnej ceny"*, the "osobitný predpis" being § 85n of the VAT Act. So the non-deducted half is **not a tax expense**, and on a purchased vehicle it is **not part of its entry price** for tax depreciation. This module books it on the same account as the non-deductible share of fuel (see `VAT <#vat>`__), from which it is added back in the income-tax return.
+**The VAT that is not deducted.** As a rule the Income Tax Act counts VAT the payer has no right to deduct as a tax expense (`§ 19 ods. 3 písm. k) bod 2 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-19.odsek-3.pismeno-k.bod-2>`__) and, on tangible assets, as part of the entry price (`§ 25 ods. 5 písm. b) <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-25.odsek-5.pismeno-b>`__). For the VAT that § 85n leaves undeducted, a transitional provision in force from 1 January 2026 says the opposite: `§ 52zzzk <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-52zzzk>`__ — *"Za daňový výdavok podľa § 2 písm. i) a § 19 sa nepovažuje daň z pridanej hodnoty podľa osobitného predpisu, ak na jej odpočítanie nemá platiteľ dane z pridanej hodnoty nárok, pričom ak ide o daň z pridanej hodnoty vzťahujúcu sa na hmotný majetok …, táto nie je súčasťou vstupnej ceny"*, the "osobitný predpis" being § 85n of the VAT Act. So the non-deducted half is **not a tax expense**, and on a purchased vehicle it is **not part of its entry price** for tax depreciation. A Slovak accountant confirmed that the **accounting** acquisition cost of the vehicle includes it all the same: the books capitalise it, and only the tax entry price leaves it out. On running costs this module books it on the same account as the non-deductible share of fuel, from which it is added back in the income-tax return; on the purchase of the vehicle it books it on the asset account (see `VAT <#vat>`__).
 
 Setting it up
 ===============
@@ -69,7 +69,7 @@ Setting it up
      - 548000 *Ostatné náklady na hospodársku činnosť*
      - The account the fuel split moves the rest to, proposed in the wizard.
 
-The two taxes, **23 % vozidlo (50 % odpočet)** and **19 % vozidlo (50 % odpočet)**, appear in *Accounting → Configuration → Taxes*. They are created when the module is installed, for every company that already has the Slovak chart, and when the Slovak chart is loaded into a company later. A tax the company already has is left as it is. If a company's chart lacks an account or tax group the taxes need (343120, 343110, 548000, the 23 % or 19 % VAT group), the installation skips that company and logs a warning; create its taxes by hand, modelled on the standard purchase taxes, with the tax distribution described below.
+The four taxes, **23 % vozidlo (50 % odpočet)** and **19 % vozidlo (50 % odpočet)** for running costs and **23 % obstaranie vozidla (50 % odpočet, do ceny)** and **19 % obstaranie vozidla (50 % odpočet, do ceny)** for the purchase of the vehicle, appear in *Accounting → Configuration → Taxes*. They are created when the module is installed, for every company that already has the Slovak chart, and when the Slovak chart is loaded into a company later. A tax the company already has is left as it is. If a company's chart lacks an account or tax group the taxes need (343120, 343110, 548000, the 23 % or 19 % VAT group), the installation skips that company and logs a warning; create its taxes by hand, modelled on the standard purchase taxes, with the tax distribution described below.
 
 VAT: the vehicle taxes
 ========================
@@ -92,6 +92,25 @@ On a bill for something § 85n covers — the purchase or long-term rental of th
 Example: fuel for 100.00 plus 23 % VAT. The bill total is 123.00; 11.50 of VAT is deducted on 343120, 11.50 goes to 548000.
 
 Splitting the VAT in the tax itself is what keeps the return right: only the deductible half carries the tax grid. Moving half of a fully deductible VAT to an expense with a journal entry afterwards would still report the full amount as deducted.
+
+**The purchase of the vehicle** takes **23 % obstaranie vozidla (50 % odpočet, do ceny)** (or the 19 % one) instead. It deducts the same half, and books the other half on the account of the bill line — the asset account — so it becomes part of the vehicle's acquisition cost:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Part of the VAT
+     - Account
+     - Tax grid
+   * - 50 % — deducted
+     - 343120 (23 %), 343110 (19 %)
+     - the same deduction row as above
+   * - 50 % — not deducted
+     - the asset account of the line (for example 022)
+     - none
+
+Example: a car for 20 000.00 plus 23 % VAT. The bill total is 24 600.00; 2 300.00 is deducted on 343120 and 22 300.00 is the cost of the car. The asset created from the bill (Odoo Assets, or the OCA register with ``account_asset_tax_oca``) is worth 22 300.00 and is depreciated from that in the books. Its tax entry price, with ``l10n_sk_account_asset_tax``, is proposed at 20 000.00 (§ 52zzzk), and the difference between the two depreciations reaches the income-tax return through its Table B.
+
+Every vehicle tax carries the flag **Vehicle VAT limited by § 85n** (tax form, *Advanced Options*). It is what tells the tax depreciation board which VAT to leave out; set it on a copy of these taxes you make yourself.
 
 Use the ordinary taxes for vehicles § 85n does not cover — other categories, the exempt uses of ods. 4, or a vehicle used exclusively for business with the records of ods. 6.
 
@@ -121,6 +140,8 @@ In the tax return
 
 - The amounts on the non-deductible account are **not** transferred to the corporate income tax return automatically. Enter them among the add-backs of the return yourself — see ``l10n_sk_dppo``. The non-deducted § 85n VAT and the non-tax share of fuel both are add-backs (see `Legal background <#legal>`__), as long as nothing else is booked on that account.
 
+- The undeducted VAT capitalised on a purchased vehicle reaches the return through its depreciation: the tax depreciation board leaves it out of the entry price, and Table B of the return carries the difference between accounting and tax depreciation.
+
 Limitations
 =============
 
@@ -128,7 +149,9 @@ Limitations
 
 - The module does not know your vehicles: categories M1/L1e/L3e, the exempt uses and exclusive business use are not modelled, there is no logbook or electronic trip record under § 85n ods. 6, and the notification under ods. 9 is not produced.
 
-- The non-deducted VAT always goes to 548000 (the account in the tax), even if you change *Non-deductible vehicle costs*. On a vehicle purchase it lands in expenses, not in the cost of the asset — right for income tax (§ 52zzzk), but whether your accounting should capitalise it is for your accountant to decide.
+- The running-cost taxes always put the non-deducted VAT on 548000 (the account in the tax), even if you change *Non-deductible vehicle costs*.
+
+- Choosing the purchase tax is up to you. A running-cost tax on the purchase of a vehicle books its VAT to 548000, in expenses rather than in the cost of the asset; Odoo Assets then values the asset without it. The purchase tax on anything other than an asset line books the VAT on that line's expense account, where it is not set apart for the add-back.
 
 - The new line of a split carries no product, and the original line loses its quantity (litres).
 
@@ -138,7 +161,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_vehicle_expense``
-- **Version:** 19.0.1.1.2
+- **Version:** 19.0.1.2.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_sk``

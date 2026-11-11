@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/account_asset_tax/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="/account_asset_tax/static/description/index_cs.html">Čeština</a></nav>
 <h1>Daňové odpisy (CZ/SK)</h1>
 <p class="cssk-summary">Druhý, nikdy nezaúčtovaný odpisový plán ku každému majetku pre české a slovenské daňové odpisy popri účtovných, s ročným porovnaním účtovných a daňových odpisov, odloženou daňou a registrom daňových odpisov.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.12.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code></td></tr><tr><th>Rozširujú ho</th><td><code>account_asset_tax_ee</code>, <code>account_asset_tax_oca</code>, <code>l10n_cz_account_asset_tax</code>, <code>l10n_sk_account_asset_tax</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.13.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code></td></tr><tr><th>Rozširujú ho</th><td><code>account_asset_tax_ee</code>, <code>account_asset_tax_oca</code>, <code>l10n_cz_account_asset_tax</code>, <code>l10n_sk_account_asset_tax</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Slovenské a české spoločnosti odpisujú každý dlhodobý majetok <strong>dvakrát</strong>:</p>
@@ -487,6 +487,10 @@ plán k registru OCA <code>account_asset_management</code>:</p>
   dátumu vyradenia;</li>
 <li>účtovné odpisy = riadky odpisového plánu registra (zaúčtované = tie s
   účtovným zápisom);</li>
+<li>majetok vytvorený z faktúry zahrnie aj daň, ktorú jeho riadok zaúčtuje na
+  účet majetku — neodpočítateľnú časť DPH bez vlastného účtu, napríklad
+  neodpočítanú polovicu DPH z osobného auta —, takže má hodnotu toho, čo je na
+  účte majetku; register sám berie len základ riadku;</li>
 <li>na karte majetku premenuje pole registra <em>Number of Years</em> na <em>Počet rokov</em>
   alebo <em>Počet období</em> podľa metódy času a vedľa neho zobrazí dĺžku obdobia.</li>
 </ul>
@@ -504,7 +508,12 @@ k modulu <em>Majetok</em> v Odoo Enterprise:</p>
   vytvorený z nej, ak nemá vlastnú skupinu;</li>
 <li>vyradenie alebo predaj majetku zapíše daňové vyradenie k dátumu vyradenia;</li>
 <li>účtovné odpisy = odpisové zápisy majetku (zaúčtované = zaúčtované zápisy;
-  zrušené sa ignorujú).</li>
+  zrušené sa ignorujú);</li>
+<li>v českých a slovenských spoločnostiach majetok vytvorený z faktúry zahrnie
+  len neodpočítateľnú DPH zaúčtovanú na účet majetku. Odoo Assets pridáva aj
+  neodpočítateľnú časť zaúčtovanú na nákladový účet (sadzby pre prevádzkové
+  náklady vozidiel ju dávajú na 548000), čím majetok ocenilo vyššie, než
+  koľko účtovníctvo aktivovalo.</li>
 </ul>
 <p>Nainštalovať možno len jeden most, pretože nainštalovaný môže byť len jeden z
 oboch registrov majetku.</p>
@@ -553,7 +562,7 @@ oboch registrov majetku.</p>
   kalendárneho dostane plány po kalendárnych rokoch.</li>
 <li>Hlavičky registra sú slovensko-anglické aj pre české spoločnosti.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.12.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.13.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

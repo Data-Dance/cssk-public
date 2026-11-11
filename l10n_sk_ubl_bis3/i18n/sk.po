@@ -54,3 +54,44 @@ msgstr "Formát elektronickej faktúry"
 #: model:ir.actions.server,name:l10n_sk_ubl_bis3.action_server_adopt_dic_participant
 msgid "Peppol: use 0245 + DIČ"
 msgstr "Peppol: použiť 0245 + DIČ"
+
+#. module: l10n_sk_ubl_bis3
+#: model:ir.model.fields,help:l10n_sk_ubl_bis3.field_cssk_tax_authority__l10n_sk_peppol_endpoint_derived
+#: model:ir.model.fields,help:l10n_sk_ubl_bis3.field_res_partner__l10n_sk_peppol_endpoint_derived
+#: model:ir.model.fields,help:l10n_sk_ubl_bis3.field_res_users__l10n_sk_peppol_endpoint_derived
+msgid ""
+"A Slovak contact on 0245 or 9950: its Peppol endpoint is the DIČ or the IČ "
+"DPH it already carries, so it is not typed again."
+msgstr "Slovenský kontakt na 0245 alebo 9950: jeho koncový bod Peppol je DIČ alebo IČ DPH, ktoré už má, preto sa druhýkrát nezadáva."
+
+#. module: l10n_sk_ubl_bis3
+#: model_terms:ir.ui.view,arch_db:l10n_sk_ubl_bis3.view_partner_property_form_peppol_address
+msgid "Peppol Address"
+msgstr "Peppol adresa"
+
+#. module: l10n_sk_ubl_bis3
+#: model:ir.model.fields,field_description:l10n_sk_ubl_bis3.field_cssk_tax_authority__l10n_sk_peppol_endpoint_derived
+#: model:ir.model.fields,field_description:l10n_sk_ubl_bis3.field_res_partner__l10n_sk_peppol_endpoint_derived
+#: model:ir.model.fields,field_description:l10n_sk_ubl_bis3.field_res_users__l10n_sk_peppol_endpoint_derived
+msgid "Peppol endpoint from the contact"
+msgstr "Koncový bod Peppol z kontaktu"
+
+#. module: l10n_sk_ubl_bis3
+#. odoo-python
+#: code:addons/l10n_sk_ubl_bis3/models/account_edi_xml_ubl_sk.py:0
+msgid ""
+"No DIČ is recorded for %(partner)s, so it has no Slovak Peppol participant "
+"identifier: EAS 0245 carries the DIČ, and it is currently published as "
+"%(eas)s. Set 'DIČ' on the contact — it is not the VAT number and cannot be "
+"derived from it."
+msgstr ""
+"Pre %(partner)s nie je zaznamenané DIČ, preto nemá slovenský identifikátor "
+"účastníka Peppol: EAS 0245 nesie DIČ a momentálne je publikovaný ako "
+"%(eas)s. Vyplňte na kontakte 'DIČ' — nie je to IČ DPH a nedá sa z neho "
+"odvodiť."
+
+#. module: l10n_sk_ubl_bis3
+#. odoo-python
+#: code:addons/l10n_sk_ubl_bis3/models/account_edi_xml_ubl_sk.py:0
+msgid "nothing"
+msgstr "nič"

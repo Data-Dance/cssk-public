@@ -11,6 +11,14 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Fixed
 ~~~~~
 
+- **The Peppol status badge and the "sent via Peppol" chatter line were
+  English on a Slovak or Czech invoice.** The badge read the raw selection
+  list of the EDI message state, which holds the source labels, instead of
+  the translated ones. The chatter line put an untranslated ``Invoice`` /
+  ``CreditNote`` into a translated sentence; it is now one sentence per
+  document kind, since the Slovak and Czech participle agrees with the noun
+  (faktúra odoslaná, dobropis odoslaný).
+
 - The Peppol *purchase journal* picker in Settings listed every journal of
   every company: Odoo drops a string domain when it copies a field into a
   related one.
@@ -43,6 +51,15 @@ Fixed
   together with the document kind, the sender's endpoint and the receiver's
   endpoint, so a re-delivery of the same document is still recognised and
   acknowledged once.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **The Peppol badge and chatter translation fix (2026-11-11), not yet on
+  18.0.** 18.0's ``_compute_peppol_status`` still reads the raw ``selection``
+  list, and ``_peppol_emit`` still passes an English ``doc_kind`` into
+  ``"%(kind)s sent via Peppol"``. Port both, together with the two new
+  catalogue entries per language.
 
 [19.0.1.7.1] — 2026-10-27
 -------------------------

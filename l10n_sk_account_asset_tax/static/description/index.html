@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_account_asset_tax/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Tax Depreciation Groups</h1>
 <p class="cssk-summary">The seven Slovak tax depreciation groups (odpisové skupiny 0–6) with their periods and accelerated coefficients, for the tax depreciation board.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.3</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/account_asset_tax/static/description/index.html"><code>account_asset_tax</code></a>, <code>l10n_sk</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/account_asset_tax/static/description/index.html"><code>account_asset_tax</code></a>, <code>l10n_sk</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Loads the Slovak statutory depreciation groups (<em>odpisové skupiny</em>) into the
@@ -124,6 +124,24 @@ nothing to configure: the groups are visible under <em>Accounting →
 Configuration → Tax Depreciation Groups</em>, and the asset form offers them to
 companies whose country is Slovakia. The values are reloaded every time the
 module is updated, so changes made by hand do not survive an update.</p>
+<h2 id="par52zzzk">Passenger vehicles: the VAT outside the entry price</h2>
+<p>From 1 January 2026 a payer deducts only half the VAT on a passenger vehicle
+used also privately (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/#paragraf-85n">§ 85n of the VAT Act</a>).
+The books capitalise the other half into the vehicle's acquisition cost, but
+for income tax it "nie je súčasťou vstupnej ceny"
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-52zzzk">§ 52zzzk</a>).</p>
+<p>With <a href="/l10n_sk_vehicle_expense/static/description/index.html"><code>l10n_sk_vehicle_expense</code></a>
+installed, the tax entry price the board proposes for such an asset leaves it
+out: the asset is valued at what its bill lines put on the asset account, and
+the board starts from that minus the undeducted VAT of the taxes flagged
+<em>Vehicle VAT limited by § 85n</em>. A car bought for 20 000 € plus 23 % VAT with
+the vehicle purchase tax is an asset of 22 300 € and gets a tax entry price
+of 20 000 €. The difference between accounting and tax depreciation reaches
+the corporate income tax return through its Table B.</p>
+<p>The entry price is only proposed — when you switch tax depreciation on, or
+when the board is computed with the entry price empty. A price you enter
+yourself is kept. Where one bill line becomes several assets, each takes its
+share of the VAT.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li>Only the groups are loaded. Classifying an asset into a group is your
@@ -136,7 +154,7 @@ module is updated, so changes made by hand do not survive an update.</p>
   <a href="/account_asset_tax/static/description/index.html#limitations">tax depreciation guide</a>.</li>
 <li>Intangible assets have no depreciation group: the Act classifies only tangible assets, so an empty group on an intangible asset is correct and final.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.1.0.3 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

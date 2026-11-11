@@ -19,6 +19,12 @@ Added
 Fixed
 ~~~~~
 
+- **The statutory note no longer breaks the invoice form layout.** The
+  manual legal note was placed after the label-less terms and conditions in
+  a two-column group, so its label landed beside the terms and its input
+  wrapped below them. Label and input now each take a full row under the
+  terms, in the invoice tab only.
+
 - **The module no longer installs on an Odoo 19.0 newer than 2026-10-14.**
   ``vat_registry_tax_id_external_layout_label`` removed ``l10n_sk``'s duplicate
   supplier VAT line with ``<xpath expr="//li[span[@t-out='company.vat']]">``.
@@ -30,6 +36,13 @@ Fixed
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **The statutory-note layout fix (2026-11-11), not yet on 18.0.** 18.0's
+  ``views/account_move_views.xml`` still adds the note with a bare
+  ``position="after"`` on ``narration``. 18.0 core keeps the label-less
+  narration alone in a two-column group, so the same split label is expected
+  there. Port the xpath to the invoice tab, with the label and the input each
+  spanning the full row.
 
 - **§43 vs §15 statutory note (2026-09-27).** The same compute exists on
   18.0 (``models/account_move.py``: ``§43`` for any 0 % EU line). Port

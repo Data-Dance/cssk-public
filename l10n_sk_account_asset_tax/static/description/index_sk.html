@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_account_asset_tax/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK daňové odpisové skupiny</h1>
 <p class="cssk-summary">Sedem slovenských odpisových skupín 0 – 6 s dobou odpisovania a koeficientmi zrýchleného odpisovania pre daňový odpisový plán.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.0.3</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/account_asset_tax/static/description/index_sk.html"><code>account_asset_tax</code></a>, <code>l10n_sk</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/account_asset_tax/static/description/index_sk.html"><code>account_asset_tax</code></a>, <code>l10n_sk</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Nahrá slovenské zákonné odpisové skupiny do modulu daňových odpisov
@@ -124,6 +124,25 @@ Vyžaduje slovenskú lokalizáciu Odoo (<code>l10n_sk</code>). Nič sa nenastavu
 sú v <em>Účtovníctvo → Konfigurácia → Daňové odpisové skupiny</em> a karta majetku
 ich ponúkne spoločnostiam s krajinou Slovensko. Hodnoty sa pri každej
 aktualizácii modulu nahrajú znova, takže ručné zmeny aktualizáciu neprežijú.</p>
+<h2 id="par52zzzk">Osobné vozidlá: DPH mimo vstupnej ceny</h2>
+<p>Od 1. 1. 2026 platiteľ odpočíta len polovicu DPH z osobného vozidla
+používaného aj na súkromné účely
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/#paragraf-85n">§ 85n zákona o DPH</a>). Účtovníctvo druhú
+polovicu zahrnie do obstarávacej ceny vozidla, pre daň z príjmov však „nie je
+súčasťou vstupnej ceny“ (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-52zzzk">§ 52zzzk</a>).</p>
+<p>Ak je nainštalovaný modul
+<a href="/l10n_sk_vehicle_expense/static/description/index_sk.html"><code>l10n_sk_vehicle_expense</code></a>, vstupná
+cena, ktorú daňové odpisy pri takom majetku navrhnú, ju vynechá: majetok má
+hodnotu toho, čo jeho riadky faktúry zaúčtovali na účet majetku, a daňové
+odpisy vychádzajú z tejto hodnoty bez neodpočítanej DPH sadzieb označených
+<em>DPH z vozidla obmedzená § 85n</em>. Auto kúpené za 20 000 € plus 23 % DPH so
+sadzbou pre kúpu vozidla je majetok za 22 300 € so vstupnou cenou 20 000 €.
+Rozdiel medzi účtovnými a daňovými odpismi sa do daňového priznania
+právnickej osoby dostane cez jeho tabuľku B.</p>
+<p>Vstupná cena sa len navrhuje — keď daňové odpisy zapnete, alebo keď sa
+odpisy počítajú s prázdnou vstupnou cenou. Cenu, ktorú zadáte sami, modul
+nemení. Ak sa z jedného riadku faktúry vytvorí viac majetkov, každý dostane
+svoj podiel DPH.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
 <li>Nahrajú sa len skupiny. Zaradenie majetku do skupiny je na vás; modul
@@ -135,7 +154,7 @@ aktualizácii modulu nahrajú znova, takže ručné zmeny aktualizáciu nepreži
   <a href="/account_asset_tax/static/description/index_sk.html#limitations">návode k daňovým odpisom</a>.</li>
 <li>Nehmotný majetok nemá odpisovú skupinu: zákon zaraďuje len hmotný majetok, preto je prázdna skupina pri nehmotnom majetku správna a konečná.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.0.3 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

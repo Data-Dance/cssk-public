@@ -51,6 +51,20 @@ class ResPartner(models.Model):
     invoice_edi_format = fields.Selection(
         selection_add=[('ubl_bis3_sk', "Slovakia (Peppol BIS 3.0)")],
     )
+    l10n_sk_peppol_endpoint_derived = fields.Boolean(
+        string="Peppol endpoint from the contact",
+        compute='_compute_l10n_sk_peppol_endpoint_derived',
+        help="A Slovak contact on 0245 or 9950: its Peppol endpoint is the DIČ "
+             "or the IČ DPH it already carries, so it is not typed again.",
+    )
+
+    @api.depends('peppol_eas', 'country_id', 'vat')
+    def _compute_l10n_sk_peppol_endpoint_derived(self):
+        for partner in self:
+            partner.l10n_sk_peppol_endpoint_derived = (
+                partner._deduce_country_code() == 'SK'
+                and partner.peppol_eas in ('0245', '9950')
+            )
 
     def _get_edi_builder(self, invoice_edi_format):
         # EXTENDS 'account_edi_ubl_cii'

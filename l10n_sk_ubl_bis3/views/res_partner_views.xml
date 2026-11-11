@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Odoo shows the Peppol scheme and endpoint with no label (its own
+         label is hidden, "TODO remove in master"), so the pair is hard to
+         find. And for a Slovak contact on 0245 or 9950 the endpoint is the
+         DIČ or the IČ DPH already on the contact: typed a second time it
+         can disagree with them, so it is shown, not edited. -->
+    <record id="view_partner_property_form_peppol_address" model="ir.ui.view">
+        <field name="name">res.partner.property.form.l10n_sk_ubl_bis3</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="account_edi_ubl_cii.view_partner_property_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='peppol_eas']" position="before">
+                <field name="l10n_sk_peppol_endpoint_derived" invisible="1"/>
+                <label for="peppol_eas" string="Peppol Address"/>
+                <div class="o_row" name="l10n_sk_peppol_address">
+                    <xpath expr="//field[@name='peppol_eas']" position="move"/>
+                    <xpath expr="//field[@name='peppol_endpoint']" position="move"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='peppol_endpoint']" position="attributes">
+                <attribute name="readonly">l10n_sk_peppol_endpoint_derived</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

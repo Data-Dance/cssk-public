@@ -8,6 +8,26 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0: 19.0.1.2.0 (§ 52zzzk vehicle VAT). DISCHARGED (18.0.1.1.0).
+
+[19.0.1.2.0] — 2026-11-11
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Vehicle purchase taxes** ``vs_auto_23_asset`` / ``vs_auto_19_asset``
+  (*23 % / 19 % obstaranie vozidla (50 % odpočet, do ceny)*). They deduct
+  the same half as the running-cost taxes and book the undeducted half on the
+  account of the bill line, so on a purchased car it becomes part of the
+  asset's acquisition cost. A Slovak accountant confirmed that the accounting
+  cost includes it, while § 52zzzk ZDP keeps it out of the tax entry price.
+- New flag on taxes, **Vehicle VAT limited by § 85n** (``l10n_sk_par85n``), set
+  on all four vehicle taxes. The tax depreciation board reads it to leave the
+  undeducted VAT out of the entry price it proposes.
+- Upgrade creates the purchase taxes in companies that lack them and flags
+  the two existing taxes.
+
 Fixed
 ~~~~~
 

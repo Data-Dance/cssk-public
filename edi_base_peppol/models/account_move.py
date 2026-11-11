@@ -330,13 +330,15 @@ class AccountMove(models.Model):
             outbound = move.sudo().peppol_message_ids.filtered(
                 lambda m: m.direction == "out"
             ).sorted("create_date")
-            move.peppol_status = (
-                dict(self.env["edi.message"]._fields["state"].selection).get(
-                    outbound[-1].state
+            # _description_selection, not .selection: the raw list holds the
+            # English source labels, so the badge read "Sent" in every
+            # language.
+            states = dict(
+                self.env["edi.message"]._fields["state"]._description_selection(
+                    self.env
                 )
-                if outbound
-                else False
             )
+            move.peppol_status = states.get(outbound[-1].state) if outbound else False
 
     # ------------------------------------------------------------------
     # UBL generation
@@ -468,7 +470,6 @@ class AccountMove(models.Model):
             self._peppol_report_auto_send_failure(error)
             return False
 
-        doc_kind = "CreditNote" if self.move_type == "out_refund" else "Invoice"
         xml_str = (
             xml_bytes.decode("utf-8")
             if isinstance(xml_bytes, bytes)
@@ -512,12 +513,16 @@ class AccountMove(models.Model):
         link = Markup(
             '<a href="#" data-oe-model="edi.message" data-oe-id="%d">%s</a>'
         ) % (msg.id, escape(msg.name))
+        # One whole sentence per document kind: Slovak and Czech inflect the
+        # participle by the noun's gender (faktúra odoslaná, dobropis
+        # odoslaný), so a translated "%(kind)s sent" cannot be right for both.
+        if self.move_type == "out_refund":
+            body = _("Credit note sent via Peppol: %(link)s (%(state)s).")
+        else:
+            body = _("Invoice sent via Peppol: %(link)s (%(state)s).")
         self.message_post(
-            body=Markup(
-                _("%(kind)s sent via Peppol: %(link)s (%(state)s).")
-            )
+            body=Markup(body)
             % {
-                "kind": doc_kind,
                 "link": link,
                 "state": _("queued") if queue_send else _("awaiting manual send"),
             },

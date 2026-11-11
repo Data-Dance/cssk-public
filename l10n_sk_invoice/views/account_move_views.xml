@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <!-- The core narration sits alone, label-less, in a two-column <group>.
+         A labelled field placed after it splits across that grid: its label
+         lands beside the terms and its input wraps under them. Label and
+         input therefore each span the full row. Scoped to the invoice tab,
+         because the "Other Info" tab of an entry has a narration as well. -->
     <record id="view_move_form_sk_legal_note" model="ir.ui.view">
         <field name="name">account.move.form.sk.legal.note</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form" />
         <field name="arch" type="xml">
-            <field name="narration" position="after">
+            <xpath expr="//page[@id='invoice_tab']//field[@name='narration']" position="after">
+                <label
+                    for="l10n_sk_legal_note_manual"
+                    colspan="2"
+                    class="mt-3"
+                    invisible="move_type not in ('out_invoice','out_refund')"
+                />
                 <field
                     name="l10n_sk_legal_note_manual"
+                    nolabel="1"
+                    colspan="2"
                     placeholder="Additional statutory note printed on the SK invoice…"
                     invisible="move_type not in ('out_invoice','out_refund')"
                 />
-            </field>
+            </xpath>
         </field>
     </record>
 

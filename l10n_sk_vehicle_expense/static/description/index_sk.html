@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_vehicle_expense/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK vozidlá a PHL — paušály pre DPH a daň z príjmov</h1>
 <p class="cssk-summary">50 % odpočet DPH pri osobných vozidlách používaných aj na súkromné účely (§ 85n) cez sadzby dane a 80 % paušál na PHL pre daň z príjmov cez rozúčtovanie prijatej faktúry — dva nezávislé režimy.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.1.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>l10n_sk</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>l10n_sk</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Osobné vozidlo používané na podnikanie aj na súkromné účely je obmedzené
@@ -51,7 +51,7 @@ dvakrát a od 1. 1. 2026 sú obe obmedzenia na sebe nezávislé:</p>
 <td>Odpočet DPH</td>
 <td>§ 85n zákona o DPH</td>
 <td><strong>50 %</strong> DPH z vozidla a všetkého, čo sa preň obstaráva</td>
-<td>dve sadzby dane na vstupe, ktoré odpočítajú len polovicu DPH — pozri <a href="#vat">DPH</a></td>
+<td>sadzby dane na vstupe, ktoré odpočítajú len polovicu DPH — pozri <a href="#vat">DPH</a></td>
 </tr>
 <tr>
 <td>Daňový výdavok na PHL</td>
@@ -116,8 +116,11 @@ hodnoty nárok, pričom ak ide o daň z pridanej hodnoty vzťahujúcu sa na hmot
 majetok …, táto nie je súčasťou vstupnej ceny“</em>, kde osobitným predpisom je
 § 85n zákona o DPH. Neodpočítaná polovica preto <strong>nie je daňovým výdavkom</strong> a
 pri kúpenom vozidle <strong>nie je súčasťou vstupnej ceny</strong> na daňové odpisovanie.
-Modul ju zaúčtuje na ten istý účet ako daňovo neuznanú časť PHL (pozri
-<a href="#vat">DPH</a>), odkiaľ sa v daňovom priznaní pripočíta.</p>
+Slovenská účtovníčka potvrdila, že <strong>účtovná</strong> obstarávacia cena vozidla ju
+napriek tomu zahŕňa: účtovníctvo ju aktivuje a len vstupná cena na daňové
+účely ju vynecháva. Pri prevádzkových nákladoch ju modul zaúčtuje na ten istý
+účet ako daňovo neuznanú časť PHL, odkiaľ sa v daňovom priznaní pripočíta;
+pri kúpe vozidla ju zaúčtuje na účet majetku (pozri <a href="#vat">DPH</a>).</p>
 <h2 id="setup">Nastavenie</h2>
 <p><em>Účtovníctvo → Konfigurácia → Nastavenia</em>, blok <strong>Vozidlá a PHL</strong>,
 nastavenie <strong>Paušály</strong>, zobrazené len pri spoločnostiach so slovenskou
@@ -144,8 +147,10 @@ je zabudovaný v oboch sadzbách dane pre vozidlá.</p>
 </tr>
 </tbody>
 </table>
-<p>Obe sadzby, <strong>23 % vozidlo (50 % odpočet)</strong> a <strong>19 % vozidlo (50 %
-odpočet)</strong>, nájdete v <em>Účtovníctvo → Konfigurácia → Dane</em>. Vytvoria sa pri
+<p>Štyri sadzby, <strong>23 % vozidlo (50 % odpočet)</strong> a <strong>19 % vozidlo (50 %
+odpočet)</strong> pre prevádzkové náklady a <strong>23 % obstaranie vozidla (50 % odpočet,
+do ceny)</strong> a <strong>19 % obstaranie vozidla (50 % odpočet, do ceny)</strong> pre kúpu
+vozidla, nájdete v <em>Účtovníctvo → Konfigurácia → Dane</em>. Vytvoria sa pri
 inštalácii modulu v každej spoločnosti, ktorá už slovenskú osnovu má, a pri
 neskoršom načítaní slovenskej osnovy do spoločnosti. Sadzbu, ktorú
 spoločnosť už má, inštalácia nemení. Ak v osnove spoločnosti chýba účet alebo
@@ -185,6 +190,43 @@ sa odpočíta na 343120, 11,50 € ide na 548000.</p>
 mriežku nesie len odpočítateľná polovica. Keby sa polovica plne odpočítanej
 DPH presunula do nákladov dodatočným zápisom, priznanie by stále vykázalo
 odpočet celej sumy.</p>
+<p><strong>Na kúpu vozidla</strong> zvoľte namiesto toho <strong>23 % obstaranie vozidla (50 %
+odpočet, do ceny)</strong> (prípadne 19 %). Odpočíta tú istú polovicu a druhú
+polovicu zaúčtuje na účet riadku faktúry — účet majetku —, takže sa stane
+súčasťou obstarávacej ceny vozidla:</p>
+<table>
+<thead>
+<tr>
+<th>Časť DPH</th>
+<th>Účet</th>
+<th>Daňová mriežka</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>50 % — odpočítaná</td>
+<td>343120 (23 %), 343110 (19 %)</td>
+<td>ten istý riadok odpočtu ako vyššie</td>
+</tr>
+<tr>
+<td>50 % — neodpočítaná</td>
+<td>účet majetku na riadku (napríklad 022)</td>
+<td>žiadna</td>
+</tr>
+</tbody>
+</table>
+<p>Príklad: auto za 20 000,00 € plus 23 % DPH. Faktúra je na 24 600,00 €;
+2 300,00 € sa odpočíta na 343120 a 22 300,00 € je obstarávacia cena auta.
+Majetok vytvorený z faktúry (Odoo Assets alebo register OCA s modulom
+<a href="/account_asset_tax_oca/static/description/index_sk.html"><code>account_asset_tax_oca</code></a>) má hodnotu
+22 300,00 € a v účtovníctve sa odpisuje z nej. Vstupnú cenu na daňové účely
+navrhne modul
+<a href="/l10n_sk_account_asset_tax/static/description/index_sk.html"><code>l10n_sk_account_asset_tax</code></a> vo výške
+20 000,00 € (§ 52zzzk) a rozdiel medzi oboma odpismi sa do daňového priznania
+dostane cez jeho tabuľku B.</p>
+<p>Každá sadzba pre vozidlá má zaškrtnuté <strong>DPH z vozidla obmedzená § 85n</strong>
+(formulár dane, <em>Ďalšie možnosti</em>). Podľa neho daňové odpisy vedia, ktorú
+DPH vynechať; na kópii týchto sadzieb, ktorú si vytvoríte sami, ho nastavte.</p>
 <p>Pre vozidlá, na ktoré sa § 85n nevzťahuje — iné kategórie, výnimky podľa
 ods. 4 alebo vozidlo používané výlučne na podnikanie so záznamami podľa
 ods. 6 — používajte bežné sadzby.</p>
@@ -218,6 +260,9 @@ prípade nezmení.</p>
   <a href="/l10n_sk_dppo/static/description/index_sk.html#usage"><code>l10n_sk_dppo</code></a>. Neodpočítaná DPH podľa
   § 85n aj daňovo neuznaná časť PHL sú pripočítateľnými položkami (pozri
   <a href="#legal">Právny rámec</a>), ak sa na tento účet neúčtuje nič iné.</li>
+<li>Neodpočítaná DPH aktivovaná pri kúpe vozidla sa do priznania dostane cez
+  jeho odpisy: daňové odpisy ju vynechajú zo vstupnej ceny a tabuľka B
+  priznania zachytí rozdiel medzi účtovnými a daňovými odpismi.</li>
 </ul>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
@@ -231,17 +276,20 @@ prípade nezmení.</p>
   použitie na podnikanie nie sú modelované, nevedie knihu jázd ani
   elektronické záznamy podľa § 85n ods. 6 a nevytvorí oznámenie podľa
   ods. 9.</li>
-<li>Neodpočítaná DPH ide vždy na 548000 (účet je v sadzbe dane), aj keď
-  zmeníte <em>Daňovo neuznané náklady na vozidlo</em>. Pri kúpe vozidla skončí v
-  nákladoch, nie v obstarávacej cene majetku — pre daň z príjmov správne
-  (§ 52zzzk), či ju má zahrnúť do obstarávacej ceny účtovníctvo, posúdi váš
-  účtovník.</li>
+<li>Sadzby pre prevádzkové náklady dávajú neodpočítanú DPH vždy na 548000
+  (účet je v sadzbe dane), aj keď zmeníte <em>Daňovo neuznané náklady na
+  vozidlo</em>.</li>
+<li>Výber sadzby pre kúpu je na vás. Sadzba pre prevádzkové náklady na kúpe
+  vozidla zaúčtuje DPH na 548000, do nákladov, a nie do obstarávacej ceny
+  majetku; Odoo Assets potom majetok ocení bez nej. Sadzba pre kúpu na inom
+  ako majetkovom riadku zaúčtuje DPH na nákladový účet riadku, kde nie je
+  oddelená na pripočítanie.</li>
 <li>Nový riadok rozúčtovania nemá produkt a pôvodný riadok stratí množstvo
   (litre).</li>
 <li>Či možno paušál 80 % uplatniť — primeraný počet kilometrov podľa
   tachometra, pre každé vozidlo samostatne — posúdi účtovník, nie modul.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

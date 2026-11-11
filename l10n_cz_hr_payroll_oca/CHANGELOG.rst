@@ -27,6 +27,9 @@ tax on small agreements:
 On 18.0 the salary-rule localdict names the contract ``contract`` on both
 engines (19.0 Enterprise: ``version``).
 
+DISCHARGED 2026-11-10 by 713e20d6 on 18.0 (merged as bdd84c1d) — do not
+port this again.
+
 Owed to the 18.0 branch: the child tax benefit month by month
 (19.0.1.20.0, 2026-11-09). 18.0 keeps the
 children's counts on ``hr.contract``; the month helpers go on the contract,

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html). -->
+<odoo>
+    <!-- account_fiscal_year_closing places closing_type after the first
+         <field name="ref"> of the move form, which is the vendor bill
+         reference, and gives it no visibility rule of its own. So every
+         customer invoice and vendor bill shows "Closing Type: None". Closing
+         moves are always journal entries; show the field there only. Kept
+         here rather than in the vendored OCA module, which stays verbatim. -->
+    <record id="view_move_form_closing_type" model="ir.ui.view">
+        <field name="name">account.move.form.sk.closing.type</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account_fiscal_year_closing.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="closing_type" position="attributes">
+                <attribute name="invisible">move_type != 'entry'</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

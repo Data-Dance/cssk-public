@@ -117,6 +117,52 @@ class TestSkVehicleExpense(AccountTestInvoicingCommon):
         self.assertEqual(untagged.account_id, self.nondeductible)
         self.assertFalse(untagged.tax_tag_ids)
 
+    # -- the vehicle purchase: the undeducted half is capitalised -------
+    def test_every_vehicle_tax_is_flagged_for_par_52zzzk(self):
+        for xmlid in ("vs_auto_23", "vs_auto_19",
+                      "vs_auto_23_asset", "vs_auto_19_asset"):
+            tax = self.env.ref(f"account.{self.company.id}_{xmlid}")
+            self.assertTrue(tax.l10n_sk_par85n, xmlid)
+        stock = self.env.ref(f"account.{self.company.id}_vs_tuz_23")
+        self.assertFalse(stock.l10n_sk_par85n)
+
+    def test_the_purchase_tax_puts_the_undeducted_half_on_the_line_account(self):
+        tax = self.env.ref(f"account.{self.company.id}_vs_auto_23_asset")
+        legs = tax.repartition_line_ids.filtered(
+            lambda line: line.repartition_type == "tax")
+        undeducted = legs.filtered(lambda line: not line.account_id)
+        self.assertEqual(len(undeducted), 2, "one per invoice and refund")
+        self.assertFalse(any(undeducted.mapped("use_in_tax_closing")))
+        self.assertFalse(undeducted.tag_ids)
+        bill = self._bill(net=100.0, tax=tax)
+        bill.invoice_line_ids.account_id = self.company_data[
+            "default_account_assets"]
+        bill.action_post()
+        on_line = bill.line_ids.filtered(
+            lambda line: line.account_id == self.company_data[
+                "default_account_assets"])
+        self.assertAlmostEqual(sum(on_line.mapped("balance")), 111.50, 2)
+        self.assertFalse(bill.line_ids.filtered(
+            lambda line: line.account_id == self.nondeductible))
+
+    def test_upgrade_flags_the_running_taxes_and_adds_the_purchase_ones(self):
+        import importlib.util
+        import os
+        path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)),
+            "migrations", "19.0.1.2.0", "post-migrate.py")
+        spec = importlib.util.spec_from_file_location("vehicle_mig_120", path)
+        mig = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mig)
+        running = self.env.ref(f"account.{self.company.id}_vs_auto_23")
+        running.l10n_sk_par85n = False
+        self.env.ref(f"account.{self.company.id}_vs_auto_19_asset").unlink()
+        mig.migrate(self.env.cr, "19.0.1.1.2")
+        self.assertTrue(running.l10n_sk_par85n)
+        self.assertTrue(self.env.ref(
+            f"account.{self.company.id}_vs_auto_19_asset",
+            raise_if_not_found=False))
+
     # -- the income-tax half: § 19 ods. 2 písm. l), in the wizard -------
     def test_fuel_split_moves_the_non_tax_share_without_changing_totals(self):
         bill = self._bill(net=100.0)

@@ -293,3 +293,25 @@ class TestSlovakPeppolEas(TransactionCase):
             active_model='res.partner', active_ids=partner.ids).run()
         self.assertEqual(
             (partner.peppol_eas, partner.peppol_endpoint), ('0245', "2020317068"))
+
+    def test_a_derived_endpoint_is_shown_not_typed(self):
+        """0245 and 9950 take the endpoint from the DIČ and the IČ DPH already
+        on the contact; typed a second time it could disagree with them."""
+        partner = self._partner(vat="SK2020317068", l10n_sk_dic="2020317068")
+        self.assertTrue(partner.l10n_sk_peppol_endpoint_derived)
+        partner.peppol_eas = '9950'
+        self.assertTrue(partner.l10n_sk_peppol_endpoint_derived)
+        foreign = self.env['res.partner'].create({
+            'name': "Cizí s.r.o.", 'country_id': self.env.ref('base.cz').id,
+            'vat': "CZ12345679"})
+        self.assertFalse(foreign.l10n_sk_peppol_endpoint_derived,
+                         "another country's scheme stays editable")
+        partner.peppol_eas = '0088'
+        self.assertFalse(partner.l10n_sk_peppol_endpoint_derived,
+                         "a scheme with no source field on the contact stays editable")
+
+    def test_the_form_labels_the_address_and_locks_a_derived_endpoint(self):
+        arch = self.env['res.partner'].get_view(
+            self.env.ref('account.view_partner_property_form').id)['arch']
+        self.assertIn('name="l10n_sk_peppol_address"', arch)
+        self.assertRegex(arch, r'name="peppol_endpoint"[^>]*readonly="l10n_sk_peppol_endpoint_derived"')

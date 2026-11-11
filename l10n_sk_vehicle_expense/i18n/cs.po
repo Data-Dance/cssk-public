@@ -1,18 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_sk_vehicle_expense
+# 	* l10n_sk_vehicle_expense
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-11 00:10+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: cs_CZ\n"
 
 #. module: l10n_sk_vehicle_expense
 #: model:ir.model,name:l10n_sk_vehicle_expense.model_account_chart_template
@@ -75,6 +76,7 @@ msgstr "Měna"
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_chart_template__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__display_name
@@ -84,8 +86,8 @@ msgstr "Zobrazovaný název"
 #. module: l10n_sk_vehicle_expense
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.res_config_settings_view_form_vehicle
 msgid ""
-"Dva nezávislé režimy: DPH podľa § 85n (50 %, 1. 1. 2026 – 30. 6. 2028) a daň"
-" z príjmov podľa § 19 ods. 2 písm. l) (80 %)."
+"Dva nezávislé režimy: DPH podľa § 85n (50 %, 1. 1. 2026 – 30. 6. 2028) a daň "
+"z príjmov podľa § 19 ods. 2 písm. l) (80 %)."
 msgstr ""
 
 #. module: l10n_sk_vehicle_expense
@@ -107,8 +109,8 @@ msgstr "Rozdělení pohonných hmot provedeno"
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_expense/wizard/l10n_sk_fuel_split.py:0
 msgid ""
-"Fuel split: tax-expense share %(ratio).0f %%, non-deductible part to account"
-" %(account)s. The § 85n VAT restriction is handled by the tax on the line."
+"Fuel split: tax-expense share %(ratio).0f %%, non-deductible part to account "
+"%(account)s. The § 85n VAT restriction is handled by the tax on the line."
 msgstr ""
 "Rozdělení pohonných hmot: podíl daňového výdaje %(ratio).0f %%, neuznatelná "
 "část na účet %(account)s. Omezení DPH podle § 85n řeší daň na řádku."
@@ -135,6 +137,7 @@ msgstr "Pohonné hmoty — daňově neuznatelný podíl (%(pct).0f %%) z %(label
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_chart_template__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move_line__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__id
@@ -150,12 +153,6 @@ msgstr "Účetní záznam"
 #: model:ir.model,name:l10n_sk_vehicle_expense.model_account_move_line
 msgid "Journal Item"
 msgstr "Účetní položka"
-
-#. module: l10n_sk_vehicle_expense
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_is_sk_company
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_is_sk_company
-msgid "Slovak chart in use (technical)"
-msgstr "Používá se slovenský účtový rozvrh (technické)"
 
 #. module: l10n_sk_vehicle_expense
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__write_uid
@@ -193,10 +190,18 @@ msgstr "Rozdělit lze pouze přijatou fakturu ve stavu návrh."
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.view_l10n_sk_fuel_split_form
 msgid ""
 "Presunie daňovo neuznanú časť nákladu na PHL na osobitný účet.\n"
-"                    Celková suma faktúry, DPH ani záväzok sa nemenia. Obmedzenie\n"
-"                    odpočtu DPH podľa § 85n zabezpečuje sadzba dane na riadku\n"
+"                    Celková suma faktúry, DPH ani záväzok sa nemenia. "
+"Obmedzenie\n"
+"                    odpočtu DPH podľa § 85n zabezpečuje sadzba dane na "
+"riadku\n"
 "                    (23 % vozidlo — 50 % odpočet), nie tento sprievodca."
 msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_is_sk_company
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_is_sk_company
+msgid "Slovak chart in use (technical)"
+msgstr "Používá se slovenský účtový rozvrh (technické)"
 
 #. module: l10n_sk_vehicle_expense
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.view_l10n_sk_fuel_split_form
@@ -221,6 +226,11 @@ msgid "Split fuel between its tax-deductible and non-deductible shares"
 msgstr "Rozdělit pohonné hmoty na daňově uznatelný a neuznatelný podíl"
 
 #. module: l10n_sk_vehicle_expense
+#: model:ir.model,name:l10n_sk_vehicle_expense.model_account_tax
+msgid "Tax"
+msgstr "Daň"
+
+#. module: l10n_sk_vehicle_expense
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__income_ratio
 msgid "Tax-expense share (%)"
 msgstr "Podíl daňového výdaje (%)"
@@ -228,11 +238,21 @@ msgstr "Podíl daňového výdaje (%)"
 #. module: l10n_sk_vehicle_expense
 #: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_account_move_line__l10n_sk_fuel_split_done
 msgid ""
-"Technical — marks both halves of a fuel line that has already been split, so"
-" a second run cannot compound the reclassification."
+"Technical — marks both halves of a fuel line that has already been split, so "
+"a second run cannot compound the reclassification."
 msgstr ""
 "Technické — označuje obě poloviny již rozděleného řádku pohonných hmot, aby "
 "druhé spuštění nemohlo přeúčtování znásobit."
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_account_tax__l10n_sk_par85n
+msgid ""
+"The VAT this tax leaves undeducted is the 50 % that § 85n of the VAT Act "
+"withholds on a passenger vehicle. Under § 52zzzk of the Income Tax Act it is "
+"then not a tax expense, and on a purchased vehicle not part of its tax entry "
+"price: the tax depreciation board leaves it out of the entry value it "
+"proposes."
+msgstr "DPH, kterou tato sazba neodečte, je 50 %, které slovenský § 85n zákona o DPH nedovoluje odečíst u osobního vozidla. Podle § 52zzzk slovenského zákona o daních z příjmů proto není daňovým výdajem a u koupeného vozidla není součástí jeho vstupní ceny: daňové odpisy ji vynechají ze vstupní ceny, kterou navrhnou."
 
 #. module: l10n_sk_vehicle_expense
 #. odoo-python
@@ -253,6 +273,11 @@ msgid "These lines have already been split: %s"
 msgstr "Tyto řádky již byly rozděleny: %s"
 
 #. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_tax__l10n_sk_par85n
+msgid "Vehicle VAT limited by § 85n"
+msgstr "DPH z vozidla omezená § 85n (SK)"
+
+#. module: l10n_sk_vehicle_expense
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.res_config_settings_view_form_vehicle
 msgid "Vehicles and fuel"
 msgstr "Vozidla a pohonné hmoty"
@@ -268,6 +293,6 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_res_company__l10n_sk_fuel_income_ratio
 #: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_fuel_income_ratio
 msgid ""
-"§ 19 ods. 2 písm. l) bod 3: paušálne výdavky na spotrebované PHL do výšky 80"
-" %. Nezmenené zmenou DPH — obidva režimy sú nezávislé."
+"§ 19 ods. 2 písm. l) bod 3: paušálne výdavky na spotrebované PHL do výšky 80 "
+"%. Nezmenené zmenou DPH — obidva režimy sú nezávislé."
 msgstr ""

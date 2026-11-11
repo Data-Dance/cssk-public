@@ -1,6 +1,6 @@
 {
     "name": "Tax Depreciation - Slovak Localization",
-    "version": "19.0.1.0.3",
+    "version": "19.0.1.1.0",
     "summary": "Slovak tax depreciation groups and coefficients (zákon 595/2003 Z.z. §26–28)",
     "description": """
 Slovak tax depreciation groups
@@ -10,6 +10,9 @@ Loads the seven Slovak depreciation groups (odpisové skupiny 0–6) with the
 straight-line regime (§27, monthly pro-rata in year one) and the accelerated
 coefficients (§28, groups 2 & 3 only), as verified against the 2026 consolidated
 text of zákon 595/2003 Z.z.
+
+With ``l10n_sk_vehicle_expense`` installed, the tax entry price proposed
+for a passenger vehicle leaves out the VAT § 85n left undeducted (§ 52zzzk).
 
 Requires a bridge (``account_asset_tax_ee`` or ``account_asset_tax_oca``)
 to attach the tax board to actual assets.

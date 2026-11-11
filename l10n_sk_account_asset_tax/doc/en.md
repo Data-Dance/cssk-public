@@ -1,7 +1,7 @@
 ---
 title: SK Tax Depreciation Groups
 summary: The seven Slovak tax depreciation groups (odpisové skupiny 0–6) with their periods and accelerated coefficients, for the tax depreciation board.
-verified: 19.0.1.0.3
+verified: 19.0.1.1.0
 ---
 
 ## What it is for {#purpose}
@@ -57,6 +57,28 @@ nothing to configure: the groups are visible under *Accounting →
 Configuration → Tax Depreciation Groups*, and the asset form offers them to
 companies whose country is Slovakia. The values are reloaded every time the
 module is updated, so changes made by hand do not survive an update.
+
+## Passenger vehicles: the VAT outside the entry price {#par52zzzk}
+
+From 1 January 2026 a payer deducts only half the VAT on a passenger vehicle
+used also privately ([§ 85n of the VAT Act](law:sk/2004/222#paragraf-85n)).
+The books capitalise the other half into the vehicle's acquisition cost, but
+for income tax it "nie je súčasťou vstupnej ceny"
+([§ 52zzzk](law:sk/2003/595#paragraf-52zzzk)).
+
+With [module:l10n_sk_vehicle_expense](module:l10n_sk_vehicle_expense)
+installed, the tax entry price the board proposes for such an asset leaves it
+out: the asset is valued at what its bill lines put on the asset account, and
+the board starts from that minus the undeducted VAT of the taxes flagged
+*Vehicle VAT limited by § 85n*. A car bought for 20 000 € plus 23 % VAT with
+the vehicle purchase tax is an asset of 22 300 € and gets a tax entry price
+of 20 000 €. The difference between accounting and tax depreciation reaches
+the corporate income tax return through its Table B.
+
+The entry price is only proposed — when you switch tax depreciation on, or
+when the board is computed with the entry price empty. A price you enter
+yourself is kept. Where one bill line becomes several assets, each takes its
+share of the VAT.
 
 ## Limitations {#limitations}
 

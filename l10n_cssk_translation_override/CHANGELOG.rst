@@ -5,6 +5,16 @@ Changelog
 All notable changes to **l10n_cssk_translation_override** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.3.1] — 2026-11-10
+-------------------------
+
+Fixed
+~~~~~
+- The Slovak Peppol schemes read alike in Slovak and Czech: **Slovensko – DIČ**
+  (0245) and **Slovensko – IČ DPH** (9950), where Odoo's own names began one
+  with "SK" and the other with "Slovensko" and the DIČ one was cut off on the
+  form. "Peppol Address" in Slovak is "Peppol adresa".
+
 [19.0.1.3.0] — 2026-11-06
 -------------------------
 

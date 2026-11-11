@@ -129,6 +129,28 @@ class AccountAssetTaxMixin(models.AbstractModel):
         """Return the date the asset was put into use (date)."""
         raise NotImplementedError
 
+    def _tax_source_move_lines(self):
+        """Return the posted journal items the asset was acquired by (the
+        bill lines), or an empty recordset when the bridge cannot tell."""
+        return self.env["account.move.line"]
+
+    # ------------------------------------------------------------------
+    # Localisation hook — the entry value the board proposes
+    # ------------------------------------------------------------------
+    def _tax_entry_value_excluded(self):
+        """Part of the accounting acquisition value that is not part of the
+        tax entry price, 0 by default.
+
+        A country module overrides this for a cost the books capitalise and
+        the income-tax act keeps out of the entry price (SK: the VAT § 85n
+        leaves undeducted on a passenger vehicle, § 52zzzk ZDP)."""
+        return 0.0
+
+    def _tax_default_entry_value(self):
+        """The tax entry price proposed when none is entered."""
+        self.ensure_one()
+        return self._tax_get_entry_value() - self._tax_entry_value_excluded()
+
     def _tax_get_country_code(self):
         """Return 'CZ' / 'SK' from the company, falling back to the tax class."""
         self.ensure_one()
@@ -227,7 +249,7 @@ class AccountAssetTaxMixin(models.AbstractModel):
         for asset in self:
             if asset.tax_depreciation_enabled and not asset.tax_entry_value:
                 try:
-                    asset.tax_entry_value = asset._tax_get_entry_value()
+                    asset.tax_entry_value = asset._tax_default_entry_value()
                 except NotImplementedError:
                     pass
 
@@ -329,7 +351,7 @@ class AccountAssetTaxMixin(models.AbstractModel):
         return eng.TaxAssetSpec(
             country=country,
             method=self.tax_method,
-            entry_value=self.tax_entry_value or self._tax_get_entry_value(),
+            entry_value=self.tax_entry_value or self._tax_default_entry_value(),
             in_service_date=self.tax_in_service_date_override or self._tax_get_in_service_date(),
             tax_class=self.tax_class_id.to_engine(),
             monthly=(self.tax_method == eng.METHOD_EXTRAORDINARY),

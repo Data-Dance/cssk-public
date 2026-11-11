@@ -95,7 +95,7 @@ this repository. Add them to the addons path as well:
 | Module | Version | What it does |
 |---|---|---|
 | `l10n_sk_account_asset_profile` | 19.0.1.2.0 | Starter accounting-depreciation profiles for a Slovak company, wired to the chart's asset and oprávky accounts. |
-| `l10n_sk_account_asset_tax` | 19.0.1.0.3 | Slovak tax depreciation groups and coefficients (zákon 595/2003 Z.z. §26–28) |
+| `l10n_sk_account_asset_tax` | 19.0.1.1.0 | Slovak tax depreciation groups and coefficients (zákon 595/2003 Z.z. §26–28) |
 | `l10n_sk_account_cutoff` | 19.0.1.0.4 | Pre-fills the OCA cut-off / deferral default accounts with the Slovak 381/383/384/385 accounts so časové rozlíšenie works out of the box. |
 | `l10n_sk_account_loan_base` | 19.0.1.0.5 | Engine-neutral Slovak leasing/loan account defaults on the l10n_sk chart, shared by the Community and Enterprise bridges. |
 | `l10n_sk_account_loan_oca` | 19.0.1.2.1 | Applies the Slovak leasing account defaults to the OCA account_loan / account_leasing engine. |
@@ -143,10 +143,10 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_single_entry_closing` | 19.0.1.1.1 | The closing a SZČO keeping jednoduché účtovníctvo files: výkaz o príjmoch a výdavkoch from the peňažný denník, výkaz o majetku a záväzkoch from the ledger. |
 | `l10n_sk_statutory` | 19.0.1.0.1 | Slovak statutory reference registries: daňové úrady and person types. |
 | `l10n_sk_trade_registry` | 19.0.2.0.2 | Keep the register, court and oddiel/vložka as data and compose the § 3a Obchodného zákonníka sentence from them, instead of typing it once into the company… |
-| `l10n_sk_ubl_bis3` | 19.0.3.4.1 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
+| `l10n_sk_ubl_bis3` | 19.0.3.5.0 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
 | `l10n_sk_vat_registration` | 19.0.1.1.1 | Record which paragraph of the SK VAT Act a partner's IČ DPH was issued under, and warn when a § 69/12 reverse charge is aimed at a § 7 / § 7a registrant, who… |
 | `l10n_sk_vat_return` | 19.0.1.15.2 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
-| `l10n_sk_vehicle_expense` | 19.0.1.1.2 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
+| `l10n_sk_vehicle_expense` | 19.0.1.2.0 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
 | `l10n_sk_vehicle_logbook` | 19.0.2.1.0 | Trip log per vehicle and domestic and foreign travel orders: approval before the trip, advance, settlement after it with the statutory meal, pocket money… |
 | `l10n_sk_vrp2_account` | 19.0.2.4.1 | Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2) |
 | `l10n_sk_vrp2_base` | 19.0.2.4.1 | Connection layer for the Slovak Virtual Cash Register (VRP 2) |
@@ -189,7 +189,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.1 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |
 | `l10n_cssk_submission_base` | 19.0.1.1.2 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
-| `l10n_cssk_translation_override` | 19.0.1.3.0 | Slovak and Czech translations that complete or correct those shipped by Odoo and by OCA modules, without patching them. |
+| `l10n_cssk_translation_override` | 19.0.1.3.1 | Slovak and Czech translations that complete or correct those shipped by Odoo and by OCA modules, without patching them. |
 | `l10n_cssk_vat_return_base` | 19.0.1.13.1 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
 | `l10n_cssk_vies` | 19.0.2.1.1 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |
 
@@ -268,8 +268,8 @@ this repository. Add them to the addons path as well:
 | Module | Version | What it does |
 |---|---|---|
 | `account_asset_board` | 19.0.1.0.2 | Interactive depreciation schedule and pivot/graph analysis for OCA assets (Community) |
-| `account_asset_tax` | 19.0.1.12.0 | Country-neutral engine for a second, non-posted tax-depreciation board alongside accounting depreciation (daňové vs účetní/účtovné odpisy) |
-| `account_asset_tax_oca` | 19.0.1.6.0 | Attach the CZ/SK tax-depreciation board to OCA account_asset_management (Community) |
+| `account_asset_tax` | 19.0.1.13.0 | Country-neutral engine for a second, non-posted tax-depreciation board alongside accounting depreciation (daňové vs účetní/účtovné odpisy) |
+| `account_asset_tax_oca` | 19.0.1.7.0 | Attach the CZ/SK tax-depreciation board to OCA account_asset_management (Community) |
 | `account_cz_bankfile_base` | 19.0.1.3.2 | Shared ABO and MultiCash payment-file builders. The CE (account_payment_order) and EE (account_batch_payment) variants of account_abo / account_multicash both… |
 | `account_debit_note_dd` | 19.0.1.0.2 | Names Odoo's core debit note as the Czech vrubopis (opravný daňový doklad zvyšující základ) on screen and on the printed document — a UI and report layer that… |
 | `account_edi_isdoc` | 19.0.1.4.2 | Import and export ISDOC 6.0.2 electronic invoices (Czech national e-invoicing standard) |

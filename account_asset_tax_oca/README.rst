@@ -19,7 +19,7 @@ Module facts
 ============
 
 - **Technical name:** ``account_asset_tax_oca``
-- **Version:** 19.0.1.6.0
+- **Version:** 19.0.1.7.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``account_asset_tax``, ``account_asset_management``

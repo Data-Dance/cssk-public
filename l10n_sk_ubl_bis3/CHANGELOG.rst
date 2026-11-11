@@ -8,6 +8,32 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **The "No DIČ is recorded for …" warning was English on a Slovak or Czech
+  invoice.** It, and its ``nothing`` fallback, were missing from every
+  catalogue including the ``.pot``. The Czech catalogue also had the
+  server action, the EDI format model and ``ID`` untranslated.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **The DIČ-warning catalogue entries (2026-11-11), not yet on 18.0.** 18.0
+  raises the same "No DIČ is recorded for …" message, and its ``sk.po`` has
+  no entry for it either. Port the entries for the message and ``nothing``.
+
+[19.0.3.5.0] — 2026-11-10
+-------------------------
+
+Changed
+~~~~~~~
+- **The Peppol address has a label on the contact form, and a Slovak
+  contact's endpoint on 0245 or 9950 is shown, not edited.** Odoo hides its own
+  label for the scheme and endpoint pair. For 0245 the endpoint is the DIČ and
+  for 9950 the IČ DPH already on the contact; typed a second time it could
+  disagree with them. Other schemes stay editable.
+
 [19.0.3.4.1] — 2026-11-05
 -------------------------
 

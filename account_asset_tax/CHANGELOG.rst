@@ -8,6 +8,23 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0: 19.0.1.13.0 (§ 52zzzk vehicle VAT). DISCHARGED (18.0.1.10.0).
+
+[19.0.1.13.0] — 2026-11-11
+--------------------------
+
+Changed
+~~~~~~~
+
+- Hooks for a country module: ``_tax_entry_value_excluded()`` (part of the
+  accounting value kept out of the proposed tax entry price, 0 here) and the
+  bridge contract ``_tax_source_move_lines()``; the proposed entry price is
+  ``_tax_default_entry_value()`` wherever the accounting value was used
+  before (switching tax depreciation on, an empty entry price, the backfill
+  wizard).
+- ``account.move.line._tax_capitalised_tax_by_line()``: the non-deductible tax
+  a bill line books on its own account.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

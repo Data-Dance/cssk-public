@@ -8,6 +8,20 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0: 19.0.1.1.0 (§ 52zzzk vehicle VAT). DISCHARGED (18.0.1.1.0).
+
+[19.0.1.1.0] — 2026-11-11
+-------------------------
+
+Changed
+~~~~~~~
+
+- **§ 52zzzk ZDP**: the tax entry price proposed for an asset leaves out the
+  VAT that § 85n left undeducted on its bill lines (taxes flagged by
+  ``l10n_sk_vehicle_expense``), while the books keep it in the acquisition
+  cost. A share of a bill line takes the same share of its VAT. Read only
+  when ``l10n_sk_vehicle_expense`` is installed.
+
 Changed
 ~~~~~~~
 

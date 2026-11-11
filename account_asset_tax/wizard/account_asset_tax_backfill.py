@@ -64,7 +64,8 @@ class AccountAssetTaxBackfill(models.TransientModel):
         if asset.tax_method:
             res["tax_method"] = asset.tax_method
         try:
-            res["tax_entry_value"] = asset.tax_entry_value or asset._tax_get_entry_value()
+            res["tax_entry_value"] = (
+                asset.tax_entry_value or asset._tax_default_entry_value())
         except NotImplementedError:
             res["tax_entry_value"] = asset.tax_entry_value or 0.0
         in_service = asset.tax_in_service_date_override

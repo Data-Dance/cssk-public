@@ -1,7 +1,7 @@
 ---
 title: Daňové odpisy (CZ/SK)
 summary: Druhý, nikdy nezaúčtovaný odpisový plán ku každému majetku pre české a slovenské daňové odpisy popri účtovných, s ročným porovnaním účtovných a daňových odpisov, odloženou daňou a registrom daňových odpisov.
-verified: 19.0.1.12.0
+verified: 19.0.1.13.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -354,6 +354,10 @@ plán k registru OCA `account_asset_management`:
   dátumu vyradenia;
 - účtovné odpisy = riadky odpisového plánu registra (zaúčtované = tie s
   účtovným zápisom);
+- majetok vytvorený z faktúry zahrnie aj daň, ktorú jeho riadok zaúčtuje na
+  účet majetku — neodpočítateľnú časť DPH bez vlastného účtu, napríklad
+  neodpočítanú polovicu DPH z osobného auta —, takže má hodnotu toho, čo je na
+  účte majetku; register sám berie len základ riadku;
 - na karte majetku premenuje pole registra *Number of Years* na *Počet rokov*
   alebo *Počet období* podľa metódy času a vedľa neho zobrazí dĺžku obdobia.
 
@@ -373,7 +377,12 @@ k modulu *Majetok* v Odoo Enterprise:
   vytvorený z nej, ak nemá vlastnú skupinu;
 - vyradenie alebo predaj majetku zapíše daňové vyradenie k dátumu vyradenia;
 - účtovné odpisy = odpisové zápisy majetku (zaúčtované = zaúčtované zápisy;
-  zrušené sa ignorujú).
+  zrušené sa ignorujú);
+- v českých a slovenských spoločnostiach majetok vytvorený z faktúry zahrnie
+  len neodpočítateľnú DPH zaúčtovanú na účet majetku. Odoo Assets pridáva aj
+  neodpočítateľnú časť zaúčtovanú na nákladový účet (sadzby pre prevádzkové
+  náklady vozidiel ju dávajú na 548000), čím majetok ocenilo vyššie, než
+  koľko účtovníctvo aktivovalo.
 
 Nainštalovať možno len jeden most, pretože nainštalovaný môže byť len jeden z
 oboch registrov majetku.

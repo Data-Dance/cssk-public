@@ -1,7 +1,7 @@
 ---
 title: SK daňové odpisové skupiny
 summary: Sedem slovenských odpisových skupín 0 – 6 s dobou odpisovania a koeficientmi zrýchleného odpisovania pre daňový odpisový plán.
-verified: 19.0.1.0.3
+verified: 19.0.1.1.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -57,6 +57,29 @@ Vyžaduje slovenskú lokalizáciu Odoo (`l10n_sk`). Nič sa nenastavuje: skupiny
 sú v *Účtovníctvo → Konfigurácia → Daňové odpisové skupiny* a karta majetku
 ich ponúkne spoločnostiam s krajinou Slovensko. Hodnoty sa pri každej
 aktualizácii modulu nahrajú znova, takže ručné zmeny aktualizáciu neprežijú.
+
+## Osobné vozidlá: DPH mimo vstupnej ceny {#par52zzzk}
+
+Od 1. 1. 2026 platiteľ odpočíta len polovicu DPH z osobného vozidla
+používaného aj na súkromné účely
+([§ 85n zákona o DPH](law:sk/2004/222#paragraf-85n)). Účtovníctvo druhú
+polovicu zahrnie do obstarávacej ceny vozidla, pre daň z príjmov však „nie je
+súčasťou vstupnej ceny“ ([§ 52zzzk](law:sk/2003/595#paragraf-52zzzk)).
+
+Ak je nainštalovaný modul
+[module:l10n_sk_vehicle_expense](module:l10n_sk_vehicle_expense), vstupná
+cena, ktorú daňové odpisy pri takom majetku navrhnú, ju vynechá: majetok má
+hodnotu toho, čo jeho riadky faktúry zaúčtovali na účet majetku, a daňové
+odpisy vychádzajú z tejto hodnoty bez neodpočítanej DPH sadzieb označených
+*DPH z vozidla obmedzená § 85n*. Auto kúpené za 20 000 € plus 23 % DPH so
+sadzbou pre kúpu vozidla je majetok za 22 300 € so vstupnou cenou 20 000 €.
+Rozdiel medzi účtovnými a daňovými odpismi sa do daňového priznania
+právnickej osoby dostane cez jeho tabuľku B.
+
+Vstupná cena sa len navrhuje — keď daňové odpisy zapnete, alebo keď sa
+odpisy počítajú s prázdnou vstupnou cenou. Cenu, ktorú zadáte sami, modul
+nemení. Ak sa z jedného riadku faktúry vytvorí viac majetkov, každý dostane
+svoj podiel DPH.
 
 ## Obmedzenia {#limitations}
 

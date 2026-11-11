@@ -8,6 +8,15 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- **"Closing Type: None" no longer shows on invoices and bills.**
+  ``account_fiscal_year_closing`` adds ``closing_type`` after the vendor bill
+  reference, with no visibility rule of its own, so every customer invoice
+  and vendor bill showed it. It is now shown on journal entries only, which
+  is where closing moves live. The vendored OCA module stays unchanged.
+
 Changed
 ~~~~~~~
 
@@ -19,6 +28,12 @@ Changed
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **The closing_type visibility fix (2026-11-11), not yet on 18.0.** 18.0
+  vendors the same OCA view, which adds ``closing_type`` after the first
+  ``ref`` of the move form, and that is the vendor bill reference on 18.0 as
+  well. Port ``views/account_move_views.xml`` (``invisible="move_type !=
+  'entry'"``) and its manifest line.
 
 - DISCHARGED 2026-09-30 by 6f9cc41 on branch 18.0-catch-up (reaches 18.0
   when that branch lands) — do not port this again.

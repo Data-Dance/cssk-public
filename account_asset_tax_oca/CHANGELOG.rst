@@ -8,6 +8,20 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0: 19.0.1.7.0 (§ 52zzzk vehicle VAT). DISCHARGED (18.0.1.5.0).
+
+[19.0.1.7.0] — 2026-11-11
+-------------------------
+
+Changed
+~~~~~~~
+
+- An asset created from a bill includes the non-deductible VAT its line books
+  on the asset account (a VAT leg with no account of its own, such as the
+  undeducted half of a passenger car's VAT). The register took the line's net
+  amount alone, so the asset was worth less than the asset account held.
+- ``_tax_source_move_lines()``: the asset's bill lines.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

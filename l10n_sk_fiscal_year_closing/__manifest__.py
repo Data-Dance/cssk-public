@@ -50,6 +50,7 @@ result-to-431 convention is where implementations differ, so this mapping wants
     "data": [
         "data/fyc_template_data.xml",
         "views/account_fiscalyear_closing_views.xml",
+        "views/account_move_views.xml",
     ],
     "post_init_hook": "post_init_hook",
     "auto_install": True,
