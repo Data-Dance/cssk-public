@@ -570,6 +570,16 @@
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
 
+    <!-- Oznámenie MPSVR SR č. 255/2026 Z. z., effective 1 December 2026.
+         https://employment.gov.sk/showdoc.do?docid=60223
+         The travel module already supplies this rate; payroll must use the
+         same effective date without changing earlier payslips. -->
+    <record id="rule_parameter_stravne_5_12h_2026_dec" model="hr.rule.parameter.value">
+        <field name="parameter_value">9.80</field>
+        <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
+        <field name="date_from">2026-12-01</field>
+    </record>
+
     <!-- Employer's meal contribution as % of stravné. Legal minimum is 55%;
          the max tax-deductible is also 55% of stravné (= €5.12 at €9.30). -->
     <record id="rule_parameter_meal_employer_pct" model="hr.rule.parameter">
