@@ -139,7 +139,7 @@ class TestRecordedFundPayroll(TransactionCase):
         report.is_correction = correction
         return report
 
-    def _compare_original_formulas(self, **values):
+    def _compare_reference_formulas(self, **values):
         observed = self._slip(**values)
         expected = self._lines(observed)
         native = json.loads(
@@ -163,14 +163,14 @@ class TestRecordedFundPayroll(TransactionCase):
                 rule.amount_python_compute = saved[rule.id]
         return observed
 
-    def test_native_arithmetic_is_identical_on_non_round_income(self):
+    def test_arithmetic_matches_disclosed_reference_on_non_round_income(self):
         for wage in (0.06, 100.129, 379.995, 500.123, 569.999, 16764.015, 25000.129):
             with self.subTest(wage=wage):
                 self.assertTrue(
-                    self._compare_original_formulas(wage=wage).l10n_sk_fund_assessment
+                    self._compare_reference_formulas(wage=wage).l10n_sk_fund_assessment
                 )
 
-    def test_every_native_formula_ast_is_unchanged_before_record_emission(self):
+    def test_every_reference_formula_ast_matches_before_record_emission(self):
         native = json.loads(
             (Path(__file__).parent / "data/native_fund_rules.json").read_text()
         )
@@ -190,7 +190,7 @@ class TestRecordedFundPayroll(TransactionCase):
     def test_negative_gross_and_computed_credit_note_keep_native_amounts(self):
         for credit in (False, True):
             with self.subTest(credit=credit):
-                slip = self._compare_original_formulas(
+                slip = self._compare_reference_formulas(
                     clawback=-1000.246, credit_note=credit
                 )
                 self.assertLess(
@@ -218,7 +218,7 @@ class TestRecordedFundPayroll(TransactionCase):
             edge.line_ids.filtered(lambda row: row.code == "HEALTH").total, -28.49
         )
 
-    def test_agreement_cap_and_oop_order_is_preserved_for_separate_fix(self):
+    def test_agreement_oop_is_applied_before_the_statutory_cap(self):
         self.version.struct_id = self.env.ref(
             "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_dopc"
         )
@@ -230,8 +230,76 @@ class TestRecordedFundPayroll(TransactionCase):
                 "l10n_sk_hourly_wage": 0,
             }
         )
-        slip = self._compare_original_formulas(wage=0, clawback=17100)
-        self.assertEqual(self._funds(slip)[("pension", "employee")]["base"], "16564")
+        slip = self._compare_reference_formulas(wage=0, clawback=17100)
+        self.assertEqual(self._funds(slip)[("pension", "employee")]["base"], "16764")
+
+    def _student_agreement(self, oop=True):
+        self.version.struct_id = self.env.ref(
+            "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_dobps"
+        )
+        self.version.struct_id.rule_ids |= self.adjustment
+        self.employee.write(
+            {"birthday": "2005-01-01", "identification_id": "0501011234"}
+        )
+        self.version.write(
+            {
+                "l10n_sk_agreement_oop": oop,
+                "l10n_sk_pension_type": False,
+                "l10n_sk_hourly_wage": 20,
+                "l10n_sk_health_exempt": True,
+            }
+        )
+
+    def test_all_five_eligible_funds_reduce_income_before_the_cap(self):
+        self._student_agreement()
+        for income in (200, 16763.995, 16764, 16900, 17100):
+            with self.subTest(income=income):
+                funds = self._funds(self._slip(wage=0, clawback=income))
+                expected = min(max(0, income - 200), 16764)
+                for key in (
+                    ("pension", "employee"),
+                    ("disability", "employee"),
+                    ("pension", "employer"),
+                    ("disability", "employer"),
+                    ("reserve", "employer"),
+                ):
+                    self.assertAlmostEqual(
+                        float(funds[key]["base"]), expected, places=6
+                    )
+                self.assertEqual(float(funds[("accident", "employer")]["base"]), income)
+                self.assertEqual(
+                    float(funds[("guarantee", "employer")]["base"]), min(income, 16764)
+                )
+
+    def test_high_income_actual_pension_charges_use_full_cap_after_oop(self):
+        self._student_agreement()
+        funds = self._funds(self._slip(wage=0, clawback=17100))
+        self.assertEqual(funds[("pension", "employee")]["amount"], "670.56")
+        self.assertEqual(funds[("disability", "employee")]["amount"], "502.92")
+        self.assertEqual(funds[("pension", "employer")]["amount"], "2346.96")
+        self.assertEqual(funds[("disability", "employer")]["amount"], "502.92")
+        self.assertEqual(funds[("reserve", "employer")]["amount"], "796.29")
+
+    def test_without_oop_the_existing_maximum_still_applies(self):
+        self._student_agreement(oop=False)
+        funds = self._funds(self._slip(wage=0, clawback=17100))
+        self.assertEqual(funds[("pension", "employee")]["base"], "16764")
+
+    def test_year_boundary_uses_2026_and_2027_dated_oop_and_maximum(self):
+        self._student_agreement()
+        for start, end, oop, maximum in (
+            ("2026-12-01", "2026-12-31", 200, 16764),
+            ("2027-01-01", "2027-01-31", 300, 17820),
+        ):
+            with self.subTest(start=start):
+                slip = self._slip(wage=0, clawback=19000, date_from=start, date_to=end)
+                self.assertEqual(slip.rule_parameter("l10n_sk_dohoda_oop"), oop)
+                self.assertEqual(
+                    slip.rule_parameter("l10n_sk_monthly_taxable_max"), maximum
+                )
+                funds = self._funds(slip)
+                self.assertEqual(float(funds[("pension", "employee")]["base"]), maximum)
+                self.assertEqual(float(funds[("reserve", "employer")]["base"]), maximum)
 
     def test_positive_base_with_zero_rounded_premium_is_not_missing(self):
         row = self._funds(self._slip(wage=0.06))[("sickness", "employee")]
@@ -269,7 +337,7 @@ class TestRecordedFundPayroll(TransactionCase):
 
     def test_cross_month_calculates_and_stays_unrecorded(self):
         self.assertFalse(
-            self._compare_original_formulas(
+            self._compare_reference_formulas(
                 date_to="2026-07-31"
             ).l10n_sk_fund_assessment
         )

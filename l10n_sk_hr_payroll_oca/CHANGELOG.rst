@@ -10,6 +10,9 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- Not yet ported: mirror the five OOP-before-maximum changes in both engines
+  and rerun the year-boundary, unaffected-fund and tax/net-effect checks.
+
 - Not yet ported: recorded fund evidence, engine-neutral missing-reader policy
   and explicitly reviewed legacy corrections. Adapt contract/engine adapters
   and rerun signed, optional-module, refund and legacy-review scenarios.
@@ -59,6 +62,27 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+
+[19.0.1.26.0] — 2026-11-16
+==========================
+
+Fixed
+~~~~~
+
+* Apply the ordinary agreement pension OOP before the statutory maximum in
+  employee pension/disability and employer pension/disability/reserve rules
+  (section 138). Guarantee and accident bases remain unreduced by this OOP.
+  A 2026 eligible agreement at 17,100 EUR now uses 16,764 rather than 16,564.
+  At the 35% marginal tax rate an old-age DoPC employee pays 8.00 more pension
+  insurance, TAXBASE decreases by 8.00, tax withheld by 2.80 and NET by 5.20.
+  The corresponding student DoBPS at 19,000 EUR has NET lower by 9.10.
+
+Changed
+~~~~~~~
+
+* Update the frozen arithmetic reference for these five disclosed changes only.
+  The rest of the native rounding, exemptions, rates and dated parameters stay
+  unchanged. Existing posted payslips are not automatically recomputed.
 
 [19.0.1.25.1] — 2026-11-16
 ==========================
