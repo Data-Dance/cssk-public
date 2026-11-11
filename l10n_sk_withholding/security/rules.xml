@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="withholding_company_rule" model="ir.rule">
+        <field name="name">Withholding notices: allowed companies</field>
+        <field name="model_id" ref="model_l10n_sk_withholding"/>
+        <field name="domain_force">[('company_id','in',company_ids)]</field>
+    </record>
+    <record id="withholding_event_company_rule" model="ir.rule">
+        <field name="name">Withholding sources: allowed companies</field>
+        <field name="model_id" ref="model_l10n_sk_withholding_event"/>
+        <field name="domain_force">[('company_id','in',company_ids)]</field>
+    </record>
+    <record id="withholding_remittance_company_rule" model="ir.rule">
+        <field name="name">Withholding remittances: allowed companies</field>
+        <field name="model_id" ref="model_l10n_sk_withholding_remittance"/>
+        <field name="domain_force">[('company_id','in',company_ids)]</field>
+    </record>
+</odoo>

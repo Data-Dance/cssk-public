@@ -65,6 +65,7 @@ name), ``_cssk_export_draft_error`` (state-gate wording),
 is the shared severity-aware runner for ``check_kontroly()`` results).
 """
 import base64
+import hashlib
 import logging
 import re
 
@@ -1119,8 +1120,40 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
         xml_bytes = self._render_xml()
         self._validate_against_schema(xml_bytes)
         self._attach_xml(xml_bytes)
-        self.state = "exported"
+        self._cssk_workflow_write({"state": "exported"})
         return self._cssk_export_warnings_action() or True
+
+    def _cssk_has_retained_xml_attachment(self):
+        """Opt-in integrity check for forms with immutable exported evidence.
+
+        Such forms atomically retain the payload and its attachment at export
+        and guard both against later writes. Filing records that old export,
+        so a new renderer or schema must not reinterpret it. Keep ordinary
+        attachment access checks and use its native storage checksum; SHA-1
+        here detects storage corruption, not adversarial authenticity.
+        """
+        self.ensure_one()
+        attachment = self.xml_attachment_id.with_context(bin_size=False)
+        if (
+            not attachment
+            or attachment.res_model != self._name
+            or attachment.res_id != self.id
+        ):
+            return False
+        content = attachment.raw
+        return bool(
+            content and hashlib.sha1(content).hexdigest() == attachment.checksum
+        )
+
+    def _cssk_workflow_write(self, values):
+        """Private workflow seam; preserve the default ORM/access chain.
+
+        An override can bypass the concrete model's own write() guards.
+        Pass only workflow-generated fields, after their workflow checks;
+        never pass arbitrary business inputs or values received from RPC.
+        The default retains ordinary write and its access checks.
+        """
+        return self.write(values)
 
     def _cssk_export_warnings_action(self):
         """A sticky notification listing the last export's warnings, or None.
@@ -1301,7 +1334,7 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
 
     def _attach_xml(self, xml_bytes):
         self.ensure_one()
-        self.xml_attachment_id = self.env["ir.attachment"].create(
+        attachment = self.env["ir.attachment"].create(
             {
                 "name": "%s.xml" % (self.name or self._cssk_xml_name_fallback),
                 "datas": base64.b64encode(xml_bytes),
@@ -1310,6 +1343,7 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
                 "mimetype": "application/xml",
             }
         )
+        self._cssk_workflow_write({"xml_attachment_id": attachment.id})
 
     # ------------------------------------------------------------------
     # Shared evaluator plumbing: batched account-balance maps
@@ -1624,14 +1658,16 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
                     "Export the XML before marking the filing submitted."))
             if not rec.xml_attachment_id:
                 raise UserError(_("There is no exported XML to submit."))
-            rec.submitted_attachment_id = rec.xml_attachment_id
             # Durable filed-copy trail: 'submitted_attachment_id' is only the
             # LATEST filed copy — after reset → recompute → resubmit it points
             # to the new XML, so every submitted attachment is also accumulated
             # in filed_history_ids (the originally-filed XML stays reachable).
-            rec.filed_history_ids = [Command.link(rec.xml_attachment_id.id)]
-            rec.submitted_date = fields.Datetime.now()
-            rec.state = "submitted"
+            rec._cssk_workflow_write({
+                "submitted_attachment_id": rec.xml_attachment_id.id,
+                "filed_history_ids": [Command.link(rec.xml_attachment_id.id)],
+                "submitted_date": fields.Datetime.now(),
+                "state": "submitted",
+            })
             # Markup on the TEMPLATE, interpolation through ``%`` so the
             # attachment name is escaped. ``Markup(_( ... , args))`` would
             # render whatever the filename contains.
@@ -1665,7 +1701,7 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
             if rec.state == "draft":
                 continue
             was = rec.state
-            rec.state = "draft"
+            rec._cssk_workflow_write({"state": "draft"})
             rec.message_post(body=_(
                 "Reset to draft (from %s). Filed copy preserved: %s",
                 was, rec.submitted_attachment_id.name or "—"))

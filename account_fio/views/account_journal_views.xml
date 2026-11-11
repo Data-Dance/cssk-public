@@ -4,8 +4,18 @@
     <record id="account_journal_view_form_fio" model="ir.ui.view">
         <field name="name">account.journal.form.fio</field>
         <field name="model">account.journal</field>
-        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="inherit_id" ref="account_bank_feed_base.view_account_journal_form_bank_feed" />
         <field name="arch" type="xml">
+            <!-- The feed's actions live in the shared journal header, next to
+                 any other feed's, shown once the journal has a Fio token. -->
+            <xpath expr="//header[@name='bank_feed']" position="inside">
+                <field name="fio_has_token_read" invisible="1" />
+                <field name="fio_has_token_write" invisible="1" />
+                <button name="action_fio_test_connection" type="object"
+                        string="Test connection" class="btn-secondary"
+                        icon="fa-plug"
+                        invisible="not fio_has_token_read and not fio_has_token_write" />
+            </xpath>
             <!-- Right after the account number: the tokens describe the same
                  account the fields above it do. -->
             <group name="bank_account_number" position="after">
@@ -21,11 +31,9 @@
                      column. -->
                 <group name="fio" string="Fio banka" colspan="2"
                        invisible="type != 'bank'">
-                    <div name="fio_buttons" colspan="2" class="mb-3">
-                        <button name="action_fio_test_connection" type="object"
-                                string="Test connection" class="btn-secondary"
-                                icon="fa-plug" />
-                    </div>
+                    <!-- Kept, empty, as the anchor account_statement_fio
+                         places its notes after; the buttons are in the header. -->
+                    <div name="fio_buttons" colspan="2" invisible="1" />
                     <div class="text-muted" colspan="2" groups="base.group_system">
                         Generate the tokens in Fio internet banking under
                         <b>Nastavení → API</b>. A token becomes usable five

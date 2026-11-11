@@ -10,6 +10,9 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.24.6 (2026-11-11), not yet on 18.0:** the 9.80 € stravné from
+  1. 12. 2026. Data only; the parameter code is the same on 18.0.
+
 - **19.0.1.24.4 and 19.0.1.24.5 (2026-11-10), not yet on 18.0:** employer
   sick pay clipped to the employment and on the onset's terms
   (cssk-public#39), and the starter leave types as noupdate data
@@ -52,6 +55,19 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+
+[19.0.1.24.6] — 2026-11-11
+==========================
+
+Fixed
+~~~~~
+
+- **Payroll kept the 9.30 € stravné after 1 December 2026.** The 5–12 hour
+  domestic stravné is 9.80 € from that date (oznámenie MPSVR SR
+  č. 255/2026 Z. z.), the rate the travel orders already use. The meal
+  contribution and the meal voucher now read it from December 2026 payroll;
+  November keeps 9.30 €. Explicit contractual amounts still take priority.
+  Contributed by votrelec (cssk-public#44).
 
 [19.0.1.24.5] — 2026-11-10
 ==========================

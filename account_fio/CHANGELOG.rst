@@ -5,6 +5,16 @@ Changelog
 All notable changes to **account_fio** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.2.3.0] — 2026-11-11
+-------------------------
+
+Changed
+~~~~~~~
+
+- *Test connection* (and the pull buttons of ``account_statement_fio``) moved
+  to the shared bank-feed header of ``account_bank_feed_base``. It shows once
+  the journal has a Fio token.
+
 [19.0.2.2.5] — 2026-11-05
 -------------------------
 

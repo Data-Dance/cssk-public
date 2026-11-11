@@ -1,7 +1,7 @@
 ---
 title: Fio banka — pripojenie
 summary: Tokeny API Fio banky na bankovom denníku, test pripojenia, limit jedného volania za 30 sekúnd a upozornenia pred koncom platnosti tokenu.
-verified: 19.0.2.2.5
+verified: 19.0.2.3.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -58,7 +58,7 @@ nižšie).
 Tokeny vidia a zadávajú len používatelia s oprávnením správcu
 (*Nastavenia*). Ostatní vidia len to, či je token nastavený.
 
-Potom stlačte **Test connection** (tlačidlo je v tejto verzii po anglicky). Odoo
+Potom stlačte v hlavičke denníka **Test connection** (tlačidlo je v tejto verzii po anglicky). Odoo
 urobí jedno volanie, uloží, čo Fio o účte hlási (číslo účtu, kód banky,
 IBAN, BIC, menu — zobrazí sa pod nadpisom *What Fio reports about this
 account*), a zapíše poznámku do chatteru denníka. Token, ktorý patrí **inému

@@ -1,0 +1,14 @@
+# Official bank-code registries this module's data is generated from.
+# Written by tools/gen_banks_cz_sk.py; the test suite checks every file in
+# data/source/ against this list, so an unpinned or edited source fails.
+#
+# CZ  https://www.cnb.cz/cs/platebni-styk/.galleries/ucty_kody_bank/download/kody_bank_CR.csv
+# SK  https://nbs.sk/platby/vseobecne-informacie/ciselniky-a-registre/prevodnik-sk/
+#     (CSV + PDF; the document links are opaque ids, discovered from the page)
+# SK converter: verzia 227, platnosť od 02.11.2026
+# Records: CZ 47, SK 30 (+8 foreign SIPS participants in the NBS list, not kept)
+#
+# file fetched size sha256 url
+kody_bank_CR.csv 2026-11-02 2353 0d318aaad97ed4d1a6d134efe69a4f73bb99c8d498d4c006073a0c1a21c0c67f https://www.cnb.cz/cs/platebni-styk/.galleries/ucty_kody_bank/download/kody_bank_CR.csv
+prevodnik_sk.csv 2026-11-02 2024 99d4d518bebf84b12d70c28c536cae8ac8f2b87865b88f4d3585de6b793aeea4 https://nbs.sk/dokument/a5050ba9-1b79-4a1b-82c6-0f3a0b666af4/stiahnut/?force=true
+prevodnik_sk.pdf 2026-11-02 194529 75e1cd2f4031e5f254df4a83e5f141a0811409859622e23bb406ba362908f762 https://nbs.sk/dokument/351f2708-a840-4083-ae2e-01d3cc413bfc/stiahnut/?force=true

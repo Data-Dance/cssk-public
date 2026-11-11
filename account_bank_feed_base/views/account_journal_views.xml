@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- The one place a bank feed puts its actions. Core's journal form has
+         no <header>, which is why every feed used to invent a spot of its own
+         in the body. Feeds inherit this view and add their buttons inside the
+         header, each gated on its own feed being the journal's source. -->
+    <record id="view_account_journal_form_bank_feed" model="ir.ui.view">
+        <field name="name">account.journal.form.bank.feed</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <field name="type" invisible="1" />
+                <header name="bank_feed" invisible="type != 'bank'" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

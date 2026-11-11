@@ -1,0 +1,1476 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_withholding
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-10 05:15+0000\n"
+"PO-Revision-Date: 2026-11-10 05:15+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"A different withholding deadline requires the authority's actual decision "
+"and retained reference."
+msgstr ""
+"Iná lehota zrážkovej dane vyžaduje skutočné rozhodnutie správcu dane a "
+"uchovaný odkaz."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "A dividend income must be positive"
+msgstr "Príjem z dividendy musí byť kladný"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"A filed withholding notice retains its company, period and correction "
+"identity after reset."
+msgstr ""
+"Podané oznámenie zachová firmu, obdobie a identitu opravy aj po vrátení do "
+"návrhu."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"A live notice retains a different settlement-credit set. Review the changed "
+"native source and its correction before reusing those credits."
+msgstr ""
+"Živé oznámenie uchováva inú sadu kreditov úhrady. Pred ich opätovným "
+"použitím overte zmenený natívny zdroj a jeho opravu."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "A recipient without assigned Slovak RC needs the actual date of birth"
+msgstr ""
+"Príjemca bez prideleného slovenského rodného čísla potrebuje skutočný dátum "
+"narodenia"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding_event__payment_form
+msgid ""
+"A registered payment through its native outstanding account still needs "
+"actual payment evidence. A set-off needs reviewed legal evidence and a "
+"reconciled receivable of the same recipient."
+msgstr ""
+"Registrovaná platba cez natívny prechodný účet stále potrebuje doklad "
+"skutočnej úhrady. Zápočet vyžaduje overený právny podklad a spárovanú "
+"pohľadávku voči rovnakému príjemcovi."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "A remittance allocation must be a positive actual payment amount."
+msgstr "Priradený odvod musí byť kladnou sumou skutočnej úhrady."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"A set-off requires a reconciled mutual receivable of the same recipient "
+"covering the paid source line and retained legal evidence."
+msgstr ""
+"Zápočet vyžaduje spárovanú vzájomnú pohľadávku voči rovnakému príjemcovi "
+"pokrývajúcu uhradený zdrojový riadok a uchovaný právny podklad."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "A withholding amount must be a finite nonnegative cent amount"
+msgstr "Suma zrážky musí byť konečná nezáporná suma v celých centoch"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "A withholding correction chain cannot contain a cycle."
+msgstr "Reťazec opráv oznámenia zrážkovej dane nesmie obsahovať cyklus."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akciu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorácia výnimky aktivity"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__actual_on
+msgid "Actual On"
+msgstr "Skutočný dátum"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding_remittance__source_kind__authority
+msgid "Actual authority allocation"
+msgstr "Vykonané použitie správcom dane"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__filing_on
+msgid ""
+"Actual filing date, or the intended date before sending. Reconcile it to the"
+" actual filing day. The printed preparation date is a separate fact."
+msgstr ""
+"Skutočný dátum podania, pred odoslaním plánovaný dátum. Overte podľa "
+"skutočného podania. Vytlačený dátum vyhotovenia je samostatný údaj."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__original_filing_date
+msgid "Actual previous filing date"
+msgstr "Skutočný dátum predchádzajúceho podania"
+
+#. module: l10n_sk_withholding
+#: model:ir.model,name:l10n_sk_withholding.model_l10n_sk_withholding_remittance
+msgid "Actual tax remittance allocated to reported income"
+msgstr "Skutočný odvod dane priradený k príjmu"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Add the reviewed actual dividend payments."
+msgstr "Pridajte overené skutočné úhrady príjmov."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__remittance_reviewed
+msgid "All receipt evidence reviewed"
+msgstr "Všetky doklady o odvodoch overené"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Allocate a positive actual remittance amount in cents."
+msgstr "Priraďte kladnú sumu skutočného odvodu v centoch."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__amount
+msgid "Amount"
+msgstr "Suma"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "An actual remittance needs its actual date; unpaid tax has none"
+msgstr "Skutočný odvod potrebuje skutočný dátum; nezaplatená daň ho nemá"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding_remittance__source_kind
+msgid ""
+"An authority allocation requires the actual decision or verified tax-account"
+" settlement, not an application for a transfer."
+msgstr ""
+"Použitie správcom dane vyžaduje vykonané rozhodnutie alebo overené "
+"vysporiadanie daňového účtu, samotná žiadosť nestačí."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Another process is allocating this company's withholding sources. Reload and"
+" retry."
+msgstr ""
+"Iný proces priraďuje zdroje zrážkovej dane tejto firmy. Obnovte údaje a "
+"skúste znova."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Another process is changing this withholding notice or its correction chain."
+" Reload and retry."
+msgstr ""
+"Iný proces mení toto oznámenie zrážkovej dane alebo jeho reťazec opráv. "
+"Obnovte údaje a skúste znova."
+
+#. module: l10n_sk_withholding
+#: model:ir.model,name:l10n_sk_withholding.model_ir_attachment
+msgid "Attachment"
+msgstr "Príloha"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet príloh"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__no_withholding_agreement
+msgid "Author agreement not to withhold tax"
+msgstr "Dohoda s autorom o nezrážaní dane"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__authority_deadline_reference
+msgid "Authority Deadline Reference"
+msgstr "Odkaz na rozhodnutie o lehote"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding_event__payment_form__disbursement
+msgid "Bank or cash payment"
+msgstr "Banková alebo hotovostná platba"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding_remittance__source_kind__bank
+msgid "Bank/cash payment"
+msgstr "Banková alebo hotovostná úhrada"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Base the complete correction on the immediately previous filed notice."
+msgstr ""
+"Úplnú opravu založte na bezprostredne predchádzajúcom podanom oznámení."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__birth_date
+msgid "Birth Date"
+msgstr "Dátum narodenia"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__birth_number
+msgid "Birth Number"
+msgstr "Rodné číslo"
+
+#. module: l10n_sk_withholding
+#: model:ir.model,name:l10n_sk_withholding.model_res_company
+msgid "Companies"
+msgstr "Spoločnosti"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__company_id
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__company_id
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__cssk_comparison_count
+msgid "Comparisons"
+msgstr "Porovnania"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Confirm that no other resident withholding titles are missing from row 01. "
+"This adapter covers dividends and author income only."
+msgstr ""
+"Potvrďte, že v riadku 01 nechýbajú iné rezidentské zrážkové tituly. Tento "
+"adaptér pokrýva iba dividendy a autorské príjmy."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+"Kontroly obsahu, ktoré posledný export nezablokovali, ale pred podaním si "
+"ich treba pozrieť, každá na samostatnom riadku. Obnovujú sa pri každom "
+"exporte; prázdne, ak posledný export žiadne nenašiel."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__correction_source_reference
+msgid "Correction Source Reference"
+msgstr "Podklad opravy"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Create an explicit correction instead of replacing the contents of a filed "
+"original notice."
+msgstr ""
+"Vytvorte samostatnú opravu namiesto nahradenia obsahu podaného oznámenia."
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Create correction"
+msgstr "Vytvoriť opravu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__create_date
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__create_date
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__create_date
+msgid "Created on"
+msgstr "Vytvorené dňa"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__active_submission_id
+msgid "Current submission"
+msgstr "Aktuálne podanie"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Current withholding sources differ from the retained export. Review a "
+"separate correction; the exported copy is unchanged."
+msgstr ""
+"Aktuálne zdroje zrážkovej dane sa líšia od uchovaného exportu. Overte "
+"samostatnú opravu; exportovaná kópia sa nemení."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__date_to
+msgid "Date To"
+msgstr "Dátum do"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__decision_on
+msgid "Decision or source agreement date"
+msgstr "Dátum rozhodnutia alebo zmluvy"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__submission_state
+msgid "Delivery"
+msgstr "Dodanie"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__authority_deadline
+msgid "Different deadline granted by the authority"
+msgstr "Iná lehota určená správcom dane"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__display_name
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__display_name
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__display_name
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_res_company__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__dividend_account_id
+msgid "Dividend account (optional restriction)"
+msgstr "Účet dividendy (voliteľné obmedzenie)"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Do not allocate more tax remittance than was withheld"
+msgstr "Nepriraďujte vyšší odvod dane, než bola zrážka"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Do not attach a nonzero tax entry to a zero-tax dividend."
+msgstr "K príjmu s nulovou daňou nepriraďujte nenulový zápis dane."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Do not report a remittance after the notice filing date"
+msgstr "Nevykazujte odvod po dátume podania oznámenia"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding__state__draft
+msgid "Draft"
+msgstr "Návrh"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Enter actual remittance amounts as nonnegative finite cent amounts."
+msgstr "Zadajte skutočné odvody ako nezáporné konečné sumy v centoch."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__event_ids
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__event_id
+msgid "Event"
+msgstr "Príjem"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
+msgstr ""
+"Každé XML, ktoré bolo pre toto podanie kedy označené ako podané. „Podané "
+"XML“ je to najnovšie; po cykle vrátenie → prepočet → opätovné podanie tu "
+"zostávajú dostupné aj predchádzajúce podané kópie."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Every dividend source must belong to the notice company."
+msgstr "Každý zdroj príjmu musí patriť firme oznámenia."
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Export XML"
+msgstr "Exportovať XML"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__cssk_export_warnings
+msgid "Export warnings"
+msgstr "Upozornenia exportu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding__state__exported
+msgid "Exported"
+msgstr "Exportované"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__submitted_attachment_id
+msgid "Filed XML"
+msgstr "Podané XML"
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Filed evidence"
+msgstr "Uchované podania"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__filed_history_ids
+msgid "Filed history"
+msgstr "História podaní"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__filing_on
+msgid "Filing date / remittance cutoff"
+msgstr "Dátum podania / hranica odvedenej dane"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__first_name
+msgid "First Name"
+msgstr "Meno"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__date_from
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__period
+msgid "First day of the reported calendar month."
+msgstr "Prvý deň vykazovaného kalendárneho mesiaca."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_follower_ids
+msgid "Followers"
+msgstr "Sledujúci"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledujúci (partneri)"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, napr. fa-tasks"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding_event__gross
+msgid ""
+"For author income, enter the income excluding VAT less any actually withheld"
+" art-fund contribution under section 43(5)(b). Do not deduct a contribution "
+"that was not actually withheld. The payment amount is this taxable income "
+"less withholding tax."
+msgstr ""
+"Pri autorskom príjme zadajte príjem bez DPH znížený o skutočne zrazený "
+"príspevok umeleckému fondu podľa § 43 ods. 5 písm. b). Neodpočítavajte "
+"príspevok, ktorý nebol skutočne zrazený. Platba je tento zdaniteľný príjem "
+"znížený o zrazenú daň."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__has_message
+msgid "Has Message"
+msgstr "Má správu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__legacy
+msgid "Historical filing"
+msgstr "Historické podanie"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_ir_attachment__id
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__id
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__id
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__id
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_res_company__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označujúca výnimku aktivity."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced it."
+msgstr ""
+"Identifikátor importnej dávky alebo zdrojového dokladu, z ktorého bolo "
+"podanie zhmotnené, aby sa číslo dalo vystopovať k tomu, čo ho vytvorilo."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__message_has_error
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Income"
+msgstr "Príjem"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__income_kind
+msgid "Income Kind"
+msgstr "Druh príjmu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__net_amount
+msgid "Income after withholding (excluding VAT)"
+msgstr "Príjem po zrážke dane (bez DPH)"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__distribution_line_id
+msgid "Income liability source line"
+msgstr "Zdrojový riadok záväzku z príjmu"
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Income payments"
+msgstr "Úhrady príjmov"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Income tax and remittance totals are derived from their reviewed source "
+"rows."
+msgstr "Súčty dane a odvodov sa odvodzujú z overených zdrojových riadkov."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_res_company__l10n_sk_withholding_epoch
+msgid ""
+"Internal non-key concurrency marker for withholding source allocations; not "
+"an accounting fact."
+msgstr ""
+"Interná nekľúčová značka súbehu priraďovania zdrojov zrážkovej dane; nejde o"
+" účtovnú skutočnosť."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledujúci"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_res_company__l10n_sk_withholding_epoch
+msgid "L10N Sk Withholding Epoch"
+msgstr "Verzia priradenia zdrojov zrážkovej dane"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__last_name
+msgid "Last Name"
+msgstr "Priezvisko"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__write_date
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__write_date
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené dňa"
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Ledger and payment evidence"
+msgstr "Účtovné a platobné podklady"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding__state__legacy
+msgid "Legacy"
+msgstr "Historické podanie"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__line_id
+msgid "Line"
+msgstr "Riadok"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručenia správy"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_ids
+msgid "Messages"
+msgstr "Správy"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Missing or unsafe field: %(field)s"
+msgstr "Chýbajúce alebo neprípustné pole: %(field)s"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mojej aktivity"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__name
+msgid "Name"
+msgstr "Názov"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín ďalšej aktivity"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__activity_summary
+msgid "Next Activity Summary"
+msgstr "Súhrn ďalšej aktivity"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ ďalšej aktivity"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__notice_id
+msgid "Notice"
+msgstr "Oznámenie"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Notice allocations exceed the actual posted source line."
+msgstr "Sumy priradené do oznámenia presahujú skutočný zaúčtovaný riadok."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcií"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chýb"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet správ vyžadujúcich akciu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet správ s chybou doručenia"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "OZN4311v26 cannot be used before 2026"
+msgstr "OZN4311v26 nemožno použiť pred rokom 2026"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__original_date_reviewed
+msgid "Original Date Reviewed"
+msgstr "Dátum predchádzajúceho podania overený"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__original_return_id
+msgid "Original Return"
+msgstr "Predchádzajúce oznámenie"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__paid_on
+msgid "Paid On"
+msgstr "Dátum skutočnej úhrady"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__partner_id
+msgid "Partner"
+msgstr "Partner"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__payload
+msgid "Payload"
+msgstr "Payload"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__payment_form
+msgid "Payment Form"
+msgstr "Spôsob úhrady"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__payment_line_id
+msgid "Payment Line"
+msgstr "Účtovný riadok úhrady"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__payment_reviewed
+msgid "Payment Reviewed"
+msgstr "Úhrada overená"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__period
+msgid "Period"
+msgstr "Obdobie"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__date_from
+msgid "Period start"
+msgstr "Začiatok obdobia"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__phone
+msgid "Phone"
+msgstr "Telefón"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__prepared_by
+msgid "Prepared By"
+msgstr "Vyhotovil"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__prepared_on
+msgid "Prepared On"
+msgstr "Dátum vyhotovenia"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding__state__preview
+msgid "Preview"
+msgstr "Náhľad"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__profit_period_end
+msgid "Profit Period End"
+msgstr "Koniec obdobia zisku"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__profit_period_start
+msgid "Profit Period Start"
+msgstr "Začiatok obdobia zisku"
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Recipient"
+msgstr "Príjemca"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Reconcile competing filed notices before preparing another correction."
+msgstr "Pred prípravou ďalšej opravy overte súbežné podané oznámenia."
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Record filing"
+msgstr "Zaevidovať podanie"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__remittance_ids
+msgid "Remittance"
+msgstr "Odvod dane"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Remittance ownership and currency follow its income source."
+msgstr "Firma a mena odvodu sa preberajú z príjmu."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__remitted
+msgid "Remitted"
+msgstr "Odvedená daň"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__remitted_on
+msgid "Remitted On"
+msgstr "Dátum odvodu dane"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Report the author's no-withholding agreement separately under section "
+"43(14), not as deducted tax here."
+msgstr ""
+"Dohodu s autorom o nezrážaní oznámte samostatne podľa § 43 ods. 14, "
+"nevykazujte ju tu ako zrazenú daň."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Reset the notice before changing its income sources."
+msgstr "Pred zmenou zdrojov príjmu vráťte oznámenie do návrhu."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Reset the notice before recomputing its sources."
+msgstr "Pred novým výpočtom zdrojov vráťte oznámenie do návrhu."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Reset the notice to draft before changing its inputs."
+msgstr "Pred zmenou vstupov vráťte oznámenie do návrhu."
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Reset to draft"
+msgstr "Vrátiť do návrhu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding_event__income_kind__author
+msgid "Resident author income"
+msgstr "Autorský príjem rezidenta"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding_event__income_kind__dividend
+msgid "Resident individual dividend"
+msgstr "Dividenda tuzemskej fyzickej osoby"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__activity_user_id
+msgid "Responsible User"
+msgstr "Zodpovedný používateľ"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Retain a withholding notice with filed history."
+msgstr "Oznámenie s históriou podaní musí zostať uchované."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__authority_deadline_reference
+msgid ""
+"Retain the authority's decision under section 43(11); an intended filing "
+"date does not extend the deadline."
+msgstr ""
+"Uchovajte rozhodnutie správcu dane podľa § 43 ods. 11; plánovaný dátum "
+"podania lehotu nepredlžuje."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Review dividend tax inputs: %s"
+msgstr "Overte vstupy zrážkovej dane: %s"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Review each actual remittance and retain its source reference before "
+"reporting tax as paid."
+msgstr ""
+"Pred vykázaním odvedenej dane overte každý skutočný odvod a uchovajte jeho "
+"podklad."
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Review sources"
+msgstr "Overiť zdroje"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Review the actual dividend payment and retain its source reference."
+msgstr "Overte skutočnú úhradu príjmu a uchovajte odkaz na podklad."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Review the actual previous filing date against its filing receipt before "
+"preparing a correction."
+msgstr ""
+"Pred prípravou opravy overte skutočný dátum predchádzajúceho podania podľa "
+"potvrdenky."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid ""
+"Review the assigned Slovak birth number's length, birth date and mod11 "
+"checksum; request authority verification of an inconsistent identifier."
+msgstr ""
+"Overte dĺžku prideleného slovenského rodného čísla, dátum narodenia a "
+"kontrolu mod11; pri nesúlade požiadajte o úradné overenie identifikátora."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Review the completed profit period before reporting a dividend."
+msgstr "Pred vykázaním dividendy overte ukončené obdobie zisku."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Review the completed profit period, distribution decision and actual payment"
+" dates."
+msgstr ""
+"Overte obdobie zisku, rozhodnutie alebo zmluvu a dátumy skutočných úhrad."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Review the separate pre-2017 dividend/health regime"
+msgstr ""
+"Overte samostatný režim dividend a zdravotného poistenia pred rokom 2017"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Review the statutory withholding income classification"
+msgstr "Overte zákonné zaradenie príjmu pre zrážkovú daň"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Review withholding notice inputs: %s"
+msgstr "Overte vstupy oznámenia zrážkovej dane: %s"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__reviewed
+msgid "Reviewed"
+msgstr "Overené"
+
+#. module: l10n_sk_withholding
+#: model:ir.model,name:l10n_sk_withholding.model_l10n_sk_withholding_event
+msgid "Reviewed dividend income backed by native ledger sources"
+msgstr "Overený príjem s účtovnými zdrojmi"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__reported_remitted_on
+msgid "Reviewed remittance date for the form"
+msgstr "Overený dátum odvodu pre formulár"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__resident_scope_reviewed
+msgid "Reviewed: no other resident withholding titles this month"
+msgstr "Overené: v tomto mesiaci nie sú iné rezidentské zrážkové tituly"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__resident_scope_reviewed
+msgid ""
+"Row 01 must include all resident withholding. This adapter currently "
+"supports dividends and author income only; other section 43 titles require a"
+" complete notice outside this adapter."
+msgstr ""
+"Riadok 01 musí obsahovať všetky rezidentské zrážky. Adaptér teraz podporuje "
+"iba dividendy a autorské príjmy; iné tituly podľa § 43 vyžadujú úplné "
+"oznámenie mimo tohto adaptéra."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__legacy_stated_codes
+msgid "Rows the source states"
+msgstr "Riadky, ktoré zdroj uvádza"
+
+#. module: l10n_sk_withholding
+#: model:ir.actions.act_window,name:l10n_sk_withholding.withholding_action
+#: model:ir.ui.menu,name:l10n_sk_withholding.withholding_menu
+msgid "SK withholding notices 4311"
+msgstr "SK oznámenia zrážkovej dane 4311"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručenia SMS"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Select an actually filed original notice before preparing its correction."
+msgstr ""
+"Pred prípravou opravy vyberte skutočne podané predchádzajúce oznámenie."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Select the actual dividend 364 liability source."
+msgstr "Vyberte skutočný záväzok z dividendy na účte 364."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Select the first day of the withholding month."
+msgstr "Vyberte prvý deň mesiaca zrážky."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Select the posted supplier or other payable for the resident author income."
+msgstr ""
+"Vyberte zaúčtovaný dodávateľský alebo iný záväzok z autorského príjmu "
+"rezidenta."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding_event__payment_form__setoff
+msgid "Set-off of mutual claims"
+msgstr "Zápočet vzájomných pohľadávok"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__remittance_reporting_reviewed
+msgid "Single-date presentation reviewed"
+msgstr "Uvedenie jedného dátumu overené"
+
+#. module: l10n_sk_withholding
+#: model:ir.model,name:l10n_sk_withholding.model_l10n_sk_withholding
+msgid "Slovak withholding notice 4311"
+msgstr "Slovenské oznámenie zrážkovej dane 4311"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__source_history
+msgid "Source History"
+msgstr "História zdrojov"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__source_kind
+msgid "Source Kind"
+msgstr "Druh podkladu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__source_reference
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_remittance__source_reference
+msgid "Source Reference"
+msgstr "Odkaz na podklad"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__legacy_reference
+msgid "Source reference"
+msgstr "Zdrojová referencia"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__legacy_source
+msgid "Source system"
+msgstr "Zdrojový systém"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav podľa aktivít\n"
+"Po termíne: Termín už uplynul\n"
+"Dnes: Dátum aktivity je dnes\n"
+"Naplánované: Budúce aktivity."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__submission_reference
+msgid "Submission Reference"
+msgstr "Referencia podania"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__submission_reference
+msgid "Submission identifier / confirmation number from the FS portal."
+msgstr "Identifikátor podania / potvrdzovacie číslo z portálu FS."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__submission_ids
+msgid "Submissions"
+msgstr "Podania"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields.selection,name:l10n_sk_withholding.selection__l10n_sk_withholding__state__submitted
+msgid "Submitted"
+msgstr "Podané"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__submitted_date
+msgid "Submitted Date"
+msgstr "Dátum odoslania"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Supply the actual completed profit period"
+msgstr "Zadajte skutočné ukončené ziskové obdobie"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Supply the actual dividend payments, not an empty Annex A"
+msgstr "Zadajte skutočné vyplatenia dividendy, nie prázdnu prílohu A"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Supply the corporate payer's eight-digit ICO"
+msgstr "Zadajte osemmiestne IČO platiteľa právnickej osoby"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Supply the payer's ten-digit income-tax DIC"
+msgstr "Zadajte desaťmiestne DIČ platiteľa pre daň z príjmov"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Supply the recipient address's ISO country code"
+msgstr "Zadajte kód krajiny ISO adresy príjemcu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__tax_account_id
+msgid "Tax Account"
+msgstr "Účet zrážkovej dane"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__tax_amount
+msgid "Tax Amount"
+msgstr "Suma dane"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__tax_rate
+msgid "Tax Rate"
+msgstr "Sadzba dane"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__tax_residence
+msgid "Tax Residence"
+msgstr "Daňová rezidencia"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__gross
+msgid "Taxable income (excluding VAT)"
+msgstr "Zdaniteľný príjem (bez DPH)"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "The dividend recipient disagrees with the native ledger counterparty."
+msgstr "Príjemca nesúhlasí s protistranou v účtovníctve."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__submitted_attachment_id
+msgid "The exact XML that was submitted; preserved across reset-to-draft."
+msgstr "Presné XML, ktoré bolo podané; zachované aj po vrátení do konceptu."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "The exported file does not belong to this withholding notice."
+msgstr "Exportovaný súbor nepatrí tomuto oznámeniu zrážkovej dane."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "The exported or filed withholding file is immutable."
+msgstr "Exportovaný alebo podaný súbor zrážkovej dane nemožno meniť."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"The form accepts one remittance date per income. Select and review the "
+"reported date from the actual allocated payments."
+msgstr ""
+"Formulár prijíma jeden dátum odvodu na príjem. Vyberte a overte dátum zo "
+"skutočne priradených úhrad."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "The income payment must belong to the reported month"
+msgstr "Vyplatenie príjmu musí patriť do vykazovaného mesiaca"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"The intended regular withholding filing is after its applicable deadline. "
+"Review actual filing and any authority-granted different deadline."
+msgstr ""
+"Plánované riadne podanie zrážkovej dane je po príslušnej lehote. Overte "
+"skutočné podanie a prípadnú inú lehotu určenú správcom dane."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "The monthly notice is filed only after the reported month"
+msgstr "Mesačné oznámenie sa podáva až po vykazovanom mesiaci"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"The notice sources changed. Reset and recompute before export or filing."
+msgstr ""
+"Zdroje oznámenia sa zmenili. Pred exportom alebo podaním ho vráťte do návrhu"
+" a prepočítajte."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "The original filing cannot be later than its correction"
+msgstr "Pôvodné podanie nemôže byť neskoršie než jeho oprava"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "The original notice must belong to the same company and month."
+msgstr "Predchádzajúce oznámenie musí patriť rovnakej firme a mesiacu."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "The pinned withholding schema changed unexpectedly."
+msgstr "Pripnutá schéma zrážkovej dane sa neočakávane zmenila."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "The preparation date cannot follow the actual filing date"
+msgstr "Dátum vyhotovenia nemôže nasledovať po skutočnom dátume podania"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "The recipient's birth date must precede the actual income payment."
+msgstr ""
+"Dátum narodenia príjemcu musí predchádzať skutočnému vyplateniu príjmu."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"The reported payments exceed the actual settlement credits, including "
+"amounts reserved by other live notices."
+msgstr ""
+"Vykázané platby presahujú skutočné kredity úhrad vrátane súm rezervovaných "
+"inými živými oznámeniami."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "The retained withholding payload must match its exported attachment."
+msgstr ""
+"Uchované údaje zrážkového oznámenia sa musia zhodovať s exportovanou "
+"prílohou."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"The reviewed payment must reference a posted bank or cash disbursement, a "
+"native registered outbound payment, or an evidenced income set-off."
+msgstr ""
+"Overená platba musí odkazovať na zaúčtovanú bankovú alebo hotovostnú "
+"výplatu, natívnu registrovanú odchádzajúcu platbu alebo doložený zápočet "
+"príjmu."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__legacy_stated_codes
+msgid ""
+"The row codes the source system's own filing could carry, comma-separated, written by the migration that materialised this record.\n"
+"\n"
+"A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
+msgstr ""
+"Kódy riadkov, ktoré mohlo podanie zo zdrojového systému obsahovať, oddelené čiarkou; zapisuje ich migrácia, ktorá tento záznam vytvorila.\n"
+"\n"
+"Zdroj málokedy uchováva celé tlačivo: PREMIER má desať súhrnných údajov, kým slovenské priznanie má tridsaťsedem riadkov. Každý riadok, ktorý zdroj nevie uviesť, tu chýba zo štrukturálneho dôvodu, nie preto, že ho podanie vynechalo — porovnanie preto také riadky vykazuje ako informatívne, nie ako rozdiely. Ak je pole prázdne, každý riadok sa považuje za taký, ktorý zdroj mohol uviesť, čo je správny výklad ručne zadaného podania."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "The withholding workflow creates export and filing evidence."
+msgstr "Doklady o exporte a podaní vytvára postup oznámenia zrážkovej dane."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.constraint,message:l10n_sk_withholding.constraint_l10n_sk_withholding_one_filed_original
+msgid ""
+"There is already a filed original withholding notice for this company and "
+"month."
+msgstr ""
+"Pre túto firmu a mesiac už existuje podané pôvodné oznámenie zrážkovej dane."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid ""
+"This adapter covers resident individual dividends; review Annex B/other "
+"regimes"
+msgstr ""
+"Adaptér pokrýva rezidentské dividendy fyzických osôb; overte prílohu B a iné"
+" režimy"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__legacy
+msgid ""
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
+msgstr ""
+"Toto podanie nevzniklo tu — zaznamenáva, čo bolo skutočne podané za obdobie pred zavedením tohto systému, načítané migráciou. Je to historická skutočnosť, preto ho nemožno exportovať, podať ani prepočítať a nevidí ho nič, čo hľadá „priznanie predchádzajúceho obdobia“. Opraviť ho MOŽNO: dodatočné priznanie podané neskôr k historickému obdobiu je bežné podanie.\n"
+"\n"
+"Nastavenie tohto príznaku presunie záznam do stavu „Historické podanie“, ktorý je konečný — oba údaje sa zapisujú spolu a nemôžu sa rozísť."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"This notice adapter requires a Slovak corporate payer with EUR ledger "
+"amounts."
+msgstr ""
+"Tento modul oznámenia vyžaduje slovenského platiteľa právnickú osobu "
+"účtujúcu v eurách."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"This source is already allocated in another live notice. Use only its "
+"remaining amount."
+msgstr ""
+"Zdroj je už priradený v inom živom oznámení. Použite iba jeho zostávajúcu "
+"sumu."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ výnimky aktivity v zázname."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid "Use posted source lines of the correct company, account and direction."
+msgstr "Použite zaúčtované zdroje správnej firmy, účtu a strany účtovania."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Use the Slovak dividend 364 and withholding 342 accounts, including their "
+"analytical subaccounts."
+msgstr ""
+"Použite slovenské účty dividend 364 a zrážkovej dane 342 vrátane analytík."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Use the assigned Slovak RC or date of birth when no RC is assigned"
+msgstr ""
+"Použite pridelené slovenské rodné číslo alebo dátum narodenia, ak rodné "
+"číslo nebolo pridelené"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid ""
+"Use the no-withholding agreement notice, not a fictitious author tax "
+"deduction"
+msgstr "Použite oznámenie dohody o nezrážaní, nie fiktívnu zrážku dane autora"
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/models/withholding.py:0
+msgid ""
+"Use unreversed original withholding sources, not reversed payments or "
+"reversal entries."
+msgstr ""
+"Použite nestornované pôvodné zdroje zrážkovej dane, nie stornované platby "
+"alebo reverzné zápisy."
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__website_message_ids
+msgid "Website Messages"
+msgstr "Správy z webu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__website_message_ids
+msgid "Website communication history"
+msgstr "História komunikácie z webu"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,help:l10n_sk_withholding.field_l10n_sk_withholding__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
+msgstr ""
+"Odkiaľ podanie pochádza, napr. „PREMIER“, „Money S4“, „i6“, „MRP“ — alebo "
+"ako bolo zachytené, ak ručne."
+
+#. module: l10n_sk_withholding
+#. odoo-python
+#: code:addons/l10n_sk_withholding/wire4311.py:0
+msgid "Withheld tax disagrees with the profit-period rate"
+msgstr "Zrazená daň nesúhlasí so sadzbou ziskového obdobia"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding_event__withholding_line_id
+msgid "Withholding Line"
+msgstr "Účtovný riadok zrážky dane"
+
+#. module: l10n_sk_withholding
+#: model_terms:ir.ui.view,arch_db:l10n_sk_withholding.withholding_form
+msgid "Withholding notice 4311"
+msgstr "Oznámenie zrážkovej dane 4311"
+
+#. module: l10n_sk_withholding
+#: model:ir.model.fields,field_description:l10n_sk_withholding.field_l10n_sk_withholding__xml_attachment_id
+msgid "Xml Attachment"
+msgstr "Príloha XML"

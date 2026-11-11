@@ -7,6 +7,38 @@ from .test_sk_payroll import TestSkPayroll
 
 @tagged('post_install', '-at_install')
 class TestParameters2027(TestSkPayroll):
+    def test_meal_allowance_december_2026_and_january_2027(self):
+        # 255/2026 Z. z.: 9.80 from December, not from January.
+        # Payroll and travel share the statutory amount, but payroll reads its
+        # own dated parameter. Explicit days isolate the rate from calendars.
+        for year, month, last, rate, employer, employee_share in (
+            (2027, 1, 31, 9.80, 107.80, -39.20),
+            (2026, 12, 31, 9.80, 107.80, -39.20),
+            (2026, 11, 30, 9.30, 102.40, -37.20),
+        ):
+            for kind in ('financial', 'voucher'):
+                with self.subTest(year=year, month=month, kind=kind):
+                    contract, employee = self._make_contract(
+                        'Dated statutory meal allowance', 2000,
+                        date(2026, 1, 1), self.calendar,
+                        l10n_sk_meal_allowance_type=kind, l10n_sk_meal_days=20,
+                    )
+                    slip = self._make_payslip(
+                        contract, employee, date(year, month, 1), date(year, month, last))
+                    slip.compute_sheet()
+                    self.assertEqual(slip.rule_parameter('l10n_sk_stravne_5_12h'), rate)
+                    self.assertAlmostEqual(slip.get_salary_line_total('MEALEMPLOYER'), employer)
+                    self.assertAlmostEqual(
+                        slip.get_salary_line_total('MEALEMPLOYEE'),
+                        employee_share if kind == 'voucher' else 0,
+                    )
+                    self.assertAlmostEqual(slip.get_salary_line_total('GROSS'), 2000)
+                    with_meal = slip.get_salary_line_total('NET')
+                    contract.l10n_sk_meal_allowance_type = 'none'
+                    slip.compute_sheet()
+                    difference = employer if kind == 'financial' else employee_share
+                    self.assertAlmostEqual(with_meal - slip.get_salary_line_total('NET'), difference)
+
     def slip(self, wage=1000):
         contract, employee = self._make_contract(
             'Synthetic 2027 parameter case', wage, date(2026, 1, 1), self.calendar)

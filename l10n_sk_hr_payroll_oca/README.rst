@@ -64,11 +64,16 @@ Starter absence settings on upgrade
 
 The supplied Slovak absence types are installation defaults. A module upgrade preserves the company's reviewed settings and approved absence dates. Rewriting even the same request unit can recompute dates and invoke the native protection of approved leave. The starter XML therefore uses Odoo's noupdate policy. A future change to an existing default needs an explicit migration that reviews its effect on existing absences; ordinary updates do not silently reset company configuration. The regression reloads the actual data file with approved PN and ordinary holiday records and verifies their dates, state, duration and the company's type name.
 
+Meal allowance from December 2026
+===================================
+
+`Notice 255/2026 Z. z. <https://employment.gov.sk/showdoc.do?docid=60223>`__ raises the 5–12 hour domestic meal allowance to EUR 9.80 from 1 December 2026. The dated payroll parameter also applies in January 2027 until a later rate takes effect. With 20 meal days and the default 55% contribution, payroll records EUR 107.80 employer contribution; a minimum 75% voucher leaves EUR 39.20 employee share. November 2026 still uses EUR 9.30 and EUR 102.40 employer contribution. Explicit contractual contributions retain their existing priority. Travel rates are supplied by the travel module separately.
+
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_oca``
-- **Version:** 19.0.1.24.5
+- **Version:** 19.0.1.24.6
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``payroll``, ``l10n_sk_hr_payroll_base``

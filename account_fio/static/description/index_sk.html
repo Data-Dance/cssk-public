@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/account_fio/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="/account_fio/static/description/index_cs.html">Čeština</a></nav>
 <h1>Fio banka — pripojenie</h1>
 <p class="cssk-summary">Tokeny API Fio banky na bankovom denníku, test pripojenia, limit jedného volania za 30 sekúnd a upozornenia pred koncom platnosti tokenu.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.2.5</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <a href="/account_fio_base/static/description/index_sk.html"><code>account_fio_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><code>account_payment_fio</code>, <code>account_payment_fio_batch</code>, <code>account_statement_fio</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.3.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <a href="/account_bank_feed_base/static/description/index_sk.html"><code>account_bank_feed_base</code></a>, <a href="/account_fio_base/static/description/index_sk.html"><code>account_fio_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><code>account_payment_fio</code>, <code>account_payment_fio_batch</code>, <code>account_statement_fio</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Fio banka — v Česku aj prostredníctvom svojej slovenskej pobočky — umožňuje
@@ -105,7 +105,7 @@ nižšie).</p>
 </table>
 <p>Tokeny vidia a zadávajú len používatelia s oprávnením správcu
 (<em>Nastavenia</em>). Ostatní vidia len to, či je token nastavený.</p>
-<p>Potom stlačte <strong>Test connection</strong> (tlačidlo je v tejto verzii po anglicky). Odoo
+<p>Potom stlačte v hlavičke denníka <strong>Test connection</strong> (tlačidlo je v tejto verzii po anglicky). Odoo
 urobí jedno volanie, uloží, čo Fio o účte hlási (číslo účtu, kód banky,
 IBAN, BIC, menu — zobrazí sa pod nadpisom <em>What Fio reports about this
 account</em>), a zapíše poznámku do chatteru denníka. Token, ktorý patrí <strong>inému
@@ -163,7 +163,7 @@ každého chybového hlásenia a záznamu v logu.</p>
   vysvetľujúcim hlásením.</li>
 <li>Tokeny sú v databáze uložené ako čistý text, čitateľný pre správcov.</li>
 </ul>
-<footer><p>Text overený voči verzii modulu: 19.0.2.2.5 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text overený voči verzii modulu: 19.0.2.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

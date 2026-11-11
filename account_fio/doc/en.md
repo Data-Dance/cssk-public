@@ -1,7 +1,7 @@
 ---
 title: Fio banka — Connection
 summary: The Fio banka API tokens on the bank journal, a connection test, the 30-second call limit and warnings before a token expires.
-verified: 19.0.2.2.5
+verified: 19.0.2.3.0
 ---
 
 ## What it is for {#purpose}
@@ -58,7 +58,8 @@ anyone. Each token also has its own call limit (below).
 Only users with administrator rights (*Settings*) can see and enter the
 tokens. Other users see only whether a token is set.
 
-Then press **Test connection**. Odoo makes one call, stores what Fio reports
+Then press **Test connection** in the journal's header (it appears once a
+token is saved). Odoo makes one call, stores what Fio reports
 about the account (account number, bank code, IBAN, BIC, currency, shown
 under *What Fio reports about this account*) and posts a note in the
 journal's chatter. A token that belongs to a **different account** than the

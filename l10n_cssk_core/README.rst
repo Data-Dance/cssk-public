@@ -269,7 +269,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cssk_core``
-- **Version:** 19.0.1.19.2
+- **Version:** 19.0.1.20.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``account``, ``mail``

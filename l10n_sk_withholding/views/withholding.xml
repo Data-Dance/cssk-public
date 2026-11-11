@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="withholding_list" model="ir.ui.view">
+        <field name="name">l10n.sk.withholding.list</field>
+        <field name="model">l10n.sk.withholding</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="prepared_on"/>
+                <field name="original_return_id"/>
+                <field name="state"/>
+                <field name="submission_state"/>
+            </list>
+        </field>
+    </record>
+    <record id="withholding_form" model="ir.ui.view">
+        <field name="name">l10n.sk.withholding.form</field>
+        <field name="model">l10n.sk.withholding</field>
+        <field name="arch" type="xml">
+            <form string="Withholding notice 4311">
+                <header>
+                    <button name="action_compute_lines" type="object" string="Review sources" invisible="state != 'draft'"/>
+                    <button name="action_export_xml" type="object" string="Export XML" invisible="state != 'preview'"/>
+                    <button name="action_submit" type="object" string="Record filing" invisible="state != 'exported'"/>
+                    <button name="action_create_amendment" type="object" string="Create correction" invisible="state != 'submitted'"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to draft" invisible="state in ('draft','submitted')"/>
+                    <button name="action_reset_to_draft" type="object" string="Reset to draft" invisible="state != 'submitted'" groups="account.group_account_manager"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+                            <field name="period" readonly="state != 'draft'"/>
+                            <field name="prepared_on" readonly="state != 'draft'"/>
+                            <field name="filing_on" readonly="state != 'draft'"/>
+                            <field name="prepared_by" readonly="state != 'draft'"/>
+                            <field name="phone" readonly="state != 'draft'"/>
+                            <field name="resident_scope_reviewed" readonly="state != 'draft'"/>
+                            <field name="authority_deadline" readonly="state != 'draft'"/>
+                            <field name="authority_deadline_reference" readonly="state != 'draft'" invisible="not authority_deadline"/>
+                        </group>
+                        <group>
+                            <field name="dividend_account_id" readonly="state != 'draft'"/>
+                            <field name="tax_account_id" readonly="state != 'draft'"/>
+                            <field name="original_return_id" readonly="state != 'draft'"/>
+                            <field name="original_filing_date" readonly="state != 'draft'" invisible="not original_return_id"/>
+                            <field name="correction_source_reference" readonly="state != 'draft'" invisible="not original_return_id"/>
+                            <field name="original_date_reviewed" readonly="state != 'draft'" invisible="not original_return_id"/>
+                            <field name="xml_attachment_id"/>
+                            <field name="submitted_attachment_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Income payments">
+                            <field name="event_ids" readonly="state != 'draft'">
+                                <list>
+                                    <field name="partner_id"/>
+                                    <field name="income_kind"/>
+                                    <field name="profit_period_start"/>
+                                    <field name="gross"/>
+                                    <field name="tax_rate"/>
+                                    <field name="tax_amount"/>
+                                    <field name="net_amount"/>
+                                    <field name="remitted"/>
+                                    <field name="payment_reviewed"/>
+                                    <field name="remittance_reviewed"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group string="Recipient">
+                                            <field name="partner_id"/>
+                                            <field name="first_name"/>
+                                            <field name="last_name"/>
+                                            <field name="birth_number"/>
+                                            <field name="birth_date"/>
+                                            <field name="tax_residence"/>
+                                        </group>
+                                        <group string="Income">
+                                            <field name="income_kind"/>
+                                            <field name="no_withholding_agreement" invisible="income_kind != 'author'"/>
+                                            <field name="profit_period_start" invisible="income_kind != 'dividend'" required="income_kind == 'dividend'"/>
+                                            <field name="profit_period_end" invisible="income_kind != 'dividend'" required="income_kind == 'dividend'"/>
+                                            <field name="gross"/>
+                                            <field name="decision_on"/>
+                                            <field name="paid_on"/>
+                                            <field name="remitted_on"/>
+                                            <field name="reported_remitted_on"/>
+                                            <field name="remittance_reporting_reviewed"/>
+                                            <field name="tax_rate"/>
+                                            <field name="tax_amount"/>
+                                            <field name="net_amount"/>
+                                            <field name="remitted"/>
+                                        </group>
+                                    </group>
+                                    <group string="Ledger and payment evidence">
+                                        <field name="distribution_line_id"/>
+                                        <field name="withholding_line_id"/>
+                                        <field name="payment_line_id"/>
+                                        <field name="payment_form"/>
+                                        <field name="source_reference"/>
+                                        <field name="payment_reviewed"/>
+                                        <field name="remittance_reviewed"/>
+                                    </group>
+                                    <field name="remittance_ids">
+                                        <list editable="bottom">
+                                            <field name="line_id"/>
+                                            <field name="actual_on"/>
+                                            <field name="amount"/>
+                                            <field name="source_kind"/>
+                                            <field name="source_reference"/>
+                                            <field name="reviewed"/>
+                                        </list>
+                                    </field>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Filed evidence">
+                            <group>
+                                <field name="filed_history_ids" widget="many2many_tags"/>
+                                <field name="submission_reference"/>
+                                <field name="submission_state"/>
+                                <field name="submission_ids"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="withholding_action" model="ir.actions.act_window">
+        <field name="name">SK withholding notices 4311</field>
+        <field name="res_model">l10n.sk.withholding</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="withholding_menu" name="SK withholding notices 4311"
+              parent="l10n_cssk_core.menu_cssk_reports_root" action="withholding_action" sequence="65"/>
+</odoo>

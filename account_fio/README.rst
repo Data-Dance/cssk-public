@@ -62,7 +62,7 @@ Setting it up
 
 Only users with administrator rights (*Settings*) can see and enter the tokens. Other users see only whether a token is set.
 
-Then press **Test connection**. Odoo makes one call, stores what Fio reports about the account (account number, bank code, IBAN, BIC, currency, shown under *What Fio reports about this account*) and posts a note in the journal's chatter. A token that belongs to a **different account** than the journal's IBAN, or an account in a different currency than the journal's, is refused — importing it would book another account's movements here.
+Then press **Test connection** in the journal's header (it appears once a token is saved). Odoo makes one call, stores what Fio reports about the account (account number, bank code, IBAN, BIC, currency, shown under *What Fio reports about this account*) and posts a note in the journal's chatter. A token that belongs to a **different account** than the journal's IBAN, or an account in a different currency than the journal's, is refused — importing it would book another account's movements here.
 
 *Accounting → Configuration → Accounting → Fio banka* lists every journal that has a read token, with both expiry dates; a date already past shows in red.
 
@@ -109,10 +109,10 @@ Module facts
 ============
 
 - **Technical name:** ``account_fio``
-- **Version:** 19.0.2.2.5
+- **Version:** 19.0.2.3.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
-- **Requires:** ``account``, ``account_fio_base``
+- **Requires:** ``account``, ``account_bank_feed_base``, ``account_fio_base``
 
 Documentation
 =============
