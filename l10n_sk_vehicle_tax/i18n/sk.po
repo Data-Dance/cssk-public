@@ -383,6 +383,7 @@ msgstr "Dátum zistenia skutočnosti"
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle_model__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_ir_attachment__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__display_name
@@ -523,6 +524,7 @@ msgstr "Odberatelia (partneri)"
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__fuel_type
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle_model__default_fuel_type
 msgid "Fuel Type"
 msgstr "Druh paliva"
 
@@ -549,6 +551,7 @@ msgstr "Vodík"
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle_model__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_ir_attachment__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__id
@@ -637,6 +640,7 @@ msgstr "L7e"
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__fuel_type__lng
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle_model__default_fuel_type__lng
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__lng
 msgid "LNG"
 msgstr "LNG"
@@ -997,32 +1001,9 @@ msgid "Result"
 msgstr "Výsledok"
 
 #. module: l10n_sk_vehicle_tax
-#. odoo-python
-#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
-msgid "Retain the exemption or outside-scope evidence on the fleet vehicle."
-msgstr ""
-"Na karte vozidla uchovajte podklad oslobodenia alebo vylúčenia z rozsahu."
-
-#. module: l10n_sk_vehicle_tax
-#. odoo-python
-#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
-msgid "Retain the section 8 evidence for an overridden liability event."
-msgstr "Pri zmene dátumu vzniku povinnosti uchovajte podklad podľa § 8."
-
-#. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__return_id
 msgid "Return"
 msgstr "Priznanie"
-
-#. module: l10n_sk_vehicle_tax
-#. odoo-python
-#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
-msgid ""
-"Review Slovak registration, ordinary taxpayer a/b and actual "
-"registration/acquisition dates on the fleet vehicle."
-msgstr ""
-"Na karte vozidla overte evidenciu v SR, bežného daňovníka a/b a skutočné "
-"dátumy evidencie a nadobudnutia."
 
 #. module: l10n_sk_vehicle_tax
 #. odoo-python
@@ -1145,11 +1126,6 @@ msgid ""
 msgstr ""
 "Overené upravené ročné sadzby vozidiel, ktoré podliehajú dani k "
 "nasledujúcemu 1. januáru. Nejde o daň za predchádzajúci rok."
-
-#. module: l10n_sk_vehicle_tax
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_liability_from_override
-msgid "Reviewed liability event override"
-msgstr "Overený náhradný dátum vzniku povinnosti"
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model,name:l10n_sk_vehicle_tax.model_l10n_sk_vehicle_tax_line
@@ -1592,3 +1568,77 @@ msgstr "e"
 #: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
 msgid "motor vehicle tax return"
 msgstr "priznanie k dani z motorových vozidiel"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "All prepared fleet vehicles are included."
+msgstr "Všetky pripravené vozidlá sú zahrnuté."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Exempt or outside scope: %s"
+msgstr "Oslobodené alebo mimo rozsahu: %s"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Fleet import: %s added, %s not imported"
+msgstr "Pridanie vozidiel: pridané %s, nepridané %s"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Missing category or outside the supported L/M1/N1 taxpayer a/b scope."
+msgstr ""
+"Chýba kategória alebo ide o prípad mimo podporovaných L/M1/N1 a daňovníkov "
+"a/b."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model,name:l10n_sk_vehicle_tax.model_fleet_vehicle_model
+msgid "Model of a vehicle"
+msgstr "Model vozidla"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "No company assigned; assign the owning company before import."
+msgstr "Firma nie je priradená; pred pridaním priraďte vlastníka."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
+msgid ""
+"Record the reviewed business use / holding start and section 8 evidence; the"
+" fleet registration default is not liability evidence."
+msgstr ""
+"Zadajte overený začiatok podnikateľského použitia / držby a podklad podľa "
+"§8; predvolený dátum evidencie vozidla nie je dôkazom povinnosti."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
+msgid ""
+"Review Slovak registration, ordinary taxpayer a/b and actual first-"
+"registration date on the fleet vehicle."
+msgstr ""
+"Na karte vozidla overte evidenciu v SR, bežného daňovníka a/b a skutočný "
+"dátum prvej evidencie."
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_liability_from_override
+msgid "Reviewed business use / holding start"
+msgstr "Overený začiatok podnikateľského použitia / držby"
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Vehicle registration number is missing."
+msgstr "Chýba evidenčné číslo vozidla."
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "exemption evidence missing"
+msgstr "chýba podklad oslobodenia"

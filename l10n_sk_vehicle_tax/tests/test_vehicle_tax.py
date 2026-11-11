@@ -23,11 +23,13 @@ class TestVehicleTax(TransactionCase):
 
     def _fleet_values(self, values):
         names = {'registration_number': 'license_plate', 'category': 'l10n_sk_eu_category',
-            'first_registered': 'l10n_sk_first_registration_date', 'liability_from': 'acquisition_date',
+            'first_registered': 'l10n_sk_first_registration_date', 'liability_from': 'l10n_sk_liability_from_override',
             'liability_to': 'write_off_date', 'engine_cm3': 'l10n_sk_engine_cm3',
             'power_kw': 'power', 'weight_kg': 'l10n_sk_max_mass_kg', 'axles': 'l10n_sk_axles',
             'taxpayer': 'l10n_sk_dmv_taxpayer'}
         result = {names[key]: value for key, value in values.items() if key in names}
+        if 'liability_from' in values:
+            result['l10n_sk_liability_override_reason'] = 'Reviewed synthetic section 8 holding/use evidence.'
         if 'propulsion' in values:
             result['fuel_type'] = {'hybrid': 'full_hybrid', 'combustion': 'gasoline'}.get(
                 values['propulsion'], values['propulsion'])
@@ -626,3 +628,68 @@ class TestVehicleTax(TransactionCase):
             # Simulate a competing worker past its Python pre-check. The
             # partial unique index must still reject a second filed original.
             self.cr.execute("UPDATE l10n_sk_vehicle_tax_return SET state='submitted' WHERE id=%s", [second.id])
+
+    def test_default_acquisition_date_cannot_shorten_long_held_liability(self):
+        rec = self.make_return()
+        rec.line_ids.unlink()
+        self.env['fleet.vehicle'].search([('company_id', '=', self.company.id)]).unlink()
+        # Deliberately omit acquisition_date, as in the native fleet UI.
+        vehicle = self.env['fleet.vehicle'].create({'company_id': self.company.id,
+            'model_id': self.fleet_model.id, 'license_plate': 'LONGHELD',
+            'l10n_sk_registered_in_sk': True, 'l10n_sk_eu_category': 'M1',
+            'l10n_sk_first_registration_date': '2018-01-15',
+            'l10n_sk_engine_cm3': 2000, 'fuel_type': 'gasoline'})
+        self.assertTrue(vehicle.acquisition_date)
+        with self.assertRaisesRegex(UserError, 'reviewed business use / holding start'):
+            vehicle._l10n_sk_vehicle_tax_facts()
+        vehicle.write({'l10n_sk_liability_from_override': '2018-01-15',
+                       'l10n_sk_liability_override_reason': 'Company register: held since 2018.'})
+        rec.action_add_fleet_vehicles()
+        self.assertEqual(rec.line_ids.vehicle_id, vehicle)
+        rec.line_ids.facts_reviewed = True
+        self.xml(rec)
+        self.assertEqual(rec.tax_total, 177.60)
+        self.assertEqual(sum(s['month_count'] for s in rec.result['vehicles'][0]['segments']), 12)
+
+    def test_import_lists_every_unprepared_vehicle_and_imports_ready(self):
+        rec = self.make_return()
+        ready = rec.line_ids.vehicle_id
+        rec.line_ids.unlink()
+        variants = [
+            ('MISSING', {'l10n_sk_first_registration_date': False}),
+            ('NOSTART', {'l10n_sk_liability_from_override': False}),
+            ('NOREASON', {'l10n_sk_liability_override_reason': ' '}),
+            ('FUTURE', {'l10n_sk_liability_from_override': '2027-02-01'}),
+            ('POOL', {'l10n_sk_dmv_taxpayer': 'e'}),
+            ('EXEMPT', {'l10n_sk_tax_exempt': True, 'l10n_sk_not_taxable_reason': 'Reviewed exemption'}),
+            ('NOEVIDENCE', {'l10n_sk_tax_exempt': True, 'l10n_sk_not_taxable_reason': False}),
+            ('NOCOMPANY', {'company_id': False}),
+            ('HEAVY', {'l10n_sk_eu_category': 'N3'}),
+            ('NOCAPACITY', {'l10n_sk_engine_cm3': 0}),
+        ]
+        for plate, values in variants:
+            ready.copy({'license_plate': plate, **values})
+        action = rec.action_add_fleet_vehicles()
+        self.assertEqual(rec.line_ids.vehicle_id, ready)
+        message = action['params']['message']
+        for plate, _values in variants:
+            self.assertIn(plate + ':', message)
+        self.assertIn('No company assigned', message)
+        self.assertIn('exemption evidence missing', message)
+        rec.action_add_fleet_vehicles()
+        self.assertEqual(len(rec.line_ids), 1)
+
+    def test_lng_model_default_survives_model_change(self):
+        model = self.fleet_model.copy({'default_fuel_type': 'lng'})
+        vehicle = self.env['fleet.vehicle'].create({'model_id': self.fleet_model.id})
+        vehicle.model_id = model
+        self.assertEqual(vehicle.fuel_type, 'lng')
+
+    def test_historical_fleet_import_ignores_later_native_registration_date(self):
+        rec = self.make_return()
+        vehicle = rec.line_ids.vehicle_id
+        rec.line_ids.unlink()
+        vehicle.acquisition_date = '2027-02-01'
+        rec.action_add_fleet_vehicles()
+        self.assertEqual(rec.line_ids.vehicle_id, vehicle)
+        self.assertEqual(str(rec.line_ids.liability_from), '2020-04-01')

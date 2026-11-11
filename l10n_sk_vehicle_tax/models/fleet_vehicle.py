@@ -23,7 +23,7 @@ class FleetVehicle(models.Model):
     l10n_sk_tax_exempt = fields.Boolean(string='Vehicle tax exemption reviewed')
     l10n_sk_not_taxable_reason = fields.Text(string='Exemption or outside-scope evidence')
     l10n_sk_hybrid_documented = fields.Boolean(string='Hybrid propulsion documented')
-    l10n_sk_liability_from_override = fields.Date(string='Reviewed liability event override')
+    l10n_sk_liability_from_override = fields.Date(string='Reviewed business use / holding start')
     l10n_sk_liability_override_reason = fields.Text(string='Section 8 liability override evidence')
 
     def _l10n_sk_vehicle_tax_facts(self):
@@ -31,8 +31,8 @@ class FleetVehicle(models.Model):
         if (self.company_id.country_id.code != 'SK' or not self.l10n_sk_registered_in_sk
                 or self.l10n_sk_tax_exempt or self.l10n_sk_not_taxable_reason
                 or self.l10n_sk_dmv_taxpayer not in ('a', 'b')
-                or not self.acquisition_date or not self.l10n_sk_first_registration_date):
-            raise UserError(_('Review Slovak registration, ordinary taxpayer a/b and actual registration/acquisition dates on the fleet vehicle.'))
+                or not self.l10n_sk_first_registration_date):
+            raise UserError(_('Review Slovak registration, ordinary taxpayer a/b and actual first-registration date on the fleet vehicle.'))
         fuel = self.fuel_type or ''
         propulsion = ('hybrid' if fuel == 'full_hybrid' or fuel.startswith('plug_in_hybrid') else
                       fuel if fuel in ('electric', 'cng', 'lng', 'hydrogen', 'lpg') else
@@ -41,11 +41,12 @@ class FleetVehicle(models.Model):
             raise UserError(_('Review documented fleet propulsion before claiming vehicle-tax treatment.'))
         if propulsion == 'electric' and (self.power_unit != 'power' or self.power <= 0):
             raise UserError(_('Record the electric vehicle power in kW on its fleet record.'))
-        start = max(self.acquisition_date, self.l10n_sk_first_registration_date)
-        if self.l10n_sk_liability_from_override:
-            if not (self.l10n_sk_liability_override_reason or '').strip():
-                raise UserError(_('Retain the section 8 evidence for an overridden liability event.'))
-            start = self.l10n_sk_liability_from_override
+        # Fleet defaults acquisition_date to today. It is not evidence of when
+        # section 2 business use/holding began. Require an independently reviewed
+        # section 8 event, including the next-month transfer rule where applicable.
+        if not self.l10n_sk_liability_from_override or not (self.l10n_sk_liability_override_reason or '').strip():
+            raise UserError(_('Record the reviewed business use / holding start and section 8 evidence; the fleet registration default is not liability evidence.'))
+        start = self.l10n_sk_liability_from_override
         return {'registration_number': self.license_plate or '', 'category': self.l10n_sk_eu_category,
             'first_registered': fields.Date.to_string(self.l10n_sk_first_registration_date),
             'liability_from': fields.Date.to_string(start),
@@ -60,3 +61,9 @@ class FleetVehicle(models.Model):
         return {'vehicle': self.id, 'company': self.company_id.id, 'vin': self.vin_sn or '',
             'facts': self._l10n_sk_vehicle_tax_facts(),
             'liability_override_evidence': self.l10n_sk_liability_override_reason or ''}
+
+
+class FleetVehicleModel(models.Model):
+    _inherit = 'fleet.vehicle.model'
+
+    default_fuel_type = fields.Selection(selection_add=[('lng', 'LNG')], ondelete={'lng': 'set null'})

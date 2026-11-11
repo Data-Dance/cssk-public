@@ -577,18 +577,50 @@ class VehicleTaxReturn(models.Model):
     def action_add_fleet_vehicles(self):
         self.ensure_one()
         self._check_edit_lines()
+        # Do not filter on acquisition_date: fleet's creation-time default can
+        # hide an existing vehicle from a historical return altogether.
         vehicles = self.env['fleet.vehicle'].with_context(active_test=False).search([
-            ('company_id', '=', self.company_id.id),
-            '|', ('acquisition_date', '=', False), ('acquisition_date', '<=', self.date_to),
-            '|', ('write_off_date', '=', False), ('write_off_date', '>=', self.date_from)])
+            ('company_id', 'in', [False, self.company_id.id])])
+        skipped = []
+        imported = 0
         for vehicle in vehicles - self.line_ids.vehicle_id:
-            if vehicle.l10n_sk_tax_exempt or vehicle.l10n_sk_not_taxable_reason:
-                if not (vehicle.l10n_sk_not_taxable_reason or '').strip():
-                    raise UserError(_('Retain the exemption or outside-scope evidence on the fleet vehicle.'))
+            reason = False
+            if not vehicle.company_id:
+                reason = _('No company assigned; assign the owning company before import.')
+            elif vehicle.l10n_sk_tax_exempt or vehicle.l10n_sk_not_taxable_reason:
+                reason = _('Exempt or outside scope: %s', vehicle.l10n_sk_not_taxable_reason or
+                           _('exemption evidence missing'))
+            elif vehicle.l10n_sk_dmv_taxpayer not in ('a', 'b') or vehicle.l10n_sk_eu_category not in (
+                    'L1e', 'L2e', 'L3e', 'L4e', 'L5e', 'L6e', 'L7e', 'M1', 'N1'):
+                reason = _('Missing category or outside the supported L/M1/N1 taxpayer a/b scope.')
+            else:
+                try:
+                    facts = vehicle._l10n_sk_vehicle_tax_facts()
+                    if not facts['registration_number'].strip():
+                        raise UserError(_('Vehicle registration number is missing.'))
+                    if facts['category'] == 'N1' and (facts['axles'] < 1 or not 0 < facts['weight_kg'] <= 3500):
+                        raise UserError(_('An N1 vehicle needs documented axles and maximum permissible mass up to 3500 kg.'))
+                    calculate_vehicle(year=self.year,
+                        category='L' if facts['category'].startswith('L') else facts['category'],
+                        first_registered=fields.Date.to_date(facts['first_registered']),
+                        liability_from=fields.Date.to_date(facts['liability_from']),
+                        liability_to=fields.Date.to_date(facts['liability_to']) or None,
+                        propulsion=facts['propulsion'], engine_cm3=facts['engine_cm3'],
+                        power_kw=facts['power_kw'], weight_kg=facts['weight_kg'], schedule=self.version_id.schedule)
+                except UserError as error:
+                    reason = str(error)
+                except (ValueError, TypeError, KeyError) as error:
+                    reason = self._calculation_error(error)
+            if reason:
+                skipped.append('%s: %s' % (vehicle.license_plate or vehicle.display_name, reason))
                 continue
             self.env['l10n.sk.vehicle.tax.line'].create({'return_id': self.id, 'vehicle_id': vehicle.id,
                 'evidence': _('Review the imported fleet documents and liability before calculation.')})
-        return True
+            imported += 1
+        return {'type': 'ir.actions.client', 'tag': 'display_notification', 'params': {
+            'title': _('Fleet import: %s added, %s not imported', imported, len(skipped)),
+            'type': 'warning' if skipped else 'success', 'sticky': bool(skipped),
+            'message': '\n'.join(skipped) if skipped else _('All prepared fleet vehicles are included.')}}
 
 
 class VehicleTaxLine(models.Model):

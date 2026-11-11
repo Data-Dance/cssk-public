@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 09:47+0000\n"
-"PO-Revision-Date: 2026-11-09 09:47+0000\n"
+"POT-Creation-Date: 2026-11-11 19:19+0000\n"
+"PO-Revision-Date: 2026-11-11 19:19+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -123,6 +123,12 @@ msgstr ""
 msgid ""
 "After the ordinary filing deadline use an additional return with the "
 "discovery date."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "All prepared fleet vehicles are included."
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -350,6 +356,7 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__display_name
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle_model__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_ir_attachment__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__display_name
@@ -398,6 +405,12 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__advances_evidence
 msgid "Evidence of paid advances or reviewed zero"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Exempt or outside scope: %s"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -469,6 +482,12 @@ msgid "Fleet completeness, registration and taxpayer review"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Fleet import: %s added, %s not imported"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__vehicle_id
 msgid "Fleet vehicle"
 msgstr ""
@@ -485,6 +504,7 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__fuel_type
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle_model__default_fuel_type
 msgid "Fuel Type"
 msgstr ""
 
@@ -511,6 +531,7 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__id
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle_model__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_ir_attachment__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__id
@@ -597,6 +618,7 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__fuel_type__lng
+#: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle_model__default_fuel_type__lng
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__propulsion__lng
 msgid "LNG"
 msgstr ""
@@ -681,6 +703,17 @@ msgid "Messages"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Missing category or outside the supported L/M1/N1 taxpayer a/b scope."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#: model:ir.model,name:l10n_sk_vehicle_tax.model_fleet_vehicle_model
+msgid "Model of a vehicle"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
 #: model:ir.actions.act_window,name:l10n_sk_vehicle_tax.vehicle_tax_action
 #: model:ir.ui.menu,name:l10n_sk_vehicle_tax.vehicle_tax_menu
 msgid "Motor vehicle tax"
@@ -713,6 +746,12 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_return__projection_evidence
 msgid "Next January fleet and annual rates review"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "No company assigned; assign the owning company before import."
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -864,6 +903,14 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_tax
 #. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
+msgid ""
+"Record the reviewed business use / holding start and section 8 evidence; the"
+" fleet registration default is not liability evidence."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
 #: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
 msgid "Recorded filing confirmation. The exact vehicle tax XML is retained."
 msgstr ""
@@ -941,18 +988,6 @@ msgid "Result"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
-#. odoo-python
-#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
-msgid "Retain the exemption or outside-scope evidence on the fleet vehicle."
-msgstr ""
-
-#. module: l10n_sk_vehicle_tax
-#. odoo-python
-#: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
-msgid "Retain the section 8 evidence for an overridden liability event."
-msgstr ""
-
-#. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_l10n_sk_vehicle_tax_line__return_id
 msgid "Return"
 msgstr ""
@@ -961,8 +996,8 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_tax/models/fleet_vehicle.py:0
 msgid ""
-"Review Slovak registration, ordinary taxpayer a/b and actual "
-"registration/acquisition dates on the fleet vehicle."
+"Review Slovak registration, ordinary taxpayer a/b and actual first-"
+"registration date on the fleet vehicle."
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -1074,7 +1109,7 @@ msgstr ""
 
 #. module: l10n_sk_vehicle_tax
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_tax.field_fleet_vehicle__l10n_sk_liability_from_override
-msgid "Reviewed liability event override"
+msgid "Reviewed business use / holding start"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax
@@ -1368,6 +1403,12 @@ msgstr ""
 #. module: l10n_sk_vehicle_tax
 #. odoo-python
 #: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "Vehicle registration number is missing."
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
 msgid ""
 "Vehicle tax XML snapshots cannot be replaced or reassigned. Export a new "
 "snapshot."
@@ -1486,6 +1527,12 @@ msgstr ""
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__fleet_vehicle__l10n_sk_dmv_taxpayer__e
 #: model:ir.model.fields.selection,name:l10n_sk_vehicle_tax.selection__l10n_sk_vehicle_tax_line__taxpayer__e
 msgid "e"
+msgstr ""
+
+#. module: l10n_sk_vehicle_tax
+#. odoo-python
+#: code:addons/l10n_sk_vehicle_tax/models/vehicle_tax.py:0
+msgid "exemption evidence missing"
 msgstr ""
 
 #. module: l10n_sk_vehicle_tax

@@ -1,7 +1,7 @@
 ---
 title: Daň z motorových vozidiel — DMVv25
 summary: Príprava slovenskej dane z motorových vozidiel z natívnej evidencie vozidiel.
-verified: 19.0.1.1.0
+verified: 19.0.1.0.0
 ---
 
 Účtovníctvo → Výkazy → Zákonné výkazy → Daň z motorových vozidiel.
@@ -23,13 +23,19 @@ Výkon elektromobilu musí byť v kW; hybridný pohon musí byť doložený.
 Táto verzia počíta bežných daňovníkov a/b; oslobodenie či vylúčenie má
 výslovný dôvod na karte vozidla.
 
-Tlačidlo **Pridať firemné vozidlá** zahrnie aj vozidlá predané alebo archivované
-počas roka. Overte prenesené snímky. Po zmene karty použite v návrhu priznania
-**Obnoviť snímku vozidla** a znova overte podklady. Technické údaje sa neopisujú
-do druhej evidencie. Skutočné dátumy nadobudnutia/evidencie a zrušenia evidencie
-výpočet prevedie na zákonné hranice mesiacov. Výnimka podľa §8 má na karte
-osobitný dátum a odôvodnenie. Modul knihy jázd sa nevyžaduje.
+Tlačidlo **Pridať firemné vozidlá** pridá pripravené vozidlá vrátane predaných
+a archivovaných. Trvalé upozornenie vypíše každé nepridané EČV s dôvodom:
+chýbajúce údaje, nepodporovaná kategória/daňovník, oslobodenie, dátumy mimo roka
+alebo nepriradená firma. Zdieľané vozidlá najprv výslovne priraďte vlastníkovi.
+Overte prenesené snímky; po zmene karty použite **Obnoviť snímku vozidla**
+a znova overte podklady.
 
+Na každom zdaniteľnom vozidle vyplňte **Overený začiatok podnikateľského použitia / držby**
+a podklad podľa §8. Natívny dátum evidencie sa predvolí na dnešok a nikdy sa
+nepoužije ako dôkaz začiatku povinnosti. Pri dávno držanom aute zadajte skutočný
+historický začiatok aj pri dnes vytvorenej karte. Pri zmene daňovníka overte
+pravidlo nasledujúceho mesiaca podľa §8 ods.5. Výpočet prevedie overené udalosti
+na zákonné hranice mesiacov. Modul knihy jázd sa nevyžaduje.
 1. Doplňte DIČ a sídlo firmy. Firma nemusí byť platiteľom DPH. Ulica a číslo
    používajú spoločnú funkciu lokalizácie.
 2. Overte bežné obdobie, úplnosť vozidiel, technické doklady, evidenciu v SR,

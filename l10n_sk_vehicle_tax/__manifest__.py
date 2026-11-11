@@ -1,6 +1,6 @@
 {
     'name': 'Slovakia - Motor vehicle tax',
-    'version': '19.0.1.1.0', 'license': 'AGPL-3', 'author': 'Data Dance s.r.o., votrelec',
+    'version': '19.0.1.0.0', 'license': 'AGPL-3', 'author': 'Data Dance s.r.o., votrelec',
     'website': 'https://www.datadance.eu',
     'category': 'Accounting/Localizations', 'countries': ['sk'],
     'depends': ['l10n_cssk_core', 'l10n_sk_base', 'base_iban', 'fleet'],

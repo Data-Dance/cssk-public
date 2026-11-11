@@ -1,7 +1,7 @@
 ---
 title: Motor vehicle tax — DMVv25
 summary: Prepare Slovak calendar-year motor vehicle tax from the native fleet register.
-verified: 19.0.1.1.0
+verified: 19.0.1.0.0
 ---
 
 Accounting → Reporting → Statutory Reports → Motor vehicle tax.
@@ -24,14 +24,19 @@ date. Power for electric vehicles must be in kW. Document hybrid status before
 claiming its reduction. This edition calculates ordinary taxpayers a/b;
 record exemptions/outside-scope grounds explicitly instead of discarding a car.
 
-**Add company fleet vehicles** includes vehicles sold or archived during the
-year. Review the imported snapshots. A later fleet edit requires **Refresh
-fleet snapshot** and a new review on the draft return. Technical facts are not
-retyped into a parallel register. Liability comes from acquisition/registration
-and cancellation events; the engine converts their actual dates to statutory
-month boundaries. A section 8 exception has an explicit dated override and
-reason on the fleet record. No trip-log module is required.
+**Add company fleet vehicles** imports ready vehicles, including sold or archived
+vehicles. Its persistent notification lists every skipped plate and reason:
+missing facts, unsupported category/taxpayer, exemption, dates outside the year,
+or no assigned company. Assign shared vehicles explicitly to their owning
+company before import. Review the imported snapshots. After a fleet edit use
+**Refresh fleet snapshot** and review again.
 
+Record **Reviewed business use / holding start** and its section 8 evidence on
+every taxable vehicle. Fleet's Registration Date defaults to today and is never
+used as evidence of tax liability. For a car held for years, enter that actual
+historical start even if its fleet card was only created today. Review the
+section 8(5) next-month rule on a taxpayer transfer. The engine converts reviewed
+event dates to statutory month boundaries. No trip-log module is required.
 1. Complete the company's DIČ and registered address. VAT registration is not
    required. Street/house number use the common localization address helper.
 2. Review the ordinary-period scope, complete taxable fleet, technical documents,
