@@ -942,6 +942,96 @@ class TestWithholdingNative(AccountTestInvoicingCommon):
         with self.assertRaises(UserError):
             notice.action_compute_lines()
 
+    def test_author_partial_credit_note_uses_remaining_native_income(self):
+        notice = self.notice(remitted=False)
+        notice.event_ids.unlink()
+        payable = self.recipient.with_company(self.company).property_account_payable_id
+        self.assertTrue(payable.code.startswith("321"))
+        purchase = self.env["account.journal"].search(
+            [("company_id", "=", self.company.id), ("type", "=", "purchase")], limit=1
+        )
+        bill = self.env["account.move"].create(
+            {
+                "company_id": self.company.id,
+                "journal_id": purchase.id,
+                "partner_id": self.recipient.id,
+                "move_type": "in_invoice",
+                "invoice_date": "2026-05-10",
+                "date": "2026-05-10",
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "name": "Synthetic author licence",
+                            "account_id": self.expense.id,
+                            "quantity": 1,
+                            "price_unit": 1500,
+                            "tax_ids": [Command.clear()],
+                        }
+                    )
+                ],
+            }
+        )
+        bill.action_post()
+        credit = bill._reverse_moves(
+            default_values_list=[
+                {
+                    "date": "2026-05-15",
+                    "invoice_date": "2026-05-15",
+                }
+            ]
+        )
+        self.assertEqual(credit.state, "draft")
+        credit.invoice_line_ids.price_unit = 150
+        credit.action_post()
+        self.assertEqual(credit.reversed_entry_id, bill)
+        self.assertEqual(credit.amount_total, 150)
+        income = bill.line_ids.filtered(lambda line: line.account_id == payable)
+        self.assertEqual(len(income), 1)
+        self.assertEqual(income.balance, -1500)
+        tax = self.entry(
+            "remaining author tax", [(payable, 256.5), (self.tax, -256.5)], "2026-05-20"
+        )
+        payment = self.entry(
+            "remaining author payment",
+            [(payable, 1093.5), (self.bank, -1093.5)],
+            "2026-05-20",
+        )
+        event = self.env["l10n.sk.withholding.event"].create(
+            {
+                "notice_id": notice.id,
+                "partner_id": self.recipient.id,
+                "first_name": "Žofia",
+                "last_name": "Šťastná",
+                "income_kind": "author",
+                "gross": 1350,
+                "decision_on": "2026-05-10",
+                "paid_on": "2026-05-20",
+                "distribution_line_id": income.id,
+                "withholding_line_id": tax.line_ids.filtered(
+                    lambda line: line.account_id == self.tax
+                ).id,
+                "payment_line_id": payment.line_ids.filtered(
+                    lambda line: line.account_id == payable
+                ).id,
+                "source_reference": "Synthetic licence, native bill/partial credit and actual payment",
+                "payment_reviewed": True,
+            }
+        )
+        self.assertEqual(event.tax_amount, 256.5)
+        self.assertEqual(event.net_amount, 1093.5)
+        try:
+            notice.action_compute_lines()
+        except UserError as error:
+            self.fail(f"Remaining native author income could not be reported: {error}")
+        notice.action_export_xml()
+        root = etree.fromstring(notice.xml_attachment_id.raw)
+        self.assertEqual(
+            root.findtext("hlavicka/suhrnneUdaje/spolu04/danZrazena"), "256.50"
+        )
+        etree.XMLSchema(
+            etree.parse(file_path("l10n_sk_withholding/data/ozn4311_2026.xsd"))
+        ).assertValid(root)
+
     def test_resident_author_without_waiver_uses_19_percent_not_dividend_annex(self):
         notice = self.notice(remitted=False)
         notice.event_ids.unlink()
