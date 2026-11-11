@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-06 16:45+0000\n"
-"PO-Revision-Date: 2026-08-06 16:45+0000\n"
+"POT-Creation-Date: 2026-11-11 09:46+0000\n"
+"PO-Revision-Date: 2026-11-11 09:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -73,12 +73,7 @@ msgid "Currency"
 msgstr ""
 
 #. module: l10n_sk_vehicle_expense
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_chart_template__display_name
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__display_name
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__display_name
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr ""
 
@@ -131,12 +126,7 @@ msgid "Fuel — non-deductible share (%(pct).0f %%) of %(label)s"
 msgstr ""
 
 #. module: l10n_sk_vehicle_expense
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_chart_template__id
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_move_line__id
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__id
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__id
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__id
 msgid "ID"
 msgstr ""
 
@@ -148,12 +138,6 @@ msgstr ""
 #. module: l10n_sk_vehicle_expense
 #: model:ir.model,name:l10n_sk_vehicle_expense.model_account_move_line
 msgid "Journal Item"
-msgstr ""
-
-#. module: l10n_sk_vehicle_expense
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_is_sk_company
-#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_is_sk_company
-msgid "Slovak chart in use (technical)"
 msgstr ""
 
 #. module: l10n_sk_vehicle_expense
@@ -198,6 +182,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_is_sk_company
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_is_sk_company
+msgid "Slovak chart in use (technical)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
 #: model_terms:ir.ui.view,arch_db:l10n_sk_vehicle_expense.view_l10n_sk_fuel_split_form
 msgid "Split"
 msgstr ""
@@ -220,6 +210,11 @@ msgid "Split fuel between its tax-deductible and non-deductible shares"
 msgstr ""
 
 #. module: l10n_sk_vehicle_expense
+#: model:ir.model,name:l10n_sk_vehicle_expense.model_account_tax
+msgid "Tax"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_l10n_sk_fuel_split__income_ratio
 msgid "Tax-expense share (%)"
 msgstr ""
@@ -229,6 +224,16 @@ msgstr ""
 msgid ""
 "Technical — marks both halves of a fuel line that has already been split, so"
 " a second run cannot compound the reclassification."
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,help:l10n_sk_vehicle_expense.field_account_tax__l10n_sk_par85n
+msgid ""
+"The VAT this tax leaves undeducted is the 50 % that § 85n of the VAT Act "
+"withholds on a passenger vehicle. Under § 52zzzk of the Income Tax Act it is"
+" then not a tax expense, and on a purchased vehicle not part of its tax "
+"entry price: the tax depreciation board leaves it out of the entry value it "
+"proposes."
 msgstr ""
 
 #. module: l10n_sk_vehicle_expense
@@ -253,6 +258,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_company__l10n_sk_vehicle_vat_ratio
 #: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_res_config_settings__l10n_sk_vehicle_vat_ratio
 msgid "Vehicle VAT deduction (%)"
+msgstr ""
+
+#. module: l10n_sk_vehicle_expense
+#: model:ir.model.fields,field_description:l10n_sk_vehicle_expense.field_account_tax__l10n_sk_par85n
+msgid "Vehicle VAT limited by § 85n"
 msgstr ""
 
 #. module: l10n_sk_vehicle_expense

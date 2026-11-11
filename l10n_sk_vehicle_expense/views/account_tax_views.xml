@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2026 Data Dance s.r.o.
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_tax_form_par85n" model="ir.ui.view">
+        <field name="name">account.tax.form.l10n_sk_par85n</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='advanced_options']//field[@name='tax_group_id']" position="after">
+                <field name="l10n_sk_par85n"
+                       invisible="type_tax_use != 'purchase' or country_code != 'SK'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

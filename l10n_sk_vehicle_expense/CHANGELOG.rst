@@ -17,6 +17,25 @@ Fixed
   accounts: Odoo drops a string domain when it copies a field into a related
   one.
 
+[18.0.1.1.0] — 2026-11-11
+-------------------------
+
+Changed
+~~~~~~~
+
+- **Vehicle purchase taxes** ``vs_auto_23_asset`` / ``vs_auto_19_asset``
+  (port of 19.0.1.2.0): they deduct the same half as the running-cost taxes
+  and book the undeducted half on the bill line's own account, so a purchased
+  car carries it in its acquisition cost (§ 52zzzk ZDP keeps it out of the tax
+  entry price). The 19 % one deducts on 343110, like Odoo's own 19 % purchase
+  tax; ``vs_auto_19`` on this branch still uses 343120 (19.0 fixed that in
+  19.0.1.1.0, not yet ported).
+- Flag **Vehicle VAT limited by § 85n** (``l10n_sk_par85n``) on all four
+  vehicle taxes, read by the tax depreciation board.
+- ``_l10n_sk_vehicle_load_taxes``: creates the vehicle taxes a company with
+  the chart lacks; the upgrade uses it for the purchase taxes and flags the
+  existing two.
+
 [18.0.1.0.2] — 2026-10-20
 -------------------------
 

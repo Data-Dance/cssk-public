@@ -61,6 +61,14 @@ class AccountAsset(models.Model):
         self.ensure_one()
         return self.purchase_value or 0.0
 
+    def _tax_source_move_lines(self):
+        """The bill lines the asset was created from: its journal items that
+        carry taxes (its depreciation entries carry none)."""
+        self.ensure_one()
+        return self.account_move_line_ids.filtered(
+            lambda line: line.tax_ids and not line.tax_line_id
+            and line.parent_state == "posted")
+
     def _tax_get_in_service_date(self):
         """OCA's ``date_start`` is the depreciation start / in-service date."""
         self.ensure_one()

@@ -45,6 +45,13 @@ The non-deducted VAT is itself **not a tax expense**, so it lands in the same
 account as the non-tax fuel share, and the two are picked up together as a
 *pripočítateľná položka* in the DPPO.
 
+**The purchase of the vehicle** takes ``vs_auto_23_asset`` / ``vs_auto_19_asset``
+instead: the same deducted half, and the other half booked on the bill line's
+own account, so the car's acquisition cost includes it (the books capitalise
+it; § 52zzzk ZDP keeps it out of the tax entry price). All four taxes carry the
+flag *Vehicle VAT limited by § 85n*, from which ``l10n_sk_account_asset_tax``
+proposes the tax entry price without that VAT.
+
 Honesty flags
 =============
 

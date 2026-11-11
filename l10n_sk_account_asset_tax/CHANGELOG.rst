@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[18.0.1.1.0] — 2026-11-11
+-------------------------
+
+Changed
+~~~~~~~
+
+- **§ 52zzzk ZDP** (port of 19.0.1.1.0): the proposed tax entry price leaves
+  out the VAT § 85n left undeducted on the asset's bill lines, read when
+  ``l10n_sk_vehicle_expense`` is installed.
+
 [19.0.1.0.3] — 2026-07-04
 -------------------------
 

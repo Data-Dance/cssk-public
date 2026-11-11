@@ -5,6 +5,15 @@ Changelog
 All notable changes to **account_asset_tax_oca** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[18.0.1.5.0] — 2026-11-11
+-------------------------
+
+Changed
+~~~~~~~
+
+- Port of 19.0.1.7.0: an asset created from a bill includes the
+  non-deductible VAT its line books on the asset account.
+
 [19.0.1.4.2] — 2026-07-04
 -------------------------
 

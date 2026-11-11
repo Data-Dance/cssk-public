@@ -5,6 +5,16 @@ Changelog
 All notable changes to **account_asset_tax** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[18.0.1.10.0] — 2026-11-11
+--------------------------
+
+Changed
+~~~~~~~
+
+- Port of 19.0.1.13.0: ``_tax_entry_value_excluded()`` and
+  ``_tax_source_move_lines()`` hooks, ``_tax_default_entry_value()``, and
+  ``account.move.line._tax_capitalised_tax_by_line()``.
+
 [19.0.1.9.3] — 2026-07-04
 -------------------------
 

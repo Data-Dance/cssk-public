@@ -1,6 +1,6 @@
 {
     "name": "Tax Depreciation - OCA bridge",
-    "version": "18.0.1.4.2",
+    "version": "18.0.1.5.0",
     "summary": "Attach the CZ/SK tax-depreciation board to OCA account_asset_management (Community)",
     "description": """
 Tax Depreciation — OCA bridge
