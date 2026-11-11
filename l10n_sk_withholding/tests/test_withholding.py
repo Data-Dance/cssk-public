@@ -684,6 +684,61 @@ class TestWithholdingNative(AccountTestInvoicingCommon):
         self.assertEqual(notice.state, "exported")
         self.assertFalse(notice.filed_history_ids)
 
+    def later_conflicting_draft(self, first):
+        later = self.notice()
+        later.write(
+            {
+                "period": "2026-06-01",
+                "prepared_on": "2026-07-15",
+                "filing_on": "2026-07-15",
+            }
+        )
+        for source, draft in zip(first.event_ids, later.event_ids):
+            draft.write(
+                {
+                    "distribution_line_id": source.distribution_line_id.id,
+                    "payment_line_id": source.payment_line_id.id,
+                    "withholding_line_id": source.withholding_line_id.id,
+                    "paid_on": "2026-06-20",
+                }
+            )
+        self.assertEqual(later.state, "draft")
+        self.assertTrue(later._reserved_lines())
+        self.assertFalse(later._reserved_lines(retained_only=True))
+        return later
+
+    def test_later_draft_does_not_preempt_recording_the_retained_filing(self):
+        notice = self.notice().with_user(self.operator)
+        notice.action_compute_lines()
+        notice.action_export_xml()
+        content, payload = notice.xml_attachment_id.raw, deepcopy(notice.payload)
+        self.assertTrue(notice._reserved_lines(retained_only=True))
+        later = self.later_conflicting_draft(notice)
+        notice.action_submit()
+        self.assertEqual(notice.state, "submitted")
+        self.assertEqual(notice.submitted_attachment_id.raw, content)
+        self.assertEqual(notice.source_history[-1]["payload"], payload)
+        self.assertEqual(later.state, "draft")
+        with self.assertRaises(UserError):
+            later.action_compute_lines()
+
+    def test_later_draft_cannot_leave_manual_delivery_exported(self):
+        notice = self.notice().with_user(self.operator)
+        notice.action_compute_lines()
+        notice.action_export_xml()
+        content, payload = notice.xml_attachment_id.raw, deepcopy(notice.payload)
+        later = self.later_conflicting_draft(notice)
+        action = notice.with_context(bin_size=True).action_create_submission(
+            channel="pfs_manual"
+        )
+        submission = self.env["cssk.submission"].browse(action["res_id"])
+        submission.with_context(bin_size=True).action_attest_manual()
+        self.assertEqual(submission.state, "delivered")
+        self.assertEqual(notice.state, "submitted")
+        self.assertEqual(notice.submitted_attachment_id.raw, content)
+        self.assertEqual(notice.source_history[-1]["payload"], payload)
+        self.assertEqual(later.state, "draft")
+
     def test_filing_refuses_corrupted_retained_attachment_checksum(self):
         notice = self.notice()
         notice.action_compute_lines()

@@ -1,3 +1,5 @@
+# Copyright 2026 votrelec
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 """Independent FS example, actual remittance and Annex A shape, no filings."""
 
 from copy import deepcopy

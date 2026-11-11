@@ -843,7 +843,10 @@ class Withholding(models.Model):
                     "Base the complete correction on the immediately previous filed notice."
                 )
             )
-        other, claimed = self._allocated_elsewhere(), defaultdict(float)
+        other, claimed = (
+            self._allocated_elsewhere(retained_only=True),
+            defaultdict(float),
+        )
         for source in self.payload["sources"]:
             for line in source["lines"]:
                 claimed[line["id"]] += line["allocated"]
@@ -893,8 +896,13 @@ class Withholding(models.Model):
                 )
             )
 
-    def _reserved_lines(self):
-        """Working reservations plus any still-effective filed evidence."""
+    def _reserved_lines(self, *, retained_only=False):
+        """Working reservations and retained claims, with filing precedence.
+
+        A file already sent cannot lose priority to another notice's later
+        draft. Filing checks only retained claims; computation still includes
+        every working reservation before producing another export.
+        """
         self.ensure_one()
         claimed = defaultdict(float)
         if self.source_history:
@@ -918,6 +926,8 @@ class Withholding(models.Model):
                         ]
             for key, value in exported.items():
                 claimed[key] = max(claimed[key], value)
+        if retained_only:
+            return claimed
         working = defaultdict(float)
         for event in self.event_ids:
             for line, amount in (
@@ -953,7 +963,7 @@ class Withholding(models.Model):
             claimed[key] = max(claimed[key], value)
         return claimed
 
-    def _allocated_elsewhere(self):
+    def _allocated_elsewhere(self, *, retained_only=False):
         """Full replacements share a reservation; unrelated notices add up.
 
         A working correction cannot release its still-filed ancestor's amount
@@ -978,7 +988,9 @@ class Withholding(models.Model):
             root = notice
             while root.original_return_id:
                 root = root.original_return_id
-            for key, value in notice._reserved_lines().items():
+            for key, value in notice._reserved_lines(
+                retained_only=retained_only
+            ).items():
                 groups[root.id][key] = max(groups[root.id][key], value)
         result = defaultdict(float)
         for group in groups.values():
@@ -1055,7 +1067,11 @@ class WithholdingEvent(models.Model):
     )
     profit_period_start = fields.Date()
     profit_period_end = fields.Date()
-    gross = fields.Monetary(required=True, string="Taxable income (excluding VAT)")
+    gross = fields.Monetary(
+        required=True,
+        string="Taxable income (excluding VAT)",
+        help="For author income, enter the income excluding VAT less any actually withheld art-fund contribution under section 43(5)(b). Do not deduct a contribution that was not actually withheld. The payment amount is this taxable income less withholding tax.",
+    )
     decision_on = fields.Date(required=True, string="Decision or source agreement date")
     paid_on = fields.Date(required=True)
     remitted_on = fields.Date(compute="_compute_remittances")

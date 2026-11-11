@@ -7,31 +7,6 @@ All notable changes to **l10n_sk_withholding** are documented here.
 [Unreleased]
 ------------
 
-Fixed
-~~~~~
-
-- Refuse reversed source entries and reserve source allocations across live
-  notices and full replacements, including concurrent changes in other months.
-- Record actual filing from retained exports, with current-source drift warnings
-  and the common manual-channel path, without rewriting the filed copy.
-- Retain filing after renderer/schema upgrades and with binary-size UI context;
-  verify native attachment integrity and preserve access errors.
-- Validate Slovak identifier dates/length/mod11 and actual settlement capacity.
-
-Added
-~~~~~
-
-- Reconciled income set-offs and native registered payments through outstanding
-  accounts, with retained actual-payment evidence and physical credit references.
-- Complete resident-title scope confirmation, regular-deadline warnings and
-  evidenced authority-granted different deadlines.
-
-Changed
-~~~~~~~
-
-- Separate stored/name and end-date computes; randomise committed test fixtures;
-  retain original XSD bytes under data; export native Slovak error translations.
-
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
@@ -53,3 +28,15 @@ Added
 - Reviewed correction filing dates, complete replacement corrections, frozen
   filed XML/source history and shared submission/receipt tracking.
 - Ordinary-accountant access, company isolation and protected workflow fields.
+- Source reservations across live notices and full replacements, with retained
+  exports taking precedence over later working drafts when filing is recorded.
+  Actual-payment and physical-credit checks include reconciled income set-offs
+  and registered payments through outstanding accounts.
+- Retained filing after source, renderer or schema changes, including the common
+  manual-channel path and binary-size UI context, native attachment integrity
+  and access checks. The filed copy is never rewritten.
+- Reviewed resident-title scope, regular-deadline warnings and retained evidence
+  of authority-granted different deadlines; Slovak identifier date/mod11 checks.
+- Native Slovak translations and explicit author-income guidance for an actually
+  withheld art-fund contribution. Linked partial credit notes remain unsupported;
+  the guide documents this limitation without an accounting bypass.

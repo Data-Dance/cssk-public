@@ -30,6 +30,7 @@ Added
 - Opt-in retained-attachment integrity check for forms guarding their exported
   payload and XML together. Filing uses the native attachment checksum and
   ownership without rerendering historical evidence with newer software.
+
 Changed
 ~~~~~~~
 

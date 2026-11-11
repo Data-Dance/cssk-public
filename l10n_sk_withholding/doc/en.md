@@ -54,6 +54,19 @@ checks 650 + 1,050 = 1,700. Dividend rates follow the start of the profit period
 an advance written waiver uses 19%. A section 43(14) waiver is reported through
 its separate agreement notice, not a fictitious zero withholding here.
 
+For author income, Taxable income means income excluding VAT less an art-fund
+contribution only if that contribution was actually withheld, as required by
+[section 43(5)(b)](https://www.financnasprava.sk/sk/podnikatelia/dane/dan-z-prijmov/fyzicke-osoby/slobodne-povolania).
+Keep the original remuneration, any actual contribution and their ledger
+evidence. Do not subtract an assumed contribution. The author's payment then
+equals this taxable income less withholding tax.
+
+Posted reversals currently exclude an original source, including a partially
+credited supplier bill. For example, a bill of 1,500 with a linked credit note
+of 150 cannot yet provide the remaining 1,350 through this adapter. This is a
+known unsupported case; do not remove the native credit-note link or alter
+posted accounting merely to bypass it. Retained exports remain available.
+
 ## Filing, deadlines and corrections {#filing}
 
 Only remittances through the actual filing cutoff are included. Multiple dates
@@ -67,6 +80,9 @@ by the authority under section 43(11) requires its actual retained decision.
 The exact exported XML and payload are the filing record. Later changes to the
 ledger or recipient's address warn about a possible separate correction; they
 do not block recording the external filing. Allocation consumption is rechecked.
+Later working drafts do not displace an already exported allocation when its
+actual filing is recorded. Creating another export still checks all working
+reservations, as well as retained claims from other notices.
 Create correction copies the complete income set and retains the predecessor.
 Confirm its actual filing date against a receipt, not a planned cutoff or the
 time Odoo recorded it. Filed ownership and correction identity survive reset.

@@ -67,6 +67,21 @@ Oprava kopíruje úplnú sadu príjmov a uchová predchodcu. Skutočný deň jeh
 overte potvrdenkou; nenahrádza ho plán ani čas lokálnej evidencie. Vlastníctvo
 a identita opravy zostávajú uchované aj po resete.
 
+Pri autorskom príjme je zdaniteľný príjem suma bez DPH znížená iba o skutočne
+zrazený príspevok umeleckému fondu podľa
+[§43 ods.5 písm.b)](https://www.financnasprava.sk/sk/podnikatelia/dane/dan-z-prijmov/fyzicke-osoby/slobodne-povolania).
+Uchovajte pôvodnú odmenu, prípadný skutočný príspevok a účtovné podklady.
+Neodpočítavajte domnelý príspevok. Platba autorovi je tento zdaniteľný príjem
+znížený o zrazenú daň.
+
+Zaúčtované storno zatiaľ vylučuje pôvodný zdroj aj pri čiastočnom dobropise.
+Faktúra1500 s naviazaným dobropisom150 tak zatiaľ neposkytne zvyšných1350
+cez tento adaptér. Ide o známe nepokryté použitie; neodstraňujte väzbu dobropisu
+a nemeňte zaúčtované doklady kvôli obídeniu kontroly. Uchované exporty zostávajú
+dostupné. Pri evidencii ich skutočného podania neskoršie pracovné návrhy nemajú
+prednosť pred už exportovaným nárokom. Nový výpočet naďalej kontroluje všetky
+pracovné rezervácie aj uchované nároky ostatných oznámení.
+
 ## Identita a rozsah {#scope}
 
 Formálne kontroly rodného čísla overujú dĺžku, dátum, hranicu vyplatenia a mod11.
