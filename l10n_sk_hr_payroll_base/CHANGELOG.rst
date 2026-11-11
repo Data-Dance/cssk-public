@@ -10,28 +10,22 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* Not yet ported: recorded fund evidence, engine-neutral missing-reader policy
+  and explicitly reviewed legacy corrections. Adapt contract/engine adapters
+  and rerun signed, optional-module, refund and legacy-review scenarios.
+
 [19.0.1.3.0] — 2026-11-11
-=========================
+-------------------------
 
 Added
 ~~~~~
 
-* Add the engine-neutral signed fund-record shape and abstract validation protocol. Physical storage remains in each engine bridge.
-
-Changed
-~~~~~~~
-
-* Arithmetic corrections, reviewed calendars and source/confirmation controls are separate contributions. Existing premium arithmetic is preserved.
-
-Fixed
-~~~~~
-
-* Optional invalid rule metadata is missing evidence rather than a new payroll refusal.
-
-Carry-over to 18.0
-~~~~~~~~~~~~~~~~~~
-
-* Not yet ported. Adapt the bridge to 18.0 contract/rule-loop APIs and rerun the signed, sub-cent, refund and missing-evidence matrix.
+* Engine-neutral signed fund-record shape and abstract identity/salary checks.
+  Optional invalid evidence remains missing; the payroll engine owns storage.
+  Record strings preserve the actual rule precision for consumer rounding.
 
 [19.0.1.2.2] — 2026-11-10
 -------------------------

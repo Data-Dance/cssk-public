@@ -20,12 +20,10 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_res_company__l10n_sk_sp_vs
 msgid ""
 "10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the employer identifier (<icz>/<variabilnySymbol>) of the SP "
-"submissions."
+"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
 msgstr ""
 "10-miestne identifikačné číslo pridelené zamestnávateľovi Sociálnou "
-"poisťovňou — identifikátor zamestnávateľa (<icz>/<variabilnySymbol>) v "
-"podaniach Sociálnej poisťovni."
+"poisťovňou — element <variabilnySymbol> výkazov SP (MVP / VPP)."
 
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__sp_vs
@@ -109,6 +107,11 @@ msgid ""
 msgstr ""
 "Spoločnosť '%(company)s' potrebuje 8-miestne IČO (Company Registry) pre "
 "element <ico> výkazu ELDP."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.fund_bases_review_form
+msgid "Confirm original gross-based calculation"
+msgstr "Potvrdiť pôvodný výpočet z hrubej odmeny"
 
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__correction_reference
@@ -223,6 +226,17 @@ msgid "Employees"
 msgstr "Zamestnanci"
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_fallback_reason
+msgid ""
+"Explain the reviewed correction of older payroll without recorded fund "
+"bases. Confirm it before generating the correction; do not recalculate filed"
+" payroll to create historical evidence."
+msgstr ""
+"Zdôvodnite overenú opravu starších miezd bez uchovaných poistných základov. "
+"Pred vytvorením opravy ju výslovne potvrďte; podané mzdy neprepočítavajte "
+"kvôli doplneniu historických údajov."
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submitted_attachment_id
 msgid "Filed XML"
 msgstr "Podané XML"
@@ -305,6 +319,16 @@ msgid "Last Updated on"
 msgstr "Naposledy upravené dňa"
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_confirmed_by
+msgid "Legacy calculation confirmed by"
+msgstr "Pôvodný výpočet potvrdil"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_confirmed_at
+msgid "Legacy calculation confirmed on"
+msgstr "Pôvodný výpočet potvrdený dňa"
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.view_l10n_sk_eldp_form
 msgid "Mark Submitted"
 msgstr "Označiť ako odoslané"
@@ -375,6 +399,11 @@ msgid "Number of messages with delivery error"
 msgstr "Počet správ s chybou doručenia"
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.fund_bases_review_form
+msgid "Older payroll without recorded fund bases"
+msgstr "Staršie mzdy bez uchovaných poistných základov"
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__payment_date
 msgid ""
 "Payday reported to the authority (SK denVyplaty). Defaults to the period "
@@ -387,6 +416,20 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__payment_date
 msgid "Payment Date"
 msgstr "Dátum výplaty"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_warning
+msgid ""
+"Payslips for which the declaration used the original gross-based calculation"
+" instead of recorded fund bases."
+msgstr ""
+"Pásky, pri ktorých výkaz použil pôvodný výpočet z hrubej odmeny namiesto "
+"uchovaných poistných základov."
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_fallback_reason
+msgid "Reason for using the original gross-based calculation"
+msgstr "Dôvod použitia pôvodného výpočtu z hrubej odmeny"
 
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__report_code
@@ -402,6 +445,11 @@ msgstr "Vrátiť do konceptu"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_user_id
 msgid "Responsible User"
 msgstr "Zodpovedný užívateľ"
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_confirmation_digest
+msgid "Reviewed payroll sources"
+msgstr "Overené mzdové podklady"
 
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.ui.menu,name:l10n_sk_hr_payroll_eldp.menu_l10n_sk_eldp
@@ -477,6 +525,11 @@ msgid "Type of the exception activity on record."
 msgstr "Typ výnimočnej aktivity v zázname."
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_warning
+msgid "Unrecorded fund bases"
+msgstr "Chýbajúce zaznamenané základy fondov"
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__version_id
 msgid "Version"
 msgstr "Verzia"
@@ -510,12 +563,3 @@ msgstr "Príloha XML"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__year
 msgid "Year"
 msgstr "Rok"
-
-#. module: l10n_sk_hr_payroll_eldp
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_res_company__l10n_sk_sp_vs
-msgid ""
-"10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
-msgstr ""
-"10-miestne identifikačné číslo pridelené zamestnávateľovi Sociálnou "
-"poisťovňou — element <variabilnySymbol> výkazov SP (MVP / VPP)."

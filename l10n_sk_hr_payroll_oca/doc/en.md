@@ -91,17 +91,15 @@ and [Act 462/2003](law:sk/2003/462).
 
 The supplied Slovak absence types are installation defaults. A module upgrade preserves the company's reviewed settings and approved absence dates. Rewriting even the same request unit can recompute dates and invoke the native protection of approved leave. The starter XML therefore uses Odoo's noupdate policy. A future change to an existing default needs an explicit migration that reviews its effect on existing absences; ordinary updates do not silently reset company configuration. The regression reloads the actual data file with approved PN and ordinary holiday records and verifies their dates, state, duration and the company's type name.
 
-## Recorded rule bases {#recorded-funds}
+## Insurance bases kept with the payslip {#recorded-funds}
 
-The bridge records the signed fund values emitted by actual rules only during
-compute_sheet. Direct get_lines_dict/_get_payslip_lines calls, including forged
-JSON context flags, cannot rewrite stored evidence. A rule-emitting custom
-structure records even without a country. Ambiguous optional metadata remains
-unrecorded while native payroll still computes. The current premium formulas,
-including their rounding and OOP/cap order, remain unchanged in this contribution.
+Calculating a payslip also keeps the bases, rates and charges actually used
+for its insurance contributions. It keeps zero amounts as well. Later changes
+to the employee card do not fill in historical payroll information.
 
-One compact statutory profile is stored per calculation. No birth number,
-worked-day, input or absence payload is copied into the evidence. The native
-full-refund adapter and refund direction belong to this bridge; native OCA fields
-and the existing manual credit-note test remain unchanged. Calendar, opt-out,
-source locking, confirmation controls and arithmetic fixes are separate work.
+Insurance declarations name missing or inconsistent payroll records in their
+warning. Review the archived payroll before correcting an older month. Where
+precise records are unavailable, enter the reviewed reason on the correction
+and use **Confirm original gross-based calculation**. The confirmation and its
+author appear in the chatter. Changing the reviewed sources requires another
+confirmation; the originally filed copy stays available.

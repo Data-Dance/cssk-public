@@ -5,6 +5,8 @@
 The caller owns the statutory calculation and rounding. This module records
 its result; it neither recomputes a premium nor infers a base from a premium.
 Decimal strings survive JSON storage without losing a rule's precision.
+They can include float artefacts; consumers apply statutory wire-base rounding
+before serialization, rather than reporting raw fractional cents.
 Bases and charges retain the rule's sign, including negative corrections.
 Any additional native refund direction belongs to the engine bridge.
 """

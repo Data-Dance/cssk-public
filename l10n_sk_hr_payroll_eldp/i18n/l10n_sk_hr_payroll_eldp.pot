@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-10 18:59+0000\n"
-"PO-Revision-Date: 2026-11-10 18:59+0000\n"
+"POT-Creation-Date: 2026-11-11 14:40+0000\n"
+"PO-Revision-Date: 2026-11-11 14:40+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,8 +19,7 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_res_company__l10n_sk_sp_vs
 msgid ""
 "10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the employer identifier (<icz>/<variabilnySymbol>) of the SP "
-"submissions."
+"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
@@ -94,6 +93,11 @@ msgstr ""
 msgid ""
 "Company '%(company)s' needs an 8-digit IČO (Company Registry) for the ELDP "
 "<ico> element."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.fund_bases_review_form
+msgid "Confirm original gross-based calculation"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
@@ -200,6 +204,14 @@ msgid "Employees"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_fallback_reason
+msgid ""
+"Explain the reviewed correction of older payroll without recorded fund "
+"bases. Confirm it before generating the correction; do not recalculate filed"
+" payroll to create historical evidence."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__submitted_attachment_id
 msgid "Filed XML"
 msgstr ""
@@ -282,6 +294,16 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_confirmed_by
+msgid "Legacy calculation confirmed by"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_confirmed_at
+msgid "Legacy calculation confirmed on"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.view_l10n_sk_eldp_form
 msgid "Mark Submitted"
 msgstr ""
@@ -352,6 +374,11 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_eldp.fund_bases_review_form
+msgid "Older payroll without recorded fund bases"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__payment_date
 msgid ""
 "Payday reported to the authority (SK denVyplaty). Defaults to the period "
@@ -361,6 +388,18 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__payment_date
 msgid "Payment Date"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_warning
+msgid ""
+"Payslips for which the declaration used the original gross-based calculation"
+" instead of recorded fund bases."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_fallback_reason
+msgid "Reason for using the original gross-based calculation"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
@@ -376,6 +415,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_confirmation_digest
+msgid "Reviewed payroll sources"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
@@ -446,6 +490,11 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_eldp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__fund_bases_warning
+msgid "Unrecorded fund bases"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__version_id
 msgid "Version"
 msgstr ""
@@ -476,11 +525,4 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_eldp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_eldp.field_l10n_sk_eldp__year
 msgid "Year"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_eldp
-#: model:ir.model.fields,help:l10n_sk_hr_payroll_eldp.field_res_company__l10n_sk_sp_vs
-msgid ""
-"10-digit identification number assigned to the employer by the Sociálna "
-"poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / VPP)."
 msgstr ""

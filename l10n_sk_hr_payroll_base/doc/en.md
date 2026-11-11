@@ -417,12 +417,16 @@ and work with either engine:
 - The figures are shipped for 2024–2026. Check them against the law before
   using a later period.
 
-## Shared recorded funds {#recorded-funds}
+## Insurance bases kept with payroll {#recorded-funds}
 
-The signed base and charge are the values actually used by the rule; neither
-is reconstructed from a rounded premium. Zero is distinct from missing evidence.
-The base supplies the shape and abstract identity/salary checks, with no engine
-import and no physical storage fields. Invalid optional metadata stays missing
-without blocking native payroll. A bridge applies its own native refund sign.
-This evidence-only contribution does not alter statutory arithmetic. Proposed
-rounding, OOP/cap-order and exemption corrections require separate reviewed fixes.
+Each new payslip calculation keeps the insurance bases and charges it used,
+including zero charges. Older payslips are not recalculated to fill in missing
+information. When an insurance declaration uses an older calculation, its
+warning names the affected payslips in the form and in the chatter.
+
+Review that warning before filing. An original declaration can use the previous
+gross-based calculation. A correction first requires precise records; for older
+payroll you can review the archived payroll, enter a reason and explicitly
+confirm the previous calculation on the correction. The form records who
+confirmed it and when. Do not recalculate filed payroll just to create records.
+Systems that do not yet keep these records continue their existing workflow.

@@ -10,6 +10,10 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+* Not yet ported: recorded fund evidence, engine-neutral missing-reader policy
+  and explicitly reviewed legacy corrections. Adapt contract/engine adapters
+  and rerun signed, optional-module, refund and legacy-review scenarios.
+
 - **19.0.1.24.4 and 19.0.1.24.5 (2026-11-10), not yet on 18.0:** employer
   sick pay clipped to the employment and on the onset's terms
   (cssk-public#39), and the starter leave types as noupdate data
@@ -59,22 +63,12 @@ Carry-over to 18.0
 Added
 ~~~~~
 
-* Capture actual signed fund bases, rates and charges during compute_sheet without changing the existing premium formulas.
-
-Changed
-~~~~~~~
-
-* Arithmetic corrections, reviewed calendars and source/confirmation controls are separate contributions. Existing premium arithmetic is preserved.
-
-Fixed
-~~~~~
-
-* Direct rule evaluation no longer rewrites evidence. Store the statutory profile once and do not copy restricted birth numbers.
-
-Carry-over to 18.0
-~~~~~~~~~~~~~~~~~~
-
-* Not yet ported. Adapt the bridge to 18.0 contract/rule-loop APIs and rerun the signed, sub-cent, refund and missing-evidence matrix.
+* Actual signed fund-base/rate/charge capture during payslip calculation with
+  an in-process capability; generated evidence cannot be supplied over RPC.
+* One shared statutory profile without birth numbers, native refund evidence
+  and optional recording for custom structures that emit fund values.
+* Frozen original-formula references and reference fixtures independent of the
+  optional minimum-wage top-up, alongside native signed/subcent/credit cases.
 
 [19.0.1.24.5] — 2026-11-10
 ==========================

@@ -87,16 +87,15 @@ a [zákon 462/2003](law:sk/2003/462).
 
 Dodané slovenské typy absencií sú počiatočné nastavenia. Aktualizácia modulu zachová firemné nastavenia aj dátumy schválených absencií. Opätovný zápis rovnakej jednotky žiadosti môže spustiť prepočet dátumov a natívnu ochranu schválenej absencie. Preto XML používa štandardné noupdate. Budúca zmena existujúcej predvolenej hodnoty vyžaduje výslovnú migráciu s posúdením existujúcich absencií; bežný update nevracia firemné nastavenie potichu späť. Test načíta skutočný dátový súbor so schválenou PN aj dovolenkou a overí dátumy, stav, trvanie a firemný názov typu.
 
-## Zaznamenané základy pravidiel {#recorded-funds}
+## Poistné základy uchované pri páske {#recorded-funds}
 
-Bridge zaznamenáva skutočné fondové hodnoty so znamienkom iba počas compute_sheet.
-Priame get_lines_dict/_get_payslip_lines ani podvrhnuté JSON príznaky v kontexte
-uložený dôkaz neprepisujú. Vlastná štruktúra bez krajiny sa eviduje, ak jej pravidlá
-vytvárajú fondové záznamy. Nejednoznačné voliteľné podklady zostanú nezaznamenané
-a natívna mzda sa vypočíta. Tento príspevok zachováva pôvodné vzorce poistného
-vrátane ich zaokrúhľovania a poradia OOP a maxima.
+Pri výpočte pásky sa uchovajú skutočne použité základy, sadzby a odvody
+jednotlivých poistení vrátane nulových súm. Neskoršia zmena karty zamestnanca
+nedopĺňa údaje do starých miezd.
 
-Spoločný profil sa ukladá raz. Záznam nekopíruje rodné číslo, vstupy, pracovné dni
-ani absencie. Adaptér úplnej natívnej vratky a jej znamienko patria bridge;
-natívne OCA polia aj existujúca skúška ručnej opravnej pásky zostávajú nezmenené.
-Kalendáre, oznámenie pri súbehu, zámky, potvrdenie a aritmetické opravy sú samostatná práca.
+Upozornenie v poistnom výkaze vymenuje pásky s chýbajúcimi alebo nezhodnými
+podkladmi. Pred opravou staršieho mesiaca porovnajte archivované mzdy a podanie.
+Ak presné údaje nie sú dostupné, zapíšte do opravného výkazu overený dôvod
+a použite **Potvrdiť pôvodný výpočet z hrubej odmeny**. Potvrdenie aj jeho autor
+zostanú v histórii komunikácie. Zmena overených podkladov vyžaduje nové
+potvrdenie; pôvodne podaná kópia zostáva dostupná.

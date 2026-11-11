@@ -184,11 +184,17 @@ výkazy → Doručení*. Viz [Podání výkazu](module:l10n_cssk_submission_base
 - **Kontrola proti schématu ověřuje tvar, ne částky.** První hlášení každého
   tiskopisu odsouhlaste ručně.
 
-## Čtení zaznamenaných fondů {#recorded-funds}
+## Starší mzdy bez zaznamenaných pojistných základů {#recorded-funds}
 
-Plural čtečka vrací mapu podle ID pásek a sadu bez podkladů. Framework automaticky
-uplatňuje politiku při součtech slovenských pojistných výkazů; netýká se to
-nesouvisejících daňových výkazů. Chybějící nebo neshodný důkaz původní výkaz
-pojmenuje ve varování a ponechá stávající náhradu; oprava se odmítne. Chyby
-přístupu se nepotlačují. Volající nemá přepínač pro povolení náhrady. Párování
-a znaménko vratky patří bridge. XML šablony jsou předmětem navazujícího příspěvku.
+Pojistný výkaz uvede pásky, jejichž podrobné základy chybějí nebo již neodpovídají
+mzdě. Upozornění najdete ve formuláři a historii komunikace. Řádný výkaz může
+použít dosavadní výpočet z hrubé odměny; opravný nejprve vyžaduje přesné údaje.
+
+Při opravě staršího měsíce porovnejte archivované pásky a původní podání.
+Do části se staršími mzdami zapište ověřený důvod a výslovně potvrďte původní
+výpočet z hrubé odměny. Potom vytvořte opravný výkaz a odsouhlaste jeho částky.
+Historie komunikace zaznamená osobu, čas, důvod a dotčené pásky. Po změně podkladů
+nebo důvodu je nutné nové potvrzení. Opakované stejné potvrzení nevytvoří další
+záznam schválení; původně podaná kopie zůstává zachována. Mzdový systém, který
+podrobné základy dosud nezaznamenává, pokračuje dosavadním postupem bez této
+výstrahy a potvrzení.

@@ -87,6 +87,19 @@ msgid "Configuration"
 msgstr "Konfigurácia"
 
 #. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid "Confirm legacy fund calculations through the declaration action."
+msgstr ""
+"Pôvodný výpočet poistných základov potvrďte určeným tlačidlom vo výkaze."
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid "Confirm the legacy calculation on a draft corrective declaration."
+msgstr "Pôvodný výpočet potvrďte v návrhu opravného výkazu."
+
+#. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_reference
 msgid "Correction Reference"
 msgstr "Referencia opravy"
@@ -106,13 +119,13 @@ msgstr "Krajina"
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__create_uid
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__create_uid
 msgid "Created by"
-msgstr "Vytvoril"
+msgstr "Vytvoril(a)"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__create_date
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__create_date
 msgid "Created on"
-msgstr "Vytvorené"
+msgstr "Vytvorené dňa"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__currency_id
@@ -178,8 +191,12 @@ msgstr "Zobrazovaný názov"
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pppz__state__draft
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pvpoj__state__draft
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_vyuctovani__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_eldp__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_health__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_mvp__state__draft
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_vpp__state__draft
 msgid "Draft"
-msgstr "Návrh"
+msgstr "Koncept"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__employee_id
@@ -200,6 +217,17 @@ msgstr "Zamestnanci"
 #: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_root_element
 msgid "Expected root element, e.g. 'pvpoj' / 'mvpp'."
 msgstr "Očakávaný koreňový element, napr. 'pvpoj' / 'mvpp'."
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_fallback_reason
+msgid ""
+"Explain the reviewed correction of older payroll without recorded fund "
+"bases. Confirm it before generating the correction; do not recalculate filed"
+" payroll to create historical evidence."
+msgstr ""
+"Zdôvodnite overenú opravu starších miezd bez uchovaných poistných základov. "
+"Pred vytvorením opravy ju výslovne potvrďte; podané mzdy neprepočítavajte "
+"kvôli doplneniu historických údajov."
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__submitted_attachment_id
@@ -226,6 +254,10 @@ msgstr "Pred označením hlásenia ako odoslané najprv vygenerujte XML."
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pppz__state__generated
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pvpoj__state__generated
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_vyuctovani__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_eldp__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_health__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_mvp__state__generated
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_vpp__state__generated
 msgid "Generated"
 msgstr "Vygenerované"
 
@@ -257,13 +289,33 @@ msgstr "Je oprava"
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__write_uid
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__write_uid
 msgid "Last Updated by"
-msgstr "Naposledy upravil"
+msgstr "Naposledy upravil(a)"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__write_date
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__write_date
 msgid "Last Updated on"
-msgstr "Naposledy upravené"
+msgstr "Naposledy upravené dňa"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_confirmed_by
+msgid "Legacy calculation confirmed by"
+msgstr "Pôvodný výpočet potvrdil"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_confirmed_at
+msgid "Legacy calculation confirmed on"
+msgstr "Pôvodný výpočet potvrdený dňa"
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid ""
+"Legacy gross-based calculation confirmed by %(user)s at %(when)s for "
+"%(slips)s. Reason: %(reason)s"
+msgstr ""
+"Pôvodný výpočet z hrubej odmeny potvrdil %(user)s dňa %(when)s pre "
+"%(slips)s. Dôvod: %(reason)s"
 
 #. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
@@ -385,11 +437,11 @@ msgstr "Mzdové výkazy"
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_warning
 msgid ""
-"Payslips for which this original declaration used the legacy gross-based "
-"fallback."
+"Payslips for which the declaration used the original gross-based calculation"
+" instead of recorded fund bases."
 msgstr ""
-"Výplatné pásky, pri ktorých tento pôvodný výkaz použil náhradný výpočet z "
-"hrubého príjmu."
+"Pásky, pri ktorých výkaz použil pôvodný výpočet z hrubej odmeny namiesto "
+"uchovaných poistných základov."
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__values_json
@@ -414,6 +466,18 @@ msgid "QWeb template (ir.ui.view) that renders this version's XML."
 msgstr "Šablóna QWeb (ir.ui.view), ktorá vykresľuje XML tejto verzie."
 
 #. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_fallback_reason
+msgid "Reason for using the original gross-based calculation"
+msgstr "Dôvod použitia pôvodného výpočtu z hrubej odmeny"
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid ""
+"Record the reviewed reason for using the original gross-based calculation."
+msgstr "Zapíšte overený dôvod použitia pôvodného výpočtu z hrubej odmeny."
+
+#. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid "Rendered XML root <%(got)s> does not match expected <%(exp)s>."
@@ -435,6 +499,14 @@ msgstr ""
 
 #. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid ""
+"Reset the declaration to draft before changing the legacy calculation "
+"reason."
+msgstr "Pred zmenou dôvodu pôvodného výpočtu vráťte výkaz do návrhu."
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid "Reset the declaration to draft before regenerating it."
 msgstr "Pred opätovným vygenerovaním vráťte hlásenie do konceptu."
@@ -444,6 +516,11 @@ msgstr "Pred opätovným vygenerovaním vráťte hlásenie do konceptu."
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid "Reset to draft (from %s). Filed copy preserved: %s"
 msgstr "Vrátené do konceptu (z %s). Podaná kópia zachovaná: %s"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_confirmation_digest
+msgid "Reviewed payroll sources"
+msgstr "Overené mzdové podklady"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__sequence
@@ -474,6 +551,10 @@ msgstr "Podania"
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pppz__state__submitted
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_pvpoj__state__submitted
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_vyuctovani__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_eldp__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_health__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_mvp__state__submitted
+#: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_sk_vpp__state__submitted
 msgid "Submitted"
 msgstr "Odoslané"
 
@@ -517,6 +598,14 @@ msgstr ""
 
 #. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid "There are no payroll sources without recorded fund bases to confirm."
+msgstr ""
+"Výkaz neobsahuje mzdové podklady bez uchovaných poistných základov, ktoré by"
+" bolo potrebné potvrdiť."
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid "There is no generated XML to submit."
 msgstr "Neexistuje žiadne vygenerované XML na odoslanie."
@@ -545,6 +634,13 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_warning
 msgid "Unrecorded fund bases"
 msgstr "Chýbajúce zaznamenané základy fondov"
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid ""
+"Use an allowed company when reviewing the declaration's legacy payroll."
+msgstr "Staršie mzdy výkazu kontrolujte vo vybratej povolenej spoločnosti."
 
 #. module: l10n_cssk_payroll_declaration_base
 #. odoo-python

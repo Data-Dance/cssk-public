@@ -190,12 +190,24 @@ Statutory Reports → Submissions*. See
 - **The schema check proves the shape, not the figures.** Reconcile the
   first filing of every form by hand.
 
-## Recorded fund accessor {#recorded-funds}
+## Older payroll without recorded insurance bases {#recorded-funds}
 
-The plural accessor returns records by payslip ID and a missing recordset. The
-framework applies policy automatically while collecting MVP, VPP, health and
-historical ELDP totals; it does not require fund evidence for unrelated tax reports.
-Missing or inconsistent evidence warns on originals, retaining the existing
-fallback, and refuses corrections. Access failures always propagate. There is
-no caller fallback flag. Native refund pairing/direction are bridge hooks;
-country XML templates remain unchanged until their separate consumer updates.
+An insurance declaration names payslips whose detailed bases were not kept or
+no longer match the payroll. Read the warning in the form and its chatter.
+An original declaration can use the previous gross-based calculation; a
+correction normally stops until the precise payroll information is available.
+
+To correct an older month without recalculating already filed wages:
+
+1. Compare the archived payslips and original authority filing.
+2. In **Older payroll without recorded fund bases**, enter the reviewed reason
+   for using the previous calculation.
+3. Choose **Confirm original gross-based calculation**, then generate the
+   correction and reconcile its figures.
+
+The declaration records the reviewer, time, reason and affected payslips in its
+chatter. The confirmation applies to the reviewed period and payroll sources;
+changing them or the reason requires another confirmation. Repeating the same
+confirmation does not create another approval entry. The original filed copy
+is preserved. A payroll system that does not yet keep detailed bases uses its
+existing workflow without this warning or confirmation.

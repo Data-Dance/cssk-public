@@ -99,6 +99,11 @@ msgstr ""
 "pre element <identifikator> výkazu MVP."
 
 #. module: l10n_sk_hr_payroll_mvp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_mvp.fund_bases_review_form
+msgid "Confirm original gross-based calculation"
+msgstr "Potvrdiť pôvodný výpočet z hrubej odmeny"
+
+#. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__correction_reference
 msgid "Correction Reference"
 msgstr "Referencia opravy"
@@ -173,6 +178,17 @@ msgstr "Hlásenia zamestnancov"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__lines_count
 msgid "Employees"
 msgstr "Zamestnanci"
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__fund_bases_fallback_reason
+msgid ""
+"Explain the reviewed correction of older payroll without recorded fund "
+"bases. Confirm it before generating the correction; do not recalculate filed"
+" payroll to create historical evidence."
+msgstr ""
+"Zdôvodnite overenú opravu starších miezd bez uchovaných poistných základov. "
+"Pred vytvorením opravy ju výslovne potvrďte; podané mzdy neprepočítavajte "
+"kvôli doplneniu historických údajov."
 
 #. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__submitted_attachment_id
@@ -257,6 +273,16 @@ msgid "Last Updated on"
 msgstr "Naposledy upravené dňa"
 
 #. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__fund_bases_confirmed_by
+msgid "Legacy calculation confirmed by"
+msgstr "Pôvodný výpočet potvrdil"
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__fund_bases_confirmed_at
+msgid "Legacy calculation confirmed on"
+msgstr "Pôvodný výpočet potvrdený dňa"
+
+#. module: l10n_sk_hr_payroll_mvp
 #: model:ir.actions.act_window,name:l10n_sk_hr_payroll_mvp.action_l10n_sk_mvp
 msgid "MVP (social)"
 msgstr "MVP (sociálne poistenie)"
@@ -332,6 +358,11 @@ msgid "Number of messages with delivery error"
 msgstr "Počet správ s chybou doručenia"
 
 #. module: l10n_sk_hr_payroll_mvp
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_mvp.fund_bases_review_form
+msgid "Older payroll without recorded fund bases"
+msgstr "Staršie mzdy bez uchovaných poistných základov"
+
+#. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__payment_date
 msgid ""
 "Payday reported to the authority (SK denVyplaty). Defaults to the period "
@@ -344,6 +375,20 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__payment_date
 msgid "Payment Date"
 msgstr "Dátum výplaty"
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__fund_bases_warning
+msgid ""
+"Payslips for which the declaration used the original gross-based calculation"
+" instead of recorded fund bases."
+msgstr ""
+"Pásky, pri ktorých výkaz použil pôvodný výpočet z hrubej odmeny namiesto "
+"uchovaných poistných základov."
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__fund_bases_fallback_reason
+msgid "Reason for using the original gross-based calculation"
+msgstr "Dôvod použitia pôvodného výpočtu z hrubej odmeny"
 
 #. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__report_code
@@ -359,6 +404,11 @@ msgstr "Vrátiť do konceptu"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__activity_user_id
 msgid "Responsible User"
 msgstr "Zodpovedný užívateľ"
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__fund_bases_confirmation_digest
+msgid "Reviewed payroll sources"
+msgstr "Overené mzdové podklady"
 
 #. module: l10n_sk_hr_payroll_mvp
 #: model:ir.ui.menu,name:l10n_sk_hr_payroll_mvp.menu_l10n_sk_mvp
@@ -432,6 +482,11 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Typ výnimočnej aktivity v zázname."
+
+#. module: l10n_sk_hr_payroll_mvp
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__fund_bases_warning
+msgid "Unrecorded fund bases"
+msgstr "Chýbajúce zaznamenané základy fondov"
 
 #. module: l10n_sk_hr_payroll_mvp
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_mvp.field_l10n_sk_mvp__version_id

@@ -26,28 +26,26 @@ Fixed
   identify the original (``_amendment_scope_fields``), such as the health
   insurer of a per-insurer overview.
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* Not yet ported: recorded fund evidence, engine-neutral missing-reader policy
+  and explicitly reviewed legacy corrections. Adapt contract/engine adapters
+  and rerun signed, optional-module, refund and legacy-review scenarios.
+
 [19.0.1.6.0] — 2026-11-11
 =========================
 
 Added
 ~~~~~
 
-* Add a plural fund accessor and apply original/corrective evidence policy during insurance-declaration totals collection.
-
-Changed
-~~~~~~~
-
-* Arithmetic corrections, reviewed calendars and source/confirmation controls are separate contributions. Existing premium arithmetic is preserved.
-
-Fixed
-~~~~~
-
-* Missing or inconsistent evidence warns for originals and refuses corrections; access errors still propagate. Native refund pairing and signs are bridge hooks.
-
-Carry-over to 18.0
-~~~~~~~~~~~~~~~~~~
-
-* Not yet ported. Adapt the bridge to 18.0 contract/rule-loop APIs and rerun the signed, sub-cent, refund and missing-evidence matrix.
+* Optional fund-record readers and shared original/corrective insurance policy.
+  Engines without a recorder continue their existing declaration workflow.
+* A reasoned, audited confirmation for corrections of older payroll without
+  recorded bases, bound to the reviewed sources and protected from RPC defaults.
+* Visible missing-source warnings and legacy-review controls on Slovak insurance
+  declarations; reviewer/time/reason in the chatter, with idempotent approval.
+* Native engine refund pairing and direction through the optional adapter.
 
 [19.0.1.5.0] — 2026-10-27
 =========================

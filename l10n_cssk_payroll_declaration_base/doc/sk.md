@@ -189,12 +189,24 @@ Zákonné výkazy → Doručenia*. Pozri
 - **Kontrola voči schéme overuje tvar, nie sumy.** Prvé hlásenie každého
   tlačiva odsúhlaste ručne.
 
-## Čítačka zaznamenaných fondov {#recorded-funds}
+## Staršie mzdy bez uchovaných poistných základov {#recorded-funds}
 
-Plural čítačka vracia mapu podľa ID pások a recordset bez podkladov. Framework
-uplatňuje politiku automaticky pri súčtoch MVP, VPP, zdravotného výkazu a historického
-ELDP; nevynucuje fondové podklady pri nesúvisiacich daňových výkazoch. Chýbajúci
-alebo nezhodný dôkaz vyvolá v pôvodnom výkaze pomenované upozornenie a ponechá
-existujúcu náhradu; oprava sa odmietne. Chyba prístupu sa nikdy nepotlačí. Volajúci
-nemá príznak povoľujúci náhradu. Párovanie a znamienko vratky patria bridge.
-XML šablóny zostávajú pôvodné do samostatnej aktualizácie konzumentov.
+Poistný výkaz vymenuje pásky, pri ktorých chýbajú podrobné poistné základy
+alebo už nezodpovedajú mzde. Upozornenie je vo formulári aj v histórii
+komunikácie. Pôvodný výkaz môže použiť doterajší výpočet z hrubej odmeny;
+opravný výkaz sa najprv zastaví a vyžiada presné údaje.
+
+Pri oprave staršieho mesiaca postupujte takto:
+
+1. Porovnajte archivované pásky a pôvodné podanie úradu.
+2. V časti **Staršie mzdy bez uchovaných poistných základov** zapíšte overený
+   dôvod na použitie pôvodného výpočtu.
+3. Zvoľte **Potvrdiť pôvodný výpočet z hrubej odmeny**, vytvorte opravný výkaz
+   a odsúhlaste jeho sumy.
+
+Vo výkaze sa zaznamená kontrolujúca osoba, čas, dôvod a dotknuté pásky.
+Potvrdenie platí pre overené obdobie a mzdové podklady; po zmene podkladov
+alebo dôvodu treba nové potvrdenie. Opakovanie rovnakého potvrdenia nevytvorí
+ďalší záznam schválenia. Pôvodne podaná kópia zostáva zachovaná. Ak mzdový
+systém podrobné základy ešte neuchováva, používa doterajší postup bez tohto
+upozornenia a potvrdenia.

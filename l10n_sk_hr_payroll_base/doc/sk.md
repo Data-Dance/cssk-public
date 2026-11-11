@@ -427,11 +427,16 @@ a fungujú s oboma enginmi:
 - Údaje sa dodávajú za roky 2024 – 2026. Pred použitím pre neskoršie obdobie
   ich overte voči zákonu.
 
-## Spoločné zaznamenané fondy {#recorded-funds}
+## Uchované poistné základy {#recorded-funds}
 
-Základ aj poistné uchovávajú skutočné znamienko a hodnoty použité pravidlom;
-neodvodzujú sa zo zaokrúhleného poistného. Nula je odlišná od chýbajúceho podkladu.
-Base poskytuje tvar a abstraktné kontroly identity a mzdových riadkov bez enginu
-a úložných polí. Neplatné voliteľné metadata nezastavia natívny výpočet. Natívne
-znamienko vratky určuje bridge. Tento evidenčný príspevok nemení poistné; opravy
-zaokrúhľovania, poradia OOP a maxima či vyňatia sú samostatné posudzované zmeny.
+Pri novom výpočte pásky sa uchovajú použité poistné základy a odvody vrátane
+nulových súm. Staré pásky sa kvôli doplneniu údajov spätne neprepočítavajú.
+Ak poistný výkaz použije starší výpočet, upozornenie vo formulári a v histórii
+komunikácie vymenuje dotknuté pásky.
+
+Pred podaním upozornenie skontrolujte. Pôvodný výkaz môže použiť doterajší
+výpočet z hrubej odmeny. Opravný výkaz najprv vyžaduje presné podklady;
+pri starších mzdách môžete porovnať pôvodné mzdy a podanie, zapísať dôvod
+a výslovne potvrdiť pôvodný postup. Formulár zaznamená kto a kedy ho potvrdil.
+Už podané mzdy neprepočítavajte iba kvôli doplneniu údajov. V systémoch,
+ktoré tieto údaje ešte neuchovávajú, pokračuje doterajší postup.

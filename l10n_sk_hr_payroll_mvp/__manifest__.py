@@ -20,6 +20,7 @@
         "report/mvpp_templates.xml",
         "data/mvpp_version_data.xml",
         "views/l10n_sk_mvp_views.xml",
+        "views/fund_bases_review_views.xml",
     ],
     "installable": True,
 }

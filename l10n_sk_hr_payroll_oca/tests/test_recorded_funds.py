@@ -33,6 +33,12 @@ class TestRecordedFundPayroll(TransactionCase):
         cls.structure = cls.env.ref(
             "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_employee_salary"
         )
+        # Isolate reference arithmetic from the optional minimum-wage rule.
+        # That rule has its own statutory tests; these cases deliberately use
+        # small/sub-cent inputs and must not silently become a 915 EUR wage.
+        cls.structure.rule_ids -= cls.structure.rule_ids.filtered(
+            lambda rule: rule.code == "MIN_WAGE_TOPUP"
+        )
         cls.adjustment = cls.env["hr.salary.rule"].create(
             {
                 "name": "Synthetic signed gross adjustment",
