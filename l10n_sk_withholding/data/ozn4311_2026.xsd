@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Oznamenie platitela dane o zrazeni a odvedeni dane vyberanej zrazkou podla par. 43 ods. 11 - 2026 - BOZR-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation>OZN4311v26</xs:documentation>
+	</xs:annotation>
+	<!--  prazdny retazec  -->
+	<xs:simpleType name="emptyStrType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value=""/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--  povinny datum v tvare: (d)d.(m)m.rrrr  -->
+	<xs:simpleType name="oneFieldDateType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d?\d\.\d?\d\.\d\d\d\d"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--  nepovinny datum v tvare: (d)d.(m)m.rrrr  -->
+	<xs:simpleType name="optOneFieldDateType">
+		<xs:union memberTypes="oneFieldDateType emptyStrType"/>
+	</xs:simpleType>
+	<!--  nepovinny datum rozdeleny v troch elementoch -->
+	<xs:complexType name="optDateType">
+		<xs:sequence>
+			<xs:element name="den" type="optDayMonthType"/>
+			<xs:element name="mesiac" type="optDayMonthType"/>
+			<xs:element name="rok" type="optYearType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  povinny den/mesiac v tvare: (d)d/(m)m  -->
+	<xs:simpleType name="dayMonthType">
+		<xs:restriction base="xs:decimal">
+			<xs:pattern value="\d?\d"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--  nepovinny den/mesiac v tvare: (d)d/(m)m  -->
+	<xs:simpleType name="optDayMonthType">
+		<xs:union memberTypes="dayMonthType emptyStrType"/>
+	</xs:simpleType>
+	<!--  povinny rok  -->
+	<xs:simpleType name="yearType">
+		<xs:restriction base="xs:decimal">
+			<xs:pattern value="\d\d\d\d"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--  nepovinny rok  -->
+	<xs:simpleType name="optYearType">
+		<xs:union memberTypes="yearType emptyStrType"/>
+	</xs:simpleType>
+	<!--  nepovinne realne cislo  -->
+	<xs:simpleType name="optDouble">
+		<xs:union memberTypes="xs:double emptyStrType"/>
+	</xs:simpleType>
+	<!--  korenovy element  -->
+	<xs:element name="dokument">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="hlavicka" type="hlavicka"/>
+				<xs:element name="telo" type="telo"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<!--  hlavicka  -->
+	<xs:complexType name="hlavicka">
+		<xs:sequence>
+			<xs:element name="dic" type="optDicType"/>
+			<xs:element name="ico" type="optIcoType"/>
+			<xs:element name="zaObdobie" type="zaObdobieType"/>
+			<xs:element name="dovodDoplnenia" type="only_0_1"/>
+			<xs:element name="datumPovodne" type="optOneFieldDateType"/>
+			<xs:element name="fyzickaOsoba" type="fyzickaOsobaType"/>
+			<xs:element name="pravnickaOsoba" type="pravnickaOsobaType"/>
+			<xs:element name="sidlo" type="sidloType"/>
+			<xs:element name="adresaSr" type="adresaSrType"/>
+			<xs:element name="suhrnneUdaje" type="suhrnneUdajeType"/>
+			<xs:element name="vypracoval" type="vypracovalType"/>
+			<xs:element name="pocetStrPrilohyA" type="optInt5"/>
+			<xs:element name="pocetStrPrilohyB" type="optInt5"/>
+			<xs:element name="podpis" type="only_0_1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  povinne dic  -->
+	<xs:simpleType name="dicType">
+		<xs:restriction base="xs:decimal">
+			<xs:pattern value="\d{10}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--  nepovinne dic  -->
+	<xs:simpleType name="optDicType">
+		<xs:union memberTypes="dicType emptyStrType"/>
+	</xs:simpleType>
+	<!--  povinne ico  -->
+	<xs:simpleType name="icoType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d{6,12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--  nepovinne ico  -->
+	<xs:simpleType name="optIcoType">
+		<xs:union memberTypes="icoType emptyStrType"/>
+	</xs:simpleType>
+	<!--  nepovinne decimal cislo  -->
+	<xs:simpleType name="optDecimal">
+		<xs:union memberTypes="xs:decimal emptyStrType"/>
+	</xs:simpleType>
+	<!-- nepovinne patciferne cislo -->
+	<xs:simpleType name="optInt5">
+		<xs:union memberTypes="cislo5 emptyStrType"/>
+	</xs:simpleType>
+	<!-- cele patciferne cislo -->
+	<xs:simpleType name="cislo5">
+		<xs:restriction base="xs:integer">
+			<xs:totalDigits value="5"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!--  za obdobie  -->
+	<xs:complexType name="zaObdobieType">
+		<xs:sequence>
+			<xs:element name="mesiac" type="optDayMonthType"/>
+			<xs:element name="rok" type="optYearType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  fyzicka osoba  -->
+	<xs:complexType name="fyzickaOsobaType">
+		<xs:sequence>
+			<xs:element name="priezvisko" type="xs:string"/>
+			<xs:element name="meno" type="xs:string"/>
+			<xs:element name="titulPred" type="xs:string"/>
+			<xs:element name="titulZa" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  pravnicka osoba  -->
+	<xs:complexType name="pravnickaOsobaType">
+		<xs:sequence>
+			<xs:element name="obchodneMeno" type="obchodneMenoType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  obchodne meno  -->
+	<xs:complexType name="obchodneMenoType">
+		<xs:sequence>
+			<xs:element name="riadok" type="xs:string" minOccurs="0" maxOccurs="2"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  sidlo  -->
+	<xs:complexType name="sidloType">
+		<xs:sequence>
+			<xs:element name="ulica" type="xs:string"/>
+			<xs:element name="supisneOrientacneCislo" type="xs:string"/>
+			<xs:element name="psc" type="xs:string"/>
+			<xs:element name="obec" type="xs:string"/>
+			<xs:element name="stat" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  adresa v SR  -->
+	<xs:complexType name="adresaSrType">
+		<xs:sequence>
+			<xs:element name="ulica" type="xs:string"/>
+			<xs:element name="supisneOrientacneCislo" type="xs:string"/>
+			<xs:element name="psc" type="xs:string"/>
+			<xs:element name="obec" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- suhrnne udaje o zrazeni a odvedeni dane vyberanej zrazkou -->
+	<xs:complexType name="suhrnneUdajeType">
+		<xs:sequence>
+			<xs:element name="zPrijmDan01" type="zPrijmDanSpoluType"/>
+			<xs:element name="zPrijmDan01a" type="zPrijmDanSpoluType"/>
+			<xs:element name="zPrijmDan02" type="zPrijmDanSpoluType"/>
+			<xs:element name="zPrijmDan03" type="zPrijmDanSpoluType"/>
+			<xs:element name="spolu04" type="zPrijmDanSpoluType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  zrazena/odvedena dan  -->
+	<xs:complexType name="zPrijmDanSpoluType">
+		<xs:sequence>
+			<xs:element name="danZrazena" type="optDouble"/>
+			<xs:element name="danOdvedena" type="optDouble"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  vypracoval  -->
+	<xs:complexType name="vypracovalType">
+		<xs:sequence>
+			<xs:element name="dna" type="optDateType"/>
+			<xs:element name="tel" type="telType"/>
+			<xs:element name="vypr" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  nepovinne telefonne cislo  -->
+	<xs:complexType name="telType">
+		<xs:sequence>
+			<xs:element name="cislo" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  telo  -->
+	<xs:complexType name="telo">
+		<xs:sequence>
+			<xs:element name="prilohaA" type="prilohaAType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="prilohaB" maxOccurs="unbounded" minOccurs="0" type="prilohaBType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  priloha  -->
+	<xs:complexType name="prilohaAType">
+		<xs:sequence>
+			<xs:element name="strana" type="stranaType"/>
+			<xs:element name="zaObdobie" type="zaObdobieType"/>
+			<xs:element name="udajeA_1" type="udajeAType" minOccurs="1"/>
+			<xs:element name="udajeA_2" type="udajeAType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  strana  -->
+	<xs:complexType name="prilohaBType">
+		<xs:sequence>
+			<xs:element name="strana" type="stranaType"/>
+			<xs:element name="zaObdobie" type="zaObdobieType"/>
+			<xs:element name="udajeB" type="udajeBType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="stranaType">
+		<xs:sequence>
+			<xs:element name="aktualna" type="optInt5"/>
+			<xs:element name="celkovo" type="optInt5"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  udaje o danovnikovi  -->
+	<xs:complexType name="udajeAType">
+		<xs:sequence>
+			<xs:element name="rodneCislo" type="xs:string"/>
+			<xs:element name="datumNarodenia" type="optOneFieldDateType"/>
+			<xs:element name="priezvisko" type="xs:string"/>
+			<xs:element name="meno" type="xs:string"/>
+			<xs:element name="adresa" type="adresaType"/>
+			<xs:element name="udajeOZrazeniAOdvedeni" type="udajeOZrazeniAOdvedeniStranaAType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  adresa  -->
+	<xs:complexType name="udajeBType">
+		<xs:sequence>
+			<xs:element name="identifikacneCislo" type="xs:string"/>
+			<xs:element name="priezvisko" type="xs:string"/>
+			<xs:element name="meno" type="xs:string"/>
+			<xs:element name="datumNarodenia" type="optOneFieldDateType"/>
+			<xs:element name="nazov" type="obchodneMenoType"/>
+			<xs:element name="adresa" type="adresaType"/>
+			<xs:element name="udajeOZrazeniAOdvedeni" type="udajeOZrazeniAOdvedeniStranaBType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="adresaType">
+		<xs:complexContent>
+			<xs:extension base="sidloType">
+				<xs:sequence>
+					<xs:element name="kodStatu" type="kodStatuType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!--  nepovinny kod statu  -->
+	<xs:complexType name="druhZdanitelnehoPrijmuType">
+		<xs:sequence>
+			<xs:element name="odsA" type="only_0_1"/>
+			<xs:element name="odsB" type="only_0_1"/>
+			<xs:element name="odsC" type="only_0_1"/>
+			<xs:element name="odsD" type="only_0_1"/>
+			<xs:element name="odsE" type="odsETyoe"/>
+			<xs:element name="odsF" type="only_0_1"/>
+			<xs:element name="odsG" type="only_0_1"/>
+			<xs:element name="odsH" type="only_0_1"/>
+			<xs:element name="odsI" type="only_0_1"/>
+			<xs:element name="odsJ" type="only_0_1"/>
+			<xs:element name="odsK" type="only_0_1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="odsETyoe">
+		<xs:sequence>
+			<xs:element name="odsEbod1" type="only_0_1"/>
+			<xs:element name="odsEbod2" type="only_0_1"/>
+			<xs:element name="odsEbod3" type="only_0_1"/>
+			<xs:element name="odsEbod4" type="only_0_1"/>
+			<xs:element name="odsEbod5" type="only_0_1"/>
+			<xs:element name="odsEbod6" type="only_0_1"/>
+			<xs:element name="odsEbod7" type="only_0_1"/>
+			<xs:element name="odsEbod8" type="only_0_1"/>
+			<xs:element name="odsEbod9" type="only_0_1"/>
+			<xs:element name="odsEbod10" type="only_0_1"/>
+			<xs:element name="odsEbod11" type="only_0_1"/>
+			<xs:element name="odsEbod12" type="only_0_1"/>
+			<xs:element name="odsEbod13" type="only_0_1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="kodStatuType">
+		<xs:union memberTypes="twoCharsType emptyStrType"/>
+	</xs:simpleType>
+	<!--  povinne 2 znaky  -->
+	<xs:simpleType name="twoCharsType">
+		<xs:restriction base="xs:string">
+			<xs:length value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<!-- udaje o zrazeni a odvedeni dane vyberanej zrazkou -->
+	<xs:complexType name="udajeOZrazeniAOdvedeniStranaBType">
+		<xs:sequence>
+			<xs:element name="druhZdanitelnehoPrijmu" type="druhZdanitelnehoPrijmuType"/>
+			<xs:element name="datumUhrady" type="optOneFieldDateType"/>
+			<xs:element name="sumaZdanPrijmu" type="optDouble"/>
+			<xs:element name="sadzbaDane" type="optDouble"/>
+			<xs:element name="sumaZrazenejDane" type="optDouble"/>
+			<xs:element name="datumOdvedenia" type="optOneFieldDateType"/>
+			<xs:element name="ziadamVydaniePotvrdenia" type="only_0_1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!--  druh zdanitelneho prijmu  -->
+	<xs:complexType name="udajeOZrazeniAOdvedeniStranaAType">
+		<xs:sequence>
+			<xs:element name="sumaZdanPrijmu" type="optDouble"/>
+			<xs:element name="datumUhrady" type="optOneFieldDateType"/>
+			<xs:element name="sadzbaDane" type="optDouble"/>
+			<xs:element name="sumaZrazenejDane" type="optDouble"/>
+			<xs:element name="datumOdvedenia" type="optOneFieldDateType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="only_0_1">
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="1"/>
+			<xs:pattern value="[0-1]"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
