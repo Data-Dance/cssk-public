@@ -15,6 +15,27 @@ Carry-over to 18.0
   do not port this: nothing to fix on 18.0, whose base already ships
   ``sk_SK`` as ``%d.%m.%Y``. The ``%d/%m/%Y`` is a 19.0 regression in
   ``base/data/res.lang.csv``.
+- The private workflow-write seam still needs an 18.0 port together with
+  generated-field guard and common export/filing/reset regression tests.
+
+[19.0.1.20.0] — 2026-11-10
+--------------------------
+
+Added
+~~~~~
+
+- Private ``_cssk_workflow_write`` hook for form-specific generated-evidence
+  protection within the shared export, filing and reset workflow. The default
+  still uses normal ``write`` and preserves existing access and delivery hooks.
+- Opt-in retained-attachment integrity check for forms guarding their exported
+  payload and XML together. Filing uses the native attachment checksum and
+  ownership without rerendering historical evidence with newer software.
+Changed
+~~~~~~~
+
+- Consolidate four workflow writes into one for forms guarding generated
+  values in write(). Existing forms already retained the attachment before
+  their delivery hook read it; their receipt behavior is unchanged.
 
 [19.0.1.19.2] — 2026-11-05
 --------------------------
