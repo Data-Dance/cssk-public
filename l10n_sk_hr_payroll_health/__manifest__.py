@@ -24,6 +24,7 @@
         "views/l10n_sk_health_views.xml",
         "views/hr_employee_views.xml",
         "views/res_company_views.xml",
+        "views/fund_bases_review_views.xml",
     ],
     "installable": True,
 }

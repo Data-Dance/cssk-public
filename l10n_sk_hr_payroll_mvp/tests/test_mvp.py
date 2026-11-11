@@ -7,6 +7,7 @@ computed payslip, generates the MVP declaration and validates the produced XML
 against the shipped ``MVPP-v2026.xsd``."""
 import base64
 from datetime import date
+from unittest.mock import patch
 
 from lxml import etree
 
@@ -24,6 +25,7 @@ class TestMvp(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
         cls.engine = cls._detect_engine()
         cls.company = cls.env["res.company"].create({
             "name": "SK MVP Co",
@@ -170,6 +172,26 @@ class TestMvp(TransactionCase):
     def _mvp(self):
         return self.env["l10n.sk.mvp"].with_company(self.company).create({
             "company_id": self.company.id, "year": "2026", "month": "3"})
+
+    def test_original_automatically_warns_for_missing_funds_without_changing_xml(self):
+        _employee, slip = self._employee_payslip()
+        reference = self._mvp()
+        reference.action_generate()
+        previous = base64.b64decode(reference.xml_attachment_id.datas)
+        original = self._mvp()
+        with patch.object(type(slip), "_cssk_recorded_fund_bases", return_value=False, create=True):
+            original.action_generate()
+        self.assertIn(slip.display_name, original.fund_bases_warning)
+        self.assertEqual(base64.b64decode(original.xml_attachment_id.datas), previous)
+
+    def test_original_automatically_warns_for_inconsistent_stored_funds(self):
+        if self.engine != "oca":
+            self.skipTest("OCA owns this record writer")
+        _employee, slip = self._employee_payslip()
+        slip.line_ids.filtered(lambda line: line.code == "SICK").amount = -99
+        original = self._mvp()
+        original.action_generate()
+        self.assertIn(slip.display_name, original.fund_bases_warning)
 
     def test_dohody_follow_income_regularity(self):
         """A dohoda with regular income is reported here, under its own

@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy
 summary: Celá skupina modulov slovenských miezd na jednom mieste — mesačná výplatná páska pre pracovný pomer a tri dohody v Odoo Enterprise Payroll alebo v aplikácii OCA payroll, s datovanými zákonnými sadzbami, voľnom, ročným zúčtovaním dane a zaúčtovaním do hlavnej knihy.
-verified: 19.0.1.2.2
+verified: 19.0.1.3.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -426,3 +426,17 @@ a fungujú s oboma enginmi:
   aktualizácii Odoo overte, či do nich nepribudlo niečo nové.
 - Údaje sa dodávajú za roky 2024 – 2026. Pred použitím pre neskoršie obdobie
   ich overte voči zákonu.
+
+## Uchované poistné základy {#recorded-funds}
+
+Pri novom výpočte pásky sa uchovajú použité poistné základy a odvody vrátane
+nulových súm. Staré pásky sa kvôli doplneniu údajov spätne neprepočítavajú.
+Ak poistný výkaz použije starší výpočet, upozornenie vo formulári a v histórii
+komunikácie vymenuje dotknuté pásky.
+
+Pred podaním upozornenie skontrolujte. Pôvodný výkaz môže použiť doterajší
+výpočet z hrubej odmeny. Opravný výkaz najprv vyžaduje presné podklady;
+pri starších mzdách môžete porovnať pôvodné mzdy a podanie, zapísať dôvod
+a výslovne potvrdiť pôvodný postup. Formulár zaznamená kto a kedy ho potvrdil.
+Už podané mzdy neprepočítavajte iba kvôli doplneniu údajov. V systémoch,
+ktoré tieto údaje ešte neuchovávajú, pokračuje doterajší postup.

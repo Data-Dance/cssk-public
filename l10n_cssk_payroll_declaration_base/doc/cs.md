@@ -1,7 +1,7 @@
 ---
 title: Mzdová hlášení CZ/SK
 summary: Společný základ českých a slovenských mzdových hlášení — nabídka Mzdová hlášení, postup Vygenerovat / Označit jako odeslané, opravná hlášení, verze tiskopisů a čtení výplatních pásek z obou mzdových jader.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -183,3 +183,18 @@ výkazy → Doručení*. Viz [Podání výkazu](module:l10n_cssk_submission_base
   postavené nic úřadům neodesílají.
 - **Kontrola proti schématu ověřuje tvar, ne částky.** První hlášení každého
   tiskopisu odsouhlaste ručně.
+
+## Starší mzdy bez zaznamenaných pojistných základů {#recorded-funds}
+
+Pojistný výkaz uvede pásky, jejichž podrobné základy chybějí nebo již neodpovídají
+mzdě. Upozornění najdete ve formuláři a historii komunikace. Řádný výkaz může
+použít dosavadní výpočet z hrubé odměny; opravný nejprve vyžaduje přesné údaje.
+
+Při opravě staršího měsíce porovnejte archivované pásky a původní podání.
+Do části se staršími mzdami zapište ověřený důvod a výslovně potvrďte původní
+výpočet z hrubé odměny. Potom vytvořte opravný výkaz a odsouhlaste jeho částky.
+Historie komunikace zaznamená osobu, čas, důvod a dotčené pásky. Po změně podkladů
+nebo důvodu je nutné nové potvrzení. Opakované stejné potvrzení nevytvoří další
+záznam schválení; původně podaná kopie zůstává zachována. Mzdový systém, který
+podrobné základy dosud nezaznamenává, pokračuje dosavadním postupem bez této
+výstrahy a potvrzení.

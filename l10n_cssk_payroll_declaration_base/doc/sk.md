@@ -1,7 +1,7 @@
 ---
 title: Mzdové hlásenia CZ/SK
 summary: Spoločný základ českých a slovenských mzdových hlásení — ponuka Mzdové hlásenia, postup Generovať / Označiť ako odoslané, opravné hlásenia, verzie tlačív a čítanie výplatných pások z oboch mzdových jadier.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -188,3 +188,25 @@ Zákonné výkazy → Doručenia*. Pozri
   postavené nič úradom neodosielajú.
 - **Kontrola voči schéme overuje tvar, nie sumy.** Prvé hlásenie každého
   tlačiva odsúhlaste ručne.
+
+## Staršie mzdy bez uchovaných poistných základov {#recorded-funds}
+
+Poistný výkaz vymenuje pásky, pri ktorých chýbajú podrobné poistné základy
+alebo už nezodpovedajú mzde. Upozornenie je vo formulári aj v histórii
+komunikácie. Pôvodný výkaz môže použiť doterajší výpočet z hrubej odmeny;
+opravný výkaz sa najprv zastaví a vyžiada presné údaje.
+
+Pri oprave staršieho mesiaca postupujte takto:
+
+1. Porovnajte archivované pásky a pôvodné podanie úradu.
+2. V časti **Staršie mzdy bez uchovaných poistných základov** zapíšte overený
+   dôvod na použitie pôvodného výpočtu.
+3. Zvoľte **Potvrdiť pôvodný výpočet z hrubej odmeny**, vytvorte opravný výkaz
+   a odsúhlaste jeho sumy.
+
+Vo výkaze sa zaznamená kontrolujúca osoba, čas, dôvod a dotknuté pásky.
+Potvrdenie platí pre overené obdobie a mzdové podklady; po zmene podkladov
+alebo dôvodu treba nové potvrdenie. Opakovanie rovnakého potvrdenia nevytvorí
+ďalší záznam schválenia. Pôvodne podaná kópia zostáva zachovaná. Ak mzdový
+systém podrobné základy ešte neuchováva, používa doterajší postup bez tohto
+upozornenia a potvrdenia.

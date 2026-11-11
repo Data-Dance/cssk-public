@@ -19,6 +19,26 @@ msgstr ""
 #. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
+"%(form)s is not filed for periods after %(end)s: the form was discontinued. "
+"%(successor)s"
+msgstr ""
+"%(form)s se pro období po %(end)s nepodává: formulář byl zrušen. "
+"%(successor)s"
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
+"%(report)s does not accept a %(kind)s filing. This authority accepts: "
+"%(supported)s."
+msgstr ""
+"%(report)s nepřijímá podání typu %(kind)s. Tento úřad přijímá: "
+"%(supported)s."
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid "%s is marked submitted and cannot be deleted. Reset it to draft first."
 msgstr ""
 "%s je označeno jako odeslané a nelze jej smazat. Nejprve jej vraťte do "
@@ -51,6 +71,11 @@ msgid "Code"
 msgstr "Kód"
 
 #. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model,name:l10n_cssk_payroll_declaration_base.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__company_id
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__company_id
 msgid "Company"
@@ -60,6 +85,16 @@ msgstr "Společnost"
 #: model:ir.ui.menu,name:l10n_cssk_payroll_declaration_base.menu_cssk_payroll_declaration_config
 msgid "Configuration"
 msgstr "Konfigurace"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_reference
+msgid "Correction Reference"
+msgstr "Reference opravy"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_type
+msgid "Correction Type"
+msgstr "Typ opravy"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__country_id
@@ -83,6 +118,11 @@ msgstr "Vytvořeno dne"
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__currency_id
 msgid "Currency"
 msgstr "Měna"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__active_submission_id
+msgid "Current submission"
+msgstr ""
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__date_from
@@ -117,9 +157,15 @@ msgid "Declaration generated and XSD-validated."
 msgstr "Hlášení vygenerováno a ověřeno proti XSD."
 
 #. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__submission_state
+msgid "Delivery"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__display_name
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_res_company__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný název"
 
@@ -192,6 +238,7 @@ msgstr "Hodiny z výplatních pásek zaměstnance za období (příloha pocetHod
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__id
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__id
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__id
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_res_company__id
 msgid "ID"
 msgstr "ID"
 
@@ -199,6 +246,11 @@ msgstr "ID"
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__insured_days
 msgid "Insured Days"
 msgstr "Dny pojištění"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__is_correction
+msgid "Is Correction"
+msgstr "Je oprava"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__write_uid
@@ -211,6 +263,16 @@ msgstr "Naposledy upravil(a)"
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__write_date
 msgid "Last Updated on"
 msgstr "Naposledy upraveno dne"
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid ""
+"Legacy gross-based fallback was used because recorded fund bases are missing"
+" for: %(slips)s"
+msgstr ""
+"Použil se původní náhradní výpočet z hrubého příjmu, protože chybějí "
+"zaznamenané základy fondů pro: %(slips)s"
 
 #. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
@@ -233,6 +295,16 @@ msgstr "Název"
 #. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid ""
+"No declaration version is configured for %(code)s in the period starting "
+"%(date)s. Check the shipped version data."
+msgstr ""
+"Pro %(code)s není pro období začínající %(date)s nakonfigurována žádná verze"
+" hlášení. Zkontrolujte dodaná data verzí."
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
 "No payroll engine is installed (hr.payslip is unavailable), so there are no "
 "payslips to aggregate."
 msgstr ""
@@ -246,6 +318,20 @@ msgid "No payslips found for %(company)s in %(month)s/%(year)s."
 msgstr ""
 "Pro společnost %(company)s nebyly nalezeny žádné výplatní pásky za "
 "%(month)s/%(year)s."
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_code
+msgid ""
+"Numeric code (100-999) of the locally competent District Social Security "
+"Administration (OSSZ)."
+msgstr ""
+"Číselný kód (100–999) místně příslušné okresní správy sociálního zabezpečení"
+" (OSSZ)."
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_code
+msgid "OSSZ code"
+msgstr "Kód OSSZ"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_schema_data
@@ -291,11 +377,35 @@ msgid "Payroll Employee Declaration"
 msgstr "Mzdové hlášení zaměstnance"
 
 #. module: l10n_cssk_payroll_declaration_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration
+msgid "Payroll Reporting"
+msgstr "Mzdové výkazy"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_warning
+msgid ""
+"Payslips for which this original declaration used the legacy gross-based "
+"fallback."
+msgstr ""
+"Výplatní pásky, u kterých tento původní výkaz použil náhradní výpočet z "
+"hrubého příjmu."
+
+#. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__values_json
 msgid "Per-employee salary-rule totals for the period, {code: total}."
 msgstr ""
 "Součty mzdových pravidel za období pro jednotlivé zaměstnance, {code: "
 "total}."
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid ""
+"Precise recorded fund bases are required for this declaration. Review the "
+"original payroll sources for: %(slips)s"
+msgstr ""
+"Tento výkaz vyžaduje přesné zaznamenané základy fondů. Ověřte původní mzdové"
+" zdroje pro: %(slips)s"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__xml_template_ref_id
@@ -307,6 +417,11 @@ msgstr "Šablona QWeb (ir.ui.view), která vykresluje XML této verze."
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid "Rendered XML root <%(got)s> does not match expected <%(exp)s>."
 msgstr "Vykreslený kořen XML <%(got)s> neodpovídá očekávanému <%(exp)s>."
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__report_code
+msgid "Report Code"
+msgstr "Kód výkazu"
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__code
@@ -346,6 +461,11 @@ msgid "Submission Reference"
 msgstr "Reference podání"
 
 #. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__submission_ids
+msgid "Submissions"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__cssk_payroll_declaration_mixin__state__submitted
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_eldp__state__submitted
 #: model:ir.model.fields.selection,name:l10n_cssk_payroll_declaration_base.selection__l10n_cz_hoz__state__submitted
@@ -371,6 +491,11 @@ msgstr ""
 "relativní schemaLocation v xs:import vyřešily na disku)."
 
 #. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__is_correction
+msgid "Technical: true for anything that amends an earlier filing."
+msgstr "Technické: pravda pro vše, co opravuje dřívější podání."
+
+#. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid ""
@@ -379,6 +504,15 @@ msgid ""
 msgstr ""
 "XML %(code)s neprošlo validací proti XSD:\n"
 "%(err)s"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_reference
+msgid ""
+"The authority's reference for the filing being amended, where the receiving "
+"system needs it to match the two up."
+msgstr ""
+"Reference úřadu na opravované podání, pokud ji přijímající systém potřebuje "
+"ke spárování obou."
 
 #. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
@@ -390,11 +524,32 @@ msgstr "Neexistuje žádné vygenerované XML k odeslání."
 #. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
 msgid ""
+"There is no submitted %(report)s for %(month)s/%(year)s to amend. File the "
+"regular declaration first, or set this one back to Regular."
+msgstr ""
+"Neexistuje podané %(report)s za %(month)s/%(year)s, které by šlo opravit. "
+"Nejprve podejte řádné hlášení, nebo toto vraťte na Řádné."
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
+msgid ""
 "This declaration was marked submitted on %s and is locked. Reset it to draft"
 " to change it (the filed copy is preserved)."
 msgstr ""
 "Toto hlášení bylo označeno jako odeslané dne %s a je uzamčeno. Chcete-li jej"
 " změnit, vraťte jej do konceptu (podaná kopie zůstane zachována)."
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_warning
+msgid "Unrecorded fund bases"
+msgstr "Chybějící zaznamenané základy fondů"
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid "Use payslips from the declaration company."
+msgstr "Použijte výplatní pásky společnosti, za kterou se výkaz sestavuje."
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_version__valid_from
@@ -412,6 +567,11 @@ msgid "Values Json"
 msgstr "Hodnoty JSON"
 
 #. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_vs
+msgid "Variable symbol the ČSSZ assigned to the employer (10 digits)."
+msgstr "Variabilní symbol, který ČSSZ přidělila zaměstnavateli (10 číslic)."
+
+#. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__version_id
 msgid "Version"
 msgstr "Verze"
@@ -420,6 +580,16 @@ msgstr "Verze"
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__vz_base
 msgid "Vz Base"
 msgstr "Vyměřovací základ"
+
+#. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_type
+msgid ""
+"Whether this is the ordinary filing for the period or an amendment to one "
+"already sent. The choices are limited to what this particular authority "
+"accepts."
+msgstr ""
+"Zda jde o řádné podání za období, nebo o opravu již odeslaného. Volby jsou "
+"omezeny na to, co tento konkrétní úřad přijímá."
 
 #. module: l10n_cssk_payroll_declaration_base
 #: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_employee_declaration__worked_hours
@@ -473,104 +643,6 @@ msgid "You must be logged in a %s company to use this feature."
 msgstr "Pro použití této funkce musíte být přihlášeni ve společnosti %s."
 
 #. module: l10n_cssk_payroll_declaration_base
-#. odoo-python
-#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
-msgid ""
-"%(report)s does not accept a %(kind)s filing. This authority accepts: "
-"%(supported)s."
-msgstr ""
-"%(report)s nepřijímá podání typu %(kind)s. Tento úřad přijímá: "
-"%(supported)s."
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.module.module,shortdesc:base.module_l10n_cssk_payroll_declaration_base
-msgid "CZ/SK Payroll e-Reporting — Declaration Base"
-msgstr "CZ/SK mzdová e-podání — základ hlášení"
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_reference
-msgid "Correction Reference"
-msgstr "Reference opravy"
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_type
-msgid "Correction Type"
-msgstr "Typ opravy"
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.module.module,summary:base.module_l10n_cssk_payroll_declaration_base
-msgid ""
-"Engine-neutral base for Czech/Slovak payroll authority e-submissions: XSD-"
-"validated XML export, a submission state machine and an hr.payslip adapter "
-"that works on both the payroll and the hr_payroll engines."
-msgstr ""
-"Základ nezávislý na mzdovém enginu pro česká/slovenská elektronická "
-"podání mzdovým institucím: export XML validovaný proti XSD, stavový "
-"automat podání a adaptér hr.payslip fungující na enginu payroll i "
-"hr_payroll."
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__is_correction
-msgid "Is Correction"
-msgstr "Je oprava"
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__is_correction
-msgid "Technical: true for anything that amends an earlier filing."
-msgstr "Technické: pravda pro vše, co opravuje dřívější podání."
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_reference
-msgid ""
-"The authority's reference for the filing being amended, where the receiving "
-"system needs it to match the two up."
-msgstr ""
-"Reference úřadu na opravované podání, pokud ji přijímající systém "
-"potřebuje ke spárování obou."
-
-#. module: l10n_cssk_payroll_declaration_base
-#. odoo-python
-#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
-msgid ""
-"There is no submitted %(report)s for %(month)s/%(year)s to amend. File the "
-"regular declaration first, or set this one back to Regular."
-msgstr ""
-"Neexistuje podané %(report)s za %(month)s/%(year)s, které by šlo "
-"opravit. Nejprve podejte řádné hlášení, nebo toto vraťte na Řádné."
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__correction_type
-msgid ""
-"Whether this is the ordinary filing for the period or an amendment to one "
-"already sent. The choices are limited to what this particular authority "
-"accepts."
-msgstr ""
-"Zda jde o řádné podání za období, nebo o opravu již odeslaného. "
-"Volby jsou omezeny na to, co tento konkrétní úřad přijímá."
-
-#. module: l10n_cssk_payroll_declaration_base
-#. odoo-python
-#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
-msgid "%(form)s is not filed for periods after %(end)s: the form was discontinued. %(successor)s"
-msgstr "%(form)s se pro období po %(end)s nepodává: formulář byl zrušen. %(successor)s"
-
-#. module: l10n_cssk_payroll_declaration_base
-#. odoo-python
-#: code:addons/l10n_cssk_payroll_declaration_base/models/hr_payroll_declaration.py:0
-msgid "No declaration version is configured for %(code)s in the period starting %(date)s. Check the shipped version data."
-msgstr "Pro %(code)s není pro období začínající %(date)s nakonfigurována žádná verze hlášení. Zkontrolujte dodaná data verzí."
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__report_code
-msgid "Report Code"
-msgstr "Kód výkazu"
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model_terms:ir.ui.view,arch_db:l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration
-msgid "Payroll Reporting"
-msgstr "Mzdové výkazy"
-
-#. module: l10n_cssk_payroll_declaration_base
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_payroll_declaration_base.view_company_form_payroll_declaration
 msgid "ČSSZ (social security)"
 msgstr "ČSSZ (sociální zabezpečení)"
@@ -581,20 +653,17 @@ msgid "ČSSZ variable symbol (VS)"
 msgstr "Variabilní symbol ČSSZ (VS)"
 
 #. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_code
-msgid "OSSZ code"
-msgstr "Kód OSSZ"
+#: model:ir.module.module,shortdesc:base.module_l10n_cssk_payroll_declaration_base
+msgid "CZ/SK Payroll e-Reporting — Declaration Base"
+msgstr "CZ/SK mzdová e-podání — základ hlášení"
 
 #. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_vs
-msgid "Variable symbol the ČSSZ assigned to the employer (10 digits)."
-msgstr "Variabilní symbol, který ČSSZ přidělila zaměstnavateli (10 číslic)."
-
-#. module: l10n_cssk_payroll_declaration_base
-#: model:ir.model.fields,help:l10n_cssk_payroll_declaration_base.field_res_company__l10n_cz_ossz_code
+#: model:ir.module.module,summary:base.module_l10n_cssk_payroll_declaration_base
 msgid ""
-"Numeric code (100-999) of the locally competent District Social Security "
-"Administration (OSSZ)."
+"Engine-neutral base for Czech/Slovak payroll authority e-submissions: XSD-"
+"validated XML export, a submission state machine and an hr.payslip adapter "
+"that works on both the payroll and the hr_payroll engines."
 msgstr ""
-"Číselný kód (100–999) místně příslušné okresní správy sociálního zabezpečení"
-" (OSSZ)."
+"Základ nezávislý na mzdovém enginu pro česká/slovenská elektronická podání "
+"mzdovým institucím: export XML validovaný proti XSD, stavový automat podání "
+"a adaptér hr.payslip fungující na enginu payroll i hr_payroll."

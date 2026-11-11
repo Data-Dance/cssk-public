@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fund_bases_review_form" model="ir.ui.view">
+        <field name="name">l10n.sk.vpp.fund.bases.review</field>
+        <field name="model">l10n.sk.vpp</field>
+        <field name="inherit_id" ref="l10n_sk_hr_payroll_vpp.view_l10n_sk_vpp_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <field name="is_correction" invisible="1"/>
+                <div class="alert alert-warning" role="alert" invisible="not fund_bases_warning">
+                    <field name="fund_bases_warning" nolabel="1"/>
+                </div>
+                <group string="Older payroll without recorded fund bases" invisible="not is_correction">
+                    <field name="fund_bases_fallback_reason" readonly="state != 'draft'"/>
+                    <button name="action_confirm_legacy_fund_bases" type="object"
+                            string="Confirm original gross-based calculation" invisible="state != 'draft'"/>
+                    <field name="fund_bases_confirmed_by" invisible="not fund_bases_confirmed_by"/>
+                    <field name="fund_bases_confirmed_at" invisible="not fund_bases_confirmed_at"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

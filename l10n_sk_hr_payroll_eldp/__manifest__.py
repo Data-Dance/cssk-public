@@ -21,6 +21,7 @@
         "report/eldp_templates.xml",
         "data/eldp_version_data.xml",
         "views/l10n_sk_eldp_views.xml",
+        "views/fund_bases_review_views.xml",
     ],
     "installable": True,
 }

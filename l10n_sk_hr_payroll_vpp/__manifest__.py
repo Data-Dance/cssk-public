@@ -22,6 +22,7 @@
         "data/vpp_version_data.xml",
         "views/l10n_sk_vpp_views.xml",
         "views/vpp_correction_views.xml",
+        "views/fund_bases_review_views.xml",
     ],
     "installable": True,
 }

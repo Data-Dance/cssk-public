@@ -26,6 +26,27 @@ Fixed
   identify the original (``_amendment_scope_fields``), such as the health
   insurer of a per-insurer overview.
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* Not yet ported: recorded fund evidence, engine-neutral missing-reader policy
+  and explicitly reviewed legacy corrections. Adapt contract/engine adapters
+  and rerun signed, optional-module, refund and legacy-review scenarios.
+
+[19.0.1.6.0] — 2026-11-11
+=========================
+
+Added
+~~~~~
+
+* Optional fund-record readers and shared original/corrective insurance policy.
+  Engines without a recorder continue their existing declaration workflow.
+* A reasoned, audited confirmation for corrections of older payroll without
+  recorded bases, bound to the reviewed sources and protected from RPC defaults.
+* Visible missing-source warnings and legacy-review controls on Slovak insurance
+  declarations; reviewer/time/reason in the chatter, with idempotent approval.
+* Native engine refund pairing and direction through the optional adapter.
+
 [19.0.1.5.0] — 2026-10-27
 =========================
 

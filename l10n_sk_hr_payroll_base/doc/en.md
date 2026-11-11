@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll
 summary: The Slovak payroll family in one place — the monthly payslip for a pracovný pomer and the three dohody on either Odoo Enterprise Payroll or the OCA payroll app, with dated statutory rates, leave, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.2.2
+verified: 19.0.1.3.0
 ---
 
 ## What it is for {#purpose}
@@ -416,3 +416,17 @@ and work with either engine:
   Odoo upgrade, check that nothing new was added upstream.
 - The figures are shipped for 2024–2026. Check them against the law before
   using a later period.
+
+## Insurance bases kept with payroll {#recorded-funds}
+
+Each new payslip calculation keeps the insurance bases and charges it used,
+including zero charges. Older payslips are not recalculated to fill in missing
+information. When an insurance declaration uses an older calculation, its
+warning names the affected payslips in the form and in the chatter.
+
+Review that warning before filing. An original declaration can use the previous
+gross-based calculation. A correction first requires precise records; for older
+payroll you can review the archived payroll, enter a reason and explicitly
+confirm the previous calculation on the correction. The form records who
+confirmed it and when. Do not recalculate filed payroll just to create records.
+Systems that do not yet keep these records continue their existing workflow.
