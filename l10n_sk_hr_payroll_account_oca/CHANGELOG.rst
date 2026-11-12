@@ -2,6 +2,14 @@
 Changelog
 =========
 
+[19.0.1.0.5] — 2026-11-12
+-------------------------
+
+Fixed
+~~~~~
+
+- Repeated or deferred chart loading preserves each company's configured salary-rule debit/credit pair, including separate social and health insurer accounts. Defaults are resolved within the native account company domain and replace only an unconfigured pair or an unusable foreign-company fallback.
+
 [19.0.1.0.4] — 2026-11-05
 -------------------------
 
