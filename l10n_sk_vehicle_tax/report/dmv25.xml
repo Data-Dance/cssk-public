@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="template_dmv25">
+        <dokument>
+            <hlavicka>
+                <fo>0</fo><po>1</po><zahranicna>0</zahranicna>
+                <dic t-out="d['company']['dic']"/><datumNarodenia/>
+                <typDP><rdp t-out="d['regular']"/><odp t-out="d['corrective']"/><ddp t-out="d['additional']"/></typDP>
+                <zdanovacieObdobie><od t-out="d['date_from']"/><do t-out="d['date_to']"/><datumDDP t-out="d['discovery_date']"/></zdanovacieObdobie>
+                <ObdobiePar9><ods1>1</ods1><ods3>0</ods3><ods4>0</ods4><ods5>0</ods5><ods6>0</ods6><ods7>0</ods7></ObdobiePar9>
+                <foPriezvisko/><foMeno/><foTitul/><foTitulZa/><foObchodneMeno/>
+                <poObchodneMeno><riadok t-out="d['company']['name']"/></poObchodneMeno>
+                <sidlo><ulica t-out="d['company']['split_street'][0]"/><cislo t-out="d['company']['split_street'][1]"/>
+                    <psc t-out="d['company']['zip']"/><obec t-out="d['company']['city']"/><stat>Slovensko</stat><telefon/><emailFax/>
+                </sidlo>
+                <adresaOrganizacnejZlozky><ulica/><cislo/><psc/><obec/><telefon/><emailFax/></adresaOrganizacnejZlozky>
+                <typZastupcu><typZastupca>0</typZastupca><dedic>0</dedic><spravcaVkonkurznomKonani>0</spravcaVkonkurznomKonani>
+                    <likvidator>0</likvidator><statutarnyZastupcaPO>1</statutarnyZastupcaPO><pravnyNastupca>0</pravnyNastupca>
+                </typZastupcu>
+                <zastupca><priezvisko t-out="d['inputs']['representative_surname']"/><meno t-out="d['inputs']['representative_firstname']"/>
+                    <titul t-out="d['inputs']['representative_title'] or ''"/><titulZa/><rc/><datumNarodenia/><dic/><obchodneMeno/>
+                    <adresa><ulica/><cislo/><psc/><obec/><stat/><telefon/><emailFax/></adresa>
+                </zastupca>
+            </hlavicka>
+            <telo>
+                <r35 t-out="d['previous_count'] if d['additional'] else d['vehicle_count']"/>
+                <r36 t-out="d['previous_tax'] if d['additional'] else d['tax']"/><r37 t-out="d['advances']"/>
+                <r38 t-out="d['due_row']"/><r39 t-out="d['refund_row']"/><r40 t-out="d['projected']"/>
+                <r41 t-out="d['original_page_count']"/><r42 t-out="d['vehicle_count'] if d['additional'] else ''"/>
+                <r43 t-out="d['tax'] if d['additional'] else ''"/>
+                <r44 t-out="d['additional_difference']"/><r45 t-out="d['page_count'] if d['additional'] else ''"/>
+                <vrateniePreplatku><vratit t-out="d['refund_requested']"/>
+                    <sposobPlatby><poukazka>0</poukazka><ucet t-out="d['refund_requested']"/></sposobPlatby>
+                    <IBAN t-out="d['refund_iban']"/><datum t-out="d['refund_date']"/>
+                </vrateniePreplatku>
+                <poznamky t-out="d['inputs']['notes'] or ''"/><datumVyhlasenia t-out="d['declaration_date']"/>
+                <t t-foreach="pages" t-as="page">
+                    <strana3><oznacenie><aktualna t-out="page_index + 1"/><celkovo t-out="d['page_count']"/></oznacenie>
+                        <stlpec1><t t-call="l10n_sk_vehicle_tax.template_dmv25_column"><t t-set="v" t-value="page[0]"/></t></stlpec1>
+                        <stlpec2><t t-call="l10n_sk_vehicle_tax.template_dmv25_column"><t t-set="v" t-value="page[1]"/></t></stlpec2>
+                    </strana3>
+                </t>
+            </telo>
+        </dokument>
+    </template>
+    <template id="template_dmv25_column">
+        <r01 t-out="v.get('r01', '')"/><r02vzniku t-out="v.get('r02vzniku', '')"/><r02zaniku t-out="v.get('r02zaniku', '')"/>
+        <r03Kategoria t-out="v.get('r03Kategoria', '')"/>
+        <r04KodDruhuBA-BB>0</r04KodDruhuBA-BB><r04KodDruhuBC-BD>0</r04KodDruhuBC-BD>
+        <r05VzduchovePruzenie>0</r05VzduchovePruzenie><r05IneSystemy>0</r05IneSystemy>
+        <r06-EVC t-out="v.get('r06-EVC', '')"/><r07-ObjemValcov t-out="v.get('r07-ObjemValcov', '')"/>
+        <r08-VykonMotora t-out="v.get('r08-VykonMotora', '')"/><r09Hmotnost t-out="v.get('r09Hmotnost', '')"/>
+        <r10PocetNaprav t-out="v.get('r10PocetNaprav', '')"/><r11pism t-out="v.get('r11pism', '')"/>
+        <r12pism/><r12oslobodene>0</r12oslobodene><r13sadzba t-out="v.get('r13sadzba', '')"/>
+        <r14zvysenieSadzby1_10 t-out="v.get('r14zvysenieSadzby1_10', 0)"/><r14zvysenieSadzby1_20 t-out="v.get('r14zvysenieSadzby1_20', 0)"/>
+        <r14zvysenieSadzby1_30 t-out="v.get('r14zvysenieSadzby1_30', 0)"/><r14zvysenieSadzby1_40 t-out="v.get('r14zvysenieSadzby1_40', 0)"/>
+        <r14zvysenieSadzby1_50 t-out="v.get('r14zvysenieSadzby1_50', 0)"/>
+        <r14zvysenieSadzby2_10 t-out="v.get('r14zvysenieSadzby2_10', 0)"/><r14zvysenieSadzby2_20 t-out="v.get('r14zvysenieSadzby2_20', 0)"/>
+        <r14zvysenieSadzby2_30 t-out="v.get('r14zvysenieSadzby2_30', 0)"/><r14zvysenieSadzby2_40 t-out="v.get('r14zvysenieSadzby2_40', 0)"/>
+        <r14zvysenieSadzby2_50 t-out="v.get('r14zvysenieSadzby2_50', 0)"/>
+        <r15rocnaSadzba_1 t-out="v.get('r15rocnaSadzba_1', '')"/><r15rocnaSadzba_2 t-out="v.get('r15rocnaSadzba_2', '')"/>
+        <r16hybrid t-out="v.get('r16hybrid', 0)"/><r16plyn t-out="v.get('r16plyn', 0)"/><r16vodik t-out="v.get('r16vodik', 0)"/>
+        <r17sadzba1 t-out="v.get('r17sadzba1', '')"/><r17sadzba2 t-out="v.get('r17sadzba2', '')"/>
+        <r18KombiDoprava>0</r18KombiDoprava><r19sadzba1 t-out="v.get('r19sadzba1', '')"/><r19sadzba2 t-out="v.get('r19sadzba2', '')"/>
+        <r20aPocMesS1 t-out="v.get('r20aPocMesS1', '')"/><r20aPocMesS2 t-out="v.get('r20aPocMesS2', '')"/>
+        <r20bPocDniS1/><r20bPocDniS2/><r21dan1 t-out="v.get('r21dan1', '')"/><r21dan2 t-out="v.get('r21dan2', '')"/>
+        <r22 t-out="v.get('r22', '')"/><r23 t-out="v.get('r23', '')"/><r24 t-out="v.get('r24', '')"/><r25 t-out="v.get('r25', '')"/>
+    </template>
+</odoo>

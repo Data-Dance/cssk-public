@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="vehicle_tax_list" model="ir.ui.view">
+        <field name="name">l10n.sk.vehicle.tax.return.list</field>
+        <field name="model">l10n.sk.vehicle.tax.return</field>
+        <field name="arch" type="xml">
+            <list><field name="name"/><field name="company_id" groups="base.group_multi_company"/>
+                <field name="year"/><field name="filing_type"/><field name="tax_total"/>
+                <field name="amount_to_pay"/><field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="vehicle_tax_form" model="ir.ui.view">
+        <field name="name">l10n.sk.vehicle.tax.return.form</field>
+        <field name="model">l10n.sk.vehicle.tax.return</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_compute_lines" type="object" string="Calculate" class="oe_highlight" invisible="state == 'submitted'"/>
+                    <button name="action_export_xml" type="object" string="Export XML" invisible="state not in ('preview', 'exported')"/>
+                    <button name="action_submit" type="object" string="Record actual filing" invisible="state != 'exported'"/>
+                    <button name="action_create_amendment" type="object" string="Prepare correction" invisible="state != 'submitted'"/>
+                    <button name="action_create_additional" type="object" string="Prepare additional return" invisible="state != 'submitted'"/>
+                    <button name="action_reset_unfiled" type="object" string="Reset unfiled return" invisible="state not in ('preview', 'exported')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,preview,exported,submitted"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <div class="alert alert-info" role="alert">Ordinary calendar-year Slovak legal entities; L/M1/N1 monthly liability. Review technical documents, tax liability dates and the complete fleet. Export does not send a filing or pay tax.</div>
+                    <group readonly="state != 'draft'">
+                        <group><field name="company_id"/><field name="year"/><field name="version_id"/>
+                            <field name="filing_type"/><field name="original_return_id" invisible="filing_type == 'regular'"/>
+                            <field name="discovery_date" invisible="filing_type != 'additional'"/>
+                            <field name="correction_evidence" invisible="filing_type == 'regular'"/>
+                            <field name="declaration_date"/>
+                        </group>
+                        <group><field name="scope_reviewed"/><field name="scope_evidence"/>
+                            <field name="representative_capacity"/><field name="representative_surname"/>
+                            <field name="representative_firstname"/><field name="representative_title"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Vehicles">
+                            <button name="action_add_fleet_vehicles" type="object" string="Add company fleet vehicles" invisible="state != 'draft'"/>
+                            <field name="line_ids" readonly="state != 'draft'">
+                                <list><field name="vehicle_id"/><field name="registration_number"/><field name="category"/>
+                                    <field name="first_registered"/><field name="liability_from"/><field name="liability_to"/>
+                                    <field name="propulsion"/><field name="facts_reviewed"/>
+                                </list>
+                                <form><group><group>
+                                    <field name="vehicle_id" required="1" readonly="id"/>
+                                    <button name="action_refresh_vehicle" type="object" string="Refresh fleet snapshot"/>
+                                    <field name="registration_number" readonly="1"/><field name="category" readonly="1"/><field name="first_registered" readonly="1"/>
+                                    <field name="liability_from" readonly="1"/><field name="liability_to" readonly="1"/><field name="taxpayer" readonly="1"/>
+                                    <field name="previous_line_id"/>
+                                    <field name="zero_liability_reviewed"/>
+                                </group><group><field name="propulsion" readonly="1"/><field name="engine_cm3" readonly="1"/>
+                                    <field name="power_kw" readonly="1"/><field name="weight_kg" readonly="1"/><field name="axles" readonly="1"/>
+                                    <field name="facts_reviewed"/><field name="evidence"/>
+                                </group></group></form>
+                            </field>
+                        </page>
+                        <page string="Advances and projected tax"><group readonly="state != 'draft'">
+                            <field name="advances_paid"/><field name="advances_evidence"/>
+                            <button name="action_suggest_projected_tax" type="object" string="Suggest next January tax" invisible="state != 'draft'"/>
+                            <field name="projected_tax"/><field name="projection_evidence"/>
+                            <field name="refund_requested"/><field name="refund_bank_id" invisible="not refund_requested"/>
+                            <field name="refund_request_date" invisible="not refund_requested"/>
+                            <field name="refund_evidence" invisible="not refund_requested"/>
+                            <field name="notes"/>
+                        </group></page>
+                        <page string="Calculation"><group><field name="tax_total"/><field name="amount_to_pay"/>
+                            <field name="overpayment"/></group><field name="result" widget="json"/>
+                        </page>
+                        <page string="XML and filing confirmation"><group>
+                            <field name="xml_attachment_id"/><field name="xml_digest"/>
+                            <field name="submission_reference" readonly="state == 'submitted'"/>
+                            <field name="filing_evidence" readonly="state == 'submitted'"/>
+                            <field name="submitted_date"/><field name="submitted_attachment_id"/>
+                            <field name="filed_history_ids" widget="many2many_tags"/>
+                        </group></page>
+                    </notebook>
+                    <field name="currency_id" invisible="1"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="vehicle_tax_action" model="ir.actions.act_window">
+        <field name="name">Motor vehicle tax</field>
+        <field name="res_model">l10n.sk.vehicle.tax.return</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="vehicle_tax_menu" name="Motor vehicle tax" action="vehicle_tax_action"
+              parent="l10n_cssk_core.menu_cssk_reports_root" groups="account.group_account_user,account.group_account_manager" sequence="65"/>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="fleet_vehicle_form_sk_tax" model="ir.ui.view">
+        <field name="name">fleet.vehicle.form.sk.tax</field>
+        <field name="model">fleet.vehicle</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Slovak vehicle tax" invisible="country_code != 'SK'">
+                    <group><group>
+                        <field name="l10n_sk_registered_in_sk"/>
+                        <field name="l10n_sk_eu_category"/>
+                        <field name="l10n_sk_first_registration_date"/>
+                        <field name="l10n_sk_dmv_taxpayer"/>
+                        <field name="l10n_sk_engine_cm3"/>
+                        <field name="l10n_sk_max_mass_kg"/>
+                        <field name="l10n_sk_axles"/>
+                    </group><group>
+                        <field name="l10n_sk_hybrid_documented"/>
+                        <field name="l10n_sk_tax_exempt"/>
+                        <field name="l10n_sk_not_taxable_reason"/>
+                        <field name="l10n_sk_liability_from_override"/>
+                        <field name="l10n_sk_liability_override_reason"/>
+                    </group></group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
