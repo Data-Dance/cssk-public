@@ -1,9 +1,9 @@
 {
     "name": "SK Corporate Income Tax Return (DPPO)",
     "summary": "Slovak DPPO return on the income-tax framework: full r-line set "
-               "+ header mapping + XSD-validated XML export against the official "
-               "published historical schema; the published 2026 form has "
-               "a separate calculation registry pending its XML adapter.",
+    "+ header mapping + XSD-validated XML export against the official "
+    "published historical schema; the published 2026 form has "
+    "a separate calculation registry pending its XML adapter.",
     "description": """
 SK Corporate Income Tax Return (DPPO)
 =====================================
