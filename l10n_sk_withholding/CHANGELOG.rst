@@ -38,7 +38,11 @@ Added
 - Reviewed resident-title scope, regular-deadline warnings and retained evidence
   of authority-granted different deadlines; Slovak identifier date/mod11 checks.
 - Native Slovak translations and explicit author-income guidance for an actually
-  withheld art-fund contribution. Linked partial credit notes remain unsupported;
-  the guide documents this limitation without an accounting bypass.
+  withheld art-fund contribution.
+- Linked partial-credit capacity for original author bills and separate native
+  liability journals; individual and shared limits across instalments, months,
+  working drafts, retained snapshots and complete replacement corrections.
+  Actual-payment cutoffs preserve earlier filings; native credit reversals can
+  restore capacity. No accounting entry is rewritten by the source reader.
 - Czech translations and the user-guide entry under financial statements and
   income tax.

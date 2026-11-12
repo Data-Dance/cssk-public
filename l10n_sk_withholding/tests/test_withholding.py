@@ -942,6 +942,423 @@ class TestWithholdingNative(AccountTestInvoicingCommon):
         with self.assertRaises(UserError):
             notice.action_compute_lines()
 
+    def _author_bill(self, amount=1500, payment_term=None):
+        payable = self.recipient.with_company(self.company).property_account_payable_id
+        self.assertTrue(payable.code.startswith("321"))
+        purchase = self.env["account.journal"].search(
+            [("company_id", "=", self.company.id), ("type", "=", "purchase")], limit=1
+        )
+        bill = self.env["account.move"].create(
+            {
+                "company_id": self.company.id,
+                "journal_id": purchase.id,
+                "partner_id": self.recipient.id,
+                "move_type": "in_invoice",
+                "invoice_date": "2026-05-10",
+                "date": "2026-05-10",
+                "invoice_payment_term_id": payment_term.id if payment_term else False,
+                "invoice_line_ids": [
+                    Command.create(
+                        {
+                            "name": "Synthetic author licence",
+                            "account_id": self.expense.id,
+                            "quantity": 1,
+                            "price_unit": amount,
+                            "tax_ids": [Command.clear()],
+                        }
+                    )
+                ],
+            }
+        )
+        bill.action_post()
+        return bill
+
+    def _author_credit(self, bill, amount, day="2026-05-15", post=True):
+        credit = bill._reverse_moves(
+            default_values_list=[{"date": day, "invoice_date": day}]
+        )
+        self.assertEqual(credit.state, "draft")
+        credit.invoice_line_ids.price_unit = amount
+        if post:
+            credit.action_post()
+        self.assertEqual(credit.reversed_entry_id, bill)
+        self.assertEqual(credit.amount_total, amount)
+        return credit
+
+    def _author_notice(
+        self, bill, gross=1350, paid_on="2026-05-20", income_line=None, notice=None
+    ):
+        if notice is None:
+            notice = self.notice(remitted=False)
+            notice.event_ids.unlink()
+        payable = (
+            income_line.account_id
+            if income_line
+            else self.recipient.with_company(self.company).property_account_payable_id
+        )
+        income = (
+            income_line
+            or bill.line_ids.filtered(lambda line: line.account_id == payable).sorted(
+                "id"
+            )[:1]
+        )
+        tax_amount = float(wire4311.income_tax(gross, "author", None)[1])
+        tax = self.entry(
+            "remaining author tax",
+            [(payable, tax_amount), (self.tax, -tax_amount)],
+            paid_on,
+        )
+        net = gross - tax_amount
+        payment = self.entry(
+            "remaining author payment", [(payable, net), (self.bank, -net)], paid_on
+        )
+        event = self.env["l10n.sk.withholding.event"].create(
+            {
+                "notice_id": notice.id,
+                "partner_id": self.recipient.id,
+                "first_name": "Žofia",
+                "last_name": "Šťastná",
+                "income_kind": "author",
+                "gross": gross,
+                "decision_on": "2026-05-10",
+                "paid_on": paid_on,
+                "distribution_line_id": income.id,
+                "withholding_line_id": tax.line_ids.filtered(
+                    lambda line: line.account_id == self.tax
+                ).id,
+                "payment_line_id": payment.line_ids.filtered(
+                    lambda line: line.account_id == payable
+                ).id,
+                "source_reference": "Synthetic licence, native bill/credit and actual bank payment",
+                "payment_reviewed": True,
+            }
+        )
+        return notice, event
+
+    def test_author_partial_credit_note_uses_remaining_native_income(self):
+        bill = self._author_bill()
+        self._author_credit(bill, 150)
+        notice, event = self._author_notice(bill)
+        self.assertEqual(event.tax_amount, 256.5)
+        self.assertEqual(event.net_amount, 1093.5)
+        try:
+            notice.action_compute_lines()
+        except UserError as error:
+            self.fail(f"Remaining native author income could not be reported: {error}")
+        notice.action_export_xml()
+        root = etree.fromstring(notice.xml_attachment_id.raw)
+        self.assertEqual(
+            root.findtext("hlavicka/suhrnneUdaje/spolu04/danZrazena"), "256.50"
+        )
+        etree.XMLSchema(
+            etree.parse(file_path("l10n_sk_withholding/data/ozn4311_2026.xsd"))
+        ).assertValid(root)
+
+    def test_author_credit_capacity_respects_multiple_full_and_draft_credits(self):
+        cases = (
+            ("partial", [150], True, 1350, True),
+            ("over_partial", [150], True, 1350.01, False),
+            ("full", [1500], True, 1, False),
+            ("draft", [150], False, 1500, True),
+            ("multiple", [150, 100], True, 1250, True),
+            ("over_multiple", [150, 100], True, 1250.01, False),
+        )
+        for name, credits, posted, gross, accepted in cases:
+            with self.subTest(name=name):
+                bill = self._author_bill()
+                for amount in credits:
+                    self._author_credit(bill, amount, post=posted)
+                notice, _event = self._author_notice(bill, gross)
+                if accepted:
+                    notice.action_compute_lines()
+                    self.assertEqual(notice.payload["events"][0]["gross"], gross)
+                else:
+                    with self.assertRaisesRegex(
+                        UserError, "after its linked credit notes"
+                    ):
+                        notice.action_compute_lines()
+
+    def test_author_credits_and_their_reversals_use_the_actual_payment_cutoff(self):
+        cases = (
+            ("later_credit", "2026-05-25", None, "2026-05-20", 1500),
+            ("before_later_reversal", "2026-05-15", "2026-05-25", "2026-05-20", 1350),
+            ("reversed_credit", "2026-05-15", "2026-05-19", "2026-05-20", 1500),
+            ("after_reversal", "2026-05-15", "2026-05-25", "2026-05-26", 1500),
+        )
+        for name, credit_day, reversal_day, payment_day, gross in cases:
+            with self.subTest(name=name):
+                bill = self._author_bill()
+                credit = self._author_credit(bill, 150, credit_day)
+                if reversal_day:
+                    self._author_credit(credit, 150, reversal_day)
+                notice, _event = self._author_notice(bill, gross, payment_day)
+                notice.action_compute_lines()
+                self.assertEqual(notice.payload["events"][0]["gross"], gross)
+
+    def test_later_credit_does_not_rewrite_the_earlier_actual_payment_filing(self):
+        bill = self._author_bill()
+        notice, _event = self._author_notice(bill, 1500)
+        notice.action_compute_lines()
+        notice.action_export_xml()
+        original = notice.xml_attachment_id.raw
+        self._author_credit(bill, 150, "2026-05-25")
+        notice.action_submit()
+        self.assertEqual(notice.submitted_attachment_id.raw, original)
+        self.assertEqual(
+            notice.source_history[-1]["payload"]["events"][0]["gross"], 1500
+        )
+
+    def _author_split_bill(self):
+        term = self.env["account.payment.term"].create(
+            {
+                "name": "Synthetic two equal author instalments",
+                "company_id": self.company.id,
+                "line_ids": [Command.clear()]
+                + [
+                    Command.create(
+                        {
+                            "value": "percent",
+                            "value_amount": 50,
+                            "delay_type": "days_after",
+                            "nb_days": days,
+                        }
+                    )
+                    for days in (0, 30)
+                ],
+            }
+        )
+        bill = self._author_bill(payment_term=term)
+        lines = bill.line_ids.filtered(
+            lambda row: row.account_id.account_type == "liability_payable"
+        ).sorted("id")
+        self.assertEqual(lines.mapped("balance"), [-750, -750])
+        self._author_credit(bill, 150)
+        return bill, lines
+
+    def test_author_split_payables_share_one_reduced_bill_capacity(self):
+        for second, accepted in ((675, True), (700, False)):
+            with self.subTest(second_income=second):
+                bill, lines = self._author_split_bill()
+                notice, _first = self._author_notice(bill, 675, income_line=lines[0])
+                self._author_notice(bill, second, income_line=lines[1], notice=notice)
+                if accepted:
+                    notice.action_compute_lines()
+                    self.assertEqual(
+                        sum(row["gross"] for row in notice.payload["events"]), 1350
+                    )
+                else:
+                    with self.assertRaisesRegex(
+                        UserError, "after its linked credit notes"
+                    ):
+                        notice.action_compute_lines()
+
+    def _assert_author_cross_month_capacity(self, *, manual=False, legacy=False):
+        bill, lines = self._author_split_bill()
+        first, _event = self._author_notice(bill, 700, income_line=lines[0])
+        first = first.with_user(self.operator)
+        first.action_compute_lines()
+        first.action_export_xml()
+        if legacy:
+            # Test-only old payload shape, exactly as before income_pool existed.
+            old = deepcopy(first.payload)
+            for source in old["sources"]:
+                for line in source["lines"]:
+                    line.pop("income_pool", None)
+            first._cssk_workflow_write({"payload": old})
+        original = first.xml_attachment_id.raw
+        later, _event = self._author_notice(
+            bill, 700, "2026-06-20", income_line=lines[1]
+        )
+        later.write(
+            {
+                "period": "2026-06-01",
+                "prepared_on": "2026-07-15",
+                "filing_on": "2026-07-15",
+            }
+        )
+        with self.assertRaisesRegex(UserError, "after its linked credit notes"):
+            later.action_compute_lines()
+        if manual:
+            action = first.with_context(bin_size=True).action_create_submission(
+                channel="pfs_manual"
+            )
+            submission = self.env["cssk.submission"].browse(action["res_id"])
+            submission.with_context(bin_size=True).action_attest_manual()
+            self.assertEqual(submission.state, "delivered")
+        else:
+            first.action_submit()
+        self.assertEqual(first.state, "submitted")
+        self.assertEqual(first.submitted_attachment_id.raw, original)
+        self.assertEqual(later.state, "draft")
+        with self.assertRaisesRegex(UserError, "after its linked credit notes"):
+            later.action_compute_lines()
+        later.event_ids.unlink()
+        self._author_notice(bill, 650, "2026-06-20", income_line=lines[1], notice=later)
+        later.action_compute_lines()
+        later.action_export_xml()
+        later.action_submit()
+        self.assertEqual(later.state, "submitted")
+        self.assertEqual(first.submitted_attachment_id.raw, original)
+
+    def test_author_cross_month_reduced_capacity_preserves_filing_priority(self):
+        self._assert_author_cross_month_capacity()
+
+    def test_author_cross_month_reduced_capacity_uses_manual_filing(self):
+        self._assert_author_cross_month_capacity(manual=True)
+
+    def test_author_legacy_retained_sources_still_reserve_the_bill_pool(self):
+        self._assert_author_cross_month_capacity(legacy=True)
+
+    def test_author_credit_needs_the_original_payable_account_and_recipient(self):
+        other = self.env["res.partner"].create({"name": "Synthetic different author"})
+        account = self.env["account.account"].create(
+            {
+                "name": "Synthetic other payable",
+                "code": "321901",
+                "account_type": "liability_payable",
+                "company_ids": [Command.set(self.company.ids)],
+                "reconcile": True,
+            }
+        )
+        for wrong in ("partner", "account"):
+            with self.subTest(changed_credit=wrong):
+                bill = self._author_bill()
+                credit = self._author_credit(bill, 150, post=False)
+                if wrong == "partner":
+                    credit.partner_id = other
+                else:
+                    credit.line_ids.filtered(
+                        lambda row: row.account_id.account_type == "liability_payable"
+                    ).account_id = account
+                credit.action_post()
+                notice, _event = self._author_notice(bill)
+                with self.assertRaisesRegex(
+                    UserError, "linked author credit's payable account and recipient"
+                ):
+                    notice.action_compute_lines()
+
+    def test_manual_journal_link_does_not_replace_a_native_author_credit_note(self):
+        bill = self._author_bill()
+        payable = self.recipient.with_company(self.company).property_account_payable_id
+        journal_credit = self.entry(
+            "manual credit link", [(payable, 150), (self.expense, -150)], "2026-05-15"
+        )
+        journal_credit.reversed_entry_id = bill
+        notice, _event = self._author_notice(bill)
+        with self.assertRaisesRegex(
+            UserError, "matching native invoice or journal reversal links"
+        ):
+            notice.action_compute_lines()
+
+    def test_author_full_replacement_counts_its_filed_predecessor_only_once(self):
+        bill = self._author_bill()
+        self._author_credit(bill, 150)
+        first, _event = self._author_notice(bill, 1000)
+        first.action_compute_lines()
+        first.action_export_xml()
+        first.action_submit()
+        original = first.submitted_attachment_id.raw
+        correction = self.env[MODEL].browse(first.action_create_amendment()["res_id"])
+        correction.write(
+            {
+                "prepared_on": "2026-06-20",
+                "filing_on": "2026-06-20",
+                "original_filing_date": "2026-06-15",
+                "original_date_reviewed": True,
+                "correction_source_reference": "Synthetic actual original filing receipt",
+            }
+        )
+        correction.action_compute_lines()
+        correction.action_export_xml()
+        correction.action_submit()
+        self.assertEqual(correction.state, "submitted")
+        self.assertEqual(first.submitted_attachment_id.raw, original)
+        remaining, _event = self._author_notice(bill, 350, "2026-06-20")
+        remaining.write(
+            {
+                "period": "2026-06-01",
+                "prepared_on": "2026-07-15",
+                "filing_on": "2026-07-15",
+            }
+        )
+        remaining.action_compute_lines()
+        remaining.action_export_xml()
+        remaining.action_submit()
+        self.assertEqual(remaining.state, "submitted")
+
+    def test_recording_uses_exported_capacity_after_a_backdated_source_change(self):
+        bill = self._author_bill()
+        self._author_credit(bill, 150)
+        notice, _event = self._author_notice(bill)
+        notice.action_compute_lines()
+        notice.action_export_xml()
+        original, retained = notice.xml_attachment_id.raw, deepcopy(notice.payload)
+        self._author_credit(bill, 100)
+        with self.assertRaisesRegex(UserError, "after its linked credit notes"):
+            notice._sources()
+        notice.action_submit()
+        self.assertEqual(notice.state, "submitted")
+        self.assertEqual(notice.submitted_attachment_id.raw, original)
+        self.assertEqual(notice.source_history[-1]["payload"], retained)
+        self.assertTrue(
+            any(
+                "Current withholding sources differ" in str(row.body)
+                for row in notice.message_ids
+            )
+        )
+
+    def test_author_internal_voucher_partial_credit_and_its_reversal(self):
+        cases = ((1350, False, True), (1350.01, False, False), (1500, True, True))
+        for gross, restore, accepted in cases:
+            with self.subTest(gross=gross, restored=restore):
+                original = self.entry(
+                    "author internal accrual",
+                    [(self.expense, 1500), (self.author_payable, -1500)],
+                    "2026-05-10",
+                )
+                credit = original._reverse_moves(
+                    default_values_list=[{"date": "2026-05-15"}]
+                )
+                self.assertEqual(credit.state, "draft")
+                credit.write(
+                    {
+                        "line_ids": [
+                            Command.update(
+                                line.id,
+                                {
+                                    "debit": 150 if line.balance > 0 else 0,
+                                    "credit": 150 if line.balance < 0 else 0,
+                                    "amount_currency": 150
+                                    if line.balance > 0
+                                    else -150,
+                                },
+                            )
+                            for line in credit.line_ids
+                        ]
+                    }
+                )
+                credit.action_post()
+                if restore:
+                    restored = credit._reverse_moves(
+                        default_values_list=[{"date": "2026-05-19"}]
+                    )
+                    restored.action_post()
+                income = original.line_ids.filtered(
+                    lambda line: line.account_id == self.author_payable
+                )
+                notice, _event = self._author_notice(
+                    original, gross, income_line=income
+                )
+                if accepted:
+                    notice.action_compute_lines()
+                    notice.action_export_xml()
+                    self.assertEqual(notice.payload["events"][0]["gross"], gross)
+                else:
+                    with self.assertRaisesRegex(
+                        UserError, "after its linked credit notes"
+                    ):
+                        notice.action_compute_lines()
+
     def test_resident_author_without_waiver_uses_19_percent_not_dividend_annex(self):
         notice = self.notice(remitted=False)
         notice.event_ids.unlink()

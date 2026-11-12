@@ -61,11 +61,27 @@ Keep the original remuneration, any actual contribution and their ledger
 evidence. Do not subtract an assumed contribution. The author's payment then
 equals this taxable income less withholding tax.
 
-Posted reversals currently exclude an original source, including a partially
-credited supplier bill. For example, a bill of 1,500 with a linked credit note
-of 150 cannot yet provide the remaining 1,350 through this adapter. This is a
-known unsupported case; do not remove the native credit-note link or alter
-posted accounting merely to bypass it. Retained exports remain available.
+Original author bills and separate, single-recipient liability journals support
+linked partial credits. The adapter reads currently posted native credits whose
+document date is effective by the actual payment date. A native reversal of a
+credit can restore capacity. Draft credits do not reduce it. Invoice/refund and
+journal reversal links must match their source type, company, payable account
+and recipient.
+
+For a 1,500 remuneration and a 150 credit before payment, with no VAT or actual
+art-fund deduction, the remaining income is 1,350, withholding is 256.50 and the
+net payment is 1,093.50. Each original payable line keeps its own limit; all
+instalment lines also share the reduced source limit across months and notices.
+A full correction replaces its predecessor rather than consuming it again.
+The same checks include old retained snapshots without the new pool metadata.
+
+Source capacity is an upper bound, not proof of payment or the tax base. Enter
+the reviewed actual taxable payment and retain its bank/set-off and deduction
+evidence. A later credit does not automatically rewrite an earlier actual
+payment or its filing. Account for a real refund separately and review the
+correction's tax period before preparing it. Compound or multiple-recipient
+journals keep their existing source policy; do not invent a proportional split,
+unlink credits or rewrite posted accounting to bypass a source check.
 
 ## Filing, deadlines and corrections {#filing}
 

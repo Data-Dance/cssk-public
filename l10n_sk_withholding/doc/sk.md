@@ -74,11 +74,26 @@ Uchovajte pôvodnú odmenu, prípadný skutočný príspevok a účtovné podkla
 Neodpočítavajte domnelý príspevok. Platba autorovi je tento zdaniteľný príjem
 znížený o zrazenú daň.
 
-Zaúčtované storno zatiaľ vylučuje pôvodný zdroj aj pri čiastočnom dobropise.
-Faktúra na 1 500 s naviazaným dobropisom na 150 tak zatiaľ neposkytne zvyšných 1 350
-cez tento adaptér. Ide o známe nepokryté použitie; neodstraňujte väzbu dobropisu
-a nemeňte zaúčtované doklady kvôli obídeniu kontroly. Uchované exporty zostávajú
-dostupné. Pri evidencii ich skutočného podania neskoršie pracovné návrhy nemajú
+Pôvodná autorská faktúra aj samostatný záväzkový účtovný zápis jedného príjemcu
+podporujú naviazané čiastočné dobropisy. Použijú sa aktuálne zaúčtované natívne
+dobropisy s dátumom dokladu účinným najneskôr ku skutočnej platbe. Storno
+dobropisu môže limit obnoviť; pracovný dobropis ho nezníži. Typ väzby faktúra/
+dobropis alebo interný zápis musí zodpovedať pôvodnému zdroju, firme, účtu
+a príjemcovi.
+
+Odmena 1500 mínus dobropis 150 pred platbou, bez DPH a skutočného príspevku fondu,
+znamená príjem 1350, zrážku 256,50 a platbu 1093,50. Každý pôvodný záväzkový riadok
+si zachová vlastný limit; všetky splátkové riadky zároveň zdieľajú znížený limit
+dokladu naprieč mesiacmi a oznámeniami. Úplná oprava nahrádza predchodcu a nečerpá
+ho druhýkrát. Kontrola zahŕňa aj staré uchované podklady bez nových metadát.
+
+Limit dokladu nie je dôkazom výplaty ani automaticky základom dane. Zadajte
+overený skutočný zdaniteľný príjem a uchovajte bankové/zápočtové podklady aj
+zrážku. Neskorší dobropis automaticky neprepisuje skoršiu skutočnú výplatu či
+podanie. Skutočnú vratku zaevidujte osobitne a pred opravou overte jej daňové
+obdobie. Zmiešané doklady viacerých príjemcov zachovávajú pôvodné pravidlá;
+nerozpočítavajte ich odhadom, neodpájajte dobropisy a neprepisujte posted doklady
+kvôli obídeniu kontroly. Pri evidencii skutočného podania pracovné návrhy nemajú
 prednosť pred už exportovaným nárokom. Nový výpočet naďalej kontroluje všetky
 pracovné rezervácie aj uchované nároky ostatných oznámení.
 
