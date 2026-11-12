@@ -10,19 +10,33 @@ msgstr ""
 "PO-Revision-Date: 2026-06-30 06:14+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"Language: sk\n"
 
 #. module: l10n_sk_dppo
 #: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_version__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
 
 #. module: l10n_sk_dppo
 #: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_version__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__id
 msgid "ID"
 msgstr "ID"
 
@@ -42,11 +56,10 @@ msgid ""
 "Refusing to guess a statutory rate."
 msgstr ""
 "Verzia DPPO „%(version)s“ neobsahuje použiteľné %(label)s (pole "
-"„%(field)s“): očakáva sa usporiadaný zoznam dvojíc [horná hranica, "
-"hodnota], ktorého posledné pásmo má hornú hranicu prázdnu. Doplňte "
-"pásma na zázname verzie (sú to noupdate dáta — na existujúcej "
-"databáze znova načítajte dáta verzií l10n_sk_dppo). Zákonná sadzba "
-"sa hádať nebude."
+"„%(field)s“): očakáva sa usporiadaný zoznam dvojíc [horná hranica, hodnota],"
+" ktorého posledné pásmo má hornú hranicu prázdnu. Doplňte pásma na zázname "
+"verzie (sú to noupdate dáta — na existujúcej databáze znova načítajte dáta "
+"verzií l10n_sk_dppo). Zákonná sadzba sa hádať nebude."
 
 #. module: l10n_sk_dppo
 #: model:ir.module.module,shortdesc:base.module_l10n_sk_dppo
@@ -59,9 +72,8 @@ msgid ""
 "Slovak DPPO return on the income-tax framework: full r-line set + header "
 "mapping + XSD-validated XML export against the official dppo2025 schema."
 msgstr ""
-"Slovenské priznanie DPPO na rámci dane z príjmov: úplná sada riadkov "
-"r + mapovanie hlavičky + export XML validovaný voči oficiálnej "
-"schéme dppo2025."
+"Slovenské priznanie DPPO na rámci dane z príjmov: úplná sada riadkov r + "
+"mapovanie hlavičky + export XML validovaný voči oficiálnej schéme dppo2025."
 
 #. module: l10n_sk_dppo
 #. odoo-python
@@ -74,6 +86,7 @@ msgstr "Pásma sadzieb podľa § 15"
 #: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
 msgid "§ 46b minimum-tax bands"
 msgstr "Pásma minimálnej dane podľa § 46b"
+
 #. module: l10n_sk_dppo
 #: model:ir.model,name:l10n_sk_dppo.model_cssk_income_tax_version
 msgid "Income Tax Return Version"
@@ -91,7 +104,9 @@ msgstr "Odpočet daňovej straty nad 50 % základu dane"
 msgid ""
 "r410 is %(loss).2f but § 30 ods. 1 písm. b) allows %(limit).2f unless the "
 "company is a mikrodaňovník."
-msgstr "Riadok r410 je %(loss).2f, ale § 30 ods. 1 písm. b) umožňuje %(limit).2f, ak spoločnosť nie je mikrodaňovníkom."
+msgstr ""
+"Riadok r410 je %(loss).2f, ale § 30 ods. 1 písm. b) umožňuje %(limit).2f, ak"
+" spoločnosť nie je mikrodaňovníkom."
 
 #. module: l10n_sk_dppo
 #. odoo-python
@@ -105,4 +120,1363 @@ msgstr "%(code)s nesúhlasí so svojou tabuľkou"
 msgid ""
 "%(code)s is overridden to %(value).2f, but %(formula)s over the table gives "
 "%(expected).2f. Correct the table or remove the override."
-msgstr "%(code)s je prepísaný na %(value).2f, ale %(formula)s z tabuľky dáva %(expected).2f. Opravte tabuľku alebo zrušte prepis."
+msgstr ""
+"%(code)s je prepísaný na %(value).2f, ale %(formula)s z tabuľky dáva "
+"%(expected).2f. Opravte tabuľku alebo zrušte prepis."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_layout
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_version__l10n_sk_dppo_layout
+msgid "DPPO form layout"
+msgstr "Usporiadanie formulára DPPO"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_version__l10n_sk_dppo_publication
+msgid "DPPO form publication"
+msgstr "Publikácia formulára DPPO"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__cssk_income_tax_version__l10n_sk_dppo_layout__legacy
+msgid "Earlier published layout"
+msgstr "Predchádzajúce publikované usporiadanie"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__cssk_income_tax_version__l10n_sk_dppo_layout__2026
+msgid "MF/014309/2026-721"
+msgstr "MF/014309/2026-721"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__cssk_income_tax_version__l10n_sk_dppo_publication__xml
+msgid "Published XML schema"
+msgstr "Publikovaná XML schéma"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__cssk_income_tax_version__l10n_sk_dppo_publication__paper
+msgid "Published form; XML schema pending"
+msgstr "Publikovaný formulár; čaká sa na XML schému"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The published DPPO form can be calculated, but its official XML schema is "
+"not installed. Install the published electronic version before XML export."
+msgstr ""
+"Publikovaný formulár DPPO možno vypočítať, ale jeho úradná XML schéma nie je"
+" nainštalovaná. Pred XML exportom nainštalujte publikovanú elektronickú "
+"verziu."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The reviewed prior minimum-tax credit (row920) must be nonnegative and "
+"cannot exceed row910. Review Table K."
+msgstr ""
+"Overený zápočet predchádzajúcej minimálnej dane (riadok 920) musí byť "
+"nezáporný a nesmie prekročiť riadok 910. Skontrolujte tabuľku K."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The selected DPPO form does not cover this tax period. Select its applicable"
+" published version before XML export."
+msgstr ""
+"Zvolený formulár DPPO nepokrýva toto zdaňovacie obdobie. Pred XML exportom "
+"zvoľte príslušnú publikovanú verziu."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_applicable_version_ids
+msgid "Applicable DPPO form versions"
+msgstr "Príslušné verzie formulára DPPO"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_filing_deadline
+msgid "Applicable legal filing deadline"
+msgstr "Príslušná zákonná lehota na podanie"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_filing_deadline
+msgid ""
+"The legal deadline including an effective extension, when it differs from "
+"the ordinary three-calendar-month deadline. This is not the actual filing "
+"date."
+msgstr ""
+"Zákonná lehota vrátane účinného predĺženia, ak sa líši od bežnej "
+"trojmesačnej lehoty. Nie je to skutočný dátum podania."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The selected DPPO form does not cover the applicable legal filing deadline. "
+"Select the published form for that deadline, including any effective "
+"extension."
+msgstr ""
+"Zvolený formulár DPPO nepokrýva príslušnú zákonnú lehotu na podanie. Zvoľte "
+"publikovaný formulár pre túto lehotu vrátane účinného predĺženia."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__version_id
+msgid "Version"
+msgstr "Verzia"
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Authorized person"
+msgstr "Oprávnená osoba"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_person_first
+msgid "Authorized person's first name"
+msgstr "Meno oprávnenej osoby"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_person_last
+msgid "Authorized person's surname"
+msgstr "Priezvisko oprávnenej osoby"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Choose either a half minimum tax or a minimum-tax exemption."
+msgstr ""
+"Zvoľte buď polovičnú minimálnu daň, alebo oslobodenie od minimálnej dane."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Choose the published MF/014309/2026-721 paper form."
+msgstr "Zvoľte publikovaný listinný formulár MF/014309/2026-721."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Complete the company's name and registered-office address."
+msgstr "Doplňte obchodné meno a adresu sídla spoločnosti."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Compute the return before printing its official form."
+msgstr "Pred tlačou úradného formulára vypočítajte priznanie."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_controlled_transactions
+msgid "Controlled transactions"
+msgstr "Kontrolované transakcie"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_minimum_credit
+msgid "Credit of prior minimum tax"
+msgstr "Zápočet predchádzajúcej minimálnej dane"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_discovered_on
+msgid "Date the tax difference was discovered"
+msgstr "Dátum zistenia rozdielu dane"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_prepared_on
+msgid "Declaration date"
+msgstr "Dátum vyhlásenia"
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Declarations"
+msgstr "Vyhlásenia"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_currency_end
+msgid "End special exchange-difference treatment"
+msgstr "Ukončenie osobitného postupu pri kurzových rozdieloch"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Enter a declaration date on or after the tax-period end."
+msgstr ""
+"Zadajte dátum vyhlásenia najskôr v deň skončenia zdaňovacieho obdobia."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid ""
+"Enter and validate the related official annex inputs before printing these "
+"items: %s"
+msgstr ""
+"Pred tlačou týchto položiek zadajte a overte súvisiace údaje úradnej "
+"prílohy: %s"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Enter the actual discovery date for a supplementary return."
+msgstr "Pri dodatočnom priznaní zadajte skutočný dátum zistenia rozdielu."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid ""
+"Enter the authorized person's contact, first name, surname, relationship and"
+" residence."
+msgstr "Zadajte kontakt, meno, priezvisko, vzťah a bydlisko oprávnenej osoby."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_patent_exemption
+msgid "Exemption under sections 13a/13b"
+msgstr "Oslobodenie podľa § 13a/13b"
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Form identity"
+msgstr "Identifikačné údaje formulára"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_half_minimum
+msgid "Half minimum tax under section 46b(3)"
+msgstr "Polovičná minimálna daň podľa § 46b ods. 3"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_legal_code
+msgid "Legal-form code"
+msgstr "Kód právnej formy"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_nonresident
+msgid "Limited tax liability"
+msgstr "Obmedzená daňová povinnosť"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_micro_taxpayer
+msgid "Micro-taxpayer status"
+msgstr "Postavenie mikrodaňovníka"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_minimum_exemption
+msgid "Minimum-tax exemption under section 46b(7)"
+msgstr "Oslobodenie od minimálnej dane podľa § 46b ods. 7"
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Official form PDF"
+msgstr "Úradný formulár PDF"
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Official form inputs"
+msgstr "Údaje úradného formulára"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_person_id
+msgid "Person authorized to file"
+msgstr "Osoba oprávnená podať priznanie"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Recompute the return after changing a manual input."
+msgstr "Po zmene ručného vstupu prepočítajte priznanie."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Recompute the return after changing a tax calculation input."
+msgstr "Po zmene podkladu výpočtu dane prepočítajte priznanie."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Recompute the return after changing its posted ledger sources."
+msgstr "Po zmene zaúčtovaných podkladov prepočítajte priznanie."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_person_relationship
+msgid "Relationship to the legal entity"
+msgstr "Vzťah k právnickej osobe"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid ""
+"Review DIČ, IČO, the three-digit legal-form code and five-digit SK NACE."
+msgstr ""
+"Skontrolujte DIČ, IČO, trojmiestny kód právnej formy a päťmiestny SK NACE."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Review the tax-period dates."
+msgstr "Skontrolujte dátumy zdaňovacieho obdobia."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_nace
+msgid "SK NACE for the form"
+msgstr "SK NACE vo formulári"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_currency_start
+msgid "Start special exchange-difference treatment"
+msgstr "Začatie osobitného postupu pri kurzových rozdieloch"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid ""
+"The minimum-tax declaration must agree with the reviewed row 810 amount."
+msgstr ""
+"Vyhlásenie o minimálnej dani musí zodpovedať overenej sume v riadku 810."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "The official DPPO form cannot be printed: %s"
+msgstr "Úradný formulár DPPO nemožno vytlačiť: %s"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "The official Slovak form requires amounts in EUR."
+msgstr "Úradný slovenský formulár vyžaduje sumy v EUR."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "The prior minimum-tax credit declaration must agree with row 920."
+msgstr ""
+"Vyhlásenie o zápočte predchádzajúcej minimálnej dane musí zodpovedať riadku "
+"920."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_title_after
+msgid "Title after the person's name"
+msgstr "Titul za menom osoby"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_title_before
+msgid "Title before the person's name"
+msgstr "Titul pred menom osoby"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "printed"
+msgstr "vytlačené"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__aggregated
+msgid "Aggregated transactions"
+msgstr "Agregované transakcie"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Choose a return before entering Table I facts."
+msgstr "Pred zadaním údajov tabuľky I zvoľte priznanie."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__evidence
+msgid "Classification and amount evidence"
+msgstr "Podklad zaradenia a sumy"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__create_uid
+msgid "Created by"
+msgstr "Vytvoril"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__create_date
+msgid "Created on"
+msgstr "Vytvorené dňa"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_i_line
+msgid "DPPO Table I entered transaction"
+msgstr "Zadaná transakcia tabuľky I DPPO"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Enter loan principal in the loan section of Table I."
+msgstr "Istinu úveru zadajte v úverovej časti tabuľky I."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__resident_country_code
+msgid ""
+"Enter the three-digit official country code for the counterparty's tax "
+"residence."
+msgstr "Zadajte trojmiestny úradný kód štátu daňovej rezidencie protistrany."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__highest_principal
+msgid "Highest loan principal during the period"
+msgstr "Najvyššia istina úveru počas obdobia"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upravil"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upravené dňa"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__permanent_establishment_link
+msgid "Link under section 2(r)"
+msgstr "Prepojenosť podľa § 2 písm. r)"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_i_line__section__loan
+msgid "Loan or credit"
+msgstr "Úver alebo pôžička"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__closing_principal
+msgid "Loan principal at the period end"
+msgstr "Istina úveru na konci obdobia"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__transaction_code
+msgid "Official transaction code"
+msgstr "Úradný kód druhu transakcie"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_i_below_threshold
+msgid ""
+"Only transactions not already included in an aggregated transaction in Table"
+" I."
+msgstr ""
+"Len transakcie, ktoré už nie sú zahrnuté do agregovanej transakcie v tabuľke"
+" I."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_i_below_threshold
+msgid "Other controlled transactions below the statutory threshold"
+msgstr "Ďalšie kontrolované transakcie pod zákonnou hranicou"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__partner_id
+msgid "Related person"
+msgstr "Závislá osoba"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"Reset the unfiled return to draft before changing its official annex inputs."
+msgstr ""
+"Pred zmenou údajov úradnej prílohy vráťte nepodané priznanie do návrhu."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__return_id
+msgid "Return"
+msgstr "Priznanie"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"Review Table I loan amounts: the nonnegative closing principal cannot exceed"
+" the highest principal."
+msgstr ""
+"Skontrolujte úvery v tabuľke I: nezáporná konečná istina nesmie prekročiť "
+"najvyššiu istinu."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"Review the Table I transaction code, tax-residence country code and related "
+"person's name."
+msgstr ""
+"Skontrolujte kód transakcie, kód štátu daňovej rezidencie a meno závislej "
+"osoby v tabuľke I."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__section
+msgid "Section"
+msgstr "Časť"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__sequence
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__tax_effect
+msgid "Signed effect on row 400"
+msgstr "Vplyv na riadok 400 so znamienkom"
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_i_form
+msgid "Table I - controlled transactions"
+msgstr "Tabuľka I – kontrolované transakcie"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"Table I allows at most 99 transactions and 99 loans; review the statutory "
+"reporting priorities."
+msgstr ""
+"Tabuľka I umožňuje najviac 99 transakcií a 99 úverov; skontrolujte zákonné "
+"poradie vykazovania."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Table I inputs cannot be reassigned to another return or company."
+msgstr "Údaje tabuľky I nemožno priradiť inému priznaniu ani spoločnosti."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Table I inputs must belong to their return's company."
+msgstr "Údaje tabuľky I musia patriť spoločnosti svojho priznania."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Table I inputs must use their return's currency."
+msgstr "Údaje tabuľky I musia používať menu svojho priznania."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_i_ids
+msgid "Table I transactions"
+msgstr "Transakcie v tabuľke I"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__resident_country_code
+msgid "Tax-residence country code"
+msgstr "Kód štátu daňovej rezidencie"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"The controlled-transactions declaration must agree with the entered Table I "
+"facts."
+msgstr ""
+"Vyhlásenie o kontrolovaných transakciách musí zodpovedať zadaným údajom "
+"tabuľky I."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "The related contact must be shared or belong to the return's company."
+msgstr ""
+"Súvisiaci kontakt musí byť zdieľaný alebo patriť spoločnosti priznania."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_i_line__section__transaction
+msgid "Transaction"
+msgstr "Transakcia"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Use finite Table I amounts in whole eurocents."
+msgstr "V tabuľke I používajte konečné sumy v celých eurocentoch."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__transaction_code
+msgid ""
+"Use the two-digit code in the published instructions: 01–37 for "
+"transactions, 01–05 for loans."
+msgstr ""
+"Použite dvojmiestny kód z publikovaného poučenia: 01–37 pre transakcie, "
+"01–05 pre úvery."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "An immediately following loss-deduction period must have ordinal 1."
+msgstr ""
+"Bezprostredne nasledujúce obdobie odpočtu straty musí mať poradové číslo 1."
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_d_form
+msgid "Apply reviewed Table D deduction"
+msgstr "Preniesť overený odpočet tabuľky D"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Apply the reviewed Table D deduction to native row 410 and recompute the "
+"return."
+msgstr ""
+"Preneste overený odpočet tabuľky D do natívneho riadka 410 a prepočítajte "
+"priznanie."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid "Choose a return before entering official annex facts."
+msgstr "Pred zadaním údajov úradnej prílohy zvoľte priznanie."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid "Choose an existing return before entering official annex facts."
+msgstr "Pred zadaním údajov úradnej prílohy zvoľte existujúce priznanie."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "Compute the published paper-form return before applying Table D."
+msgstr ""
+"Pred použitím tabuľky D vypočítajte priznanie na publikovanom listinnom "
+"formulári."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__1
+msgid "D 1"
+msgstr "D 1"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__2
+msgid "D 2"
+msgstr "D 2"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__3
+msgid "D 3"
+msgstr "D 3"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__4
+msgid "D 4"
+msgstr "D 4"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__5
+msgid "D 5"
+msgstr "D 5"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__6
+msgid "D 6"
+msgstr "D 6"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__7
+msgid "D 7"
+msgstr "D 7"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__8
+msgid "D 8"
+msgstr "D 8"
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_d_line
+msgid "DPPO Table D prior tax loss"
+msgstr "Predchádzajúca daňová strata tabuľky D DPPO"
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_form_input_mixin
+msgid "DPPO entered official annex facts"
+msgstr "Zadané údaje úradných príloh DPPO"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__prior_deducted
+msgid "Deducted in prior tax periods"
+msgstr "Odpočítané v predchádzajúcich obdobiach"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__deducted
+msgid "Deducted in this tax period"
+msgstr "Odpočítané v tomto zdaňovacom období"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "Enter prior Table D periods from oldest to newest without overlap."
+msgstr ""
+"Predchádzajúce obdobia tabuľky D zadajte od najstaršieho po najnovšie bez "
+"prekrývania."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Explain the special Table D column 1 deduction in the official special "
+"records."
+msgstr ""
+"Osobitný odpočet v stĺpci 1 tabuľky D vysvetlite v osobitných záznamoch "
+"úradného formulára."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__subsequent_period_number
+msgid "Following tax-period number"
+msgstr "Poradie nasledujúceho zdaňovacieho obdobia"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__evidence
+msgid "Loss eligibility evidence"
+msgstr "Podklad oprávnenosti straty"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__date_from
+msgid "Loss period from"
+msgstr "Obdobie straty od"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__date_to
+msgid "Loss period to"
+msgstr "Obdobie straty do"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__source_return_id
+msgid "Native original loss return"
+msgstr "Natívne pôvodné priznanie so stratou"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__column
+msgid "Official Table D column"
+msgstr "Úradný stĺpec tabuľky D"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid ""
+"Official annex inputs cannot be reassigned to another return or company."
+msgstr ""
+"Údaje úradnej prílohy nemožno priradiť inému priznaniu ani spoločnosti."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid "Official annex inputs must belong to their return's company."
+msgstr "Údaje úradnej prílohy musia patriť spoločnosti svojho priznania."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid "Official annex inputs must use their return's currency."
+msgstr "Údaje úradnej prílohy musia používať menu svojho priznania."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_notes
+msgid "Official form special records"
+msgstr "Osobitné záznamy úradného formulára"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__loss_amount
+msgid "Originally declared tax loss"
+msgstr "Pôvodne vykázaná daňová strata"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__remaining
+msgid "Remaining for future tax periods"
+msgstr "Zostatok pre ďalšie zdaňovacie obdobia"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Review micro-taxpayer status: controlled transactions, income above EUR "
+"60,000 or a shorter tax period exclude it."
+msgstr ""
+"Skontrolujte postavenie mikrodaňovníka: kontrolované transakcie, príjem nad "
+"60 000 eur alebo kratšie zdaňovacie obdobie ho vylučujú."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Review the ordinary loss period and its following-tax-period number from 1 "
+"to 5."
+msgstr ""
+"Skontrolujte obdobie bežnej straty a poradie nasledujúceho zdaňovacieho "
+"obdobia od 1 do 5."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__subsequent_period_number
+msgid ""
+"Reviewed ordinal from 1 to 5 for ordinary section 30 losses. Count tax "
+"periods, including short periods, not elapsed calendar years."
+msgstr ""
+"Overené poradie od 1 do 5 pri bežných stratách podľa § 30. Počítajte "
+"zdaňovacie obdobia vrátane krátkych období, nie uplynuté kalendárne roky."
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_d_form
+msgid "Table D - prior tax losses"
+msgstr "Tabuľka D – predchádzajúce daňové straty"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Table D deductions cannot exceed the positive originally declared loss."
+msgstr "Odpočty v tabuľke D nesmú prekročiť kladnú pôvodne vykázanú stratu."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Table D must describe an earlier loss period; the current-period loss stays "
+"in row 400."
+msgstr ""
+"Tabuľka D musí opisovať predchádzajúce obdobie straty; strata aktuálneho "
+"obdobia zostáva v riadku 400."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_d_ids
+msgid "Table D prior tax losses"
+msgstr "Predchádzajúce daňové straty v tabuľke D"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"The linked native loss return must match the company, loss period and "
+"declared loss amount."
+msgstr ""
+"Prepojené natívne priznanie so stratou musí zodpovedať firme, obdobiu a sume"
+" vykázanej straty."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"The ordinary Table D loss deduction cannot exceed 50 percent of row 400."
+msgstr ""
+"Bežný odpočet straty v tabuľke D nesmie prekročiť 50 percent riadka 400."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "The total Table D deduction cannot exceed the positive row 400 base."
+msgstr ""
+"Celkový odpočet v tabuľke D nesmie prekročiť kladný základ z riadka 400."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__expired
+msgid "Unused balance expiring after this period"
+msgstr "Nevyužitý zostatok zanikajúci po tomto období"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "Use each official Table D column only once."
+msgstr "Každý úradný stĺpec tabuľky D použite len raz."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "Use finite nonnegative Table D amounts in whole eurocents."
+msgstr "V tabuľke D používajte konečné nezáporné sumy v celých eurocentoch."
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_fl_form
+msgid "Apply reviewed Table L revenue"
+msgstr "Preniesť overené príjmy tabuľky L"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid ""
+"Apply the reviewed Table L taxable revenue to native row 560 and recompute."
+msgstr ""
+"Preneste overené zdaniteľné príjmy tabuľky L do natívneho riadka 560 a "
+"prepočítajte priznanie."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "Compute the published paper-form return before applying Table L."
+msgstr ""
+"Pred použitím tabuľky L vypočítajte priznanie na publikovanom listinnom "
+"formulári."
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_l_line
+msgid "DPPO Table L taxable-revenue adjustment"
+msgstr "Úprava zdaniteľných príjmov tabuľky L DPPO"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_legacy_advance_evidence
+msgid "Legacy advance-tax relief evidence"
+msgstr "Podklady historickej úľavy od preddavkov"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_legacy_advance_relief
+msgid "Legacy section 35/35a relief: leave row 1110 blank"
+msgstr "Historická úľava podľa § 35/35a: riadok 1110 nevyplniť"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__return_row
+msgid "Related DPPO row"
+msgstr "Súvisiaci riadok DPPO"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "Retain the reviewed Table F source evidence."
+msgstr "Uchovajte overené zdrojové podklady tabuľky F."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid ""
+"Review each Table L description, signed amount, related return row and "
+"classification evidence."
+msgstr ""
+"Skontrolujte každý popis tabuľky L, sumu so znamienkom, súvisiaci riadok "
+"priznania a podklady zatriedenia."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"Review the legacy section 35/35a relief, its evidence and the blank row "
+"1110."
+msgstr ""
+"Skontrolujte historickú úľavu podľa § 35/35a, jej podklady a prázdny riadok "
+"1110."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_f_cost
+msgid "Reviewed Table F costs before income tax"
+msgstr "Overené náklady pred daňou z príjmov v tabuľke F"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_f_revenue
+msgid "Reviewed Table F revenue"
+msgstr "Overené výnosy tabuľky F"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__amount
+msgid "Signed taxable-revenue adjustment"
+msgstr "Úprava zdaniteľných príjmov so znamienkom"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid ""
+"Table F revenue less costs must equal row 100; review the ledger or enter "
+"reviewed source figures."
+msgstr ""
+"Výnosy mínus náklady v tabuľke F sa musia rovnať riadku 100; skontrolujte "
+"hlavnú knihu alebo zadajte overené zdrojové sumy."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_f_evidence
+msgid "Table F source evidence"
+msgstr "Zdrojové podklady tabuľky F"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "Table L taxable revenue cannot be negative."
+msgstr "Zdaniteľné príjmy v tabuľke L nesmú byť záporné."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_l_ids
+msgid "Table L taxable-revenue adjustments"
+msgstr "Úpravy zdaniteľných príjmov v tabuľke L"
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_fl_form
+msgid "Tables F/L - ordinary double-entry accounting"
+msgstr "Tabuľky F/L – bežné podvojné účtovníctvo"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__description
+msgid "Taxable-revenue adjustment"
+msgstr "Úprava zdaniteľných príjmov"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__evidence
+msgid "Taxable-revenue classification evidence"
+msgstr "Podklady zatriedenia zdaniteľných príjmov"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid ""
+"The Table L adjustment linked to a return row cannot exceed that row's "
+"amount."
+msgstr ""
+"Úprava tabuľky L priradená riadku priznania nesmie prekročiť sumu tohto "
+"riadka."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "The published Table L has adjustment rows 2 through 98."
+msgstr "Publikovaná tabuľka L má riadky úprav 2 až 98."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__return_row
+msgid "Three-digit row number of the income adjustment in the return."
+msgstr "Trojmiestne číslo riadka príjmovej úpravy v priznaní."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "Use finite Table F amounts."
+msgstr "V tabuľke F použite konečné číselné sumy."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_f_manual
+msgid "Use reviewed Table F source figures"
+msgstr "Použiť overené zdrojové sumy tabuľky F"
+
+#. module: l10n_sk_dppo
+# DPPO E/K credit inputs
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"%(country)s — section 31 conversion: %(source).2f %(currency)s × %(rate).8f "
+"EUR = %(converted).2f EUR; eligible %(tax).2f EUR. %(evidence)s"
+msgstr ""
+"%(country)s — prepočet podľa § 31: %(source).2f %(currency)s × %(rate).8f "
+"EUR = %(converted).2f EUR; prípustná daň %(tax).2f EUR. %(evidence)s"
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_ek_form
+msgid "Apply reviewed Tables E/K credits"
+msgstr "Uplatniť overené zápočty tabuliek E/K"
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Apply the reviewed Tables E/K and recompute native rows 710/920."
+msgstr "Uplatnite overené tabuľky E/K a prepočítajte natívne riadky 710/920."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Compute the published paper-form return before applying Tables E/K."
+msgstr ""
+"Pred uplatnením tabuliek E/K vypočítajte priznanie podľa zverejneného "
+"papierového vzoru."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__subsequent_period_number
+msgid ""
+"Count tax periods, including short periods, rather than calendar years."
+msgstr "Počítajte zdaňovacie obdobia vrátane skrátených, nie kalendárne roky."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__claimed
+msgid "Credit claimed in this return"
+msgstr "Zápočet uplatnený v tomto priznaní"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__prior_claimed
+msgid "Credited in prior periods"
+msgstr "Započítané v predchádzajúcich obdobiach"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__eur_rate
+msgid "EUR per source-currency unit"
+msgstr "EUR za jednotku zdrojovej meny"
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "EUR source tax requires a conversion rate of one."
+msgstr "Zdrojová daň v EUR vyžaduje prepočítací kurz jedna."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__foreign_base
+msgid "Eligible foreign net tax base"
+msgstr "Príslušný zahraničný čiastkový základ dane"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__hybrid_base
+msgid "Eligible net hybrid income"
+msgstr "Príslušný čistý príjem z hybridného prevodu"
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Enter a positive finite EUR conversion rate."
+msgstr "Zadajte kladný konečný prepočítací kurz na EUR."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Enter finite, nonnegative credit amounts in whole cents."
+msgstr "Zadajte konečné nezáporné sumy zápočtov na celé centy."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_e_line__tax_status__estimated
+msgid "Estimate under section 45(2)"
+msgstr "Predpokladaná daň podľa § 45 ods. 2"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__country_id
+msgid "Foreign country"
+msgstr "Zahraničný štát"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__paid_on
+msgid "Foreign tax payment date"
+msgstr "Dátum zaplatenia zahraničnej dane"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__tax_status
+msgid "Foreign tax source"
+msgstr "Zdroj zahraničnej dane"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__foreign_date_to
+msgid "Foreign tax-period end"
+msgstr "Koniec zahraničného zdaňovacieho obdobia"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__foreign_date_from
+msgid "Foreign tax-period start"
+msgstr "Začiatok zahraničného zdaňovacieho obdobia"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__paid_on
+msgid "Minimum-tax payment date"
+msgstr "Dátum zaplatenia minimálnej dane"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__minimum_tax
+msgid "Original minimum tax"
+msgstr "Pôvodná minimálna daň"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__paid_amount
+msgid "Original minimum tax actually paid"
+msgstr "Skutočne zaplatená pôvodná minimálna daň"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__credit_amount
+msgid "Original positive minimum-tax difference"
+msgstr "Pôvodný kladný rozdiel minimálnej dane"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_e_line__tax_status__paid
+msgid "Paid foreign tax"
+msgstr "Zaplatená zahraničná daň"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__source_tax
+msgid "Paid/estimated source tax"
+msgstr "Zaplatená alebo predpokladaná zdrojová daň"
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Retain a foreign country and reviewed treaty, net-income and tax evidence "
+"for Table E."
+msgstr ""
+"V tabuľke E uveďte zahraničný štát a uchovajte overený podklad k zmluve, "
+"čistému príjmu a dani."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Retain a foreign tax payment date no later than the declaration date."
+msgstr "Uveďte dátum zaplatenia zahraničnej dane najneskôr ku dňu vyhlásenia."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Retain the filed minimum-tax calculation, actual payment date and "
+"intervening-period credit evidence."
+msgstr ""
+"Uchovajte podaný výpočet minimálnej dane, skutočný dátum platby a evidenciu "
+"zápočtov v medziobdobiach."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Retain the section 31 foreign-tax conversion calculation."
+msgstr "Uchovajte výpočet prepočtu zahraničnej dane podľa § 31."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Review the first, second or third subsequent tax period for Table K."
+msgstr ""
+"Overte prvé, druhé alebo tretie nasledujúce zdaňovacie obdobie tabuľky K."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Review the foreign tax source status."
+msgstr "Overte stav zdroja zahraničnej dane."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__evidence
+msgid "Reviewed filed return, payment and intervening-period evidence"
+msgstr "Overené podané priznanie, platba a evidencia medziobdobí"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__evidence
+msgid "Reviewed income, treaty and tax evidence"
+msgstr "Overený podklad k príjmom, zmluve a dani"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__fx_evidence
+msgid "Section 31 conversion evidence"
+msgstr "Podklad k prepočtu podľa § 31"
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Section 45(2) estimates require a different, evidenced foreign tax period."
+msgstr ""
+"Predpoklad podľa § 45 ods. 2 vyžaduje odlišné a doložené zahraničné "
+"zdaňovacie obdobie."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__tax_currency_id
+msgid "Source tax currency"
+msgstr "Mena zdrojovej dane"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__date_to
+msgid "Source tax-period end"
+msgstr "Koniec zdrojového zdaňovacieho obdobia"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__date_from
+msgid "Source tax-period start"
+msgstr "Začiatok zdrojového zdaňovacieho obdobia"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__subsequent_period_number
+msgid "Subsequent tax-period ordinal"
+msgstr "Poradie nasledujúceho zdaňovacieho obdobia"
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table E %(country)s: net base %(base).2f EUR; hybrid %(hybrid).2f EUR; "
+"treaty tax %(tax).2f EUR; source %(source).2f %(currency)s (%(status)s)."
+msgstr ""
+"Tabuľka E %(country)s: čiastkový základ dane %(base).2f EUR; hybridný príjem"
+" %(hybrid).2f EUR; daň podľa zmluvy %(tax).2f EUR; zdroj %(source).2f "
+"%(currency)s (%(status)s)."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_e_ids
+msgid "Table E - foreign tax credit"
+msgstr "Tabuľka E – zápočet dane zaplatenej v zahraničí"
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Table E requires a positive native row 400."
+msgstr "Tabuľka E vyžaduje kladný riadok 400 natívneho priznania."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table K %(start)s–%(end)s: %(expired).2f EUR expires after the third "
+"subsequent tax period."
+msgstr ""
+"Tabuľka K %(start)s–%(end)s: po treťom nasledujúcom zdaňovacom období zaniká"
+" nárok na %(expired).2f EUR."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_k_ids
+msgid "Table K - prior minimum-tax credits"
+msgstr "Tabuľka K – evidencia a zápočet minimálnej dane"
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table K current claims cannot exceed the tax above the current minimum tax."
+msgstr ""
+"Aktuálne zápočty tabuľky K nesmú prekročiť časť dane nad aktuálnou "
+"minimálnou daňou."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table K needs a positive eligible difference, a fully paid original minimum "
+"tax and claims within that difference."
+msgstr ""
+"Tabuľka K vyžaduje kladný oprávnený rozdiel, úplne zaplatenú pôvodnú "
+"minimálnu daň a zápočty v rámci tohto rozdielu."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table K requires a prior, non-overlapping minimum-tax period starting in "
+"2024 or later."
+msgstr ""
+"Tabuľka K vyžaduje predchádzajúce neprekrývajúce sa obdobie minimálnej dane "
+"so začiatkom v roku 2024 alebo neskôr."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Table K source periods must not overlap or be duplicated."
+msgstr "Zdrojové obdobia tabuľky K sa nesmú prekrývať ani opakovať."
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_ek_form
+msgid "Tables E/K - reviewed tax credits"
+msgstr "Tabuľky E/K – overené zápočty dane"
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "The published Table K has four source-period rows."
+msgstr "Zverejnená tabuľka K má štyri riadky zdrojových období."
+
+#. module: l10n_sk_dppo
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Treaty-eligible tax cannot exceed the converted source tax."
+msgstr "Daň prípustná podľa zmluvy nesmie prekročiť prepočítanú zdrojovú daň."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__eligible_tax
+msgid "Treaty-eligible tax in EUR"
+msgstr "Daň prípustná podľa zmluvy v EUR"
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_e_line
+msgid "DPPO Table E country tax-credit source"
+msgstr "Zdroj zápočtu dane podľa štátu v tabuľke E DPPO"
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_k_line
+msgid "DPPO Table K paid minimum-tax source period"
+msgstr "Zdrojové obdobie zaplatenej minimálnej dane v tabuľke K DPPO"

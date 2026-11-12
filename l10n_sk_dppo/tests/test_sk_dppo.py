@@ -20,38 +20,57 @@ class TestSkDppo(AccountTestInvoicingCommon):
         cls.type_r = cls.env.ref("l10n_sk_dppo.dppo_type_R_2025")
 
     def _make(self):
-        ret = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id,
-            "version_id": self.version.id,
-            "statement_type_id": self.type_r.id,
-            "date_from": "2025-01-01", "date_to": "2025-12-31",
-        })
+        ret = self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": self.version.id,
+                "statement_type_id": self.type_r.id,
+                "date_from": "2025-01-01",
+                "date_to": "2025-12-31",
+            }
+        )
         ret.action_compute_lines()
         return ret
 
-    def test_a_period_without_a_published_vzor_says_so(self):
-        """FS SR has not published a DPPO vzor for 2026 (dppo2026.xsd is a
-        404 on ekr.financnasprava.sk as of 27. 10. 2026). The module must not
-        invent one, and must say why the return cannot be created instead of
-        leaving an empty dropdown and a required-field error."""
+    def test_a_period_without_an_installed_vzor_says_so(self):
+        """The published2026 paper form must not hide missing older periods.
+
+        A404 from a guessed schema filename is not publication evidence.
+        Use an actually uncovered period to exercise the generic warning.
+        """
         Return = self.env["cssk.income.tax.return"]
         self.assertFalse(
-            self.env["cssk.income.tax.version"].search([
-                ("country_id.code", "=", "SK"),
-                ("valid_from", "<=", "2026-12-31"),
-                "|", ("valid_to", "=", False),
-                ("valid_to", ">=", "2026-01-01")]),
-            "premise: no 2026 vzor is shipped")
-        draft = Return.new({"company_id": self.company.id,
-                            "date_from": "2026-01-01",
-                            "date_to": "2026-12-31"})
+            self.env["cssk.income.tax.version"].search(
+                [
+                    ("country_id.code", "=", "SK"),
+                    ("valid_from", "<=", "2012-12-31"),
+                    "|",
+                    ("valid_to", "=", False),
+                    ("valid_to", ">=", "2012-01-01"),
+                ]
+            ),
+            "premise: no2012 vzor is shipped",
+        )
+        draft = Return.new(
+            {
+                "company_id": self.company.id,
+                "date_from": "2012-01-01",
+                "date_to": "2012-12-31",
+            }
+        )
         result = draft._onchange_period_version()
-        self.assertTrue(result and result.get("warning"),
-                        "a 2026 period must warn that no vzor covers it")
-        self.assertIn("2026-01-01", result["warning"]["message"])
-        covered = Return.new({"company_id": self.company.id,
-                              "date_from": "2025-01-01",
-                              "date_to": "2025-12-31"})
+        self.assertTrue(
+            result and result.get("warning"),
+            "an uncovered period must warn that no vzor covers it",
+        )
+        self.assertIn("2012-01-01", result["warning"]["message"])
+        covered = Return.new(
+            {
+                "company_id": self.company.id,
+                "date_from": "2025-01-01",
+                "date_to": "2025-12-31",
+            }
+        )
         self.assertFalse(covered._onchange_period_version())
 
     def test_tax_spine(self):
@@ -61,29 +80,30 @@ class TestSkDppo(AccountTestInvoicingCommon):
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
-        setv("r560", 40000.0)   # úhrn príjmov → 10 % rate, min tax 340
-        setv("r301", 50000.0)   # adjusted base
+        setv("r560", 40000.0)  # úhrn príjmov → 10 % rate, min tax 340
+        setv("r301", 50000.0)  # adjusted base
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
-        self.assertEqual(v["r550"], 10.0)              # 40k ≤ 100k → 10 %
+        self.assertEqual(v["r550"], 10.0)  # 40k ≤ 100k → 10 %
         self.assertAlmostEqual(v["r310"], 50000.0, 2)
         self.assertAlmostEqual(v["r400"], 50000.0, 2)
         self.assertAlmostEqual(v["r500"], 50000.0, 2)
         self.assertAlmostEqual(v["r510"], 50000.0, 2)
-        self.assertAlmostEqual(v["r600"], 5000.0, 2)   # 50000 × 10 %
+        self.assertAlmostEqual(v["r600"], 5000.0, 2)  # 50000 × 10 %
         self.assertAlmostEqual(v["r800"], 5000.0, 2)
-        self.assertAlmostEqual(v["r810"], 340.0, 2)    # § 46b minimálna daň
-        self.assertAlmostEqual(v["r820"], 0.0, 2)      # daň > min tax
+        self.assertAlmostEqual(v["r810"], 340.0, 2)  # § 46b minimálna daň
+        self.assertAlmostEqual(v["r820"], 0.0, 2)  # daň > min tax
         self.assertAlmostEqual(v["r1050"], 5000.0, 2)  # daň na úhradu
 
         # Small base → minimálna daň dominates.
         setv("r301", 1000.0)
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
-        self.assertAlmostEqual(v["r600"], 100.0, 2)    # 1000 × 10 %
-        self.assertAlmostEqual(v["r820"], 340.0, 2)    # min tax kicks in
+        self.assertAlmostEqual(v["r600"], 100.0, 2)  # 1000 × 10 %
+        self.assertAlmostEqual(v["r820"], 340.0, 2)  # min tax kicks in
         self.assertAlmostEqual(v["r1050"], 340.0, 2)
 
     def test_tax_spine_half_up_rounding(self):
@@ -94,9 +114,10 @@ class TestSkDppo(AccountTestInvoicingCommon):
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
-        setv("r560", 40000.0)   # úhrn príjmov ≤ 100k → 10 % rate
+        setv("r560", 40000.0)  # úhrn príjmov ≤ 100k → 10 % rate
         setv("r301", 26.75)
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
@@ -116,30 +137,31 @@ class TestSkDppo(AccountTestInvoicingCommon):
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
         # --- Regime 1: normal tax dominates (r800 = 5000 > r810 = 340) -------
-        setv("r560", 40000.0)   # → 10 % rate, § 46b min tax 340
-        setv("r301", 50000.0)   # base → r600 = r800 = 5000
+        setv("r560", 40000.0)  # → 10 % rate, § 46b min tax 340
+        setv("r301", 50000.0)  # base → r600 = r800 = 5000
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
         self.assertAlmostEqual(v["r800"], 5000.0, 2)
         self.assertAlmostEqual(v["r810"], 340.0, 2)
-        self.assertAlmostEqual(v["r820"], 0.0, 2)     # daň > min tax
-        self.assertAlmostEqual(v["r830"], 0.0, 2)     # no min-tax surplus
-        self.assertAlmostEqual(v["r900"], 0.0, 2)     # not set when r810≤r800
+        self.assertAlmostEqual(v["r820"], 0.0, 2)  # daň > min tax
+        self.assertAlmostEqual(v["r830"], 0.0, 2)  # no min-tax surplus
+        self.assertAlmostEqual(v["r900"], 0.0, 2)  # not set when r810≤r800
         self.assertAlmostEqual(v["r1050"], 5000.0, 2)
         self.assertAlmostEqual(v["r1080"], 5000.0, 2)  # = r1050 (no additions)
 
         # --- Regime 2: minimálna daň dominates (r810 = 340 > r800 = 100) -----
-        setv("r301", 1000.0)    # base → r600 = r800 = 100
+        setv("r301", 1000.0)  # base → r600 = r800 = 100
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
         self.assertAlmostEqual(v["r800"], 100.0, 2)
         self.assertAlmostEqual(v["r810"], 340.0, 2)
-        self.assertAlmostEqual(v["r820"], 340.0, 2)   # min tax kicks in
-        self.assertAlmostEqual(v["r830"], 240.0, 2)   # 340 − 100 surplus
-        self.assertAlmostEqual(v["r900"], 340.0, 2)   # = min tax
+        self.assertAlmostEqual(v["r820"], 340.0, 2)  # min tax kicks in
+        self.assertAlmostEqual(v["r830"], 240.0, 2)  # 340 − 100 surplus
+        self.assertAlmostEqual(v["r900"], 340.0, 2)  # = min tax
         self.assertAlmostEqual(v["r1050"], 340.0, 2)
         self.assertAlmostEqual(v["r1080"], 340.0, 2)
 
@@ -161,13 +183,15 @@ class TestSkDppo(AccountTestInvoicingCommon):
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
-        setv("r560", 0.0)       # no min tax → r800 dominates
-        setv("r301", 100.0)     # → r600 = r800 = 10 → r1050 = r1080 = 10
+        setv("r560", 0.0)  # no min tax → r800 dominates
+        setv("r301", 100.0)  # → r600 = r800 = 10 → r1050 = r1080 = 10
         ret.action_compute_lines()
         self.assertAlmostEqual(
-            ret.line_ids.filtered(lambda l: l.code == "r1080").value, 10.0, 2)
+            ret.line_ids.filtered(lambda l: l.code == "r1080").value, 10.0, 2
+        )
 
         def settle(preddavky):
             setv("r1040", preddavky)
@@ -184,7 +208,7 @@ class TestSkDppo(AccountTestInvoicingCommon):
         # preplatok 5.00 € → recorded despite equal magnitude (asymmetry)
         r1100, r1101 = settle(15.0)
         self.assertAlmostEqual(r1100, 0.0, 2)
-        self.assertAlmostEqual(r1101, -5.0, 2)   # <-- sign convention (see NOTE)
+        self.assertAlmostEqual(r1101, -5.0, 2)  # <-- sign convention (see NOTE)
 
     def test_r1080_total_tax_components(self):
         """r1080 = r1050 + r1060 + r1070 + r1071 (all added).
@@ -196,15 +220,16 @@ class TestSkDppo(AccountTestInvoicingCommon):
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
         setv("r560", 40000.0)
-        setv("r301", 50000.0)   # → r1050 = 5000
+        setv("r301", 50000.0)  # → r1050 = 5000
         setv("r1060", 10.0)
         setv("r1070", 5.0)
         setv("r1071", 3.0)
-        setv("r1061", 100.0)    # must be ignored by r1080
-        setv("r1062", 100.0)    # must be ignored by r1080
+        setv("r1061", 100.0)  # must be ignored by r1080
+        setv("r1062", 100.0)  # must be ignored by r1080
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
         self.assertAlmostEqual(v["r1050"], 5000.0, 2)
@@ -224,10 +249,11 @@ class TestSkDppo(AccountTestInvoicingCommon):
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
-        setv("r560", 40000.0)   # § 46b min tax = 340
-        setv("r301", 50000.0)   # → r800 = 5000 ≫ 340, so normal tax dominates
+        setv("r560", 40000.0)  # § 46b min tax = 340
+        setv("r301", 50000.0)  # → r800 = 5000 ≫ 340, so normal tax dominates
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
         self.assertAlmostEqual(v["r800"], 5000.0, 2)
@@ -238,38 +264,43 @@ class TestSkDppo(AccountTestInvoicingCommon):
         # Recompute after the min-tax regime had set r900: the base evaluator
         # unlinks+rebuilds every line, so r900 must return to 0 (guards the
         # "stale value" false-positive from the second-opinion review).
-        setv("r301", 1000.0)                       # r800 = 100 < 340 → r900 = 340
+        setv("r301", 1000.0)  # r800 = 100 < 340 → r900 = 340
         ret.action_compute_lines()
         self.assertAlmostEqual(
-            ret.line_ids.filtered(lambda l: l.code == "r900").value, 340.0, 2)
-        setv("r301", 50000.0)                      # back to normal-tax regime
+            ret.line_ids.filtered(lambda l: l.code == "r900").value, 340.0, 2
+        )
+        setv("r301", 50000.0)  # back to normal-tax regime
         ret.action_compute_lines()
         self.assertAlmostEqual(
-            ret.line_ids.filtered(lambda l: l.code == "r900").value, 0.0, 2)
+            ret.line_ids.filtered(lambda l: l.code == "r900").value, 0.0, 2
+        )
 
     def test_dodatocne_differences(self):
         """Dodatočné DPPO auto-fills r1120 (posledná známa daň = previous r1050)
         and r1130 (rozdiel = this − previous); loss rows stay 0 (tax→tax)."""
         orig = self._make()
         orig.line_ids.filtered(lambda l: l.code == "r1050").write(
-            {"is_overridden": True, "manual_value": 420.0})
+            {"is_overridden": True, "manual_value": 420.0}
+        )
         orig.action_compute_lines()
         orig.action_export_xml()
         orig.action_submit()
 
         amend = self.env["cssk.income.tax.return"].browse(
-            orig.action_create_amendment()["res_id"])
+            orig.action_create_amendment()["res_id"]
+        )
         amend.statement_type_id = self.env.ref("l10n_sk_dppo.dppo_type_D_2025").id
         self.assertEqual(amend.original_return_id, orig)
         # corrected (higher) tax
         amend.line_ids.filtered(lambda l: l.code == "r1050").write(
-            {"is_overridden": True, "manual_value": 500.0})
+            {"is_overridden": True, "manual_value": 500.0}
+        )
         amend.action_compute_lines()
 
         vals = {l.code: l.value for l in amend.line_ids}
         self.assertAlmostEqual(vals["r1120"], 420.0, places=2)  # posledná známa daň
-        self.assertAlmostEqual(vals["r1130"], 80.0, places=2)   # rozdiel 500 − 420
-        self.assertAlmostEqual(vals["r1140"], 0.0, places=2)    # žiadna strata
+        self.assertAlmostEqual(vals["r1130"], 80.0, places=2)  # rozdiel 500 − 420
+        self.assertAlmostEqual(vals["r1140"], 0.0, places=2)  # žiadna strata
         self.assertAlmostEqual(vals["r1150"], 0.0, places=2)
 
     def test_export_validates_against_official_xsd(self):
@@ -286,34 +317,47 @@ class TestSkDppo(AccountTestInvoicingCommon):
         import base64
         import os
         from lxml import etree
+
         v24 = self.env.ref("l10n_sk_dppo.dppo_version_2024")
         # wire template + official XSD (the version record is noupdate, so a
         # pre-existing test DB may not have them on the record yet)
         xsd = os.path.join(os.path.dirname(__file__), "..", "data", "dppo2024.xsd")
         with open(xsd, "rb") as fh:
-            v24.write({"xml_template_ref_id":
-                       self.env.ref("l10n_sk_dppo.dppo2024_xml").id,
-                       "xml_schema_filename": "dppo2024.xsd",
-                       "xml_schema_data": base64.b64encode(fh.read())})
-        self.company.write({"city": "Bratislava", "zip": "81101",
-                            "street": "Test 1"})
-        ret = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id, "version_id": v24.id,
-            "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
-            "date_from": "2024-01-01", "date_to": "2024-12-31"})
+            v24.write(
+                {
+                    "xml_template_ref_id": self.env.ref("l10n_sk_dppo.dppo2024_xml").id,
+                    "xml_schema_filename": "dppo2024.xsd",
+                    "xml_schema_data": base64.b64encode(fh.read()),
+                }
+            )
+        self.company.write({"city": "Bratislava", "zip": "81101", "street": "Test 1"})
+        ret = self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": v24.id,
+                "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
+                "date_from": "2024-01-01",
+                "date_to": "2024-12-31",
+            }
+        )
         ret.action_compute_lines()
-        for code, val in (("r100", 19790.86), ("r110", 927.14),
-                          ("r410", 10359.00), ("r560", 116161.85)):
+        for code, val in (
+            ("r100", 19790.86),
+            ("r110", 927.14),
+            ("r410", 10359.00),
+            ("r560", 116161.85),
+        ):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
         ret.action_compute_lines()
-        ret.action_export_xml()                # validates vs dppo2024.xsd
+        ret.action_export_xml()  # validates vs dppo2024.xsd
         self.assertEqual(ret.state, "exported")
         root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
         self.assertEqual(etree.QName(root).localname, "dokument")
-        self.assertEqual(root.findtext(".//r1050"), "2175.39")   # daň renders
-        self.assertEqual(root.findtext(".//r301"), "20718.00")   # base renders
-        self.assertIsNone(root.find(".//r503"))                  # 2025-only, absent
+        self.assertEqual(root.findtext(".//r1050"), "2175.39")  # daň renders
+        self.assertEqual(root.findtext(".//r301"), "20718.00")  # base renders
+        self.assertIsNone(root.find(".//r503"))  # 2025-only, absent
 
     def test_r100_from_profit_and_loss(self):
         # Post a simple P&L: revenue 6xx 5000, expense 5xx 3000 -> profit 2000.
@@ -331,16 +375,18 @@ class TestSkDppo(AccountTestInvoicingCommon):
             limit=1,
         )
         self.assertTrue(income and expense and bank, "SK chart accounts present")
-        move = self.env["account.move"].create({
-            "move_type": "entry",
-            "journal_id": self.company_data["default_journal_misc"].id,
-            "date": "2025-06-30",
-            "line_ids": [
-                Command.create({"account_id": income.id, "credit": 5000.0}),
-                Command.create({"account_id": expense.id, "debit": 3000.0}),
-                Command.create({"account_id": bank.id, "debit": 2000.0}),
-            ],
-        })
+        move = self.env["account.move"].create(
+            {
+                "move_type": "entry",
+                "journal_id": self.company_data["default_journal_misc"].id,
+                "date": "2025-06-30",
+                "line_ids": [
+                    Command.create({"account_id": income.id, "credit": 5000.0}),
+                    Command.create({"account_id": expense.id, "debit": 3000.0}),
+                    Command.create({"account_id": bank.id, "debit": 2000.0}),
+                ],
+            }
+        )
         move.action_post()
         ret = self._make()
         r100 = ret.line_ids.filtered(lambda l: l.code == "r100").value
@@ -353,30 +399,38 @@ class TestSkDppo(AccountTestInvoicingCommon):
 
         def acc(code, atype):
             a = self.env["account.account"].search(
-                [("code", "=like", code + "%"),
-                 ("company_ids", "in", self.company.id)], limit=1)
+                [("code", "=like", code + "%"), ("company_ids", "in", self.company.id)],
+                limit=1,
+            )
             if not a:
-                a = self.env["account.account"].create({
-                    "name": code, "code": code + "000", "account_type": atype,
-                    "company_ids": [Command.set([self.company.id])]})
+                a = self.env["account.account"].create(
+                    {
+                        "name": code,
+                        "code": code + "000",
+                        "account_type": atype,
+                        "company_ids": [Command.set([self.company.id])],
+                    }
+                )
             return a
+
         exp, pay = acc("591", "expense"), acc("341", "liability_current")
 
         ret = self._make()
         for code, val in (("r560", 40000.0), ("r301", 50000.0)):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
         ret.action_compute_lines()
-        self.assertAlmostEqual(ret.provision_amount, 5000.0, 2)   # r1050
+        self.assertAlmostEqual(ret.provision_amount, 5000.0, 2)  # r1050
 
         ret.action_post_provision()
         move = ret.provision_move_id
         self.assertTrue(move and move.state == "posted")
-        self.assertEqual(move.date.isoformat(), "2025-12-31")     # period end
+        self.assertEqual(move.date.isoformat(), "2025-12-31")  # period end
         deb = move.line_ids.filtered(lambda l: l.debit > 0)
         cred = move.line_ids.filtered(lambda l: l.credit > 0)
-        self.assertEqual(deb.account_id, exp)                     # MD 591
-        self.assertEqual(cred.account_id, pay)                    # D 341
+        self.assertEqual(deb.account_id, exp)  # MD 591
+        self.assertEqual(cred.account_id, pay)  # D 341
         self.assertAlmostEqual(deb.debit, 5000.0, 2)
         self.assertAlmostEqual(cred.credit, 5000.0, 2)
         self.assertTrue(ret.provision_posted)
@@ -395,20 +449,23 @@ class TestSkDppo(AccountTestInvoicingCommon):
         not code: inclusive upper bounds, null-bounded top band."""
         ret = self._make()
         self.assertEqual(
-            self.version.rate_bands,
-            [[100000.0, 10.0], [5000000.0, 21.0], [None, 24.0]])
+            self.version.rate_bands, [[100000.0, 10.0], [5000000.0, 21.0], [None, 24.0]]
+        )
         self.assertEqual(ret._dppo_rate(0.0), 10.0)
-        self.assertEqual(ret._dppo_rate(100000.0), 10.0)   # bound inclusive
+        self.assertEqual(ret._dppo_rate(100000.0), 10.0)  # bound inclusive
         self.assertEqual(ret._dppo_rate(100000.01), 21.0)
         self.assertEqual(ret._dppo_rate(5000000.0), 21.0)  # bound inclusive
         self.assertEqual(ret._dppo_rate(5000000.01), 24.0)
 
-        ret24 = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id,
-            "version_id": self.env.ref("l10n_sk_dppo.dppo_version_2024").id,
-            "statement_type_id": self.env.ref(
-                "l10n_sk_dppo.dppo_type_R_2024").id,
-            "date_from": "2024-01-01", "date_to": "2024-12-31"})
+        ret24 = self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": self.env.ref("l10n_sk_dppo.dppo_version_2024").id,
+                "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
+                "date_from": "2024-01-01",
+                "date_to": "2024-12-31",
+            }
+        )
         self.assertEqual(ret24._dppo_rate(60000.0), 15.0)  # bound inclusive
         self.assertEqual(ret24._dppo_rate(60000.01), 21.0)
 
@@ -419,8 +476,8 @@ class TestSkDppo(AccountTestInvoicingCommon):
         ret = self._make()
         self.assertEqual(
             self.version.min_tax_bands,
-            [[50000.0, 340.0], [250000.0, 960.0], [500000.0, 1920.0],
-             [None, 3840.0]])
+            [[50000.0, 340.0], [250000.0, 960.0], [500000.0, 1920.0], [None, 3840.0]],
+        )
         self.assertEqual(ret._dppo_min_tax(0.0), 0.0)
         self.assertEqual(ret._dppo_min_tax(-5.0), 0.0)
         self.assertEqual(ret._dppo_min_tax(1.0), 340.0)
@@ -442,7 +499,7 @@ class TestSkDppo(AccountTestInvoicingCommon):
         with self.assertRaises(UserError):
             ret._dppo_rate(1000.0)
         with self.assertRaises(UserError):
-            ret.action_compute_lines()   # the spine calls _dppo_rate
+            ret.action_compute_lines()  # the spine calls _dppo_rate
         # malformed: no null-bounded catch-all top band
         self.version.rate_bands = [[100000.0, 10.0]]
         with self.assertRaises(UserError):
@@ -462,31 +519,37 @@ class TestSkDppo(AccountTestInvoicingCommon):
         self.assertEqual(v2024.valid_to.isoformat(), "2024-12-31")
         self.assertEqual(v2024.provision_line_code, "r1050")
 
-        ret = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id, "version_id": v2024.id,
-            "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
-            "date_from": "2024-01-01", "date_to": "2024-12-31"})
+        ret = self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": v2024.id,
+                "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
+                "date_from": "2024-01-01",
+                "date_to": "2024-12-31",
+            }
+        )
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
         ret.action_compute_lines()
-        setv("r301", 10000.0)                 # tax base (after adjustments)
+        setv("r301", 10000.0)  # tax base (after adjustments)
 
         # úhrn príjmov > 60 000 € → 21 % (the FY2024 real case)
         setv("r560", 116161.85)
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
         self.assertEqual(v["r550"], 21.0)
-        self.assertAlmostEqual(v["r600"], 2100.0, 2)    # 10000 × 21 %
+        self.assertAlmostEqual(v["r600"], 2100.0, 2)  # 10000 × 21 %
 
         # úhrn príjmov ≤ 60 000 € → 15 %
         setv("r560", 40000.0)
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
         self.assertEqual(v["r550"], 15.0)
-        self.assertAlmostEqual(v["r600"], 1500.0, 2)    # 10000 × 15 %
+        self.assertAlmostEqual(v["r600"], 1500.0, 2)  # 10000 × 15 %
 
     def test_base_cascade_reproduces_mrp_2024(self):
         """The base flows from r100: r200 = Σ add-backs, r300 = Σ deductions,
@@ -494,28 +557,34 @@ class TestSkDppo(AccountTestInvoicingCommon):
         the import's 960 came from entering r301 as the add-backs (927) instead
         of the base (20 718); the user now enters only the judgment rows."""
         v2024 = self.env.ref("l10n_sk_dppo.dppo_version_2024")
-        ret = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id, "version_id": v2024.id,
-            "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
-            "date_from": "2024-01-01", "date_to": "2024-12-31"})
+        ret = self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": v2024.id,
+                "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
+                "date_from": "2024-01-01",
+                "date_to": "2024-12-31",
+            }
+        )
         ret.action_compute_lines()
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
-        setv("r100", 19790.86)     # účtovný výsledok pred zdanením (GL)
-        setv("r110", 927.14)       # pripočítateľné (PHM/reprez./pokuty/…)
-        setv("r410", 10359.00)     # odpočet daňovej straty 2023 (50 % cap)
-        setv("r560", 116161.85)    # úhrn zdaniteľných príjmov → 21 %
+        setv("r100", 19790.86)  # účtovný výsledok pred zdanením (GL)
+        setv("r110", 927.14)  # pripočítateľné (PHM/reprez./pokuty/…)
+        setv("r410", 10359.00)  # odpočet daňovej straty 2023 (50 % cap)
+        setv("r560", 116161.85)  # úhrn zdaniteľných príjmov → 21 %
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
-        self.assertAlmostEqual(v["r200"], 927.14, 2)     # add-backs súčet
-        self.assertAlmostEqual(v["r301"], 20718.00, 2)   # base = r100 + 927.14
-        self.assertAlmostEqual(v["r510"], 10359.00, 2)   # − loss 10 359
-        self.assertEqual(v["r550"], 21.0)                # > 60k € → 21 %
+        self.assertAlmostEqual(v["r200"], 927.14, 2)  # add-backs súčet
+        self.assertAlmostEqual(v["r301"], 20718.00, 2)  # base = r100 + 927.14
+        self.assertAlmostEqual(v["r510"], 10359.00, 2)  # − loss 10 359
+        self.assertEqual(v["r550"], 21.0)  # > 60k € → 21 %
         self.assertAlmostEqual(v["r600"], 2175.39, 2)
-        self.assertAlmostEqual(v["r1050"], 2175.39, 2)   # = MRP, to the cent
+        self.assertAlmostEqual(v["r1050"], 2175.39, 2)  # = MRP, to the cent
 
 
 @tagged("post_install", "-at_install")
@@ -544,12 +613,15 @@ class TestLicenciaBlock(AccountTestInvoicingCommon):
         cls.type_r = cls.env.ref("l10n_sk_dppo.dppo_type_R_2025")
 
     def _make(self):
-        ret = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id,
-            "version_id": self.version.id,
-            "statement_type_id": self.type_r.id,
-            "date_from": "2025-01-01", "date_to": "2025-12-31",
-        })
+        ret = self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": self.version.id,
+                "statement_type_id": self.type_r.id,
+                "date_from": "2025-01-01",
+                "date_to": "2025-12-31",
+            }
+        )
         ret.action_compute_lines()
         return ret
 
@@ -570,12 +642,13 @@ class TestLicenciaBlock(AccountTestInvoicingCommon):
             codes = set(self._version(year).line_def_ids.mapped("code"))
             self.assertIn("r820", codes, "%s must define r820" % year)
             self.assertNotIn(
-                "r830", codes,
-                "%s defines r830 — the kladný rozdiel would move rows" % year)
+                "r830",
+                codes,
+                "%s defines r830 — the kladný rozdiel would move rows" % year,
+            )
         for year in ("2013", "2014", "2015", "2024"):
             codes = set(self._version(year).line_def_ids.mapped("code"))
-            self.assertIn(
-                "r830", codes, "%s is expected to define r830" % year)
+            self.assertIn("r830", codes, "%s is expected to define r830" % year)
 
     def test_the_worked_example_from_the_usmernenie(self):
         """FS SR's own example, driven through the real spine.
@@ -595,35 +668,47 @@ class TestLicenciaBlock(AccountTestInvoicingCommon):
         # 100 000 keeps us under the 500 000 bound; the company carries a VAT
         # number, so the platiteľ band applies: 960.
         self.init_invoice(
-            "out_invoice", partner=self.partner_a, invoice_date="2017-06-30",
-            amounts=[100000.0], taxes=self.env["account.tax"], post=True,
+            "out_invoice",
+            partner=self.partner_a,
+            invoice_date="2017-06-30",
+            amounts=[100000.0],
+            taxes=self.env["account.tax"],
+            post=True,
         )
-        ret = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id,
-            "version_id": version.id,
-            "statement_type_id": self.env.ref(
-                "l10n_sk_dppo.dppo_type_R_2017").id,
-            "date_from": "2017-01-01", "date_to": "2017-12-31",
-        })
+        ret = self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": version.id,
+                "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2017").id,
+                "date_from": "2017-01-01",
+                "date_to": "2017-12-31",
+            }
+        )
         ret.action_compute_lines()
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
         # 21 % of 2 857,14 = 600,00 exactly once rounded — the example's daň.
         setv("r301", 2857.14)
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
 
-        self.assertAlmostEqual(v["r800"], 600.0, places=2,
-                               msg="fixture: daň po úľavách must be 600,00")
-        self.assertAlmostEqual(v["r810"], 960.0, places=2,
-                               msg="platiteľ DPH, obrat ≤ 500 000 → 960")
         self.assertAlmostEqual(
-            v["r820"], 360.0, places=2,
+            v["r800"], 600.0, places=2, msg="fixture: daň po úľavách must be 600,00"
+        )
+        self.assertAlmostEqual(
+            v["r810"], 960.0, places=2, msg="platiteľ DPH, obrat ≤ 500 000 → 960"
+        )
+        self.assertAlmostEqual(
+            v["r820"],
+            360.0,
+            places=2,
             msg="the licencia vzor files the KLADNÝ ROZDIEL on r820, not the "
-                "licencia itself")
+            "licencia itself",
+        )
         self.assertNotIn("r830", v, "the 2017 vzor has no r830")
 
     def test_the_min_tax_vzory_keep_the_other_shape(self):
@@ -633,10 +718,11 @@ class TestLicenciaBlock(AccountTestInvoicingCommon):
 
         def setv(code, val):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": val})
+                {"is_overridden": True, "manual_value": val}
+            )
 
-        setv("r560", 40000.0)   # § 46b minimálna daň 340
-        setv("r301", 1000.0)    # → r800 = 100
+        setv("r560", 40000.0)  # § 46b minimálna daň 340
+        setv("r301", 1000.0)  # → r800 = 100
         ret.action_compute_lines()
         v = {l.code: l.value for l in ret.line_ids}
         self.assertAlmostEqual(v["r800"], 100.0, places=2)
@@ -651,8 +737,10 @@ class TestLicenciaBlock(AccountTestInvoicingCommon):
         for year in ("2014", "2015", "2017", "2018", "2019"):
             bands = self._version(year).min_tax_bands
             self.assertTrue(
-                bands, "%s carries no § 46b bands — r810 would compute 0 "
-                       "while the taxpayer owed a licencia" % year)
+                bands,
+                "%s carries no § 46b bands — r810 would compute 0 "
+                "while the taxpayer owed a licencia" % year,
+            )
 
     def test_480_and_960_sit_at_the_same_turnover_and_differ_by_vat_status(self):
         """The reason a band needs a condition at all.
@@ -667,21 +755,24 @@ class TestLicenciaBlock(AccountTestInvoicingCommon):
         nonpayer = {"vat_payer": False, "not_vat_payer": True}
 
         self.assertAlmostEqual(
-            Return._dppo_band_value(bands, 400000.0, payer), 960.0, places=2)
+            Return._dppo_band_value(bands, 400000.0, payer), 960.0, places=2
+        )
         self.assertAlmostEqual(
-            Return._dppo_band_value(bands, 400000.0, nonpayer), 480.0, places=2)
+            Return._dppo_band_value(bands, 400000.0, nonpayer), 480.0, places=2
+        )
         # Above the bound neither condition matters.
         for conds in (payer, nonpayer):
             self.assertAlmostEqual(
-                Return._dppo_band_value(bands, 900000.0, conds), 2880.0,
-                places=2)
+                Return._dppo_band_value(bands, 900000.0, conds), 2880.0, places=2
+            )
 
     def test_an_unevaluable_condition_is_skipped_not_applied(self):
         """A band nobody can evaluate must not be chosen by accident."""
         Return = self.env["cssk.income.tax.return"]
         bands = [[1000.0, 111.0, "never_set"], [None, 222.0]]
         self.assertAlmostEqual(
-            Return._dppo_band_value(bands, 500.0, {}), 222.0, places=2)
+            Return._dppo_band_value(bands, 500.0, {}), 222.0, places=2
+        )
 
     def test_a_band_without_a_condition_still_works(self):
         """The 2024 minimálna daň table has no conditions and must not break."""
@@ -689,23 +780,32 @@ class TestLicenciaBlock(AccountTestInvoicingCommon):
         bands = self._version("2024").min_tax_bands
         self.assertTrue(bands)
         self.assertAlmostEqual(
-            Return._dppo_band_value(bands, 100000.0, {}), 960.0, places=2)
+            Return._dppo_band_value(bands, 100000.0, {}), 960.0, places=2
+        )
 
     # ------------------------------------------------------------------
     # § 52zk: the licencia ends with 2017 (a hospodársky rok: with 2018)
     # ------------------------------------------------------------------
     def _licencia_return(self, year, date_from, date_to, invoice_date):
         self.init_invoice(
-            "out_invoice", partner=self.partner_a, invoice_date=invoice_date,
-            amounts=[100000.0], taxes=self.env["account.tax"], post=True,
+            "out_invoice",
+            partner=self.partner_a,
+            invoice_date=invoice_date,
+            amounts=[100000.0],
+            taxes=self.env["account.tax"],
+            post=True,
         )
-        ret = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id,
-            "version_id": self._version(year).id,
-            "statement_type_id": self.env.ref(
-                "l10n_sk_dppo.dppo_type_R_%s" % year).id,
-            "date_from": date_from, "date_to": date_to,
-        })
+        ret = self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": self._version(year).id,
+                "statement_type_id": self.env.ref(
+                    "l10n_sk_dppo.dppo_type_R_%s" % year
+                ).id,
+                "date_from": date_from,
+                "date_to": date_to,
+            }
+        )
         ret.action_compute_lines()
         return {l.code: l.value for l in ret.line_ids}
 
@@ -713,33 +813,33 @@ class TestLicenciaBlock(AccountTestInvoicingCommon):
         """§ 52zk: § 46b in its wording to 31. 12. 2017 applies for the last
         time to a period ending 31. 12. 2017. The 2018 vzor still prints the
         rows; a calendar 2018 owes nothing on them."""
-        v = self._licencia_return("2018", "2018-01-01", "2018-12-31",
-                                  "2018-06-30")
-        self.assertAlmostEqual(v["r810"], 0.0, places=2,
-                               msg="no daňová licencia for a period ending "
-                                   "after 31. 12. 2017")
+        v = self._licencia_return("2018", "2018-01-01", "2018-12-31", "2018-06-30")
+        self.assertAlmostEqual(
+            v["r810"],
+            0.0,
+            places=2,
+            msg="no daňová licencia for a period ending after 31. 12. 2017",
+        )
         self.assertAlmostEqual(v["r820"], 0.0, places=2)
-        self.assertAlmostEqual(v["r1050"], v["r800"], places=2,
-                               msg="the daň alone, not a licencia")
+        self.assertAlmostEqual(
+            v["r1050"], v["r800"], places=2, msg="the daň alone, not a licencia"
+        )
 
     def test_no_licencia_for_2019(self):
-        v = self._licencia_return("2019", "2019-01-01", "2019-12-31",
-                                  "2019-06-30")
+        v = self._licencia_return("2019", "2019-01-01", "2019-12-31", "2019-06-30")
         self.assertAlmostEqual(v["r810"], 0.0, places=2)
 
     def test_a_hospodarsky_rok_ending_in_2018_still_pays_it(self):
         """§ 52zk, second limb: a hospodársky rok ending during 2018 is the
         last period that pays the licencia."""
-        v = self._licencia_return("2018", "2017-07-01", "2018-06-30",
-                                  "2018-03-31")
-        self.assertAlmostEqual(v["r810"], 960.0, places=2,
-                               msg="platiteľ DPH, obrat ≤ 500 000 → 960")
+        v = self._licencia_return("2018", "2017-07-01", "2018-06-30", "2018-03-31")
+        self.assertAlmostEqual(
+            v["r810"], 960.0, places=2, msg="platiteľ DPH, obrat ≤ 500 000 → 960"
+        )
 
     def test_a_calendar_2017_still_pays_it(self):
-        v = self._licencia_return("2017", "2017-01-01", "2017-12-31",
-                                  "2017-06-30")
+        v = self._licencia_return("2017", "2017-01-01", "2017-12-31", "2017-06-30")
         self.assertAlmostEqual(v["r810"], 960.0, places=2)
-
 
 
 class TestDerivedCodesHook(TransactionCase):
@@ -759,7 +859,8 @@ class TestDerivedCodesHook(TransactionCase):
 
     def _sk_versions(self):
         versions = self.env["cssk.income.tax.version"].search(
-            [("country_id.code", "=", "SK")])
+            [("country_id.code", "=", "SK")]
+        )
         self.assertTrue(versions, "no SK DPPO versions seeded")
         return versions
 
@@ -767,21 +868,31 @@ class TestDerivedCodesHook(TransactionCase):
         for version in self._sk_versions():
             codes = set(version.line_def_ids.mapped("code"))
             derived = version._cssk_derived_codes()
-            self.assertTrue(
-                derived, "%s derives nothing at all" % version.name)
+            self.assertTrue(derived, "%s derives nothing at all" % version.name)
             self.assertFalse(
                 derived - codes,
                 "%s: hook names rows the vzor has not got: %s"
-                % (version.name, sorted(derived - codes)))
+                % (version.name, sorted(derived - codes)),
+            )
 
     def test_the_hook_matches_the_spine_declaration(self):
-        from odoo.addons.l10n_sk_dppo.models.cssk_income_tax import _SPINE_ROWS
+        from odoo.addons.l10n_sk_dppo.models.cssk_income_tax import (
+            _SPINE_ROWS,
+            _SPINE_ROWS_2026,
+        )
+
         for version in self._sk_versions():
             codes = set(version.line_def_ids.mapped("code"))
+            spine = (
+                _SPINE_ROWS_2026
+                if version.l10n_sk_dppo_layout == "2026"
+                else _SPINE_ROWS
+            )
             self.assertEqual(
-                version._cssk_derived_codes(), codes & set(_SPINE_ROWS),
-                "%s: the hook and the spine's declaration disagree"
-                % version.name)
+                version._cssk_derived_codes(),
+                codes & set(spine),
+                "%s: the hook and the spine's declaration disagree" % version.name,
+            )
 
     def test_derived_rows_are_not_distinguishable_by_kind(self):
         """The fact that makes the hook necessary, asserted so it stays true.
@@ -792,18 +903,24 @@ class TestDerivedCodesHook(TransactionCase):
         """
         for version in self._sk_versions():
             derived = version._cssk_derived_codes()
-            kinds = set(version.line_def_ids.filtered(
-                lambda d: d.code in derived).mapped("kind"))
+            kinds = set(
+                version.line_def_ids.filtered(lambda d: d.code in derived).mapped(
+                    "kind"
+                )
+            )
             self.assertEqual(
-                kinds, {"manual"},
+                kinds,
+                {"manual"},
                 "%s: derived rows now carry kinds %s — if `kind` can express "
                 "'derived', _cssk_derived_codes is redundant"
-                % (version.name, sorted(kinds)))
+                % (version.name, sorted(kinds)),
+            )
 
     def test_a_non_sk_version_derives_nothing(self):
         """The base's contract: only a country layer knows its own spine."""
         other = self.env["cssk.income.tax.version"].search(
-            [("country_id.code", "!=", "SK")], limit=1)
+            [("country_id.code", "!=", "SK")], limit=1
+        )
         if not other:
             self.skipTest("no non-SK income-tax version installed")
         self.assertFalse(other._cssk_derived_codes())
@@ -835,11 +952,25 @@ class TestLoadBearingRowsAreLabelled(TransactionCase):
 
     # Where a row number was reused between the daňová licencia and the
     # minimálna daň eras. Nothing here may be assumed from another vzor.
-    VOLATILE = ("r800", "r810", "r820", "r830", "r900")
+    # MF014309/2026 inserted sports306 and §17k310; vehicle/CFC inputs
+    # shifted307–309 and the former subtotal310 became315.
+    VOLATILE = (
+        "r306",
+        "r307",
+        "r308",
+        "r309",
+        "r310",
+        "r800",
+        "r810",
+        "r820",
+        "r830",
+        "r900",
+    )
 
     def _versions(self):
         versions = self.env["cssk.income.tax.version"].search(
-            [("country_id.code", "=", "SK")])
+            [("country_id.code", "=", "SK")]
+        )
         self.assertTrue(versions, "no SK DPPO versions seeded")
         return versions
 
@@ -862,8 +993,8 @@ class TestLoadBearingRowsAreLabelled(TransactionCase):
                 if ldef.code in labelled and ldef.name == ldef.code:
                     missing.append("%s/%s" % (version.name, ldef.code))
         self.assertFalse(
-            missing,
-            "labelled elsewhere but bare here: %s" % ", ".join(sorted(missing)))
+            missing, "labelled elsewhere but bare here: %s" % ", ".join(sorted(missing))
+        )
 
     def test_a_stable_row_carries_the_same_label_everywhere(self):
         """Two spellings of one row would mean somebody guessed one of them."""
@@ -889,11 +1020,15 @@ class TestLoadBearingRowsAreLabelled(TransactionCase):
                 continue
             ldef = version.line_def_ids.filtered(lambda d: d.code == code)
             self.assertEqual(
-                len(ldef), 1,
-                "%s: provision_line_code %s names no line" % (version.name, code))
+                len(ldef),
+                1,
+                "%s: provision_line_code %s names no line" % (version.name, code),
+            )
             self.assertNotEqual(
-                ldef.name, ldef.code,
-                "%s: the provision row %s is unlabelled" % (version.name, code))
+                ldef.name,
+                ldef.code,
+                "%s: the provision row %s is unlabelled" % (version.name, code),
+            )
 
     def test_no_era_label_leaks_into_the_other_era(self):
         """Daňová licencia to 2017, minimálna daň from 2024 — same § 46b.
@@ -910,14 +1045,18 @@ class TestLoadBearingRowsAreLabelled(TransactionCase):
                 low = ldef.name.lower()
                 if era_is_licencia:
                     self.assertNotIn(
-                        "minimálna daň", low,
+                        "minimálna daň",
+                        low,
                         "%s (%s): %s is named for the wrong era: %r"
-                        % (version.name, version.valid_from, ldef.code, ldef.name))
+                        % (version.name, version.valid_from, ldef.code, ldef.name),
+                    )
                 else:
                     self.assertNotIn(
-                        "licenci", low,
+                        "licenci",
+                        low,
                         "%s (%s): %s is named for the wrong era: %r"
-                        % (version.name, version.valid_from, ldef.code, ldef.name))
+                        % (version.name, version.valid_from, ldef.code, ldef.name),
+                    )
 
 
 @tagged("post_install", "-at_install")
@@ -938,6 +1077,7 @@ class TestDppoSchemaPins(TransactionCase):
     def test_bundled_schemas_match_the_pinned_digests(self):
         import hashlib
         import os
+
         here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         data = os.path.join(here, "data")
         pins = {}
@@ -953,13 +1093,16 @@ class TestDppoSchemaPins(TransactionCase):
             blob = open(path, "rb").read()
             self.assertEqual(len(blob), size, "%s size moved" % name)
             self.assertEqual(
-                hashlib.md5(blob).hexdigest(), digest,
+                hashlib.md5(blob).hexdigest(),
+                digest,
                 "%s does not match its pin — if this is a deliberate refresh, "
-                "update data/SCHEMA_VERSION and re-run the export tests" % name)
+                "update data/SCHEMA_VERSION and re-run the export tests" % name,
+            )
 
     def test_every_bundled_schema_is_pinned(self):
         """A schema added without a pin is the gap this file exists to close."""
         import os
+
         here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         data = os.path.join(here, "data")
         on_disk = {f for f in os.listdir(data) if f.endswith(".xsd")}
@@ -969,8 +1112,9 @@ class TestDppoSchemaPins(TransactionCase):
                 parts = raw.split()
                 if len(parts) == 3 and parts[0].endswith(".xsd"):
                     pinned.add(parts[0])
-        self.assertEqual(on_disk, pinned,
-                         "unpinned schema(s): %s" % sorted(on_disk - pinned))
+        self.assertEqual(
+            on_disk, pinned, "unpinned schema(s): %s" % sorted(on_disk - pinned)
+        )
 
 
 @tagged("post_install", "-at_install")
@@ -1009,8 +1153,7 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
         cls.company = cls.company_data["company"]
         cls.company.l10n_sk_dic = "2020317068"
         cls.company.company_registry = "36000001"
-        cls.company.write({"city": "Bratislava", "zip": "81101",
-                           "street": "Test 1"})
+        cls.company.write({"city": "Bratislava", "zip": "81101", "street": "Test 1"})
 
     def _version(self, suffix):
         return self.env.ref("l10n_sk_dppo.dppo_version_%s" % suffix)
@@ -1039,15 +1182,21 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
             for year in range(first, last + 1):
                 expected[year] = suffix
         for year, suffix in sorted(expected.items()):
-            found = self.env["cssk.income.tax.version"].search([
-                ("country_id", "=", sk.id),
-                ("valid_from", "<=", "%d-12-31" % year),
-                "|", ("valid_to", "=", False), ("valid_to", ">=", "%d-01-01" % year),
-            ])
-            self.assertEqual(len(found), 1,
-                             "%d resolves to %d versions" % (year, len(found)))
-            self.assertEqual(found, self._version(suffix),
-                             "%d reached the wrong vzor" % year)
+            found = self.env["cssk.income.tax.version"].search(
+                [
+                    ("country_id", "=", sk.id),
+                    ("valid_from", "<=", "%d-12-31" % year),
+                    "|",
+                    ("valid_to", "=", False),
+                    ("valid_to", ">=", "%d-01-01" % year),
+                ]
+            )
+            self.assertEqual(
+                len(found), 1, "%d resolves to %d versions" % (year, len(found))
+            )
+            self.assertEqual(
+                found, self._version(suffix), "%d reached the wrong vzor" % year
+            )
 
     def test_each_vintage_defines_exactly_its_schema_s_rows(self):
         """Both directions, per vintage.
@@ -1063,43 +1212,67 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
 
         generated = [v for v in self.VINTAGES if v[0] not in ("2024", "2025")]
         for suffix, schema, _first, _last in generated:
-            with open(file_path("l10n_sk_dppo/data/%s" % schema),
-                      encoding="utf-8", errors="replace") as handle:
+            with open(
+                file_path("l10n_sk_dppo/data/%s" % schema),
+                encoding="utf-8",
+                errors="replace",
+            ) as handle:
                 # Two-digit rows are table rows: they are held as a01…/b01…
                 # lines (tabuľky A, B) or not at all, never as main rows.
-                rows = {r for r in re.findall(
-                    r'<xsd:element\s+name="(r\d+[a-z]?)"', handle.read())
-                    if not re.fullmatch(r"r\d\d", r)}
-            codes = {c for c in self._version(suffix).line_def_ids.mapped("code")
-                     if c.startswith("r")}
-            self.assertEqual(rows - codes, set(),
-                             "%s defines rows %s never computes" % (schema, suffix))
-            self.assertEqual(codes - rows, set(),
-                             "%s computes rows %s does not have" % (suffix, schema))
+                rows = {
+                    r
+                    for r in re.findall(
+                        r'<xsd:element\s+name="(r\d+[a-z]?)"', handle.read()
+                    )
+                    if not re.fullmatch(r"r\d\d", r)
+                }
+            codes = {
+                c
+                for c in self._version(suffix).line_def_ids.mapped("code")
+                if c.startswith("r")
+            }
+            self.assertEqual(
+                rows - codes,
+                set(),
+                "%s defines rows %s never computes" % (schema, suffix),
+            )
+            self.assertEqual(
+                codes - rows,
+                set(),
+                "%s computes rows %s does not have" % (suffix, schema),
+            )
 
     #: Every vintage now carries its § 15 rate. 2020 onwards from the vzor's
     #: own poučenie; 2015-2019 sourced separately, because those forms ask for
     #: the rate rather than printing it (r550 is an entry field, since a
     #: hospodársky rok can straddle a change). 2013 and 2014 have no rate row
     #: at all and need none.
-    RATED = {"2015", "2017", "2018", "2019",
-             "2020", "2021", "2022", "2024", "2025"}
+    RATED = {"2015", "2017", "2018", "2019", "2020", "2021", "2022", "2024", "2025"}
     #: The rate each vintage must carry, so a transcription slip in the
     #: generator fails here rather than in somebody's tax.
     EXPECTED_RATE = {
-        "2015": 22.0, "2017": 21.0, "2018": 21.0, "2019": 21.0,
-        "2020": 21.0, "2021": 21.0, "2022": 21.0, "2024": 21.0,
+        "2015": 22.0,
+        "2017": 21.0,
+        "2018": 21.0,
+        "2019": 21.0,
+        "2020": 21.0,
+        "2021": 21.0,
+        "2022": 21.0,
+        "2024": 21.0,
     }
 
     def _return_for(self, suffix, year):
         version = self._version(suffix)
-        type_r = version.statement_type_ids.filtered(
-            lambda t: t.fa_xml_value == "R")
-        return self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id, "version_id": version.id,
-            "statement_type_id": type_r.id,
-            "date_from": "%d-01-01" % year, "date_to": "%d-12-31" % year,
-        })
+        type_r = version.statement_type_ids.filtered(lambda t: t.fa_xml_value == "R")
+        return self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": version.id,
+                "statement_type_id": type_r.id,
+                "date_from": "%d-01-01" % year,
+                "date_to": "%d-12-31" % year,
+            }
+        )
 
     def test_r200_totals_r120_and_r160_where_the_vzor_has_them(self):
         """r200 is the total of the "zvyšujúce" block, riadky 110 až 180.
@@ -1112,10 +1285,15 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
         for suffix, year in (("2015", 2015), ("2017", 2017)):
             ret = self._return_for(suffix, year)
             ret.action_compute_lines()
-            for code, value in (("r110", 1.0), ("r120", 20.0),
-                                ("r160", 300.0), ("r180", 4000.0)):
+            for code, value in (
+                ("r110", 1.0),
+                ("r120", 20.0),
+                ("r160", 300.0),
+                ("r180", 4000.0),
+            ):
                 ret.line_ids.filtered(lambda l, c=code: l.code == c).write(
-                    {"is_overridden": True, "manual_value": value})
+                    {"is_overridden": True, "manual_value": value}
+                )
             ret.action_compute_lines()
             r200 = ret.line_ids.filtered(lambda l: l.code == "r200").value
             self.assertAlmostEqual(r200, 4321.0, 2, "%s r200" % suffix)
@@ -1132,8 +1310,7 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
             bands = self._version(suffix).rate_bands
             self.assertTrue(bands, "%s carries no rate bands" % suffix)
             top = bands[-1]
-            self.assertIsNone(top[0],
-                              "%s: the last band must be open-ended" % suffix)
+            self.assertIsNone(top[0], "%s: the last band must be open-ended" % suffix)
             self.assertEqual(top[1], rate, "%s standard rate" % suffix)
 
     def test_the_2015_vzor_rate_covers_2016_too(self):
@@ -1198,8 +1375,7 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
             ret.action_compute_lines()
             ret.action_export_xml()
             self.assertEqual(ret.state, "exported", suffix)
-            root = etree.fromstring(
-                base64.b64decode(ret.xml_attachment_id.datas))
+            root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
             self.assertEqual(etree.QName(root).localname, "dokument", suffix)
 
     def test_the_company_fills_the_hlavicka_and_nothing_else(self):
@@ -1217,9 +1393,9 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
 
         self.company.l10n_sk_dic = False
         self.company.vat = "SK2020317068"
-        self.company.partner_id.write({
-            "street": "Hlavná 1141/11", "street2": "3. poschodie",
-            "zip": "811 01"})
+        self.company.partner_id.write(
+            {"street": "Hlavná 1141/11", "street2": "3. poschodie", "zip": "811 01"}
+        )
         if "nace_code" in self.company.partner_id._fields:
             self.company.partner_id.nace_code = "62010"
         for suffix, _schema, first, _last in self.VINTAGES:
@@ -1229,8 +1405,7 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
             ret = self._return_for(suffix, first)
             ret.action_compute_lines()
             ret.action_export_xml()
-            root = etree.fromstring(
-                base64.b64decode(ret.xml_attachment_id.datas))
+            root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
             head = root.find("hlavicka")
             self.assertEqual(head.findtext("dic"), "2020317068", suffix)
             self.assertEqual(head.findtext("sidlo/ulica"), "Hlavná", suffix)
@@ -1239,17 +1414,21 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
             if "nace_code" in self.company.partner_id._fields:
                 self.assertEqual(
                     [head.findtext("skNace/k%d" % i) for i in (1, 2, 3)],
-                    ["62", "01", "0"], suffix)
+                    ["62", "01", "0"],
+                    suffix,
+                )
             for node in head.iter("stalaPrevadzkaren"):
-                self.assertFalse("".join(node.itertext()).strip(),
-                                 "%s: no stála prevádzkareň" % suffix)
+                self.assertFalse(
+                    "".join(node.itertext()).strip(),
+                    "%s: no stála prevádzkareň" % suffix,
+                )
             body = root.find("telo")
             for tag in ("ico", "ulica", "cislo", "riadok"):
                 for node in body.iter(tag):
                     self.assertFalse(
                         (node.text or "").strip(),
-                        "%s: telo/%s carries the company's own data"
-                        % (suffix, tag))
+                        "%s: telo/%s carries the company's own data" % (suffix, tag),
+                    )
             self.assertTrue(body.findtext("datumVyhlasenia"), suffix)
 
     def test_a_village_number_is_the_cislo(self):
@@ -1276,8 +1455,7 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
 
         from odoo.tools.misc import file_path
 
-        self.assertEqual(self._version("2025").xml_schema_filename,
-                         "dppo2025_v2.xsd")
+        self.assertEqual(self._version("2025").xml_schema_filename, "dppo2025_v2.xsd")
         digests = {}
         for schema in ("dppo2025.xsd", "dppo2025_v2.xsd"):
             with open(file_path("l10n_sk_dppo/data/%s" % schema), "rb") as fh:
@@ -1286,19 +1464,28 @@ class TestSkDppoVintages(AccountTestInvoicingCommon):
 
     def _return_with_loss(self, loss, income):
         version = self.env.ref("l10n_sk_dppo.dppo_version_2024")
-        ret = self.env["cssk.income.tax.return"].create({
-            "company_id": self.company.id, "version_id": version.id,
-            "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
-            "date_from": "2024-01-01", "date_to": "2024-12-31"})
+        ret = self.env["cssk.income.tax.return"].create(
+            {
+                "company_id": self.company.id,
+                "version_id": version.id,
+                "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2024").id,
+                "date_from": "2024-01-01",
+                "date_to": "2024-12-31",
+            }
+        )
         ret.action_compute_lines()
         for code, value in (("r100", 100000.0), ("r410", loss), ("r560", income)):
             ret.line_ids.filtered(lambda l: l.code == code).write(
-                {"is_overridden": True, "manual_value": value})
+                {"is_overridden": True, "manual_value": value}
+            )
         ret.action_compute_lines()
         return ret
 
     def test_loss_above_half_the_base_warns(self):
-        codes = [v["code"] for v in self._return_with_loss(60000.0, 500000.0).check_kontroly()]
+        codes = [
+            v["code"]
+            for v in self._return_with_loss(60000.0, 500000.0).check_kontroly()
+        ]
         self.assertEqual(codes, ["DPPO_LOSS_50"])
 
     def test_loss_at_half_the_base_is_clean(self):

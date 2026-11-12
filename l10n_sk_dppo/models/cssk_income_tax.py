@@ -18,10 +18,13 @@ DPPO is a FULL restatement, so ``original_return_id`` holds the previous full
 values and this chains correctly across repeated dodatočné priznania (the prior
 amendment's r1050/r400/… are its restated totals — no snapshot needed, unlike KV).
 """
+
 import re
 from datetime import date
 
-from odoo import _, fields, models
+from dateutil.relativedelta import relativedelta
+
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_cssk_core.tools import split_street, statutory_round
@@ -44,17 +47,59 @@ _DODATOCNE_DIFF = [
 # III. časť tables held as return lines: a06 = tabuľka A, riadok 6.
 _TABLE_CODE = re.compile(r"[ab]\d\d")
 
-_SPINE_ROWS = frozenset({
-    "r200", "r300", "r301", "r310", "r400", "r500", "r510", "r550",
-    "r600", "r700", "r800", "r810", "r820", "r830", "r900",
-    "r1050", "r1080", "r1100", "r1101",
-})
+_SPINE_ROWS = frozenset(
+    {
+        "r200",
+        "r300",
+        "r301",
+        "r310",
+        "r400",
+        "r500",
+        "r510",
+        "r550",
+        "r600",
+        "r700",
+        "r800",
+        "r810",
+        "r820",
+        "r830",
+        "r900",
+        "r1050",
+        "r1080",
+        "r1100",
+        "r1101",
+    }
+)
+
+_SPINE_ROWS_2026 = (_SPINE_ROWS - {"r310"}) | {
+    "r315",
+    "r910",
+    "r1000",
+    "r1040",
+    "r1110",
+}
 
 
 class CSSKIncomeTaxVersion(models.Model):
     """The SK layer's answer to "which rows does this engine derive?"."""
 
     _inherit = "cssk.income.tax.version"
+
+    l10n_sk_dppo_layout = fields.Selection(
+        [("legacy", "Earlier published layout"), ("2026", "MF/014309/2026-721")],
+        string="DPPO form layout",
+        default="legacy",
+        required=True,
+    )
+    l10n_sk_dppo_publication = fields.Selection(
+        [
+            ("xml", "Published XML schema"),
+            ("paper", "Published form; XML schema pending"),
+        ],
+        string="DPPO form publication",
+        default="xml",
+        required=True,
+    )
 
     def _cssk_derived_codes(self):
         """The tax spine's write-set, intersected with what the vzor defines.
@@ -67,21 +112,158 @@ class CSSKIncomeTaxVersion(models.Model):
         self.ensure_one()
         if (self.country_id.code or "").upper() != "SK":
             return super()._cssk_derived_codes()
-        return {code for code in self.line_def_ids.mapped("code")
-                if code in _SPINE_ROWS}
+        # Row310 is a NEW accountant input (§17k); the subtotal moved315.
+        spine = _SPINE_ROWS_2026 if self.l10n_sk_dppo_layout == "2026" else _SPINE_ROWS
+        return set(self.line_def_ids.mapped("code")) & spine
 
 
 class CSSKIncomeTaxReturn(models.Model):
     _inherit = "cssk.income.tax.return"
 
+    l10n_sk_legacy_advance_relief = fields.Boolean(
+        string="Legacy section 35/35a relief: leave row 1110 blank"
+    )
+    l10n_sk_legacy_advance_evidence = fields.Text(
+        string="Legacy advance-tax relief evidence"
+    )
+
+    def _l10n_sk_check_advance_relief(self):
+        self.ensure_one()
+        if self.l10n_sk_legacy_advance_relief:
+            relief = self.line_ids.filtered(lambda row: row.code == "r610").value
+            advance = self.line_ids.filtered(lambda row: row.code == "r1110").value
+            if (
+                relief <= 0
+                or advance
+                or not (self.l10n_sk_legacy_advance_evidence or "").strip()
+            ):
+                raise UserError(
+                    _(
+                        "Review the legacy section 35/35a relief, its evidence and the blank row 1110."
+                    )
+                )
+
+    l10n_sk_dppo_filing_deadline = fields.Date(
+        string="Applicable legal filing deadline",
+        help="The legal deadline including an effective extension, when it "
+        "differs from the ordinary three-calendar-month deadline. "
+        "This is not the actual filing date.",
+    )
+    l10n_sk_dppo_applicable_version_ids = fields.Many2many(
+        "cssk.income.tax.version",
+        string="Applicable DPPO form versions",
+        compute="_compute_sk_applicable_versions",
+    )
+    version_id = fields.Many2one(
+        domain="[('id', 'in', l10n_sk_dppo_applicable_version_ids)]"
+    )
+
+    def _l10n_sk_dppo_requires_2026_form(self):
+        """MF014310 uses the legal DEADLINE, independently of period start.
+
+        For the ordinary return, the end of the third calendar month is
+        sufficient to decide this2026-12-31 cutoff (a working Thursday).
+        An effective extension is an explicit stored taxpayer fact. The
+        actual day of filing must never replace that legal deadline.
+        """
+        self.ensure_one()
+        if not self.date_to:
+            return False
+        deadline = self.l10n_sk_dppo_filing_deadline or (
+            self.date_to + relativedelta(months=3, day=31)
+        )
+        return deadline > date(2026, 12, 31)
+
+    @api.depends("company_id", "date_from", "date_to", "l10n_sk_dppo_filing_deadline")
+    def _compute_sk_applicable_versions(self):
+        Version = self.env["cssk.income.tax.version"].with_context(active_test=False)
+        for ret in self:
+            country = ret.company_id.account_fiscal_country_id
+            domain = [("country_id", "=", country.id)]
+            if not (ret.date_from and ret.date_to and country):
+                ret.l10n_sk_dppo_applicable_version_ids = False
+                continue
+            if country.code == "SK" and ret._l10n_sk_dppo_requires_2026_form():
+                # The new form's ordinary-period valid_from is not a second
+                # legal condition on the announcement's deadline criterion.
+                domain += [("l10n_sk_dppo_layout", "=", "2026")]
+            else:
+                domain += [
+                    ("valid_from", "<=", ret.date_to),
+                    "|",
+                    ("valid_to", "=", False),
+                    ("valid_to", ">=", ret.date_from),
+                ]
+                if country.code == "SK":
+                    domain += [("l10n_sk_dppo_layout", "!=", "2026")]
+            ret.l10n_sk_dppo_applicable_version_ids = Version.search(domain)
+
+    def _l10n_sk_dppo_check_form_applicability(self):
+        """Shared by the paper adapter and XML eligibility checks."""
+        for ret in self:
+            if (ret.country_id.code or "").upper() != "SK":
+                continue
+            new_form = ret.version_id.l10n_sk_dppo_layout == "2026"
+            if ret._l10n_sk_dppo_requires_2026_form() != new_form:
+                raise UserError(
+                    _(
+                        "The selected DPPO form does not cover the applicable "
+                        "legal filing deadline. Select the published form for "
+                        "that deadline, including any effective extension."
+                    )
+                )
+        return True
+
+    def _cssk_preflight_export(self):
+        self._l10n_sk_dppo_check_form_applicability()
+        for ret in self:
+            version = ret.version_id
+            if (
+                (ret.country_id.code or "").upper() == "SK"
+                and version.l10n_sk_dppo_layout != "2026"
+                and (
+                    ret.date_to < version.valid_from
+                    or (version.valid_to and ret.date_from > version.valid_to)
+                )
+            ):
+                raise UserError(
+                    _(
+                        "The selected DPPO form does not cover this tax period. "
+                        "Select its applicable published version before XML export."
+                    )
+                )
+            if ret.version_id.l10n_sk_dppo_publication == "paper":
+                raise UserError(
+                    _(
+                        "The published DPPO form can be calculated, but its "
+                        "official XML schema is not installed. Install the "
+                        "published electronic version before XML export."
+                    )
+                )
+        return super()._cssk_preflight_export()
+
     # Codes the spine writes — present in every official DPPO form version.
     # Guard marker: a version missing any of them is NOT the DPPO form (a
     # custom/minimal SK version), and running the spine on it would clobber
     # its aggregates with zeros computed from nonexistent rows.
-    _SK_DPPO_SPINE_CODES = frozenset({
-        "r200", "r300", "r301", "r310", "r400", "r500", "r510",
-        "r550", "r600", "r700", "r800", "r810", "r820", "r1050",
-    })
+    _SK_DPPO_SPINE_CODES = frozenset(
+        {
+            "r200",
+            "r300",
+            "r301",
+            "r310",
+            "r400",
+            "r500",
+            "r510",
+            "r550",
+            "r600",
+            "r700",
+            "r800",
+            "r810",
+            "r820",
+            "r1050",
+        }
+    )
 
     def _is_sk_dppo_form_version(self):
         self.ensure_one()
@@ -97,7 +279,8 @@ class CSSKIncomeTaxReturn(models.Model):
     def _l10n_sk_dppo_table_rows(self):
         """The Table A/B lines of this return (codes ``a01``…, ``b01``…)."""
         return self.line_ids.filtered(
-            lambda line: _TABLE_CODE.fullmatch(line.code or ""))
+            lambda line: _TABLE_CODE.fullmatch(line.code or "")
+        )
 
     def _l10n_sk_dppo_table_values(self):
         """``{code: "123.45"}`` for the Table A/B cells the XML carries.
@@ -133,14 +316,18 @@ class CSSKIncomeTaxReturn(models.Model):
         self.ensure_one()
         company = self.company_id
         partner = company.partner_id
-        dic = ((company.l10n_sk_dic if "l10n_sk_dic" in company._fields
-                else "") or "").strip()
+        dic = (
+            (company.l10n_sk_dic if "l10n_sk_dic" in company._fields else "") or ""
+        ).strip()
         if not dic:
             dic = (company.vat or "").replace(" ", "")
             if dic[:2].upper() == "SK":
                 dic = dic[2:]
-        nace = re.sub(r"\D", "", (partner.nace_code or "")
-                      if "nace_code" in partner._fields else "")
+        nace = re.sub(
+            r"\D",
+            "",
+            (partner.nace_code or "") if "nace_code" in partner._fields else "",
+        )
         if nace:
             nace = nace.ljust(5, "0")
             k1, k2, k3 = nace[:2], nace[2:4], nace[4:5]
@@ -157,14 +344,15 @@ class CSSKIncomeTaxReturn(models.Model):
             "dic": dic,
             "ico": (company.company_registry or "").replace(" ", ""),
             "pravna_forma": legal_form,
-            "k1": k1, "k2": k2, "k3": k3,
+            "k1": k1,
+            "k2": k2,
+            "k3": k3,
             "ulica": street,
             "cislo": number,
             "psc": (partner.zip or "").replace(" ", ""),
             "obec": partner.city or "",
             "stat": partner.country_id.name or "",
-            "datum_vyhlasenia":
-                fields.Date.context_today(self).strftime("%d.%m.%Y"),
+            "datum_vyhlasenia": fields.Date.context_today(self).strftime("%d.%m.%Y"),
         }
 
     def action_compute_lines(self):
@@ -207,16 +395,20 @@ class CSSKIncomeTaxReturn(models.Model):
         self.ensure_one()
         bands = self.version_id[field_name] or []
         if not bands or not bands[-1] or bands[-1][0] is not None:
-            raise UserError(_(
-                "DPPO version '%(version)s' carries no usable %(label)s "
-                "(field '%(field)s'): expected an ordered list of "
-                "[upper_bound, value] pairs whose last band has a null upper "
-                "bound. Fill the bands on the version record (they are "
-                "noupdate data — on an existing database reload the "
-                "l10n_sk_dppo version data). Refusing to guess a statutory "
-                "rate.",
-                version=self.version_id.display_name, label=label,
-                field=field_name))
+            raise UserError(
+                _(
+                    "DPPO version '%(version)s' carries no usable %(label)s "
+                    "(field '%(field)s'): expected an ordered list of "
+                    "[upper_bound, value] pairs whose last band has a null upper "
+                    "bound. Fill the bands on the version record (they are "
+                    "noupdate data — on an existing database reload the "
+                    "l10n_sk_dppo version data). Refusing to guess a statutory "
+                    "rate.",
+                    version=self.version_id.display_name,
+                    label=label,
+                    field=field_name,
+                )
+            )
         return bands
 
     @staticmethod
@@ -266,15 +458,19 @@ class CSSKIncomeTaxReturn(models.Model):
             and r410 > limit + 0.005
             and (values.get("r560") or 0.0) > 100000.0
         ):
-            out.append({
-                "code": "DPPO_LOSS_50",
-                "severity": "warning",
-                "desc": _("Loss deduction above 50 % of the tax base"),
-                "detail": _(
-                    "r410 is %(loss).2f but § 30 ods. 1 písm. b) allows "
-                    "%(limit).2f unless the company is a mikrodaňovník.",
-                    loss=r410, limit=limit),
-            })
+            out.append(
+                {
+                    "code": "DPPO_LOSS_50",
+                    "severity": "warning",
+                    "desc": _("Loss deduction above 50 % of the tax base"),
+                    "detail": _(
+                        "r410 is %(loss).2f but § 30 ods. 1 písm. b) allows "
+                        "%(limit).2f unless the company is a mikrodaňovník.",
+                        loss=r410,
+                        limit=limit,
+                    ),
+                }
+            )
         return out
 
     def _l10n_sk_dppo_table_kontroly(self):
@@ -297,11 +493,16 @@ class CSSKIncomeTaxReturn(models.Model):
         values = {code: line.value for code, line in lines.items()}
         defs = {d.code: d for d in self.version_id.line_def_ids}
         filled = {
-            letter for letter in "ab"
-            if any(round(line.value, 2) or line.is_overridden
-                   for code, line in lines.items()
-                   if code[:1] == letter and _TABLE_CODE.fullmatch(code)
-                   and defs.get(code) and defs[code].kind != "aggregate")
+            letter
+            for letter in "ab"
+            if any(
+                round(line.value, 2) or line.is_overridden
+                for code, line in lines.items()
+                if code[:1] == letter
+                and _TABLE_CODE.fullmatch(code)
+                and defs.get(code)
+                and defs[code].kind != "aggregate"
+            )
         }
         out = []
         for code, line in lines.items():
@@ -313,20 +514,27 @@ class CSSKIncomeTaxReturn(models.Model):
             if not letters or not letters & filled:
                 continue
             expected = self._eval_aggregate(ldef.aggregate_formula, values)
-            if abs(statutory_round(expected, 2)
-                   - statutory_round(line.value, 2)) < 0.005:
+            if (
+                abs(statutory_round(expected, 2) - statutory_round(line.value, 2))
+                < 0.005
+            ):
                 continue
-            out.append({
-                "code": "DPPO_TABLE_%s" % code.upper(),
-                "severity": "error",
-                "desc": _("%(code)s disagrees with its table", code=code),
-                "detail": _(
-                    "%(code)s is overridden to %(value).2f, but %(formula)s "
-                    "over the table gives %(expected).2f. Correct the table "
-                    "or remove the override.",
-                    code=code, value=line.value,
-                    formula=ldef.aggregate_formula, expected=expected),
-            })
+            out.append(
+                {
+                    "code": "DPPO_TABLE_%s" % code.upper(),
+                    "severity": "error",
+                    "desc": _("%(code)s disagrees with its table", code=code),
+                    "detail": _(
+                        "%(code)s is overridden to %(value).2f, but %(formula)s "
+                        "over the table gives %(expected).2f. Correct the table "
+                        "or remove the override.",
+                        code=code,
+                        value=line.value,
+                        formula=ldef.aggregate_formula,
+                        expected=expected,
+                    ),
+                }
+            )
         return out
 
     def _cssk_check_kontroly(self):
@@ -338,8 +546,8 @@ class CSSKIncomeTaxReturn(models.Model):
         """Sadzba dane % (§ 15) by úhrn zdaniteľných príjmov r560 — statutory
         schedule read from the version record (rate_bands)."""
         return self._dppo_band_value(
-            self._dppo_version_bands("rate_bands", _("§ 15 rate bands")),
-            r560)
+            self._dppo_version_bands("rate_bands", _("§ 15 rate bands")), r560
+        )
 
     def _period_months(self):
         df, dt = self.date_from, self.date_to
@@ -399,14 +607,12 @@ class CSSKIncomeTaxReturn(models.Model):
             return 0.0
         payer = self._dppo_is_vat_payer()
         base = self._dppo_band_value(
-            self._dppo_version_bands(
-                "min_tax_bands", _("§ 46b minimum-tax bands")),
+            self._dppo_version_bands("min_tax_bands", _("§ 46b minimum-tax bands")),
             r560,
             {"vat_payer": payer, "not_vat_payer": not payer},
         )
         months = self._period_months()
-        return base if months == 12 else statutory_round(
-            base / 12.0 * months, 2)
+        return base if months == 12 else statutory_round(base / 12.0 * months, 2)
 
     def _dppo_licencia_abolished(self):
         """Whether § 52zk says this period owes no daňová licencia at all.
@@ -440,6 +646,8 @@ class CSSKIncomeTaxReturn(models.Model):
 
     def _compute_tax_spine(self):
         self.ensure_one()
+        if self.version_id.l10n_sk_dppo_layout == "2026":
+            return self._compute_tax_spine_2026()
         by = {line.code: line for line in self.line_ids}
 
         def g(code):
@@ -457,7 +665,8 @@ class CSSKIncomeTaxReturn(models.Model):
                 raise ValueError(
                     "the SK tax spine writes %s but _SPINE_ROWS does not list "
                     "it — add it there, or _cssk_derived_codes() will hide the "
-                    "row from every comparator built on it" % code)
+                    "row from every comparator built on it" % code
+                )
             line = by.get(code)
             if line and not line.is_overridden:
                 line.value = value
@@ -475,25 +684,49 @@ class CSSKIncomeTaxReturn(models.Model):
         # and r160 (§ 17 ods. 17 kurzové rozdiely), both in the "zvyšujúce"
         # block that r200 totals (DPPOv15/v17 poučenie, riadky 110 až 180).
         # g() is 0 for a vzor without them, so one formula serves every vzor.
-        r200 = statutory_round(g("r110") + g("r120") + g("r130") + g("r140")
-                               + g("r150") + g("r160") + g("r170")
-                               + g("r180"), 2)
+        r200 = statutory_round(
+            g("r110")
+            + g("r120")
+            + g("r130")
+            + g("r140")
+            + g("r150")
+            + g("r160")
+            + g("r170")
+            + g("r180"),
+            2,
+        )
         put("r200", r200)
-        r300 = statutory_round(g("r210") + g("r220") + g("r230") + g("r240")
-                               + g("r250") + g("r260") + g("r270") + g("r280")
-                               + g("r290"), 2)
+        r300 = statutory_round(
+            g("r210")
+            + g("r220")
+            + g("r230")
+            + g("r240")
+            + g("r250")
+            + g("r260")
+            + g("r270")
+            + g("r280")
+            + g("r290"),
+            2,
+        )
         put("r300", r300)
         r301 = statutory_round(g("r100") + r200 - r300, 2)
         put("r301", r301)
 
-        r310 = statutory_round(g("r301") + g("r302") + g("r303") + g("r304")
-                               + g("r305") + g("r306") - g("r307")
-                               + g("r308"), 2)
+        r310 = statutory_round(
+            g("r301")
+            + g("r302")
+            + g("r303")
+            + g("r304")
+            + g("r305")
+            + g("r306")
+            - g("r307")
+            + g("r308"),
+            2,
+        )
         put("r310", r310)
         r400 = statutory_round(r310 - g("r320") - g("r330"), 2)
         put("r400", r400)
-        r500 = (max(0.0, statutory_round(r400 - g("r410"), 2))
-                if r400 > 0 else 0.0)
+        r500 = max(0.0, statutory_round(r400 - g("r410"), 2)) if r400 > 0 else 0.0
         put("r500", r500)
         r510 = statutory_round(r500 - g("r501") - g("r502") - g("r503"), 2)
         put("r510", r510)
@@ -501,8 +734,7 @@ class CSSKIncomeTaxReturn(models.Model):
         put("r550", rate)
         r600 = statutory_round(r510 * rate / 100.0, 2) if r510 > 0 else 0.0
         put("r600", r600)
-        r700 = (max(0.0, statutory_round(r600 - g("r610"), 2))
-                if r600 > 0 else 0.0)
+        r700 = max(0.0, statutory_round(r600 - g("r610"), 2)) if r600 > 0 else 0.0
         put("r700", r700)
         r800 = statutory_round(r700 - g("r710"), 2)
         put("r800", r800)
@@ -546,6 +778,96 @@ class CSSKIncomeTaxReturn(models.Model):
         settle = statutory_round(r1080 - g("r1040"), 2)
         put("r1100", settle if settle > 5.0 else 0.0)
         put("r1101", settle if settle < 0.0 else 0.0)
+
+    def _compute_tax_spine_2026(self):
+        """Published MF/014309/2026-721, pages2–5 and its official guidance.
+
+        The input row310 now means §17k, while the subtotal moved315 and
+        the sports input306 shifted the vehicle/CFC rows. Reusing the older
+        spine would overwrite a real adjustment. Read every effective row
+        after writing it: reviewed exemptions and other accountant overrides
+        must flow to downstream rows, including the bookable tax1050.
+        """
+        self.ensure_one()
+        by = {line.code: line for line in self.line_ids}
+
+        def g(code):
+            return by[code].value if code in by else 0.0
+
+        def put(code, amount):
+            if code not in _SPINE_ROWS_2026:
+                raise ValueError("Undeclared published2026 DPPO derived row: %s" % code)
+            line = by[code]
+            if not line.is_overridden:
+                line.value = statutory_round(amount, 2)
+            return line.value
+
+        put(
+            "r200",
+            sum(g(code) for code in ("r110", "r130", "r140", "r150", "r170", "r180")),
+        )
+        put("r300", sum(g("r%s" % code) for code in range(210, 300, 10)))
+        put("r301", g("r100") + g("r200") - g("r300"))
+        put(
+            "r315",
+            sum(g("r%s" % code) for code in range(301, 308))
+            - g("r308")
+            + g("r309")
+            + g("r310"),
+        )
+        put("r400", g("r315") - g("r320") - g("r330"))
+        put("r500", max(0.0, g("r400") - g("r410")))
+        put("r510", max(0.0, g("r500") - g("r501") - g("r502") - g("r503")))
+        put("r550", self._dppo_rate(g("r560")))
+        put("r600", max(0.0, g("r510")) * g("r550") / 100.0)
+        put("r700", max(0.0, g("r600") - g("r610")))
+        put("r800", max(0.0, g("r700") - g("r710")))
+        # A zero turnover does not itself exempt an ordinary taxpayer.
+        # §46b(7) exemptions/halving remain explicit reviewed row810 inputs.
+        minimum = self._dppo_band_value(
+            self._dppo_version_bands("min_tax_bands", _("§ 46b minimum-tax bands")),
+            g("r560"),
+        )
+        # §46b(2)(e) applies to periods STARTING from1.1.2026. A fiscal
+        # period2025/26 may use the new form, but retains the older ceiling.
+        if self.date_from < date(2026, 1, 1):
+            minimum = min(minimum, 3840.0)
+        put("r810", minimum * self._period_months() / 12.0)
+        put("r820", g("r810") if g("r810") > g("r800") else 0.0)
+        put("r830", max(0.0, g("r810") - g("r800")))
+        put("r900", g("r820"))
+        put("r910", max(0.0, g("r800") - g("r810")))
+        if g("r920") < 0 or statutory_round(g("r920") - g("r910"), 2) > 0:
+            raise UserError(
+                _(
+                    "The reviewed prior minimum-tax credit (row920) must be "
+                    "nonnegative and cannot exceed row910. Review Table K."
+                )
+            )
+        put("r1000", max(0.0, g("r800") - g("r920")) if g("r920") else 0.0)
+        put(
+            "r1050",
+            g("r1000")
+            if g("r1000") > 0
+            else (g("r900") if g("r810") > g("r800") else g("r800")),
+        )
+        put("r1040", g("r1010") + g("r1020") + g("r1030"))
+        put(
+            "r1080",
+            sum(g(code) for code in ("r1050", "r1060", "r1070", "r1071", "r1072")),
+        )
+        settlement = statutory_round(g("r1080") - g("r1090") - g("r1040"), 2)
+        put("r1100", settlement if settlement > 5 else 0.0)
+        put("r1101", min(0.0, settlement))
+        # Published guidance, page12: use r500 BEFORE deductions501-503,
+        # subtract610, irrespective of minimum tax or withholding credits.
+        put(
+            "r1110",
+            0
+            if self.l10n_sk_legacy_advance_relief
+            else g("r500") * g("r550") / 100.0 - g("r610"),
+        )
+        self._l10n_sk_check_advance_relief()
 
     def _fill_dodatocne_differences(self):
         """Fill the 'posledná známa' rows from the previous return and the

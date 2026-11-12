@@ -1,0 +1,753 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record id="dppo_version_2026" model="cssk.income.tax.version">
+            <field name="name">DPPO MF/014309/2026-721 (published form)</field>
+            <field name="country_id" ref="base.sk" />
+            <field name="valid_from">2026-01-01</field>
+            <field name="xml_template_ref_id" ref="l10n_sk_dppo.dppo2026_pending_xml" />
+            <field name="xml_root_element">dokument</field>
+            <field name="provision_line_code">r1050</field>
+            <field name="rate_bands" eval="[[100000.0, 10.0], [5000000.0, 21.0], [None, 24.0]]" />
+            <field name="min_tax_bands" eval="[[50000.0, 340.0], [250000.0, 960.0], [500000.0, 1920.0], [5000000.0, 3840.0], [None, 11520.0]]" />
+            <field name="l10n_sk_dppo_layout">2026</field>
+            <field name="l10n_sk_dppo_publication">paper</field>
+        </record>
+        <record id="dppo_type_R_2026" model="cssk.income.tax.type">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">R</field>
+            <field name="name">Riadne</field>
+            <field name="fa_xml_value">R</field>
+        </record>
+        <record id="dppo_type_O_2026" model="cssk.income.tax.type">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">O</field>
+            <field name="name">Opravné</field>
+            <field name="fa_xml_value">O</field>
+        </record>
+        <record id="dppo_type_D_2026" model="cssk.income.tax.type">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">D</field>
+            <field name="name">Dodatočné</field>
+            <field name="fa_xml_value">D</field>
+        </record>
+        <record id="dppo_ld_r100_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r100</field>
+            <field name="name">Výsledok hospodárenia pred zdanením</field>
+            <field name="sequence">100</field>
+            <field name="kind">account</field>
+            <field name="account_formula">5,6,-591,-592,-595,-596</field>
+        </record>
+        <record id="dppo_ld_r110_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r110</field>
+            <field name="name">r110</field>
+            <field name="sequence">200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r130_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r130</field>
+            <field name="name">r130</field>
+            <field name="sequence">300</field>
+            <field name="kind">aggregate</field>
+            <field name="aggregate_formula">a17</field>
+        </record>
+        <record id="dppo_ld_r140_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r140</field>
+            <field name="name">r140</field>
+            <field name="sequence">400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r150_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r150</field>
+            <field name="name">r150</field>
+            <field name="sequence">500</field>
+            <field name="kind">aggregate</field>
+            <field name="aggregate_formula">max(0.0, b01 - b06)</field>
+        </record>
+        <record id="dppo_ld_r170_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r170</field>
+            <field name="name">r170</field>
+            <field name="sequence">600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r180_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r180</field>
+            <field name="name">r180</field>
+            <field name="sequence">700</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r200_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r200</field>
+            <field name="name">Pripočítateľné položky</field>
+            <field name="sequence">800</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r210_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r210</field>
+            <field name="name">r210</field>
+            <field name="sequence">900</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r220_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r220</field>
+            <field name="name">r220</field>
+            <field name="sequence">1000</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r230_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r230</field>
+            <field name="name">r230</field>
+            <field name="sequence">1100</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r240_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r240</field>
+            <field name="name">r240</field>
+            <field name="sequence">1200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r250_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r250</field>
+            <field name="name">r250</field>
+            <field name="sequence">1300</field>
+            <field name="kind">aggregate</field>
+            <field name="aggregate_formula">max(0.0, b06 - b01)</field>
+        </record>
+        <record id="dppo_ld_r260_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r260</field>
+            <field name="name">r260</field>
+            <field name="sequence">1400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r270_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r270</field>
+            <field name="name">r270</field>
+            <field name="sequence">1500</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r280_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r280</field>
+            <field name="name">r280</field>
+            <field name="sequence">1600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r290_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r290</field>
+            <field name="name">r290</field>
+            <field name="sequence">1700</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r300_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r300</field>
+            <field name="name">Odpočítateľné položky</field>
+            <field name="sequence">1800</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r301_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r301</field>
+            <field name="name">Všeobecný základ dane</field>
+            <field name="sequence">1900</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r302_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r302</field>
+            <field name="name">r302</field>
+            <field name="sequence">2000</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r303_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r303</field>
+            <field name="name">r303</field>
+            <field name="sequence">2100</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r304_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r304</field>
+            <field name="name">r304</field>
+            <field name="sequence">2200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r305_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r305</field>
+            <field name="name">r305</field>
+            <field name="sequence">2300</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r307_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r307</field>
+            <field name="name">Výdavky na motorové vozidlo podľa §17 ods.39</field>
+            <field name="sequence">2400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r308_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r308</field>
+            <field name="name">Praktické vyučovanie podľa §17 ods.37</field>
+            <field name="sequence">2500</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r309_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r309</field>
+            <field name="name">Kontrolované zahraničné spoločnosti podľa §17h</field>
+            <field name="sequence">2600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r315_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r315</field>
+            <field name="name">Základ dane po úprave o riadky302 až310</field>
+            <field name="sequence">2700</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r320_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r320</field>
+            <field name="name">r320</field>
+            <field name="sequence">2800</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r330_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r330</field>
+            <field name="name">r330</field>
+            <field name="sequence">2900</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r400_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r400</field>
+            <field name="name">Základ dane po úpravách</field>
+            <field name="sequence">3000</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r410_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r410</field>
+            <field name="name">r410</field>
+            <field name="sequence">3100</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r500_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r500</field>
+            <field name="name">r500</field>
+            <field name="sequence">3200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r501_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r501</field>
+            <field name="name">r501</field>
+            <field name="sequence">3300</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r502_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r502</field>
+            <field name="name">r502</field>
+            <field name="sequence">3400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r503_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r503</field>
+            <field name="name">r503</field>
+            <field name="sequence">3500</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r510_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r510</field>
+            <field name="name">r510</field>
+            <field name="sequence">3600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r550_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r550</field>
+            <field name="name">Sadzba dane (%)</field>
+            <field name="sequence">3700</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r560_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r560</field>
+            <field name="name">Zdaniteľné príjmy (výnosy)</field>
+            <field name="sequence">3800</field>
+            <field name="kind">account</field>
+            <field name="account_formula">6</field>
+        </record>
+        <record id="dppo_ld_r600_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r600</field>
+            <field name="name">r600</field>
+            <field name="sequence">3900</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r610_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r610</field>
+            <field name="name">r610</field>
+            <field name="sequence">4000</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r700_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r700</field>
+            <field name="name">r700</field>
+            <field name="sequence">4100</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r710_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r710</field>
+            <field name="name">r710</field>
+            <field name="sequence">4200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r800_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r800</field>
+            <field name="name">r800</field>
+            <field name="sequence">4300</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r810_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r810</field>
+            <field name="name">Minimálna daň (§ 46b)</field>
+            <field name="sequence">4400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r820_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r820</field>
+            <field name="name">r820</field>
+            <field name="sequence">4500</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r830_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r830</field>
+            <field name="name">Kladný rozdiel medzi minimálnou daňou a daňou (§ 46b ods. 5)</field>
+            <field name="sequence">4600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r900_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r900</field>
+            <field name="name">Minimálna daň na úhradu</field>
+            <field name="sequence">4800</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r910_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r910</field>
+            <field name="name">r910</field>
+            <field name="sequence">4900</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r920_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r920</field>
+            <field name="name">r920</field>
+            <field name="sequence">5000</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1000_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1000</field>
+            <field name="name">r1000</field>
+            <field name="sequence">5100</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1010_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1010</field>
+            <field name="name">r1010</field>
+            <field name="sequence">5200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1020_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1020</field>
+            <field name="name">r1020</field>
+            <field name="sequence">5300</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1030_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1030</field>
+            <field name="name">r1030</field>
+            <field name="sequence">5400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1040_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1040</field>
+            <field name="name">Preddavky na daň</field>
+            <field name="sequence">5500</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1050_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1050</field>
+            <field name="name">Daň pred úpravou o preddavky na daň</field>
+            <field name="sequence">5600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1060_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1060</field>
+            <field name="name">r1060</field>
+            <field name="sequence">5700</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1061_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1061</field>
+            <field name="name">r1061</field>
+            <field name="sequence">5800</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1062_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1062</field>
+            <field name="name">r1062</field>
+            <field name="sequence">5900</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1070_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1070</field>
+            <field name="name">r1070</field>
+            <field name="sequence">6000</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1071_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1071</field>
+            <field name="name">r1071</field>
+            <field name="sequence">6100</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1080_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1080</field>
+            <field name="name">Celková daň</field>
+            <field name="sequence">6200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1090_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1090</field>
+            <field name="name">r1090</field>
+            <field name="sequence">6300</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1100_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1100</field>
+            <field name="name">Daň na úhradu, nedoplatok (+)</field>
+            <field name="sequence">6400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1101_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1101</field>
+            <field name="name">Daňový preplatok (−)</field>
+            <field name="sequence">6500</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1110_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1110</field>
+            <field name="name">r1110</field>
+            <field name="sequence">6600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1120_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1120</field>
+            <field name="name">r1120</field>
+            <field name="sequence">6700</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1130_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1130</field>
+            <field name="name">r1130</field>
+            <field name="sequence">6800</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1140_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1140</field>
+            <field name="name">r1140</field>
+            <field name="sequence">6900</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1150_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1150</field>
+            <field name="name">r1150</field>
+            <field name="sequence">7000</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1160_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1160</field>
+            <field name="name">r1160</field>
+            <field name="sequence">7100</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1170_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1170</field>
+            <field name="name">r1170</field>
+            <field name="sequence">7200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1180_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1180</field>
+            <field name="name">r1180</field>
+            <field name="sequence">7300</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1190_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1190</field>
+            <field name="name">r1190</field>
+            <field name="sequence">7400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1191_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1191</field>
+            <field name="name">r1191</field>
+            <field name="sequence">7500</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1192_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1192</field>
+            <field name="name">r1192</field>
+            <field name="sequence">7600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a01_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a01</field>
+            <field name="name">Tabuľka A, r. 1</field>
+            <field name="sequence">100100</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a02_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a02</field>
+            <field name="name">Tabuľka A, r. 2</field>
+            <field name="sequence">100200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a03_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a03</field>
+            <field name="name">Tabuľka A, r. 3</field>
+            <field name="sequence">100300</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a04_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a04</field>
+            <field name="name">Tabuľka A, r. 4</field>
+            <field name="sequence">100400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a05_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a05</field>
+            <field name="name">Tabuľka A, r. 5</field>
+            <field name="sequence">100500</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a06_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a06</field>
+            <field name="name">Tabuľka A, r. 6</field>
+            <field name="sequence">100600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a07_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a07</field>
+            <field name="name">Tabuľka A, r. 7</field>
+            <field name="sequence">100700</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a08_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a08</field>
+            <field name="name">Tabuľka A, r. 8</field>
+            <field name="sequence">100800</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a09_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a09</field>
+            <field name="name">Tabuľka A, r. 9</field>
+            <field name="sequence">100900</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a10_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a10</field>
+            <field name="name">Tabuľka A, r. 10</field>
+            <field name="sequence">101000</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a11_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a11</field>
+            <field name="name">Tabuľka A, r. 11</field>
+            <field name="sequence">101100</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a12_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a12</field>
+            <field name="name">Tabuľka A, r. 12</field>
+            <field name="sequence">101200</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a13_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a13</field>
+            <field name="name">Tabuľka A, r. 13</field>
+            <field name="sequence">101300</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a14_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a14</field>
+            <field name="name">Tabuľka A, r. 14</field>
+            <field name="sequence">101400</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a15_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a15</field>
+            <field name="name">Tabuľka A, r. 15</field>
+            <field name="sequence">101500</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a16_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a16</field>
+            <field name="name">Tabuľka A, r. 16</field>
+            <field name="sequence">101600</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_a17_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">a17</field>
+            <field name="name">Tabuľka A, r. 17</field>
+            <field name="sequence">101700</field>
+            <field name="kind">aggregate</field>
+            <field name="aggregate_formula">a01 + a02 + a03 + a04 + a05 + a06 + a07 + a08 + a09 + a10 + a11 + a12 + a13 + a14 + a15 + a16</field>
+        </record>
+        <record id="dppo_ld_b01_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">b01</field>
+            <field name="name">Tabuľka B, r. 1</field>
+            <field name="sequence">101800</field>
+            <field name="kind">asset_diff</field>
+            <field name="account_formula">b_book</field>
+        </record>
+        <record id="dppo_ld_b02_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">b02</field>
+            <field name="name">Tabuľka B, r. 2</field>
+            <field name="sequence">101900</field>
+            <field name="kind">asset_diff</field>
+            <field name="account_formula">b_tax_gross</field>
+        </record>
+        <record id="dppo_ld_b03_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">b03</field>
+            <field name="name">Tabuľka B, r. 3</field>
+            <field name="sequence">102000</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_b04_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">b04</field>
+            <field name="name">Tabuľka B, r. 4</field>
+            <field name="sequence">102100</field>
+            <field name="kind">asset_diff</field>
+            <field name="account_formula">b_suspended</field>
+        </record>
+        <record id="dppo_ld_b05_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">b05</field>
+            <field name="name">Tabuľka B, r. 5</field>
+            <field name="sequence">102200</field>
+            <field name="kind">asset_diff</field>
+            <field name="account_formula">b_sale</field>
+        </record>
+        <record id="dppo_ld_b06_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">b06</field>
+            <field name="name">Tabuľka B, r. 6</field>
+            <field name="sequence">102300</field>
+            <field name="kind">aggregate</field>
+            <field name="aggregate_formula">max(0.0, b02 - b03 - b04 + b05)</field>
+        </record>
+        <record id="dppo_ld_r306_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r306</field>
+            <field name="name">Úprava výdavkov na podporu športu podľa §30ca</field>
+            <field name="sequence">2350</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r310_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r310</field>
+            <field name="name">Úprava základu dane podľa §17k</field>
+            <field name="sequence">2650</field>
+            <field name="kind">manual</field>
+        </record>
+        <record id="dppo_ld_r1072_2026" model="cssk.income.tax.line.def">
+            <field name="version_id" ref="dppo_version_2026" />
+            <field name="code">r1072</field>
+            <field name="name">Daň z osobitného základu dane podľa §51eb</field>
+            <field name="sequence">6150</field>
+            <field name="kind">manual</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+<odoo noupdate="1">
+    <record id="table_i_company" model="ir.rule">
+        <field name="name">DPPO Table I active companies</field>
+        <field name="model_id" ref="model_l10n_sk_dppo_table_i_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="table_d_company" model="ir.rule">
+        <field name="name">DPPO Table D active companies</field>
+        <field name="model_id" ref="model_l10n_sk_dppo_table_d_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="table_l_company" model="ir.rule">
+        <field name="name">DPPO Table L active companies</field>
+        <field name="model_id" ref="model_l10n_sk_dppo_table_l_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="table_e_company" model="ir.rule">
+        <field name="name">DPPO Table E active companies</field>
+        <field name="model_id" ref="model_l10n_sk_dppo_table_e_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="table_k_company" model="ir.rule">
+        <field name="name">DPPO Table K active companies</field>
+        <field name="model_id" ref="model_l10n_sk_dppo_table_k_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>
