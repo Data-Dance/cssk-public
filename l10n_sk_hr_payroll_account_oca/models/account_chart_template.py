@@ -150,7 +150,9 @@ SK_OPTIONAL_ACCOUNT_MAPPING = {
     "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_nadcas_mzda": {"debit": ACC_WAGE},
     "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_nadcas": {"debit": ACC_WAGE},
     "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_stazeny": {"debit": ACC_WAGE},
-    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_pohotovost": {"debit": ACC_WAGE},
+    "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_priplatok_pohotovost": {
+        "debit": ACC_WAGE
+    },
     "l10n_sk_hr_payroll_surcharges_oca.l10n_sk_min_wage_topup": {"debit": ACC_WAGE},
 }
 
@@ -161,7 +163,8 @@ def _sk_full_mapping(module=None):
     mapping.update(SK_OPTIONAL_ACCOUNT_MAPPING)
     if module:
         mapping = {
-            xmlid: sides for xmlid, sides in mapping.items()
+            xmlid: sides
+            for xmlid, sides in mapping.items()
             if xmlid.split(".", 1)[0] == module
         }
     return mapping
@@ -175,18 +178,22 @@ class AccountChartTemplate(models.AbstractModel):
 
         ``account_debit`` / ``account_credit`` are ``company_dependent`` fields,
         so writing them under ``with_company(company)`` stores a per-company
-        value on the global salary rules.
+        value on the global salary rules. Treat an existing usable pair as
+        user configuration, including an intentionally empty opposite side.
+        Chart reloads and deferred company setup must not replace that choice.
         """
-        Rule = self.env["hr.salary.rule"]
         Account = self.env["account.account"]
         for company in companies:
             account_by_code = {}
 
             def _account(code, _company=company):
                 if code not in account_by_code:
-                    account_by_code[code] = (
-                        Account.with_company(_company)
-                        .search([("code", "=", code)], limit=1)
+                    account_by_code[code] = Account.with_company(_company).search(
+                        [
+                            ("code", "=", code),
+                            *Account._check_company_domain(_company),
+                        ],
+                        limit=1,
                     )
                 return account_by_code[code]
 
@@ -194,17 +201,27 @@ class AccountChartTemplate(models.AbstractModel):
                 rule = self.env.ref(xmlid, raise_if_not_found=False)
                 if not rule:
                     continue
+                # Accounting setup does not require access to payroll data.
+                company_rule = rule.sudo().with_company(company)
+                configured = company_rule.account_debit | company_rule.account_credit
+                usable = configured.filtered_domain(
+                    Account._check_company_domain(company)
+                )
                 vals = {}
-                debit = sides.get("debit")
-                credit = sides.get("credit")
-                if debit and _account(debit):
-                    vals["account_debit"] = _account(debit).id
-                if credit and _account(credit):
-                    vals["account_credit"] = _account(credit).id
+                for side in ("debit", "credit"):
+                    field = "account_" + side
+                    current = company_rule[field]
+                    if current in usable or (not current and usable):
+                        # Keep the company's choice, including an empty side.
+                        continue
+                    code = sides.get(side)
+                    default = _account(code) if code else Account.browse()
+                    if current.id != default.id:
+                        vals[field] = default.id
                 if vals:
                     # Chart setup is configuration done by an accounting manager, who
                     # need not hold payroll rights (OCA payroll grants accounting none).
-                    rule.sudo().with_company(company).write(vals)
+                    company_rule.write(vals)
 
     def _l10n_sk_payroll_map_rules(self, module):
         """Map only the rules of *module* for every company on the SK chart.
