@@ -8,6 +8,16 @@ Format follows Keep a Changelog.
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- Reuse the current Table A workpaper validation for official paper PDFs
+  and native tax provisions as well as XML; changed items cannot leave an
+  old managed amount in either consumer. Preserve historical attachments.
+- Normalize entire multi-return create batches before one ordered parent
+  lock set, including company/currency checks. Savepoints keep item and audit
+  mutations atomic and prevent opposite-order batch deadlocks.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

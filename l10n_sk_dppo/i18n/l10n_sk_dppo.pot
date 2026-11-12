@@ -17,11 +17,25 @@ msgstr ""
 
 #. module: l10n_sk_dppo
 #: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_version__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_sk_dppo
 #: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_version__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__id
 msgid "ID"
 msgstr ""
 
@@ -96,4 +110,1293 @@ msgstr ""
 msgid ""
 "%(code)s is overridden to %(value).2f, but %(formula)s over the table gives "
 "%(expected).2f. Correct the table or remove the override."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_layout
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_version__l10n_sk_dppo_layout
+msgid "DPPO form layout"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_version__l10n_sk_dppo_publication
+msgid "DPPO form publication"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__cssk_income_tax_version__l10n_sk_dppo_layout__legacy
+msgid "Earlier published layout"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__cssk_income_tax_version__l10n_sk_dppo_layout__2026
+msgid "MF/014309/2026-721"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__cssk_income_tax_version__l10n_sk_dppo_publication__xml
+msgid "Published XML schema"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__cssk_income_tax_version__l10n_sk_dppo_publication__paper
+msgid "Published form; XML schema pending"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The published DPPO form can be calculated, but its official XML schema is "
+"not installed. Install the published electronic version before XML export."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The reviewed prior minimum-tax credit (row920) must be nonnegative and "
+"cannot exceed row910. Review Table K."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The selected DPPO form does not cover this tax period. Select its applicable"
+" published version before XML export."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_applicable_version_ids
+msgid "Applicable DPPO form versions"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_filing_deadline
+msgid "Applicable legal filing deadline"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_filing_deadline
+msgid ""
+"The legal deadline including an effective extension, when it differs from "
+"the ordinary three-calendar-month deadline. This is not the actual filing "
+"date."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The selected DPPO form does not cover the applicable legal filing deadline. "
+"Select the published form for that deadline, including any effective "
+"extension."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__version_id
+msgid "Version"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Authorized person"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_person_first
+msgid "Authorized person's first name"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_person_last
+msgid "Authorized person's surname"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Choose either a half minimum tax or a minimum-tax exemption."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Choose the published MF/014309/2026-721 paper form."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Complete the company's name and registered-office address."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Compute the return before printing its official form."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_controlled_transactions
+msgid "Controlled transactions"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_minimum_credit
+msgid "Credit of prior minimum tax"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_discovered_on
+msgid "Date the tax difference was discovered"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_prepared_on
+msgid "Declaration date"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Declarations"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_currency_end
+msgid "End special exchange-difference treatment"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Enter a declaration date on or after the tax-period end."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid ""
+"Enter and validate the related official annex inputs before printing these "
+"items: %s"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Enter the actual discovery date for a supplementary return."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid ""
+"Enter the authorized person's contact, first name, surname, relationship and"
+" residence."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_patent_exemption
+msgid "Exemption under sections 13a/13b"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Form identity"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_half_minimum
+msgid "Half minimum tax under section 46b(3)"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_legal_code
+msgid "Legal-form code"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_nonresident
+msgid "Limited tax liability"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_micro_taxpayer
+msgid "Micro-taxpayer status"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_minimum_exemption
+msgid "Minimum-tax exemption under section 46b(7)"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Official form PDF"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_official_pdf_form
+msgid "Official form inputs"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_person_id
+msgid "Person authorized to file"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Recompute the return after changing a manual input."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Recompute the return after changing a tax calculation input."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Recompute the return after changing its posted ledger sources."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_person_relationship
+msgid "Relationship to the legal entity"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid ""
+"Review DIČ, IČO, the three-digit legal-form code and five-digit SK NACE."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "Review the tax-period dates."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_nace
+msgid "SK NACE for the form"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_currency_start
+msgid "Start special exchange-difference treatment"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid ""
+"The minimum-tax declaration must agree with the reviewed row 810 amount."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "The official DPPO form cannot be printed: %s"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "The official Slovak form requires amounts in EUR."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "The prior minimum-tax credit declaration must agree with row 920."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_title_after
+msgid "Title after the person's name"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_title_before
+msgid "Title before the person's name"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_pdf.py:0
+msgid "printed"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__aggregated
+msgid "Aggregated transactions"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Choose a return before entering Table I facts."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__evidence
+msgid "Classification and amount evidence"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__company_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_i_line
+msgid "DPPO Table I entered transaction"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Enter loan principal in the loan section of Table I."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__resident_country_code
+msgid ""
+"Enter the three-digit official country code for the counterparty's tax "
+"residence."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__highest_principal
+msgid "Highest loan principal during the period"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__permanent_establishment_link
+msgid "Link under section 2(r)"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_i_line__section__loan
+msgid "Loan or credit"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__closing_principal
+msgid "Loan principal at the period end"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__transaction_code
+msgid "Official transaction code"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_i_below_threshold
+msgid ""
+"Only transactions not already included in an aggregated transaction in Table"
+" I."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_i_below_threshold
+msgid "Other controlled transactions below the statutory threshold"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__partner_id
+msgid "Related person"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"Reset the unfiled return to draft before changing its official annex inputs."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_form_input_mixin__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__return_id
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__return_id
+msgid "Return"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"Review Table I loan amounts: the nonnegative closing principal cannot exceed"
+" the highest principal."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"Review the Table I transaction code, tax-residence country code and related "
+"person's name."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__section
+msgid "Section"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__sequence
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__tax_effect
+msgid "Signed effect on row 400"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_i_form
+msgid "Table I - controlled transactions"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"Table I allows at most 99 transactions and 99 loans; review the statutory "
+"reporting priorities."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Table I inputs cannot be reassigned to another return or company."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Table I inputs must belong to their return's company."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Table I inputs must use their return's currency."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_i_ids
+msgid "Table I transactions"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__resident_country_code
+msgid "Tax-residence country code"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid ""
+"The controlled-transactions declaration must agree with the entered Table I "
+"facts."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "The related contact must be shared or belong to the return's company."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_i_line__section__transaction
+msgid "Transaction"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_i.py:0
+msgid "Use finite Table I amounts in whole eurocents."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_i_line__transaction_code
+msgid ""
+"Use the two-digit code in the published instructions: 01–37 for "
+"transactions, 01–05 for loans."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "An immediately following loss-deduction period must have ordinal 1."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_d_form
+msgid "Apply reviewed Table D deduction"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Apply the reviewed Table D deduction to native row 410 and recompute the "
+"return."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid "Choose a return before entering official annex facts."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid "Choose an existing return before entering official annex facts."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "Compute the published paper-form return before applying Table D."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__1
+msgid "D 1"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__2
+msgid "D 2"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__3
+msgid "D 3"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__4
+msgid "D 4"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__5
+msgid "D 5"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__6
+msgid "D 6"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__7
+msgid "D 7"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_d_line__column__8
+msgid "D 8"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_d_line
+msgid "DPPO Table D prior tax loss"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_form_input_mixin
+msgid "DPPO entered official annex facts"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__prior_deducted
+msgid "Deducted in prior tax periods"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__deducted
+msgid "Deducted in this tax period"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "Enter prior Table D periods from oldest to newest without overlap."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Explain the special Table D column 1 deduction in the official special "
+"records."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__subsequent_period_number
+msgid "Following tax-period number"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__evidence
+msgid "Loss eligibility evidence"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__date_from
+msgid "Loss period from"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__date_to
+msgid "Loss period to"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__source_return_id
+msgid "Native original loss return"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__column
+msgid "Official Table D column"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid ""
+"Official annex inputs cannot be reassigned to another return or company."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid "Official annex inputs must belong to their return's company."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_form_input.py:0
+msgid "Official annex inputs must use their return's currency."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_form_notes
+msgid "Official form special records"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__loss_amount
+msgid "Originally declared tax loss"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__remaining
+msgid "Remaining for future tax periods"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Review micro-taxpayer status: controlled transactions, income above EUR "
+"60,000 or a shorter tax period exclude it."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Review the ordinary loss period and its following-tax-period number from 1 "
+"to 5."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__subsequent_period_number
+msgid ""
+"Reviewed ordinal from 1 to 5 for ordinary section 30 losses. Count tax "
+"periods, including short periods, not elapsed calendar years."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_d_form
+msgid "Table D - prior tax losses"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Table D deductions cannot exceed the positive originally declared loss."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"Table D must describe an earlier loss period; the current-period loss stays "
+"in row 400."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_d_ids
+msgid "Table D prior tax losses"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"The linked native loss return must match the company, loss period and "
+"declared loss amount."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid ""
+"The ordinary Table D loss deduction cannot exceed 50 percent of row 400."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "The total Table D deduction cannot exceed the positive row 400 base."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_d_line__expired
+msgid "Unused balance expiring after this period"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "Use each official Table D column only once."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_d.py:0
+msgid "Use finite nonnegative Table D amounts in whole eurocents."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_fl_form
+msgid "Apply reviewed Table L revenue"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid ""
+"Apply the reviewed Table L taxable revenue to native row 560 and recompute."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "Compute the published paper-form return before applying Table L."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_l_line
+msgid "DPPO Table L taxable-revenue adjustment"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_legacy_advance_evidence
+msgid "Legacy advance-tax relief evidence"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_legacy_advance_relief
+msgid "Legacy section 35/35a relief: leave row 1110 blank"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__return_row
+msgid "Related DPPO row"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "Retain the reviewed Table F source evidence."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid ""
+"Review each Table L description, signed amount, related return row and "
+"classification evidence."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"Review the legacy section 35/35a relief, its evidence and the blank row "
+"1110."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_f_cost
+msgid "Reviewed Table F costs before income tax"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_f_revenue
+msgid "Reviewed Table F revenue"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__amount
+msgid "Signed taxable-revenue adjustment"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid ""
+"Table F revenue less costs must equal row 100; review the ledger or enter "
+"reviewed source figures."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_f_evidence
+msgid "Table F source evidence"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "Table L taxable revenue cannot be negative."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_l_ids
+msgid "Table L taxable-revenue adjustments"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_fl_form
+msgid "Tables F/L - ordinary double-entry accounting"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__description
+msgid "Taxable-revenue adjustment"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__evidence
+msgid "Taxable-revenue classification evidence"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid ""
+"The Table L adjustment linked to a return row cannot exceed that row's "
+"amount."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "The published Table L has adjustment rows 2 through 98."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_l_line__return_row
+msgid "Three-digit row number of the income adjustment in the return."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_fl.py:0
+msgid "Use finite Table F amounts."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_f_manual
+msgid "Use reviewed Table F source figures"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"%(country)s — section 31 conversion: %(source).2f %(currency)s × %(rate).8f "
+"EUR = %(converted).2f EUR; eligible %(tax).2f EUR. %(evidence)s"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_ek_form
+msgid "Apply reviewed Tables E/K credits"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Apply the reviewed Tables E/K and recompute native rows 710/920."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Compute the published paper-form return before applying Tables E/K."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__subsequent_period_number
+msgid ""
+"Count tax periods, including short periods, rather than calendar years."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__claimed
+msgid "Credit claimed in this return"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__prior_claimed
+msgid "Credited in prior periods"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_e_line
+msgid "DPPO Table E country tax-credit source"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model,name:l10n_sk_dppo.model_l10n_sk_dppo_table_k_line
+msgid "DPPO Table K paid minimum-tax source period"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__eur_rate
+msgid "EUR per source-currency unit"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "EUR source tax requires a conversion rate of one."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__foreign_base
+msgid "Eligible foreign net tax base"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__hybrid_base
+msgid "Eligible net hybrid income"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Enter a positive finite EUR conversion rate."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Enter finite, nonnegative credit amounts in whole cents."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_e_line__tax_status__estimated
+msgid "Estimate under section 45(2)"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__country_id
+msgid "Foreign country"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__paid_on
+msgid "Foreign tax payment date"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__tax_status
+msgid "Foreign tax source"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__foreign_date_to
+msgid "Foreign tax-period end"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__foreign_date_from
+msgid "Foreign tax-period start"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__paid_on
+msgid "Minimum-tax payment date"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__minimum_tax
+msgid "Original minimum tax"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__paid_amount
+msgid "Original minimum tax actually paid"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__credit_amount
+msgid "Original positive minimum-tax difference"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields.selection,name:l10n_sk_dppo.selection__l10n_sk_dppo_table_e_line__tax_status__paid
+msgid "Paid foreign tax"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__source_tax
+msgid "Paid/estimated source tax"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Retain a foreign country and reviewed treaty, net-income and tax evidence "
+"for Table E."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Retain a foreign tax payment date no later than the declaration date."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Retain the filed minimum-tax calculation, actual payment date and "
+"intervening-period credit evidence."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Retain the section 31 foreign-tax conversion calculation."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Review the first, second or third subsequent tax period for Table K."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Review the foreign tax source status."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__evidence
+msgid "Reviewed filed return, payment and intervening-period evidence"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__evidence
+msgid "Reviewed income, treaty and tax evidence"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__fx_evidence
+msgid "Section 31 conversion evidence"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Section 45(2) estimates require a different, evidenced foreign tax period."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__tax_currency_id
+msgid "Source tax currency"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__date_to
+msgid "Source tax-period end"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__date_from
+msgid "Source tax-period start"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_k_line__subsequent_period_number
+msgid "Subsequent tax-period ordinal"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table E %(country)s: net base %(base).2f EUR; hybrid %(hybrid).2f EUR; "
+"treaty tax %(tax).2f EUR; source %(source).2f %(currency)s (%(status)s)."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_e_ids
+msgid "Table E - foreign tax credit"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Table E requires a positive native row 400."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table K %(start)s–%(end)s: %(expired).2f EUR expires after the third "
+"subsequent tax period."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_table_k_ids
+msgid "Table K - prior minimum-tax credits"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table K current claims cannot exceed the tax above the current minimum tax."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table K needs a positive eligible difference, a fully paid original minimum "
+"tax and claims within that difference."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid ""
+"Table K requires a prior, non-overlapping minimum-tax period starting in "
+"2024 or later."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Table K source periods must not overlap or be duplicated."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_sk_dppo.dppo_table_ek_form
+msgid "Tables E/K - reviewed tax credits"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "The published Table K has four source-period rows."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/dppo_table_ek.py:0
+msgid "Treaty-eligible tax cannot exceed the converted source tax."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_l10n_sk_dppo_table_e_line__eligible_tax
+msgid "Treaty-eligible tax in EUR"
 msgstr ""

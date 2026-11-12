@@ -1,7 +1,7 @@
 ---
 title: SK daňové priznanie k dani z príjmov PO (DPPO)
 summary: Slovenské daňové priznanie k dani z príjmov právnických osôb — všetky vzory od roku 2013, výsledok hospodárenia z účtovníctva, výpočet dane so sadzbou a minimálnou daňou daného roka a XML overené proti schéme finančnej správy.
-verified: 19.0.1.5.0
+verified: 19.0.1.11.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -129,11 +129,9 @@ licenciu pre každé neskoršie obdobie zrušil. Riadky na tlačivách ostali,
 lebo licenciu zaplatenú za roky 2015 – 2017 možno ďalej započítať podľa
 § 46b ods. 5; tento zápočet zadajte sami.
 
-**Vzor pre rok 2026 zatiaľ nie je.** Finančná správa ho (`dppo2026.xsd`)
-pri overení 27. 10. 2026 ešte nezverejnila a modul si ho nevymýšľa. Ak
-zadáte obdobie, ktoré začína v roku 2026, priznanie upozorní, že ho
-nepokrýva žiadna verzia tlačiva, a nedá sa uložiť. Vzor pribudne po jeho
-zverejnení.
+Publikovaný vzor **MF/014309/2026-721** už má natívny výpočtový register.
+Jeho zákonná platnosť sa riadi lehotou na podanie; elektronická schéma je
+samostatný publikačný krok (pozri [publikovaný vzor](#published-2026)).
 
 Sadzby a sumy minimálnej dane sú uložené pri každom vzore, nie v programe.
 Vzor, ktorému chýba sadzba, výpočet odmietne a sadzbu si nedomýšľa.
@@ -279,7 +277,7 @@ Ak je nainštalovaný tento modul, modul
 automaticky prepojovací modul
 [module:l10n_sk_dppo_fs](module:l10n_sk_dppo_fs) a do vypočítaného priznania
 pridá tlačidlo **Porovnať s účtovnou závierkou**. To nájde účtovnú závierku
-spoločnosti (*Účtovná závierka UZPODv14 (SK)*), ktorá pokrýva obdobie
+spoločnosti (*Účtovná závierka UZPODv 14 (SK)*), ktorá pokrýva obdobie
 priznania — prednostne tú s rovnakými dátumami — a porovná r. 100 s
 riadkom 56 výkazu ziskov a strát (výsledok hospodárenia za účtovné obdobie
 pred zdanením). Obe čísla sú ten istý výsledok hospodárenia, takže sa musia
@@ -292,10 +290,8 @@ Výsledok sa uloží pri priznaní ako porovnanie — otvorí ho tlačidlo
 
 ## Obmedzenia {#limitations}
 
-- **Rok 2026 nie je pokrytý**, kým finančná správa nezverejní vzor pre rok
-  2026 (pozri [Vzory tlačiva](#versions)). Vzor 2025 nepozná pásmo
-  minimálnej dane 11 520 eur pre obdobia začínajúce najskôr 1. 1. 2026;
-  obdobie roka 2026 naň nepodávajte.
+- **XML adaptér nového publikovaného vzoru čaká na doplnenie.** Natívny
+  výpočet už obsahuje pásmo 11.520; nenahrádzajte nový vzor starým 2025 XML.
 - **Vzory 2013, 2014 a 2020 – 2023** počítajú len r. 100 a tabuľky A/B; daň je na vás.
 - Obsah riadkov 3 a 4 tabuľky B vzorov 2013 a 2014 poučenie neuvádza;
   vyplňte ich podľa tlačiva.
@@ -306,3 +302,148 @@ Výsledok sa uloží pri priznaní ako porovnanie — otvorí ho tlačidlo
   oficiálneho tlačiva a poučenia na jeho vyplnenie.
 - Definície riadkov a výpočet dane by mal pred prvým podaním skontrolovať
   váš účtovník.
+
+## Publikovaný vzor MF/014309/2026-721 {#published-2026}
+
+Zoznam verzií vychádza z príslušnej **zákonnej lehoty na podanie** vrátane
+účinného predĺženia zadaného v poli *Príslušná zákonná lehota na podanie*.
+Pri bežnej trojmesačnej lehote nechajte pole prázdne. Obdobie júl 2025–jún 2026
+bežne používa starší vzor; pri účinnom predĺžení do marca 2027 už nový vzor.
+Obdobie december 2025–november 2026 potrebuje nový vzor aj bez predĺženia.
+Oneskorený skutočný dátum podania toto pravidlo nemení. Horné pásmo minimálnej
+dane naďalej závisí od začiatku zdaňovacieho obdobia.
+
+Natívne priznanie podporuje výpočet nového vzoru pre bežné obdobia od 2026.
+Oznámenie sa vzťahuje na posledný deň lehoty na podanie po 31.12.2026, pokiaľ
+ho nenahradí neskorší vzor. Zahŕňa teda aj bežný prvý rok 2027 podávaný v 2028.
+
+Riadok 310 je nový účtovníkom posudzovaný vstup podľa § 17k; medzisúčet sa
+presunul 315. Nový športový vstup 306 posunul motorové vozidlo, praktické
+vyučovanie a kontrolované zahraničné spoločnosti. Minimum 11.520 nad 5 miliónov
+platí iba pre obdobia začínajúce od 2026. Oslobodenie alebo polovičnú výšku
+podľa § 46b evidujte ako overenú úpravu riadku 810; vstup sa prenesie do
+nadväzujúcich súm aj natívneho zaúčtovania dane.
+
+Úradná papierová tlač a poučenie sú publikované. Elektronický adaptér má
+samostatný publikačný krok: v overenom katalógu nebola jeho nová schéma.
+Výpočet funguje, XML export vysvetlí potrebu nainštalovať aktuálny elektronický
+vzor. Nepoužije staré 2025 XML. Zdrojové hashe a platnosť obsahuje
+`data/FORM_PUBLICATION.json`.
+
+## Úradný listinný výstup {#official-pdf}
+
+Po výpočte priznania vyplňte **Údaje úradného formulára** a použite tlačidlo
+**Úradný formulár PDF**. Identita pochádza zo spoločnosti a zvoleného natívneho
+kontaktu. Doplňte kód právnej formy, SK NACE, meno a vzťah oprávnenej osoby,
+dátum vyhlásenia a príslušné vyhlásenia. Dodatočné priznanie potrebuje skutočný
+dátum zistenia rozdielu dane.
+
+Výstup doplní pôvodný 21-stranový vzor MF/014309/2026-721. Zdroj a SHA256 sú
+pripnuté v `static/forms/SOURCES.json`. Telo a tabuľky A/B používajú uložené
+riadky natívneho priznania vrátane overených ručných úprav. Po zmene účtovných
+podkladov alebo vstupov výpočtu treba priznanie prepočítať. Vyhlásenia
+o minimálnej dani sa musia zhodovať s riadkom 810 a sumou pre dané obdobie.
+Hodnota presahujúca počet políčok sa výslovne odmietne.
+
+Listinný adaptér podporuje základ, A/B a zadané údaje tabuliek I/D. Nenulové
+nároky vyžadujúce ďalšiu tabuľku alebo prílohu potrebujú pred tlačou súvisiace
+zadané podklady a adaptér; nikdy sa potichu nevynechajú. Päť pôvodných
+priložených strán sa zachová s rovnakým DIČ a uvedie v počte príloh.
+Pokračovacie strany tabuľky I sa započítajú navyše.
+
+PDF je nepodpísaná snímka na kontrolu a stiahnutie. Nemení stav priznania,
+nevytvára XML a neoznačí priznanie za podané. Rovnaká snímka použije existujúcu
+prílohu; zmena identity vytvorí novú a zachová presné pôvodné bajty.
+Elektronické podanie naďalej vyžaduje publikovaný XML adaptér.
+
+### Zadané transakcie tabuľky I {#table-i}
+
+V časti **Údaje úradného formulára** zadajte jednotlivé transakcie a úvery
+tabuľky I. Zvoľte natívny kontakt závislej osoby a zadajte publikovaný
+dvojmiestny kód druhu transakcie (01–37 pre transakcie, 01–05 pre úvery)
+a trojmiestny úradný kód štátu daňovej rezidencie protistrany. Zaradenie
+a významnosť sú účtovníkom posúdené fakty; referencia je číselník
+v publikovanom poučení. Kontroluje sa formát a rozsah kódu bez tichého orezu.
+
+Pri transakcii sa zadáva vplyv so znamienkom, agregácia a prepojenosť podľa
+§ 2 písm. r). Vplyv zahŕňa aj účinky v ďalších obdobiach; **nejde o druhý
+účtovný zápis ani sumu pripočítavanú k riadku 400**. Úver má najvyššiu
+istinu počas obdobia a konečnú istinu, ktorá nesmie prekročiť najvyššiu.
+Samostatné vyhlásenie pod zákonnou hranicou sa týka len transakcií, ktoré
+už nie sú zahrnuté v agregovanom riadku. Údaje musia zodpovedať vyhláseniu
+na prvej strane.
+
+Pôvodné tlačivo má štyri transakcie a päť úverov. Ďalšie riadky vytvoria
+výslovne označené pokračovacie kópie pôvodného vzoru tabuľky I s priebežnými
+poradovými číslami a číslami príloh. Každá časť má najviac 99 riadkov.
+Pri väčšom počte musí účtovník uplatniť poradie z publikovaného poučenia
+a zachovať zvyšné údaje v dokumentácii transferového oceňovania; program
+žiadny zadaný riadok potichu nevynechá. Údaje sa kopírujú s natívnou opravou,
+patria svojej firme a po exporte/podaní ich možno meniť až po natívnom
+návrate priznania do návrhu.
+
+### Predchádzajúce daňové straty v tabuľke D {#table-d}
+
+Zadajte úradný stĺpec, pôvodné obdobie a sumu straty, predchádzajúce odpočty
+a odpočet uplatňovaný v tomto období. Bežné straty podľa § 30 patria do
+stĺpcov 4–8 v časovom poradí. Nová strata aktuálneho obdobia zostáva v riadku
+400; v tabuľke D sa objaví až v nasledujúcom priznaní. Voliteľné prepojenie
+na natívne pôvodné priznanie kontroluje firmu, obdobie a záporný riadok 400.
+Počiatočné údaje možno zadať aj z overených externých podkladov.
+
+Poradie nasledujúceho zdaňovacieho obdobia je overený údaj od 1 do 5 vrátane
+krátkych období, nie rozdiel kalendárnych rokov. Bezprostredne nasledujúce
+obdobie musí mať číslo 1. Zostatok sa vypočíta z pôvodnej sumy po odpočítaní
+predchádzajúcich a aktuálnych odpočtov. Po piatom období nevyužitý zostatok
+zanikne a suma pre budúcnosť je nula. Osobitné režimy stĺpcov 1–3 sú zadané
+právne kvalifikácie; pri odpočte v stĺpci 1 treba aj vysvetlenie v poli
+**Osobitné záznamy úradného formulára**.
+
+Tlačidlo **Preniesť overený odpočet tabuľky D** prenesie súčet do existujúcej
+natívnej úpravy riadka 410 a prepočíta priznanie. Pred dokončením skontroluje
+aj novo prepočítaný základ. Bežné straty majú publikovaný limit 50 %; aktuálne
+oprávnený mikrodaňovník môže pri oprávnených stratách od roku 2021 použiť
+celý základ. Ostatné kvalifikácie sú naďalej posúdené fakty; známe rozpory
+v mikro vyhláseniach sa odmietnu. Celkový odpočet nesmie prekročiť kladný
+riadok 400 ani nevyužitú pôvodnú stratu.
+
+Po zmene údajov D treba odpočet znovu preniesť. PDF aj natívne zaúčtovanie
+dane odmietnu nesúlad s riadkom 410. Pred finálnym výstupom skontrolujte
+ostatné existujúce ručné vstupy. Účtovným postupom zostáva
+natívne zaúčtovanie a storno dane; nevzniká druhá daňová kniha. Všetkých osem
+stĺpcov a súčet sa tlačia na pôvodné strany 7–8. Osobitné záznamy sa zalomia
+v pôvodnom poli strany 15 a text nad kapacitu sa odmietne bez tichého orezu.
+
+Tento ohraničený adaptér stále slúži na kontrolu a stiahnutie. Ďalšie nenulové
+osobitné nároky potrebujú svoje adaptéry pred dokončením
+celého listinného podania. Neskoršie publikované formuláre a právne zmeny
+podliehajú bežnej aktualizácii; táto verzia nie je zárukou prijatia budúcim
+portálom.
+
+### Bežné podvojné účtovníctvo – tabuľky F/L a preddavky {#table-fl}
+
+Tabuľka F číta hospodárske a finančné výnosy a náklady pred daňou z príjmov
+z existujúcej zaúčtovanej hlavnej knihy. Používa rovnaké vylúčenie účtov dane
+ako natívny riadok 100. Výnosy mínus náklady sa musia rovnať riadku 100.
+Pri overených importovaných účtovných údajoch možno výslovne zadať obe sumy
+a uchovať zdrojové podklady. Sú to podklady formulára, nevzniká ďalšia kniha.
+
+Tabuľka L začína výnosmi F. Každá úprava má sumu so znamienkom, popis,
+súvisiaci trojmiestny riadok priznania a podklady zatriedenia. Čistá úprava
+priradená riadku nesmie prekročiť jeho sumu. **Preniesť overené príjmy
+tabuľky L** zapíše súčet do existujúceho ručného riadka 560 a prepočíta
+priznanie. Zmenené údaje treba znovu preniesť pred PDF či zaúčtovaním dane
+používajúcim tieto údaje. Aj bez úprav sa vytlačia L1 a L99. Pôvodný vzor má
+26 polí označených 2–21 a 23–28, pričom preskakuje 22. Zachováva sa: označené
+pokračovanie doplní chýbajúci riadok 22 a potom 29–98 s číslovaním príloh.
+Nad 97 úprav treba skontrolovať kapacitu publikovaného formulára;
+žiadna zadaná položka sa potichu nevynechá.
+
+V tejto publikovanej verzii sa riadok 1110 predvolene vypočíta z riadka 500
+krát sadzba riadka 550 mínus riadok 610, pred odpočtami 501–503. Výslovné
+ručné úpravy účtovníka zostávajú dostupné. Iba pri overenej historickej úľave
+podľa § 35/35a zákona č. 366/1999 sa použije osobitný príznak s podkladmi,
+kladným riadkom 610 a nulovým riadkom 1110; tlačené pole sa vtedy nevyplní.
+Príznak sám neurčuje zákonnú oprávnenosť.
+
+Tabuľka K má súvislé obdĺžniky pre celé eurá. Sumy a súčty nad štyri číslice sa zarovnajú doprava bežným písmom, ak sa zmestia do skutočného poľa. Centy zostávajú v samostatných okienkach; suma širšia než fyzické pole sa odmietne bez orezania.

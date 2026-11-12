@@ -29,26 +29,27 @@ class TestSkDppo(AccountTestInvoicingCommon):
         ret.action_compute_lines()
         return ret
 
-    def test_a_period_without_a_published_vzor_says_so(self):
-        """FS SR has not published a DPPO vzor for 2026 (dppo2026.xsd is a
-        404 on ekr.financnasprava.sk as of 27. 10. 2026). The module must not
-        invent one, and must say why the return cannot be created instead of
-        leaving an empty dropdown and a required-field error."""
+    def test_a_period_without_an_installed_vzor_says_so(self):
+        """The published2026 paper form must not hide missing older periods.
+
+        A404 from a guessed schema filename is not publication evidence.
+        Use an actually uncovered period to exercise the generic warning.
+        """
         Return = self.env["cssk.income.tax.return"]
         self.assertFalse(
             self.env["cssk.income.tax.version"].search([
                 ("country_id.code", "=", "SK"),
-                ("valid_from", "<=", "2026-12-31"),
+                ("valid_from", "<=", "2012-12-31"),
                 "|", ("valid_to", "=", False),
-                ("valid_to", ">=", "2026-01-01")]),
-            "premise: no 2026 vzor is shipped")
+                ("valid_to", ">=", "2012-01-01")]),
+            "premise: no2012 vzor is shipped")
         draft = Return.new({"company_id": self.company.id,
-                            "date_from": "2026-01-01",
-                            "date_to": "2026-12-31"})
+                            "date_from": "2012-01-01",
+                            "date_to": "2012-12-31"})
         result = draft._onchange_period_version()
         self.assertTrue(result and result.get("warning"),
-                        "a 2026 period must warn that no vzor covers it")
-        self.assertIn("2026-01-01", result["warning"]["message"])
+                        "an uncovered period must warn that no vzor covers it")
+        self.assertIn("2012-01-01", result["warning"]["message"])
         covered = Return.new({"company_id": self.company.id,
                               "date_from": "2025-01-01",
                               "date_to": "2025-12-31"})
@@ -775,11 +776,14 @@ class TestDerivedCodesHook(TransactionCase):
                 % (version.name, sorted(derived - codes)))
 
     def test_the_hook_matches_the_spine_declaration(self):
-        from odoo.addons.l10n_sk_dppo.models.cssk_income_tax import _SPINE_ROWS
+        from odoo.addons.l10n_sk_dppo.models.cssk_income_tax import (
+            _SPINE_ROWS, _SPINE_ROWS_2026)
         for version in self._sk_versions():
             codes = set(version.line_def_ids.mapped("code"))
+            spine = (_SPINE_ROWS_2026 if version.l10n_sk_dppo_layout == "2026"
+                     else _SPINE_ROWS)
             self.assertEqual(
-                version._cssk_derived_codes(), codes & set(_SPINE_ROWS),
+                version._cssk_derived_codes(), codes & set(spine),
                 "%s: the hook and the spine's declaration disagree"
                 % version.name)
 
@@ -835,7 +839,10 @@ class TestLoadBearingRowsAreLabelled(TransactionCase):
 
     # Where a row number was reused between the daňová licencia and the
     # minimálna daň eras. Nothing here may be assumed from another vzor.
-    VOLATILE = ("r800", "r810", "r820", "r830", "r900")
+    # MF014309/2026 inserted sports306 and §17k310; vehicle/CFC inputs
+    # shifted307–309 and the former subtotal310 became315.
+    VOLATILE = ("r306", "r307", "r308", "r309", "r310",
+                "r800", "r810", "r820", "r830", "r900")
 
     def _versions(self):
         versions = self.env["cssk.income.tax.version"].search(

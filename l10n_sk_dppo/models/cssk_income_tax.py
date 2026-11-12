@@ -21,7 +21,9 @@ amendment's r1050/r400/… are its restated totals — no snapshot needed, unlik
 import re
 from datetime import date
 
-from odoo import _, fields, models
+from dateutil.relativedelta import relativedelta
+
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_cssk_core.tools import split_street, statutory_round
@@ -50,11 +52,24 @@ _SPINE_ROWS = frozenset({
     "r1050", "r1080", "r1100", "r1101",
 })
 
+_SPINE_ROWS_2026 = (_SPINE_ROWS - {"r310"}) | {
+    "r315", "r910", "r1000", "r1040", "r1110",
+}
+
 
 class CSSKIncomeTaxVersion(models.Model):
     """The SK layer's answer to "which rows does this engine derive?"."""
 
     _inherit = "cssk.income.tax.version"
+
+    l10n_sk_dppo_layout = fields.Selection(
+        [("legacy", "Earlier published layout"),
+         ("2026", "MF/014309/2026-721")], string="DPPO form layout",
+        default="legacy", required=True)
+    l10n_sk_dppo_publication = fields.Selection(
+        [("xml", "Published XML schema"),
+         ("paper", "Published form; XML schema pending")],
+        string="DPPO form publication", default="xml", required=True)
 
     def _cssk_derived_codes(self):
         """The tax spine's write-set, intersected with what the vzor defines.
@@ -67,12 +82,104 @@ class CSSKIncomeTaxVersion(models.Model):
         self.ensure_one()
         if (self.country_id.code or "").upper() != "SK":
             return super()._cssk_derived_codes()
-        return {code for code in self.line_def_ids.mapped("code")
-                if code in _SPINE_ROWS}
+        # Row310 is a NEW accountant input (§17k); the subtotal moved315.
+        spine = (_SPINE_ROWS_2026 if self.l10n_sk_dppo_layout == "2026"
+                 else _SPINE_ROWS)
+        return set(self.line_def_ids.mapped("code")) & spine
 
 
 class CSSKIncomeTaxReturn(models.Model):
     _inherit = "cssk.income.tax.return"
+
+    l10n_sk_legacy_advance_relief = fields.Boolean(
+        string="Legacy section 35/35a relief: leave row 1110 blank")
+    l10n_sk_legacy_advance_evidence = fields.Text(string="Legacy advance-tax relief evidence")
+
+    def _l10n_sk_check_advance_relief(self):
+        self.ensure_one()
+        if self.l10n_sk_legacy_advance_relief:
+            relief = self.line_ids.filtered(lambda row: row.code == "r610").value
+            advance = self.line_ids.filtered(lambda row: row.code == "r1110").value
+            if relief <= 0 or advance or not (self.l10n_sk_legacy_advance_evidence or "").strip():
+                raise UserError(_("Review the legacy section 35/35a relief, its evidence and the blank row 1110."))
+
+    l10n_sk_dppo_filing_deadline = fields.Date(
+        string="Applicable legal filing deadline",
+        help="The legal deadline including an effective extension, when it "
+             "differs from the ordinary three-calendar-month deadline. "
+             "This is not the actual filing date.")
+    l10n_sk_dppo_applicable_version_ids = fields.Many2many(
+        "cssk.income.tax.version", string="Applicable DPPO form versions",
+        compute="_compute_sk_applicable_versions")
+    version_id = fields.Many2one(
+        domain="[('id', 'in', l10n_sk_dppo_applicable_version_ids)]")
+
+    def _l10n_sk_dppo_requires_2026_form(self):
+        """MF014310 uses the legal DEADLINE, independently of period start.
+
+        For the ordinary return, the end of the third calendar month is
+        sufficient to decide this2026-12-31 cutoff (a working Thursday).
+        An effective extension is an explicit stored taxpayer fact. The
+        actual day of filing must never replace that legal deadline.
+        """
+        self.ensure_one()
+        if not self.date_to:
+            return False
+        deadline = self.l10n_sk_dppo_filing_deadline or (
+            self.date_to + relativedelta(months=3, day=31))
+        return deadline > date(2026, 12, 31)
+
+    @api.depends("company_id", "date_from", "date_to", "l10n_sk_dppo_filing_deadline")
+    def _compute_sk_applicable_versions(self):
+        Version = self.env["cssk.income.tax.version"].with_context(active_test=False)
+        for ret in self:
+            country = ret.company_id.account_fiscal_country_id
+            domain = [("country_id", "=", country.id)]
+            if not (ret.date_from and ret.date_to and country):
+                ret.l10n_sk_dppo_applicable_version_ids = False
+                continue
+            if country.code == "SK" and ret._l10n_sk_dppo_requires_2026_form():
+                # The new form's ordinary-period valid_from is not a second
+                # legal condition on the announcement's deadline criterion.
+                domain += [("l10n_sk_dppo_layout", "=", "2026")]
+            else:
+                domain += [("valid_from", "<=", ret.date_to),
+                           "|", ("valid_to", "=", False),
+                           ("valid_to", ">=", ret.date_from)]
+                if country.code == "SK":
+                    domain += [("l10n_sk_dppo_layout", "!=", "2026")]
+            ret.l10n_sk_dppo_applicable_version_ids = Version.search(domain)
+
+    def _l10n_sk_dppo_check_form_applicability(self):
+        """Shared by the paper adapter and XML eligibility checks."""
+        for ret in self:
+            if (ret.country_id.code or "").upper() != "SK":
+                continue
+            new_form = ret.version_id.l10n_sk_dppo_layout == "2026"
+            if ret._l10n_sk_dppo_requires_2026_form() != new_form:
+                raise UserError(_(
+                    "The selected DPPO form does not cover the applicable "
+                    "legal filing deadline. Select the published form for "
+                    "that deadline, including any effective extension."))
+        return True
+
+    def _cssk_preflight_export(self):
+        self._l10n_sk_dppo_check_form_applicability()
+        for ret in self:
+            version = ret.version_id
+            if ((ret.country_id.code or "").upper() == "SK"
+                    and version.l10n_sk_dppo_layout != "2026"
+                    and (ret.date_to < version.valid_from
+                         or (version.valid_to and ret.date_from > version.valid_to))):
+                raise UserError(_(
+                    "The selected DPPO form does not cover this tax period. "
+                    "Select its applicable published version before XML export."))
+            if ret.version_id.l10n_sk_dppo_publication == "paper":
+                raise UserError(_(
+                    "The published DPPO form can be calculated, but its "
+                    "official XML schema is not installed. Install the "
+                    "published electronic version before XML export."))
+        return super()._cssk_preflight_export()
 
     # Codes the spine writes — present in every official DPPO form version.
     # Guard marker: a version missing any of them is NOT the DPPO form (a
@@ -440,6 +547,8 @@ class CSSKIncomeTaxReturn(models.Model):
 
     def _compute_tax_spine(self):
         self.ensure_one()
+        if self.version_id.l10n_sk_dppo_layout == "2026":
+            return self._compute_tax_spine_2026()
         by = {line.code: line for line in self.line_ids}
 
         def g(code):
@@ -546,6 +655,75 @@ class CSSKIncomeTaxReturn(models.Model):
         settle = statutory_round(r1080 - g("r1040"), 2)
         put("r1100", settle if settle > 5.0 else 0.0)
         put("r1101", settle if settle < 0.0 else 0.0)
+
+    def _compute_tax_spine_2026(self):
+        """Published MF/014309/2026-721, pages2–5 and its official guidance.
+
+        The input row310 now means §17k, while the subtotal moved315 and
+        the sports input306 shifted the vehicle/CFC rows. Reusing the older
+        spine would overwrite a real adjustment. Read every effective row
+        after writing it: reviewed exemptions and other accountant overrides
+        must flow to downstream rows, including the bookable tax1050.
+        """
+        self.ensure_one()
+        by = {line.code: line for line in self.line_ids}
+
+        def g(code):
+            return by[code].value if code in by else 0.0
+
+        def put(code, amount):
+            if code not in _SPINE_ROWS_2026:
+                raise ValueError("Undeclared published2026 DPPO derived row: %s" % code)
+            line = by[code]
+            if not line.is_overridden:
+                line.value = statutory_round(amount, 2)
+            return line.value
+
+        put("r200", sum(g(code) for code in
+                        ("r110", "r130", "r140", "r150", "r170", "r180")))
+        put("r300", sum(g("r%s" % code) for code in range(210, 300, 10)))
+        put("r301", g("r100") + g("r200") - g("r300"))
+        put("r315", sum(g("r%s" % code) for code in range(301, 308))
+            - g("r308") + g("r309") + g("r310"))
+        put("r400", g("r315") - g("r320") - g("r330"))
+        put("r500", max(0.0, g("r400") - g("r410")))
+        put("r510", max(0.0, g("r500") - g("r501") - g("r502") - g("r503")))
+        put("r550", self._dppo_rate(g("r560")))
+        put("r600", max(0.0, g("r510")) * g("r550") / 100.0)
+        put("r700", max(0.0, g("r600") - g("r610")))
+        put("r800", max(0.0, g("r700") - g("r710")))
+        # A zero turnover does not itself exempt an ordinary taxpayer.
+        # §46b(7) exemptions/halving remain explicit reviewed row810 inputs.
+        minimum = self._dppo_band_value(
+            self._dppo_version_bands("min_tax_bands", _("§ 46b minimum-tax bands")),
+            g("r560"))
+        # §46b(2)(e) applies to periods STARTING from1.1.2026. A fiscal
+        # period2025/26 may use the new form, but retains the older ceiling.
+        if self.date_from < date(2026, 1, 1):
+            minimum = min(minimum, 3840.0)
+        put("r810", minimum * self._period_months() / 12.0)
+        put("r820", g("r810") if g("r810") > g("r800") else 0.0)
+        put("r830", max(0.0, g("r810") - g("r800")))
+        put("r900", g("r820"))
+        put("r910", max(0.0, g("r800") - g("r810")))
+        if g("r920") < 0 or statutory_round(g("r920") - g("r910"), 2) > 0:
+            raise UserError(_(
+                "The reviewed prior minimum-tax credit (row920) must be "
+                "nonnegative and cannot exceed row910. Review Table K."))
+        put("r1000", max(0.0, g("r800") - g("r920")) if g("r920") else 0.0)
+        put("r1050", g("r1000") if g("r1000") > 0 else
+            (g("r900") if g("r810") > g("r800") else g("r800")))
+        put("r1040", g("r1010") + g("r1020") + g("r1030"))
+        put("r1080", sum(g(code) for code in
+                         ("r1050", "r1060", "r1070", "r1071", "r1072")))
+        settlement = statutory_round(g("r1080") - g("r1090") - g("r1040"), 2)
+        put("r1100", settlement if settlement > 5 else 0.0)
+        put("r1101", min(0.0, settlement))
+        # Published guidance, page12: use r500 BEFORE deductions501-503,
+        # subtract610, irrespective of minimum tax or withholding credits.
+        put("r1110", 0 if self.l10n_sk_legacy_advance_relief else
+            g("r500") * g("r550") / 100.0 - g("r610"))
+        self._l10n_sk_check_advance_relief()
 
     def _fill_dodatocne_differences(self):
         """Fill the 'posledná známa' rows from the previous return and the

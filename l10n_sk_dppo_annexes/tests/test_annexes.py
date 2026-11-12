@@ -9,6 +9,57 @@ from odoo.addons.l10n_sk_dppo.tests.test_dppo_tables import TestDppoTables, Test
 
 @tagged('post_install', '-at_install')
 class TestDppoAnnexes(TestDppoTables):
+    def paper_workpaper(self):
+        rec = self.workpaper('2026', 2027)
+        person = self.env['res.partner'].create({'name': 'Jana Skúšobná',
+            'company_id': self.company.id, 'street': 'Test 1', 'city': 'Bratislava',
+            'zip': '81101', 'country_id': self.env.ref('base.sk').id})
+        rec.write({'l10n_sk_form_legal_code': '112', 'l10n_sk_form_nace': '62010',
+            'l10n_sk_form_prepared_on': '2028-03-01',
+            'l10n_sk_form_minimum_exemption': True, 'l10n_sk_form_micro_taxpayer': True,
+            'l10n_sk_form_person_id': person.id, 'l10n_sk_form_person_first': 'Jana',
+            'l10n_sk_form_person_last': 'Skúšobná',
+            'l10n_sk_form_person_relationship': 'štatutárny orgán'})
+        self._set(rec, r810=0, r1110=100)
+        return rec
+
+    def test_paper_pdf_requires_current_existing_table_a_workpaper(self):
+        rec = self.paper_workpaper()
+        first = rec.action_export_official_pdf()
+        rec.l10n_sk_annex_a_ids.amount = 1500
+        with self.assertRaisesRegex(UserError, 'Recompute the changed Table A'):
+            rec.action_export_official_pdf()
+        rec.action_compute_lines()
+        self._set(rec, r1110=150)
+        self.assertEqual(self._v(rec, 'r130'), 1500)
+        self.assertNotEqual(rec.action_export_official_pdf(), first)
+        self.assertFalse(rec.xml_attachment_id)
+
+    def test_provision_requires_current_existing_table_a_workpaper(self):
+        rec = self.paper_workpaper()
+        rec.l10n_sk_annex_a_ids.amount = 1500
+        with self.assertRaisesRegex(UserError, 'Recompute the changed Table A'):
+            rec.action_post_provision()
+        self.assertFalse(rec.provision_move_id)
+
+    def test_multireturn_create_normalizes_before_parent_epochs(self):
+        first, second = self.workpaper(), self.workpaper()
+        parents = first | second
+        parents.flush_recordset(['write_date'])
+        before = {parent.id: parent.write_date for parent in parents}
+        Line = self.env['l10n.sk.dppo.annex.a.line']
+        values = [{'return_id': parent.id, 'row_code': 'a06', 'amount': 1,
+                   'evidence': 'Synthetic atomic batch'} for parent in (second, first)]
+        bad = [dict(value) for value in values]
+        bad[1]['currency_id'] = self.env.ref('base.USD').id
+        count = len(parents.l10n_sk_annex_a_ids)
+        with self.assertRaisesRegex(UserError, 'DPPO currency'):
+            Line.create(bad)
+        parents.invalidate_recordset(['write_date'])
+        self.assertEqual({parent.id: parent.write_date for parent in parents}, before)
+        self.assertEqual(len(parents.l10n_sk_annex_a_ids), count)
+        self.assertEqual(len(Line.create(values)), 2)
+
     def workpaper(self, suffix='2025', year=2025):
         rec = self._return(suffix, year)
         rec.write({'l10n_sk_annexes_enabled': True, 'l10n_sk_annexes_reviewed': True,

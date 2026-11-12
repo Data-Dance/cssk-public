@@ -8,6 +8,62 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- Print Table K whole-euro amounts in its continuous rectangles rather than
+  imposing an artificial four-digit cell limit. Preserve the original cent
+  cells, normal font size and strict checks against actual field width.
+
+- Select the published form by its applicable legal filing deadline, including
+  a recorded effective extension. Fiscal-period overlap alone cannot authorize
+  the obsolete2025 wire. The paper adapter shares this applicability check;
+  minimum-tax amounts remain keyed on the period start. A late actual filing
+  date does not change the form's legal deadline.
+
+Added
+~~~~~
+
+- Ordinary double-entry Tables F/L from the existing posted ledger or
+  explicitly reviewed imported source figures. Entered signed revenue
+  adjustments feed native row 560, validate their linked return rows and
+  print every item, with continuation copies where needed. Row 1110 now
+  defaults to the published advance-tax calculation; reviewed historic
+  section 35/35a relief has an explicit evidenced blank-field treatment.
+
+- Entered Table D original losses, native prior-return references, reviewed
+  following-period ordinals, deduction caps and remaining/expired balances.
+  Apply the reviewed total to native row 410, recompute and validate atomically;
+  changed facts also block an inconsistent native tax provision. Print all
+  eight columns and the total on the original pages, plus entered special
+  records. Eligibility remains an accountant fact, not a second tax ledger.
+- Share company-scoped input normalization across I/D. Entire multi-return
+  batches are checked first and lock one sorted parent set in a savepoint,
+  preventing the former opposite-order batch deadlock and partial mutation.
+
+- Native entered Table I transactions and loans, the below-threshold
+  declaration and official PDF mapping. Signed effects remain disclosure
+  facts and never write the tax spine or GL. Original printed rows continue
+  on marked additional pattern pages up to the statutory 99 rows per section.
+  Company-scoped child access, native amendment copy and terminal-state
+  protection apply to the entered facts.
+
+- Unsigned native download on the pinned 21-page MF/014309/2026-721 PDF,
+  with body and Tables A/B, entered identity/declarations, reviewed minimum
+  tax, supplementary discovery date, source hashes and preserved original
+  pages. Saved financial inputs are validated before printing. Other nonzero
+  annex claims explicitly require their matching entered annex adapter.
+  Equal snapshots reuse attachments; historical PDF bytes remain available.
+
+- Published MF/014309/2026-721 form registry and calculation, separate from
+  historical2025: sports306, shifted vehicle/CFC rows, manual17k adjustment310,
+  subtotal315, special tax1072 and the period-sensitive11,520 minimum band.
+  Effective accountant overrides feed subsequent rows and the native tax
+  provision. The published paper form is not confused with a published XML
+  schema: XML export remains explicitly unavailable pending its official
+  electronic adapter. Official source/archive hashes are recorded in
+  ``data/FORM_PUBLICATION.json``.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

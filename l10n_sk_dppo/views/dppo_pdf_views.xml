@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dppo_official_pdf_form" model="ir.ui.view">
+        <field name="name">cssk.income.tax.return.sk.official.pdf</field>
+        <field name="model">cssk.income.tax.return</field>
+        <field name="inherit_id" ref="l10n_cssk_income_tax_base.cssk_income_tax_return_view_form"/>
+        <field name="arch" type="xml">
+            <button name="action_export_xml" position="after">
+                <field name="l10n_sk_form_layout" invisible="1"/>
+                <button name="action_export_official_pdf" type="object"
+                        string="Official form PDF" class="btn-primary"
+                        invisible="l10n_sk_form_layout != '2026' or state not in ('preview', 'exported')"/>
+            </button>
+            <notebook position="inside">
+                <page string="Official form inputs" name="sk_official_form"
+                      invisible="l10n_sk_form_layout != '2026'">
+                    <group>
+                        <group string="Form identity">
+                            <field name="l10n_sk_form_legal_code"/>
+                            <field name="l10n_sk_form_nace"/>
+                            <field name="l10n_sk_form_prepared_on"/>
+                            <field name="l10n_sk_form_discovered_on"/>
+                        </group>
+                        <group string="Authorized person">
+                            <field name="l10n_sk_form_person_id"/>
+                            <field name="l10n_sk_form_person_first"/>
+                            <field name="l10n_sk_form_person_last"/>
+                            <field name="l10n_sk_form_person_relationship"/>
+                            <field name="l10n_sk_form_title_before"/>
+                            <field name="l10n_sk_form_title_after"/>
+                        </group>
+                    </group>
+                    <group string="Declarations">
+                        <group>
+                            <field name="l10n_sk_form_currency_start"/>
+                            <field name="l10n_sk_form_currency_end"/>
+                            <field name="l10n_sk_form_nonresident"/>
+                            <field name="l10n_sk_form_controlled_transactions"/>
+                            <field name="l10n_sk_form_patent_exemption"/>
+                        </group>
+                        <group>
+                            <field name="l10n_sk_form_micro_taxpayer"/>
+                            <field name="l10n_sk_form_half_minimum"/>
+                            <field name="l10n_sk_form_minimum_exemption"/>
+                            <field name="l10n_sk_form_minimum_credit"/>
+                            <field name="l10n_sk_legacy_advance_relief"/>
+                            <field name="l10n_sk_legacy_advance_evidence"
+                                   invisible="not l10n_sk_legacy_advance_relief"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

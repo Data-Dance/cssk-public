@@ -2,7 +2,8 @@
     "name": "SK Corporate Income Tax Return (DPPO)",
     "summary": "Slovak DPPO return on the income-tax framework: full r-line set "
                "+ header mapping + XSD-validated XML export against the official "
-               "dppo2025 schema.",
+               "published historical schema; the published 2026 form has "
+               "a separate calculation registry pending its XML adapter.",
     "description": """
 SK Corporate Income Tax Return (DPPO)
 =====================================
@@ -26,11 +27,19 @@ being automated.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.5.0",
+    "version": "19.0.1.11.1",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_income_tax_base", "l10n_sk", "l10n_sk_base"],
     "data": [
+        "security/ir.model.access.csv",
+        "security/dppo_form_rules.xml",
+        "views/dppo_applicability_views.xml",
+        "views/dppo_pdf_views.xml",
+        "views/dppo_table_i_views.xml",
+        "views/dppo_table_d_views.xml",
+        "views/dppo_table_fl_views.xml",
+        "views/dppo_table_ek_views.xml",
         "report/dppo2013_report.xml",
         "report/dppo2014_report.xml",
         "report/dppo2015_report.xml",
@@ -42,6 +51,7 @@ being automated.
         "report/dppo2022_report.xml",
         "report/dppo2024_report.xml",
         "report/dppo_report.xml",
+        "report/dppo2026_pending_report.xml",
         "data/dppo_version_2013_data.xml",
         "data/dppo_version_2014_data.xml",
         "data/dppo_version_2015_data.xml",
@@ -53,6 +63,7 @@ being automated.
         "data/dppo_version_2022_data.xml",
         "data/dppo_version_2024_data.xml",
         "data/dppo_version_data.xml",
+        "data/dppo_version_2026_data.xml",
     ],
     "installable": True,
 }
