@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_eet2_certificate_list" model="ir.ui.view">
+        <field name="name">l10n.cz.eet2.certificate.list</field>
+        <field name="model">l10n.cz.eet2.certificate</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="subject_cn"/>
+                <field name="environment"/>
+                <field name="valid_from"/>
+                <field name="valid_to"/>
+                <field name="renewal_state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_eet2_certificate_form" model="ir.ui.view">
+        <field name="name">l10n.cz.eet2.certificate.form</field>
+        <field name="model">l10n.cz.eet2.certificate</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_test_verification" type="object"
+                            string="Test certificate" class="btn-primary"
+                            groups="l10n_cz_eet2.group_eet2_manager"
+                            help="Send a verification-mode message (overeni=true) signed with this certificate. The gateway checks it and answers without recording a sale."/>
+                    <button name="action_renew" type="object"
+                            string="Renew with CA EET" class="btn-secondary"
+                            groups="l10n_cz_eet2.group_eet2_manager"
+                            invisible="renewal_state == 'switched' or not valid_to"
+                            help="Ask CA EET 2.0 for a follow-up certificate signed with this one, download it, verify it against the gateway and switch the company to it. Pushes a cycle in progress one step further."/>
+                    <field name="renewal_state" widget="statusbar"
+                        statusbar_visible="none,requested,issued,claimed,verified,switched"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="environment"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="subject_cn" readonly="1"/>
+                            <field name="valid_from" readonly="1"/>
+                            <field name="valid_to" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="PKCS#12">
+                        <field name="p12_file" filename="p12_filename"/>
+                        <field name="p12_filename" invisible="1"/>
+                        <field name="password" password="True"/>
+                    </group>
+                    <group string="Renewal (CA EET 2.0)" name="renewal"
+                        invisible="renewal_state == 'none' and not renews_id">
+                        <group>
+                            <field name="renewal_req_id"/>
+                            <field name="renewal_last_check"/>
+                            <field name="renewal_next_check"/>
+                        </group>
+                        <group>
+                            <field name="renewed_by_id" invisible="not renewed_by_id"/>
+                            <field name="renews_id" invisible="not renews_id"/>
+                            <field name="renewal_error" invisible="not renewal_error"/>
+                        </group>
+                    </group>
+                </sheet>
+                <!-- 17.0: <chatter/> arrived in 18.0. -->
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_eet2_certificate" model="ir.actions.act_window">
+        <field name="name">EET 2.0 Certificates</field>
+        <field name="res_model">l10n.cz.eet2.certificate</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

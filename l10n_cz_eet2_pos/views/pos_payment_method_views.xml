@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_payment_method_view_form_eet2" model="ir.ui.view">
+        <field name="name">pos.payment.method.form.eet2</field>
+        <field name="model">pos.payment.method</field>
+        <field name="inherit_id" ref="point_of_sale.pos_payment_method_view_form"/>
+        <field name="arch" type="xml">
+            <!-- config_ids is not in the pos.payment.method *form* on 17.0/18.0
+                 (only in the list view). Anchor on journal_id, present in the form. -->
+            <field name="journal_id" position="after">
+                <field name="l10n_cz_eet2_contact_payment"/>
+            </field>
+        </field>
+    </record>
+</odoo>

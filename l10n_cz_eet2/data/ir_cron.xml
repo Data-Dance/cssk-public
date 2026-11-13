@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ir_cron_eet2_send_pending" model="ir.cron">
+        <field name="name">EET 2.0: Send pending messages</field>
+        <field name="model_id" ref="model_l10n_cz_eet2_transaction"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send_pending()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">2</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="ir_cron_eet2_certificate_expiry" model="ir.cron">
+        <field name="name">EET 2.0: Warn about expiring certificates</field>
+        <field name="model_id" ref="model_l10n_cz_eet2_certificate"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_check_expiry()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+    <record id="ir_cron_eet2_certificate_renewal" model="ir.cron">
+        <field name="name">EET 2.0: Renew certificates with CA EET</field>
+        <field name="model_id" ref="model_l10n_cz_eet2_certificate"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_renew_certificates()</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

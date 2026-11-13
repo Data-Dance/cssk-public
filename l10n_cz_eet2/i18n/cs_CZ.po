@@ -1,0 +1,1401 @@
+# Czech translation of the l10n_cz_eet2 module.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_eet2
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-31 08:49+0000\n"
+"PO-Revision-Date: 2026-07-03 20:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: Czech\n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=4; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : (n%1!"
+"=0 ) ? 2 : 3;\n"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/res_company.py:0
+msgid ""
+"%(label)s %(value)s is not a valid EET 2.0 evidence-unit number: DIS+ "
+"assigns numbers of 2 to 9 digits ending in 1, 2, 3 or 4."
+msgstr ""
+"%(label)s %(value)s není platné označení evidenční jednotky EET 2.0: DIS+ "
+"přiděluje čísla o 2 až 9 číslicích končící na 1, 2, 3 nebo 4."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "%(name)s · renewed %(date)s"
+msgstr "%(name)s · obnoven %(date)s"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_transaction__state__accepted
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_search
+msgid "Accepted"
+msgstr "Přijato"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_transaction.py:0
+msgid "Accepted by the EET 2.0 gateway."
+msgstr "Přijato systémem EET 2.0."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_needaction
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_needaction
+msgid "Action Needed"
+msgstr "Vyžaduje akci"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__active
+msgid "Active"
+msgstr "Aktivní"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_ids
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_ids
+msgid "Activities"
+msgstr "Aktivity"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_exception_decoration
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorace výjimky aktivity"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_state
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_state
+msgid "Activity State"
+msgstr "Stav aktivity"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_type_icon
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikona typu aktivity"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_company__l10n_cz_eet2_max_attempts
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_max_attempts
+msgid ""
+"After this many failed send attempts the scheduled job logs a warning. It "
+"never stops retrying: § 20 ZoET keeps the duty to send alive until the "
+"message is accepted."
+msgstr ""
+"Po tomto počtu neúspěšných pokusů o odeslání zapíše plánovaná akce varování "
+"do logu. Odesílání nikdy nekončí: podle § 20 ZoET povinnost zaslat údaje "
+"trvá, dokud není zpráva přijata."
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_certificate_form
+msgid ""
+"Ask CA EET 2.0 for a follow-up certificate signed with this one, download "
+"it, verify it against the gateway and switch the company to it. Pushes a "
+"cycle in progress one step further."
+msgstr ""
+"Požádá CA EET 2.0 o následný certifikát podepsaný tímto certifikátem, stáhne "
+"ho, ověří proti bráně a přepne na něj společnost. Rozběhnutý cyklus posune o "
+"jeden krok dál."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_attachment_count
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_attachment_count
+msgid "Attachment Count"
+msgstr "Počet příloh"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__attempt_count
+msgid "Attempts"
+msgstr "Pokusy"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__eic_poverujiciho
+msgid "Authorizing taxpayer EIC"
+msgstr "EIC pověřujícího poplatníka"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewal_req_id
+msgid "CA request id"
+msgstr "Id žádosti u CA"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__certificate_id
+msgid "Certificate"
+msgstr "Certifikát"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid ""
+"Certificate %(name)s (%(env)s) is valid until %(to)s. Generate a new "
+"pokladní certifikát in DIS+, upload it here or as a new record, test it and "
+"select it in the EET 2.0 settings."
+msgstr ""
+"Certifikát %(name)s (%(env)s) platí do %(to)s. Vygenerujte v DIS+ nový "
+"pokladní certifikát, nahrajte jej sem nebo jako nový záznam, otestujte jej a "
+"vyberte v nastavení EET 2.0."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid ""
+"Certificate %s has expired; the CA renews only a valid certificate. Generate "
+"a new one in DIS+ and upload it."
+msgstr ""
+"Certifikát %s vypršel; CA obnovuje jen platný certifikát. Vygenerujte nový v "
+"DIS+ a nahrajte ho."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Certificate OK"
+msgstr "Certifikát v pořádku"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Certificate test failed"
+msgstr "Test certifikátu selhal"
+
+#. module: l10n_cz_eet2
+#: model:ir.ui.menu,name:l10n_cz_eet2.menu_eet2_certificates
+msgid "Certificates"
+msgstr "Certifikáty"
+
+#. module: l10n_cz_eet2
+#: model:ir.model,name:l10n_cz_eet2.model_res_company
+msgid "Companies"
+msgstr "Společnosti"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__company_id
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__company_id
+msgid "Company"
+msgstr "Společnost"
+
+#. module: l10n_cz_eet2
+#: model:ir.model,name:l10n_cz_eet2.model_res_config_settings
+msgid "Config Settings"
+msgstr "Nastavení konfigurace"
+
+#. module: l10n_cz_eet2
+#: model:ir.ui.menu,name:l10n_cz_eet2.menu_eet2_config
+msgid "Configuration"
+msgstr "Konfigurace"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Could not load the PKCS#12 certificate %(name)s: %(err)s"
+msgstr "Nepodařilo se načíst certifikát PKCS#12 %(name)s: %(err)s"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__create_uid
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__create_uid
+msgid "Created by"
+msgstr "Vytvořeno uživatelem"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__create_date
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__create_date
+msgid "Created on"
+msgstr "Vytvořeno dne"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__currency_id
+msgid "Currency"
+msgstr "Měna"
+
+#. module: l10n_cz_eet2
+#: model:ir.module.category,name:l10n_cz_eet2.module_category_l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_account_journal_form_eet2
+msgid "Czech EET 2.0"
+msgstr "Elektronická evidence tržeb 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__display_name
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid ""
+"Download acknowledged to CA EET 2.0; %s is now the company's certificate."
+msgstr "Stažení potvrzeno CA EET 2.0; certifikátem společnosti je nyní %s."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__renewal_state__claimed
+msgid "Downloaded"
+msgstr "Staženo"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_transaction__state__draft
+msgid "Draft"
+msgstr "Koncept"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__cerp_zuct
+msgid "Drawn/settled"
+msgstr "Čerpáno/zúčtováno"
+
+#. module: l10n_cz_eet2
+#: model:ir.ui.menu,name:l10n_cz_eet2.menu_eet2_root
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_account_payment_form_eet2
+msgid "EET 2.0"
+msgstr "EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_payment__l10n_cz_eet2_needed
+msgid "EET 2.0 Applicable"
+msgstr "Podléhá EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_payment__l10n_cz_eet2_available
+msgid "EET 2.0 Available"
+msgstr "EET 2.0 dostupné"
+
+#. module: l10n_cz_eet2
+#: model:ir.model,name:l10n_cz_eet2.model_l10n_cz_eet2_certificate
+msgid "EET 2.0 Cash-register Certificate (pokladní certifikát)"
+msgstr "Pokladní certifikát EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_company__l10n_cz_eet2_certificate_id
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_certificate_id
+msgid "EET 2.0 Certificate"
+msgstr "Certifikát EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.actions.act_window,name:l10n_cz_eet2.action_eet2_certificate
+msgid "EET 2.0 Certificates"
+msgstr "Certifikáty EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_payment__l10n_cz_eet2_contact
+msgid "EET 2.0 Contact Payment"
+msgstr "Kontaktní platba EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_journal__l10n_cz_eet2_contact
+msgid "EET 2.0 Contact Payments"
+msgstr "Kontaktní platby EET 2.0"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/res_company.py:0
+msgid "EET 2.0 Default Unit ID"
+msgstr "Výchozí označení evidenční jednotky EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_company__l10n_cz_eet2_id_jednotky
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_id_jednotky
+msgid "EET 2.0 Default Unit ID (id_jednotky)"
+msgstr "Výchozí ID jednotky EET 2.0 (id_jednotky)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_company__l10n_cz_eet2_enabled
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_enabled
+msgid "EET 2.0 Enabled"
+msgstr "EET 2.0 povoleno"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_company__l10n_cz_eet2_environment
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_environment
+msgid "EET 2.0 Environment"
+msgstr "Prostředí EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:res.groups,name:l10n_cz_eet2.group_eet2_manager
+msgid "EET 2.0 Manager"
+msgstr "Správce EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_payment__l10n_cz_eet2_transaction_id
+msgid "EET 2.0 Message"
+msgstr "Zpráva EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_payment__l10n_cz_eet2_transaction_count
+msgid "EET 2.0 Message Count"
+msgstr "Počet zpráv EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.actions.act_window,name:l10n_cz_eet2.action_eet2_transaction
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_payment__l10n_cz_eet2_transaction_ids
+msgid "EET 2.0 Messages"
+msgstr "Zprávy EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_payment__l10n_cz_eet2_pok
+msgid "EET 2.0 POK"
+msgstr "POK EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_journal__l10n_cz_eet2_id_pokl
+msgid "EET 2.0 PoS ID (id_pokl)"
+msgstr "ID pokladny EET 2.0 (id_pokl)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model,name:l10n_cz_eet2.model_l10n_cz_eet2_transaction
+msgid "EET 2.0 Registered-sale Data Message"
+msgstr "Datová zpráva evidované tržby EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_company__l10n_cz_eet2_renew_days_before
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_renew_days_before
+msgid "EET 2.0 Renew Certificate (days before expiry)"
+msgstr "EET 2.0 Obnovit certifikát (dní před vypršením)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_company__l10n_cz_eet2_response_timeout
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_response_timeout
+msgid "EET 2.0 Response Time Limit (s)"
+msgstr "Mezní doba odezvy EET 2.0 (s)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_payment__l10n_cz_eet2_state
+msgid "EET 2.0 Status"
+msgstr "Stav EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_company__l10n_cz_eet2_eic_popl
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_eic_popl
+msgid "EET 2.0 Taxpayer EIC"
+msgstr "EIC poplatníka EET 2.0"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/res_company.py:0
+msgid ""
+"EET 2.0 Taxpayer EIC %s must be 'CZ' followed by 8 to 10 digits (the gateway "
+"rejects every message with error 6 otherwise)."
+msgstr ""
+"EIČ poplatníka EET 2.0 %s musí být „CZ“ následované 8 až 10 číslicemi (jinak "
+"systém odmítne každou zprávu chybou 6)."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_account_journal__l10n_cz_eet2_id_jednotky
+msgid "EET 2.0 Unit ID (id_jednotky)"
+msgstr "ID jednotky EET 2.0 (id_jednotky)"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/account_journal.py:0
+msgid "EET 2.0 Unit ID of journal %s"
+msgstr "Označení evidenční jednotky EET 2.0 deníku %s"
+
+#. module: l10n_cz_eet2
+#: model:res.groups,name:l10n_cz_eet2.group_eet2_user
+msgid "EET 2.0 User"
+msgstr "Uživatel EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_company__l10n_cz_eet2_max_attempts
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_max_attempts
+msgid "EET 2.0 Warn After Attempts"
+msgstr "EET 2.0: varovat po počtu pokusů"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "EET 2.0 certificate expires in %s days"
+msgstr "Certifikát EET 2.0 vyprší za %s dní"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "EET 2.0 certificate renewal %s"
+msgstr "Obnova certifikátu EET 2.0 %s"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_transaction.py:0
+msgid "EET 2.0 sale unsent for 48 hours"
+msgstr "Tržba EET 2.0 neodeslána 48 hodin"
+
+#. module: l10n_cz_eet2
+#: model:ir.actions.server,name:l10n_cz_eet2.ir_cron_eet2_certificate_renewal_ir_actions_server
+msgid "EET 2.0: Renew certificates with CA EET"
+msgstr "EET 2.0: Obnova certifikátů u CA EET"
+
+#. module: l10n_cz_eet2
+#: model:ir.actions.server,name:l10n_cz_eet2.ir_cron_eet2_send_pending_ir_actions_server
+msgid "EET 2.0: Send pending messages"
+msgstr "EET 2.0: Odeslat čekající zprávy"
+
+#. module: l10n_cz_eet2
+#: model:ir.actions.server,name:l10n_cz_eet2.ir_cron_eet2_certificate_expiry_ir_actions_server
+msgid "EET 2.0: Warn about expiring certificates"
+msgstr "EET 2.0: Upozornit na končící certifikáty"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.res_config_settings_view_form
+msgid "Electronic Registration of Sales 2.0"
+msgstr "Elektronická evidence tržeb 2.0"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.res_config_settings_view_form
+msgid "Enable EET 2.0"
+msgstr "Povolit EET 2.0"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__environment
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__environment
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_search
+msgid "Environment"
+msgstr "Prostředí"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_transaction__state__error
+msgid "Error"
+msgstr "Chyba"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__chyba_kod
+msgid "Error code"
+msgstr "Kód chyby"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__chyba_text
+msgid "Error message"
+msgstr "Text chyby"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__renewal_state__failed
+msgid "Failed"
+msgstr "Selhala"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__p12_filename
+msgid "Filename"
+msgstr "Název souboru"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__prvni_zaslani
+msgid "First sending"
+msgstr "První zaslání"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Follow-up certificate downloaded as %s."
+msgstr "Následný certifikát stažen jako %s."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_follower_ids
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_follower_ids
+msgid "Followers"
+msgstr "Sledující"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_partner_ids
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Sledující (partneři)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_type_icon
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikona Font Awesome, např. fa-tasks"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__has_message
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__has_message
+msgid "Has Message"
+msgstr "Má zprávu"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__id
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_exception_icon
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_exception_icon
+msgid "Icon"
+msgstr "Ikona"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_exception_icon
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikona označující aktivitu s výjimkou."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_account_journal__l10n_cz_eet2_id_pokl
+msgid ""
+"Identifier sent as id_pokl (<=20 chars) for payments in this journal. Falls "
+"back to the journal code if empty."
+msgstr ""
+"Identifikátor odesílaný jako id_pokl (max. 20 znaků) pro platby v tomto "
+"deníku. Pokud je prázdný, použije se kód deníku."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_needaction
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_has_error
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_has_sms_error
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_has_error
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu doručení."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__overeni
+msgid "If set, the message is only validated; no valid POK is issued."
+msgstr "Pokud je zapnuto, zpráva se pouze ověří; není vydán platný POK."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__urceno_cerp_zuct
+msgid "Intended for drawing/settlement"
+msgstr "Určeno k čerpání/zúčtování"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_is_follower
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_is_follower
+msgid "Is Follower"
+msgstr "Je sledující"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__renewal_state__issued
+msgid "Issued by the CA"
+msgstr "Vydán CA"
+
+#. module: l10n_cz_eet2
+#: model:ir.model,name:l10n_cz_eet2.model_account_journal
+msgid "Journal"
+msgstr "Deník"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewal_last_check
+msgid "Last CA contact"
+msgstr "Poslední kontakt s CA"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__write_uid
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__write_uid
+msgid "Last Updated by"
+msgstr "Naposledy upraveno uživatelem"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__write_date
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__write_date
+msgid "Last Updated on"
+msgstr "Naposledy upraveno dne"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__expiry_warned_days
+msgid "Last expiry warning (days)"
+msgstr "Poslední upozornění na expiraci (dny)"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_form
+msgid "Message"
+msgstr "Zpráva"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_has_error
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_has_error
+msgid "Message Delivery error"
+msgstr "Chyba doručení zprávy"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__uuid_zpravy
+msgid "Message UUID"
+msgstr "UUID zprávy"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_ids
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_ids
+#: model:ir.ui.menu,name:l10n_cz_eet2.menu_eet2_transactions
+msgid "Messages"
+msgstr "Zprávy"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_company__l10n_cz_eet2_response_timeout
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_response_timeout
+msgid ""
+"Mezní doba odezvy (§ 19 ZoET): how long the till waits for the POK before "
+"letting the sale through and leaving the message to the scheduled retry. At "
+"least 2 seconds."
+msgstr ""
+"Mezní doba odezvy (§ 19 ZoET): jak dlouho pokladna čeká na POK, než tržbu "
+"pustí dál a ponechá zprávu plánovanému opakovanému odeslání. Nejméně 2 "
+"sekundy."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__povereni_vice_popl
+msgid "Multi-taxpayer authorization"
+msgstr "Pověření více poplatníků"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__my_activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Termín mé aktivity"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__name
+msgid "Name"
+msgstr "Název"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_date_deadline
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Termín další aktivity"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_summary
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_summary
+msgid "Next Activity Summary"
+msgstr "Shrnutí další aktivity"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_type_id
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_type_id
+msgid "Next Activity Type"
+msgstr "Typ další aktivity"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewal_next_check
+msgid "Next CA contact"
+msgstr "Příští kontakt s CA"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__next_attempt
+msgid "Next attempt"
+msgstr "Další pokus"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "No .p12 file uploaded on certificate %s."
+msgstr "U certifikátu %s není nahraný soubor .p12."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_transaction.py:0
+msgid "No EET 2.0 certificate configured."
+msgstr "Není nastaven žádný certifikát EET 2.0."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__is_test_response
+msgid "Non-production response"
+msgstr "Neprodukční odpověď"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__renewal_state__none
+msgid "Not requested"
+msgstr "Nevyžádána"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_needaction_counter
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Počet akcí"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_has_error_counter
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_has_error_counter
+msgid "Number of errors"
+msgstr "Počet chyb"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_needaction_counter
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Počet zpráv vyžadujících akci"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_has_error_counter
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Počet zpráv s chybou doručení"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__uuid_history
+msgid ""
+"One line per earlier attempt. Every attempt carries a fresh uuid_zpravy, "
+"dat_odesl and prvni_zaslani while the sale data stays identical (item "
+"methodology, ch. 6); the gateway recognises the sale by the data, not by the "
+"UUID."
+msgstr ""
+"Jeden řádek na každý předchozí pokus. Každý pokus nese nové uuid_zpravy, "
+"dat_odesl a prvni_zaslani, zatímco údaje o tržbě zůstávají stejné (metodika "
+"k položkám, kap. 6); systém EET pozná tržbu podle údajů, ne podle UUID."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__source_amount
+msgid "Original amount"
+msgstr "Původní částka"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__source_currency_id
+msgid "Original currency"
+msgstr "Původní měna"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_certificate_form
+msgid "PKCS#12"
+msgstr "PKCS#12"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__p12_file
+msgid "PKCS#12 (.p12)"
+msgstr "PKCS#12 (.p12)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__pok
+msgid "POK (Acknowledgement code)"
+msgstr "POK (potvrzovací kód)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__password
+msgid "Password"
+msgstr "Heslo"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__password
+msgid "Password protecting the .p12 file (shown in the DIS+ app)."
+msgstr "Heslo chránící soubor .p12 (zobrazené v aplikaci DIS+)."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__is_overdue
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_search
+msgid "Past 48 h"
+msgstr "Po 48 h"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__payment_id
+msgid "Payment"
+msgstr "Platba"
+
+#. module: l10n_cz_eet2
+#: model:ir.model,name:l10n_cz_eet2.model_account_payment
+msgid "Payments"
+msgstr "Platby"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_account_journal__l10n_cz_eet2_contact
+msgid ""
+"Payments registered in this journal are, by default, in-person / on-premises "
+"(contact) payments that must be recorded by EET 2.0. Each payment carries "
+"its own flag that starts from this value."
+msgstr ""
+"Platby v tomto deníku jsou ve výchozím stavu kontaktní platby (při osobním "
+"kontaktu / v provozovně), které podléhají evidenci EET 2.0. Každá platba má "
+"vlastní příznak, který z této hodnoty vychází."
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_search
+msgid "Pending"
+msgstr "Čekající"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__environment__playground
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_transaction__environment__playground
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__res_company__l10n_cz_eet2_environment__playground
+msgid "Playground (non-production)"
+msgstr "Playground (neprodukční)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__id_pokl
+msgid "PoS ID"
+msgstr "ID pokladny"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_form
+msgid "Previous attempts"
+msgstr "Předchozí pokusy"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__uuid_history
+msgid "Previous message UUIDs"
+msgstr "UUID předchozích zpráv"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__environment__production
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_transaction__environment__production
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__res_company__l10n_cz_eet2_environment__production
+msgid "Production"
+msgstr "Produkce"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewal_state
+msgid ""
+"Progress of the follow-up certificate requested from CA EET 2.0 with this "
+"one. 'Renewed' means the follow-up certificate was verified against the "
+"gateway, is now the company's certificate, and this one was archived."
+msgstr ""
+"Průběh následného certifikátu vyžádaného od CA EET 2.0 tímto certifikátem. "
+"„Obnoven“ znamená, že následný certifikát byl ověřen proti bráně, je nyní "
+"certifikátem společnosti a tento byl archivován."
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_form
+msgid ""
+"Put the message back in the send queue, e.g. after a new certificate was "
+"installed."
+msgstr ""
+"Vrátit zprávu do fronty k odeslání, např. po instalaci nového certifikátu."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__dat_prij
+msgid "Received at"
+msgstr "Přijato dne"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_account_payment__l10n_cz_eet2_contact
+msgid ""
+"Received in person or on the premises (cash, card, QR scanned at the "
+"counter): recorded by EET 2.0. Defaults from the journal; untick for a "
+"remote payment, tick for a counter payment in a bank journal."
+msgstr ""
+"Přijato při osobním kontaktu nebo v provozovně (hotovost, karta, QR načtený "
+"u pokladny): podléhá evidenci EET 2.0. Výchozí hodnota z deníku; u platby na "
+"dálku odškrtněte, u platby u pokladny v bankovním deníku zaškrtněte."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_account_journal__l10n_cz_eet2_id_jednotky
+msgid ""
+"Registrating-unit id for this journal. Falls back to the company default if "
+"empty."
+msgstr ""
+"ID evidenční jednotky pro tento deník. Pokud je prázdné, použije se výchozí "
+"hodnota společnosti."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_company__l10n_cz_eet2_id_jednotky
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_id_jednotky
+msgid "Registrating-unit id from the MOJE daně / DIS+ portal."
+msgstr "ID evidenční jednotky z portálu MOJE daně / DIS+."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_company__l10n_cz_eet2_eic_popl
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_eic_popl
+msgid ""
+"Registration identification number (EIČ), format CZ + 8-10 digits. § 18 "
+"ZoET: the EIČ is the taxpayer's DIČ, so it is pre-filled from the company "
+"VAT number when that already has the right shape."
+msgstr ""
+"Evidenční identifikační číslo (EIČ), formát CZ + 8–10 číslic. § 18 ZoET: EIČ "
+"je DIČ poplatníka, proto se předvyplní z DIČ společnosti, má-li již správný "
+"tvar."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_transaction__state__rejected
+msgid "Rejected"
+msgstr "Odmítnuto"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__dat_odmit
+msgid "Rejected at"
+msgstr "Odmítnuto dne"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__renewal_state__rejected
+msgid "Rejected by the CA"
+msgstr "Zamítnuta CA"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_search
+msgid "Rejected/Error"
+msgstr "Odmítnuto/Chyba"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_certificate_form
+msgid "Renew with CA EET"
+msgstr "Obnovit u CA EET"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewal_state
+msgid "Renewal"
+msgstr "Obnova"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Renewal %s"
+msgstr "Obnova %s"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_certificate_form
+msgid "Renewal (CA EET 2.0)"
+msgstr "Obnova (CA EET 2.0)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewal_error
+msgid "Renewal error"
+msgstr "Chyba obnovy"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Renewal requested from CA EET 2.0 (request %s)."
+msgstr "Obnova vyžádána od CA EET 2.0 (žádost %s)."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Renewal: %s"
+msgstr "Obnova: %s"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__renewal_state__switched
+msgid "Renewed"
+msgstr "Obnoven"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewed_by_id
+msgid "Renewed by"
+msgstr "Obnoven certifikátem"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renews_id
+msgid "Renews"
+msgstr "Obnovuje"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Request %s"
+msgstr "Žádost %s"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__request_xml
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_form
+msgid "Request XML"
+msgstr "XML požadavku"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__renewal_state__requested
+msgid "Requested"
+msgstr "Vyžádána"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_form
+msgid "Requeue"
+msgstr "Zařadit znovu"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__response_xml
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_form
+msgid "Response XML"
+msgstr "XML odpovědi"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_user_id
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_user_id
+msgid "Responsible User"
+msgstr "Odpovědný uživatel"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_form
+msgid "Result"
+msgstr "Výsledek"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_transaction__state__retry
+msgid "Retry Scheduled"
+msgstr "Naplánováno opakování"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__reversed_by_id
+msgid "Reversed by"
+msgstr "Stornováno zprávou"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__message_has_sms_error
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Chyba doručení SMS"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_transaction.py:0
+msgid ""
+"Sale %(ref)s of %(amount)s CZK made on %(date)s has not been accepted by the "
+"EET 2.0 gateway within 48 hours (§ 20 ZoET). Retries continue hourly; check "
+"the certificate, the network and the last error: %(error)s"
+msgstr ""
+"Tržba %(ref)s ve výši %(amount)s Kč ze dne %(date)s nebyla do 48 hodin "
+"přijata systémem EET 2.0 (§ 20 ZoET). Pokusy pokračují každou hodinu; "
+"zkontrolujte certifikát, připojení a poslední chybu: %(error)s"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_form
+msgid "Sale data (Data)"
+msgstr "Údaje o tržbě (Data)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__dat_trzby
+msgid "Sale date/time"
+msgstr "Datum a čas tržby"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_certificate_form
+msgid ""
+"Send a verification-mode message (overeni=true) signed with this "
+"certificate. The gateway checks it and answers without recording a sale."
+msgstr ""
+"Odeslat zprávu v ověřovacím módu (overeni=true) podepsanou tímto "
+"certifikátem. Systém ji zkontroluje a odpoví, aniž by tržbu zaevidoval."
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_account_payment_form_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_form
+msgid "Send to EET"
+msgstr "Odeslat do EET"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__porad_cis
+msgid "Sequence number"
+msgstr "Pořadové číslo"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__storno_of_id
+msgid "Set on a negative message that reverses this sale (§ 8 ZoET)."
+msgstr "Nastaveno na záporné zprávě, která tuto tržbu stornuje (§ 8 ZoET)."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__state
+msgid "State"
+msgstr "Stav"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "State %(state)s, error %(kod)s: %(text)s"
+msgstr "Stav %(state)s, chyba %(kod)s: %(text)s"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_search
+msgid "Status"
+msgstr "Stav"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_state
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Stav podle aktivit\n"
+"Po termínu: termín již uplynul\n"
+"Dnes: aktivita je naplánována na dnešek\n"
+"Plánováno: budoucí aktivity."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__storno_of_id
+msgid "Storno of"
+msgstr "Storno tržby"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_transaction_search
+msgid "Stornos"
+msgstr "Storna"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__subject_cn
+msgid "Subject CN (EIČ)"
+msgstr "CN subjektu (EIČ)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__eic_popl
+msgid "Taxpayer EIC"
+msgstr "EIC poplatníka"
+
+#. module: l10n_cz_eet2
+#: model_terms:ir.ui.view,arch_db:l10n_cz_eet2.view_eet2_certificate_form
+msgid "Test certificate"
+msgstr "Otestovat certifikát"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid ""
+"The CA did not take the acknowledgement (%s); the new certificate is in use "
+"regardless."
+msgstr ""
+"CA potvrzení stažení nepřijala (%s); nový certifikát je přesto v užívání."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid ""
+"The CA reports the request as finished, but this installation never "
+"downloaded the certificate. Upload the follow-up certificate by hand."
+msgstr ""
+"CA hlásí žádost jako ukončenou, ale tato instalace certifikát nikdy "
+"nestáhla. Nahrajte následný certifikát ručně."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid ""
+"The EET 2.0 gateway (%(env)s) accepted a verification-mode message signed "
+"with %(name)s."
+msgstr ""
+"Systém EET 2.0 (%(env)s) přijal zprávu v ověřovacím módu podepsanou "
+"certifikátem %(name)s."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/res_company.py:0
+msgid ""
+"The EET 2.0 response time limit must be at least %s seconds (§ 19 ZoET)."
+msgstr "Mezní doba odezvy EET 2.0 musí být nejméně %s sekund (§ 19 ZoET)."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid ""
+"The automatic renewal of certificate %(name)s (%(env)s) stopped: %(error)s. "
+"It stays in use until %(to)s; renew it by hand in DIS+ if the problem is not "
+"resolved in time."
+msgstr ""
+"Automatická obnova certifikátu %(name)s (%(env)s) se zastavila: %(error)s. "
+"Zůstává v užívání do %(to)s; pokud se problém včas nevyřeší, obnovte ho "
+"ručně v DIS+."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__payment_id
+msgid "The back-office payment this message registers or reverses."
+msgstr "Platba v účetnictví, kterou tato zpráva eviduje nebo stornuje."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renews_id
+msgid "The certificate this one was issued as a follow-up to."
+msgstr "Certifikát, k němuž byl tento vydán jako následný."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "The downloaded certificate is gone."
+msgstr "Stažený certifikát už neexistuje."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewed_by_id
+msgid "The follow-up certificate downloaded from CA EET 2.0."
+msgstr "Následný certifikát stažený z CA EET 2.0."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__is_overdue
+msgid ""
+"The message was still unsent 48 hours after the sale (§ 20 ZoET). Retries "
+"continue hourly; the duty to send does not lapse."
+msgstr ""
+"Zpráva nebyla odeslána ani 48 hodin po uskutečnění tržby (§ 20 ZoET). Pokusy "
+"pokračují každou hodinu; povinnost zaslat údaje nezaniká."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/res_company.py:0
+msgid ""
+"The number of days before expiry at which EET 2.0 certificates are renewed "
+"cannot be negative (0 disables automatic renewal)."
+msgstr ""
+"Počet dní před vypršením, kdy se certifikáty EET 2.0 obnovují, nemůže být "
+"záporný (0 automatickou obnovu vypíná)."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "The renewal of %s is being handled right now; try again in a moment."
+msgstr "Obnova certifikátu %s právě probíhá; zkuste to za chvíli znovu."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_company__l10n_cz_eet2_renew_days_before
+#: model:ir.model.fields,help:l10n_cz_eet2.field_res_config_settings__l10n_cz_eet2_renew_days_before
+msgid ""
+"The scheduled job asks CA EET 2.0 for a follow-up certificate this many days "
+"before the company's certificate expires, verifies the new one against the "
+"gateway and switches to it. 0 switches automatic renewal off."
+msgstr ""
+"Plánovaná akce požádá CA EET 2.0 o následný certifikát tolik dní před "
+"vypršením certifikátu společnosti, nový ověří proti bráně a přepne na něj. 0 "
+"automatickou obnovu vypíná."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewal_next_check
+msgid ""
+"The scheduled job does not contact the CA about this certificate before this "
+"moment (pollAfterSeconds / Retry-After of the last answer)."
+msgstr ""
+"Plánovaná akce před tímto okamžikem CA kvůli tomuto certifikátu nekontaktuje "
+"(pollAfterSeconds / Retry-After poslední odpovědi)."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__expiry_warned_days
+msgid ""
+"The smallest days-before-expiry threshold already warned about, so each "
+"threshold raises one activity only."
+msgstr ""
+"Nejmenší počet dní do expirace, na který již bylo upozorněno, aby každá "
+"hranice vyvolala jen jednu aktivitu."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__reversed_by_id
+msgid "The storno message that reversed this sale."
+msgstr "Zpráva storna, která tuto tržbu stornovala."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__source_amount
+msgid ""
+"The total in the currency the sale was made in, before the conversion to "
+"CZK. Empty when the sale was already in CZK."
+msgstr ""
+"Celková částka v měně, ve které byla tržba uskutečněna, před přepočtem na "
+"Kč. Prázdné, byla-li tržba již v Kč."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_transaction__state__to_send
+msgid "To Send"
+msgstr "K odeslání"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__celk_trzba
+msgid "Total amount (CZK)"
+msgstr "Celková částka tržby (Kč)"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__activity_exception_decoration
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Typ aktivity s výjimkou na záznamu."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__id_jednotky
+msgid "Unit ID"
+msgstr "ID jednotky"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Unknown request state %s"
+msgstr "Neznámý stav žádosti %s"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__valid_from
+msgid "Valid From"
+msgstr "Platný od"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__valid_to
+msgid "Valid To"
+msgstr "Platný do"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__overeni
+msgid "Verification mode"
+msgstr "Ověřovací režim"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_transaction__state__verified
+msgid "Verified (mode)"
+msgstr "Ověřeno (režim)"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Verified against the EET 2.0 gateway and put in use."
+msgstr "Ověřen proti bráně EET 2.0 a nasazen."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields.selection,name:l10n_cz_eet2.selection__l10n_cz_eet2_certificate__renewal_state__verified
+msgid "Verified, awaiting acknowledgement"
+msgstr "Ověřen, čeká na potvrzení stažení"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__warning_text
+msgid "Warnings"
+msgstr "Varování"
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid "Warnings: %s"
+msgstr "Varování: %s"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_certificate__website_message_ids
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__website_message_ids
+msgid "Website Messages"
+msgstr "Zprávy z webu"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__website_message_ids
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__website_message_ids
+msgid "Website communication history"
+msgstr "Historie komunikace z webu"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_transaction__next_attempt
+msgid "When the scheduled job will next try to send this message."
+msgstr "Kdy naplánovaná úloha příště zkusí odeslat tuto zprávu."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__environment
+msgid "Which EET 2.0 environment this certificate is valid for."
+msgstr "Pro které prostředí EET 2.0 je tento certifikát platný."
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,field_description:l10n_cz_eet2.field_l10n_cz_eet2_transaction__xgtid
+msgid "X-Global-Transaction-Id"
+msgstr "X-Global-Transaction-Id"
+
+#. module: l10n_cz_eet2
+#: model:ir.model.fields,help:l10n_cz_eet2.field_l10n_cz_eet2_certificate__renewal_req_id
+msgid "reqId of the renewal request at CA EET 2.0."
+msgstr "reqId žádosti o obnovu u CA EET 2.0."
+
+#. module: l10n_cz_eet2
+#. odoo-python
+#: code:addons/l10n_cz_eet2/models/eet2_certificate.py:0
+msgid ""
+"the follow-up certificate %(new)s failed the verification-mode test (state %"
+"(state)s, error %(kod)s: %(text)s)"
+msgstr ""
+"následný certifikát %(new)s neprošel testem v ověřovacím módu (stav %"
+"(state)s, chyba %(kod)s: %(text)s)"
+
+#~ msgid "EET 2.0 Max Send Attempts"
+#~ msgstr "Max. počet pokusů o odeslání EET 2.0"
+
+#~ msgid ""
+#~ "How many times the scheduled job retries a message (with exponential "
+#~ "backoff) before marking it as failed."
+#~ msgstr ""
+#~ "Kolikrát naplánovaná úloha zopakuje odeslání zprávy (s exponenciálním "
+#~ "odstupem), než ji označí jako neúspěšnou."
+
+#~ msgid ""
+#~ "Payments registered in this journal are in-person / on-premises (contact) "
+#~ "payments that must be recorded by EET 2.0."
+#~ msgstr ""
+#~ "Platby zaevidované v tomto deníku jsou osobní / na místě (kontaktní) "
+#~ "platby, které musí být evidovány v EET 2.0."
+
+#~ msgid "Registration identification number (EIC), format CZ + 8-10 digits."
+#~ msgstr "Registrační identifikační číslo (EIC), formát CZ + 8–10 číslic."
+
+#~ msgid "Total amount"
+#~ msgstr "Celková částka"

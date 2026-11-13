@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="pos_config_view_form_eet2" model="ir.ui.view">
+        <field name="name">pos.config.form.eet2</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <!-- The pos.config form has no notebook/'configuration' page on
+                 17.0/18.0 (per-POS settings live in res.config.settings); add a
+                 group directly inside the sheet instead. -->
+            <xpath expr="//sheet" position="inside">
+                <group>
+                    <group string="Czech EET 2.0">
+                        <field name="l10n_cz_eet2_id_pokl"/>
+                        <field name="l10n_cz_eet2_id_jednotky"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
