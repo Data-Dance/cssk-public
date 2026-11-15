@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SK časové rozlíšenie (381, 383, 384, 385)</title>
 <meta name="cssk-guide-topic" content="statements">
-<meta name="cssk-guide-order" content="13">
+<meta name="cssk-guide-order" content="15">
 <meta name="cssk-guide-country" content="sk">
 <style>
 body{margin:0;background:#fff;color:#1f2328;font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -261,7 +261,12 @@ rozlíšeniami OCA uvedenými vyššie alebo ručným zápisom.</p>
 <li>Oba moduly len nastavujú predvolené účty a denníky. Samy nič nepočítajú
   ani neúčtujú.</li>
 <li>Výdavky a príjmy budúcich období sa účtujú bez DPH. Spoločnosť, ktorá nie
-  je platiteľom DPH a pre ktorú je DPH nákladom, musí DPH doplniť ručne.</li>
+  je platiteľom DPH a pre ktorú je DPH nákladom, musí DPH doplniť ručne. Pri
+  tovare nadobudnutom z iného členského štátu EÚ sa daň odvádza v období
+  zdaniteľného plnenia, v praxi sa však účtuje až s faktúrou; ak faktúra
+  príde neskoro, v dodatočnom daňovom priznaní za správne obdobie sa uvedie
+  daň aj jej odpočet (pozri
+  <a href="../../../l10n_cssk_accrual/static/description/index_sk.html"><code>l10n_cssk_accrual</code></a>).</li>
 <li>Zápisy časového rozlíšenia sa nestornujú automaticky.</li>
 <li>Slovenská osnova Odoo nazýva účet 385000 <em>Náklady budúcich období
   (krátkodobé)</em> a 383000 <em>Výdaje budúcich období</em>; opatrenie ich nazýva
