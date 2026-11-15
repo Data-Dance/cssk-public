@@ -20,6 +20,10 @@ Changed
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.1.2 (2026-11-15), not yet on 18.0:** the three súpis amounts are
+  computed by three methods, so a typed účtovný stav saved with the items no
+  longer leaves the skutočný stav at 0.
+
 - **19.0.1.1.0 (2026-10-27), not yet on 18.0:** súpis opens in a form, print
   and refresh buttons, seat on both printouts, the § 30 ods. 3 písm. d)
   label.
@@ -43,6 +47,18 @@ Carry-over to 20.0
   settlement and inventory verification modules). Rename every reference
   too: dependent manifests, ``odoo.addons.*`` imports, the ``.pot`` file
   name and ``module_*`` settings toggles. The 19.0 commit is the checklist.
+
+[19.0.1.1.2] — 2026-11-15
+-------------------------
+
+Fixed
+~~~~~
+
+- **A typed účtovný stav no longer zeroes the skutočný stav.** On a fyzická
+  inventúra, an účtovný stav entered and saved together with the items left
+  the skutočný stav and the rozdiel of the súpis at 0, on screen and on the
+  printout. Súpisy saved that way show the right amounts once an item or the
+  účtovný stav is saved again.
 
 [19.0.1.1.1] — 2026-11-05
 -------------------------

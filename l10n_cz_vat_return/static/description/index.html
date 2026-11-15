@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_vat_return/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ VAT Return (DPHDP3)</h1>
 <p class="cssk-summary">The Czech VAT return computed from the tax tags of Odoo&#x27;s Czech chart and exported as the EPO DPHDP3 XML, validated against the current official XSD for every period.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.16.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.17.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Czech layer of the <a href="/l10n_cssk_vat_return_base/static/description/index.html">shared VAT-return engine</a>.
@@ -94,9 +94,11 @@ refreshing them; a test fails if the bundled file or the template's
 <strong>1 January 2016</strong>; that
 start date is a conservative bound chosen by the module, not a statutory one,
 and there is no version for earlier periods.</p>
-<p>Amounts are exported in whole crowns: a tax (output tax, deduction and
-rows 62–66) rounded <strong>up</strong> to the next crown, as § 146 odst. 1 of the
-daňový řád says ("Daň se zaokrouhluje na celé koruny nahoru"); a base or a
+<p>Amounts are exported in whole crowns: output tax and rows 61, 62 and 64–66
+rounded <strong>up</strong> to the next crown, as § 146 odst. 1 of the daňový řád says
+("Daň se zaokrouhluje na celé koruny nahoru"); a deduction (rows 40–47, the
+amounts of rows 52 and 53, row 60 and the total on row 63) rounded <strong>down</strong>,
+so that rounding never adds to it; a base or a
 value to the nearest crown, a half up; the coefficients of rows 52 and 53 up
 to a whole percent (§ 76 odst. 3 ZDPH). The filing date in the XML
 (<em>d_poddp</em>) is the day of the export.</p>
@@ -358,7 +360,7 @@ three years between are not excluded by its dates.</p>
 <li>The rows follow <code>l10n_cz</code>'s tags. A tax created by hand without the right
   tags reaches the wrong row or none.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.16.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.17.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

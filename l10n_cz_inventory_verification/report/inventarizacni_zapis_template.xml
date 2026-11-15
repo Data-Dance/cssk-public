@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <!-- Zákon č. 563/1991 Sb. names no "inventarizační zápis": this is an
+         internal record, and the printout says so rather than citing a
+         paragraph that does not prescribe it. -->
+    <template id="report_inventarizacni_zapis">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Inventarizační zápis</h2>
+                        <p class="text-muted">
+                            interní záznam o provedení inventarizace podle § 29 a § 30
+                            zákona č. 563/1991 Sb., o účetnictví
+                        </p>
+
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Účetní jednotka:</strong>
+                                <span t-field="doc.company_id.name"/><br/>
+                                <strong>Sídlo:</strong>
+                                <span t-field="doc.company_id.partner_id"
+                                      t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "separator": ", "}'/><br/>
+                                <t t-if="doc.company_id.company_registry">
+                                    <strong>IČO:</strong>
+                                    <span t-field="doc.company_id.company_registry"/>
+                                </t>
+                            </div>
+                            <div class="col-6">
+                                <strong>Inventarizace:</strong>
+                                <span t-field="doc.name"/><br/>
+                                <strong>Druh inventarizace:</strong>
+                                <span t-field="doc.inventarizace_type"/><br/>
+                                <strong>Rozvahový den:</strong>
+                                <span t-field="doc.date_as_of"/><br/>
+                                <t t-if="doc.date_start or doc.date_end">
+                                    <strong>Inventury provedeny:</strong>
+                                    <span t-field="doc.date_start" t-options='{"hide_seconds": True}'/> –
+                                    <span t-field="doc.date_end" t-options='{"hide_seconds": True}'/>
+                                </t>
+                            </div>
+                        </div>
+
+                        <h4>Výsledky porovnání skutečného stavu se stavem v účetnictví</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Inventurní soupis</th>
+                                    <th>Druh inventury</th>
+                                    <th>Účet</th>
+                                    <th class="text-end">Stav v účetnictví</th>
+                                    <th class="text-end">Skutečný stav</th>
+                                    <th class="text-end">Rozdíl</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.soupis_ids" t-as="soupis">
+                                    <td><span t-field="soupis.name"/></td>
+                                    <td><span t-field="soupis.inventory_type"/></td>
+                                    <td><span t-field="soupis.account_id.code"/></td>
+                                    <td class="text-end">
+                                        <span t-field="soupis.book_amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="soupis.actual_amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="soupis.difference"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3"><strong>Celkem</strong></td>
+                                    <td class="text-end"><strong><span t-field="doc.book_amount"
+                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong></td>
+                                    <td class="text-end"><strong><span t-field="doc.actual_amount"
+                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong></td>
+                                    <td class="text-end"><strong><span t-field="doc.difference"
+                                        t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <p t-if="doc.comparison_note"><span t-field="doc.comparison_note"/></p>
+
+                        <h4>Posouzení ocenění majetku a závazků (§ 25 odst. 3)</h4>
+                        <p>
+                            <span t-field="doc.valuation_note"/>
+                            <span t-if="not doc.valuation_note" class="text-muted">
+                                Neuvedeno.
+                            </span>
+                        </p>
+
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p>Za provedení inventarizace odpovídá:
+                                    <strong><span t-field="doc.approved_by_id.name"/></strong>
+                                </p>
+                                <p>.................................................</p>
+                                <p class="text-muted">podpisový záznam</p>
+                            </div>
+                            <div class="col-6">
+                                <p>Za účetní jednotku:</p>
+                                <p>.................................................</p>
+                                <p class="text-muted">podpisový záznam</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

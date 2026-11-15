@@ -8,6 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-11-15
+-------------------------
+
+Added
+~~~~~
+
+- **Kind of VAT registration.** With ``l10n_cz_vat_registration`` installed,
+  *Check tax reliability* on a contact also reads the subject type from the
+  Finanční správa register (plátce, skupina, identifikovaná osoba) and records
+  it on the contact. One more request per Czech contact; without that module
+  none is made. An answer that names no category (not found, nespolehlivá
+  osoba) changes nothing.
+
 Changed
 ~~~~~~~
 

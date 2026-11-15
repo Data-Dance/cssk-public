@@ -106,7 +106,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_inventory_verification``
-- **Version:** 19.0.1.1.1
+- **Version:** 19.0.1.1.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_sk``

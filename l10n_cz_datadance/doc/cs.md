@@ -1,7 +1,7 @@
 ---
 title: Česká účetní lokalizace — kompletní sada
 summary: Nainstaluje českou zákonnou lokalizaci jedním krokem a volitelné části nabídne jako přepínače v nastavení.
-verified: 19.0.1.1.2
+verified: 19.0.1.2.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -24,6 +24,7 @@ pro volitelné části. Vlastní obrazovky ani data nemá.
 | Saldokonto a zápočty | [module:l10n_cssk_partner_balances](module:l10n_cssk_partner_balances) |
 | Ověření DIČ v systému VIES | [module:l10n_cssk_vies](module:l10n_cssk_vies) |
 | Dohadné položky | [module:l10n_cssk_accrual](module:l10n_cssk_accrual) |
+| Inventarizace (inventurní soupisy) | [module:l10n_cz_inventory_verification](module:l10n_cz_inventory_verification) |
 
 Každý z těchto modulů má vlastní návod.
 

@@ -59,7 +59,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cssk_translation_override``
-- **Version:** 19.0.1.3.0
+- **Version:** 19.0.1.3.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``base``

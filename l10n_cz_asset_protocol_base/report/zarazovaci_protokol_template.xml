@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <template id="report_zarazovaci_protokol">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <t t-set="v" t-value="doc._l10n_cz_protocol_document_values()" />
+                    <div class="page">
+                        <h2>Protokol o zařazení dlouhodobého majetku do užívání</h2>
+                        <p class="text-muted">
+                            interní účetní doklad podle § 11 zákona č. 563/1991 Sb., o účetnictví
+                        </p>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Účetní jednotka:</strong>
+                                <span t-field="doc.company_id.name"/><br/>
+                                <strong>Sídlo:</strong>
+                                <span t-field="doc.company_id.partner_id"
+                                      t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "separator": ", "}'/>
+                                <t t-if="doc.company_id.company_registry">
+                                    <br/><strong>IČO:</strong>
+                                    <span t-field="doc.company_id.company_registry"/>
+                                </t>
+                            </div>
+                            <!-- § 11 odst. 1 písm. a), d) and e) zákona č. 563/1991 Sb. -->
+                            <div class="col-6">
+                                <strong>Označení dokladu:</strong>
+                                <span t-esc="v['commissioning_number']"/><br/>
+                                <strong>Datum vyhotovení:</strong>
+                                <span t-esc="v['commissioning_doc_date']" t-options='{"widget": "date"}'/><br/>
+                                <strong>Datum uvedení do užívání:</strong>
+                                <span t-esc="v['acquisition_date']" t-options='{"widget": "date"}'/>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <tr>
+                                <th style="width: 35%">Název majetku</th>
+                                <td><span t-esc="v['name']"/></td>
+                            </tr>
+                            <tr>
+                                <th>Inventární číslo</th>
+                                <td>
+                                    <span t-field="doc.l10n_cz_inventory_number"/>
+                                    <span t-if="not doc.l10n_cz_inventory_number"
+                                          t-esc="v['inventory_number']"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Ocenění (pořizovací cena)</th>
+                                <td>
+                                    <span t-esc="v['purchase_value']"
+                                          t-options='{"widget": "monetary", "display_currency": v["currency"]}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Účetní odpisový plán</th>
+                                <td>
+                                    <span t-esc="v['plan']"/>
+                                </td>
+                            </tr>
+                            <tr t-if="v['tax_group']">
+                                <th>Odpisová skupina (daňové odpisy)</th>
+                                <td><span t-esc="v['tax_group']"/></td>
+                            </tr>
+                            <tr t-if="v['tax_method']">
+                                <th>Způsob daňového odpisování</th>
+                                <td><span t-esc="v['tax_method']"/></td>
+                            </tr>
+                            <tr>
+                                <th>Místo umístění</th>
+                                <td><span t-field="doc.l10n_cz_location"/></td>
+                            </tr>
+                            <tr>
+                                <th>Odpovědná osoba</th>
+                                <td><span t-field="doc.l10n_cz_responsible_person_id.name"/></td>
+                            </tr>
+                        </table>
+                        <p t-if="doc.l10n_cz_commissioning_note">
+                            <strong>Poznámka:</strong>
+                            <span t-field="doc.l10n_cz_commissioning_note"/>
+                        </p>
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p>Majetek předal:</p>
+                                <p>.................................................</p>
+                            </div>
+                            <div class="col-6">
+                                <p>Majetek převzal:</p>
+                                <p>.................................................</p>
+                            </div>
+                        </div>
+                        <!-- § 11 odst. 1 písm. f) zákona č. 563/1991 Sb.: two podpisové záznamy -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <p>Osoba odpovědná za účetní případ:</p>
+                                <p>.................................................</p>
+                            </div>
+                            <div class="col-6">
+                                <p>Osoba odpovědná za zaúčtování:</p>
+                                <p>.................................................</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

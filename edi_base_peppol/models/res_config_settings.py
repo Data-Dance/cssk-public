@@ -26,6 +26,18 @@ class ResConfigSettings(models.TransientModel):
         "With a single one installed it is used whatever this says.",
     )
 
+    peppol_transport_choice = fields.Boolean(
+        compute="_compute_peppol_transport_choice", string="Several Peppol transports",
+        help="More than one Peppol transport is installed, so there is a "
+             "choice to make. With one, the setting changes nothing and is "
+             "not shown.",
+    )
+
+    def _compute_peppol_transport_choice(self):
+        choice = len(self._selection_peppol_transport()) > 1
+        for settings in self:
+            settings.peppol_transport_choice = choice
+
     @api.model
     def _selection_peppol_transport(self):
         # The registered providers that are Peppol transports, so the value

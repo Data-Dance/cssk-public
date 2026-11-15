@@ -7,6 +7,18 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 
 [Unreleased]
 ------------
+
+[19.0.1.2.0] — 2026-11-15
+-------------------------
+
+Added
+~~~~~
+
+- The bundle now installs ``l10n_cz_inventory_verification``: inventurní
+  soupisy and the record of the inventarizace (§ 29–30 zákona č. 563/1991
+  Sb.), as the Slovak bundle installs its counterpart. An existing database
+  gets the module on upgrade.
+
 [19.0.1.1.2] — 2026-11-05
 -------------------------
 

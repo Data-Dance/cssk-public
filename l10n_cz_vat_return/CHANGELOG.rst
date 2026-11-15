@@ -14,6 +14,8 @@ Carry-over to 18.0
 - **19.0.1.15.0 (2026-11-05), not yet on 18.0:** DPHDP3 row captions,
   ``row_names.py`` and the 1.15.0 migration. 18.0's data file carries the same
   placeholders.
+- **19.0.1.17.0 (2026-11-12), not yet on 18.0:** deductions rounded down.
+  18.0's ``_cz_whole`` still rounds every amount half up, in either direction.
 
 Open
 ~~~~
@@ -37,6 +39,24 @@ Carried over
   entered by hand or imported from a legacy register, ``tax_tag_ids`` is
   lock-date protected, and re-tagging a filed period adds reporting to a
   return that was already filed.
+
+[19.0.1.17.0] — 2026-11-12
+--------------------------
+
+Changed
+~~~~~~~
+
+- **Deductions round down, output tax up.** A deduction row (ř. 40 – 47, the
+  amounts of ř. 52 and 53, ř. 60, and the total ř. 63) is now rounded down to
+  the crown, towards minus infinity; output tax and ř. 61, 62, 64 – 66 still
+  round up. § 146 odst. 1 daňového řádu says only "Daň se zaokrouhluje na celé
+  koruny nahoru", and rounding a deduction up let it grow by up to a crown per
+  row; the accountant confirmed the practice as "výstup nahoru, odpočet dolů".
+  A return already filed is not affected; one computed again files up to a
+  few crowns more tax than before. A dodatečné přiznání of a return filed
+  before this version differences against that return rounded the new way,
+  its total rows summed again to match, so the dodatečné adds up. On a row
+  the old rounding raised by a crown, that crown stays claimed.
 
 [19.0.1.16.1] — 2026-11-09
 --------------------------

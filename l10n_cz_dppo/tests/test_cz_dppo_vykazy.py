@@ -110,6 +110,9 @@ class TestCzDppoVykazy(AccountTestInvoicingCommon):
     @AccountTestInvoicingCommon.setup_country("cz")
     def setUpClass(cls):
         super().setUpClass()
+        # The tests match message text, so they read English whatever
+        # languages the database has loaded.
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
         cls.company = cls.company_data["company"]
         cls.company.vat = "CZ25663585"
         cls.company.l10n_cssk_tax_authority_id = cls.env[
@@ -146,7 +149,10 @@ class TestCzDppoVykazy(AccountTestInvoicingCommon):
     def _post(self, date, lines):
         move = self.env["account.move"].create({
             "move_type": "entry", "journal_id": self.misc.id, "date": date,
+            # A label on every line: where the OCA asset register has a
+            # profile on 022, a debit there creates an asset and needs one.
             "line_ids": [Command.create({"account_id": self._acc(a).id,
+                                         "name": "test",
                                          "debit": d, "credit": c})
                          for a, d, c in lines]})
         move.action_post()

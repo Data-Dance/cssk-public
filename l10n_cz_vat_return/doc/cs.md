@@ -1,7 +1,7 @@
 ---
 title: CZ Přiznání k DPH (DPHDP3)
 summary: České přiznání k DPH vypočtené z daňových štítků české účtové osnovy Odoo a exportované jako XML DPHDP3 pro EPO, pro každé období ověřené proti aktuálnímu úřednímu XSD.
-verified: 19.0.1.16.0
+verified: 19.0.1.17.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -65,9 +65,11 @@ tohoto záznamu odchýlí. Nabízí se pro období od **1. 1. 2016**; toto
 datum je opatrná hranice zvolená modulem, ne zákonná, a pro dřívější období
 verze není.
 
-Částky se exportují v celých korunách: daň (daň na výstupu, odpočet a řádky
-62–66) zaokrouhlená **nahoru** na celé koruny, jak říká § 146 odst. 1
-daňového řádu („Daň se zaokrouhluje na celé koruny nahoru“); základ nebo
+Částky se exportují v celých korunách: daň na výstupu a řádky 61, 62 a 64–66
+zaokrouhlené **nahoru** na celé koruny, jak říká § 146 odst. 1 daňového řádu
+(„Daň se zaokrouhluje na celé koruny nahoru“); odpočet (řádky 40–47, částky
+řádků 52 a 53, řádek 60 a součet na řádku 63) **dolů**, aby ho zaokrouhlení
+nikdy nezvýšilo; základ nebo
 hodnota na nejbližší celou korunu, polovina nahoru; koeficienty řádků 52 a
 53 nahoru na celé procento (§ 76 odst. 3 ZDPH). Datum podání v XML
 (*d_poddp*) je den exportu.

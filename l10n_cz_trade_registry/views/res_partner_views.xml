@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2026 Data Dance s.r.o.
+    License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_partner_form_l10n_cz_trade_registry" model="ir.ui.view">
+        <field name="name">res.partner.form.l10n_cz.trade.registry</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <!-- A counterparty that has ceased to exist is worth seeing before
+                 reading anything else on the record, not buried in a tab. -->
+            <sheet position="before">
+                <div class="alert alert-warning text-center" role="alert"
+                     invisible="not l10n_cz_register_inactive">
+                    <field name="l10n_cz_register_status" readonly="1" nolabel="1"
+                           class="fw-bold d-inline"/>
+                    <span> — subjekt podle rejstříku není aktivní.</span>
+                    <field name="l10n_cz_dissolved_on" readonly="1"
+                           invisible="not l10n_cz_dissolved_on"/>
+                </div>
+            </sheet>
+
+            <notebook position="inside">
+                <page name="l10n_cz_trade_registry" string="Register (CZ)"
+                      invisible="country_id and country_code != 'CZ'">
+                    <group>
+                        <group string="Zápis">
+                            <field name="l10n_cz_register_name"/>
+                            <field name="l10n_cz_register_office"/>
+                            <field name="l10n_cz_register_number"/>
+                            <field name="l10n_cz_established_on"/>
+                            <field name="l10n_cz_trade_registry_statement"/>
+                        </group>
+                        <group string="Stav">
+                            <field name="l10n_cz_register_status"/>
+                            <field name="l10n_cz_dissolved_on"
+                                   invisible="not l10n_cz_dissolved_on"/>
+                            <field name="l10n_cz_register_checked_on" readonly="1"/>
+                            <field name="l10n_cz_register_inactive" invisible="1"/>
+                        </group>
+                    </group>
+
+                    <separator string="Předmět podnikání a činnosti"
+                               invisible="not l10n_cz_activity_ids"/>
+                    <field name="l10n_cz_activity_ids" nolabel="1" readonly="1"
+                           invisible="not l10n_cz_activity_ids">
+                        <list create="0" delete="0" decoration-muted="not is_current">
+                            <field name="kind"/>
+                            <field name="name"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to" optional="show"/>
+                            <field name="is_current" optional="hide"/>
+                            <field name="source" optional="hide"/>
+                        </list>
+                    </field>
+
+                    <separator string="Předchozí názvy a sídla"
+                               invisible="not l10n_cz_history_ids"/>
+                    <field name="l10n_cz_history_ids" nolabel="1" readonly="1"
+                           invisible="not l10n_cz_history_ids">
+                        <list create="0" delete="0">
+                            <field name="kind"/>
+                            <field name="value"/>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                        </list>
+                    </field>
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+    <record id="view_partner_tree_l10n_cz_trade_registry" model="ir.ui.view">
+        <field name="name">res.partner.list.l10n_cz.trade.registry</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <!-- Appended rather than anchored on a named column: the contact
+                 list is inherited by many modules and its columns move. The
+                 row is not greyed out here: `decoration-muted` holds one
+                 expression, and the Slovak twin, which may be installed in
+                 the same database, already owns it. -->
+            <list position="inside">
+                <field name="l10n_cz_register_inactive" column_invisible="1"/>
+                <field name="l10n_cz_register_status" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_partner_l10n_cz_register_inactive" model="ir.actions.act_window">
+        <field name="name">Neaktivní subjekty (CZ)</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('l10n_cz_register_inactive', '=', True)]</field>
+        <field name="context">{'create': False}</field>
+    </record>
+
+    <!-- A filter on the contact search reaches the list from Customers,
+         Vendors and Contacts alike; the menu item is the direct way in. -->
+    <record id="view_res_partner_filter_l10n_cz_trade_registry" model="ir.ui.view">
+        <field name="name">res.partner.search.l10n_cz.trade.registry</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <search position="inside">
+                <separator/>
+                <filter name="l10n_cz_register_inactive" string="Neaktivní subjekty (CZ)"
+                        domain="[('l10n_cz_register_inactive', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_partner_l10n_cz_register_inactive"
+              action="action_partner_l10n_cz_register_inactive"
+              parent="account.menu_finance_receivables"
+              sequence="116"/>
+</odoo>

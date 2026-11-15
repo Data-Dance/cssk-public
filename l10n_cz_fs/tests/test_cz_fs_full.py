@@ -292,6 +292,22 @@ class TestCzFsFull(AccountTestInvoicingCommon):
             else:
                 self.assertAlmostEqual(abr[code], pl[code], 2, code)
 
+    def test_sold_shares_in_iv_and_revaluation_losses_in_k(self):
+        """661 is the income side of G. (561), so it is IV., not VII.; 564 is
+        the cost side of 664 (VII.), so it is K., not I. Tagged 661 goes to
+        IV.1 like tagged 665."""
+        iv1 = self._new_acc("661100", "Prodej podílů - ovládaná", "income",
+                            "IV_1")
+        self._post([("221%", 1000, 0), ("661000", 0, 700), (iv1.id, 0, 300)])
+        self._post([("564000", 40, 0), ("221%", 0, 40)])
+        pl = self._values(self._statement(self.pl_full))
+        for code, value in {"IV1": 300, "IV2": 700, "IV": 1000, "VII": 0,
+                            "Ifin": 0, "K": 40}.items():
+            self.assertAlmostEqual(pl[code], value, 2, code)
+        abr = self._values(self._statement(self.pl_abr))
+        for code, value in {"IV": 1000, "VII": 0, "Ifin": 0, "K": 40}.items():
+            self.assertAlmostEqual(abr[code], value, 2, code)
+
     def test_one_split_tag_per_account(self):
         account = self._new_acc("665300", "Výnosy", "income", "IV_1")
         with self.assertRaises(ValidationError):

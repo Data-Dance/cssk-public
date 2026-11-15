@@ -107,7 +107,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_ubl_bis3``
-- **Version:** 19.0.3.4.1
+- **Version:** 19.0.3.5.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``account_edi_ubl_cii``, ``l10n_sk``, ``l10n_sk_base``

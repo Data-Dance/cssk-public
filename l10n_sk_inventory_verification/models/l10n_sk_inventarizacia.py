@@ -197,23 +197,38 @@ class L10nSkInventurnySupis(models.Model):
 
     book_amount = fields.Monetary(
         string="Účtovný stav",
-        compute="_compute_amounts",
+        compute="_compute_book_amount",
         store=True,
         readonly=False,
         help="Pri dokladovej inventúre sa načíta zo zostatku účtu ku dňu, ku "
              "ktorému bola inventúra vykonaná.",
     )
     actual_amount = fields.Monetary(
-        string="Skutočný stav", compute="_compute_amounts", store=True
+        string="Skutočný stav", compute="_compute_actual_amount", store=True
     )
-    difference = fields.Monetary(compute="_compute_amounts", store=True)
+    difference = fields.Monetary(compute="_compute_difference", store=True)
 
-    @api.depends("line_ids.amount", "account_id", "date_as_of", "inventory_type")
-    def _compute_amounts(self):
+    # Three methods, not one. Odoo protects every field of a compute method
+    # while one of them is being written, so with one method a typed účtovný
+    # stav saved in the same request as the items left the skutočný stav and
+    # the rozdiel at zero.
+    @api.depends("line_ids.amount")
+    def _compute_actual_amount(self):
         for supis in self:
             supis.actual_amount = sum(supis.line_ids.mapped("amount"))
+
+    @api.depends("account_id", "date_as_of", "inventory_type")
+    def _compute_book_amount(self):
+        for supis in self:
             if supis.inventory_type == "dokladova" and supis.account_id:
                 supis.book_amount = supis._account_book_balance()
+            else:
+                # typed in: keep what is there
+                supis.book_amount = supis.book_amount
+
+    @api.depends("actual_amount", "book_amount")
+    def _compute_difference(self):
+        for supis in self:
             supis.difference = supis.actual_amount - (supis.book_amount or 0.0)
 
     def _account_book_balance(self):

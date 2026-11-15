@@ -6,26 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-27 19:42+0000\n"
-"PO-Revision-Date: 2026-10-27 19:42+0000\n"
+"POT-Creation-Date: 2026-11-11 22:49+0000\n"
+"PO-Revision-Date: 2026-11-11 22:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-
-#. module: edi_base_peppol
-#. odoo-python
-#: code:addons/edi_base_peppol/models/account_move.py:0
-msgid "Credit note sent via Peppol: %(link)s (%(state)s)."
-msgstr ""
-
-#. module: edi_base_peppol
-#. odoo-python
-#: code:addons/edi_base_peppol/models/account_move.py:0
-msgid "Invoice sent via Peppol: %(link)s (%(state)s)."
-msgstr ""
 
 #. module: edi_base_peppol
 #. odoo-python
@@ -254,6 +242,12 @@ msgstr ""
 #. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "Credit note sent via Peppol: %(link)s (%(state)s)."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "Cross-border customer (%s): not in the Slovak mandate."
 msgstr ""
 
@@ -296,6 +290,14 @@ msgstr ""
 msgid ""
 "Every posted customer document routed to Peppol is generated and queued at "
 "once. Off: use the 'Send via Peppol' button."
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid ""
+"Exempt supply: not in the Slovak mandate (§ 85o ods. 2 of the VAT Act "
+"excludes supplies exempt under § 28 to 43 and 47)."
 msgstr ""
 
 #. module: edi_base_peppol
@@ -359,6 +361,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_partner__invoice_sending_method
 #: model:ir.model.fields,field_description:edi_base_peppol.field_res_users__invoice_sending_method
 msgid "Invoice sending"
+msgstr ""
+
+#. module: edi_base_peppol
+#. odoo-python
+#: code:addons/edi_base_peppol/models/account_move.py:0
+msgid "Invoice sent via Peppol: %(link)s (%(state)s)."
 msgstr ""
 
 #. module: edi_base_peppol
@@ -431,6 +439,13 @@ msgstr ""
 #. module: edi_base_peppol
 #: model:ir.model.fields,field_description:edi_base_peppol.field_edi_peppol_clarification__list_identifier
 msgid "List"
+msgstr ""
+
+#. module: edi_base_peppol
+#: model:ir.model.fields,help:edi_base_peppol.field_res_config_settings__peppol_transport_choice
+msgid ""
+"More than one Peppol transport is installed, so there is a choice to make. "
+"With one, the setting changes nothing and is not shown."
 msgstr ""
 
 #. module: edi_base_peppol
@@ -755,6 +770,11 @@ msgid ""
 msgstr ""
 
 #. module: edi_base_peppol
+#: model:ir.model.fields,field_description:edi_base_peppol.field_res_config_settings__peppol_transport_choice
+msgid "Several Peppol transports"
+msgstr ""
+
+#. module: edi_base_peppol
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid ""
@@ -912,12 +932,4 @@ msgstr ""
 #. odoo-python
 #: code:addons/edi_base_peppol/models/account_move.py:0
 msgid "queued"
-msgstr ""
-
-#. module: edi_base_peppol
-#. odoo-python
-#: code:addons/edi_base_peppol/models/account_move.py:0
-msgid ""
-"Exempt supply: not in the Slovak mandate (§ 85o ods. 2 of th"
-"e VAT Act excludes supplies exempt under § 28 to 43 and 47)."
 msgstr ""

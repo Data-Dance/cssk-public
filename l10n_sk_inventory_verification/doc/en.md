@@ -1,7 +1,7 @@
 ---
 title: SK Inventory Verification (inventarizácia)
 summary: The Slovak statutory inventory verification as records — the inventarizácia with its three dates, the inventúrne súpisy with quantities and prices, and the inventarizačný zápis comparing them with the books.
-verified: 19.0.1.1.1
+verified: 19.0.1.1.2
 ---
 
 ## What it is for {#purpose}

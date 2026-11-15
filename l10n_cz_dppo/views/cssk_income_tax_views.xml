@@ -5,6 +5,11 @@
         <field name="model">cssk.income.tax.return</field>
         <field name="inherit_id" ref="l10n_cssk_income_tax_base.cssk_income_tax_return_view_form"/>
         <field name="arch" type="xml">
+            <button name="action_export_xml" position="after">
+                <button name="action_l10n_cz_compare_fs" type="object"
+                        string="Porovnat s účetní závěrkou"
+                        invisible="l10n_cz_country_code != 'CZ' or state == 'draft'"/>
+            </button>
             <xpath expr="//group[@name='provision']" position="before">
                 <field name="l10n_cz_country_code" invisible="1"/>
                 <field name="l10n_cz_filing_code" invisible="1"/>

@@ -165,6 +165,9 @@ class TestCzAccountForms(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        # A test here matches the warning's text, so it reads English
+        # whatever languages the database has loaded.
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
         cls.partner = cls.env["res.partner"].create({
             "name": "CZ Supplier", "country_id": cls.env.ref("base.cz").id,
             "vat": "CZ25663585"})

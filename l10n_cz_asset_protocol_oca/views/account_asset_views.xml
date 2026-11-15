@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <record id="view_account_asset_form_cz_protocol" model="ir.ui.view">
+        <field name="name">account.asset.form.cz.protocol</field>
+        <field name="model">account.asset</field>
+        <field name="inherit_id" ref="account_asset_management.account_asset_view_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page string="Protokoly (CZ)" name="l10n_cz_protocol">
+                    <group>
+                        <group string="Zařazení">
+                            <field name="l10n_cz_inventory_number"/>
+                            <field name="l10n_cz_location"/>
+                            <field name="l10n_cz_responsible_person_id"/>
+                            <field name="l10n_cz_commissioning_note"/>
+                            <field name="l10n_cz_commissioning_protocol_date"/>
+                        </group>
+                        <group string="Vyřazení">
+                            <field name="l10n_cz_disposal_method"/>
+                            <field name="l10n_cz_disposal_reason"/>
+                            <field name="l10n_cz_disposal_protocol_date"/>
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

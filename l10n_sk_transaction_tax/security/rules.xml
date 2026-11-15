@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dft_company_rule" model="ir.rule">
+        <field name="name">DFT notices: allowed companies</field>
+        <field name="model_id" ref="model_l10n_sk_transaction_tax"/>
+        <field name="domain_force">[('company_id','in',company_ids)]</field>
+    </record>
+    <record id="dft_source_company_rule" model="ir.rule">
+        <field name="name">DFT sources: allowed companies</field>
+        <field name="model_id" ref="model_l10n_sk_transaction_tax_source"/>
+        <field name="domain_force">[('company_id','in',company_ids)]</field>
+    </record>
+    <record id="dft_adjustment_company_rule" model="ir.rule">
+        <field name="name">DFT adjustments: allowed companies</field>
+        <field name="model_id" ref="model_l10n_sk_transaction_tax_adjustment"/>
+        <field name="domain_force">[('company_id','in',company_ids)]</field>
+    </record>
+</odoo>

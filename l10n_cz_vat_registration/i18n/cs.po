@@ -1,0 +1,129 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_vat_registration
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-15 18:45+0000\n"
+"PO-Revision-Date: 2026-11-15 18:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: cs_CZ\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_account_bank_statement_line__l10n_cz_vat_registration_warning
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_account_move__l10n_cz_vat_registration_warning
+msgid "CZ VAT registration warning"
+msgstr "Upozornění k registraci k DPH (CZ)"
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model,name:l10n_cz_vat_registration.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_cssk_tax_authority__l10n_cz_vat_payer_since
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_res_partner__l10n_cz_vat_payer_since
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_res_users__l10n_cz_vat_payer_since
+msgid ""
+"Date the VAT registration took effect. The Finanční správa register does not"
+" publish it through its web service, so it is entered by hand."
+msgstr ""
+"Den, od kterého registrace k DPH platí. Registr Finanční správy jej webovou "
+"službou nezveřejňuje, proto se zadává ručně."
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný název"
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields.selection,name:l10n_cz_vat_registration.selection__res_partner__l10n_cz_vat_registration_category__identified
+msgid "Identifikovaná osoba (§ 6g–6l) — není plátce"
+msgstr ""
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model,name:l10n_cz_vat_registration.model_account_move
+msgid "Journal Entry"
+msgstr "Účetní záznam"
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields.selection,name:l10n_cz_vat_registration.selection__res_partner__l10n_cz_vat_registration_category__non_payer
+msgid "Neplátce"
+msgstr ""
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields.selection,name:l10n_cz_vat_registration.selection__res_partner__l10n_cz_vat_registration_category__payer
+msgid "Plátce (§ 6–6f)"
+msgstr ""
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_cssk_tax_authority__l10n_cz_is_full_vat_payer
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_res_partner__l10n_cz_is_full_vat_payer
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_res_users__l10n_cz_is_full_vat_payer
+msgid "Plátce DPH"
+msgstr ""
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_account_bank_statement_line__l10n_cz_vat_registration_warning
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_account_move__l10n_cz_vat_registration_warning
+msgid ""
+"Raised when the customer's kind of VAT registration is inconsistent with how"
+" this invoice is taxed."
+msgstr ""
+"Zobrazí se, pokud druh registrace odběratele k DPH neodpovídá tomu, jak je "
+"tato faktura zdaněna."
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_cssk_tax_authority__l10n_cz_vat_registration_category
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_res_partner__l10n_cz_vat_registration_category
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_res_users__l10n_cz_vat_registration_category
+msgid "Registrace k DPH"
+msgstr ""
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_cssk_tax_authority__l10n_cz_vat_payer_since
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_res_partner__l10n_cz_vat_payer_since
+#: model:ir.model.fields,field_description:l10n_cz_vat_registration.field_res_users__l10n_cz_vat_payer_since
+msgid "Registrace k DPH od"
+msgstr ""
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields.selection,name:l10n_cz_vat_registration.selection__res_partner__l10n_cz_vat_registration_category__group
+msgid "Skupina (§ 5a) — plátce"
+msgstr ""
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_cssk_tax_authority__l10n_cz_is_full_vat_payer
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_res_partner__l10n_cz_is_full_vat_payer
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_res_users__l10n_cz_is_full_vat_payer
+msgid ""
+"True for a plátce and for a skupina. False for an identifikovaná osoba and a"
+" neplátce, and unset when the category is unknown."
+msgstr ""
+"Zaškrtnuto u plátce a u skupiny. Nezaškrtnuto u identifikované osoby a u "
+"neplátce a také tehdy, když druh registrace není znám."
+
+#. module: l10n_cz_vat_registration
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_cssk_tax_authority__l10n_cz_vat_registration_category
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_res_partner__l10n_cz_vat_registration_category
+#: model:ir.model.fields,help:l10n_cz_vat_registration.field_res_users__l10n_cz_vat_registration_category
+msgid ""
+"What kind of Czech VAT registration the partner's DIČ belongs to. An "
+"identifikovaná osoba holds a VIES-valid DIČ but is not a plátce."
+msgstr ""
+"Jakému druhu české registrace k DPH odpovídá DIČ partnera. Identifikovaná "
+"osoba má DIČ platné ve VIES, ale není plátcem."

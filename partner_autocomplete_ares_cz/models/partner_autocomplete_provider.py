@@ -4,7 +4,7 @@ import logging
 from datetime import datetime
 
 import requests
-from odoo import _, api, models
+from odoo import Command, _, api, fields, models
 from requests.exceptions import HTTPError, RequestException
 
 _logger = logging.getLogger(__name__)
@@ -76,9 +76,57 @@ class PartnerAutocompleteProvider(models.AbstractModel):
 
     ARES_RES_BASE = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-res"
 
+    ARES_VR_BASE = "https://ares.gov.cz/ekonomicke-subjekty-v-be/rest/ekonomicke-subjekty-vr"
+
     #: Mapping parameter -> partner field it points at by default, when that
     #: field exists (it lives in a module this one does not depend on).
-    DEFAULT_MAPPINGS = {"ares_cz.mapping.nace": "nace_code"}
+    DEFAULT_MAPPINGS = {
+        "ares_cz.mapping.nace": "nace_code",
+        "ares_cz.mapping.register": "l10n_cz_register_name",
+        "ares_cz.mapping.register_office": "l10n_cz_register_office",
+        "ares_cz.mapping.register_number": "l10n_cz_register_number",
+        "ares_cz.mapping.status": "l10n_cz_register_status",
+        "ares_cz.mapping.established_date": "l10n_cz_established_on",
+        "ares_cz.mapping.dissolved_date": "l10n_cz_dissolved_on",
+    }
+
+    #: The mappings that need the subject's entry in the veřejný rejstřík,
+    #: which is one more request.
+    VR_MAPPINGS = (
+        "ares_cz.mapping.register",
+        "ares_cz.mapping.register_office",
+        "ares_cz.mapping.register_number",
+    )
+
+    #: ARES's ``TypRejstriku`` codelist: the six veřejné rejstříky.
+    VR_REGISTERS = {
+        "OR": "Obchodní rejstřík",
+        "SR": "Spolkový rejstřík",
+        "NR": "Nadační rejstřík",
+        "RU": "Rejstřík ústavů",
+        "RSVJ": "Rejstřík společenství vlastníků jednotek",
+        "ROPS": "Rejstřík obecně prospěšných společností",
+    }
+
+    #: ARES's ``SoudVr`` codelist: the rejstříkové soudy. A spisová značka
+    #: names the court itself, never one of its pobočky.
+    VR_COURTS = {
+        "MSPH": "Městský soud v Praze",
+        "KSCB": "Krajský soud v Českých Budějovicích",
+        "KSPL": "Krajský soud v Plzni",
+        "KSUL": "Krajský soud v Ústí nad Labem",
+        "KSHK": "Krajský soud v Hradci Králové",
+        "KSBR": "Krajský soud v Brně",
+        "KSOS": "Krajský soud v Ostravě",
+    }
+
+    #: ``cinnosti`` of a veřejný rejstřík entry -> the kind of activity row.
+    VR_ACTIVITY_KINDS = (
+        ("predmetPodnikani", "business"),
+        ("predmetCinnosti", "activity"),
+        ("doplnkovaCinnost", "secondary"),
+        ("ucel", "purpose"),
+    )
 
     @api.model
     def _ares_apply_default_mappings(self):
@@ -115,6 +163,158 @@ class PartnerAutocompleteProvider(models.AbstractModel):
         primary = next((r for r in records if r.get("primarniZaznam")),
                        records[0] if records else {})
         return primary.get("czNacePrevazujici") or ""
+
+    @api.model
+    def _ares_public_register(self, ico):
+        """The subject's entry in the veřejný rejstřík.
+
+        ARES answers with one record per register the IČO was ever entered
+        in; the primary one is the entry in force. ``{}`` when the subject is
+        in no public register (a živnostník, say: ARES answers 404, which is
+        an answer and not an error), ``None`` when ARES could not be asked —
+        the caller must not take that for "nothing entered".
+        """
+        try:
+            response = requests.get(
+                f"{self.ARES_VR_BASE}/{ico}", timeout=self.ARES_TIMEOUT,
+                headers={"Accept": "application/json"})
+            if response.status_code == 404:
+                return {}
+            if response.status_code != 200:
+                return None
+            records = response.json().get("zaznamy") or []
+        except (RequestException, ValueError, AttributeError) as err:
+            _logger.info("ARES VR request for %s failed: %s", ico, err)
+            return None
+        records = [r for r in records if isinstance(r, dict)]
+        return next((r for r in records if r.get("primarniZaznam")),
+                    records[0] if records else {})
+
+    @api.model
+    def _ares_current(self, items):
+        """The entry in force among a veřejný rejstřík list: the last one
+        that has not been deleted (``datumVymazu``)."""
+        live = [i for i in items or [] if isinstance(i, dict) and not i.get("datumVymazu")]
+        return live[-1] if live else {}
+
+    @api.model
+    def _ares_register_values(self, record, entry):
+        """Register coordinates, status and dates as ``{mapping: value}``.
+
+        ``record`` is the basic ARES record, ``entry`` the veřejný rejstřík
+        one (``{}`` when it was not asked for or the subject has none).
+        Codes are spelled out from ARES's own codelists; a code that is not
+        in them yields nothing rather than a code in a text field.
+        """
+        sources = record.get("seznamRegistraci") or {}
+        znacka = self._ares_current(entry.get("spisovaZnacka"))
+        register = self.VR_REGISTERS.get(entry.get("rejstrik") or "", "")
+        if not entry and sources.get("stavZdrojeRzp") in (
+                "AKTIVNI", "POZASTAVENY") and sources.get(
+                "stavZdrojeVr") in (None, "NEEXISTUJICI"):
+            # In no public register, but in the živnostenský rejstřík: the
+            # "jiná evidence" such a subject states on its documents.
+            register = "Živnostenský rejstřík"
+        number = ""
+        if znacka.get("oddil") and znacka.get("vlozka"):
+            number = f"{znacka['oddil']} {znacka['vlozka']}"
+        # The status of the register the subject is entered in: the public
+        # register if it is in one, else the živnostenský rejstřík, else the
+        # registr osob. "NEEXISTUJICI" says the source holds no such subject.
+        status = next(
+            (code for code in (
+                entry.get("stavSubjektu"), sources.get("stavZdrojeVr"),
+                sources.get("stavZdrojeRzp"), sources.get("stavZdrojeRos"))
+             if code and code != "NEEXISTUJICI"),
+            "")
+        partner = self.env["res.partner"]
+        if status and hasattr(partner, "_l10n_cz_parse_register_status"):
+            status = partner._l10n_cz_parse_register_status(status, status)
+        return {
+            "ares_cz.mapping.register": register,
+            "ares_cz.mapping.register_office": self.VR_COURTS.get(znacka.get("soud") or "", ""),
+            "ares_cz.mapping.register_number": number,
+            "ares_cz.mapping.status": status,
+            "ares_cz.mapping.established_date": record.get("datumVzniku"),
+            "ares_cz.mapping.dissolved_date": record.get("datumZaniku"),
+        }
+
+    @api.model
+    def _ares_register_lists(self, result, entry, partner_fields):
+        """Mirror the entry's scope of business and its previous names and
+        seats, where ``l10n_cz_trade_registry`` gives them somewhere to go.
+
+        ``Command.clear()`` first: these are what the register says today,
+        not an accumulating log, and re-enriching must not double every row.
+        """
+        if "l10n_cz_activity_ids" in partner_fields:
+            rows = []
+            activities = entry.get("cinnosti")
+            activities = activities if isinstance(activities, dict) else {}
+            for key, kind in self.VR_ACTIVITY_KINDS:
+                for item in activities.get(key) or []:
+                    if not isinstance(item, dict) or not item.get("hodnota"):
+                        continue
+                    rows.append(Command.create({
+                        "kind": kind,
+                        # The register breaks lines at a fixed width.
+                        "name": " ".join(str(item["hodnota"]).split()),
+                        "valid_from": self._ares_date(item.get("datumZapisu")),
+                        "valid_to": self._ares_date(item.get("datumVymazu")),
+                        "source": "ARES VR",
+                    }))
+            result["l10n_cz_activity_ids"] = [Command.clear()] + rows
+        if "l10n_cz_history_ids" in partner_fields:
+            rows = []
+            for item in entry.get("obchodniJmeno") or []:
+                if isinstance(item, dict) and item.get("datumVymazu") and item.get("hodnota"):
+                    rows.append(Command.create({
+                        "kind": "name",
+                        "value": item["hodnota"],
+                        "valid_from": self._ares_date(item.get("datumZapisu")),
+                        "valid_to": self._ares_date(item.get("datumVymazu")),
+                    }))
+            for item in entry.get("adresy") or []:
+                if not isinstance(item, dict) or not item.get("datumVymazu"):
+                    continue
+                address = item.get("adresa")
+                value = address.get("textovaAdresa") if isinstance(address, dict) else ""
+                if value:
+                    rows.append(Command.create({
+                        "kind": "address",
+                        "value": value,
+                        "valid_from": self._ares_date(item.get("datumZapisu")),
+                        "valid_to": self._ares_date(item.get("datumVymazu")),
+                    }))
+            result["l10n_cz_history_ids"] = [Command.clear()] + rows
+        return result
+
+    @api.model
+    def _ares_date(self, value):
+        try:
+            return datetime.strptime(str(value or "")[:10], "%Y-%m-%d").date()
+        except ValueError:
+            return False
+
+    @api.model
+    def _ares_enrich_register(self, result, record):
+        """Add what ``l10n_cz_trade_registry`` stores, where it is installed
+        or a mapping was pointed elsewhere by hand. Feature detection rather
+        than a dependency: this stays a Tools module."""
+        ICP = self.env["ir.config_parameter"].sudo()
+        partner_fields = self.env["res.partner"]._fields
+        wants_lists = "l10n_cz_register_checked_on" in partner_fields
+        wants_entry = wants_lists or any(ICP.get_param(p) for p in self.VR_MAPPINGS)
+        entry = self._ares_public_register(record["ico"]) if wants_entry else None
+        values = self._ares_register_values(record, entry or {})
+        self._enrich_dynamic_mapping(result, list(values.items()))
+        if wants_lists:
+            # Records *when we asked*, which is what separates "the register
+            # holds nothing" from "we never looked".
+            result["l10n_cz_register_checked_on"] = fields.Datetime.now()
+            if entry is not None:
+                self._ares_register_lists(result, entry, partner_fields)
+        return result
 
     @api.model
     def _ares_lookup_probe(self, ico):
@@ -174,7 +374,7 @@ class PartnerAutocompleteProvider(models.AbstractModel):
     def _enrich_dynamic_mapping(self, result, mapping):
         for parameter, value in mapping:
             field = self.env["ir.config_parameter"].sudo().get_param(parameter)
-            field = self.env["ir.model.fields"].sudo().browse(int(field))
+            field = self.env["ir.model.fields"].sudo().browse(int(field)).exists()
             if field and value and value != "":
                 # convert date fields
                 if parameter.endswith("_date"):
@@ -222,6 +422,8 @@ class PartnerAutocompleteProvider(models.AbstractModel):
                     "ares_cz.mapping.nace",
                     self._ares_prevailing_nace(record["ico"])))
             self._enrich_dynamic_mapping(result, mapping_pairs)
+            if record.get("ico"):
+                self._ares_enrich_register(result, record)
 
         except HTTPError as http_err:
             print(f"HTTP error occurred: {http_err}")

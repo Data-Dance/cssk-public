@@ -79,6 +79,78 @@ class ResPartner(models.Model):
                 return el
         return None
 
+    def _cz_adis_subject_type(self):
+        """``typSubjektu`` of this partner in the register of VAT subjects —
+        ``PLATCE_DPH``, ``IDENTIFIKOVANA_OSOBA``, ``SKUPINA_DPH``,
+        ``NESPOLEHLIVA_OSOBA`` or ``NENALEZEN`` — or None when the register
+        could not be asked.
+
+        A second operation of the same service
+        (``getStatusNespolehlivySubjektRozsirenyV2``), because the one the
+        reliability check uses answers about plátci only and knows an
+        identifikovaná osoba merely as "not found".
+        """
+        dic = self._cz_adis_dic()
+        if not dic:
+            return None
+        envelope = (
+            '<?xml version="1.0" encoding="utf-8"?>'
+            '<soapenv:Envelope'
+            ' xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"'
+            f' xmlns:roz="{_NS}"><soapenv:Body>'
+            '<roz:StatusNespolehlivySubjektRozsirenyV2Request>'
+            f'<roz:dic>{escape(dic)}</roz:dic>'
+            '</roz:StatusNespolehlivySubjektRozsirenyV2Request>'
+            '</soapenv:Body></soapenv:Envelope>'
+        )
+        try:
+            resp = requests.post(
+                _ADIS_URL,
+                data=envelope.encode("utf-8"),
+                headers={
+                    "Content-Type": "text/xml; charset=utf-8",
+                    "SOAPAction": "getStatusNespolehlivySubjektRozsirenyV2",
+                },
+                timeout=20,
+            )
+            resp.raise_for_status()
+            parser = etree.XMLParser(resolve_entities=False, no_network=True)
+            root = etree.fromstring(resp.content, parser=parser)
+        except (requests.exceptions.RequestException, etree.XMLSyntaxError):
+            _logger.exception("ADIS subject type query failed for %s", dic)
+            return None
+        for el in root.iter():
+            if not isinstance(el.tag, str):
+                continue
+            if etree.QName(el).localname == "statusSubjektu":
+                return (el.get("typSubjektu") or "").upper() or None
+        return None
+
+    def _cz_fill_vat_registration_category(self):
+        """Record what kind of VAT registration each Czech partner holds,
+        where ``l10n_cz_vat_registration`` gives it somewhere to go.
+
+        Feature detection rather than a dependency. An answer the sibling
+        module does not recognise — not found, a nespolehlivá osoba — changes
+        nothing: it is not a category, and it must not erase one a person
+        entered.
+        """
+        if "l10n_cz_vat_registration_category" not in self._fields:
+            return
+        for partner in self:
+            if (partner.country_id.code or "") != "CZ":
+                continue
+            category = partner._l10n_cz_parse_vat_registration_category(
+                partner._cz_adis_subject_type()
+            )
+            if category and category != partner.l10n_cz_vat_registration_category:
+                partner.l10n_cz_vat_registration_category = category
+
+    def action_cssk_refresh_reliability(self):
+        res = super().action_cssk_refresh_reliability()
+        self.commercial_partner_id._cz_fill_vat_registration_category()
+        return res
+
     # ------------------------------------------------------------------
     # Deriving both answers from one fetched status element
     # ------------------------------------------------------------------

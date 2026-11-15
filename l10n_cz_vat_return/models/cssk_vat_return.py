@@ -1,7 +1,7 @@
 # Copyright 2026 Data Dance s.r.o.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from decimal import ROUND_CEILING, ROUND_HALF_UP, Decimal
+from decimal import ROUND_CEILING, ROUND_FLOOR, ROUND_HALF_UP, Decimal
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -44,7 +44,8 @@ CZ_TOTALS = (
 #: rows computed from them. "Daň se zaokrouhluje na celé koruny nahoru"
 #: (zákon č. 280/2009 Sb., daňový řád, § 146 odst. 1); the form only says
 #: "Údaje v daňovém přiznání se uvedou zaokrouhlené na celé koruny" (25 5401
-#: vzor 26) and its pokyny (25 5412 vzor 22) name no direction.
+#: vzor 26) and its pokyny (25 5412 vzor 22) name no direction. A tax rounds
+#: up, except a deduction (``CZ_DEDUCTION_CODES``), which rounds down.
 CZ_TAX_CODES = frozenset("""
     dan23 dan5 dan_dzb23 dan_dzb5 dan_pdop_nrg dan_psl23_e dan_psl23_z
     dan_psl5_e dan_psl5_z dan_pzb23 dan_pzb5 dan_rpren23 dan_rpren5
@@ -53,6 +54,20 @@ CZ_TAX_CODES = frozenset("""
     od_zdp23 odkr_zdp23 od_zdp5 odkr_zdp5 odp_rez_nar odp_rezim
     odp_sum_nar odp_sum_kr od_maj odkr_maj odp_uprav_kf vypor_odp
     uprav_odp dan_vrac dan_zocelk odp_zocelk dano dano_da dano_no
+""".split())
+
+#: The deduction side of the tax rows: ř. 40 – 47, the coefficient rows'
+#: amounts (ř. 52, 53), ř. 60 and the total ř. 63. "Výstup nahoru, odpočet
+#: dolů" is the practice the accountant confirmed (November 2026): both
+#: directions keep the return on the side of the state, so § 146 odst. 1 is
+#: never read as letting a deduction grow by rounding. Rounded towards minus
+#: infinity, so a negative correction of a deduction grows rather than
+#: shrinks, which is the same side.
+CZ_DEDUCTION_CODES = frozenset("""
+    odp_tuz23_nar odp_tuz23 odp_tuz5_nar odp_tuz5 odp_cu_nar odp_cu
+    od_zdp23 odkr_zdp23 od_zdp5 odkr_zdp5 odp_rez_nar odp_rezim
+    odp_sum_nar odp_sum_kr od_maj odkr_maj odp_uprav_kf vypor_odp
+    uprav_odp odp_zocelk
 """.split())
 
 #: ř. 52 / ř. 53 coefficients: "Vypočtený koeficient se zaokrouhlí na celé
@@ -70,8 +85,10 @@ def _cz_whole(value, code=None):
     """A DPHDP3 amount in whole crowns, as the export files it.
 
     A tax (``CZ_TAX_CODES``) and a coefficient round UP — towards plus
-    infinity, the reading of "nahoru" that never states less tax; a base or
-    a value rounds to the nearest crown, half away from zero. The amount is
+    infinity, the reading of "nahoru" that never states less tax — and a
+    deduction (``CZ_DEDUCTION_CODES``) rounds DOWN, towards minus infinity,
+    so that it never claims more; a base or a value rounds to the nearest
+    crown, half away from zero. The amount is
     first taken at its two decimals so that float noise in a sum
     (``1000.0000000001``) is not mistaken for a part of a crown.
 
@@ -79,7 +96,9 @@ def _cz_whole(value, code=None):
     on the return as 210 and 211.50 as 212.
     """
     amount = Decimal("%.2f" % (value or 0.0))
-    if code in CZ_TAX_CODES or code in CZ_COEFFICIENT_CODES:
+    if code in CZ_DEDUCTION_CODES:
+        rounding = ROUND_FLOOR
+    elif code in CZ_TAX_CODES or code in CZ_COEFFICIENT_CODES:
         rounding = ROUND_CEILING
     else:
         rounding = ROUND_HALF_UP
@@ -272,14 +291,29 @@ class CsskVatReturn(models.Model):
 
     def _cz_baseline_values(self):
         """``{code: full value}`` of the baseline, or None when this is not
-        a dodatečné or it has nothing to difference against."""
+        a dodatečné or it has nothing to difference against.
+
+        The total rows (``CZ_TOTALS``) are summed again from the baseline's
+        own rows, rounded the way this version rounds them, unless a total
+        was overridden by hand. A baseline computed under an older rounding
+        rule (deductions rounded up before 19.0.1.17.0) stores totals summed
+        that way, and differencing its rows one way and its totals the other
+        would leave the dodatečné's rows not adding up to its totals.
+        """
         self.ensure_one()
         if self.cz_filing_code not in ("D", "E"):
             return None
         base = self._cz_baseline_return()
         if not base or not base.line_ids:
             return None
-        return {line.code: line.value for line in base.line_ids}
+        lines = {line.code: line for line in base.line_ids}
+        vals = {code: line.value for code, line in lines.items()}
+        for code, terms in CZ_TOTALS:
+            line = lines.get(code)
+            if line and not line.is_overridden:
+                vals[code] = sum(sign * _cz_whole(vals.get(term, 0.0), term)
+                                 for sign, term in terms)
+        return vals
 
     def _cz_epo_values(self):
         """``{code: 'whole crowns'}`` as the DPHDP3 attributes file them:

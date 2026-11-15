@@ -11,7 +11,7 @@ CZ Supplier Reliability — ADIS
 
 **The Czech register behind the supplier reliability check — nespolehlivý plátce and published bank accounts from the Ministry of Finance ADIS service.**
 
-Answers the supplier reliability check for Czech suppliers: it asks the Ministry of Finance ADIS web service whether the supplier is a nespolehlivý plátce and which bank accounts it has published, converts the published domestic account numbers — and an account you are paying that was typed in the domestic form — to IBAN and compares them. A subject ADIS does not hold as a plátce is reported as not checked rather than as paying an unpublished account. One request per check, no key needed.
+Answers the supplier reliability check for Czech suppliers: it asks the Ministry of Finance ADIS web service whether the supplier is a nespolehlivý plátce and which bank accounts it has published, converts the published domestic account numbers — and an account you are paying that was typed in the domestic form — to IBAN and compares them. A subject ADIS does not hold as a plátce is reported as not checked rather than as paying an unpublished account. One request per check, no key needed. With ``l10n_cz_vat_registration`` installed, *Check tax reliability* on a contact also records whether the subject is a plátce, a skupina or an identifikovaná osoba, from the same service.
 
 Install it together with the reliability check and the Czech chart of accounts (``l10n_cz``). It has no screen or settings of its own; it applies to suppliers whose country is the Czech Republic and who have a *Tax ID*.
 
@@ -19,7 +19,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_payment_reliability``
-- **Version:** 19.0.1.2.1
+- **Version:** 19.0.1.3.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payment_reliability``, ``l10n_cz``

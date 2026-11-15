@@ -1,7 +1,7 @@
 ---
 title: CZ Financial Statements (Rozvaha / VZZ)
 summary: The Czech rozvaha, výkaz zisku a ztráty, přehled o peněžních tocích and přehled o změnách vlastního kapitálu computed from the ledger, ready to be filed with the corporate income tax return.
-verified: 19.0.1.2.1
+verified: 19.0.1.3.0
 ---
 
 ## What it is for {#purpose}
@@ -69,7 +69,7 @@ analytic account for the flow and give it the tag:
 
 | Tag | Item | Account |
 |---|---|---|
-| VZZ IV.1 | income from shares, controlled or controlling person | 665… |
+| VZZ IV.1 | income from shares, controlled or controlling person | 661…, 665… |
 | VZZ V.1 / V.2 | income from other long-term financial assets (bonds, loans), controlled person / other | 665… |
 | VZZ VI.1 | interest income, controlled or controlling person | 662…, 666… |
 | VZZ J.1 | interest expense, controlled or controlling person | 562… |
@@ -117,10 +117,14 @@ in the *Version* field before computing. Click
 - **Výkaz zisku a ztráty, full scope.** Every item of příloha č. 2,
   including D.2.1–D.2.2 (524–526 / 527–528), E.1.1 (551, 557), and the items
   read from account tags described under [Setting it up](#setup).
+  Proceeds from selling shares and securities (661) are reported under IV.
+  Výnosy z dlouhodobého finančního majetku – podíly, against G. Náklady
+  vynaložené na prodané podíly (561); losses on revaluing securities (564)
+  under K. Ostatní finanční náklady, beside their gains (664) in VII.
 - **Výkaz zisku a ztráty, abridged scope.** The lettered and Roman-numbered
   items with some of their sub-items (A.1–A.3, D.1–D.2, III.1–III.3, F.1–F.5,
-  L.1–L.2), the computed results and *Čistý obrat za účetní období*. Account
-  665 is reported entirely under IV.
+  L.1–L.2), the computed results and *Čistý obrat za účetní období*. Accounts
+  661 and 665 are reported entirely under IV., 564 under K.
 - **Přehled o peněžních tocích.** Every non-cash account falls into
   operating (A), investing (B) or financing (C) activity, so A + B + C equals
   the change in cash between *P.* (start) and *R.* (end); row *G. Kontrola*

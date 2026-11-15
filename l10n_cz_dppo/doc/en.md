@@ -1,7 +1,7 @@
 ---
 title: CZ Corporate Income Tax Return (DPPDP9)
 summary: The Czech corporate income tax return — row 10 from the books, the accountant's adjustments, the tax computation of Part II, and an EPO file checked against the Financial Administration's schema, with the balance sheet and profit and loss statement filed inside it.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 ---
 
 ## What it is for {#purpose}
@@ -88,7 +88,7 @@ the current structure, which accepts periods from 2021. The **Statement Type** i
 
 | Row | Kind | Computed as |
 |---|---|---|
-| ř. 10 Výsledek hospodaření před zdaněním | from accounts | class 6 minus class 5, without group 59 (income tax and transfer accounts) |
+| ř. 10 Výsledek hospodaření před zdaněním | from accounts | class 6 minus class 5, without 591, 592, 593, 595, 599 (income tax) and 596 (profit share transferred to partners) |
 | ř. 70 Mezisoučet — zvýšení VH | entered | total of rows 20–63, the items increasing the result |
 | ř. 170 Mezisoučet — snížení VH | entered | total of rows 100–162, the items reducing the result |
 | ř. 200 Základ daně | computed | ř. 10 + ř. 70 − ř. 170 |
@@ -150,6 +150,23 @@ The export refuses, with a message naming the problem:
 With no statements linked, the return is exported without them, and a note
 in the chatter reminds you to attach the financial statements to the filing
 as an attachment (*E-příloha*) instead.
+
+## Comparing with the financial statements {#compare}
+
+The return starts from the accounting result: ř. 10 (*výsledek hospodaření
+před zdaněním*) is the same figure as the row *\*\* Výsledek hospodaření před
+zdaněním* of the *Výkaz zisku a ztráty*. Once the return is computed, the
+button **Porovnat s účetní závěrkou** checks that.
+
+It takes the profit and loss statement linked to the return; with none
+linked, a computed statement of the company for exactly the same period (the
+most recent one, drafts and cancelled ones aside). The comparison screen
+then shows ř. 10, the statement's figure and the difference. A difference
+means the two filings disagree on the accounting result. The usual causes:
+ř. 10 entered by hand, an entry posted after the statement was computed
+(recompute it), or a row of the statement whose accounts were edited.
+
+The button only reports; it does not stop the export.
 
 ## Limitations {#limitations}
 

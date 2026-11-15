@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <template id="report_vyrazovaci_protokol">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <t t-set="v" t-value="doc._l10n_cz_protocol_document_values()" />
+                    <div class="page">
+                        <h2>Protokol o vyřazení dlouhodobého majetku</h2>
+                        <p class="text-muted">
+                            interní účetní doklad podle § 11 zákona č. 563/1991 Sb., o účetnictví
+                        </p>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Účetní jednotka:</strong>
+                                <span t-field="doc.company_id.name"/><br/>
+                                <strong>Sídlo:</strong>
+                                <span t-field="doc.company_id.partner_id"
+                                      t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "separator": ", "}'/>
+                                <t t-if="doc.company_id.company_registry">
+                                    <br/><strong>IČO:</strong>
+                                    <span t-field="doc.company_id.company_registry"/>
+                                </t>
+                            </div>
+                            <!-- § 11 odst. 1 písm. a), d) and e) zákona č. 563/1991 Sb. -->
+                            <div class="col-6">
+                                <strong>Označení dokladu:</strong>
+                                <span t-esc="v['disposal_number']"/><br/>
+                                <strong>Datum vyhotovení:</strong>
+                                <span t-esc="v['disposal_doc_date']" t-options='{"widget": "date"}'/><br/>
+                                <strong>Datum vyřazení:</strong>
+                                <span t-esc="v['disposal_date']" t-options='{"widget": "date"}'/>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <tr>
+                                <th style="width: 35%">Název majetku</th>
+                                <td><span t-esc="v['name']"/></td>
+                            </tr>
+                            <tr>
+                                <th>Inventární číslo</th>
+                                <td>
+                                    <span t-field="doc.l10n_cz_inventory_number"/>
+                                    <span t-if="not doc.l10n_cz_inventory_number"
+                                          t-esc="v['inventory_number']"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Datum uvedení do užívání</th>
+                                <td><span t-esc="v['acquisition_date']" t-options='{"widget": "date"}'/></td>
+                            </tr>
+                            <tr>
+                                <th>Ocenění (pořizovací cena)</th>
+                                <td>
+                                    <span t-esc="v['purchase_value']"
+                                          t-options='{"widget": "monetary", "display_currency": v["currency"]}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Oprávky</th>
+                                <td>
+                                    <span t-esc="v['depreciated']"
+                                          t-options='{"widget": "monetary", "display_currency": v["currency"]}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Zůstatková cena</th>
+                                <td>
+                                    <span t-esc="v['residual']"
+                                          t-options='{"widget": "monetary", "display_currency": v["currency"]}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Způsob vyřazení</th>
+                                <td><span t-esc="v['disposal_method']"/></td>
+                            </tr>
+                        </table>
+                        <p>
+                            <strong>Důvod vyřazení:</strong><br/>
+                            <span t-field="doc.l10n_cz_disposal_reason"/>
+                        </p>
+                        <p class="text-muted">
+                            Nedílnou součástí protokolu jsou přílohy dokládající
+                            způsob vyřazení.
+                        </p>
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p>Vyřazení navrhl:</p>
+                                <p>.................................................</p>
+                            </div>
+                            <div class="col-6">
+                                <p>Vyřazení schválil:</p>
+                                <p>.................................................</p>
+                            </div>
+                        </div>
+                        <!-- § 11 odst. 1 písm. f) zákona č. 563/1991 Sb.: two podpisové záznamy -->
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <p>Osoba odpovědná za účetní případ:</p>
+                                <p>.................................................</p>
+                            </div>
+                            <div class="col-6">
+                                <p>Osoba odpovědná za zaúčtování:</p>
+                                <p>.................................................</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

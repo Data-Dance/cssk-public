@@ -95,7 +95,7 @@ When you create a return, the only **Version** is *DPPDP9*, valid from 1 January
      - Computed as
    * - ř. 10 Výsledek hospodaření před zdaněním
      - from accounts
-     - class 6 minus class 5, without group 59 (income tax and transfer accounts)
+     - class 6 minus class 5, without 591, 592, 593, 595, 599 (income tax) and 596 (profit share transferred to partners)
    * - ř. 70 Mezisoučet — zvýšení VH
      - entered
      - total of rows 20–63, the items increasing the result
@@ -171,6 +171,15 @@ The export refuses, with a message naming the problem:
 
 With no statements linked, the return is exported without them, and a note in the chatter reminds you to attach the financial statements to the filing as an attachment (*E-příloha*) instead.
 
+Comparing with the financial statements
+=========================================
+
+The return starts from the accounting result: ř. 10 (*výsledek hospodaření před zdaněním*) is the same figure as the row *\*\* Výsledek hospodaření před zdaněním* of the *Výkaz zisku a ztráty*. Once the return is computed, the button **Porovnat s účetní závěrkou** checks that.
+
+It takes the profit and loss statement linked to the return; with none linked, a computed statement of the company for exactly the same period (the most recent one, drafts and cancelled ones aside). The comparison screen then shows ř. 10, the statement's figure and the difference. A difference means the two filings disagree on the accounting result. The usual causes: ř. 10 entered by hand, an entry posted after the statement was computed (recompute it), or a row of the statement whose accounts were edited.
+
+The button only reports; it does not stop the export.
+
 Limitations
 =============
 
@@ -192,7 +201,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_dppo``
-- **Version:** 19.0.1.5.1
+- **Version:** 19.0.1.6.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_income_tax_base``, ``l10n_cz``, ``l10n_cz_statutory``, ``l10n_cz_fs``

@@ -1,7 +1,7 @@
 ---
 title: Czech Accounting Localization — full suite
 summary: Installs the Czech statutory localization in one step and offers the optional pieces as switches in the settings.
-verified: 19.0.1.1.2
+verified: 19.0.1.2.0
 ---
 
 ## What it is for {#purpose}
@@ -24,6 +24,7 @@ optional parts. It has no screens or data of its own.
 | Partner balances and offsetting (*saldokonto*, *zápočet*) | [module:l10n_cssk_partner_balances](module:l10n_cssk_partner_balances) |
 | VIES check of EU VAT numbers | [module:l10n_cssk_vies](module:l10n_cssk_vies) |
 | Accruals (*dohadné položky*) | [module:l10n_cssk_accrual](module:l10n_cssk_accrual) |
+| Stock-taking records (*inventarizace*) | [module:l10n_cz_inventory_verification](module:l10n_cz_inventory_verification) |
 
 Each of these modules has its own guide.
 

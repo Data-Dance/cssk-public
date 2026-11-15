@@ -66,7 +66,7 @@ Nothing is specific to this module beyond the framework setup. Two company field
      - Account
    * - VZZ IV.1
      - income from shares, controlled or controlling person
-     - 665…
+     - 661…, 665…
    * - VZZ V.1 / V.2
      - income from other long-term financial assets (bonds, loans), controlled person / other
      - 665…
@@ -96,9 +96,9 @@ Preparing the statements
 
 - **Rozvaha, abridged scope.** The items marked with letters and Roman numerals: A., B.I.–B.III., C.I.–C.IV., D. on the assets side; A.I.–A.VI., B., C.I., C.II., D. on the liabilities side. Both scopes: assets carry *Brutto* and *Korekce* (oprávky and opravné položky). Accrued items are reported in D. Časové rozlišení aktiv / pasiv. **A.V. Výsledek hospodaření běžného účetního období** is the movement of classes 5 and 6 within the period — the same figure as the result in the výkaz zisku a ztráty — so the rozvaha balances before the year's result is closed to 431.
 
-- **Výkaz zisku a ztráty, full scope.** Every item of příloha č. 2, including D.2.1–D.2.2 (524–526 / 527–528), E.1.1 (551, 557), and the items read from account tags described under `Setting it up <#setup>`__.
+- **Výkaz zisku a ztráty, full scope.** Every item of příloha č. 2, including D.2.1–D.2.2 (524–526 / 527–528), E.1.1 (551, 557), and the items read from account tags described under `Setting it up <#setup>`__. Proceeds from selling shares and securities (661) are reported under IV. Výnosy z dlouhodobého finančního majetku – podíly, against G. Náklady vynaložené na prodané podíly (561); losses on revaluing securities (564) under K. Ostatní finanční náklady, beside their gains (664) in VII.
 
-- **Výkaz zisku a ztráty, abridged scope.** The lettered and Roman-numbered items with some of their sub-items (A.1–A.3, D.1–D.2, III.1–III.3, F.1–F.5, L.1–L.2), the computed results and *Čistý obrat za účetní období*. Account 665 is reported entirely under IV.
+- **Výkaz zisku a ztráty, abridged scope.** The lettered and Roman-numbered items with some of their sub-items (A.1–A.3, D.1–D.2, III.1–III.3, F.1–F.5, L.1–L.2), the computed results and *Čistý obrat za účetní období*. Accounts 661 and 665 are reported entirely under IV., 564 under K.
 
 - **Přehled o peněžních tocích.** Every non-cash account falls into operating (A), investing (B) or financing (C) activity, so A + B + C equals the change in cash between *P.* (start) and *R.* (end); row *G. Kontrola* shows any difference.
 
@@ -138,7 +138,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_fs``
-- **Version:** 19.0.1.2.1
+- **Version:** 19.0.1.3.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_fs_base``, ``l10n_cz``

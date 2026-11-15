@@ -1,7 +1,7 @@
 ---
 title: CZ přiznání k dani z příjmů PO (DPPDP9)
 summary: České přiznání k dani z příjmů právnických osob — ř. 10 z účetnictví, úpravy účetní, výpočet daně ve II. oddílu a soubor pro EPO ověřený proti schématu Finanční správy, včetně rozvahy a výkazu zisku a ztráty podaných uvnitř přiznání.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -83,7 +83,7 @@ struktuře, která přijímá období od roku 2021. **Typ výkazu** je *Řádné
 
 | Řádek | Druh | Výpočet |
 |---|---|---|
-| ř. 10 Výsledek hospodaření před zdaněním | z účtů | třída 6 minus třída 5, bez skupiny 59 (daně z příjmů a převodové účty) |
+| ř. 10 Výsledek hospodaření před zdaněním | z účtů | třída 6 minus třída 5, bez účtů 591, 592, 593, 595, 599 (daně z příjmů) a 596 (převod podílu společníkům) |
 | ř. 70 Mezisoučet — zvýšení VH | zadáváte | úhrn ř. 20 – 63, položky zvyšující výsledek hospodaření |
 | ř. 170 Mezisoučet — snížení VH | zadáváte | úhrn ř. 100 – 162, položky snižující výsledek hospodaření |
 | ř. 200 Základ daně | výpočet | ř. 10 + ř. 70 − ř. 170 |
@@ -143,6 +143,22 @@ Export odmítne, s hlášením, které problém pojmenuje:
 Bez propojených výkazů se přiznání exportuje bez nich a poznámka v
 chatteru připomene, že účetní závěrku je pak třeba přiložit k podání jako
 E-přílohu.
+
+## Porovnání s účetní závěrkou {#compare}
+
+Přiznání vychází z účetního výsledku: ř. 10 (výsledek hospodaření před
+zdaněním) je stejné číslo jako řádek *\*\* Výsledek hospodaření před
+zdaněním* Výkazu zisku a ztráty. Jakmile je přiznání vypočteno, ověří to
+tlačítko **Porovnat s účetní závěrkou**.
+
+Použije výkaz zisku a ztráty připojený k přiznání; není-li žádný připojen,
+vypočtený výkaz společnosti za přesně stejné období (nejnovější, koncepty
+a zrušené výkazy se neberou). Obrazovka porovnání pak ukáže ř. 10, částku
+z výkazu a rozdíl. Rozdíl znamená, že se obě podání neshodují na účetním
+výsledku. Obvyklé příčiny: ř. 10 zadaný ručně, zápis zaúčtovaný až po
+výpočtu výkazu (přepočtěte ho), nebo řádek výkazu s upravenými účty.
+
+Tlačítko pouze hlásí; export nezastaví.
 
 ## Omezení {#limitations}
 

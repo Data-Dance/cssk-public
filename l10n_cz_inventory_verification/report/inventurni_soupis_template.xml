@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo>
+    <template id="report_inventurni_soupis">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Inventurní soupis</h2>
+                        <p class="text-muted">
+                            podle § 30 odst. 7 zákona č. 563/1991 Sb., o účetnictví
+                        </p>
+
+                        <!-- Not a § 30 odst. 7 particular: the record has to
+                             say whose it is. -->
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <strong>Účetní jednotka:</strong>
+                                <span t-field="doc.company_id.name"/><br/>
+                                <strong>Sídlo:</strong>
+                                <span t-field="doc.company_id.partner_id"
+                                      t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "separator": ", "}'/><br/>
+                                <t t-if="doc.company_id.company_registry">
+                                    <strong>IČO:</strong>
+                                    <span t-field="doc.company_id.company_registry"/>
+                                </t>
+                            </div>
+                            <div class="col-6">
+                                <strong>Soupis:</strong> <span t-field="doc.name"/><br/>
+                                <strong>Inventarizace:</strong>
+                                <span t-field="doc.inventarizace_id.name"/>
+                                (<span t-field="doc.inventarizace_id.inventarizace_type"/>)<br/>
+                                <strong>Druh inventury:</strong>
+                                <span t-field="doc.inventory_type"/><br/>
+                                <!-- § 30 odst. 7 písm. c) -->
+                                <strong>Způsob zjišťování skutečných stavů:</strong>
+                                <span t-field="doc.method"/>
+                            </div>
+                        </div>
+
+                        <!-- § 30 odst. 7 písm. f), g), h) -->
+                        <table class="table table-sm table-borderless mb-3">
+                            <tr>
+                                <td><strong>Okamžik, ke kterému se sestavuje účetní závěrka</strong></td>
+                                <td><span t-field="doc.inventarizace_id.date_as_of"/></td>
+                                <td><strong>Rozhodný den</strong></td>
+                                <td>
+                                    <span t-field="doc.rozhodny_den"/>
+                                    <span t-if="not doc.rozhodny_den">nestanoven</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Okamžik zahájení inventury</strong></td>
+                                <td><span t-field="doc.datetime_start" t-options='{"hide_seconds": True}'/></td>
+                                <td><strong>Okamžik ukončení inventury</strong></td>
+                                <td><span t-field="doc.datetime_end" t-options='{"hide_seconds": True}'/></td>
+                            </tr>
+                        </table>
+
+                        <p t-if="doc.location">
+                            <strong>Místo uložení majetku:</strong>
+                            <span t-field="doc.location"/>
+                        </p>
+                        <p t-if="doc.account_id">
+                            <strong>Účet:</strong>
+                            <span t-field="doc.account_id.code"/> —
+                            <span t-field="doc.account_id.name"/>
+                        </p>
+
+                        <!-- § 30 odst. 7 písm. a) the actual states, d)/e) the ocenění -->
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Popis</th>
+                                    <th class="text-end">Množství</th>
+                                    <th>Jednotka</th>
+                                    <th class="text-end">Cena za jednotku</th>
+                                    <th class="text-end">Ocenění</th>
+                                    <th>Poznámka</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.line_ids" t-as="line">
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-end"><span t-field="line.quantity"/></td>
+                                    <td><span t-field="line.uom_name"/></td>
+                                    <td class="text-end">
+                                        <span t-field="line.unit_price"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-field="line.amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td><span t-field="line.note"/></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">
+                                        <strong>Skutečný stav celkem</strong>
+                                        <t t-if="doc.comparison_date">
+                                            (ocenění ke dni <span t-field="doc.comparison_date"/>)
+                                        </t>
+                                    </td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.actual_amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong>
+                                    </td>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">Stav v účetnictví</td>
+                                    <td class="text-end">
+                                        <span t-field="doc.book_amount"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                    </td>
+                                    <td/>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><strong>Rozdíl</strong></td>
+                                    <td class="text-end">
+                                        <strong><span t-field="doc.difference"
+                                              t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/></strong>
+                                    </td>
+                                    <td/>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <p t-if="doc.note">
+                            <strong>Poznámky:</strong> <span t-field="doc.note"/>
+                        </p>
+
+                        <!-- § 30 odst. 7 písm. b): the two signatures -->
+                        <div class="row mt-5">
+                            <div class="col-6">
+                                <p>
+                                    Osoba odpovědná za zjištění skutečností:
+                                    <strong><span t-field="doc.counted_by_id.name"/></strong>
+                                </p>
+                                <p>.................................................</p>
+                                <p class="text-muted">podpisový záznam</p>
+                            </div>
+                            <div class="col-6">
+                                <p>
+                                    Osoba odpovědná za provedení inventury:
+                                    <strong><span t-field="doc.inventory_responsible_id.name"/></strong>
+                                </p>
+                                <p>.................................................</p>
+                                <p class="text-muted">podpisový záznam</p>
+                            </div>
+                        </div>
+                        <div class="row mt-4" t-if="doc.responsible_person_id">
+                            <div class="col-6">
+                                <p>
+                                    Hmotně odpovědná osoba:
+                                    <strong><span t-field="doc.responsible_person_id.name"/></strong>
+                                </p>
+                                <p>.................................................</p>
+                                <p class="text-muted">podpis</p>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,223 @@
+---
+title: CZ Inventory Verification (inventarizace)
+summary: The Czech inventory verification as records — the inventarizace, its inventurní soupisy with every particular § 30 odst. 7 of the Accounting Act prescribes, and an internal closing record comparing them with the books.
+verified: 19.0.1.0.0
+---
+
+## What it is for {#purpose}
+
+A Czech accounting entity must establish the actual state of all its assets
+and liabilities and verify that it matches the books. This is the
+**inventarizace** (inventory verification). Each count or check within it is
+an **inventura**, and what an inventura finds is written down in an
+**inventurní soupis** (count sheet), a record whose content the Accounting Act
+prescribes.
+
+The module keeps those records in Odoo: one inventarizace document per
+exercise, any number of inventurní soupisy under it, and a closing record —
+the **inventarizační zápis** — on the inventarizace itself. For an account
+verified from documents, the book balance is read from the general ledger.
+Both records print as PDF.
+
+It records and evidences the exercise. It does **not** post inventory
+differences: manka, schodky, přebytky, opravné položky and the like follow
+from it and are entered by the accountant.
+
+The statutory field names and the printouts are in Czech, because they are the
+statute's own terms. This page quotes them as they appear.
+
+## Legal background {#legal}
+
+All references are to the [Accounting Act](law:cz/1991/563) unless stated
+otherwise.
+
+- **When.** Under [§ 29 odst. 1](law:cz/1991/563#p29) the inventarizace is
+  carried out to the moment the ordinary or extraordinary financial statements
+  are drawn up (**periodická inventarizace**). Under § 29 odst. 2 a **průběžná
+  inventarizace** during the period is allowed only for stock accounted for by
+  kind, by place of storage or by hmotně odpovědná osoba, and for movable
+  tangible fixed assets that are constantly on the move; each kind must be
+  verified at least once in the period.
+- **How.** Under [§ 30 odst. 1](law:cz/1991/563#p30) the actual state is
+  established by a **fyzická inventura** for assets whose existence can be
+  established visually, and by a **dokladová inventura** for liabilities and
+  for assets whose existence cannot — including off-balance-sheet items. An
+  inventarizace consists of one or more inventury (§ 30 odst. 2).
+- **The inventurní soupis** is a průkazný účetní záznam that must contain,
+  under § 30 odst. 7: the facts found, so that the assets and liabilities can
+  be identified unambiguously (písm. a); the podpisový záznam of the *osoba
+  odpovědná za zjištění skutečností* and of the *osoba odpovědná za provedení
+  inventury* (písm. b); the *způsob zjišťování skutečných stavů* (písm. c);
+  the valuation as at the rozvahový den for a periodická inventarizace
+  (písm. d) or as at the day the inventura ended for a průběžná one (písm. e),
+  in either case optionally also as at the rozhodný den; the *okamžik, ke
+  kterému se sestavuje účetní závěrka* (písm. f); the *rozhodný den* where the
+  entity set one (písm. g); and the *okamžik zahájení a okamžik ukončení
+  inventury* (písm. h).
+- **Rozhodný den.** Under § 30 odst. 4 the entity may establish the actual
+  state as at a day preceding the rozvahový den and complete it from the
+  records of additions and disposals between the two days.
+- **Time window.** Under § 30 odst. 6 an inventura of a periodická
+  inventarizace may start four months before the rozvahový den at the
+  earliest and must end two months after it at the latest.
+- **Differences.** Under § 30 odst. 10 an *inventarizační rozdíl* is a
+  difference between the actual state and the books that cannot be proven in
+  the way the Act lays down: a *manko* (a *schodek* for cash and ceniny) where
+  the actual state is lower, a *přebytek* where it is higher. They are booked
+  in the period being verified (§ 30 odst. 11).
+- **Valuation.** § 29 odst. 1 also has the entity verify whether there are
+  reasons to account for the items of § 25 odst. 3 — foreseeable risks,
+  possible losses and impairment. For businesses,
+  [vyhláška č. 500/2002 Sb.](law:cz/2002/500) adds that the amount and
+  justification of opravné položky (§ 55 odst. 1) and of rezervy
+  (§ 57 odst. 5) are assessed at the inventarizace.
+- **Evidence.** The entity must be able to prove that the inventarizace was
+  carried out for five years afterwards (§ 29 odst. 3).
+
+**The inventarizační zápis is not a statutory document.** The Act prescribes
+the inventurní soupis and nothing that closes the exercise. Businesses
+commonly draw up an *inventarizační zápis* (or *zpráva*) as an internal
+record, and that is what this module prints: it is how the comparison of
+§ 30 odst. 2 and the valuation assessment of § 29 odst. 1 are written down and
+kept. An *inventarizační zpráva* with prescribed content exists only for
+vybrané účetní jednotky (the public sector), under vyhláška č. 270/2010 Sb.,
+which does not apply to businesses and which this module does not implement.
+
+## Setting it up {#setup}
+
+Nothing to configure. The documents are numbered `INV/<year>/001`,
+`INV/<year>/002`, … from one sequence shared by all companies; the year is the
+year the document is created, not the year being verified.
+
+The menu is *Accounting → Accounting → Inventarizace*. On Community the app is
+called *Invoicing*, and the *Accounting* submenu is shown only to users with
+access to the full accounting features. Invoicing users may create and edit
+inventarizace; only accounting managers may delete them.
+
+## Carrying out an inventarizace {#usage}
+
+1. **Create the inventarizace.** *Inventarizace → New*, choose the *Druh
+   inventarizace* (**Periodická** or **Průběžná**) and fill *Okamžik, ke
+   kterému se sestavuje účetní závěrka* — the rozvahový den. Click **Start**
+   to move it from *Draft* to *In progress*.
+2. **Add the inventurní soupisy** on the tab **Inventurní soupisy**, one per
+   inventura — one per warehouse, cash desk, asset group or account. *Add a
+   line* opens the soupis in its own window. Under **Inventura (§ 30
+   odst. 7)** fill:
+   - *Name* and *Druh inventury*: **Fyzická inventura** or **Dokladová
+     inventura**;
+   - *Způsob zjišťování skutečných stavů* — in your own words, for example
+     *počítáním a vážením* or *odsouhlasením zůstatků*;
+   - *Okamžik zahájení inventury* and *Okamžik ukončení inventury*, with the
+     time of day;
+   - *Rozhodný den*, only if you set one; for a periodická inventarizace it
+     must precede the rozvahový den;
+   - *Osoba odpovědná za zjištění skutečností* and *Osoba odpovědná za
+     provedení inventury* (users; the same person may hold both).
+
+   *Místo uložení majetku* and *Hmotně odpovědná osoba* are optional: the Act
+   does not ask for them on the soupis.
+3. **Enter the items** (*Items*) in the same window: *Description*, optionally
+   *Product*, *Quantity*, *Unit* (free text) and *Unit price*. The *Ocenění*
+   is quantity × unit price, and the soupis's *Skutečný stav* is the sum of
+   its items. Choosing a product fills nothing in; type the price yourself.
+   Describe each item so that it can be identified unambiguously — an
+   inventory number, a serial number, a document number.
+4. **Book state.**
+   - *Dokladová inventura* with an *Account*: *Stav v účetnictví* is the
+     account's balance from **posted** entries dated up to and including the
+     day shown as *Ocenění ke dni* — the rozvahový den for a periodická
+     inventarizace, the day the inventura ended for a průběžná one. Entries
+     posted later are picked up by **Read account balance** in the soupis, or
+     **Read book balances** at the top of the inventarizace for every
+     dokladová inventura at once.
+   - *Fyzická inventura*: type the *Stav v účetnictví* from your stock or
+     asset records.
+
+   *Difference* is *Skutečný stav* − *Stav v účetnictví*, per soupis and in
+   total.
+5. **Write the closing record** on the tab **Inventarizační zápis**:
+   *Výsledky porovnání skutečného stavu se stavem v účetnictví* (including
+   the inventarizační rozdíly and how they are to be booked), *Posouzení
+   ocenění majetku a závazků* and *Osoba odpovědná za provedení
+   inventarizace*.
+6. Click **Close**. It is refused when the inventarizace has no soupis, or
+   when any soupis lacks one of the particulars a person has to supply under
+   § 30 odst. 7: either of the two responsible persons, the method, or the
+   moment the inventura started or ended. The message names the soupis and
+   what is missing. **Back to draft** reopens it at any stage.
+
+### The time window {#window}
+
+When an inventura of a periodická inventarizace starts more than four months
+before the rozvahový den or ends more than two months after it, a warning is
+shown at the top of the inventarizace (§ 30 odst. 6). It is a warning only:
+the moments an inventura really took place can always be recorded.
+
+### Working with a rozhodný den {#rozhodny-den}
+
+The valuation on the soupis is always as at the rozvahový den. When you count
+as at an earlier rozhodný den, enter the items as they stood on the rozvahový
+den — the count adjusted by the additions and disposals in between — and keep
+the records of those movements with the soupis.
+
+### Signs on accounts verified from documents {#signs}
+
+The book balance is debit minus credit, so liability and equity accounts come
+out **negative**: a supplier balance of 500 on account 321 reads −500. Enter
+the confirmed amounts of such an account with a negative unit price (for
+example, quantity 1, price −500) so that *Difference* compares like with like.
+
+## Printouts {#reports}
+
+**Print inventurní soupisy** at the top of the inventarizace prints its
+soupisy, one per page: the entity's name, seat and IČO, the kind of
+inventarizace and inventura, the method, the rozvahový den, the rozhodný den
+(or *nestanoven*), the moments the inventura started and ended, the place and
+account where given, the items with quantity, unit, unit price and valuation,
+the totals with the day of valuation, notes, and signature lines for the two
+persons § 30 odst. 7 písm. b) names. A third line for the hmotně odpovědná
+osoba is printed only when one is filled in.
+
+From an inventarizace, *Print → Inventarizační zápis* produces the closing
+record, headed as an internal record: the entity's name, seat and IČO, the
+rozvahový den, the span of the inventury, a table of every soupis with book
+state, actual state and difference and their totals, the comparison text, the
+valuation assessment (or *Neuvedeno*), and signature lines for the person
+responsible for the inventarizace and for the entity.
+
+The seat is the company's address and the IČO its company registration number; the IČO line is left out when that is empty.
+
+Signatures are blank lines to be signed on paper; nothing is signed
+electronically. If you keep the records electronically only, attach a
+podpisový záznam that meets § 33a of the Act yourself.
+
+## Limitations {#limitations}
+
+- The soupis carries one valuation, as at the rozvahový den (or the end of
+  the inventura for a průběžná inventarizace). The optional second valuation
+  as at the rozhodný den, which § 30 odst. 7 písm. d) and e) allow, has no
+  field of its own; use the item notes.
+- The day of valuation of a průběžná inventarizace is the day the inventura
+  ended in the time zone of the user who saved it.
+- § 30 odst. 8 lets a průběžná inventarizace replace the soupis by a record of
+  the physical count and of the settlement of differences. The module always
+  produces a soupis.
+- Nothing checks that a průběžná inventarizace is confined to the assets
+  § 29 odst. 2 allows, or that each kind is verified once a period.
+- *Osoba odpovědná za provedení inventarizace* holds one user and is not
+  required to close.
+- For a dokladová inventura a typed-over book balance does not last: the next
+  recalculation or refresh replaces it.
+- On a fyzická inventura nothing is read from Odoo Inventory or the asset
+  register; the book state is typed.
+- A difference is shown as a number. Whether it is a manko, a schodek or a
+  přebytek — or no inventarizační rozdíl at all, because it can be proven —
+  is for the accountant to state in the closing record.
+- A closed inventarizace stays editable — *Done* locks nothing.
+- No differences are posted; manka, přebytky and valuation adjustments are
+  entered by the accountant. For stock, the Czech accounting standard for
+  businesses No. 007 deals with inventory differences and losses within the
+  norms of natural loss.
+- The rules of vyhláška č. 270/2010 Sb. for vybrané účetní jednotky (plán
+  inventur, inventarizační komise, inventarizační zpráva) are not implemented.

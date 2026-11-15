@@ -8,6 +8,33 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.6.0] — 2026-11-15
+-------------------------
+
+Added
+~~~~~
+
+- **Porovnat s účetní závěrkou.** A button on a Czech return compares ř. 10
+  (výsledek hospodaření před zdaněním) with the row "** Výsledek hospodaření
+  před zdaněním" of the Výkaz zisku a ztráty — the statement linked to the
+  return, or else a computed one for exactly the same period — and records
+  the result on the comparison screen. The two are the same figure, so a
+  difference is reported as one. The Slovak return has the same check in
+  ``l10n_sk_dppo_fs``.
+
+Fixed
+~~~~~
+
+- **ř. 10 counts the převodové účty 597 and 598.** It left out the whole of
+  účtová skupina 59; the income tax (591, 592, 593, 595, 599) and the převod
+  podílu společníkům (596) belong below the result before tax, but 597 and
+  598 are costs above it. With their counterparts 697 and 698 counted, a
+  company using them had ř. 10 overstated by what stood on 597 and 598. An
+  installed version is corrected on upgrade where the row still holds the
+  shipped formula; recompute a return to refresh its figures.
+- The výkazy tests pass with the OCA asset register's profiles installed and
+  with Czech loaded.
+
 [19.0.1.5.1] — 2026-11-05
 -------------------------
 

@@ -8,6 +8,23 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.0] — 2026-11-12
+-------------------------
+
+Changed
+~~~~~~~
+
+- **661 Tržby z prodeje cenných papírů a podílů is reported under IV.**
+  (Výnosy z dlouhodobého finančního majetku – podíly), the income side of
+  G. Náklady vynaložené na prodané podíly (561), instead of VII. In the full
+  scope an account tagged *VZZ IV.1* goes to IV.1, untagged to IV.2.
+- **564 Náklady z přecenění cenných papírů is reported under K.** Ostatní
+  finanční náklady, beside its income counterpart 664 in VII., instead of
+  I. Úpravy hodnot a rezervy ve finanční oblasti.
+- Both scopes, as the accountant's practice has it. An upgrade rewrites the
+  rows of existing databases only where they still hold the formula as
+  shipped; statements already computed keep their lines until recomputed.
+
 [19.0.1.2.1] — 2026-11-05
 -------------------------
 

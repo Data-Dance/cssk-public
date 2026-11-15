@@ -1,0 +1,184 @@
+# Copyright 2026 Data Dance s.r.o.
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+
+"""That a fresh Czech company has profiles, and that they resolve.
+
+The point of the module is that an asset created — or imported — on a new CZ
+company has something to point at. A profile whose accounts did not resolve
+would satisfy that by existing and fail at the first depreciation, so the
+resolution is what these assert, not the count.
+"""
+
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
+from odoo.tests import tagged
+
+from odoo.addons.l10n_cz_account_asset_profile.models.account_chart_template import (
+    CZ_ASSET_PROFILES,
+)
+
+
+@tagged("post_install", "-at_install")
+class TestCzAssetProfile(AccountTestInvoicingCommon):
+
+    @classmethod
+    @AccountTestInvoicingCommon.setup_country("cz")
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.company_data["company"]
+        cls.profiles = cls.env["account.asset.profile"].with_company(
+            cls.company
+        ).search([("company_id", "=", cls.company.id)])
+
+    def _by_asset_code(self):
+        return {
+            profile.account_asset_id.code: profile for profile in self.profiles
+        }
+
+    def test_a_fresh_czech_company_has_profiles(self):
+        """The whole point: nothing to map to is what this module removes."""
+        self.assertTrue(
+            self.profiles,
+            "a Czech company with no asset profile cannot depreciate anything",
+        )
+
+    def test_every_profile_resolves_all_three_accounts(self):
+        """A profile that exists but whose accounts are empty is worse than
+        none: it satisfies the mapping and fails at the first depreciation."""
+        for profile in self.profiles:
+            self.assertTrue(profile.account_asset_id,
+                            "%s has no asset account" % profile.name)
+            self.assertTrue(profile.account_depreciation_id,
+                            "%s has no depreciation account" % profile.name)
+            self.assertTrue(profile.account_expense_depreciation_id,
+                            "%s has no expense account" % profile.name)
+            self.assertTrue(profile.journal_id,
+                            "%s has no journal" % profile.name)
+
+    def test_the_accounts_belong_to_this_company(self):
+        for profile in self.profiles:
+            for field in ("account_asset_id", "account_depreciation_id",
+                          "account_expense_depreciation_id", "journal_id"):
+                record = profile[field]
+                self.assertIn(
+                    self.company, record.company_ids
+                    if "company_ids" in record._fields else record.company_id,
+                    "%s.%s belongs to another company" % (profile.name, field),
+                )
+
+    def test_each_profile_pairs_with_its_own_opravky_account(self):
+        """The pairing is the part that is not a matter of taste: each oprávky
+        account names the asset account it belongs to."""
+        by_code = self._by_asset_code()
+        for code, depreciation, _years, _name in CZ_ASSET_PROFILES:
+            profile = by_code.get(code)
+            self.assertTrue(profile, "no profile for asset account %s" % code)
+            self.assertEqual(
+                profile.account_depreciation_id.code, depreciation,
+                "%s must depreciate into %s" % (code, depreciation),
+            )
+
+    def test_what_is_not_depreciated_has_no_profile(self):
+        """§ 56 odst. 11 vyhlášky č. 500/2002 Sb.: pozemky, umělecká díla a
+        sbírky, povolenky na emise and preferenční limity are not
+        depreciated, so a profile would assert a useful life none has."""
+        by_code = self._by_asset_code()
+        for code in ("031000", "032000", "016000", "017000"):
+            self.assertNotIn(code, by_code, "%s is not depreciated" % code)
+
+    def test_every_asset_account_is_covered_or_deliberately_left_out(self):
+        """A depreciable account added to the chart must not go unnoticed."""
+        left_out = {"016000", "017000", "027000"}
+        chart = self.env["account.account"].search([
+            ("company_ids", "in", self.company.id),
+            "|", ("code", "=like", "01%"), ("code", "=like", "02%"),
+        ]).mapped("code")
+        self.assertTrue(chart)
+        self.assertEqual(
+            set(chart) - left_out,
+            {code for code, _d, _y, _n in CZ_ASSET_PROFILES})
+
+    def test_no_profile_guesses_a_tax_group(self):
+        """The account does not determine the odpisová skupina, and a wrong
+        default here posts real numbers without saying anything."""
+        for profile in self.profiles:
+            self.assertFalse(
+                profile.tax_class_id,
+                "%s guesses a tax depreciation group" % profile.name,
+            )
+            self.assertFalse(profile.tax_depreciation_enabled)
+
+    def test_the_expense_side_is_the_czech_depreciation_account(self):
+        for profile in self.profiles:
+            self.assertEqual(
+                profile.account_expense_depreciation_id.code, "551000",
+                "%s does not post its depreciation to 551" % profile.name,
+            )
+
+    def test_an_asset_can_actually_be_created_from_one(self):
+        """The end-to-end shape the importer needs.
+
+        A profile is enough to make an asset, and the duration comes across.
+        The accounts are NOT copied onto the asset — OCA keeps them on the
+        profile and reads them when it posts — so the profile resolving (above)
+        is what makes the posting work, and this only has to prove that an
+        asset can be made at all.
+        """
+        profile = self._by_asset_code()["022000"]
+        asset = self.env["account.asset"].with_company(self.company).create({
+            "name": "Test machine",
+            "profile_id": profile.id,
+            "purchase_value": 12000.0,
+            "date_start": "2026-01-01",
+        })
+        self.assertEqual(asset.profile_id, profile)
+        self.assertEqual(asset.method_number, 5,
+                         "the profile's duration must reach the asset")
+        self.assertEqual(profile.account_depreciation_id.code, "082000")
+
+    def test_the_first_year_is_not_a_whole_year(self):
+        """An asset put into use in July depreciates for July–December only,
+        not for a whole year: § 28 odst. 6 zákona č. 563/1991 Sb. has it
+        depreciated in the course of its use."""
+        profile = self._by_asset_code()["022000"]
+        self.assertTrue(profile.prorata)
+        self.assertEqual(profile.method_period, "month")
+        asset = self.env["account.asset"].with_company(self.company).create({
+            "name": "July machine",
+            "profile_id": profile.id,
+            "purchase_value": 12000.0,
+            "date_start": "2026-07-01",
+        })
+        asset.compute_depreciation_board()
+        first_year = asset.depreciation_line_ids.filtered(
+            lambda l: l.type == "depreciate" and l.line_date.year == 2026)
+        # 12 000 over five years = 2 400 a year; OCA's Prorata Temporis
+        # takes the share of the year's days from the start date onwards
+        # (184 of 365), not a whole year
+        self.assertAlmostEqual(
+            sum(first_year.mapped("amount")), round(2400.0 * 184 / 365, 2), 2)
+        self.assertEqual(len(first_year), 6, "one entry per month")
+
+    def test_a_company_that_had_its_chart_first_gets_them_once(self):
+        """Installed after the chart, the module used to create nothing: the
+        template only applies when the chart is LOADED. The hook gives them
+        to the company, and running it again changes nothing."""
+        from odoo.addons.l10n_cz_account_asset_profile.hooks import post_init_hook
+
+        Profile = self.env["account.asset.profile"].with_company(self.company)
+        data = self.env["ir.model.data"].search([
+            ("model", "=", "account.asset.profile"),
+            ("res_id", "in", self.profiles.ids)])
+        self.profiles.unlink()
+        data.unlink()
+        self.assertFalse(Profile.search([("company_id", "=", self.company.id)]))
+
+        post_init_hook(self.env)
+        restored = Profile.search([("company_id", "=", self.company.id)])
+        self.assertEqual(len(restored), len(CZ_ASSET_PROFILES))
+
+        restored[:1].method_number = 9
+        post_init_hook(self.env)
+        again = Profile.search([("company_id", "=", self.company.id)])
+        self.assertEqual(again, restored, "idempotent")
+        self.assertEqual(restored[:1].method_number, 9,
+                         "an accountant's edit is not reverted")

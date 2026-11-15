@@ -230,6 +230,28 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
         self.assertEqual(replacement._cz_baseline_return(), original)
         self.assertAlmostEqual(self._v(replacement, "dano"), 105.0, places=2)
 
+    def test_a_dodatecne_of_an_older_return_still_adds_up(self):
+        """A baseline computed while deductions still rounded up stores
+        ř. 46 / 63 summed that way. Its rows are differenced against the
+        current rounding, so its totals must be too, or the dodatečné's
+        ř. 40 would not add up to its ř. 46."""
+        original = self._return()
+        stored = {"odp_tuz23_nar": 40.50,      # filed as 41 under the old rule
+                  "odp_sum_nar": 41.0, "odp_zocelk": 41.0,
+                  "dano_no": 41.0}
+        for line in original.line_ids.filtered(lambda l: l.code in stored):
+            line.value = stored[line.code]
+        ret = self._amend(original, "D")
+        ret.action_compute_lines()
+        ret.action_export_xml()
+        attrs = {}
+        for el in self._root(ret).iter():
+            attrs.update(el.attrib)
+        self.assertEqual(attrs.get("odp_tuz23_nar"), "-40")
+        self.assertEqual(attrs.get("odp_sum_nar"), "-40")
+        self.assertEqual(attrs.get("odp_zocelk"), "-40")
+        self.assertEqual(attrs.get("dano"), "40")
+
     def test_a_dodatecne_without_the_return_it_amends_is_refused(self):
         self._sale(1000.0)
         ret = self.env["cssk.vat.return"].create({
@@ -243,7 +265,7 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
             ret.action_export_xml()
 
     # --- whole crowns: § 146 odst. 1 daňového řádu, § 76 odst. 3 ZDPH ------
-    def test_whole_crowns_round_tax_up_and_bases_half_away_from_zero(self):
+    def test_whole_crowns_round_output_up_deductions_down_bases_half_away(self):
         from odoo.addons.l10n_cz_vat_return.models.cssk_vat_return import (
             _cz_whole)
         # a tax: up, to the next crown, ties included
@@ -251,7 +273,14 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
         self.assertEqual(_cz_whole(210.01, "dan23"), 211.0)
         self.assertEqual(_cz_whole(211.50, "dan23"), 212.0)
         self.assertEqual(_cz_whole(-10.30, "dan23"), -10.0)
-        self.assertEqual(_cz_whole(40.50, "odp_tuz23_nar"), 41.0)
+        # a deduction: down ("výstup nahoru, odpočet dolů"), negatives too
+        self.assertEqual(_cz_whole(40.50, "odp_tuz23_nar"), 40.0)
+        self.assertEqual(_cz_whole(40.99, "odp_tuz23"), 40.0)
+        self.assertEqual(_cz_whole(-10.30, "odp_rez_nar"), -11.0)
+        self.assertEqual(_cz_whole(1234.56, "odp_zocelk"), 1234.0)
+        self.assertEqual(_cz_whole(40.0000000001, "odp_tuz23_nar"), 40.0)
+        # ř. 61 is not a deduction row; it stays a tax rounded up
+        self.assertEqual(_cz_whole(10.20, "dan_vrac"), 11.0)
         # float noise in a sum is not a part of a crown
         self.assertEqual(_cz_whole(210.0000000001, "dan23"), 210.0)
         # a base: nearest crown, .5 away from zero ('%.0f' gave 1002, 1000)

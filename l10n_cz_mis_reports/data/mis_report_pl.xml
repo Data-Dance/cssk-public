@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo noupdate="1">
+    <record id="mis_report_pl_cz" model="mis.report">
+        <field name="name">Manažerská výsledovka (CZ)</field>
+        <field name="style_id" ref="style_group" />
+    </record>
+
+    <record id="kpi_trzby_zbozi" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">trzby_zbozi</field>
+        <field name="description">Tržby za zboží</field>
+        <field name="sequence">10</field>
+    </record>
+    <record id="kpi_expr_trzby_zbozi" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_trzby_zbozi" />
+        <field name="name">-balp[604%]</field>
+    </record>
+
+    <record id="kpi_trzby_vlastni" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">trzby_vlastni</field>
+        <field name="description">Tržby z prodeje výrobků a služeb</field>
+        <field name="sequence">20</field>
+    </record>
+    <record id="kpi_expr_trzby_vlastni" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_trzby_vlastni" />
+        <field name="name">-balp[601%,602%]</field>
+    </record>
+
+    <record id="kpi_ostatni_vynosy" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">ostatni_vynosy</field>
+        <field name="description">Ostatní provozní výnosy</field>
+        <field name="sequence">30</field>
+    </record>
+    <record id="kpi_expr_ostatni_vynosy" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_ostatni_vynosy" />
+        <field name="name">-balp[64%,697%,699%]</field>
+    </record>
+
+    <record id="kpi_vynosy_celkem" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">vynosy_celkem</field>
+        <field name="description">Provozní výnosy celkem</field>
+        <field name="sequence">40</field>
+        <field name="expression">trzby_zbozi + trzby_vlastni + ostatni_vynosy</field>
+        <field name="style_id" ref="style_subtotal" />
+    </record>
+
+    <record id="kpi_prodane_zbozi" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">prodane_zbozi</field>
+        <field name="description">Prodané zboží</field>
+        <field name="sequence">50</field>
+    </record>
+    <record id="kpi_expr_prodane_zbozi" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_prodane_zbozi" />
+        <field name="name">balp[504%]</field>
+    </record>
+
+    <record id="kpi_spotreba" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">spotreba</field>
+        <field name="description">Spotřeba materiálu a energie</field>
+        <field name="sequence">60</field>
+    </record>
+    <record id="kpi_expr_spotreba" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_spotreba" />
+        <field name="name">balp[501%,502%,503%]</field>
+    </record>
+
+    <record id="kpi_sluzby" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">sluzby</field>
+        <field name="description">Služby</field>
+        <field name="sequence">70</field>
+    </record>
+    <record id="kpi_expr_sluzby" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_sluzby" />
+        <field name="name">balp[51%]</field>
+    </record>
+
+    <record id="kpi_zmena_stavu_aktivace" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">zmena_stavu_aktivace</field>
+        <field name="description">Změna stavu zásob vlastní činnosti a aktivace</field>
+        <field name="sequence">75</field>
+    </record>
+    <record id="kpi_expr_zmena_stavu_aktivace" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_zmena_stavu_aktivace" />
+        <field name="name">balp[58%]</field>
+    </record>
+
+    <record id="kpi_osobni" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">osobni</field>
+        <field name="description">Osobní náklady</field>
+        <field name="sequence">80</field>
+    </record>
+    <record id="kpi_expr_osobni" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_osobni" />
+        <field name="name">balp[52%]</field>
+    </record>
+
+    <record id="kpi_dane_poplatky" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">dane_poplatky</field>
+        <field name="description">Daně a poplatky</field>
+        <field name="sequence">90</field>
+    </record>
+    <record id="kpi_expr_dane_poplatky" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_dane_poplatky" />
+        <field name="name">balp[53%]</field>
+    </record>
+
+    <record id="kpi_odpisy" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">odpisy</field>
+        <field name="description">Odpisy dlouhodobého majetku</field>
+        <field name="sequence">100</field>
+    </record>
+    <record id="kpi_expr_odpisy" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_odpisy" />
+        <field name="name">balp[551%]</field>
+    </record>
+
+    <record id="kpi_trida_54_55" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">trida_54_55</field>
+        <field name="description">(pomocný řádek) skupiny 54 a 55 včetně odpisů a účet 597</field>
+        <field name="sequence">105</field>
+        <field name="auto_expand_accounts" eval="False" />
+        <field name="style_id" ref="style_hidden" />
+    </record>
+    <record id="kpi_expr_trida_54_55" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_trida_54_55" />
+        <field name="name">balp[54%,55%,597%]</field>
+    </record>
+
+    <record id="kpi_ostatni_naklady" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">ostatni_naklady</field>
+        <field name="description">Ostatní provozní náklady</field>
+        <field name="sequence">110</field>
+        <field name="expression">trida_54_55 - odpisy</field>
+    </record>
+
+    <record id="kpi_naklady_celkem" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">naklady_celkem</field>
+        <field name="description">Provozní náklady celkem</field>
+        <field name="sequence">130</field>
+        <field name="expression">prodane_zbozi + spotreba + sluzby + zmena_stavu_aktivace + osobni + dane_poplatky + odpisy + ostatni_naklady</field>
+        <field name="style_id" ref="style_subtotal" />
+    </record>
+
+    <record id="kpi_provozni" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">provozni</field>
+        <field name="description">Provozní výsledek hospodaření</field>
+        <field name="sequence">140</field>
+        <field name="expression">vynosy_celkem - naklady_celkem</field>
+        <field name="style_id" ref="style_result" />
+    </record>
+
+    <record id="kpi_fin_vynosy" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">fin_vynosy</field>
+        <field name="description">Finanční výnosy</field>
+        <field name="sequence">150</field>
+    </record>
+    <record id="kpi_expr_fin_vynosy" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_fin_vynosy" />
+        <field name="name">-balp[66%,698%]</field>
+    </record>
+
+    <record id="kpi_fin_naklady" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">fin_naklady</field>
+        <field name="description">Finanční náklady</field>
+        <field name="sequence">160</field>
+    </record>
+    <record id="kpi_expr_fin_naklady" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_fin_naklady" />
+        <field name="name">balp[56%,57%,598%]</field>
+    </record>
+
+    <record id="kpi_vh_pred_zdanenim" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">vh_pred_zdanenim</field>
+        <field name="description">Výsledek hospodaření před zdaněním</field>
+        <field name="sequence">170</field>
+        <field name="expression">provozni + fin_vynosy - fin_naklady</field>
+        <field name="style_id" ref="style_result" />
+    </record>
+
+    <record id="kpi_dan_z_prijmu" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">dan_z_prijmu</field>
+        <field name="description">Daň z příjmů</field>
+        <field name="sequence">180</field>
+    </record>
+    <record id="kpi_expr_dan_z_prijmu" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_dan_z_prijmu" />
+        <field name="name">balp[591%,592%,593%,595%,599%]</field>
+    </record>
+
+    <record id="kpi_prevod_podilu" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">prevod_podilu</field>
+        <field name="description">Převod podílu na výsledku hospodaření společníkům</field>
+        <field name="sequence">185</field>
+    </record>
+    <record id="kpi_expr_prevod_podilu" model="mis.report.kpi.expression">
+        <field name="kpi_id" ref="kpi_prevod_podilu" />
+        <field name="name">balp[596%]</field>
+    </record>
+
+    <record id="kpi_vh_po_zdaneni" model="mis.report.kpi">
+        <field name="report_id" ref="mis_report_pl_cz" />
+        <field name="name">vh_po_zdaneni</field>
+        <field name="description">Výsledek hospodaření po zdanění</field>
+        <field name="sequence">190</field>
+        <field name="expression">vh_pred_zdanenim - dan_z_prijmu - prevod_podilu</field>
+        <field name="style_id" ref="style_result" />
+    </record>
+
+</odoo>

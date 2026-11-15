@@ -173,6 +173,108 @@ class CSSKIncomeTaxReturn(models.Model):
         }
         return {k: st for k, st in linked.items() if st}
 
+    # ------------------------------------------------------------------
+    # ř. 10 ↔ Výkaz zisku a ztráty
+    # ------------------------------------------------------------------
+    #: Absolute tolerance of the tie, in the accounting currency. Both
+    #: figures are sums of the same posted lines, so they agree to the haléř;
+    #: this absorbs float noise only.
+    _L10N_CZ_FS_TOL = 0.5
+    #: The Výkaz zisku a ztráty row ř. 10 is tied to — "** Výsledek
+    #: hospodaření před zdaněním", the same code in the plný and the zkrácený
+    #: rozsah of ``l10n_cz_fs``.
+    _L10N_CZ_FS_RESULT_ROW = "VHB"
+
+    def _l10n_cz_find_profit_loss(self):
+        """The Výkaz zisku a ztráty this return is compared with.
+
+        The one linked to the return if there is one — that is the statement
+        filed with it. Otherwise a computed statement of the company for
+        exactly the return's period; an overlapping period is a different
+        result and comparing with it would report a difference that is not
+        there. Returns an empty recordset when there is none.
+        """
+        self.ensure_one()
+        if self.l10n_cz_fs_profit_loss_id:
+            return self.l10n_cz_fs_profit_loss_id
+        statements = self.env["cssk.fs.statement"].search([
+            ("company_id", "=", self.company_id.id),
+            ("statement_kind", "=", "profit_loss"),
+            ("date_from", "=", self.date_from),
+            ("date_to", "=", self.date_to),
+            ("state", "not in", ("draft", "cancelled")),
+        ], order="id desc").filtered(lambda st: any(
+            line.code == self._L10N_CZ_FS_RESULT_ROW
+            for line in st.line_ids))
+        # A statement that was filed is the závěrka; a preview is somebody's
+        # working copy. Among equals, the most recent.
+        filed = statements.filtered(
+            lambda st: st.state in ("exported", "submitted"))
+        return (filed or statements)[:1]
+
+    def _l10n_cz_fs_comparison_rows(self, statement):
+        """``[{code, label, filed, computed, diff, kind, detail}]``.
+
+        The income-tax return starts from the accounting result: DPPDP9 ř. 10
+        (výsledek hospodaření před zdaněním) is the row "**" of the Výkaz
+        zisku a ztráty. This is an exact tie — a difference means the two
+        filings disagree on the accounting result (ř. 10 entered by hand, a
+        statement not recomputed after a late entry, an edited mapping), so
+        it is a difference, never an expected one.
+        """
+        self.ensure_one()
+        result = statement.line_ids.filtered(
+            lambda line: line.code == self._L10N_CZ_FS_RESULT_ROW)[:1]
+        r10 = self.line_ids.filtered(lambda line: line.code == "r10")[:1]
+        filed, computed = r10.value or 0.0, result.current_value or 0.0
+        diff = filed - computed
+        agrees = abs(diff) <= self._L10N_CZ_FS_TOL
+        return [{
+            "code": "vzz_r10",
+            "label": _("Výsledek hospodaření před zdaněním "
+                       "(VZZ ** = DPPO ř. 10)"),
+            "filed": filed, "computed": computed, "diff": diff,
+            "kind": "ok" if agrees else "amount",
+            "detail": False if agrees else _(
+                "DPPO ř. 10 %(r10).2f ≠ VZZ ** %(vzz).2f (rozdíl "
+                "%(diff).2f). Zkontrolujte období, ruční úpravu ř. 10 "
+                "a zda byl výkaz přepočten po posledním zaúčtování.",
+                r10=filed, vzz=computed, diff=diff),
+        }]
+
+    def action_l10n_cz_compare_fs(self):
+        """Porovnání účetní závěrky (VZZ) ↔ DPPO ř. 10 — on screen."""
+        self.ensure_one()
+        statement = self._l10n_cz_find_profit_loss()
+        if not statement:
+            raise UserError(_(
+                "No computed Výkaz zisku a ztráty found for this period. "
+                "Compute the profit and loss statement for %(df)s – %(dt)s "
+                "first, or link it to the return.",
+                df=self.date_from, dt=self.date_to))
+        if (statement.company_id != self.company_id
+                or statement.date_from != self.date_from
+                or statement.date_to != self.date_to):
+            # Only a linked statement can get here; the search is exact.
+            raise UserError(_(
+                "%(statement)s covers %(from)s – %(to)s, but the return "
+                "covers %(rfrom)s – %(rto)s. The výkazy filed with a "
+                "return are those of its own zdaňovací období.",
+                statement=statement.display_name, **{
+                    "from": statement.date_from, "to": statement.date_to,
+                    "rfrom": self.date_from, "rto": self.date_to}))
+        if not any(line.code == self._L10N_CZ_FS_RESULT_ROW
+                   for line in statement.line_ids):
+            raise UserError(_(
+                "%(statement)s has no row \"** Výsledek hospodaření před "
+                "zdaněním\" to compare with. Compute it on the l10n_cz_fs "
+                "Výkaz zisku a ztráty.", statement=statement.display_name))
+        self._cssk_upsert_comparison_rows(
+            self._l10n_cz_fs_comparison_rows(statement), "filing",
+            _("účetní závěrka %s", statement.display_name))
+        return self._cssk_comparison_action(
+            "filing", _("DPPO ↔ účetní závěrka — %s", self.display_name))
+
     def _cssk_preflight_export(self):
         res = super()._cssk_preflight_export()
         for rec in self:

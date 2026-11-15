@@ -1,0 +1,1525 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_sk_transaction_tax
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0-20261102\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-11 15:03+0000\n"
+"PO-Revision-Date: 2026-11-11 15:03+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "A DFT adjustment cannot exceed its actual posted tax source."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A DFT adjustment needs its actual posted tax source and retained legal "
+"allocation evidence."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A DFT correction must have an acyclic chain within the same company and "
+"month."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A bank batch needs an explicit amount and unique reference for every "
+"individual payment."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A bank transaction must reference the posted credit of a bank journal's "
+"payment account."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A filed DFT notice retains its company, period and correction identity after"
+" reset."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A foreign-currency DFT source needs the official dated exchange quote; EUR "
+"uses one."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A non-IBAN refund needs the company's foreign account number and the bank's "
+"SWIFT/BIC, name, city and country."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "A refund request needs a negative total or additional difference"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A regular DFT notice has no original; a correction must reference a filed "
+"notice."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A resident payer's bank transfer or cash withdrawal uses the whole actual "
+"debit, not an arbitrary cost allocation."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"A selected bank journal has a Slovak account, but only foreign-provider "
+"payer grounds are selected. Verify whether the domestic bank already "
+"collected this tax. Special-account grounds can legitimately concern a "
+"domestic account; this warning does not change the calculated amount."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "A tax amount must contain whole cents"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Accounting and refund"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__actual_on
+msgid "Actual On"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__filing_type__additional
+msgid "Additional"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__adjustment_ids
+msgid "Adjustment"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Allocate whole monetary units of the source currency; do not round the "
+"converted EUR tax base."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__source_amount
+msgid ""
+"Allocation in the native line currency. Empty uses the full transaction."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__amount
+msgid "Amount"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "An additional notice needs its discovery date and previous known tax"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"An earlier identified recharge source changed. Prepare an amendment of this "
+"later notice; retain its original filed XML."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax_source__kind__card
+msgid "Annual used card"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Annual used-card tax belongs to December of its usage year"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Another process is allocating this company's DFT sources. Reload and retry."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Another process is changing this DFT notice or its correction chain. Reload "
+"and retry."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model,name:l10n_sk_transaction_tax.model_ir_attachment
+msgid "Attachment"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__bank_batch
+msgid "Bank Batch"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__representative_kind__spravcavkonkurznomkonani
+msgid "Bankruptcy administrator"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Base a DFT correction on the immediately previous filed notice."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__card_reference
+msgid "Card Reference"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax_source__kind__cash
+msgid "Cash withdrawal"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Check earlier recharges"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Choose the IBAN or the foreign non-IBAN refund destination, not both"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__classification_reference
+msgid "Classification Reference"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax_source__kind__bank_collected
+msgid "Collected by bank"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model,name:l10n_sk_transaction_tax.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__company_id
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__company_id
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__cssk_comparison_count
+msgid "Comparisons"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Complete the payer name and registered address"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Compute the DFT notice before posting its tax."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__cssk_export_warnings
+msgid ""
+"Content checks that did not block the last export but need a look before "
+"filing, one per line. Refreshed on every export; empty when the last export "
+"raised none."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Correct filed DFT through a separate correction notice."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Correct inconsistent historical recharge classifications first"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid ""
+"Correct the historical recharge classification before using the same "
+"transaction again"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid ""
+"Correct the previously filed identified recharge tax before applying its "
+"remaining cap"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__filing_type__corrective
+msgid "Corrective"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Create a separate correction instead of replacing a filed DFT notice."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Create correction"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__create_date
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__create_date
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Current DFT sources differ from the retained export. Review whether a "
+"separate correction is required; the exported or filed copy is unchanged."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__active_submission_id
+msgid "Current submission"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "DFT adjustments exceed the actual posted tax source."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "DFT source allocations exceed the actual native transaction."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_res_company__l10n_sk_dft_epoch
+msgid "DFT source coordination timestamp"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "DFT source ownership follows its notice."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "DFT sources changed. Reset and recompute before export or filing."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__deadline_reference
+msgid "Deadline Reference"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__submission_state
+msgid "Delivery"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__discovery_date
+msgid "Discovery Date"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Discovery and previous-tax rows belong only to an additional notice"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_dft_editable_source_mixin__display_name
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__display_name
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__display_name
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__display_name
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_res_company__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__state__draft
+msgid "Draft"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Enter a finite nonnegative tax amount"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Enter a finite tax amount"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Enter both exact partial-month dates"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__euro_quote
+msgid "Euro Quote"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__filed_history_ids
+msgid ""
+"Every XML that was ever marked submitted for this filing. 'Filed XML' is the"
+" latest one; after a reset → recompute → resubmit cycle the previously-filed"
+" copies stay reachable here."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__period_from
+msgid "Exact period from"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__period_to
+msgid "Exact period to"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__exchange_reference
+msgid "Exchange Reference"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax_source__kind__excluded
+msgid "Excluded from tax"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax_source__kind__recharge_excluded
+msgid "Excluded recharged transaction"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Export XML"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__cssk_export_warnings
+msgid "Export warnings"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__state__exported
+msgid "Exported"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__submitted_attachment_id
+msgid "Filed XML"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Filed evidence"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__filed_history_ids
+msgid "Filed history"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__filing_on
+msgid "Filing On"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__filing_type
+msgid "Filing Type"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Financial transaction tax"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__period
+msgid "First day of the reported calendar month."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__grounds_c
+msgid "Foreign payment-services provider"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__legacy
+msgid "Historical filing"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_ir_attachment__id
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_dft_editable_source_mixin__id
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__id
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__id
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__id
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_res_company__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__transaction_reference
+msgid ""
+"Identified original third-party transaction, or unique individual bank-batch"
+" payment reference."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax_source__kind__recharge_known
+msgid "Identified recharged transaction"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__legacy_reference
+msgid ""
+"Identifier of the import batch or source document this filing was "
+"materialised from, so a figure can be traced back to what produced it."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Identify every individual payment of a bank batch in the same notice."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Identify the actual submitting person or legal representative"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_has_error
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_res_company__l10n_sk_dft_epoch
+msgid ""
+"Internal non-key concurrency marker for DFT allocations across periods; not "
+"a tax or accounting fact."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__kind
+msgid "Kind"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__write_date
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__write_date
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__state__legacy
+msgid "Legacy"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__representative_kind__pravnynastupca
+msgid "Legal successor"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__representative_kind__likvidator
+msgid "Liquidator"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__move_line_id
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__move_line_id
+msgid "Move Line"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Native transaction sources"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__notice_id
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__notice_id
+msgid "Notice"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__exchange_reference
+msgid "Official ECB/NBS rate valid on the transaction date."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__euro_quote
+msgid ""
+"Official quote: units of source currency for one euro. Do not round the "
+"converted base."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__period_to
+msgid ""
+"Optional partial-month end; complete both dates using the actual taxpayer "
+"period."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__period_from
+msgid "Optional partial-month start; retain the reported month as well."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__deadline_reference
+msgid ""
+"Optional reference to the official tax calendar. This does not extend the "
+"computed statutory deadline."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__original_return_id
+msgid "Original Return"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__grounds_e
+msgid "Other/special account self-assessment"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Partial-month dates must be ordered within the reported month"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__payload
+msgid "Payload"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__period
+msgid "Period"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Post or remove the unposted native provision before reversing it."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Post tax"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Post the DFT liability from the retained filed payload."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__state__preview
+msgid "Preview"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__provision_expense_account_id
+msgid "Provision Expense Account"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__provision_history_ids
+msgid "Provision History"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__provision_journal_id
+msgid "Provision Journal"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__provision_move_id
+msgid "Provision Move"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__provision_payable_account_id
+msgid "Provision Payable Account"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__grounds_d
+msgid "Recharged costs"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Recharged costs need the actual liability settlement, including a reviewed "
+"offset."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Recharged costs require the corresponding payer grounds"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Reconcile competing filed DFT notices before preparing another correction."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Reconcile duplicate or split source transactions before calculation"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Record filing"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Reductions and corrections"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__refund_bank_id
+msgid "Refund Bank"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__refund_date
+msgid "Refund Date"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__refund_requested
+msgid "Refund Requested"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__filing_type__regular
+msgid "Regular"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__representative_id
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__representative_kind__zastupca
+msgid "Representative"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__representative_first_name
+msgid "Representative First Name"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__representative_kind
+msgid "Representative Kind"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__representative_last_name
+msgid "Representative Last Name"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Reset filed notice"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Reset the DFT notice before changing its source rows."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Reset the DFT notice before recomputing."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Reset the DFT notice to draft before changing its inputs."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Reset to draft"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Retain DFT notices with filing or accounting evidence."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Retain an actual refund bank destination"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Retain one annual usage fact per unique card, without its full PAN"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Retain reviewed evidence for each reduction or other correction"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Retain the exemption or bank-collection classification proof"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Retain the original third-party transaction or cost reference for each "
+"recharged source."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Reversal of %s"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Reverse the existing unfiled provision or create a separate filed correction"
+" before changing the booked DFT amount."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Reverse unfiled provision"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Review DFT source inputs: %s"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Review each transaction and retain its unique source evidence"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Review negative DFT reductions without recharged-cost payer grounds; section"
+" 10(5) applies to those grounds."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Review sources"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Review the actual refund-request date"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Review the computed statutory deadline, including days of rest. An arbitrary"
+" date cannot extend the filing deadline."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Review the corporate payer ICO and DIC"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Review the corporate self-assessment grounds under section 3(3)c–e"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Review the earlier filed recharge allocation through an amendment before "
+"applying its remaining transaction cap."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Review the exact partial-month DFT dates: %s"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Review the filing date and type"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Review the native transaction allocation and positive exchange quote."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Review the retained recharge classification"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Review the submitting person's capacity"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Review the transaction tax kind"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__reviewed
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__reviewed
+msgid "Reviewed"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model,name:l10n_sk_transaction_tax.model_l10n_sk_transaction_tax_adjustment
+msgid "Reviewed DFT reduction or correction evidence"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model,name:l10n_sk_transaction_tax.model_l10n_sk_transaction_tax_source
+msgid "Reviewed native DFT transaction source"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__legacy_stated_codes
+msgid "Rows the source states"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.actions.act_window,name:l10n_sk_transaction_tax.dft_action
+#: model:ir.ui.menu,name:l10n_sk_transaction_tax.dft_menu
+msgid "SK financial transaction tax"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Select an actually filed DFT notice before preparing its correction."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Select the first day of the DFT month."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Select the general journal and DFT accounts 538/345."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model,name:l10n_sk_transaction_tax.model_l10n_sk_dft_editable_source_mixin
+msgid "Shared DFT draft-source editing lifecycle"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__signed_on
+msgid "Signed On"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model,name:l10n_sk_transaction_tax.model_l10n_sk_transaction_tax
+msgid "Slovak financial transaction tax notice"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__source_ids
+msgid "Source"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__source_amount
+msgid "Source Amount"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__source_history
+msgid "Source History"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_adjustment__source_reference
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__source_reference
+msgid "Source Reference"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__legacy_reference
+msgid "Source reference"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__legacy_source
+msgid "Source system"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__card_reference
+msgid "Stable card reference, never a full card number."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__state
+msgid "State"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__deadline
+msgid "Statutory filing deadline"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__representative_kind__statutarnyzastupcapo
+msgid "Statutory representative"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__submission_reference
+msgid "Submission Reference"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__submission_reference
+msgid "Submission identifier / confirmation number from the FS portal."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__submission_ids
+msgid "Submissions"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax__state__submitted
+msgid "Submitted"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__submitted_date
+msgid "Submitted Date"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model_terms:ir.ui.view,arch_db:l10n_sk_transaction_tax.dft_form
+msgid "Submitting person"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__tax_total
+msgid "Tax Total"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "The DFT workflow creates export, accounting and filing evidence."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__bank_batch
+msgid ""
+"The bank ledger line aggregates several payments. Enter every reviewed "
+"individual payment with a unique transaction reference and its actual "
+"amount."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__submitted_attachment_id
+msgid "The exact XML that was submitted; preserved across reset-to-draft."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "The exported attachment does not belong to this DFT notice."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "The exported or filed DFT XML is immutable."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"The module's own provision is not an actual tax payment or reduction source."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"The monthly DFT notice is filed after the month, with a preparation date no "
+"later than filing."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "The number of used cards must be an integer"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "The pinned DFT schema changed unexpectedly."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "The retained DFT payload must match its exported attachment."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"The reviewed individual bank payments must sum to the whole native bank "
+"line."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__legacy_stated_codes
+msgid ""
+"The row codes the source system's own filing could carry, comma-separated, written by the migration that materialised this record.\n"
+"\n"
+"A source rarely stores the form: PREMIER keeps ten summary figures where the Slovak priznanie has thirty-seven rows. Every row it cannot state is missing here for a structural reason, not because the filing omitted it — so the comparison reports those rows as informational instead of as differences. Left empty, every row is treated as one the source could have stated, which is the right reading of a filing captured by hand."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.constraint,message:l10n_sk_transaction_tax.constraint_l10n_sk_transaction_tax_one_filed_original
+msgid ""
+"There is already a filed regular DFT notice for this company and month."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "This DFT adapter requires a Slovak corporate EUR ledger."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"This actual tax source is already allocated in another filed DFT month. Use "
+"only its remaining amount."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"This filing is being recorded after its statutory deadline. Verify the "
+"declared actual filing date %(filed)s against the portal receipt; the local "
+"recording date is %(recorded)s. If a corrective notice was actually filed "
+"after %(deadline)s, use an additional notice instead. The retained XML is "
+"unchanged."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__legacy
+msgid ""
+"This filing was not produced here — it records what was actually submitted for a period that predates this system, loaded from a migration. It is a historical fact, so it can never be exported, submitted or recomputed, and it is invisible to anything that looks for 'the return of the previous period'. It CAN be amended: a dodatočné filed later against a historical period is an ordinary submittable return.\n"
+"\n"
+"Setting this puts the record in state 'Historical filing', which is terminal — the two are written together and cannot come apart."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"This native transaction source is already allocated in another filed DFT "
+"month. Use only its remaining amount."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "This regular DFT notice is filed after its statutory deadline."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax_source__transaction_reference
+msgid "Transaction Reference"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax_source__kind__transfer
+msgid "Transfer"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields.selection,name:l10n_sk_transaction_tax.selection__l10n_sk_transaction_tax_source__kind__recharge_unknown
+msgid "Unidentified recharged transaction"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Use a corrective notice through the deadline and an additional notice after "
+"it."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Use an unreversed original payment or tax source."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Use only transactions within the exact reported period"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid "Use posted native source lines of the same company."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid "Use the actual transaction or recharge-payment month"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/models/dft.py:0
+msgid ""
+"Use the company's actual refund bank account and reviewed request date."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#. odoo-python
+#: code:addons/l10n_sk_transaction_tax/wire.py:0
+msgid ""
+"Use the historical form for periods before 2026 (April-December 2025 "
+"notices, corrections and 2025 card tax require OZNDFTv25)"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,help:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__legacy_source
+msgid ""
+"Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
+" it was captured if by hand."
+msgstr ""
+
+#. module: l10n_sk_transaction_tax
+#: model:ir.model.fields,field_description:l10n_sk_transaction_tax.field_l10n_sk_transaction_tax__xml_attachment_id
+msgid "Xml Attachment"
+msgstr ""

@@ -8,6 +8,14 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Changed
+~~~~~~~
+
+- **Peppol transport is shown only when there is a choice** (19.0.1.7.2). With
+  a single Peppol transport installed the setting changes nothing — its own
+  help said so — yet it sat among the company's Peppol settings as if it had
+  to be decided.
+
 Fixed
 ~~~~~
 

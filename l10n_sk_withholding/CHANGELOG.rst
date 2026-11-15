@@ -7,6 +7,15 @@ All notable changes to **l10n_sk_withholding** are documented here.
 [Unreleased]
 ------------
 
+[19.0.1.0.1] — 2026-11-12
+-------------------------
+
+Fixed
+~~~~~
+- ``external_dependencies`` names the PyPI distribution ``python-stdnum``
+  instead of the import name ``stdnum``. Odoo warned about the import name,
+  and the tenant image's package check refused it.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

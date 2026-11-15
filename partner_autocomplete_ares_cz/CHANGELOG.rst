@@ -8,6 +8,28 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.0] — 2026-11-15
+-------------------------
+
+Added
+~~~~~
+
+- **The entry in the veřejný rejstřík.** Six new mappings: the register
+  (obchodní, spolkový, nadační, …), the rejstříkový soud, the spisová značka
+  (oddíl and vložka), the subject's status, and the dates of establishment and
+  dissolution. A subject in no public register that is in the živnostenský
+  rejstřík gets *Živnostenský rejstřík*. The coordinates cost one more ARES
+  request per lookup, made only when one of them is mapped.
+- With ``l10n_cz_trade_registry`` installed the mappings point at its fields by
+  default, and the entry's předmět podnikání and činnosti and its previous
+  names and seats are filled too. Neither module depends on the other.
+
+Fixed
+~~~~~
+
+- A mapping left pointing at a field that no longer exists (its module was
+  uninstalled) is skipped; it used to abort the rest of the lookup.
+
 [19.0.1.3.0] — 2026-10-27
 -------------------------
 

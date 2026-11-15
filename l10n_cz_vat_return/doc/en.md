@@ -1,7 +1,7 @@
 ---
 title: CZ VAT Return (DPHDP3)
 summary: The Czech VAT return computed from the tax tags of Odoo's Czech chart and exported as the EPO DPHDP3 XML, validated against the current official XSD for every period.
-verified: 19.0.1.16.0
+verified: 19.0.1.17.0
 ---
 
 ## What it is for {#purpose}
@@ -68,9 +68,11 @@ refreshing them; a test fails if the bundled file or the template's
 start date is a conservative bound chosen by the module, not a statutory one,
 and there is no version for earlier periods.
 
-Amounts are exported in whole crowns: a tax (output tax, deduction and
-rows 62–66) rounded **up** to the next crown, as § 146 odst. 1 of the
-daňový řád says ("Daň se zaokrouhluje na celé koruny nahoru"); a base or a
+Amounts are exported in whole crowns: output tax and rows 61, 62 and 64–66
+rounded **up** to the next crown, as § 146 odst. 1 of the daňový řád says
+("Daň se zaokrouhluje na celé koruny nahoru"); a deduction (rows 40–47, the
+amounts of rows 52 and 53, row 60 and the total on row 63) rounded **down**,
+so that rounding never adds to it; a base or a
 value to the nearest crown, a half up; the coefficients of rows 52 and 53 up
 to a whole percent (§ 76 odst. 3 ZDPH). The filing date in the XML
 (*d_poddp*) is the day of the export.

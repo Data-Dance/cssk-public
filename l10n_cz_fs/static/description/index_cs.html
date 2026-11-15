@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cz_fs/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>CZ účetní výkazy (rozvaha / VZZ)</h1>
 <p class="cssk-summary">Česká rozvaha, výkaz zisku a ztráty, přehled o peněžních tocích a přehled o změnách vlastního kapitálu sestavené z účetnictví a připravené k podání s přiznáním k dani z příjmů právnických osob.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.2.1</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_fs_base/static/description/index_cs.html"><code>l10n_cssk_fs_base</code></a>, <code>l10n_cz</code></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_dppo/static/description/index_cs.html"><code>l10n_cz_dppo</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.3.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_fs_base/static/description/index_cs.html"><code>l10n_cssk_fs_base</code></a>, <code>l10n_cz</code></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_dppo/static/description/index_cs.html"><code>l10n_cz_dppo</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>Česká národní vrstva účetních výkazů popsaných v
@@ -129,7 +129,7 @@ založte analytický účet a dejte mu štítek:</p>
 <tr>
 <td>VZZ IV.1</td>
 <td>výnosy z podílů – ovládaná nebo ovládající osoba</td>
-<td>665…</td>
+<td>661…, 665…</td>
 </tr>
 <tr>
 <td>VZZ V.1 / V.2</td>
@@ -193,11 +193,15 @@ a ztráty. Pro zkrácený rozsah vyberte před výpočtem v poli <em>Verze</em> 
   ztráty —, takže rozvaha je vyrovnaná ještě před převodem výsledku na 431.</li>
 <li><strong>Výkaz zisku a ztráty v plném rozsahu.</strong> Všechny položky přílohy č. 2
   včetně D.2.1–D.2.2 (524–526 / 527–528), E.1.1 (551, 557) a položek čtených
-  ze štítků účtů popsaných v <a href="#setup">Nastavení</a>.</li>
+  ze štítků účtů popsaných v <a href="#setup">Nastavení</a>.
+  Tržby z prodeje cenných papírů a podílů (661) jsou v položce IV. Výnosy
+  z dlouhodobého finančního majetku – podíly, naproti G. Náklady vynaložené
+  na prodané podíly (561); náklady z přecenění cenných papírů (564)
+  v položce K. Ostatní finanční náklady, vedle výnosů z přecenění (664) ve VII.</li>
 <li><strong>Výkaz zisku a ztráty ve zkráceném rozsahu.</strong> Položky označené písmeny a
   římskými číslicemi s částí podpoložek (A.1–A.3, D.1–D.2, III.1–III.3,
-  F.1–F.5, L.1–L.2), výpočtové položky a <em>Čistý obrat za účetní období</em>. Účet
-  665 se vykazuje celý v položce IV.</li>
+  F.1–F.5, L.1–L.2), výpočtové položky a <em>Čistý obrat za účetní období</em>. Účty
+  661 a 665 se vykazují celé v položce IV., účet 564 v položce K.</li>
 <li><strong>Přehled o peněžních tocích.</strong> Každý nepeněžní účet patří do provozní (A),
   investiční (B) nebo finanční (C) činnosti, takže A + B + C se rovná změně
   peněžních prostředků mezi <em>P.</em> (začátek) a <em>R.</em> (konec); řádek
@@ -251,7 +255,7 @@ a ztráty. Pro zkrácený rozsah vyberte před výpočtem v poli <em>Verze</em> 
   odsouhlasit s účetním, zejména rozdělení pohledávek a závazků a přiřazení
   opravných položek.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.2.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

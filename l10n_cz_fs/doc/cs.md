@@ -1,7 +1,7 @@
 ---
 title: CZ účetní výkazy (rozvaha / VZZ)
 summary: Česká rozvaha, výkaz zisku a ztráty, přehled o peněžních tocích a přehled o změnách vlastního kapitálu sestavené z účetnictví a připravené k podání s přiznáním k dani z příjmů právnických osob.
-verified: 19.0.1.2.1
+verified: 19.0.1.3.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -69,7 +69,7 @@ založte analytický účet a dejte mu štítek:
 
 | Štítek | Položka | Účet |
 |---|---|---|
-| VZZ IV.1 | výnosy z podílů – ovládaná nebo ovládající osoba | 665… |
+| VZZ IV.1 | výnosy z podílů – ovládaná nebo ovládající osoba | 661…, 665… |
 | VZZ V.1 / V.2 | výnosy z ostatního dlouhodobého finančního majetku (dluhopisy, zápůjčky) – ovládaná osoba / ostatní | 665… |
 | VZZ VI.1 | výnosové úroky – ovládaná nebo ovládající osoba | 662…, 666… |
 | VZZ J.1 | nákladové úroky – ovládaná nebo ovládající osoba | 562… |
@@ -115,10 +115,14 @@ a ztráty. Pro zkrácený rozsah vyberte před výpočtem v poli *Verze* verzi
 - **Výkaz zisku a ztráty v plném rozsahu.** Všechny položky přílohy č. 2
   včetně D.2.1–D.2.2 (524–526 / 527–528), E.1.1 (551, 557) a položek čtených
   ze štítků účtů popsaných v [Nastavení](#setup).
+  Tržby z prodeje cenných papírů a podílů (661) jsou v položce IV. Výnosy
+  z dlouhodobého finančního majetku – podíly, naproti G. Náklady vynaložené
+  na prodané podíly (561); náklady z přecenění cenných papírů (564)
+  v položce K. Ostatní finanční náklady, vedle výnosů z přecenění (664) ve VII.
 - **Výkaz zisku a ztráty ve zkráceném rozsahu.** Položky označené písmeny a
   římskými číslicemi s částí podpoložek (A.1–A.3, D.1–D.2, III.1–III.3,
-  F.1–F.5, L.1–L.2), výpočtové položky a *Čistý obrat za účetní období*. Účet
-  665 se vykazuje celý v položce IV.
+  F.1–F.5, L.1–L.2), výpočtové položky a *Čistý obrat za účetní období*. Účty
+  661 a 665 se vykazují celé v položce IV., účet 564 v položce K.
 - **Přehled o peněžních tocích.** Každý nepeněžní účet patří do provozní (A),
   investiční (B) nebo finanční (C) činnosti, takže A + B + C se rovná změně
   peněžních prostředků mezi *P.* (začátek) a *R.* (konec); řádek

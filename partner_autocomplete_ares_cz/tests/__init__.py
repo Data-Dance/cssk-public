@@ -3,3 +3,4 @@
 from . import test_clear_tour
 from . import test_country_dispatch
 from . import test_ares_search
+from . import test_ares_register

@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_cz_dppo
+# * l10n_cz_dppo
 #
 msgid ""
 msgstr ""
@@ -8,11 +8,11 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: sk_SK\n"
 
 #. module: l10n_cz_dppo
 #. odoo-python
@@ -168,4 +168,58 @@ msgstr ""
 #. module: l10n_cz_dppo
 #: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_fs_profit_loss_id
 msgid "Výkaz zisku a ztráty"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"%(statement)s has no row \"** Výsledek hospodaření před zdaněním\" to "
+"compare with. Compute it on the l10n_cz_fs Výkaz zisku a ztráty."
+msgstr ""
+"%(statement)s nemá riadok „** Výsledek hospodaření před zdaněním“, s ktorým "
+"by sa dalo porovnávať. Vypočítajte ho podľa Výkazu zisku a ztráty z "
+"l10n_cz_fs."
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"DPPO ř. 10 %(r10).2f ≠ VZZ ** %(vzz).2f (rozdíl %(diff).2f). Zkontrolujte "
+"období, ruční úpravu ř. 10 a zda byl výkaz přepočten po posledním "
+"zaúčtování."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid "DPPO ↔ účetní závěrka — %s"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"No computed Výkaz zisku a ztráty found for this period. Compute the profit "
+"and loss statement for %(df)s – %(dt)s first, or link it to the return."
+msgstr ""
+"Pre toto obdobie sa nenašiel vypočítaný Výkaz zisku a ztráty. Najprv "
+"vypočítajte výkaz ziskov a strát za obdobie %(df)s – %(dt)s, alebo ho "
+"pripojte k priznaniu."
+
+#. module: l10n_cz_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_dppo.cssk_income_tax_return_view_form_cz_vykazy
+msgid "Porovnat s účetní závěrkou"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid "Výsledek hospodaření před zdaněním (VZZ ** = DPPO ř. 10)"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid "účetní závěrka %s"
 msgstr ""

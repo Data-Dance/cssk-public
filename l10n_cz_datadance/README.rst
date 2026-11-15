@@ -42,6 +42,8 @@ What it installs
      - ``l10n_cssk_vies``
    * - Accruals (*dohadné položky*)
      - ``l10n_cssk_accrual``
+   * - Stock-taking records (*inventarizace*)
+     - ``l10n_cz_inventory_verification``
 
 Each of these modules has its own guide.
 
@@ -96,10 +98,10 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_datadance``
-- **Version:** 19.0.1.1.2
+- **Version:** 19.0.1.2.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
-- **Requires:** ``l10n_cz``, ``l10n_cssk_core``, ``l10n_cz_statutory``, ``l10n_cz_kh``, ``l10n_cz_ec_sales``, ``l10n_cz_vat_return``, ``l10n_cz_invoice``, ``l10n_cssk_partner_balances``, ``l10n_cssk_vies``, ``l10n_cssk_accrual``
+- **Requires:** ``l10n_cz``, ``l10n_cssk_core``, ``l10n_cz_statutory``, ``l10n_cz_kh``, ``l10n_cz_ec_sales``, ``l10n_cz_vat_return``, ``l10n_cz_invoice``, ``l10n_cssk_partner_balances``, ``l10n_cssk_vies``, ``l10n_cssk_accrual``, ``l10n_cz_inventory_verification``
 
 Documentation
 =============

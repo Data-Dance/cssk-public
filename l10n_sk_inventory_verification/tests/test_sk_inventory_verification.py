@@ -262,6 +262,43 @@ class TestSkInventarizacia(AccountTestInvoicingCommon):
         inv.action_refresh_book_amounts()
         self.assertEqual(supis.book_amount, 500.0)
 
+    def test_typed_book_amount_saved_together_with_the_items(self):
+        """What saving a new fyzická inventúra from its window does: the
+        typed účtovný stav and the items arrive in one create.
+
+        The three amounts shared one compute method, and Odoo protects every
+        field of a method while one of them is being written — so the
+        skutočný stav and the rozdiel stayed at zero.
+        """
+        inv = self._inventarizacia()
+        supis = self.env["l10n.sk.inventurny.supis"].create({
+            "name": "Sklad tovaru", "inventarizacia_id": inv.id,
+            "inventory_type": "fyzicka", "book_amount": 300.0,
+            "line_ids": [Command.create(
+                {"name": "Tovar", "quantity": 28.0, "unit_price": 10.0})],
+        })
+        self.assertEqual(supis.book_amount, 300.0)
+        self.assertEqual(supis.actual_amount, 280.0)
+        self.assertEqual(supis.difference, -20.0)
+        # and in one write
+        supis.write({
+            "book_amount": 290.0,
+            "line_ids": [Command.create(
+                {"name": "Obaly", "quantity": 1.0, "unit_price": 5.0})],
+        })
+        self.assertEqual(supis.actual_amount, 285.0)
+        self.assertEqual(supis.difference, -5.0)
+        self.assertEqual(inv.actual_amount, 285.0)
+
+    def test_changing_the_kind_keeps_a_typed_book_amount(self):
+        inv = self._inventarizacia()
+        supis = self.env["l10n.sk.inventurny.supis"].create(
+            {"name": "Sklad", "inventarizacia_id": inv.id,
+             "inventory_type": "fyzicka", "book_amount": 500.0})
+        supis.inventory_type = "dokladova"    # no account yet
+        self.assertEqual(supis.book_amount, 500.0)
+        self.assertEqual(supis.difference, -500.0)
+
     def test_printouts_carry_the_seat(self):
         """§ 30 ods. 2 písm. a) and ods. 3 písm. a): a legal person states
         its sídlo next to its name, on the súpis and on the zápis."""

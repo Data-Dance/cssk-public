@@ -242,7 +242,7 @@ Module facts
 ============
 
 - **Technical name:** ``edi_base_peppol``
-- **Version:** 19.0.1.7.1
+- **Version:** 19.0.1.7.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``edi_base``, ``account_edi_ubl_cii``
