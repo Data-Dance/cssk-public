@@ -652,8 +652,9 @@ class CSSKIncomeTaxReturn(models.Model):
         put("r700", r700)
         r800 = statutory_round(r700 - g("r710"), 2)
         put("r800", r800)
-        r810 = self._dppo_min_tax(g("r560"))
-        put("r810", r810)
+        put("r810", self._dppo_min_tax(g("r560")))
+        # Reviewed exemption/halving overrides must feed the legacy cascade.
+        r810 = g("r810")
         # KLADNÝ ROZDIEL — and WHICH ROW carries it depends on the vzor,
         # because the form reused the number. Verified against the pinned FS SR
         # schemas: 2017/2018/2019 define r800/r810/r820 and NO r830, while

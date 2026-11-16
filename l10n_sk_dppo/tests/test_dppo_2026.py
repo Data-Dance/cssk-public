@@ -317,3 +317,19 @@ class TestDppoPublished2026(AccountTestInvoicingCommon):
                 ret._l10n_sk_dppo_check_form_applicability()
                 self.assertEqual(values["r810"], expected)
                 self.assertEqual(values["r1050"], expected)
+
+    def test_legacy_minimum_override_flows_to_settlement(self):
+        for minimum, expected in ((0, 100), (170, 170)):
+            with self.subTest(minimum=minimum):
+                ret = self._make()
+                ret.write({"date_from": "2025-01-01", "date_to": "2025-12-31",
+                           "version_id": self.env.ref("l10n_sk_dppo.dppo_version_2025").id,
+                           "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2025").id})
+                ret.l10n_sk_form_minimum_exemption = minimum == 0
+                ret.l10n_sk_form_half_minimum = minimum == 170
+                values = self._set(ret, r100=1000, r560=10000, r810=minimum)
+                self.assertEqual(values["r810"], minimum)
+                self.assertEqual(values["r820"], minimum if minimum > 100 else 0)
+                self.assertEqual(values["r900"], minimum if minimum > 100 else 0)
+                self.assertEqual(values["r1050"], expected)
+                self.assertEqual(values["r1100"], expected)

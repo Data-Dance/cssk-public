@@ -14,6 +14,8 @@ Fixed
 - Apply the minimum-tax schedule by period start even when a short 2026
   period is filed on DPPOv25. Keep the 2025 ceiling and the ordinary modern
   minimum at zero revenue; paper validation shares the native calculation.
+  Reviewed row 810 exemptions and half-minimum overrides also feed the
+  legacy settlement instead of only changing the displayed input.
 
 - Keep the current minimum tax when historical Table K has no current claim,
   including a loss. Separate its evidence from a filled current-claim column
