@@ -30,7 +30,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b></nav>
 <h1>Slovakia: Payroll Engine Parity Harness</h1>
 <p class="cssk-summary">Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and asserts they produce identical figures.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.8.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.8.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="what-it-is-for">What it is for</h2>
 <p>Cross-engine parity harness for the Slovak payroll.</p>
@@ -54,7 +54,7 @@ odoo-bin -d &lt;db-ee&gt;  -i l10n_sk_hr_payroll_surcharges_ee,l10n_sk_hr_payrol
 <h2 id="known-issues">Known issues</h2>
 <ul>
 <li>Slovak only. The Czech localisation has the same two-engine split and no parity harness; <code>parity.py</code> is structured so a <code>parity_cz.py</code> alongside it would need only its own scenarios.</li>
-<li>Scenario coverage is the monthly payslip: dated parameters, NČZD and child bonus gating, ZŤP, the wage surcharges and the minimum-wage top-up. Not yet covered — dohody, sickness compensation, holiday náhrada, the annual tax reconciliation, and the garnishment waterfall driven from the order register.</li>
+<li>Scenario coverage is the monthly payslip: dated parameters, NČZD and child bonus gating, ZŤP, the wage surcharges, the minimum-wage top-up, and one DoVP with the pension OOP above the maximum. Not yet covered — the other dohoda cases, sickness compensation, holiday náhrada, the annual tax reconciliation, and the garnishment waterfall driven from the order register.</li>
 <li>The comparison is on payslip line TOTALS. Two engines could agree on every total while disagreeing on quantities or rates within a line; nothing here would notice.</li>
 <li>Parity of the statutory reporting family is untested. Those modules are engine-neutral by construction and detect the engine the same way, but no test asserts that a declaration generated on one engine is byte-identical to the other's. That is the natural next scenario set.</li>
 <li><code>NOT_COMPARABLE</code> records concepts that genuinely cannot be compared, with the reason. Check it before concluding something was forgotten.</li>
@@ -76,7 +76,7 @@ odoo-bin -d &lt;db-ee&gt;  -i l10n_sk_hr_payroll_surcharges_ee,l10n_sk_hr_payrol
 <h1 id="why-the-rlfo-has-no-declaration-parity-scenario">Why the RLFO has no declaration-parity scenario</h1>
 <p>The other Slovak forms are payslip-derived, so the two engines can disagree about them and the harness exists to catch that. The RLFO is not: it renders from the employee and the <code>hr.version</code> lifecycle — birth number, insurance dates, agreement type, income regularity — none of which is engine-specific. Both engines produce identical output by construction, so a scenario comparing them would assert nothing.</p>
 <p>Its own suite covers what actually matters there: that <code>typ_zec</code> follows both the agreement type and the income regularity (see the bug fixed in bbd5d05, where the two <code>N</code> codes were declared and unreachable).</p>
-<footer><p>Text checked against module version: 19.0.1.8.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.8.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

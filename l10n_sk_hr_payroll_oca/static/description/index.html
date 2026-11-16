@@ -30,7 +30,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_hr_payroll_oca/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>Slovak Payroll (OCA)</h1>
 <p class="cssk-summary">The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.25.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>payroll</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../l10n_sk_hr_payroll_account_oca/static/description/index.html"><code>l10n_sk_hr_payroll_account_oca</code></a>, <a href="../../../l10n_sk_hr_payroll_income_allocation/static/description/index.html"><code>l10n_sk_hr_payroll_income_allocation</code></a>, <a href="../../../l10n_sk_hr_payroll_income_settlement/static/description/index.html"><code>l10n_sk_hr_payroll_income_settlement</code></a>, <a href="../../../l10n_sk_hr_payroll_surcharges_oca/static/description/index.html"><code>l10n_sk_hr_payroll_surcharges_oca</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.26.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>payroll</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../l10n_sk_hr_payroll_account_oca/static/description/index.html"><code>l10n_sk_hr_payroll_account_oca</code></a>, <a href="../../../l10n_sk_hr_payroll_income_allocation/static/description/index.html"><code>l10n_sk_hr_payroll_income_allocation</code></a>, <a href="../../../l10n_sk_hr_payroll_income_settlement/static/description/index.html"><code>l10n_sk_hr_payroll_income_settlement</code></a>, <a href="../../../l10n_sk_hr_payroll_surcharges_oca/static/description/index.html"><code>l10n_sk_hr_payroll_surcharges_oca</code></a></td></tr></table>
 <div class="cssk-family">This module is part of a family documented in one place. The full guide: <a href="../../../l10n_sk_hr_payroll_base/static/description/index.html#engines"><code>l10n_sk_hr_payroll_base</code></a></div>
 <p>A complete Slovak salary structure for the OCA <code>payroll</code> app: four structures, one per employment form, sharing one rule set — social and health insurance, the tax base, the non-taxable part per taxpayer, the progressive income tax, the child tax bonus, holiday and obstacle pay at average earnings, employer sick pay, garnishments and the meal allowance. It also ships the dated rule parameters the rules read, Slovak time-off types with a <em>Slovak Payroll Code</em> and accrual plans, and the annual tax reconciliation. The Slovak fields appear on the employee form, <em>Payroll</em> tab, and on contract templates; the rule parameters are under <em>Payroll → Configuration → Rule Parameters</em>.</p>
 <p>Install it on purpose; it needs the OCA <code>payroll</code> module and works on Odoo Community. For posting to the general ledger add the OCA accounting bridge; for wage surcharges the surcharges family.</p>
@@ -109,7 +109,51 @@ precise records are unavailable, enter the reviewed reason on the correction
 and use <strong>Confirm original gross-based calculation</strong>. The confirmation and its
 author appear in the chatter. Changing the reviewed sources requires another
 confirmation; the originally filed copy stays available.</p>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/">Zákon č. 462/2003 Z. z. o náhrade príjmu pri dočasnej pracovnej neschopnosti zamestnanca</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text checked against module version: 19.0.1.25.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<h2 id="social-oop-order">Agreement OOP before the maximum</h2>
+<p>For an eligible agreement with the pension OOP claimed, deduct it from income
+before applying the employee or employer maximum. This corrects pension and
+disability on both sides and the employer reserve fund. Guarantee and accident
+remain based on income without that OOP; the existing guarantee maximum still
+applies. For 2026 income of 17,100 EUR, OOP of 200 EUR and a maximum of 16,764 EUR,
+the corrected pension base is 16,764, replacing 16,564. See
+<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-138">section 138</a> and the dated deduction in
+<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-138a">section 138a</a>.</p>
+<p>The same ordering reads the existing 2027 parameters (OOP 300 and maximum 17,820 EUR).</p>
+<p>Employee deductions also change TAXBASE, the tax withheld (INCOMETAX) and NET.
+For otherwise unchanged 2026 payslips in the 35% marginal tax band:</p>
+<table>
+<thead>
+<tr>
+<th>Agreement and gross income</th>
+<th style="text-align: right;">Employee insurance</th>
+<th style="text-align: right;">TAXBASE</th>
+<th style="text-align: right;">Tax withheld</th>
+<th style="text-align: right;">NET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Old-age pensioner DoPC, 17,100 EUR</td>
+<td style="text-align: right;">+8.00</td>
+<td style="text-align: right;">-8.00</td>
+<td style="text-align: right;">-2.80</td>
+<td style="text-align: right;">-5.20</td>
+</tr>
+<tr>
+<td>Student DoBPS, 19,000 EUR</td>
+<td style="text-align: right;">+14.00</td>
+<td style="text-align: right;">-14.00</td>
+<td style="text-align: right;">-4.90</td>
+<td style="text-align: right;">-9.10</td>
+</tr>
+</tbody>
+</table>
+<p>The tax deduction line is correspondingly less negative; gross income is
+unchanged. These examples do not replace the employee's actual tax profile.</p>
+<p>No rates, rounding methods, dated parameter records or health rules are changed.
+An existing posted amount needs its applicable correction workflow; this change
+does not recalculate historical payroll or claim cumulative independent payslips.</p>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/">Zákon č. 462/2003 Z. z. o náhrade príjmu pri dočasnej pracovnej neschopnosti zamestnanca</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text checked against module version: 19.0.1.26.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

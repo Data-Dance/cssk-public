@@ -30,7 +30,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_hr_payroll_oca/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Slovenské mzdy (OCA)</h1>
 <p class="cssk-summary">Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.25.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>payroll</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index_sk.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_sk_hr_payroll_account_oca/static/description/index_sk.html"><code>l10n_sk_hr_payroll_account_oca</code></a>, <a href="../../../l10n_sk_hr_payroll_income_allocation/static/description/index_sk.html"><code>l10n_sk_hr_payroll_income_allocation</code></a>, <a href="../../../l10n_sk_hr_payroll_income_settlement/static/description/index_sk.html"><code>l10n_sk_hr_payroll_income_settlement</code></a>, <a href="../../../l10n_sk_hr_payroll_surcharges_oca/static/description/index_sk.html"><code>l10n_sk_hr_payroll_surcharges_oca</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.26.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>payroll</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index_sk.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="../../../l10n_sk_hr_payroll_account_oca/static/description/index_sk.html"><code>l10n_sk_hr_payroll_account_oca</code></a>, <a href="../../../l10n_sk_hr_payroll_income_allocation/static/description/index_sk.html"><code>l10n_sk_hr_payroll_income_allocation</code></a>, <a href="../../../l10n_sk_hr_payroll_income_settlement/static/description/index_sk.html"><code>l10n_sk_hr_payroll_income_settlement</code></a>, <a href="../../../l10n_sk_hr_payroll_surcharges_oca/static/description/index_sk.html"><code>l10n_sk_hr_payroll_surcharges_oca</code></a></td></tr></table>
 <div class="cssk-family">Tento modul patrí do skupiny modulov opísanej na jednom mieste. Úplný návod: <a href="../../../l10n_sk_hr_payroll_base/static/description/index_sk.html#engines"><code>l10n_sk_hr_payroll_base</code></a></div>
 <p>Úplná slovenská mzdová štruktúra pre aplikáciu OCA <code>payroll</code>: štyri štruktúry, jedna na každú formu zamestnania, so spoločnými pravidlami — sociálne a zdravotné poistenie, základ dane, nezdaniteľná časť základu dane na daňovníka, progresívna daň z príjmu, daňový bonus na dieťa, náhrada mzdy za dovolenku a pri prekážkach v sume priemerného zárobku, náhrada príjmu pri PN, exekučné zrážky a stravné. Dodáva aj datované parametre, z ktorých pravidlá čítajú, slovenské typy voľna so <em>Slovenským mzdovým kódom</em> a plánmi nárokov a ročné zúčtovanie dane. Slovenské polia sú na karte zamestnanca v záložke mzdy a na šablónach zmlúv; parametre pravidiel sú v <em>Mzdy → Konfigurácia → Parametre pravidiel</em>.</p>
 <p>Inštaluje sa zámerne, vyžaduje modul OCA <code>payroll</code> a funguje v Odoo Community. Na zaúčtovanie do hlavnej knihy pridajte účtovný mostík pre OCA, na mzdové zvýhodnenia skupinu modulov príplatkov.</p>
@@ -105,7 +105,51 @@ Ak presné údaje nie sú dostupné, zapíšte do opravného výkazu overený d�
 a použite <strong>Potvrdiť pôvodný výpočet z hrubej odmeny</strong>. Potvrdenie aj jeho autor
 zostanú v histórii komunikácie. Zmena overených podkladov vyžaduje nové
 potvrdenie; pôvodne podaná kópia zostáva dostupná.</p>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/">Zákon č. 462/2003 Z. z. o náhrade príjmu pri dočasnej pracovnej neschopnosti zamestnanca</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.25.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<h2 id="social-oop-order">OOP dohody pred maximom</h2>
+<p>Pri oprávnenej dohode s uplatnenou dôchodkovou OOP sa najprv zníži príjem a až
+potom použije maximum zamestnanca alebo zamestnávateľa. Oprava sa týka starobného
+a invalidného poistenia na oboch stranách a rezervného fondu zamestnávateľa.
+Garančné a úrazové poistné sa o túto OOP neznižujú; maximum garančného základu
+zostáva. V roku 2026 pri príjme 17 100 €, OOP 200 € a maxime 16 764 € je správny
+dôchodkový základ 16 764 € namiesto 16 564 €. Podklad:
+<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-138">§ 138</a> a dátumovaná položka podľa
+<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-138a">§ 138a</a>.</p>
+<p>Rovnaké poradie číta existujúce parametre pre rok 2027 (OOP 300 € a maximum 17 820 €).</p>
+<p>Zmenené odvody zamestnanca ovplyvnia aj základ dane TAXBASE, zrazenú daň
+INCOMETAX a čistú odmenu NET. Pri inak nezmenenej páske 2026 v pásme 35 %:</p>
+<table>
+<thead>
+<tr>
+<th>Dohoda a hrubý príjem</th>
+<th style="text-align: right;">Odvody zamestnanca</th>
+<th style="text-align: right;">TAXBASE</th>
+<th style="text-align: right;">Zrazená daň</th>
+<th style="text-align: right;">NET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Starobný dôchodca DoPČ, 17 100 €</td>
+<td style="text-align: right;">+8,00</td>
+<td style="text-align: right;">-8,00</td>
+<td style="text-align: right;">-2,80</td>
+<td style="text-align: right;">-5,20</td>
+</tr>
+<tr>
+<td>Študent DoBPŠ, 19 000 €</td>
+<td style="text-align: right;">+14,00</td>
+<td style="text-align: right;">-14,00</td>
+<td style="text-align: right;">-4,90</td>
+<td style="text-align: right;">-9,10</td>
+</tr>
+</tbody>
+</table>
+<p>Záporný riadok zrážky dane je teda menej záporný; hrubý príjem sa nemení.
+Príklady nenahrádzajú skutočný daňový profil zamestnanca.</p>
+<p>Nemenia sa sadzby, zaokrúhľovanie, záznamy parametrov ani zdravotné pravidlá. Zaúčtovaná
+suma potrebuje príslušný opravný postup; zmena spätne neprepočítava mzdy ani
+nepredstavuje vyriešenú kumuláciu nezávislých pások.</p>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/">Zákon č. 462/2003 Z. z. o náhrade príjmu pri dočasnej pracovnej neschopnosti zamestnanca</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.26.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
