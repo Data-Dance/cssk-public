@@ -1,7 +1,7 @@
 ---
 title: SK Corporate Income Tax Return (DPPO)
 summary: The Slovak corporate income tax return — every official form edition since 2013, the accounting result from the books, the tax computation with the rate and minimum tax of the year, and an XML file checked against the Financial Administration's schema.
-verified: 19.0.1.6.0
+verified: 19.0.1.6.1
 ---
 
 ## What it is for {#purpose}
@@ -574,3 +574,8 @@ ceiling. An ordinary taxpayer with zero revenue or a loss still owes the
 modern minimum: EUR 255 for nine months in 2026 or EUR 340 for full-year 2025,
 unless an explicit reviewed exemption applies. Historical licence rules remain
 separate. Both native layouts and paper validation use the same calculation.
+
+A manually lowered row 910 also limits row 920. Raising row 910 does not
+increase the statutory credit capacity. An overridden row 1000 that
+differs from the declared Table K calculation produces a warning;
+review it before posting or producing the working PDF.

@@ -11,6 +11,9 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.6.1 (2026-11-17), not yet on 18.0:** mirror effective row 910
+  limits and the overridden row 1000 consistency warning with their tests.
+
 - **19.0.1.6.0 (2026-11-16), not yet on 18.0:** deadline-based 2026 form
   registry, native entered Tables D/E/F/I/K/L and official-pattern working
   PDF copies; XML remains unavailable until its published adapter exists.
@@ -22,6 +25,17 @@ Carry-over to 18.0
   lines, r130/r150/r250 derived from them, the table export check, the
   two-digit row fix and its migration. Needs ``l10n_cssk_income_tax_base``
   19.0.1.6.0 (dependency-ordered aggregates) first.
+
+[19.0.1.6.1] — 2026-11-17
+-------------------------
+
+Fixed
+~~~~~
+
+- Limit row 920 by both the effective row 910 and the statutory current-tax
+  capacity. A manual increase of row 910 cannot increase the legal credit.
+- Warn when an overridden row 1000 differs from rows 800 and 920 and the
+  Table K declaration; retain the explicit override for accountant review.
 
 [19.0.1.6.0] — 2026-11-16
 -------------------------
@@ -479,6 +493,9 @@ Added
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.6.1 (2026-11-17), not yet on 18.0:** mirror effective row 910
+  limits and the overridden row 1000 consistency warning with their tests.
 
 - **The nine pre-2024 DPPO vzory (19.0.1.1.0) are owed to 18.0**, together
   with the switch of 2025 to ``dppo2025_v2.xsd``. The generators
