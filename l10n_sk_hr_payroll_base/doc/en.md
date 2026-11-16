@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll
 summary: The Slovak payroll family in one place — the monthly payslip for a pracovný pomer and the three dohody on either Odoo Enterprise Payroll or the OCA payroll app, with dated statutory rates, leave, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.3.0
+verified: 19.0.1.4.0
 ---
 
 ## What it is for {#purpose}

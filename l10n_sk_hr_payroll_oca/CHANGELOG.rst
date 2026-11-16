@@ -60,6 +60,23 @@ Carry-over to 18.0
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
 
+[19.0.1.25.1] — 2026-11-16
+==========================
+
+Changed
+~~~~~~~
+
+* The fund-base recorder keeps only what belongs to this engine (capture
+  hooks, the stored field, payslip identity and refund pairing) and uses the
+  shared recorder in ``l10n_sk_hr_payroll_base`` for the rest, which the
+  Enterprise bridge will use too. Nothing user-visible changes: the stored
+  evidence is byte-identical and the existing tests are unchanged.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* Not yet on 18.0 (the recorded fund evidence itself is not ported there).
+
 [19.0.1.25.0] — 2026-11-11
 ==========================
 

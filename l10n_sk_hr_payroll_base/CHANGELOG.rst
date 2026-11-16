@@ -17,6 +17,26 @@ Carry-over to 18.0
   and explicitly reviewed legacy corrections. Adapt contract/engine adapters
   and rerun signed, optional-module, refund and legacy-review scenarios.
 
+[19.0.1.4.0] — 2026-11-16
+-------------------------
+
+Changed
+~~~~~~~
+
+* The engine-free half of recording fund bases moved here from the OCA
+  bridge, so the Enterprise bridge can share it instead of copying it: the
+  in-process capability, the row finalisation (native charge comparison,
+  sign by side, duplicates, missing records, the health minimum top-up
+  with the engine's own rule code), the evidence assembly and its private
+  store, the create/write guard, salary facts, the statutory profile and a
+  reader skeleton. Nothing user-visible changes: the stored evidence is
+  byte-identical and no engine gains a reader it did not have.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* Not yet on 18.0 (the recorded fund evidence itself is not ported there).
+
 [19.0.1.3.0] — 2026-11-11
 -------------------------
 
