@@ -40,7 +40,13 @@ The independent `FS example <https://www.financnasprava.sk/_img/pfsedit/Dokument
 
 For author income, Taxable income means income excluding VAT less an art-fund contribution only if that contribution was actually withheld, as required by `section 43(5)(b) <https://www.financnasprava.sk/sk/podnikatelia/dane/dan-z-prijmov/fyzicke-osoby/slobodne-povolania>`__. Keep the original remuneration, any actual contribution and their ledger evidence. Do not subtract an assumed contribution. The author's payment then equals this taxable income less withholding tax.
 
-Posted reversals currently exclude an original source, including a partially credited supplier bill. For example, a bill of 1,500 with a linked credit note of 150 cannot yet provide the remaining 1,350 through this adapter. This is a known unsupported case; do not remove the native credit-note link or alter posted accounting merely to bypass it. Retained exports remain available.
+Original author bills and separate, single-recipient liability journals support linked partial credits. The adapter reads currently posted native credits whose document date is effective by the actual payment date. A native reversal of a credit can restore capacity. Draft credits do not reduce it. Invoice/refund and journal reversal links must match their source type, company, payable account and recipient.
+
+For a 1,500 remuneration and a 150 credit before payment, with no VAT or actual art-fund deduction, the remaining income is 1,350, withholding is 256.50 and the net payment is 1,093.50. Each original payable line keeps its own limit; all instalment lines also share the reduced source limit across months and notices. The cumulative claims must fit the source at every actual payment date. Creating the later payment first, or filing a later month before an earlier correction, does not change that result. A complete replacement and its filed predecessor share one reservation chain; their amounts are not added twice. A full correction replaces its predecessor rather than consuming it again. New calculations also reserve the amounts and payment dates of old snapshots. They retain the native capacity at every relevant date, including dates of other notices, in the exported source timeline. Recording that export later uses its frozen timeline, without reinterpreting it through today's credit links. Because that timeline includes other notices' dates, a computed preview goes stale when another notice adds a claim on the same bill, and export refuses it. Use **Reset to draft** and **Review sources** again to recompute it.
+
+A historical pre-feature export without pool evidence keeps its original per-line, bank and settlement checks when its filing is recorded. The program does not invent its missing historical shared capacity from a later backdated credit. This compatibility path preserves the filed facts; it does not certify a historical capacity that was never recorded. New complete corrections use the current dated source checks and preserve the old XML separately.
+
+Source capacity is an upper bound, not proof of payment or the tax base. Enter the reviewed actual taxable payment and retain its bank/set-off and deduction evidence. A later credit does not automatically rewrite an earlier actual payment or its filing. Account for a real refund separately and review the correction's tax period before preparing it. Compound or multiple-recipient journals keep their existing source policy; do not invent a proportional split, unlink credits or rewrite posted accounting to bypass a source check.
 
 Filing, deadlines and corrections
 ===================================
@@ -62,7 +68,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_withholding``
-- **Version:** 19.0.1.0.1
+- **Version:** 19.0.1.1.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_sk_base``, ``l10n_cssk_submission_base``

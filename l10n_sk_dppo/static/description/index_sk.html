@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_dppo/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK daňové priznanie k dani z príjmov PO (DPPO)</h1>
 <p class="cssk-summary">Slovenské daňové priznanie k dani z príjmov právnických osôb — všetky vzory od roku 2013, výsledok hospodárenia z účtovníctva, výpočet dane so sadzbou a minimálnou daňou daného roka a XML overené proti schéme finančnej správy.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.5.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_income_tax_base/static/description/index_sk.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_dppo_annexes/static/description/index_sk.html"><code>l10n_sk_dppo_annexes</code></a>, <a href="/l10n_sk_dppo_fs/static/description/index_sk.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.6.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_income_tax_base/static/description/index_sk.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_dppo_annexes/static/description/index_sk.html"><code>l10n_sk_dppo_annexes</code></a>, <a href="/l10n_sk_dppo_fs/static/description/index_sk.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Každá slovenská obchodná spoločnosť podáva raz ročne daňové priznanie k
@@ -253,7 +253,7 @@ kalendárne mesiace po skončení obdobia
 <tr>
 <td>1. 1. – 31. 12. 2026</td>
 <td>31. 3. 2027</td>
-<td>vzor 2026, zatiaľ nepodporovaný</td>
+<td>vzor 2026 (MF/014309/2026-721)</td>
 </tr>
 </tbody>
 </table>
@@ -264,18 +264,24 @@ posúva aj vzor. Predĺženú lehotu zadajte do poľa <strong>Uplatniteľná zá
 lehota na podanie</strong>; pri riadnej lehote ho nechajte prázdne. Obdobie
 končiace 30. 9. 2026 s lehotou predĺženou do 31. 3. 2027 preto potrebuje
 vzor 2026. Deň, keď priznanie skutočne podáte, na tom nič nemení.</p>
-<p><strong>Vzor 2026 zatiaľ nie je podporovaný.</strong> Ministerstvo financií ho
-zverejnilo 28. 9. 2026, finančná správa však pri overení 16. 11. 2026 ešte
-nezverejnila jeho XML schému (<code>dppo2026.xsd</code> sa nenašla) a modul si ju
-nevymýšľa. Priznanie s lehotou po 31. 12. 2026 upozorní, že potrebuje
-vzor 2026, a nedá sa uložiť. Priznanie, ktoré už je na vzore <em>DPPO 2025</em> a
-predĺžená lehota sa k nemu zadá dodatočne, export odmietne.</p>
-<p><strong>Minimálna daň za obdobie roka 2026 na vzore DPPO 2025.</strong> Vzor 2025 nesie
-pásma minimálnej dane roka 2025, ktoré končia na 3 840 eur. Pre obdobie, ktoré
-začína najskôr 1. 1. 2026, platí pásmo 11 520 eur nad 5 000 000 eur
-(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-52zzzj.odsek-5">§ 52zzzj ods. 5</a>) a modul ho
-uplatní aj na vzore 2025: ak je r. 560 nad 5 000 000 eur, r. 810 je
-11 520 eur, pri kratšom období 1/12 za každý mesiac.</p>
+<p>Kým lehota uplynie najneskôr 31. 12. 2026, ponúkajú sa všetky vzory, ktoré
+sa s obdobím prekrývajú, takže hospodársky rok 1. 7. 2024 – 30. 6. 2025 má
+na výber <em>DPPO 2024</em> aj <em>DPPO 2025</em>. Za hranicu svojej platnosti sa ponúka
+len <em>DPPO 2025</em>, pre obdobia roka 2026 z tabuľky. Ak lehota uplynie neskôr,
+ponúka sa len vzor 2026, nech je obdobie akékoľvek. Priznanie, ktoré už je
+na vzore <em>DPPO 2025</em> a predĺžená lehota sa k nemu zadá dodatočne, export
+odmietne, rovnako ako priznanie na vzore 2026, ktorého lehota uplynie skôr.</p>
+<p>Publikovaný vzor <strong>MF/014309/2026-721</strong> má natívny výpočtový register a
+pracovnú papierovú kópiu; jeho elektronická schéma je samostatný
+publikačný krok (pozri <a href="#published-2026">publikovaný vzor</a>).</p>
+<p><strong>Minimálna daň sa riadi začiatkom obdobia.</strong> Obdobie, ktoré začína
+najskôr 1. 1. 2026, používa pásma minimálnej dane roka 2026 na oboch
+vzoroch, takže pásmo 11 520 eur nad 5 000 000 eur
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-52zzzj.odsek-5">§ 52zzzj ods. 5</a>) platí aj na
+vzore <em>DPPO 2025</em>, ktorého vlastné pásma končia na 3 840 eur: ak je r. 560
+nad 5 000 000 eur, r. 810 je 11 520 eur, pri kratšom období 1/12 za každý
+mesiac. Obdobie začínajúce v roku 2025 podané na vzore 2026 si ponecháva
+strop 3 840 eur.</p>
 <p>Sadzby a sumy minimálnej dane sú uložené pri každom vzore, nie v programe.
 Vzor, ktorému chýba sadzba, výpočet odmietne a sadzbu si nedomýšľa.</p>
 <h2 id="usage">Výpočet priznania</h2>
@@ -536,7 +542,7 @@ vlastným IČO, názvom a adresou spoločnosti.</p>
 automaticky prepojovací modul
 <a href="/l10n_sk_dppo_fs/static/description/index_sk.html"><code>l10n_sk_dppo_fs</code></a> a do vypočítaného priznania
 pridá tlačidlo <strong>Porovnať s účtovnou závierkou</strong>. To nájde účtovnú závierku
-spoločnosti (<em>Účtovná závierka UZPODv14 (SK)</em>), ktorá pokrýva obdobie
+spoločnosti (<em>Účtovná závierka UZPODv 14 (SK)</em>), ktorá pokrýva obdobie
 priznania — prednostne tú s rovnakými dátumami — a porovná r. 100 s
 riadkom 56 výkazu ziskov a strát (výsledok hospodárenia za účtovné obdobie
 pred zdanením). Obe čísla sú ten istý výsledok hospodárenia, takže sa musia
@@ -547,9 +553,8 @@ nezhodujú, najčastejšie pre prepísaný r. 100 alebo iné obdobie.</p>
 účtovná závierka za obdobie neexistuje, tlačidlo to oznámi a nič neporovná.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
-<li><strong>Lehota na podanie po 31. 12. 2026</strong> (napríklad kalendárny rok 2026)
-  nie je pokrytá, kým modul nepodporí vzor 2026 (pozri
-  <a href="#deadline">Ktorý vzor: lehota na podanie</a>).</li>
+<li><strong>XML adaptér vzoru 2026 čaká na doplnenie.</strong> Natívny výpočet už
+  obsahuje pásmo 11 520 eur; nenahrádzajte ho XML vzoru 2025.</li>
 <li><strong>Vzory 2013, 2014 a 2020 – 2023</strong> počítajú len r. 100 a tabuľky A/B; daň je na vás.</li>
 <li>Obsah riadkov 3 a 4 tabuľky B vzorov 2013 a 2014 poučenie neuvádza;
   vyplňte ich podľa tlačiva.</li>
@@ -561,7 +566,177 @@ nezhodujú, najčastejšie pre prepísaný r. 100 alebo iné obdobie.</p>
 <li>Definície riadkov a výpočet dane by mal pred prvým podaním skontrolovať
   váš účtovník.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.5.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<h2 id="published-2026">Publikovaný vzor MF/014309/2026-721</h2>
+<p>Zoznam verzií vychádza z príslušnej <strong>zákonnej lehoty na podanie</strong> vrátane
+účinného predĺženia zadaného v poli <em>Príslušná zákonná lehota na podanie</em>.
+Pri bežnej trojmesačnej lehote nechajte pole prázdne. Obdobie júl 2025–jún 2026
+bežne používa starší vzor; pri účinnom predĺžení do marca 2027 už nový vzor.
+Obdobie december 2025–november 2026 potrebuje nový vzor aj bez predĺženia.
+Oneskorený skutočný dátum podania toto pravidlo nemení. Horné pásmo minimálnej
+dane naďalej závisí od začiatku zdaňovacieho obdobia.</p>
+<p>Natívne priznanie podporuje výpočet nového vzoru pre bežné obdobia od 2026.
+Oznámenie sa vzťahuje na posledný deň lehoty na podanie po 31.12.2026, pokiaľ
+ho nenahradí neskorší vzor. Zahŕňa teda aj bežný prvý rok 2027 podávaný v 2028.</p>
+<p>Riadok 310 je nový účtovníkom posudzovaný vstup podľa § 17k; medzisúčet sa
+presunul 315. Nový športový vstup 306 posunul motorové vozidlo, praktické
+vyučovanie a kontrolované zahraničné spoločnosti. Minimum 11 520 eur nad 5 miliónov
+platí iba pre obdobia začínajúce od 2026. Oslobodenie alebo polovičnú výšku
+podľa § 46b evidujte ako overenú úpravu riadku 810; vstup sa prenesie do
+nadväzujúcich súm aj natívneho zaúčtovania dane.</p>
+<p>Úradná papierová tlač a poučenie sú publikované. Elektronický adaptér má
+samostatný publikačný krok: v overenom katalógu nebola jeho nová schéma.
+Výpočet funguje, XML export vysvetlí potrebu nainštalovať aktuálny elektronický
+vzor. Nepoužije staré 2025 XML. Zdrojové hashe a platnosť obsahuje
+<code>data/FORM_PUBLICATION.json</code>.</p>
+<h2 id="official-pdf">Úradný listinný výstup</h2>
+<p>Po výpočte priznania vyplňte <strong>Údaje úradného formulára</strong> a použite tlačidlo
+<strong>Úradný formulár PDF</strong>. Identita pochádza zo spoločnosti a zvoleného natívneho
+kontaktu. Doplňte kód právnej formy, SK NACE, meno a vzťah oprávnenej osoby,
+dátum vyhlásenia a príslušné vyhlásenia. Dodatočné priznanie potrebuje skutočný
+dátum zistenia rozdielu dane.</p>
+<p>Výstup doplní pôvodný 21-stranový vzor MF/014309/2026-721. Zdroj a SHA256 sú
+pripnuté v <code>static/forms/SOURCES.json</code>. Telo a tabuľky A/B používajú uložené
+riadky natívneho priznania vrátane overených ručných úprav. Po zmene účtovných
+podkladov alebo vstupov výpočtu treba priznanie prepočítať. Vyhlásenia
+o minimálnej dani sa musia zhodovať s riadkom 810 a sumou pre dané obdobie.
+Hodnota presahujúca počet políčok sa výslovne odmietne.</p>
+<p>Listinný adaptér podporuje základ, A/B a zadané údaje tabuliek I/D. Nenulové
+nároky vyžadujúce ďalšiu tabuľku alebo prílohu potrebujú pred tlačou súvisiace
+zadané podklady a adaptér; nikdy sa potichu nevynechajú. Päť pôvodných
+priložených strán sa zachová s rovnakým DIČ a uvedie v počte príloh.
+Pokračovacie strany tabuľky I sa započítajú navyše.</p>
+<p>PDF je nepodpísaná snímka na kontrolu a stiahnutie. Nemení stav priznania,
+nevytvára XML a neoznačí priznanie za podané. Rovnaká snímka použije existujúcu
+prílohu; zmena identity vytvorí novú a zachová presné pôvodné bajty.
+Elektronické podanie naďalej vyžaduje publikovaný XML adaptér.</p>
+<h3 id="table-i">Zadané transakcie tabuľky I</h3>
+<p>V časti <strong>Údaje úradného formulára</strong> zadajte jednotlivé transakcie a úvery
+tabuľky I. Zvoľte natívny kontakt závislej osoby a zadajte publikovaný
+dvojmiestny kód druhu transakcie (01–37 pre transakcie, 01–05 pre úvery)
+a trojmiestny úradný kód štátu daňovej rezidencie protistrany. Zaradenie
+a významnosť sú účtovníkom posúdené fakty; referencia je číselník
+v publikovanom poučení. Kontroluje sa formát a rozsah kódu bez tichého orezu.</p>
+<p>Pri transakcii sa zadáva vplyv so znamienkom, agregácia a prepojenosť podľa
+§ 2 písm. r). Vplyv zahŕňa aj účinky v ďalších obdobiach; <strong>nejde o druhý
+účtovný zápis ani sumu pripočítavanú k riadku 400</strong>. Úver má najvyššiu
+istinu počas obdobia a konečnú istinu, ktorá nesmie prekročiť najvyššiu.
+Samostatné vyhlásenie pod zákonnou hranicou sa týka len transakcií, ktoré
+už nie sú zahrnuté v agregovanom riadku. Údaje musia zodpovedať vyhláseniu
+na prvej strane.</p>
+<p>Pôvodné tlačivo má štyri transakcie a päť úverov. Ďalšie riadky vytvoria
+výslovne označené pokračovacie kópie pôvodného vzoru tabuľky I s priebežnými
+poradovými číslami a číslami príloh. Každá časť má najviac 99 riadkov.
+Pri väčšom počte musí účtovník uplatniť poradie z publikovaného poučenia
+a zachovať zvyšné údaje v dokumentácii transferového oceňovania; program
+žiadny zadaný riadok potichu nevynechá. Údaje sa kopírujú s natívnou opravou,
+patria svojej firme a po exporte/podaní ich možno meniť až po natívnom
+návrate priznania do návrhu.</p>
+<h3 id="table-d">Predchádzajúce daňové straty v tabuľke D</h3>
+<p>Zadajte úradný stĺpec, pôvodné obdobie a sumu straty, predchádzajúce odpočty
+a odpočet uplatňovaný v tomto období. Bežné straty podľa § 30 patria do
+stĺpcov 4–8 v časovom poradí. Nová strata aktuálneho obdobia zostáva v riadku
+400; v tabuľke D sa objaví až v nasledujúcom priznaní. Voliteľné prepojenie
+na natívne pôvodné priznanie kontroluje firmu, obdobie a záporný riadok 400.
+Počiatočné údaje možno zadať aj z overených externých podkladov.</p>
+<p>Poradie nasledujúceho zdaňovacieho obdobia je overený údaj od 1 do 5 vrátane
+krátkych období, nie rozdiel kalendárnych rokov. Bezprostredne nasledujúce
+obdobie musí mať číslo 1. Zostatok sa vypočíta z pôvodnej sumy po odpočítaní
+predchádzajúcich a aktuálnych odpočtov. Po piatom období nevyužitý zostatok
+zanikne a suma pre budúcnosť je nula. Osobitné režimy stĺpcov 1–3 sú zadané
+právne kvalifikácie; pri odpočte v stĺpci 1 treba aj vysvetlenie v poli
+<strong>Osobitné záznamy úradného formulára</strong>.</p>
+<p>Tlačidlo <strong>Preniesť overený odpočet tabuľky D</strong> prenesie súčet do existujúcej
+natívnej úpravy riadka 410 a prepočíta priznanie. Pred dokončením skontroluje
+aj novo prepočítaný základ. Bežné straty majú publikovaný limit 50 %; aktuálne
+oprávnený mikrodaňovník môže pri oprávnených stratách od roku 2021 použiť
+celý základ. Ostatné kvalifikácie sú naďalej posúdené fakty; známe rozpory
+v mikro vyhláseniach sa odmietnu. Celkový odpočet nesmie prekročiť kladný
+riadok 400 ani nevyužitú pôvodnú stratu.</p>
+<p>Po zmene údajov D treba odpočet znovu preniesť. PDF aj natívne zaúčtovanie
+dane odmietnu nesúlad s riadkom 410. Pred finálnym výstupom skontrolujte
+ostatné existujúce ručné vstupy. Účtovným postupom zostáva
+natívne zaúčtovanie a storno dane; nevzniká druhá daňová kniha. Všetkých osem
+stĺpcov a súčet sa tlačia na pôvodné strany 7–8. Osobitné záznamy sa zalomia
+v pôvodnom poli strany 15 a text nad kapacitu sa odmietne bez tichého orezu.</p>
+<p>Tento ohraničený adaptér stále slúži na kontrolu a stiahnutie. Ďalšie nenulové
+osobitné nároky potrebujú svoje adaptéry pred dokončením
+celého listinného podania. Neskoršie publikované formuláre a právne zmeny
+podliehajú bežnej aktualizácii; táto verzia nie je zárukou prijatia budúcim
+portálom.</p>
+<h3 id="table-fl">Bežné podvojné účtovníctvo – tabuľky F/L a preddavky</h3>
+<p>Tabuľka F číta hospodárske a finančné výnosy a náklady pred daňou z príjmov
+z existujúcej zaúčtovanej hlavnej knihy. Používa rovnaké vylúčenie účtov dane
+ako natívny riadok 100. Výnosy mínus náklady sa musia rovnať riadku 100.
+Pri overených importovaných účtovných údajoch možno výslovne zadať obe sumy
+a uchovať zdrojové podklady. Sú to podklady formulára, nevzniká ďalšia kniha.</p>
+<p>Tabuľka L začína výnosmi F. Každá úprava má sumu so znamienkom, popis,
+súvisiaci trojmiestny riadok priznania a podklady zatriedenia. Čistá úprava
+priradená riadku nesmie prekročiť jeho sumu. <strong>Preniesť overené príjmy
+tabuľky L</strong> zapíše súčet do existujúceho ručného riadka 560 a prepočíta
+priznanie. Zmenené údaje treba znovu preniesť pred PDF či zaúčtovaním dane
+používajúcim tieto údaje. Aj bez úprav sa vytlačia L1 a L99. Pôvodný vzor má
+26 polí označených 2–21 a 23–28, pričom preskakuje 22. Zachováva sa: označené
+pokračovanie doplní chýbajúci riadok 22 a potom 29–98 s číslovaním príloh.
+Nad 97 úprav treba skontrolovať kapacitu publikovaného formulára;
+žiadna zadaná položka sa potichu nevynechá.</p>
+<p>V tejto publikovanej verzii sa riadok 1110 predvolene vypočíta z riadka 500
+krát sadzba riadka 550 mínus riadok 610, pred odpočtami 501–503. Výslovné
+ručné úpravy účtovníka zostávajú dostupné. Iba pri overenej historickej úľave
+podľa § 35/35a zákona č. 366/1999 sa použije osobitný príznak s podkladmi,
+kladným riadkom 610 a nulovým riadkom 1110; tlačené pole sa vtedy nevyplní.
+Príznak sám neurčuje zákonnú oprávnenosť.</p>
+<p>Tabuľka K má súvislé obdĺžniky pre celé eurá. Sumy a súčty nad štyri číslice sa zarovnajú doprava bežným písmom, ak sa zmestia do skutočného poľa. Centy zostávajú v samostatných okienkach; suma širšia než fyzické pole sa odmietne bez orezania.</p>
+<h2 id="tabulky-e-a-k-publikovaneho-tlaciva">Tabuľky E a K publikovaného tlačiva</h2>
+<p>Vzor MF/014309/2026-721 sa podľa oznámenia MF/014310/2026-721 použije, ak
+posledný deň zákonnej lehoty uplynie po 31. decembri 2026, až do nahradenia.
+Nejde o tvrdenie, že budúci náhradný vzor alebo elektronická schéma už existujú.
+Historické XML sa nesmie premenovať.</p>
+<p>Účtovník zadá overené podklady a použije <strong>Uplatniť overené zápočty tabuliek
+E/K</strong>. Akcia atomicky zapíše riadky 710/920 a prepočíta natívne priznanie.
+Tabuľka E vypočíta zákonné pomery, limity a nižší zo zaplatenej dane a limitu.
+Rozpis štátov je v IX. časti; neeuróvé dane vyžadujú preukázaný prepočet podľa
+§ 31 v samostatnej prílohe. Odhad podľa § 45 ods. 2 vyžaduje odlišné
+zdaňovacie obdobie zahraničnej dane; zaplatená daň aj skutočný dátum úhrady.
+Prípustnosť zápočtu podľa zmluvy a podklady naďalej overuje účtovník.</p>
+<p>Tabuľka K obsahuje kladný pôvodný rozdiel minimálnej dane, úplné zaplatenie
+pôvodnej minimálnej dane, skoršie a aktuálne zápočty a overené poradové číslo
+prvého až tretieho nasledujúceho zdaňovacieho obdobia. Počítajú sa aj krátke
+obdobia. V prvom nasledujúcom období nemôže byť skorší zápočet. Zdrojové
+obdobia sa nesmú prekrývať; aktuálny súčet neprekročí daň nad aktuálnou
+minimálnou daňou. Nevyužitý nárok po treťom období zaniká s vysvetlením v IX.
+časti. Tabuľka zostáva vyplnená aj pri nulovom aktuálnom zápočte, ak existuje
+preukázaný prenášaný nárok. Platia štyri zdrojové riadky vzoru bez vynechávania.</p>
+<p>Podklady nenahrádzajú dôkaz zaplatenia, pôvodné podané priznanie ani overenie
+oprávnenosti podľa zmluvy. Účtovník uchová zdroje a dôkazy nasledujúcich období
+a preverí zánik podľa § 46b ods. 8 vrátane likvidácie, konkurzu a nástupníctva.
+Nevzniká druhá hlavná kniha ani daňový register.</p>
+<p>Zmenené vstupy treba opätovne uplatniť pred PDF alebo účtovaním rezervy
+591/341. Platia zoradené zámky priznaní, ochrany stavu, účtovnícke oprávnenia
+a pravidlo firmy. Staršie PDF sú nemenné snímky; opravy tvoria odlišné výstupy.
+Zostáva všetkých 21 strán vzoru, prípadné pokračovania sú označené. Primárne
+zdroje a nezmenené kontrolné súčty sú v static/forms/SOURCES.json; regresie
+v tests/test_dppo_table_ek.py.</p>
+<p>PDF je pracovná kópia na kontrolu na publikovanom vzore ministerstva.
+Ponecháva označenia VZOR a Príloha č. 2. Nie je podpísaná a nenahrádza
+povinné elektronické XML podanie ani nepotvrdzuje podanie či prijatie.
+Štát v hlavičke sa vždy tlačí po slovensky.</p>
+<p>Historická evidencia tabuľky K sa vypĺňa aj bez aktuálneho zápočtu, vrátane
+straty. Uplatnenie nulového aktuálneho zápočtu zachová dôkazy a zostatok,
+ponechá stĺpec aktuálneho zápočtu a riadky 910–1000 prázdne a zachová
+aktuálnu minimálnu daň. Výslovne zadaný nulový aktuálny zápočet je odlišný
+od samotnej evidencie: môže vyplniť tieto polia, ale neoslobodí od minima,
+ktoré prevyšuje riadok 800. Ak daň nie je pod minimom, zákonný úplný zápočet
+stále ponechá riadky 1000 a 1050 nulové. Riadok 1110 má samostatný výpočet
+preddavkov pred odpočtami a neodvodzuje sa z tohto zápočtu.</p>
+<p>Lehota určujúca formulár je odlišná od obdobia minimálnej dane: január až
+september 2026 podaný na DPPOv25 používa pásma minimálnej dane roku 2026.
+Nad 5 miliónov EUR je deväťmesačné minimum 8 640 EUR; obdobie začínajúce
+v roku 2025 si zachová starý horný limit. Bežný daňovník s nulovými výnosmi
+alebo stratou stále platí nové minimum: 255 EUR za deväť mesiacov 2026 alebo
+340 EUR za celý rok 2025, ak sa neuplatní výslovná overená výnimka. Staré
+pravidlá daňovej licencie zostávajú oddelené. Obe natívne rozvrženia aj
+kontrola papierového formulára používajú rovnaký výpočet.</p>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.6.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

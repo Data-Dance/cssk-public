@@ -117,8 +117,8 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_cash_journal` | 19.0.1.1.2 | Slovak cash journal: the statutory členenie of opatrenie MF/27076/2007-74, the peňažný denník in its official column layout, and the DPFO typ B tabuľka 1 / 1a… |
 | `l10n_sk_currency_revaluation` | 19.0.1.3.1 | Pre-fills the OCA multicurrency-revaluation accounts with the Slovak 563/663 (kurzové rozdiely) accounts. |
 | `l10n_sk_datadance` | 19.0.1.4.4 | One-click Slovak statutory localization: installs the core statutory reporting + invoice modules, with optional workflow pieces selectable in Settings. |
-| `l10n_sk_dppo` | 19.0.1.5.1 | Slovak DPPO return on the income-tax framework: full r-line set + header mapping + XSD-validated XML export against the official dppo2025 schema. |
-| `l10n_sk_dppo_annexes` | 19.0.1.0.0 | Itemised expenses feed native versioned Table A return lines |
+| `l10n_sk_dppo` | 19.0.1.6.0 | Slovak DPPO return on the income-tax framework: full r-line set + header mapping + XSD-validated XML export against the official published historical schema… |
+| `l10n_sk_dppo_annexes` | 19.0.1.0.1 | Itemised expenses feed native versioned Table A return lines |
 | `l10n_sk_dppo_fs` | 19.0.1.1.4 | Tie the DPPO r100 to the VZS r56 of the účtovná závierka (UZPODv14) and flag a disagreement before filing. |
 | `l10n_sk_ec_sales` | 19.0.1.5.1 | Slovak EC sales list (Súhrnný výkaz) — codes 0/1/2 (goods / triangulation / services), FS SR SDV XML export. Built on the shared l10n_cssk_ec_summary_base… |
 | `l10n_sk_ekasa_receipt` | 19.0.1.1.2 | Read the QR code on a Slovak fiscal receipt and fetch the registered receipt — items, quantities and the VAT recap — from Finančná správa's… |
@@ -163,7 +163,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_vehicle_tax` | 19.0.1.0.0 | Dated vehicle tax assessment and DMVv25 filing |
 | `l10n_sk_vrp2_account` | 19.0.2.4.1 | Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2) |
 | `l10n_sk_vrp2_base` | 19.0.2.4.1 | Connection layer for the Slovak Virtual Cash Register (VRP 2) |
-| `l10n_sk_withholding` | 19.0.1.0.1 | Native-ledger dividend and author withholding notices with Annex A |
+| `l10n_sk_withholding` | 19.0.1.1.0 | Native-ledger dividend and author withholding notices with Annex A |
 
 ### Czech Republic and Slovakia (38)
 

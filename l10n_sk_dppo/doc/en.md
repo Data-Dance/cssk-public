@@ -1,7 +1,7 @@
 ---
 title: SK Corporate Income Tax Return (DPPO)
 summary: The Slovak corporate income tax return — every official form edition since 2013, the accounting result from the books, the tax computation with the rate and minimum tax of the year, and an XML file checked against the Financial Administration's schema.
-verified: 19.0.1.5.1
+verified: 19.0.1.6.0
 ---
 
 ## What it is for {#purpose}
@@ -13,6 +13,10 @@ income tax return screen of
 guide describes the common workflow — creating a return, computing it,
 overriding rows, exporting, marking it filed and posting the tax. This page
 covers what is Slovak:
+
+The published MF/014309/2026-721 edition additionally offers an unsigned
+official PDF download for the native body, Tables A/B and entered identity
+and declarations. See [the paper output](#official-pdf) for its current scope.
 
 - the rows of each official form edition (*vzor*) from 2013 to 2025, with the
   Financial Administration's schema (XSD) for each;
@@ -147,7 +151,7 @@ is three calendar months after the period ends
 | 1 Jan – 31 Dec 2025 | 31 Mar 2026 | DPPO 2025 |
 | 1 Jul 2025 – 30 Jun 2026 | 30 Sep 2026 | DPPO 2025 |
 | 1 Jan – 30 Sep 2026 (liquidation, a change of fiscal year) | 31 Dec 2026 | DPPO 2025 |
-| 1 Jan – 31 Dec 2026 | 31 Mar 2027 | 2026 form, not supported yet |
+| 1 Jan – 31 Dec 2026 | 31 Mar 2027 | 2026 form (MF/014309/2026-721) |
 
 An extension under [§ 49 ods. 3](law:sk/2003/595#paragraf-49.odsek-3)
 extends the deadline itself, and the oznámenie speaks of the last day of
@@ -157,20 +161,26 @@ extension as moving the form too. Enter the extended deadline in
 deadline. A period ending on 30 September 2026 extended to 31 March 2027
 therefore needs the 2026 form. The day you actually file changes nothing.
 
-**The 2026 form is not supported yet.** The Ministry of Finance published
-it on 28 September 2026, but the Financial Administration had not published
-its XML schema when this version was checked on 16 November 2026
-(`dppo2026.xsd` not found), and the module does not make one up. A return
-whose deadline falls after 31 December 2026 warns that it needs the 2026
-form and cannot be saved. A return already on *DPPO 2025* whose extended
-deadline is entered later refuses to export.
+Every edition that overlaps the period stays offered while the deadline
+ends by 31 December 2026, so a fiscal year 1 July 2024 – 30 June 2025 is
+offered both *DPPO 2024* and *DPPO 2025*, and you choose. Only *DPPO 2025*
+is offered past its own validity, for the 2026 periods in the table. When
+the deadline ends later, only the 2026 form is offered, whatever the period.
+A return already on *DPPO 2025* whose extended deadline is entered later
+refuses to export, and so does one on the 2026 form whose deadline ends
+earlier.
 
-**Minimum tax on a 2026 period filed on DPPO 2025.** The 2025 edition
-carries the 2025 minimum-tax bands, which stop at 3 840 €. For a period
-beginning on or after 1 January 2026 the 11 520 € band above 5 000 000 €
-applies ([§ 52zzzj ods. 5](law:sk/2003/595#paragraf-52zzzj.odsek-5)), and the
-module applies it on the 2025 form too: r810 is 11 520 €, or 1/12 of it per
-month of a shorter period, when r560 is above 5 000 000 €.
+The published **MF/014309/2026-721** form has a native calculation
+registry and a working paper copy; its electronic schema is a separate
+publication step (see [the published-form section](#published-2026)).
+
+**Minimum tax follows the period start.** A period beginning on or after
+1 January 2026 uses the 2026 minimum-tax bands on either form, so the
+11 520 € band above 5 000 000 € applies
+([§ 52zzzj ods. 5](law:sk/2003/595#paragraf-52zzzj.odsek-5)) also on
+*DPPO 2025*, whose own bands stop at 3 840 €: r810 is 11 520 €, or 1/12 of
+it per month of a shorter period, when r560 is above 5 000 000 €. A period
+beginning in 2025 filed on the 2026 form keeps the 3 840 € ceiling.
 
 The rate and the minimum-tax amounts are stored on each edition, not in the
 program. An edition whose rate is missing refuses to compute rather than
@@ -331,9 +341,8 @@ says so and compares nothing.
 
 ## Limitations {#limitations}
 
-- **A filing deadline after 31 December 2026** (a calendar 2026 among
-  them) is not covered until the 2026 form is supported (see
-  [Which form: the filing deadline](#deadline)).
+- **The 2026 form's XML adapter is pending.** Its native calculation
+  includes the 11 520 € minimum band; do not substitute the 2025 XML.
 - **2013, 2014 and 2020–2023** compute r100 and Tables A/B only; the tax is yours.
 - The meaning of rows 3 and 4 of the 2013/2014 Table B is not stated in
   their instructions; enter them from the form.
@@ -345,3 +354,223 @@ says so and compares nothing.
   official form and its instructions (*poučenie*).
 - The row definitions and the tax computation should be reviewed by your
   accountant before the first filing.
+
+## Published MF/014309/2026-721 {#published-2026}
+
+The version list uses the applicable **legal filing deadline**, including an
+effective extension entered in *Applicable legal filing deadline*. Leave that
+field empty for the ordinary three-calendar-month deadline. A fiscal period
+July 2025–June 2026 ordinarily uses the earlier form; an effective extension to
+March 2027 requires the new one. December 2025–November 2026 already requires the
+new form without an extension. A late actual filing date changes neither rule.
+The minimum-tax top band still depends on when the period began.
+
+The native return supports the published 2026 layout for ordinary periods
+starting in 2026 and later. The announcement applies where the last day of
+the filing deadline falls after 31 December 2026, subject to later replacements.
+This includes an ordinary 2027 first year filed in 2028; a name ending 26 is
+not a legal restriction to filing during 2027.
+
+Row 310 is now the accountant's section 17k adjustment; the former subtotal
+moves 315. Sports 306 shifts the vehicle, practical-training and CFC inputs.
+The 11 520 € minimum above 5 million applies only to periods starting from 2026.
+Record any section 46b exemption or halving as a reviewed row 810 override;
+the override then flows into subsequent amounts and the tax provision.
+
+The official paper form and instructions are published. The official XML
+adapter is a separate publication step: its schema was not in the reviewed
+catalog. Calculation is available; XML export gives an explicit explanation
+until the official electronic version is installed. It never emits 2025 XML
+for the new form. Source hashes and applicability are in
+`data/FORM_PUBLICATION.json`.
+
+## Official paper output {#official-pdf}
+
+After computing the return, complete **Official form inputs** and use
+**Official form PDF**. Identity comes from the company and the selected native
+contact; the form additionally records the legal-form code, SK NACE, authorized
+person's entered names and relationship, declaration date and applicable
+declarations. A supplementary return requires its actual discovery date.
+
+The download overlays the original 21-page MF/014309/2026-721 template, whose
+source and SHA256 are pinned in `static/forms/SOURCES.json`. The body and
+Tables A/B use the saved native return rows, including reviewed overrides.
+Changed ledger sources or calculation inputs require recomputation. Entered
+minimum-tax declarations must agree with row 810 and its period-sensitive
+amount. Values exceeding the actual printed boxes are rejected explicitly.
+
+The paper adapter supports the core, A/B and entered Table I/D facts. Nonzero
+claims requiring other tables or annexes require their related entered inputs
+and adapter before printing; they are never silently omitted. The five
+original attached pages are retained, with the same DIČ and counted in the
+declaration. Table I continuation pages are counted additionally.
+
+The PDF is an unsigned review/download snapshot. It leaves the tax return in
+its current state and does not create XML or mark it filed. An equal snapshot
+reuses its attachment; changing identity creates another snapshot and preserves
+the exact prior bytes. Electronic filing still needs the published XML adapter.
+
+### Table I entered transactions {#table-i}
+
+On **Official form inputs**, enter each transaction or loan in **Table I**.
+Choose a native related contact and enter the published two-digit transaction
+code (01–37 for transactions, 01–05 for loans) and the three-digit official
+code of the counterparty's tax residence. Classification and significance
+remain reviewed accountant facts; the published instruction code list is the
+reference. Codes are checked for format/range and never silently truncated.
+
+Transactions record a signed effect, aggregation and a permanent-establishment
+link under section 2(r). The effect is a disclosure, including effects in later
+periods; it is **not a second posting or an amount to add to row 400**. Loans
+record the highest principal during the period and the closing principal. The
+closing principal cannot exceed the highest principal. The separate
+below-threshold declaration covers only transactions not already aggregated
+into an entered row. These facts must agree with the front-page declaration.
+
+The printed original has four transaction rows and five loan rows. More rows
+create clearly marked continuation copies of the original Table I pattern,
+with continuous ordinals and annex numbers. Each section permits at most
+99 rows. Where more facts exist, the accountant must apply the published
+reporting priorities and retain the remaining transfer-pricing documentation;
+the programme does not silently discard any entered row. Inputs copy with a
+native amendment, are scoped to their company and cannot change on an
+exported/submitted return without the native reset workflow.
+
+### Table D prior tax losses {#table-d}
+
+Enter the published column, original loss period and amount, prior deductions
+and the deduction claimed this period. Ordinary section 30 losses occupy
+columns 4–8 in chronological order. The current period's new loss stays in
+row 400; it first appears in Table D on a later return. An optional link to
+the native original return checks its company, period and negative row 400.
+Opening facts can also be entered from reviewed external records.
+
+The following-tax-period number is a reviewed ordinal from 1 to 5, including
+short periods. It is not an elapsed-calendar-year calculation. An immediately
+following period must be number 1. The remaining balance is calculated from
+the original amount less prior/current deductions; after period 5 the unused
+balance expires and the future balance is zero. Special incentive columns
+1–3 remain entered legal qualifications; a column 1 deduction also requires
+its explanation in **Official form special records**.
+
+**Apply reviewed Table D deduction** transfers the sum to the existing native
+row 410 override and recomputes the existing tax return. It validates the
+newly recomputed base before committing. Ordinary losses have the published
+50% limit; a currently qualifying micro-taxpayer can use the full base for
+eligible losses starting from 2021. Other qualifications remain reviewed
+facts; known contradictory micro declarations are rejected. The total cannot
+exceed the positive row 400 or the unconsumed original loss.
+
+Changing Table D facts requires applying them again. Both the PDF and native
+tax provision reject a mismatch with row 410. Review other existing manual
+inputs before final output. Native provision/reversal
+remains the accounting workflow; no second tax ledger is created. All eight
+columns and the total are printed across the original pages 7–8. Special
+records wrap within the original page 15 field and reject over-capacity text
+instead of silently cutting it off.
+
+This bounded adapter is still a review/download path: remaining nonzero
+special claims need their adapters before the full
+paper filing is complete. Later published form or legal changes require the
+normal publication refresh; this edition is not a guarantee of future portal
+acceptance.
+
+### Ordinary double-entry Tables F/L and advance tax {#table-fl}
+
+Table F reads operating/financial revenue and costs before income tax from
+the existing posted ledger, with the same account exclusions as native row
+100. Revenue less costs must equal row 100. For reviewed imported accounting
+figures, enter the two source amounts and retain their evidence explicitly.
+This is form evidence; it does not create another accounting ledger.
+
+Table L starts with F revenue. Enter every taxable-income adjustment with
+its signed amount, description, related three-digit return row and reviewed
+classification evidence. The linked net adjustment cannot exceed that
+return row's amount. **Apply reviewed Table L revenue** transfers its total
+to the existing row 560 override and recomputes the return. Changed facts
+must be applied again before PDF output or a provision using these facts.
+Zero-adjustment returns still print L1 and L99. All entered adjustments are
+printed. The original pattern has 26 slots numbered 2–21 and 23–28, skipping
+22. It is preserved: marked continuation copies supply missing row 22, then
+29–98, with annex numbers. More than 97 adjustments require reviewing the published
+form capacity; none are silently omitted.
+
+For this published edition, row 1110 defaults to row 500 times the row 550
+rate, less row 610, before the deductions in rows 501–503. Existing explicit
+accountant overrides remain available. Only a reviewed historic relief
+under sections 35/35a of Act 366/1999 uses the explicit legacy flag, retained
+evidence, a positive row 610 and zero row 1110; the printed field is then
+left blank. The flag does not infer legal eligibility.
+
+Table K uses continuous whole-euro rectangles. Amounts and totals above four digits are right-aligned at the ordinary font size when they fit the actual rectangle. Cent digits retain their separate printed cells; an amount wider than the physical field is refused rather than clipped.
+
+## Tables E and K on the published paper form
+
+The published MF/014309/2026-721 pattern applies when the last day of the
+legal filing deadline falls after 31 December 2026, until replaced. This
+includes the ordinary 2027 period filed in 2028 under the currently
+published notice. It is not a claim that future replacement forms already
+exist. The XML adapter for this pattern remains unavailable pending the
+authority's publication; historical XML must not be relabelled.
+
+An accountant enters reviewed supporting facts on the existing tax return,
+then uses **Apply reviewed Tables E/K credits**. This atomically applies
+rows 710 and 920 and recomputes the existing tax spine. Table E calculates
+the official ordinary/hybrid ratios, limits and lower-of credit. Its
+country breakdown appears in section IX. Non-EUR source taxes require an
+evidenced section 31 conversion, printed as a separate annex. A lawful
+section 45(2) estimate requires a different foreign tax period; a paid
+source requires an actual payment date. Enter only tax permitted by the
+applicable treaty and supported by income and payment/estimate evidence.
+
+Table K records a positive original minimum-tax difference, original
+minimum tax fully paid, prior usage, current usage and the reviewed first,
+second or third subsequent tax period. Count tax periods, including short
+periods, rather than calendar-year differences. In the first following
+period there can be no prior-period usage. Source periods cannot overlap.
+The total claim cannot exceed the native tax above the current minimum.
+Unused credits expire after the third subsequent period, with an explicit
+section IX explanation. K remains present when the current claim is zero
+and an evidenced carry-forward exists. The official four source-period
+rows are enforced; nothing is silently dropped.
+
+The supporting facts do not determine treaty eligibility, establish that
+a payment was actually made, or replace a filed original return. The
+accountant retains those source documents, intervening-period evidence
+and reviews section 46b(8) expiry events, including liquidation,
+insolvency and legal succession. Existing declarations and ordinary
+manual review of such legal facts remain required. There is no second
+general ledger or tax register.
+
+Edited inputs must be reapplied before PDF output or posting the native
+591/341 provision. Inputs use the existing ordered parent locks,
+state guard, accountant ACL and company rule. Exported historical PDF
+attachments remain snapshots; recomputation/corrections create distinct
+outputs. All 21 original form pages remain in every PDF, with clearly
+marked continuations for country details or conversion evidence.
+
+Primary sources and unmodified authority-asset hashes are recorded in
+`static/forms/SOURCES.json`. The annex implementation is covered by
+`tests/test_dppo_table_ek.py`.
+
+The PDF is a working copy for review on the Ministry's published pattern.
+It retains the original VZOR and Príloha č. 2 marks. It is unsigned, cannot
+replace the required official electronic XML filing and proves no submission
+or acceptance. The header country is always printed in Slovak.
+
+Historical Table K evidence is required even with no current credit, including
+a loss. Applying a zero current claim retains the evidence and remaining
+balance, leaves the current-claim column and rows 910–1000 empty, and preserves
+the current minimum tax. An explicitly entered zero current claim is distinct
+from evidence alone: it may fill those fields, but cannot waive a minimum
+that exceeds row 800. When the tax is not below the minimum, a lawful full
+credit still leaves row 1000 and row 1050 at zero. Row 1110 keeps its separate
+advance-tax calculation before deductions; it is not derived from this credit.
+
+The form deadline and the minimum-tax period are separate: a January–September
+2026 period filed on DPPOv25 uses the 2026 minimum-tax bands. Above EUR 5 million
+its nine-month minimum is EUR 8,640; a period starting in 2025 retains the old
+ceiling. An ordinary taxpayer with zero revenue or a loss still owes the
+modern minimum: EUR 255 for nine months in 2026 or EUR 340 for full-year 2025,
+unless an explicit reviewed exemption applies. Historical licence rules remain
+separate. Both native layouts and paper validation use the same calculation.

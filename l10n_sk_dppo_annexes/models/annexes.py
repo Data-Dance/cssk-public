@@ -92,15 +92,28 @@ class DppoAnnexes(models.Model):
 
     def _cssk_preflight_export(self):
         result = super()._cssk_preflight_export()
+        self._annex_a_check_current()
+        return result
+
+    def _annex_a_check_current(self):
+        self.ensure_one()
+        self.check_access('read')
         previous = self.l10n_sk_annex_a_overrides or {}
         amounts = self._annex_a_sums() if self.l10n_sk_annexes_enabled else {}
         if previous != amounts:
-            raise UserError(_('Recompute the changed Table A workpaper before export.'))
+            raise UserError(_('Recompute the changed Table A workpaper before output or posting.'))
         for code, amount in amounts.items():
             row = self.line_ids.filtered(lambda line: line.code == code)
             if len(row) != 1 or self.currency_id.compare_amounts(row.value, amount):
-                raise UserError(_('Recompute the changed Table A workpaper before export.'))
-        return result
+                raise UserError(_('Recompute the changed Table A workpaper before output or posting.'))
+
+    def _l10n_sk_dppo_pdf_annex_payload(self):
+        self._annex_a_check_current()
+        return super()._l10n_sk_dppo_pdf_annex_payload()
+
+    def action_post_provision(self):
+        self._annex_a_check_current()
+        return super().action_post_provision()
 
 
 class AnnexALine(models.Model):
@@ -137,30 +150,42 @@ class AnnexALine(models.Model):
     @api.model_create_multi
     def create(self, values_list):
         self.check_access('create')
-        normalized = []
-        for source in values_list:
-            values = dict(source)
-            values.setdefault('return_id', self.env.context.get('default_return_id'))
-            parent = self.env['cssk.income.tax.return'].browse(values.get('return_id')).exists()
-            if len(parent) != 1:
+        with self.env.cr.savepoint():
+            normalized = [dict(source) for source in values_list]
+            for values in normalized:
+                values.setdefault('return_id', self.env.context.get('default_return_id'))
+                if type(values['return_id']) is not int or values['return_id'] <= 0:
+                    raise UserError(_('Choose the DPPO return before adding a Table A item.'))
+            identifiers = sorted({values['return_id'] for values in normalized})
+            parents = self.env['cssk.income.tax.return'].browse(identifiers).exists()
+            if len(parents) != len(identifiers):
                 raise UserError(_('Choose the DPPO return before adding a Table A item.'))
-            parent._annex_editable()
-            supplied = values.pop('company_id', self.env.context.get('default_company_id'))
-            if supplied and supplied != parent.company_id.id:
-                raise UserError(_('The Table A item must belong to its DPPO company.'))
-            normalized.append(values)
-        context = dict(self.env.context)
-        context.pop('default_company_id', None)
-        return super(AnnexALine, self.with_context(context)).create(normalized)
+            parents.check_access('write')
+            by_id = {parent.id: parent for parent in parents}
+            for values in normalized:
+                parent = by_id[values['return_id']]
+                supplied = values.pop('company_id', self.env.context.get('default_company_id'))
+                currency = values.pop('currency_id', self.env.context.get('default_currency_id'))
+                if supplied and supplied != parent.company_id.id:
+                    raise UserError(_('The Table A item must belong to its DPPO company.'))
+                if currency and currency != parent.currency_id.id:
+                    raise UserError(_('The Table A item must use its DPPO currency.'))
+            parents._annex_editable()
+            context = dict(self.env.context)
+            context.pop('default_company_id', None)
+            context.pop('default_currency_id', None)
+            return super(AnnexALine, self.with_context(context)).create(normalized)
 
     def write(self, values):
         self.check_access('write')
         if {'return_id', 'company_id', 'currency_id'} & values.keys():
             raise UserError(_('Table A items cannot be reassigned to another return or company.'))
-        self.return_id._annex_editable()
-        return super().write(values)
+        with self.env.cr.savepoint():
+            self.return_id._annex_editable()
+            return super().write(values)
 
     def unlink(self):
         self.check_access('unlink')
-        self.return_id._annex_editable()
-        return super().unlink()
+        with self.env.cr.savepoint():
+            self.return_id._annex_editable()
+            return super().unlink()

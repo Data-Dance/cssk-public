@@ -11,6 +11,9 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.6.0 (2026-11-16), not yet on 18.0:** deadline-based 2026 form
+  registry, native entered Tables D/E/F/I/K/L and official-pattern working
+  PDF copies; XML remains unavailable until its published adapter exists.
 - **19.0.1.5.1 (2026-11-16), not yet on 18.0:** the DPPO form chosen by the
   filing deadline (oznámenie MF/014310/2026-721), the *Applicable legal
   filing deadline* field, the export check and their tests. Needs
@@ -19,6 +22,101 @@ Carry-over to 18.0
   lines, r130/r150/r250 derived from them, the table export check, the
   two-digit row fix and its migration. Needs ``l10n_cssk_income_tax_base``
   19.0.1.6.0 (dependency-ordered aggregates) first.
+
+[19.0.1.6.0] — 2026-11-16
+-------------------------
+
+Changed
+~~~~~~~
+
+- **A return whose filing deadline ends after 31. 12. 2026 now files on
+  the 2026 form (MF/014309/2026-721).** This supersedes the 19.0.1.5.1
+  behaviour, which offered no version for such a return and warned that the
+  2026 form was not supported yet. It is offered whatever the period, so a
+  2025 period whose deadline was extended into 2027 gets it too. The 2026
+  form is paper only for now: Export XML is hidden on it and refused.
+- Returns whose deadline ends on or before 31. 12. 2026 keep the earlier
+  forms as in 19.0.1.5.1: every version that overlaps the period is offered
+  (a fiscal year across 2024 and 2025 still offers both), and only DPPO 2025
+  is offered past its own validity, for a 2026 period with a 2026 deadline.
+- **2024 and 2025 returns with zero or negative turnover now owe the 340 €
+  minimum tax instead of 0** (§ 46b ods. 1 and 2: a taxpayer reporting a
+  loss is included, and the lowest band covers turnover up to 50 000 €),
+  1/12 per month of a shorter period. Recomputing an existing 2024 or 2025
+  return changes r810 and the tax due accordingly.
+- The minimum tax follows the period start: a period starting in 2026 uses
+  the 2026 bands on either form, which supersedes the separate 11 520 € line
+  of 19.0.1.5.1 (it stays as a guard); a period starting in 2025 on the 2026
+  form is capped at 3 840 €.
+- The export refusal on an inapplicable version names the version, the
+  deadline and both forms.
+
+Fixed
+~~~~~
+
+- Apply the minimum-tax schedule by period start even when a short 2026
+  period is filed on DPPOv25. Keep the 2025 ceiling and the ordinary modern
+  minimum at zero revenue; paper validation shares the native calculation.
+  Reviewed row 810 exemptions and half-minimum overrides also feed the
+  legacy settlement instead of only changing the displayed input.
+
+- Keep the current minimum tax when historical Table K has no current claim,
+  including a loss. Separate its evidence from a filled current-claim column
+  and retain the minimum before using row 1000; a fully consumed lawful
+  credit with a minimum-tax exemption still settles to zero.
+
+- Print Table K whole-euro amounts in its continuous rectangles rather than
+  imposing an artificial four-digit cell limit. Preserve the original cent
+  cells, normal font size and strict checks against actual field width.
+
+- Select the published form by its applicable legal filing deadline, including
+  a recorded effective extension. Fiscal-period overlap alone cannot authorize
+  the obsolete 2025 wire. The paper adapter shares this applicability check;
+  minimum-tax amounts remain keyed on the period start. A late actual filing
+  date does not change the form's legal deadline.
+
+Added
+~~~~~
+
+- Ordinary double-entry Tables F/L from the existing posted ledger or
+  explicitly reviewed imported source figures. Entered signed revenue
+  adjustments feed native row 560, validate their linked return rows and
+  print every item, with continuation copies where needed. Row 1110 now
+  defaults to the published advance-tax calculation; reviewed historic
+  section 35/35a relief has an explicit evidenced blank-field treatment.
+
+- Entered Table D original losses, native prior-return references, reviewed
+  following-period ordinals, deduction caps and remaining/expired balances.
+  Apply the reviewed total to native row 410, recompute and validate atomically;
+  changed facts also block an inconsistent native tax provision. Print all
+  eight columns and the total on the original pages, plus entered special
+  records. Eligibility remains an accountant fact, not a second tax ledger.
+- Share company-scoped input normalization across I/D. Entire multi-return
+  batches are checked first and lock one sorted parent set in a savepoint,
+  preventing the former opposite-order batch deadlock and partial mutation.
+
+- Native entered Table I transactions and loans, the below-threshold
+  declaration and official PDF mapping. Signed effects remain disclosure
+  facts and never write the tax spine or GL. Original printed rows continue
+  on marked additional pattern pages up to the statutory 99 rows per section.
+  Company-scoped child access, native amendment copy and terminal-state
+  protection apply to the entered facts.
+
+- Unsigned native download on the pinned 21-page MF/014309/2026-721 PDF,
+  with body and Tables A/B, entered identity/declarations, reviewed minimum
+  tax, supplementary discovery date, source hashes and preserved original
+  pages. Saved financial inputs are validated before printing. Other nonzero
+  annex claims explicitly require their matching entered annex adapter.
+  Equal snapshots reuse attachments; historical PDF bytes remain available.
+
+- Published MF/014309/2026-721 form registry and calculation, separate from
+  historical 2025: sports 306, shifted vehicle/CFC rows, manual § 17k adjustment 310,
+  subtotal 315, special tax 1072 and the period-sensitive 11 520 € minimum band.
+  Effective accountant overrides feed subsequent rows and the native tax
+  provision. The published paper form is not confused with a published XML
+  schema: XML export remains explicitly unavailable pending its official
+  electronic adapter. Official source/archive hashes are recorded in
+  ``data/FORM_PUBLICATION.json``.
 
 [19.0.1.5.1] — 2026-11-16
 -------------------------

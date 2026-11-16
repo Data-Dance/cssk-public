@@ -91,34 +91,46 @@ class TestSkDppo(AccountTestInvoicingCommon):
                          self.version)
         self.assertFalse(draft._onchange_period_version())
 
-    def test_a_deadline_after_2026_gets_no_form_and_says_which(self):
+    def test_a_deadline_after_2026_gets_the_2026_form(self):
         """A calendar 2026 (deadline 31. 3. 2027), and any period ending on
-        1. 10. 2026 or later, needs MF/014309/2026-721. It is published but
-        not installed here, and DPPOv25 must not be offered in its place."""
-        for date_from, date_to, deadline in (
-                ("2026-01-01", "2026-12-31", "2027-03-31"),
-                ("2025-11-01", "2026-10-31", "2027-01-31"),
-                ("2026-01-01", "2026-10-01", "2027-01-31")):
+        1. 10. 2026 or later, files on MF/014309/2026-721 — and only on it:
+        DPPOv25 is not offered in its place. (Until 19.0.1.5.1 no version was
+        offered here, because the 2026 form was not shipped.)"""
+        v2026 = self.env.ref("l10n_sk_dppo.dppo_version_2026")
+        for date_from, date_to in (
+                ("2026-01-01", "2026-12-31"),
+                ("2025-11-01", "2026-10-31"),
+                ("2026-01-01", "2026-10-01")):
             with self.subTest(period=(date_from, date_to)):
                 draft = self._draft(date_from, date_to)
-                self.assertFalse(draft.l10n_sk_dppo_applicable_version_ids)
-                result = draft._onchange_period_version()
-                self.assertTrue(result and result.get("warning"))
-                message = result["warning"]["message"]
-                self.assertIn(deadline, message)
-                self.assertIn("MF/014309/2026-721", message)
-                self.assertIn("MF/014310/2026-721", message)
+                self.assertEqual(
+                    draft.l10n_sk_dppo_applicable_version_ids._origin, v2026)
+                self.assertFalse(draft._onchange_period_version())
+
+    def test_a_fiscal_year_across_2024_and_2025_offers_both(self):
+        """1. 7. 2024–30. 6. 2025 overlaps DPPO 2024 and DPPO 2025, and both
+        stay offered for the accountant to choose: the newest version that
+        started by the period start alone would give DPPO 2024 only."""
+        v2024 = self.env.ref("l10n_sk_dppo.dppo_version_2024")
+        draft = self._draft("2024-07-01", "2025-06-30")
+        self.assertEqual(draft.l10n_sk_dppo_applicable_version_ids._origin,
+                         v2024 | self.version)
+        self.assertFalse(draft._onchange_period_version())
 
     def test_an_extension_past_2026_moves_the_form_too(self):
         """§ 49 ods. 3 extends the lehota na podanie itself, and the
         oznámenie keys on its last day: 1. 1.–30. 9. 2026 extended to
-        31. 3. 2027 no longer files on DPPOv25. A return created before the
-        extension was entered refuses to export."""
-        draft = self._draft("2026-01-01", "2026-09-30",
-                            l10n_sk_dppo_filing_deadline="2027-03-31")
-        self.assertFalse(draft.l10n_sk_dppo_applicable_version_ids)
-        result = draft._onchange_period_version()
-        self.assertIn("2027-03-31", result["warning"]["message"])
+        31. 3. 2027 files on the 2026 form, and so does a calendar 2025
+        extended into 2027. A return created on DPPOv25 before the
+        extension was entered refuses to export, naming the deadline."""
+        v2026 = self.env.ref("l10n_sk_dppo.dppo_version_2026")
+        for date_from, date_to in (("2026-01-01", "2026-09-30"),
+                                   ("2025-01-01", "2025-12-31")):
+            with self.subTest(period=(date_from, date_to)):
+                draft = self._draft(date_from, date_to,
+                                    l10n_sk_dppo_filing_deadline="2027-03-31")
+                self.assertEqual(
+                    draft.l10n_sk_dppo_applicable_version_ids._origin, v2026)
         ret = self.env["cssk.income.tax.return"].create({
             "company_id": self.company.id,
             "version_id": self.version.id,
@@ -156,14 +168,39 @@ class TestSkDppo(AccountTestInvoicingCommon):
         draft = self._draft("2019-01-01", "2019-12-31")
         self.assertFalse(draft.l10n_sk_dppo_applicable_version_ids)
 
-    def test_a_period_before_every_vzor_keeps_the_shared_message(self):
+    def test_a_period_before_every_vzor_names_no_form(self):
         """Not the deadline rule: no SK vzor before 2013 is shipped, and the
-        shared message (which names no form number) still says so."""
+        warning (which names no form number) still says so."""
         result = self._draft("2012-01-01", "2012-12-31")\
             ._onchange_period_version()
         self.assertTrue(result and result.get("warning"))
         self.assertIn("2012-01-01", result["warning"]["message"])
         self.assertNotIn("MF/014309/2026-721", result["warning"]["message"])
+    def test_a_period_without_an_installed_vzor_says_so(self):
+        """The published 2026 paper form must not hide missing older periods.
+
+        A 404 from a guessed schema filename is not publication evidence.
+        Use an actually uncovered period to exercise the generic warning.
+        """
+        Return = self.env["cssk.income.tax.return"]
+        self.assertFalse(
+            self.env["cssk.income.tax.version"].search([
+                ("country_id.code", "=", "SK"),
+                ("valid_from", "<=", "2012-12-31"),
+                "|", ("valid_to", "=", False),
+                ("valid_to", ">=", "2012-01-01")]),
+            "premise: no 2012 vzor is shipped")
+        draft = Return.new({"company_id": self.company.id,
+                            "date_from": "2012-01-01",
+                            "date_to": "2012-12-31"})
+        result = draft._onchange_period_version()
+        self.assertTrue(result and result.get("warning"),
+                        "an uncovered period must warn that no vzor covers it")
+        self.assertIn("2012-01-01", result["warning"]["message"])
+        covered = Return.new({"company_id": self.company.id,
+                              "date_from": "2025-01-01",
+                              "date_to": "2025-12-31"})
+        self.assertFalse(covered._onchange_period_version())
 
     def test_tax_spine(self):
         """The tax spine computes r100→daň: r310→r400→r500→r510, the § 15 rate
@@ -274,7 +311,9 @@ class TestSkDppo(AccountTestInvoicingCommon):
             ret.line_ids.filtered(lambda l: l.code == code).write(
                 {"is_overridden": True, "manual_value": val})
 
-        setv("r560", 0.0)       # no min tax → r800 dominates
+        setv("r560", 0.0)       # turnover alone does not waive the minimum
+        setv("r810", 0.0)       # explicitly reviewed minimum-tax exemption
+        ret.l10n_sk_form_minimum_exemption = True
         setv("r301", 100.0)     # → r600 = r800 = 10 → r1050 = r1080 = 10
         ret.action_compute_lines()
         self.assertAlmostEqual(
@@ -525,15 +564,16 @@ class TestSkDppo(AccountTestInvoicingCommon):
 
     def test_min_tax_bands_come_from_version_data(self):
         """§ 46b minimum-tax amounts are version DATA (min_tax_bands):
-        340/960/1920/3840 € by r560, inclusive bounds; r560 ≤ 0 → no min
-        tax; short periods prorate by months (HALF-UP)."""
+        340/960/1920/3840 € by r560, inclusive bounds; zero/negative
+        revenue still owes the modern minimum unless explicitly exempt.
+        Short periods prorate by months (HALF-UP)."""
         ret = self._make()
         self.assertEqual(
             self.version.min_tax_bands,
             [[50000.0, 340.0], [250000.0, 960.0], [500000.0, 1920.0],
              [None, 3840.0]])
-        self.assertEqual(ret._dppo_min_tax(0.0), 0.0)
-        self.assertEqual(ret._dppo_min_tax(-5.0), 0.0)
+        self.assertEqual(ret._dppo_min_tax(0.0), 340.0)
+        self.assertEqual(ret._dppo_min_tax(-5.0), 340.0)
         self.assertEqual(ret._dppo_min_tax(1.0), 340.0)
         self.assertEqual(ret._dppo_min_tax(50000.0), 340.0)
         self.assertEqual(ret._dppo_min_tax(50000.01), 960.0)
@@ -886,11 +926,14 @@ class TestDerivedCodesHook(TransactionCase):
                 % (version.name, sorted(derived - codes)))
 
     def test_the_hook_matches_the_spine_declaration(self):
-        from odoo.addons.l10n_sk_dppo.models.cssk_income_tax import _SPINE_ROWS
+        from odoo.addons.l10n_sk_dppo.models.cssk_income_tax import (
+            _SPINE_ROWS, _SPINE_ROWS_2026)
         for version in self._sk_versions():
             codes = set(version.line_def_ids.mapped("code"))
+            spine = (_SPINE_ROWS_2026 if version.l10n_sk_dppo_layout == "2026"
+                     else _SPINE_ROWS)
             self.assertEqual(
-                version._cssk_derived_codes(), codes & set(_SPINE_ROWS),
+                version._cssk_derived_codes(), codes & set(spine),
                 "%s: the hook and the spine's declaration disagree"
                 % version.name)
 
@@ -946,7 +989,10 @@ class TestLoadBearingRowsAreLabelled(TransactionCase):
 
     # Where a row number was reused between the daňová licencia and the
     # minimálna daň eras. Nothing here may be assumed from another vzor.
-    VOLATILE = ("r800", "r810", "r820", "r830", "r900")
+    # MF014309/2026 inserted sports 306 and § 17k 310; vehicle/CFC inputs
+    # shifted 307–309 and the former subtotal 310 became 315.
+    VOLATILE = ("r306", "r307", "r308", "r309", "r310",
+                "r800", "r810", "r820", "r830", "r900")
 
     def _versions(self):
         versions = self.env["cssk.income.tax.version"].search(

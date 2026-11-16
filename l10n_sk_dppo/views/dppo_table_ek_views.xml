@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dppo_table_ek_form" model="ir.ui.view">
+        <field name="name">cssk.income.tax.return.sk.tables.ek</field>
+        <field name="model">cssk.income.tax.return</field>
+        <field name="inherit_id" ref="l10n_sk_dppo.dppo_official_pdf_form"/>
+        <field name="arch" type="xml">
+            <page name="sk_official_form" position="inside">
+                <group string="Tables E/K - reviewed tax credits">
+                    <button name="action_apply_table_ek_credits" type="object" string="Apply reviewed Tables E/K credits" invisible="state not in ('draft', 'preview')"/>
+                    <field name="l10n_sk_table_e_ids" readonly="state not in ('draft', 'preview')">
+                        <list editable="bottom">
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="country_id"/>
+                            <field name="foreign_base"/>
+                            <field name="hybrid_base"/>
+                            <field name="eligible_tax"/>
+                            <field name="tax_currency_id"/>
+                            <field name="source_tax"/>
+                            <field name="eur_rate"/>
+                            <field name="fx_evidence" optional="show"/>
+                            <field name="tax_status"/>
+                            <field name="paid_on"/>
+                            <field name="foreign_date_from" optional="show"/>
+                            <field name="foreign_date_to" optional="show"/>
+                            <field name="evidence"/>
+                        </list>
+                    </field>
+                    <field name="l10n_sk_table_k_ids" readonly="state not in ('draft', 'preview')">
+                        <list editable="bottom">
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="minimum_tax"/>
+                            <field name="credit_amount"/>
+                            <field name="prior_claimed"/>
+                            <field name="claimed"/>
+                            <field name="subsequent_period_number"/>
+                            <field name="paid_amount"/>
+                            <field name="paid_on"/>
+                            <field name="evidence"/>
+                        </list>
+                    </field>
+                </group>
+            </page>
+        </field>
+    </record>
+</odoo>

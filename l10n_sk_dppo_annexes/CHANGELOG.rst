@@ -11,8 +11,23 @@ Format follows Keep a Changelog.
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.0.1 (2026-11-16), not yet on 18.0:** reviewed Table A checks
+  for 2026 working PDF copies and native provisions, and atomic batch locks.
 - **19.0.1.0.0 (2026-11-10), not yet on 18.0:** the module needs
   l10n_sk_dppo's Table A/B lines (19.0.1.5.0) on 18.0 first.
+
+[19.0.1.0.1] — 2026-11-16
+-------------------------
+
+Fixed
+~~~~~
+
+- Reuse the current Table A workpaper validation for official paper PDFs
+  and native tax provisions as well as XML; changed items cannot leave an
+  old managed amount in either consumer. Preserve historical attachments.
+- Normalize entire multi-return create batches before one ordered parent
+  lock set, including company/currency checks. Savepoints keep item and audit
+  mutations atomic and prevent opposite-order batch deadlocks.
 
 [19.0.1.0.0] — 2026-11-10
 -------------------------

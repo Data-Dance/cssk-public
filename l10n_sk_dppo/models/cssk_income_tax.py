@@ -52,11 +52,24 @@ _SPINE_ROWS = frozenset({
     "r1050", "r1080", "r1100", "r1101",
 })
 
+_SPINE_ROWS_2026 = (_SPINE_ROWS - {"r310"}) | {
+    "r315", "r910", "r1000", "r1040", "r1110",
+}
+
 
 class CSSKIncomeTaxVersion(models.Model):
     """The SK layer's answer to "which rows does this engine derive?"."""
 
     _inherit = "cssk.income.tax.version"
+
+    l10n_sk_dppo_layout = fields.Selection(
+        [("legacy", "Earlier published layout"),
+         ("2026", "MF/014309/2026-721")], string="DPPO form layout",
+        default="legacy", required=True)
+    l10n_sk_dppo_publication = fields.Selection(
+        [("xml", "Published XML schema"),
+         ("paper", "Published form; XML schema pending")],
+        string="DPPO form publication", default="xml", required=True)
 
     def _cssk_derived_codes(self):
         """The tax spine's write-set, intersected with what the vzor defines.
@@ -69,8 +82,10 @@ class CSSKIncomeTaxVersion(models.Model):
         self.ensure_one()
         if (self.country_id.code or "").upper() != "SK":
             return super()._cssk_derived_codes()
-        return {code for code in self.line_def_ids.mapped("code")
-                if code in _SPINE_ROWS}
+        # Row 310 is a NEW accountant input (§ 17k); the subtotal moved to 315.
+        spine = (_SPINE_ROWS_2026 if self.l10n_sk_dppo_layout == "2026"
+                 else _SPINE_ROWS)
+        return set(self.line_def_ids.mapped("code")) & spine
 
 
 # Oznámenie MF/014310/2026-721: the DPPO vzor MF/012187/2025-721 (DPPOv25,
@@ -91,10 +106,21 @@ class CSSKIncomeTaxReturn(models.Model):
     # ------------------------------------------------------------------
     # Which vzor: by the last day of the filing deadline
     # ------------------------------------------------------------------
-    # Names and semantics follow cssk-public #46, which adds the 2026 vzor
-    # (its own layout) and replaces ``_compute_sk_applicable_versions`` with
-    # one that also selects it. Until then no installed version serves a
-    # deadline after 31. 12. 2026, and the return says why.
+    l10n_sk_legacy_advance_relief = fields.Boolean(
+        string="Legacy section 35/35a relief: leave row 1110 blank")
+    l10n_sk_legacy_advance_evidence = fields.Text(string="Legacy advance-tax relief evidence")
+
+    def _l10n_sk_check_advance_relief(self):
+        self.ensure_one()
+        if self.l10n_sk_legacy_advance_relief:
+            relief = self.line_ids.filtered(lambda row: row.code == "r610").value
+            advance = self.line_ids.filtered(lambda row: row.code == "r1110").value
+            if relief <= 0 or advance or not (self.l10n_sk_legacy_advance_evidence or "").strip():
+                raise UserError(_("Review the legacy section 35/35a relief, its evidence and the blank row 1110."))
+
+    l10n_sk_dppo_publication = fields.Selection(
+        related="version_id.l10n_sk_dppo_publication")
+
     l10n_sk_dppo_filing_deadline = fields.Date(
         string="Applicable legal filing deadline",
         help="The legal deadline including an effective extension, when it "
@@ -131,7 +157,11 @@ class CSSKIncomeTaxReturn(models.Model):
             self.date_to + relativedelta(months=3, day=31))
 
     def _l10n_sk_dppo_requires_2026_form(self):
-        """Whether oznámenie MF/014310/2026-721 requires MF/014309/2026-721."""
+        """Whether oznámenie MF/014310/2026-721 requires MF/014309/2026-721.
+
+        The legal DEADLINE decides, independently of the period start; the
+        actual day of filing never replaces it.
+        """
         self.ensure_one()
         deadline = self._l10n_sk_dppo_legal_deadline()
         return bool(deadline) and deadline > _SK_DPPO_2026_FORM_AFTER_DEADLINE
@@ -145,17 +175,19 @@ class CSSKIncomeTaxReturn(models.Model):
         exactly as the base domain on ``version_id`` (the Czech return keeps
         its one open-ended structure).
 
-        Slovakia, deadline on or before 31. 12. 2026: the versions that
-        overlap the period, as before (a hospodársky rok across two years
-        still offers both); and where none does because the period runs past
-        the newest version's ``valid_to`` — 1. 1.–30. 9. 2026, deadline
-        31. 12. 2026 — the version still valid on 31. 12. 2025 that started
-        by the period start. That is DPPOv25, which the oznámenie keeps for
-        exactly these returns.
+        Slovakia, deadline after 31. 12. 2026: the 2026 layout
+        (MF/014309/2026-721), whatever the period. Its ordinary-period
+        ``valid_from`` is not a second legal condition next to the
+        oznámenie's deadline criterion, so a 2025 period whose deadline was
+        extended into 2027 gets it too.
 
-        Slovakia, deadline after 31. 12. 2026: none. The 2026 vzor is
-        published, but its XML schema is not and no version for it is
-        installed; the 2025 form is not offered in its place.
+        Slovakia, deadline on or before 31. 12. 2026: the earlier layouts
+        whose validity overlaps the period (a hospodársky rok across two
+        years still offers both, and the accountant chooses); and where none
+        does because the period runs past the newest one's ``valid_to`` —
+        1. 1.–30. 9. 2026, deadline 31. 12. 2026 — the version still valid on
+        31. 12. 2025 that started by the period start. That is DPPOv25, which
+        the oznámenie keeps for exactly these returns.
         """
         Version = self.env["cssk.income.tax.version"].with_context(
             active_test=False)
@@ -164,22 +196,29 @@ class CSSKIncomeTaxReturn(models.Model):
             if not (ret.date_from and ret.date_to and country):
                 ret.l10n_sk_dppo_applicable_version_ids = False
                 continue
-            if country.code == "SK" and ret._l10n_sk_dppo_requires_2026_form():
-                ret.l10n_sk_dppo_applicable_version_ids = False
+            domain = [("country_id", "=", country.id)]
+            if country.code != "SK":
+                ret.l10n_sk_dppo_applicable_version_ids = Version.search(
+                    domain + [("valid_from", "<=", ret.date_to),
+                              "|", ("valid_to", "=", False),
+                              ("valid_to", ">=", ret.date_from)])
                 continue
-            versions = Version.search([
-                ("country_id", "=", country.id),
+            if ret._l10n_sk_dppo_requires_2026_form():
+                ret.l10n_sk_dppo_applicable_version_ids = Version.search(
+                    domain + [("l10n_sk_dppo_layout", "=", "2026")])
+                continue
+            domain += [("l10n_sk_dppo_layout", "!=", "2026")]
+            versions = Version.search(domain + [
                 ("valid_from", "<=", ret.date_to),
                 "|", ("valid_to", "=", False),
                 ("valid_to", ">=", ret.date_from),
             ])
-            if country.code == "SK" and not versions:
+            if not versions:
                 # Only the vzor still valid on 31. 12. 2025 is stretched:
                 # the oznámenie keeps it, and nothing else. A version
                 # missing from the middle of the series (a deleted 2019)
                 # must stay a visible gap, not be filled by an older form.
-                versions = Version.search([
-                    ("country_id", "=", country.id),
+                versions = Version.search(domain + [
                     ("valid_from", "<=", ret.date_from),
                     ("valid_to", ">=", _SK_DPPO_2025_FORM_LAST_PERIOD_DAY),
                 ], order="valid_from desc, id desc", limit=1)
@@ -188,14 +227,12 @@ class CSSKIncomeTaxReturn(models.Model):
     @api.onchange("company_id", "date_from", "date_to",
                   "l10n_sk_dppo_filing_deadline")
     def _onchange_period_version(self):
-        """The SK reason, when the deadline rule is why nothing applies.
-
-        Every other case — another country, or an SK period older than any
-        shipped vzor — keeps the shared message.
-        """
-        country = self.company_id.account_fiscal_country_id
-        if country.code != "SK" or not (self.date_from and self.date_to):
+        """Drop a version that no longer applies, and say why none does."""
+        if self.company_id.account_fiscal_country_id.code != "SK":
             return super()._onchange_period_version()
+        if not (self.company_id and self.date_from and self.date_to):
+            return None
+        self._compute_sk_applicable_versions()
         # _origin: on a draft both sides are NewId records, which never
         # compare equal to the stored ones.
         applicable = self.l10n_sk_dppo_applicable_version_ids._origin
@@ -203,48 +240,60 @@ class CSSKIncomeTaxReturn(models.Model):
             self.version_id = False
         if applicable:
             return None
-        if not self._l10n_sk_dppo_requires_2026_form():
-            return super()._onchange_period_version()
         return {"warning": {
-            "title": _("The 2026 DPPO form is not supported yet"),
-            "message": _(
-                "The filing deadline of this return ends on %(deadline)s, "
-                "after 31 December 2026. Under oznámenie MF/014310/2026-721 "
-                "such a return is filed on the new DPPO form "
-                "MF/014309/2026-721, not on the 2025 form "
-                "(MF/012187/2025-721). The new form has been published, but "
-                "the Financial Administration has not yet published its "
-                "electronic schema (XSD) and this module does not support it "
-                "yet. The return cannot be created until that version is "
-                "installed. If this is not the legal deadline of the return, "
-                "correct the Applicable legal filing deadline.",
-                deadline=self._l10n_sk_dppo_legal_deadline()),
+            "title": _("No applicable DPPO form version"),
+            "message": _("No published DPPO form covers %(date_from)s – %(date_to)s "
+                         "for the applicable legal filing deadline. Install its published version.",
+                         date_from=self.date_from, date_to=self.date_to),
         }}
+
+    def _l10n_sk_dppo_table_k_filled(self):
+        """Current-claim presence in Table K row 5 column 4, not its history.
+
+        Historical K entries remain required even without a current claim.
+        The explicit body declaration also permits an entered zero; it must
+        never displace the current minimum tax when r810 exceeds r800.
+        """
+        self.ensure_one()
+        return bool(self.l10n_sk_form_minimum_credit or any(
+            line.claimed for line in self.l10n_sk_table_k_ids))
 
     def _l10n_sk_dppo_check_form_applicability(self):
         """Refuse an export on a vzor the deadline rule does not allow.
 
-        The version dropdown already offers only applicable versions, but a
-        return created before its deadline was corrected (an extension
-        entered later) keeps the version it was created with.
+        Shared by the paper adapter and the XML export. The version dropdown
+        already offers only applicable versions, but a return created before
+        its deadline was corrected (an extension entered later) keeps the
+        version it was created with; the layout check catches a version
+        whose layout contradicts the deadline even where it is offered.
         """
         for ret in self:
             if (ret.country_id.code or "").upper() != "SK":
                 continue
-            if ret.version_id not in ret.l10n_sk_dppo_applicable_version_ids:
+            new_form = ret.version_id.l10n_sk_dppo_layout == "2026"
+            if (ret._l10n_sk_dppo_requires_2026_form() != new_form
+                    or ret.version_id not in ret.l10n_sk_dppo_applicable_version_ids):
                 raise UserError(_(
                     "The form version %(version)s does not apply to this "
                     "return. Under oznámenie MF/014310/2026-721 the DPPO form "
                     "follows the last day of the filing deadline, here "
                     "%(deadline)s: the 2025 form (MF/012187/2025-721) only "
-                    "when it ends on or before 31 December 2026. Choose a "
-                    "version the return offers for its period and deadline.",
+                    "when it ends on or before 31 December 2026, the 2026 "
+                    "form (MF/014309/2026-721) when it ends later. Choose a "
+                    "version the return offers for its period and deadline, "
+                    "including any effective extension.",
                     version=ret.version_id.display_name,
                     deadline=ret._l10n_sk_dppo_legal_deadline()))
         return True
 
     def _cssk_preflight_export(self):
         self._l10n_sk_dppo_check_form_applicability()
+        for ret in self:
+            if ret.version_id.l10n_sk_dppo_publication == "paper":
+                raise UserError(_(
+                    "The published DPPO form can be calculated, but its "
+                    "official XML schema is not installed. Install the "
+                    "published electronic version before XML export."))
         return super()._cssk_preflight_export()
 
     # Codes the spine writes — present in every official DPPO form version.
@@ -335,7 +384,7 @@ class CSSKIncomeTaxReturn(models.Model):
             "cislo": number,
             "psc": (partner.zip or "").replace(" ", ""),
             "obec": partner.city or "",
-            "stat": partner.country_id.name or "",
+            "stat": partner.country_id.with_context(lang="sk_SK").name or "",
             "datum_vyhlasenia":
                 fields.Date.context_today(self).strftime("%d.%m.%Y"),
         }
@@ -376,9 +425,10 @@ class CSSKIncomeTaxReturn(models.Model):
     # null upper bound. A version without bands raises loudly: silently
     # applying a wrong rate is worse than stopping the computation.
 
-    def _dppo_version_bands(self, field_name, label):
+    def _dppo_version_bands(self, field_name, label, version=None):
         self.ensure_one()
-        bands = self.version_id[field_name] or []
+        version = version or self.version_id
+        bands = version[field_name] or []
         if not bands or not bands[-1] or bands[-1][0] is not None:
             raise UserError(_(
                 "DPPO version '%(version)s' carries no usable %(label)s "
@@ -388,7 +438,7 @@ class CSSKIncomeTaxReturn(models.Model):
                 "noupdate data — on an existing database reload the "
                 "l10n_sk_dppo version data). Refusing to guess a statutory "
                 "rate.",
-                version=self.version_id.display_name, label=label,
+                version=version.display_name, label=label,
                 field=field_name))
         return bands
 
@@ -568,21 +618,28 @@ class CSSKIncomeTaxReturn(models.Model):
             return 0.0
         if "r560" not in set(self.version_id.line_def_ids.mapped("code")):
             r560 = self._eval_accounts("6")
-        if r560 <= 0:
+        if r560 <= 0 and self.date_from < date(2024, 1, 1):
             return 0.0
+        # The legal deadline selects the form; the period start selects the
+        # modern minimum-tax schedule (§ 52zzzj(5)). A short 2026 period may
+        # still use DPPOv25, whose historical data must remain unchanged.
+        version = self.version_id
+        if self.date_from >= date(2026, 1, 1) and version.l10n_sk_dppo_layout != "2026":
+            version = self.env.ref("l10n_sk_dppo.dppo_version_2026")
         payer = self._dppo_is_vat_payer()
         base = self._dppo_band_value(
             self._dppo_version_bands(
-                "min_tax_bands", _("§ 46b minimum-tax bands")),
+                "min_tax_bands", _("§ 46b minimum-tax bands"), version=version),
             r560,
             {"vat_payer": payer, "not_vat_payer": not payer},
         )
-        # § 46b ods. 2 písm. e) from 1. 1. 2026: turnover above 5 000 000 €
-        # owes 11 520 €, first for a period STARTING from 1. 1. 2026
-        # (§ 52zzzj ods. 5). The 2025 vzor still files such a period when its
-        # deadline falls in 2026 (oznámenie MF/014310/2026-721), and its band
-        # table stops at 3 840 €.
-        if self.date_from and self.date_from >= date(2026, 1, 1) and r560 > 5000000.0:
+        if self.date_from < date(2026, 1, 1) and version.l10n_sk_dppo_layout == "2026":
+            base = min(base, 3840.0)
+        # Redundant guard for § 46b ods. 2 písm. e) from 1. 1. 2026: turnover
+        # above 5 000 000 € owes 11 520 € for a period STARTING from
+        # 1. 1. 2026 (§ 52zzzj ods. 5), also on the 2025 vzor, whose own band
+        # table stops at 3 840 €. The 2026 bands chosen above already give it.
+        if self.date_from >= date(2026, 1, 1) and r560 > 5000000.0:
             base = max(base, 11520.0)
         months = self._period_months()
         return base if months == 12 else statutory_round(
@@ -620,6 +677,8 @@ class CSSKIncomeTaxReturn(models.Model):
 
     def _compute_tax_spine(self):
         self.ensure_one()
+        if self.version_id.l10n_sk_dppo_layout == "2026":
+            return self._compute_tax_spine_2026()
         by = {line.code: line for line in self.line_ids}
 
         def g(code):
@@ -686,8 +745,9 @@ class CSSKIncomeTaxReturn(models.Model):
         put("r700", r700)
         r800 = statutory_round(r700 - g("r710"), 2)
         put("r800", r800)
-        r810 = self._dppo_min_tax(g("r560"))
-        put("r810", r810)
+        put("r810", self._dppo_min_tax(g("r560")))
+        # Reviewed exemption/halving overrides must feed the legacy cascade.
+        r810 = g("r810")
         # KLADNÝ ROZDIEL — and WHICH ROW carries it depends on the vzor,
         # because the form reused the number. Verified against the pinned FS SR
         # schemas: 2017/2018/2019 define r800/r810/r820 and NO r830, while
@@ -726,6 +786,76 @@ class CSSKIncomeTaxReturn(models.Model):
         settle = statutory_round(r1080 - g("r1040"), 2)
         put("r1100", settle if settle > 5.0 else 0.0)
         put("r1101", settle if settle < 0.0 else 0.0)
+
+    def _compute_tax_spine_2026(self):
+        """Published MF/014309/2026-721, pages 2–5 and its official guidance.
+
+        The input row 310 now means § 17k, while the subtotal moved to 315 and
+        the sports input 306 shifted the vehicle/CFC rows. Reusing the older
+        spine would overwrite a real adjustment. Read every effective row
+        after writing it: reviewed exemptions and other accountant overrides
+        must flow to downstream rows, including the bookable tax 1050.
+        """
+        self.ensure_one()
+        by = {line.code: line for line in self.line_ids}
+
+        def g(code):
+            return by[code].value if code in by else 0.0
+
+        def put(code, amount):
+            if code not in _SPINE_ROWS_2026:
+                raise ValueError("Undeclared published 2026 DPPO derived row: %s" % code)
+            line = by[code]
+            if not line.is_overridden:
+                line.value = statutory_round(amount, 2)
+            return line.value
+
+        put("r200", sum(g(code) for code in
+                        ("r110", "r130", "r140", "r150", "r170", "r180")))
+        put("r300", sum(g("r%s" % code) for code in range(210, 300, 10)))
+        # Table H row 11 is unsupported; its entered annex adapter is required.
+        put("r301", g("r100") + g("r200") - g("r300"))
+        put("r315", sum(g("r%s" % code) for code in range(301, 308))
+            - g("r308") + g("r309") + g("r310"))
+        put("r400", g("r315") - g("r320") - g("r330"))
+        put("r500", max(0.0, g("r400") - g("r410")))
+        put("r510", max(0.0, g("r500") - g("r501") - g("r502") - g("r503")))
+        put("r550", self._dppo_rate(g("r560")))
+        put("r600", max(0.0, g("r510")) * g("r550") / 100.0)
+        put("r700", max(0.0, g("r600") - g("r610")))
+        put("r800", max(0.0, g("r700") - g("r710")))
+        # A zero turnover does not itself exempt an ordinary taxpayer.
+        # § 46b(7) exemptions/halving remain explicit reviewed row 810 inputs.
+        put("r810", self._dppo_min_tax(g("r560")))
+        put("r820", g("r810") if g("r810") > g("r800") else 0.0)
+        put("r830", max(0.0, g("r810") - g("r800")))
+        put("r900", g("r820"))
+        table_k_filled = self._l10n_sk_dppo_table_k_filled()
+        capacity = max(0.0, g("r800") - g("r810"))
+        if g("r920") and not table_k_filled:
+            raise UserError(_("Complete the reviewed Table K declaration before entering row 920."))
+        put("r910", capacity if table_k_filled else 0.0)
+        if g("r920") < 0 or statutory_round(g("r920") - capacity, 2) > 0:
+            raise UserError(_(
+                "The reviewed prior minimum-tax credit (row 920) must be "
+                "nonnegative and cannot exceed row 910. Review Table K."))
+        put("r1000", max(0.0, g("r800") - g("r920")) if table_k_filled else 0.0)
+        # The vzor gives r900 priority when the current tax is below its
+        # minimum. A historical or explicitly zero K claim cannot waive it.
+        # Otherwise a filled r1000 remains the tax even when fully consumed.
+        put("r1050", g("r900") if g("r810") > g("r800") else
+            (g("r1000") if table_k_filled else g("r800")))
+        put("r1040", g("r1010") + g("r1020") + g("r1030"))
+        put("r1080", sum(g(code) for code in
+                         ("r1050", "r1060", "r1070", "r1071", "r1072")))
+        settlement = statutory_round(g("r1080") - g("r1090") - g("r1040"), 2)
+        put("r1100", settlement if settlement > 5 else 0.0)
+        put("r1101", min(0.0, settlement))
+        # Published guidance, page 12: use r500 BEFORE deductions 501-503,
+        # subtract 610, irrespective of minimum tax or withholding credits.
+        put("r1110", 0 if self.l10n_sk_legacy_advance_relief else
+            g("r500") * g("r550") / 100.0 - g("r610"))
+        self._l10n_sk_check_advance_relief()
 
     def _fill_dodatocne_differences(self):
         """Fill the 'posledná známa' rows from the previous return and the

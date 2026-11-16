@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dppo_table_i_form" model="ir.ui.view">
+        <field name="name">cssk.income.tax.return.sk.table.i</field>
+        <field name="model">cssk.income.tax.return</field>
+        <field name="inherit_id" ref="l10n_sk_dppo.dppo_official_pdf_form"/>
+        <field name="arch" type="xml">
+            <page name="sk_official_form" position="inside">
+                <group string="Table I - controlled transactions">
+                    <field name="l10n_sk_table_i_below_threshold"/>
+                    <field name="l10n_sk_table_i_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="section"/>
+                            <field name="transaction_code"/>
+                            <field name="partner_id"/>
+                            <field name="resident_country_code"/>
+                            <field name="aggregated"/>
+                            <field name="permanent_establishment_link"/>
+                            <field name="tax_effect"/>
+                            <field name="highest_principal"/>
+                            <field name="closing_principal"/>
+                            <field name="evidence" optional="show"/>
+                        </list>
+                    </field>
+                </group>
+            </page>
+        </field>
+    </record>
+</odoo>

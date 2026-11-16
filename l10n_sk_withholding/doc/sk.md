@@ -1,7 +1,7 @@
 ---
 title: Oznámenie zrážkovej dane
 summary: Rezidentské dividendy a autorské príjmy, skutočné úhrady, OZN4311v26 a príloha A.
-verified: 19.0.1.0.0
+verified: 19.0.1.1.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -74,11 +74,42 @@ Uchovajte pôvodnú odmenu, prípadný skutočný príspevok a účtovné podkla
 Neodpočítavajte domnelý príspevok. Platba autorovi je tento zdaniteľný príjem
 znížený o zrazenú daň.
 
-Zaúčtované storno zatiaľ vylučuje pôvodný zdroj aj pri čiastočnom dobropise.
-Faktúra na 1 500 s naviazaným dobropisom na 150 tak zatiaľ neposkytne zvyšných 1 350
-cez tento adaptér. Ide o známe nepokryté použitie; neodstraňujte väzbu dobropisu
-a nemeňte zaúčtované doklady kvôli obídeniu kontroly. Uchované exporty zostávajú
-dostupné. Pri evidencii ich skutočného podania neskoršie pracovné návrhy nemajú
+Pôvodná autorská faktúra aj samostatný záväzkový účtovný zápis jedného príjemcu
+podporujú naviazané čiastočné dobropisy. Použijú sa aktuálne zaúčtované natívne
+dobropisy s dátumom dokladu účinným najneskôr ku skutočnej platbe. Storno
+dobropisu môže limit obnoviť; pracovný dobropis ho nezníži. Typ väzby faktúra/
+dobropis alebo interný zápis musí zodpovedať pôvodnému zdroju, firme, účtu
+a príjemcovi.
+
+Odmena 1500 mínus dobropis 150 pred platbou, bez DPH a skutočného príspevku fondu,
+znamená príjem 1350, zrážku 256,50 a platbu 1093,50. Každý pôvodný záväzkový riadok
+si zachová vlastný limit; všetky splátkové riadky zároveň zdieľajú znížený limit
+dokladu naprieč mesiacmi a oznámeniami. Úplná oprava nahrádza predchodcu a nečerpá
+ho druhýkrát. Nový výpočet rezervuje aj sumy a dátumy starých uchovaných podkladov.
+Súčet nárokov musí zodpovedať limitu ku každému dátumu skutočnej platby.
+Skoršie zadanie neskoršej platby ani podanie neskoršieho mesiaca pred opravou
+skoršieho mesiaca výsledok nemení.
+Export uchová kapacitu ku všetkým relevantným dátumom vrátane platieb z iných
+oznámení. Pri neskoršom zaevidovaní tohto podania používa uloženú časovú os,
+nie dnešný stav dobropisov.
+Keďže časová os obsahuje aj dátumy iných oznámení, vypočítaný náhľad zastará,
+keď iné oznámenie pridá nárok na ten istý doklad, a export ho odmietne.
+Použite **Vrátiť do návrhu** a znova **Overiť zdroje**, čím ho prepočítate.
+
+Historický export spred tejto funkcie bez spoločných kapacitných podkladov si
+pri evidencii podania zachová pôvodné kontroly riadkov, banky a vysporiadania.
+Program nevymýšľa chýbajúcu historickú kapacitu zo spätne datovaného dobropisu.
+Tento kompatibilný postup zachováva podané fakty; nepotvrdzuje historický limit,
+ktorý sa neuchoval. Nová úplná oprava už používa aktuálne dátumované kontroly
+a pôvodné XML ponecháva osobitne.
+
+Limit dokladu nie je dôkazom výplaty ani automaticky základom dane. Zadajte
+overený skutočný zdaniteľný príjem a uchovajte bankové/zápočtové podklady aj
+zrážku. Neskorší dobropis automaticky neprepisuje skoršiu skutočnú výplatu či
+podanie. Skutočnú vratku zaevidujte osobitne a pred opravou overte jej daňové
+obdobie. Zmiešané doklady viacerých príjemcov zachovávajú pôvodné pravidlá;
+nerozpočítavajte ich odhadom, neodpájajte dobropisy a neprepisujte posted doklady
+kvôli obídeniu kontroly. Pri evidencii skutočného podania pracovné návrhy nemajú
 prednosť pred už exportovaným nárokom. Nový výpočet naďalej kontroluje všetky
 pracovné rezervácie aj uchované nároky ostatných oznámení.
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dppo_table_fl_form" model="ir.ui.view">
+        <field name="name">cssk.income.tax.return.sk.table.fl</field>
+        <field name="model">cssk.income.tax.return</field>
+        <field name="inherit_id" ref="l10n_sk_dppo.dppo_official_pdf_form"/>
+        <field name="arch" type="xml">
+            <page name="sk_official_form" position="inside">
+                <group string="Tables F/L - ordinary double-entry accounting">
+                    <field name="l10n_sk_f_manual"/>
+                    <field name="l10n_sk_f_revenue" invisible="not l10n_sk_f_manual"/>
+                    <field name="l10n_sk_f_cost" invisible="not l10n_sk_f_manual"/>
+                    <field name="l10n_sk_f_evidence" invisible="not l10n_sk_f_manual"/>
+                    <button name="action_apply_table_l_revenue" type="object"
+                            string="Apply reviewed Table L revenue" invisible="state not in ('draft', 'preview')"/>
+                    <field name="l10n_sk_table_l_ids" nolabel="1">
+                        <list editable="bottom">
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="company_id" column_invisible="True"/>
+                            <field name="sequence" widget="handle"/>
+                            <field name="description"/><field name="amount"/>
+                            <field name="return_row"/><field name="evidence"/>
+                        </list>
+                    </field>
+                </group>
+            </page>
+        </field>
+    </record>
+</odoo>
