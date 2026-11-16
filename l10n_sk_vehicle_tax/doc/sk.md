@@ -24,7 +24,7 @@ Táto verzia počíta bežných daňovníkov a/b; oslobodenie či vylúčenie m�
 výslovný dôvod na karte vozidla.
 
 Tlačidlo **Pridať firemné vozidlá** pridá pripravené vozidlá vrátane predaných
-a archivovaných. Trvalé upozornenie vypíše každé nepridané EČV s dôvodom:
+a archivovaných a obnoví ich zoznam. V histórii komunikácie sa uchová každé nepridané EČV s dôvodom:
 chýbajúce údaje, nepodporovaná kategória/daňovník, oslobodenie, dátumy mimo roka
 alebo nepriradená firma. Zdieľané vozidlá najprv výslovne priraďte vlastníkovi.
 Overte prenesené snímky; po zmene karty použite **Obnoviť snímku vozidla**

@@ -25,7 +25,7 @@ claiming its reduction. This edition calculates ordinary taxpayers a/b;
 record exemptions/outside-scope grounds explicitly instead of discarding a car.
 
 **Add company fleet vehicles** imports ready vehicles, including sold or archived
-vehicles. Its persistent notification lists every skipped plate and reason:
+vehicles and refreshes the list. The chatter retains every skipped plate and reason:
 missing facts, unsupported category/taxpayer, exemption, dates outside the year,
 or no assigned company. Assign shared vehicles explicitly to their owning
 company before import. Review the imported snapshots. After a fleet edit use

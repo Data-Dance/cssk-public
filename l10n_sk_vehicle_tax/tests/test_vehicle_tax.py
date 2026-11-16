@@ -203,7 +203,7 @@ class TestVehicleTax(TransactionCase):
     def test_export_retry_has_no_accounting_or_duplicate_lines(self):
         rec = self.make_return()
         before = self.env['account.move'].search_count([('company_id', '=', self.company.id)])
-        root = self.xml(rec)
+        self.xml(rec)
         digest = rec.xml_digest
         rec.action_export_xml()
         self.assertEqual(rec.xml_digest, digest)
@@ -671,13 +671,35 @@ class TestVehicleTax(TransactionCase):
             ready.copy({'license_plate': plate, **values})
         action = rec.action_add_fleet_vehicles()
         self.assertEqual(rec.line_ids.vehicle_id, ready)
-        message = action['params']['message']
+        self.assertEqual(action['params']['next'],
+                         {'type': 'ir.actions.client', 'tag': 'soft_reload'})
+        message = str(rec.message_ids.sorted('id')[-1].body)
         for plate, _values in variants:
             self.assertIn(plate + ':', message)
         self.assertIn('No company assigned', message)
         self.assertIn('exemption evidence missing', message)
         rec.action_add_fleet_vehicles()
         self.assertEqual(len(rec.line_ids), 1)
+
+    def test_import_persists_separate_escaped_reasons_and_localized_display(self):
+        rec = self.make_return()
+        ready = rec.line_ids.vehicle_id
+        rec.line_ids.unlink()
+        ready.copy({'license_plate': '<script>unsafe</script>',
+                    'l10n_sk_first_registration_date': False})
+        ready.copy({'license_plate': 'OTHER', 'l10n_sk_engine_cm3': 0})
+        action = rec.action_add_fleet_vehicles()
+        self.assertEqual(rec.line_ids.vehicle_id, ready)
+        body = str(rec.message_ids.sorted('id')[-1].body)
+        self.assertEqual(len(etree.HTML(body).xpath('//li')), 2)
+        self.assertIn('&lt;script&gt;unsafe&lt;/script&gt;', body)
+        self.assertNotIn('<script>', body)
+        self.assertEqual(action['params']['next']['tag'], 'soft_reload')
+        self.assertIn('-Regular-', rec.display_name)
+        for kind in ('form', 'list'):
+            view = etree.fromstring(rec.get_view(view_type=kind)['arch'].encode())
+            for field in view.xpath('//field[@name="year"]'):
+                self.assertEqual(field.get('options'), "{'format': false}")
 
     def test_lng_model_default_survives_model_change(self):
         model = self.fleet_model.copy({'default_fuel_type': 'lng'})

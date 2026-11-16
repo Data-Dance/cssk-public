@@ -15,6 +15,7 @@ from calendar import monthrange
 from datetime import date, timedelta
 from decimal import Decimal
 from lxml import etree
+from markupsafe import Markup
 
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import AccessError, UserError
@@ -153,6 +154,14 @@ class VehicleTaxReturn(models.Model):
     def _compute_name(self):
         for rec in self:
             rec.name = 'DMVv25-%s-%s-%s-%s' % (rec.company_id.name, rec.year, rec.filing_type, rec.id)
+
+    @api.depends('name', 'filing_type', 'company_id.name', 'year')
+    @api.depends_context('lang')
+    def _compute_display_name(self):
+        labels = dict(self._fields['filing_type']._description_selection(self.env))
+        for rec in self:
+            rec.display_name = 'DMVv25-%s-%s-%s-%s' % (
+                rec.company_id.name, rec.year, labels.get(rec.filing_type, ''), rec.id)
 
     @api.depends('year')
     def _compute_dates(self):
@@ -619,10 +628,15 @@ class VehicleTaxReturn(models.Model):
             self.env['l10n.sk.vehicle.tax.line'].create({'return_id': self.id, 'vehicle_id': vehicle.id,
                 'evidence': _('Review the imported fleet documents and liability before calculation.')})
             imported += 1
+        if skipped:
+            self.message_post(body=Markup('<p>%s</p><ul>%s</ul>') % (
+                _('Vehicles not imported from the fleet'),
+                Markup('').join(Markup('<li>%s</li>') % reason for reason in skipped)))
         return {'type': 'ir.actions.client', 'tag': 'display_notification', 'params': {
             'title': _('Fleet import: %s added, %s not imported', imported, len(skipped)),
             'type': 'warning' if skipped else 'success', 'sticky': bool(skipped),
-            'message': '\n'.join(skipped) if skipped else _('All prepared fleet vehicles are included.')}}
+            'message': _('Review the vehicles and reasons in the chatter.') if skipped else _('All prepared fleet vehicles are included.'),
+            'next': {'type': 'ir.actions.client', 'tag': 'soft_reload'}}}
 
 
 class VehicleTaxLine(models.Model):

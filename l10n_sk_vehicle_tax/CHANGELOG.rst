@@ -22,6 +22,10 @@ Added
 Fixed
 ~~~~~
 
+- Refresh the vehicle list after fleet import, retain readable escaped import
+  reasons in the chatter, display the year without a thousands separator and
+  show filing-type labels in the user's language.
+
 - Normalize actual liability event dates to statutory month boundaries.
 - Prevent duplicate filed regular returns in Python and with a database index.
 - Preserve exact XML while allowing same-content storage migration and tokens.
