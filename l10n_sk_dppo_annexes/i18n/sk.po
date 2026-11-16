@@ -109,8 +109,9 @@ msgstr "Naposledy upravené dňa"
 #. module: l10n_sk_dppo_annexes
 #. odoo-python
 #: code:addons/l10n_sk_dppo_annexes/models/annexes.py:0
-msgid "Recompute the changed Table A workpaper before export."
-msgstr "Pred exportom prepočítajte zmenený položkový rozpis tabuľky A."
+msgid "Recompute the changed Table A workpaper before output or posting."
+msgstr ""
+"Pred výstupom alebo zaúčtovaním prepočítajte zmenený podklad tabuľky A."
 
 #. module: l10n_sk_dppo_annexes
 #. odoo-python
@@ -169,6 +170,12 @@ msgstr "Položka tabuľky A musí patriť firme priznania DPPO."
 #. module: l10n_sk_dppo_annexes
 #. odoo-python
 #: code:addons/l10n_sk_dppo_annexes/models/annexes.py:0
+msgid "The Table A item must use its DPPO currency."
+msgstr "Položka tabuľky A musí používať menu svojho priznania DPPO."
+
+#. module: l10n_sk_dppo_annexes
+#. odoo-python
+#: code:addons/l10n_sk_dppo_annexes/models/annexes.py:0
 msgid "This return version has no supported Slovak Table A inputs."
 msgstr ""
 "Tento vzor priznania neobsahuje podporované vstupné riadky slovenskej "
@@ -184,16 +191,3 @@ msgstr "Náklady zadávajte ako konečné nezáporné sumy v celých eurocentoch
 #: model:ir.model.fields,field_description:l10n_sk_dppo_annexes.field_cssk_income_tax_return__l10n_sk_annexes_enabled
 msgid "Use itemised Table A workpaper"
 msgstr "Použiť položkový rozpis tabuľky A"
-
-#. module: l10n_sk_dppo_annexes
-#. odoo-python
-#: code:addons/l10n_sk_dppo_annexes/models/annexes.py:0
-msgid "Recompute the changed Table A workpaper before output or posting."
-msgstr ""
-"Pred výstupom alebo zaúčtovaním prepočítajte zmenený podklad tabuľky A."
-
-#. module: l10n_sk_dppo_annexes
-#. odoo-python
-#: code:addons/l10n_sk_dppo_annexes/models/annexes.py:0
-msgid "The Table A item must use its DPPO currency."
-msgstr "Položka tabuľky A musí používať menu svojho priznania DPPO."
