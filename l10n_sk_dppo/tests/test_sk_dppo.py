@@ -415,15 +415,16 @@ class TestSkDppo(AccountTestInvoicingCommon):
 
     def test_min_tax_bands_come_from_version_data(self):
         """§ 46b minimum-tax amounts are version DATA (min_tax_bands):
-        340/960/1920/3840 € by r560, inclusive bounds; r560 ≤ 0 → no min
-        tax; short periods prorate by months (HALF-UP)."""
+        340/960/1920/3840 € by r560, inclusive bounds; zero/negative
+        revenue still owes the modern minimum unless explicitly exempt.
+        Short periods prorate by months (HALF-UP)."""
         ret = self._make()
         self.assertEqual(
             self.version.min_tax_bands,
             [[50000.0, 340.0], [250000.0, 960.0], [500000.0, 1920.0],
              [None, 3840.0]])
-        self.assertEqual(ret._dppo_min_tax(0.0), 0.0)
-        self.assertEqual(ret._dppo_min_tax(-5.0), 0.0)
+        self.assertEqual(ret._dppo_min_tax(0.0), 340.0)
+        self.assertEqual(ret._dppo_min_tax(-5.0), 340.0)
         self.assertEqual(ret._dppo_min_tax(1.0), 340.0)
         self.assertEqual(ret._dppo_min_tax(50000.0), 340.0)
         self.assertEqual(ret._dppo_min_tax(50000.01), 960.0)

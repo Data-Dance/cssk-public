@@ -497,3 +497,12 @@ od samotnej evidencie: môže vyplniť tieto polia, ale neoslobodí od minima,
 ktoré prevyšuje riadok 800. Ak daň nie je pod minimom, zákonný úplný zápočet
 stále ponechá riadky 1000 a 1050 nulové. Riadok 1110 má samostatný výpočet
 preddavkov pred odpočtami a neodvodzuje sa z tohto zápočtu.
+
+Lehota určujúca formulár je odlišná od obdobia minimálnej dane: január až
+september 2026 podaný na DPPOv25 používa pásma minimálnej dane roku 2026.
+Nad 5 miliónov EUR je deväťmesačné minimum 8 640 EUR; obdobie začínajúce
+v roku 2025 si zachová starý horný limit. Bežný daňovník s nulovými výnosmi
+alebo stratou stále platí nové minimum: 255 EUR za deväť mesiacov 2026 alebo
+340 EUR za celý rok 2025, ak sa neuplatní výslovná overená výnimka. Staré
+pravidlá daňovej licencie zostávajú oddelené. Obe natívne rozvrženia aj
+kontrola papierového formulára používajú rovnaký výpočet.

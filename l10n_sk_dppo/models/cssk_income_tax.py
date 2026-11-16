@@ -338,9 +338,10 @@ class CSSKIncomeTaxReturn(models.Model):
     # null upper bound. A version without bands raises loudly: silently
     # applying a wrong rate is worse than stopping the computation.
 
-    def _dppo_version_bands(self, field_name, label):
+    def _dppo_version_bands(self, field_name, label, version=None):
         self.ensure_one()
-        bands = self.version_id[field_name] or []
+        version = version or self.version_id
+        bands = version[field_name] or []
         if not bands or not bands[-1] or bands[-1][0] is not None:
             raise UserError(_(
                 "DPPO version '%(version)s' carries no usable %(label)s "
@@ -350,7 +351,7 @@ class CSSKIncomeTaxReturn(models.Model):
                 "noupdate data — on an existing database reload the "
                 "l10n_sk_dppo version data). Refusing to guess a statutory "
                 "rate.",
-                version=self.version_id.display_name, label=label,
+                version=version.display_name, label=label,
                 field=field_name))
         return bands
 
@@ -530,15 +531,23 @@ class CSSKIncomeTaxReturn(models.Model):
             return 0.0
         if "r560" not in set(self.version_id.line_def_ids.mapped("code")):
             r560 = self._eval_accounts("6")
-        if r560 <= 0:
+        if r560 <= 0 and self.date_from < date(2024, 1, 1):
             return 0.0
+        # The legal deadline selects the form; the period start selects the
+        # modern minimum-tax schedule (§ 52zzzj(5)). A short 2026 period may
+        # still use DPPOv25, whose historical data must remain unchanged.
+        version = self.version_id
+        if self.date_from >= date(2026, 1, 1) and version.l10n_sk_dppo_layout != "2026":
+            version = self.env.ref("l10n_sk_dppo.dppo_version_2026")
         payer = self._dppo_is_vat_payer()
         base = self._dppo_band_value(
             self._dppo_version_bands(
-                "min_tax_bands", _("§ 46b minimum-tax bands")),
+                "min_tax_bands", _("§ 46b minimum-tax bands"), version=version),
             r560,
             {"vat_payer": payer, "not_vat_payer": not payer},
         )
+        if self.date_from < date(2026, 1, 1) and version.l10n_sk_dppo_layout == "2026":
+            base = min(base, 3840.0)
         months = self._period_months()
         return base if months == 12 else statutory_round(
             base / 12.0 * months, 2)
@@ -723,14 +732,7 @@ class CSSKIncomeTaxReturn(models.Model):
         put("r800", max(0.0, g("r700") - g("r710")))
         # A zero turnover does not itself exempt an ordinary taxpayer.
         # §46b(7) exemptions/halving remain explicit reviewed row 810 inputs.
-        minimum = self._dppo_band_value(
-            self._dppo_version_bands("min_tax_bands", _("§ 46b minimum-tax bands")),
-            g("r560"))
-        # §46b(2)(e) applies to periods STARTING from 1.1.2026. A fiscal
-        # period 2025/26 may use the new form, but retains the older ceiling.
-        if self.date_from < date(2026, 1, 1):
-            minimum = min(minimum, 3840.0)
-        put("r810", minimum * self._period_months() / 12.0)
+        put("r810", self._dppo_min_tax(g("r560")))
         put("r820", g("r810") if g("r810") > g("r800") else 0.0)
         put("r830", max(0.0, g("r810") - g("r800")))
         put("r900", g("r820"))

@@ -11,6 +11,10 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Fixed
 ~~~~~
 
+- Apply the minimum-tax schedule by period start even when a short 2026
+  period is filed on DPPOv25. Keep the 2025 ceiling and the ordinary modern
+  minimum at zero revenue; paper validation shares the native calculation.
+
 - Keep the current minimum tax when historical Table K has no current claim,
   including a loss. Separate its evidence from a filled current-claim column
   and retain the minimum before using row 1000; a fully consumed lawful

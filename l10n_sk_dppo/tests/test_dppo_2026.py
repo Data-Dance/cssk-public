@@ -300,3 +300,20 @@ class TestDppoPublished2026(AccountTestInvoicingCommon):
                     self.assertEqual(values["r1050"], max(340, tax))
                     self.assertEqual(values["r1110"], tax)
                     self.assertEqual(values["r1000"], tax if declared else 0)
+
+    def test_legacy_form_uses_the_period_minimum_schedule(self):
+        cases = (("2026-01-01", "2026-09-30", 6000000, 8640),
+                 ("2026-01-01", "2026-09-30", 0, 255),
+                 ("2025-07-01", "2026-06-30", 6000000, 3840),
+                 ("2025-01-01", "2025-09-30", 6000000, 2880),
+                 ("2025-01-01", "2025-12-31", 0, 340))
+        for start, end, revenue, expected in cases:
+            with self.subTest(start=start, end=end, revenue=revenue):
+                ret = self._make()
+                ret.write({"date_from": start, "date_to": end,
+                           "version_id": self.env.ref("l10n_sk_dppo.dppo_version_2025").id,
+                           "statement_type_id": self.env.ref("l10n_sk_dppo.dppo_type_R_2025").id})
+                values = self._set(ret, r100=-1000, r560=revenue)
+                ret._l10n_sk_dppo_check_form_applicability()
+                self.assertEqual(values["r810"], expected)
+                self.assertEqual(values["r1050"], expected)

@@ -129,10 +129,7 @@ class DppoOfficialForm(models.Model):
         flags = {key: self["l10n_sk_form_" + key] for key in _FLAGS}
         if flags["half_minimum"] and flags["minimum_exemption"]:
             raise UserError(_("Choose either a half minimum tax or a minimum-tax exemption."))
-        minimum = self._dppo_band_value(self.version_id.min_tax_bands, by["r560"].value)
-        if self.date_from.year < 2026:
-            minimum = min(minimum, 3840)
-        minimum = statutory_round(minimum * self._period_months() / 12, 2)
+        minimum = self._dppo_min_tax(by["r560"].value)
         expected = 0 if flags["minimum_exemption"] else (
             statutory_round(minimum / 2, 2) if flags["half_minimum"] else minimum)
         if self.currency_id.compare_amounts(by["r810"].value, expected):

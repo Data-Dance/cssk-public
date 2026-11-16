@@ -522,3 +522,11 @@ from evidence alone: it may fill those fields, but cannot waive a minimum
 that exceeds row 800. When the tax is not below the minimum, a lawful full
 credit still leaves row 1000 and row 1050 at zero. Row 1110 keeps its separate
 advance-tax calculation before deductions; it is not derived from this credit.
+
+The form deadline and the minimum-tax period are separate: a January–September
+2026 period filed on DPPOv25 uses the 2026 minimum-tax bands. Above EUR 5 million
+its nine-month minimum is EUR 8,640; a period starting in 2025 retains the old
+ceiling. An ordinary taxpayer with zero revenue or a loss still owes the
+modern minimum: EUR 255 for nine months in 2026 or EUR 340 for full-year 2025,
+unless an explicit reviewed exemption applies. Historical licence rules remain
+separate. Both native layouts and paper validation use the same calculation.
