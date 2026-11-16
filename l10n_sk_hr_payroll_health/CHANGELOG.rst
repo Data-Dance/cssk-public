@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
+* Show an expired legacy confirmation on the insurance declaration and hide obsolete confirmation labels.
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules

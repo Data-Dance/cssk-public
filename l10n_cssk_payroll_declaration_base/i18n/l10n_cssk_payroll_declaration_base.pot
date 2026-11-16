@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0-20261102\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-11 14:39+0000\n"
-"PO-Revision-Date: 2026-11-11 14:39+0000\n"
+"POT-Creation-Date: 2026-11-16 13:38+0000\n"
+"PO-Revision-Date: 2026-11-16 13:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -295,6 +295,11 @@ msgid "Legacy calculation confirmed on"
 msgstr ""
 
 #. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_confirmation_expired
+msgid "Legacy confirmation expired"
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
 msgid ""
@@ -551,6 +556,14 @@ msgstr ""
 msgid ""
 "The authority's reference for the filing being amended, where the receiving "
 "system needs it to match the two up."
+msgstr ""
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid ""
+"The confirmation by %(user)s on %(date)s no longer matches the payroll "
+"sources or the declaration's inputs. Review them and confirm again."
 msgstr ""
 
 #. module: l10n_cssk_payroll_declaration_base

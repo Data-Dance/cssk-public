@@ -298,7 +298,7 @@ class TestVpp(TransactionCase):
             correction.action_confirm_legacy_fund_bases()
             employee.version_id.wage += 10
             self.assertFalse(correction._legacy_fund_fallback_is_confirmed(slip))
-            with self.assertRaisesRegex(UserError, "Precise recorded fund bases"):
+            with self.assertRaisesRegex(UserError, "no longer matches"):
                 correction._collect_payslip_totals(slip)
             correction.action_confirm_legacy_fund_bases()
             correction.fund_bases_fallback_reason = "Synthetic revised review"
@@ -306,6 +306,35 @@ class TestVpp(TransactionCase):
             self.assertFalse(correction.fund_bases_confirmed_at)
             with self.assertRaisesRegex(UserError, "Precise recorded fund bases"):
                 correction._collect_payslip_totals(slip)
+
+    def test_confirmation_ignores_timestamps_but_explains_changed_version_facts(self):
+        employee, slip, original, correction = self.legacy_correction()
+        retained = original.submitted_attachment_id.raw
+        with patch.object(
+            type(slip), "_cssk_recorded_fund_bases", return_value=False, create=True
+        ):
+            correction.fund_bases_fallback_reason = "Synthetic review of original sources"
+            correction.action_confirm_legacy_fund_bases()
+            digest = correction.fund_bases_confirmation_digest
+            employee.version_id.write(
+                {"write_date": "2026-03-31 10:00:00", "create_date": "2026-01-01 00:00:00"}
+            )
+            self.assertEqual(correction._fund_fallback_digest(slip), digest)
+            correction.invalidate_recordset(["fund_bases_confirmation_expired"])
+            self.assertFalse(correction.fund_bases_confirmation_expired)
+            correction._collect_payslip_totals(slip)
+
+            employee.version_id.marital = "married"
+            correction.invalidate_recordset(["fund_bases_confirmation_expired"])
+            self.assertTrue(correction.fund_bases_confirmation_expired)
+            with self.assertRaisesRegex(UserError, "confirmation by .*no longer matches"):
+                correction._collect_payslip_totals(slip)
+            correction.action_confirm_legacy_fund_bases()
+            correction.invalidate_recordset(["fund_bases_confirmation_expired"])
+            self.assertFalse(correction.fund_bases_confirmation_expired)
+            correction.action_generate()
+            self.assertEqual(correction.state, "generated")
+            self.assertEqual(original.submitted_attachment_id.raw, retained)
 
     def test_engine_without_recorder_keeps_native_original_and_correction(self):
         _employee, slip = self._dohodar_payslip()

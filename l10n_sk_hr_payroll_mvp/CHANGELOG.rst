@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
+* Show an expired legacy confirmation on the insurance declaration and hide obsolete confirmation labels.
+
 * **Fixed: irregular-income dohody are no longer reported on the MVP too.**
   The MVP took every payslip, so an irregular DoVP or DoPČ was filed here and
   on the VPP. It now excludes exactly what the VPP takes (cssk-public#12),

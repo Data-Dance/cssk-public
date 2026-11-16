@@ -1,7 +1,7 @@
 ---
 title: Mzdové hlásenia CZ/SK
 summary: Spoločný základ českých a slovenských mzdových hlásení — ponuka Mzdové hlásenia, postup Generovať / Označiť ako odoslané, opravné hlásenia, verzie tlačív a čítanie výplatných pások z oboch mzdových jadier.
-verified: 19.0.1.6.0
+verified: 19.0.1.6.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -206,7 +206,9 @@ Pri oprave staršieho mesiaca postupujte takto:
 
 Vo výkaze sa zaznamená kontrolujúca osoba, čas, dôvod a dotknuté pásky.
 Potvrdenie platí pre overené obdobie a mzdové podklady; po zmene podkladov
-alebo dôvodu treba nové potvrdenie. Opakovanie rovnakého potvrdenia nevytvorí
+alebo dôvodu treba nové potvrdenie. Formulár označí neplatné potvrdenie a pri
+generovaní vysvetlí, kto a kedy ho vykonal. Overte zmenené podklady a potvrďte
+ich znovu. Opakovanie rovnakého potvrdenia nevytvorí
 ďalší záznam schválenia. Pôvodne podaná kópia zostáva zachovaná. Ak mzdový
 systém podrobné základy ešte neuchováva, používa doterajší postup bez tohto
 upozornenia a potvrdenia.

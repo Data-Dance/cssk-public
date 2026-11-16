@@ -8,6 +8,7 @@ import json
 
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError
+from odoo.tools.misc import format_datetime
 
 
 class DeclarationFundBases(models.AbstractModel):
@@ -35,6 +36,38 @@ class DeclarationFundBases(models.AbstractModel):
     fund_bases_confirmation_digest = fields.Char(
         string="Reviewed payroll sources", readonly=True, copy=False
     )
+    fund_bases_confirmation_expired = fields.Boolean(
+        string="Legacy confirmation expired",
+        compute="_compute_fund_bases_confirmation_expired",
+    )
+
+    @api.depends(
+        "fund_bases_confirmed_by", "fund_bases_confirmed_at",
+        "fund_bases_confirmation_digest", "fund_bases_fallback_reason",
+        "company_id", "date_from", "date_to",
+    )
+    def _compute_fund_bases_confirmation_expired(self):
+        for record in self:
+            expired = False
+            if record.fund_bases_confirmed_by:
+                try:
+                    expired = record._fund_confirmation_has_expired(
+                        record._get_period_payslips()
+                    )
+                except AccessError:
+                    raise
+                except UserError:
+                    # The source may need repair before another confirmation.
+                    # Keep the form usable so the accountant can review it.
+                    expired = True
+            record.fund_bases_confirmation_expired = expired
+
+    def _fund_confirmation_has_expired(self, slips):
+        self.ensure_one()
+        return bool(
+            self.fund_bases_confirmed_by
+            and self.fund_bases_confirmation_digest != self._fund_fallback_digest(slips)
+        )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -114,6 +147,7 @@ class DeclarationFundBases(models.AbstractModel):
                     for name, field in version._fields.items()
                     if field.store
                     and not field.translate
+                    and name not in {"create_date", "write_date"}
                     and field.type
                     in {
                         "boolean",
@@ -138,7 +172,6 @@ class DeclarationFundBases(models.AbstractModel):
                     "from": str(slip.date_from),
                     "to": str(slip.date_to),
                     "version": version.id if version else False,
-                    "version_changed": str(version.write_date) if version else False,
                     "version_facts": version.read(version_fields, load=None)[0]
                     if version
                     else False,
@@ -231,7 +264,7 @@ class DeclarationFundBases(models.AbstractModel):
                 body=_(
                     "Legacy gross-based calculation confirmed by %(user)s at %(when)s for %(slips)s. Reason: %(reason)s",
                     user=self.env.user.display_name,
-                    when=str(moment),
+                    when=format_datetime(self.env, moment),
                     slips=", ".join(missing.mapped("display_name")),
                     reason=reason,
                 )
@@ -303,6 +336,16 @@ class DeclarationFundBases(models.AbstractModel):
             and self.is_correction
             and not self._legacy_fund_fallback_is_confirmed(slips)
         ):
+            if self._fund_confirmation_has_expired(slips):
+                raise UserError(
+                    _(
+                        "The confirmation by %(user)s on %(date)s no longer matches "
+                        "the payroll sources or the declaration's inputs. "
+                        "Review them and confirm again.",
+                        user=self.fund_bases_confirmed_by.display_name,
+                        date=format_datetime(self.env, self.fund_bases_confirmed_at),
+                    )
+                )
             raise UserError(
                 _(
                     "Precise recorded fund bases are required for this declaration. "

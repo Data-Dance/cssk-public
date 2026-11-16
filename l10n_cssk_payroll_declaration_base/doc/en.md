@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Payroll Declarations
 summary: The common ground of the Czech and Slovak payroll filings — the Payroll Declarations menu, the Generate / Mark Submitted workflow, corrections, form versions, and how payslips are read from either payroll engine.
-verified: 19.0.1.6.0
+verified: 19.0.1.6.1
 ---
 
 ## What it is for {#purpose}
@@ -207,7 +207,9 @@ To correct an older month without recalculating already filed wages:
 
 The declaration records the reviewer, time, reason and affected payslips in its
 chatter. The confirmation applies to the reviewed period and payroll sources;
-changing them or the reason requires another confirmation. Repeating the same
+changing them or the reason requires another confirmation. The form marks an
+expired confirmation and generation explains who confirmed it and when.
+Review the changed sources and confirm again. Repeating the same
 confirmation does not create another approval entry. The original filed copy
 is preserved. A payroll system that does not yet keep detailed bases uses its
 existing workflow without this warning or confirmation.

@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ==========
 
+* Explain expired legacy confirmations, exclude version audit timestamps from their source digest and localize the confirmation time.
+
 Added
 ~~~~~
 

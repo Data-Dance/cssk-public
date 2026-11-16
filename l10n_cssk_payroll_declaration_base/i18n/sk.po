@@ -308,6 +308,11 @@ msgid "Legacy calculation confirmed on"
 msgstr "Pôvodný výpočet potvrdený dňa"
 
 #. module: l10n_cssk_payroll_declaration_base
+#: model:ir.model.fields,field_description:l10n_cssk_payroll_declaration_base.field_cssk_payroll_declaration_mixin__fund_bases_confirmation_expired
+msgid "Legacy confirmation expired"
+msgstr "Platnosť pôvodného potvrdenia uplynula"
+
+#. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
 #: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
 msgid ""
@@ -595,6 +600,16 @@ msgid ""
 msgstr ""
 "Referencia úradu na opravované podanie, ak ju prijímajúci systém potrebuje "
 "na spárovanie oboch."
+
+#. module: l10n_cssk_payroll_declaration_base
+#. odoo-python
+#: code:addons/l10n_cssk_payroll_declaration_base/models/fund_bases.py:0
+msgid ""
+"The confirmation by %(user)s on %(date)s no longer matches the payroll "
+"sources or the declaration's inputs. Review them and confirm again."
+msgstr ""
+"Potvrdenie používateľa %(user)s zo dňa %(date)s už nezodpovedá mzdovým "
+"podkladom alebo vstupom podania. Skontrolujte ich a potvrďte znova."
 
 #. module: l10n_cssk_payroll_declaration_base
 #. odoo-python
