@@ -1154,17 +1154,18 @@ msgstr "Pre toto obdobie nie je verzia tlačiva"
 #. odoo-python
 #: code:addons/l10n_cssk_income_tax_base/models/cssk_income_tax.py:0
 msgid ""
-"No version of the income-tax return form covers the period %(date_from)s – "
-"%(date_to)s for %(country)s. The tax authority has most likely not "
-"published the form (vzor) for this period yet. The return cannot be created "
-"until a version for the period is installed; it is not guessed from an "
-"earlier year's form."
+"No installed version of the income-tax return form covers the period "
+"%(date_from)s – %(date_to)s for %(country)s. Either the tax authority has "
+"not published a form for this period yet, or the form exists but the "
+"installed modules do not support it. The return cannot be created until a "
+"version for the period is installed; it is not guessed from another year's "
+"form."
 msgstr ""
-"Obdobie %(date_from)s – %(date_to)s pre krajinu %(country)s nepokrýva "
-"žiadna verzia tlačiva daňového priznania k dani z príjmov. Správca dane "
-"vzor pre toto obdobie pravdepodobne ešte nezverejnil. Priznanie nemožno "
-"vytvoriť, kým nebude nainštalovaná verzia pre toto obdobie; z tlačiva "
-"skoršieho roka sa neodvodzuje."
+"Obdobie %(date_from)s – %(date_to)s pre krajinu %(country)s nepokrýva žiadna"
+" nainštalovaná verzia tlačiva daňového priznania k dani z príjmov. Správca "
+"dane buď vzor pre toto obdobie ešte nezverejnil, alebo vzor existuje, ale "
+"nainštalované moduly ho nepodporujú. Priznanie nemožno vytvoriť, kým nebude "
+"nainštalovaná verzia pre toto obdobie; z tlačiva iného roka sa neodvodzuje."
 
 #. module: l10n_cssk_income_tax_base
 #: model:ir.model.fields,field_description:l10n_cssk_income_tax_base.field_cssk_income_tax_return__cssk_export_warnings

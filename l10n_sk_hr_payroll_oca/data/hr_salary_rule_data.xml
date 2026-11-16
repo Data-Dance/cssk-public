@@ -359,7 +359,7 @@ if contract.l10n_sk_guarantee_exempt:
     result = 0.0
 if payslip._l10n_sk_is_recording_funds():
     l10n_sk_fund_record = payslip.l10n_sk_fund_record(
-        'guarantee', 'employer', min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max')), _r, result,
+        'guarantee', 'employer', 0.0 if contract.l10n_sk_guarantee_exempt else min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max')), _r, result,
         facts={"rule_code": 'GUARANTEEEMPLOYER'})
         </field>
         <field name="appears_on_payslip" eval="False"/>

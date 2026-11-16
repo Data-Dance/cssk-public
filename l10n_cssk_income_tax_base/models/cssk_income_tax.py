@@ -74,9 +74,16 @@ class CSSKIncomeTaxReturn(models.Model):
 
         Without this the version dropdown is simply empty and saving fails on
         a required field, which reads as a bug rather than as the fact it is:
-        the authority has not published the form for that period yet (the SK
-        DPPO for 2026 is the case that prompted it), and a form is never
-        invented here.
+        no installed version applies, and a form is never invented here.
+
+        The generic message cannot know WHY nothing applies, so it names both
+        causes rather than guessing one: the authority has not published a
+        form for the period yet, or it has and the installed modules do not
+        support it (a Czech period before the one structure starts, an older
+        edition never shipped, a Slovak vzor published as a PDF before its
+        XSD). A country module that knows the reason overrides this with a
+        specific one — ``l10n_sk_dppo`` does for the deadline rule of
+        oznámenie MF/014310/2026-721.
         """
         if not (self.company_id and self.date_from and self.date_to):
             return None
@@ -95,12 +102,13 @@ class CSSKIncomeTaxReturn(models.Model):
         return {"warning": {
             "title": _("No form version for this period"),
             "message": _(
-                "No version of the income-tax return form covers the period "
-                "%(date_from)s – %(date_to)s for %(country)s. The tax "
-                "authority has most likely not published the form (vzor) for "
-                "this period yet. The return cannot be created until a "
-                "version for the period is installed; it is not guessed from "
-                "an earlier year's form.",
+                "No installed version of the income-tax return form covers "
+                "the period %(date_from)s – %(date_to)s for %(country)s. "
+                "Either the tax authority has not published a form for this "
+                "period yet, or the form exists but the installed modules do "
+                "not support it. The return cannot be created until a version "
+                "for the period is installed; it is not guessed from another "
+                "year's form.",
                 date_from=self.date_from, date_to=self.date_to,
                 country=country.name),
         }}

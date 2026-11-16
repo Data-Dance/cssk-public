@@ -115,6 +115,20 @@ class TestIncomeTaxBase(AccountTestInvoicingCommon):
     def _val(self, ret, code):
         return ret.line_ids.filtered(lambda l: l.code == code).value
 
+    def test_a_period_without_a_version_warns(self):
+        """The shared warning, which no longer claims the form is unpublished:
+        it is also shown for a form that exists but is not installed (an SK
+        vzor before 2013, a CZ period before the one structure). Language-
+        independent: the suite runs with sk_SK loaded, so only the warning's
+        presence and the ISO dates are asserted."""
+        draft = self.env["cssk.income.tax.return"].new({
+            "company_id": self.company.id,
+            "date_from": "2010-01-01", "date_to": "2010-12-31"})
+        result = draft._onchange_period_version()
+        self.assertTrue(result and result.get("warning"))
+        self.assertIn("2010-01-01", result["warning"]["message"])
+        self.assertIn("2010-12-31", result["warning"]["message"])
+
     def test_accounting_result_from_pl(self):
         self._post_pl(revenue=2000.0, expense=800.0)
         ret = self._make_return()

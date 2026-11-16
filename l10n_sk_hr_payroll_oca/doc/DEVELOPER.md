@@ -45,6 +45,16 @@ Custom rule quantities or invalid optional facts leave evidence missing without
 preventing the native calculation. The shared statutory profile is stored once;
 restricted birth numbers are not copied into it.
 
+A payslip records only when `_get_employee_contracts()` (the contracts
+`get_lines_dict()` computes over) is exactly one contract of its employee and
+company. The identity keeps `contract_id`, which an API-created payslip
+leaves empty; the reader also requires the profile's version to be the
+contract of the payslip lines (which must be `contract_id` when set), so identity and
+profile describe the same computation. An emitted base is the expression its
+rule charged on (the rule's own variable where the frozen formula has one), and
+an exemption that zeroes a premium zeroes its base; a test compares the two in
+the rule ASTs.
+
 The native refund adapter reads the original evidence and supplies its direction
 and effective pairing. Historical records are not backfilled. Frozen original
 formula JSON plus AST/runtime comparisons protect this evidence contribution's

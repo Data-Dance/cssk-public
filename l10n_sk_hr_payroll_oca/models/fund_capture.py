@@ -7,12 +7,15 @@ skeleton) live in l10n_sk_hr_payroll_base; this bridge keeps the OCA capture
 hooks, the stored field, refund pairing and the payslip identity.
 """
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 from odoo.addons.l10n_sk_hr_payroll_base.fund_capture import (
     CAPTURE_KEY,
     _FundCapture,
     finalize_fund_rows,
+)
+from odoo.addons.l10n_sk_hr_payroll_base.models.payslip_fund_mixin import (
+    FundEvidenceError,
 )
 
 #: The OCA engine's separate health minimum rule.
@@ -48,7 +51,9 @@ class FundCapturePayslip(models.Model):
             != (self.date_to.year, self.date_to.month)
         ):
             return False
-        version = self.contract_id or self._get_employee_contracts()
+        # Exactly the contracts get_lines_dict() computes over: a contract_id
+        # outside the period computes nothing, so it is not supported either.
+        version = self._get_employee_contracts()
         return bool(
             len(version) == 1
             and version.employee_id == self.employee_id
@@ -66,6 +71,32 @@ class FundCapturePayslip(models.Model):
             "structure": self.struct_id.id,
             "credit_note": self.credit_note,
         }
+
+    def _l10n_sk_computed_contract(self):
+        """The one contract the stored lines were computed on, or empty.
+
+        Read from the payslip lines, which is stored data and does not follow
+        later changes of the employee's contracts the way a fresh fallback
+        would. Where ``contract_id`` is set it must be that contract.
+        """
+        self.ensure_one()
+        contracts = self.line_ids.contract_id
+        if len(contracts) != 1 or (self.contract_id and contracts != self.contract_id):
+            return contracts.browse()
+        return contracts
+
+    def _l10n_sk_checked_fund_assessment(self):
+        # The identity names contract_id, which an API-created payslip leaves
+        # empty; the profile describes the version actually computed on. Tie
+        # the two: the profile must describe the contract of the lines.
+        records = super()._l10n_sk_checked_fund_assessment()
+        profile = self.l10n_sk_fund_assessment.get("profile") or {}
+        computed = self._l10n_sk_computed_contract()
+        if not computed or profile.get("version") != computed.id:
+            raise FundEvidenceError(
+                _("The recorded payroll fund bases no longer match the payslip.")
+            )
+        return records
 
     def _get_baselocaldict(self, contracts):
         result = super()._get_baselocaldict(contracts)

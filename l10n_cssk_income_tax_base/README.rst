@@ -31,7 +31,7 @@ The return, step by step
 
 *Accounting → Reporting → Statutory Reports → Income Tax (DPPO)*, then *New*.
 
-1. **Header.** Choose the period (*Date From*, *Date To*), then the **Version** — the edition of the official form (*vzor* / *tiskopis*). The list offers only versions of the company's fiscal country that are valid for some part of the period. Then the **Statement Type**: ordinary, corrective or supplementary return, as the country module names them. Save. If no version covers the period — typically because the authority has not yet published the form for that year — a warning says so as soon as the dates are entered, and the return cannot be saved.
+1. **Header.** Choose the period (*Date From*, *Date To*), then the **Version** — the edition of the official form (*vzor* / *tiskopis*). The list offers only versions of the company's fiscal country that are valid for some part of the period. Then the **Statement Type**: ordinary, corrective or supplementary return, as the country module names them. Save. If no installed version covers the period — the authority has not published the form yet, or it has but the installed modules do not support it — a warning says so as soon as the dates are entered, and the return cannot be saved. A country module may choose the version by more than the period and give a more specific reason: the Slovak return follows the filing deadline.
 
 2. **Compute.** Fills the *Lines* tab and moves the return to *Preview*. Each row shows its kind:
 
@@ -96,7 +96,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cssk_income_tax_base``
-- **Version:** 19.0.1.6.0
+- **Version:** 19.0.1.6.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``account``, ``mail``, ``l10n_cssk_core``, ``l10n_cssk_submission_base``

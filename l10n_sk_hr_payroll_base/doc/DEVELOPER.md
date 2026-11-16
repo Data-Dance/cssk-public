@@ -8,6 +8,11 @@ serialising a wire base; they must not print a raw fractional-cent string or
 reconstruct a base by dividing a rounded premium. Arithmetic fixes belong to
 separate calculation changes with statutory boundary tests.
 
+Finalisation stores nothing (the payslip is unrecorded) when a fund rule has
+no record, a record has no line or a different charge, a fund and side repeat,
+or the health minimum top-up was computed without an employee health row to
+carry it.
+
 The declaration framework owns missing-evidence policy. Missing evidence from
 an installed recorder differs from an engine without any recorder. A legacy
 correction can use a reasoned explicit declaration review without backfilling

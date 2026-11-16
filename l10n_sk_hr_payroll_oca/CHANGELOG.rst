@@ -16,11 +16,17 @@ Carry-over to 18.0
 
 - **19.0.1.24.6 (2026-11-11), not yet on 18.0:** the 9.80 € stravné from
   1. 12. 2026. Data only; the parameter code is the same on 18.0.
+  **DISCHARGED 2026-11-16 — do not port this again**: on 18.0 as
+  18.0.2.9.1 (fdf9ffcce).
 
 - **19.0.1.24.4 and 19.0.1.24.5 (2026-11-10), not yet on 18.0:** employer
   sick pay clipped to the employment and on the onset's terms
   (cssk-public#39), and the starter leave types as noupdate data
   (cssk-public#40). On 18.0 the employment dates are on ``hr.contract``.
+  **DISCHARGED 2026-11-16 — do not port this again**: sick pay on 18.0 as
+  18.0.2.9.3 (f6d4a1b7e, both engines); the OCA starter leave types were
+  already noupdate on 18.0 (regression test added there, 3ebf05dbd covers
+  Enterprise).
 
 - **19.0.1.24.2 and 19.0.1.24.3 (2026-11-10), not yet on 18.0:** sick pay
   only where the agreement is sickness-insured (cssk-public#31), and the
@@ -59,6 +65,46 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+  **DISCHARGED 2026-11-16 — do not port this again**: on 18.0 as
+  18.0.2.10.0 (fd65fb927). Two tests stay 19.0-only (annual NČZD taper
+  above the threshold, 2027 health minimum top-up): they need 19.0's
+  ffd67cd0c, which 18.0 still lacks, so 18.0's taper is wrong for 2026 too.
+
+[19.0.1.25.2] — 2026-11-16
+==========================
+
+Fixed
+~~~~~
+
+* **A guarantee-exempt payslip kept a guarantee base.** Where the employer is
+  exempt from guarantee insurance (§ 4 ods. 4 zákona 461/2003) the premium was
+  already 0, but the recorded guarantee base was still the capped gross. It is
+  now 0, as the exempt health base already was and as Enterprise records it.
+  The premium arithmetic is unchanged; only the recorded base differs, on
+  payslips computed from now on.
+* **A health minimum top-up without a health record was dropped.** When the top-up rule
+  was computed but no employee health row was recorded (for example a
+  customised structure without the health rule), the evidence was stored
+  without that charge. The payslip is now left unrecorded, so declarations
+  name it instead of reading an incomplete charge.
+* **The support check and the reader now follow the contract the payslip was
+  computed on.** Recording is supported only when the contracts the engine
+  computes over are exactly one contract of the employee and company, so a
+  ``contract_id`` outside the period is unsupported on purpose rather than
+  because it happened to compute nothing. The reader also requires the
+  recorded profile to describe the contract of the payslip lines
+  (which must be ``contract_id`` when set), so the identity (which keeps ``contract_id``,
+  empty on API-created payslips) and the profile describe one computation.
+  Existing evidence is unaffected: its identity is unchanged, and its profile
+  was taken from that same contract.
+* A test pins every recorded base to the expression its rule charged on (the
+  rule's own variable where the formula has one), and an exemption that zeroes
+  a premium to a zero base; a test no longer prints to standard output.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* Not yet on 18.0 (the recorded fund evidence itself is not ported there).
 
 [19.0.1.25.1] — 2026-11-16
 ==========================

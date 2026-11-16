@@ -29,30 +29,141 @@ class TestSkDppo(AccountTestInvoicingCommon):
         ret.action_compute_lines()
         return ret
 
-    def test_a_period_without_a_published_vzor_says_so(self):
-        """FS SR has not published a DPPO vzor for 2026 (dppo2026.xsd is a
-        404 on ekr.financnasprava.sk as of 27. 10. 2026). The module must not
-        invent one, and must say why the return cannot be created instead of
-        leaving an empty dropdown and a required-field error."""
-        Return = self.env["cssk.income.tax.return"]
-        self.assertFalse(
-            self.env["cssk.income.tax.version"].search([
-                ("country_id.code", "=", "SK"),
-                ("valid_from", "<=", "2026-12-31"),
-                "|", ("valid_to", "=", False),
-                ("valid_to", ">=", "2026-01-01")]),
-            "premise: no 2026 vzor is shipped")
-        draft = Return.new({"company_id": self.company.id,
-                            "date_from": "2026-01-01",
-                            "date_to": "2026-12-31"})
+    # ------------------------------------------------------------------
+    # Oznámenie MF/014310/2026-721: the vzor follows the filing deadline.
+    # Assertions avoid translated text (the suite runs with sk_SK loaded):
+    # they check the warning's presence, the ISO dates and the form numbers,
+    # which every translation keeps.
+    # ------------------------------------------------------------------
+    def _draft(self, date_from, date_to, **vals):
+        return self.env["cssk.income.tax.return"].new(dict(
+            company_id=self.company.id, date_from=date_from,
+            date_to=date_to, **vals))
+
+    def test_a_2026_period_with_a_2026_deadline_files_on_dppov25(self):
+        """1. 1.–30. 9. 2026 (liquidation, a change of fiscal year): the
+        deadline is 31. 12. 2026, so the oznámenie keeps MF/012187/2025-721.
+        It used to get no version at all, because DPPOv25 ends its validity
+        on 31. 12. 2025 and versions were chosen by period overlap."""
+        draft = self._draft("2026-01-01", "2026-09-30")
+        self.assertEqual(draft.l10n_sk_dppo_applicable_version_ids._origin,
+                         self.version)
+        self.assertFalse(draft._onchange_period_version())
+        ret = self.env["cssk.income.tax.return"].create({
+            "company_id": self.company.id,
+            "version_id": self.version.id,
+            "statement_type_id": self.type_r.id,
+            "date_from": "2026-01-01", "date_to": "2026-09-30",
+        })
+        ret.action_compute_lines()
+        self.assertEqual(ret.state, "preview")
+        ret.action_export_xml()                 # validates vs dppo2025_v2.xsd
+        self.assertEqual(ret.state, "exported")
+        self.assertTrue(ret.xml_attachment_id)
+
+    def test_a_2026_period_on_dppov25_owes_the_2026_top_band(self):
+        """§ 46b ods. 2 písm. e) (11 520 € above 5 000 000 €) applies to a
+        period starting from 1. 1. 2026 (§ 52zzzj ods. 5), also when the
+        deadline keeps it on DPPOv25, whose band table ends at 3 840 €.
+        Nine months: 11 520 × 9 / 12 = 8 640. A period starting in 2025
+        keeps the 3 840 € band."""
+        def min_tax(date_from, date_to):
+            ret = self.env["cssk.income.tax.return"].create({
+                "company_id": self.company.id,
+                "version_id": self.version.id,
+                "statement_type_id": self.type_r.id,
+                "date_from": date_from, "date_to": date_to,
+            })
+            return ret._dppo_min_tax(6000000.0)
+        self.assertEqual(min_tax("2026-01-01", "2026-09-30"), 8640.0)
+        self.assertEqual(min_tax("2025-07-01", "2026-06-30"), 3840.0)
+
+    def test_a_fiscal_year_ending_june_2026_keeps_dppov25(self):
+        """1. 7. 2025–30. 6. 2026: deadline 30. 9. 2026 → DPPOv25."""
+        draft = self._draft("2025-07-01", "2026-06-30")
+        self.assertEqual(draft.l10n_sk_dppo_applicable_version_ids._origin,
+                         self.version)
+        self.assertFalse(draft._onchange_period_version())
+
+    def test_a_2025_calendar_year_is_unchanged(self):
+        draft = self._draft("2025-01-01", "2025-12-31")
+        self.assertEqual(draft.l10n_sk_dppo_applicable_version_ids._origin,
+                         self.version)
+        self.assertFalse(draft._onchange_period_version())
+
+    def test_a_deadline_after_2026_gets_no_form_and_says_which(self):
+        """A calendar 2026 (deadline 31. 3. 2027), and any period ending on
+        1. 10. 2026 or later, needs MF/014309/2026-721. It is published but
+        not installed here, and DPPOv25 must not be offered in its place."""
+        for date_from, date_to, deadline in (
+                ("2026-01-01", "2026-12-31", "2027-03-31"),
+                ("2025-11-01", "2026-10-31", "2027-01-31"),
+                ("2026-01-01", "2026-10-01", "2027-01-31")):
+            with self.subTest(period=(date_from, date_to)):
+                draft = self._draft(date_from, date_to)
+                self.assertFalse(draft.l10n_sk_dppo_applicable_version_ids)
+                result = draft._onchange_period_version()
+                self.assertTrue(result and result.get("warning"))
+                message = result["warning"]["message"]
+                self.assertIn(deadline, message)
+                self.assertIn("MF/014309/2026-721", message)
+                self.assertIn("MF/014310/2026-721", message)
+
+    def test_an_extension_past_2026_moves_the_form_too(self):
+        """§ 49 ods. 3 extends the lehota na podanie itself, and the
+        oznámenie keys on its last day: 1. 1.–30. 9. 2026 extended to
+        31. 3. 2027 no longer files on DPPOv25. A return created before the
+        extension was entered refuses to export."""
+        draft = self._draft("2026-01-01", "2026-09-30",
+                            l10n_sk_dppo_filing_deadline="2027-03-31")
+        self.assertFalse(draft.l10n_sk_dppo_applicable_version_ids)
         result = draft._onchange_period_version()
-        self.assertTrue(result and result.get("warning"),
-                        "a 2026 period must warn that no vzor covers it")
-        self.assertIn("2026-01-01", result["warning"]["message"])
-        covered = Return.new({"company_id": self.company.id,
-                              "date_from": "2025-01-01",
-                              "date_to": "2025-12-31"})
-        self.assertFalse(covered._onchange_period_version())
+        self.assertIn("2027-03-31", result["warning"]["message"])
+        ret = self.env["cssk.income.tax.return"].create({
+            "company_id": self.company.id,
+            "version_id": self.version.id,
+            "statement_type_id": self.type_r.id,
+            "date_from": "2026-01-01", "date_to": "2026-09-30",
+        })
+        ret.action_compute_lines()
+        ret.l10n_sk_dppo_filing_deadline = "2027-03-31"
+        with self.assertRaises(UserError) as cm:
+            ret.action_export_xml()
+        self.assertIn("MF/014310/2026-721", str(cm.exception))
+        self.assertIn("2027-03-31", str(cm.exception))
+        self.assertNotEqual(ret.state, "exported")
+        # An extension that stays within 2026 changes nothing.
+        ret.l10n_sk_dppo_filing_deadline = "2026-12-31"
+        ret.action_export_xml()
+        self.assertEqual(ret.state, "exported")
+
+    def test_changing_the_period_drops_a_version_that_no_longer_applies(self):
+        draft = self._draft("2026-01-01", "2026-09-30",
+                            version_id=self.version.id)
+        draft._onchange_period_version()
+        self.assertEqual(draft.version_id._origin, self.version)
+        draft.date_to = "2026-12-31"
+        draft._onchange_period_version()
+        self.assertFalse(draft.version_id)
+
+    def test_only_the_2025_vzor_is_stretched_past_its_validity(self):
+        """The fallback serves the oznámenie's transition only: a hole in
+        the middle of the series stays a hole rather than being filled by
+        the 2018 vzor. (Archiving 2019 would not make one: the selection
+        sees archived versions on purpose, so the record is moved away.)"""
+        v2019 = self.env.ref("l10n_sk_dppo.dppo_version_2019")
+        v2019.write({"valid_from": "2030-01-01", "valid_to": "2030-12-31"})
+        draft = self._draft("2019-01-01", "2019-12-31")
+        self.assertFalse(draft.l10n_sk_dppo_applicable_version_ids)
+
+    def test_a_period_before_every_vzor_keeps_the_shared_message(self):
+        """Not the deadline rule: no SK vzor before 2013 is shipped, and the
+        shared message (which names no form number) still says so."""
+        result = self._draft("2012-01-01", "2012-12-31")\
+            ._onchange_period_version()
+        self.assertTrue(result and result.get("warning"))
+        self.assertIn("2012-01-01", result["warning"]["message"])
+        self.assertNotIn("MF/014309/2026-721", result["warning"]["message"])
 
     def test_tax_spine(self):
         """The tax spine computes r100→daň: r310→r400→r500→r510, the § 15 rate

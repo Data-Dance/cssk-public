@@ -1,7 +1,7 @@
 ---
 title: SK Corporate Income Tax Return (DPPO)
 summary: The Slovak corporate income tax return — every official form edition since 2013, the accounting result from the books, the tax computation with the rate and minimum tax of the year, and an XML file checked against the Financial Administration's schema.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## What it is for {#purpose}
@@ -109,7 +109,9 @@ Optional modules that feed the return:
 When you create a return, choose the **Version** for the period. The list
 offers every edition whose validity overlaps the period, so a fiscal year
 (*hospodársky rok*) spanning two years offers two — choose the one the
-Financial Administration prescribes for that period. What the module
+Financial Administration prescribes for that period. A 2026 period whose
+filing deadline falls on or before 31 December 2026 is offered *DPPO 2025*
+(see [Which form: the filing deadline](#deadline)). What the module
 computes depends on the edition:
 
 | Version | Periods | Computed by the module |
@@ -119,7 +121,7 @@ computes depends on the edition:
 | DPPO 2017, 2018, 2019 | one year each | tax computation, rate 21 %, *daňová licencia* where § 52zk still applies it (see below) |
 | DPPO 2020, 2021, 2022 | 2020; 2021; 2022–2023 | r100 and Tables A/B (r130, r150, r250) only |
 | DPPO 2024 | 2024 | tax computation, 15 % / 21 %, minimum tax |
-| DPPO 2025 | 2025 | tax computation, 10 % / 21 % / 24 %, minimum tax |
+| DPPO 2025 | 2025, and later periods with a filing deadline on or before 31 Dec 2026 | tax computation, 10 % / 21 % / 24 %, minimum tax |
 
 On the editions marked "r100 only" you enter every other row yourself,
 including the tax.
@@ -130,11 +132,45 @@ abolished the *daňová licencia* for every later period. The rows stay on
 those forms because a licencia paid for 2015–2017 can still be credited
 under § 46b ods. 5; enter that credit yourself.
 
-There is **no edition for 2026 yet.** The Financial Administration had not
-published the 2026 form (`dppo2026.xsd`) when this version was checked on
-27 October 2026, and the module does not make one up. If you enter a period
-that starts in 2026, the return warns that no form version covers it and
-cannot be saved. The edition will be added once the form is published.
+### Which form: the filing deadline {#deadline}
+
+The form follows the **filing deadline**, not the period. Oznámenie
+MF/014310/2026-721 keeps the 2025 form (MF/012187/2025-721, *DPPO 2025*
+here) for taxpayers "ktorým posledný deň lehoty na podanie daňového
+priznania uplynul najneskôr 31. decembra 2026", and prescribes the new
+form MF/014309/2026-721 when that day falls later. The ordinary deadline
+is three calendar months after the period ends
+([§ 49 ods. 2](law:sk/2003/595#paragraf-49.odsek-2)):
+
+| Period | Deadline | Form |
+|---|---|---|
+| 1 Jan – 31 Dec 2025 | 31 Mar 2026 | DPPO 2025 |
+| 1 Jul 2025 – 30 Jun 2026 | 30 Sep 2026 | DPPO 2025 |
+| 1 Jan – 30 Sep 2026 (liquidation, a change of fiscal year) | 31 Dec 2026 | DPPO 2025 |
+| 1 Jan – 31 Dec 2026 | 31 Mar 2027 | 2026 form, not supported yet |
+
+An extension under [§ 49 ods. 3](law:sk/2003/595#paragraf-49.odsek-3)
+extends the deadline itself, and the oznámenie speaks of the last day of
+the deadline without excluding an extended one, so the module reads an
+extension as moving the form too. Enter the extended deadline in
+**Applicable legal filing deadline**; leave it empty for the ordinary
+deadline. A period ending on 30 September 2026 extended to 31 March 2027
+therefore needs the 2026 form. The day you actually file changes nothing.
+
+**The 2026 form is not supported yet.** The Ministry of Finance published
+it on 28 September 2026, but the Financial Administration had not published
+its XML schema when this version was checked on 16 November 2026
+(`dppo2026.xsd` not found), and the module does not make one up. A return
+whose deadline falls after 31 December 2026 warns that it needs the 2026
+form and cannot be saved. A return already on *DPPO 2025* whose extended
+deadline is entered later refuses to export.
+
+**Minimum tax on a 2026 period filed on DPPO 2025.** The 2025 edition
+carries the 2025 minimum-tax bands, which stop at 3 840 €. For a period
+beginning on or after 1 January 2026 the 11 520 € band above 5 000 000 €
+applies ([§ 52zzzj ods. 5](law:sk/2003/595#paragraf-52zzzj.odsek-5)), and the
+module applies it on the 2025 form too: r810 is 11 520 €, or 1/12 of it per
+month of a shorter period, when r560 is above 5 000 000 €.
 
 The rate and the minimum-tax amounts are stored on each edition, not in the
 program. An edition whose rate is missing refuses to compute rather than
@@ -295,10 +331,9 @@ says so and compares nothing.
 
 ## Limitations {#limitations}
 
-- **2026 is not covered** until the Financial Administration publishes the
-  2026 form (see [Form editions](#versions)). The 2025 edition does not know
-  the 11 520 € minimum-tax band that applies to periods beginning on or after
-  1 January 2026; do not file a 2026 period on it.
+- **A filing deadline after 31 December 2026** (a calendar 2026 among
+  them) is not covered until the 2026 form is supported (see
+  [Which form: the filing deadline](#deadline)).
 - **2013, 2014 and 2020–2023** compute r100 and Tables A/B only; the tax is yours.
 - The meaning of rows 3 and 4 of the 2013/2014 Table B is not stated in
   their instructions; enter them from the form.

@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.25.1
+verified: 19.0.1.25.2
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -98,8 +98,10 @@ The supplied Slovak absence types are installation defaults. A module upgrade pr
 ## Insurance bases kept with the payslip {#recorded-funds}
 
 Calculating a payslip also keeps the bases, rates and charges actually used
-for its insurance contributions. It keeps zero amounts as well. Later changes
-to the employee card do not fill in historical payroll information.
+for its insurance contributions. It keeps zero amounts as well: an employer
+exempt from guarantee insurance keeps a zero guarantee base, as an employee
+exempt from health insurance keeps a zero health base. Later changes to the
+employee card do not fill in historical payroll information.
 
 Insurance declarations name missing or inconsistent payroll records in their
 warning. Review the archived payroll before correcting an older month. Where

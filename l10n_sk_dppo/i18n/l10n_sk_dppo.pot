@@ -97,3 +97,57 @@ msgid ""
 "%(code)s is overridden to %(value).2f, but %(formula)s over the table gives "
 "%(expected).2f. Correct the table or remove the override."
 msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_applicable_version_ids
+msgid "Applicable DPPO form versions"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_filing_deadline
+msgid "Applicable legal filing deadline"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid "The 2026 DPPO form is not supported yet"
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The filing deadline of this return ends on %(deadline)s, after 31 December "
+"2026. Under oznámenie MF/014310/2026-721 such a return is filed on the new "
+"DPPO form MF/014309/2026-721, not on the 2025 form (MF/012187/2025-721). The"
+" new form has been published, but the Financial Administration has not yet "
+"published its electronic schema (XSD) and this module does not support it "
+"yet. The return cannot be created until that version is installed. If this "
+"is not the legal deadline of the return, correct the Applicable legal filing"
+" deadline."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The form version %(version)s does not apply to this return. Under oznámenie "
+"MF/014310/2026-721 the DPPO form follows the last day of the filing "
+"deadline, here %(deadline)s: the 2025 form (MF/012187/2025-721) only when it"
+" ends on or before 31 December 2026. Choose a version the return offers for "
+"its period and deadline."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_filing_deadline
+msgid ""
+"The legal deadline including an effective extension, when it differs from "
+"the ordinary three-calendar-month deadline. This is not the actual filing "
+"date."
+msgstr ""
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__version_id
+msgid "Version"
+msgstr ""

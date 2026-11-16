@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_dppo/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Corporate Income Tax Return (DPPO)</h1>
 <p class="cssk-summary">The Slovak corporate income tax return — every official form edition since 2013, the accounting result from the books, the tax computation with the rate and minimum tax of the year, and an XML file checked against the Financial Administration&#x27;s schema.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.5.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_dppo_annexes/static/description/index.html"><code>l10n_sk_dppo_annexes</code></a>, <a href="/l10n_sk_dppo_fs/static/description/index.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.5.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_dppo_annexes/static/description/index.html"><code>l10n_sk_dppo_annexes</code></a>, <a href="/l10n_sk_dppo_fs/static/description/index.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Every Slovak company files the <em>daňové priznanie k dani z príjmov
@@ -158,7 +158,9 @@ is filled from it:</p>
 <p>When you create a return, choose the <strong>Version</strong> for the period. The list
 offers every edition whose validity overlaps the period, so a fiscal year
 (<em>hospodársky rok</em>) spanning two years offers two — choose the one the
-Financial Administration prescribes for that period. What the module
+Financial Administration prescribes for that period. A 2026 period whose
+filing deadline falls on or before 31 December 2026 is offered <em>DPPO 2025</em>
+(see <a href="#deadline">Which form: the filing deadline</a>). What the module
 computes depends on the edition:</p>
 <table>
 <thead>
@@ -196,7 +198,7 @@ computes depends on the edition:</p>
 </tr>
 <tr>
 <td>DPPO 2025</td>
-<td>2025</td>
+<td>2025, and later periods with a filing deadline on or before 31 Dec 2026</td>
 <td>tax computation, 10 % / 21 % / 24 %, minimum tax</td>
 </tr>
 </tbody>
@@ -208,11 +210,65 @@ including the tax.</p>
 abolished the <em>daňová licencia</em> for every later period. The rows stay on
 those forms because a licencia paid for 2015–2017 can still be credited
 under § 46b ods. 5; enter that credit yourself.</p>
-<p>There is <strong>no edition for 2026 yet.</strong> The Financial Administration had not
-published the 2026 form (<code>dppo2026.xsd</code>) when this version was checked on
-27 October 2026, and the module does not make one up. If you enter a period
-that starts in 2026, the return warns that no form version covers it and
-cannot be saved. The edition will be added once the form is published.</p>
+<h3 id="deadline">Which form: the filing deadline</h3>
+<p>The form follows the <strong>filing deadline</strong>, not the period. Oznámenie
+MF/014310/2026-721 keeps the 2025 form (MF/012187/2025-721, <em>DPPO 2025</em>
+here) for taxpayers "ktorým posledný deň lehoty na podanie daňového
+priznania uplynul najneskôr 31. decembra 2026", and prescribes the new
+form MF/014309/2026-721 when that day falls later. The ordinary deadline
+is three calendar months after the period ends
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-49.odsek-2">§ 49 ods. 2</a>):</p>
+<table>
+<thead>
+<tr>
+<th>Period</th>
+<th>Deadline</th>
+<th>Form</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 Jan – 31 Dec 2025</td>
+<td>31 Mar 2026</td>
+<td>DPPO 2025</td>
+</tr>
+<tr>
+<td>1 Jul 2025 – 30 Jun 2026</td>
+<td>30 Sep 2026</td>
+<td>DPPO 2025</td>
+</tr>
+<tr>
+<td>1 Jan – 30 Sep 2026 (liquidation, a change of fiscal year)</td>
+<td>31 Dec 2026</td>
+<td>DPPO 2025</td>
+</tr>
+<tr>
+<td>1 Jan – 31 Dec 2026</td>
+<td>31 Mar 2027</td>
+<td>2026 form, not supported yet</td>
+</tr>
+</tbody>
+</table>
+<p>An extension under <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-49.odsek-3">§ 49 ods. 3</a>
+extends the deadline itself, and the oznámenie speaks of the last day of
+the deadline without excluding an extended one, so the module reads an
+extension as moving the form too. Enter the extended deadline in
+<strong>Applicable legal filing deadline</strong>; leave it empty for the ordinary
+deadline. A period ending on 30 September 2026 extended to 31 March 2027
+therefore needs the 2026 form. The day you actually file changes nothing.</p>
+<p><strong>The 2026 form is not supported yet.</strong> The Ministry of Finance published
+it on 28 September 2026, but the Financial Administration had not published
+its XML schema when this version was checked on 16 November 2026
+(<code>dppo2026.xsd</code> not found), and the module does not make one up. A return
+whose deadline falls after 31 December 2026 warns that it needs the 2026
+form and cannot be saved. A return already on <em>DPPO 2025</em> whose extended
+deadline is entered later refuses to export.</p>
+<p><strong>Minimum tax on a 2026 period filed on DPPO 2025.</strong> The 2025 edition
+carries the 2025 minimum-tax bands, which stop at 3 840 €. For a period
+beginning on or after 1 January 2026 the 11 520 € band above 5 000 000 €
+applies (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-52zzzj.odsek-5">§ 52zzzj ods. 5</a>), and the
+module applies it on the 2025 form too: r810 is 11 520 €, or 1/12 of it per
+month of a shorter period, when r560 is above 5 000 000 €.</p>
 <p>The rate and the minimum-tax amounts are stored on each edition, not in the
 program. An edition whose rate is missing refuses to compute rather than
 guess one.</p>
@@ -486,10 +542,9 @@ same return. If no financial statements exist for the period, the button
 says so and compares nothing.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li><strong>2026 is not covered</strong> until the Financial Administration publishes the
-  2026 form (see <a href="#versions">Form editions</a>). The 2025 edition does not know
-  the 11 520 € minimum-tax band that applies to periods beginning on or after
-  1 January 2026; do not file a 2026 period on it.</li>
+<li><strong>A filing deadline after 31 December 2026</strong> (a calendar 2026 among
+  them) is not covered until the 2026 form is supported (see
+  <a href="#deadline">Which form: the filing deadline</a>).</li>
 <li><strong>2013, 2014 and 2020–2023</strong> compute r100 and Tables A/B only; the tax is yours.</li>
 <li>The meaning of rows 3 and 4 of the 2013/2014 Table B is not stated in
   their instructions; enter them from the form.</li>
@@ -502,7 +557,7 @@ says so and compares nothing.</p>
 <li>The row definitions and the tax computation should be reviewed by your
   accountant before the first filing.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.1.5.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.1.5.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

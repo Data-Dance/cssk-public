@@ -106,3 +106,72 @@ msgid ""
 "%(code)s is overridden to %(value).2f, but %(formula)s over the table gives "
 "%(expected).2f. Correct the table or remove the override."
 msgstr "%(code)s je prepísaný na %(value).2f, ale %(formula)s z tabuľky dáva %(expected).2f. Opravte tabuľku alebo zrušte prepis."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_applicable_version_ids
+msgid "Applicable DPPO form versions"
+msgstr "Použiteľné verzie tlačiva DPPO"
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_filing_deadline
+msgid "Applicable legal filing deadline"
+msgstr "Uplatniteľná zákonná lehota na podanie"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid "The 2026 DPPO form is not supported yet"
+msgstr "Tlačivo DPPO 2026 zatiaľ nie je podporované"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The filing deadline of this return ends on %(deadline)s, after 31 December "
+"2026. Under oznámenie MF/014310/2026-721 such a return is filed on the new "
+"DPPO form MF/014309/2026-721, not on the 2025 form (MF/012187/2025-721). The"
+" new form has been published, but the Financial Administration has not yet "
+"published its electronic schema (XSD) and this module does not support it "
+"yet. The return cannot be created until that version is installed. If this "
+"is not the legal deadline of the return, correct the Applicable legal filing"
+" deadline."
+msgstr ""
+"Lehota na podanie tohto priznania uplynie %(deadline)s, teda po 31. decembri"
+" 2026. Podľa oznámenia MF/014310/2026-721 sa také priznanie podáva na novom "
+"tlačive DPPO MF/014309/2026-721, nie na tlačive z roku 2025 "
+"(MF/012187/2025-721). Nové tlačivo bolo zverejnené, finančná správa však "
+"zatiaľ nezverejnila jeho elektronickú schému (XSD) a tento modul ho zatiaľ "
+"nepodporuje. Priznanie nemožno vytvoriť, kým nebude táto verzia "
+"nainštalovaná. Ak to nie je zákonná lehota tohto priznania, opravte pole "
+"Uplatniteľná zákonná lehota na podanie."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The form version %(version)s does not apply to this return. Under oznámenie "
+"MF/014310/2026-721 the DPPO form follows the last day of the filing "
+"deadline, here %(deadline)s: the 2025 form (MF/012187/2025-721) only when it"
+" ends on or before 31 December 2026. Choose a version the return offers for "
+"its period and deadline."
+msgstr ""
+"Verzia tlačiva %(version)s sa na toto priznanie nevzťahuje. Podľa oznámenia "
+"MF/014310/2026-721 sa tlačivo DPPO určuje podľa posledného dňa lehoty na "
+"podanie, tu %(deadline)s: tlačivo z roku 2025 (MF/012187/2025-721) len "
+"vtedy, ak uplynie najneskôr 31. decembra 2026. Zvoľte verziu, ktorú "
+"priznanie ponúka pre svoje obdobie a lehotu."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,help:l10n_sk_dppo.field_cssk_income_tax_return__l10n_sk_dppo_filing_deadline
+msgid ""
+"The legal deadline including an effective extension, when it differs from "
+"the ordinary three-calendar-month deadline. This is not the actual filing "
+"date."
+msgstr ""
+"Zákonná lehota vrátane účinného predĺženia, ak sa líši od riadnej lehoty "
+"troch kalendárnych mesiacov. Nie je to skutočný dátum podania."
+
+#. module: l10n_sk_dppo
+#: model:ir.model.fields,field_description:l10n_sk_dppo.field_cssk_income_tax_return__version_id
+msgid "Version"
+msgstr "Verzia"

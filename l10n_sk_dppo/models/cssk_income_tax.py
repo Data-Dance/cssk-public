@@ -21,7 +21,9 @@ amendment's r1050/r400/… are its restated totals — no snapshot needed, unlik
 import re
 from datetime import date
 
-from odoo import _, fields, models
+from dateutil.relativedelta import relativedelta
+
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 from odoo.addons.l10n_cssk_core.tools import split_street, statutory_round
@@ -71,8 +73,179 @@ class CSSKIncomeTaxVersion(models.Model):
                 if code in _SPINE_ROWS}
 
 
+# Oznámenie MF/014310/2026-721: the DPPO vzor MF/012187/2025-721 (DPPOv25,
+# the newest version shipped here) "sa použije pri podávaní daňových priznaní
+# u daňovníkov, ktorým posledný deň lehoty na podanie daňového priznania
+# uplynul najneskôr 31. decembra 2026"; the new vzor MF/014309/2026-721 is
+# used when it "uplynie najskôr po 31. decembri 2026". The FORM follows the
+# filing deadline, not the period.
+_SK_DPPO_2026_FORM_AFTER_DEADLINE = date(2026, 12, 31)
+# The last period day of the vzor the oznámenie keeps (DPPOv25 valid_to):
+# the one version that may be offered past its own validity.
+_SK_DPPO_2025_FORM_LAST_PERIOD_DAY = date(2025, 12, 31)
+
+
 class CSSKIncomeTaxReturn(models.Model):
     _inherit = "cssk.income.tax.return"
+
+    # ------------------------------------------------------------------
+    # Which vzor: by the last day of the filing deadline
+    # ------------------------------------------------------------------
+    # Names and semantics follow cssk-public #46, which adds the 2026 vzor
+    # (its own layout) and replaces ``_compute_sk_applicable_versions`` with
+    # one that also selects it. Until then no installed version serves a
+    # deadline after 31. 12. 2026, and the return says why.
+    l10n_sk_dppo_filing_deadline = fields.Date(
+        string="Applicable legal filing deadline",
+        help="The legal deadline including an effective extension, when it "
+             "differs from the ordinary three-calendar-month deadline. "
+             "This is not the actual filing date.")
+    l10n_sk_dppo_applicable_version_ids = fields.Many2many(
+        "cssk.income.tax.version", string="Applicable DPPO form versions",
+        compute="_compute_sk_applicable_versions")
+    version_id = fields.Many2one(
+        domain="[('id', 'in', l10n_sk_dppo_applicable_version_ids)]")
+
+    def _l10n_sk_dppo_legal_deadline(self):
+        """The last day of the filing deadline the oznámenie keys on.
+
+        § 49 ods. 2 zák. 595/2003 Z. z.: "do troch kalendárnych mesiacov po
+        uplynutí zdaňovacieho obdobia" — taken as the end of the third
+        calendar month. For a period that does not end on a month end
+        (liquidation, a merger) a day-for-day reading gives an earlier day of
+        the same month; on the 31. 12. 2026 cutoff both readings agree, since
+        a period ending on or before 30. 9. 2026 lands in December 2026 and
+        one ending on 1. 10. 2026 or later in 2027 either way.
+
+        An extension under § 49 ods. 3 is entered in
+        ``l10n_sk_dppo_filing_deadline`` and replaces the ordinary deadline:
+        that paragraph says the lehota na podanie itself "predlžuje", and the
+        oznámenie speaks of the "posledný deň lehoty na podanie daňového
+        priznania" without limiting it to ods. 2. The actual filing date is
+        never the deadline.
+        """
+        self.ensure_one()
+        if not self.date_to:
+            return False
+        return self.l10n_sk_dppo_filing_deadline or (
+            self.date_to + relativedelta(months=3, day=31))
+
+    def _l10n_sk_dppo_requires_2026_form(self):
+        """Whether oznámenie MF/014310/2026-721 requires MF/014309/2026-721."""
+        self.ensure_one()
+        deadline = self._l10n_sk_dppo_legal_deadline()
+        return bool(deadline) and deadline > _SK_DPPO_2026_FORM_AFTER_DEADLINE
+
+    @api.depends("company_id", "date_from", "date_to",
+                 "l10n_sk_dppo_filing_deadline")
+    def _compute_sk_applicable_versions(self):
+        """The versions the return may use.
+
+        Outside Slovakia: every version whose validity overlaps the period,
+        exactly as the base domain on ``version_id`` (the Czech return keeps
+        its one open-ended structure).
+
+        Slovakia, deadline on or before 31. 12. 2026: the versions that
+        overlap the period, as before (a hospodársky rok across two years
+        still offers both); and where none does because the period runs past
+        the newest version's ``valid_to`` — 1. 1.–30. 9. 2026, deadline
+        31. 12. 2026 — the version still valid on 31. 12. 2025 that started
+        by the period start. That is DPPOv25, which the oznámenie keeps for
+        exactly these returns.
+
+        Slovakia, deadline after 31. 12. 2026: none. The 2026 vzor is
+        published, but its XML schema is not and no version for it is
+        installed; the 2025 form is not offered in its place.
+        """
+        Version = self.env["cssk.income.tax.version"].with_context(
+            active_test=False)
+        for ret in self:
+            country = ret.company_id.account_fiscal_country_id
+            if not (ret.date_from and ret.date_to and country):
+                ret.l10n_sk_dppo_applicable_version_ids = False
+                continue
+            if country.code == "SK" and ret._l10n_sk_dppo_requires_2026_form():
+                ret.l10n_sk_dppo_applicable_version_ids = False
+                continue
+            versions = Version.search([
+                ("country_id", "=", country.id),
+                ("valid_from", "<=", ret.date_to),
+                "|", ("valid_to", "=", False),
+                ("valid_to", ">=", ret.date_from),
+            ])
+            if country.code == "SK" and not versions:
+                # Only the vzor still valid on 31. 12. 2025 is stretched:
+                # the oznámenie keeps it, and nothing else. A version
+                # missing from the middle of the series (a deleted 2019)
+                # must stay a visible gap, not be filled by an older form.
+                versions = Version.search([
+                    ("country_id", "=", country.id),
+                    ("valid_from", "<=", ret.date_from),
+                    ("valid_to", ">=", _SK_DPPO_2025_FORM_LAST_PERIOD_DAY),
+                ], order="valid_from desc, id desc", limit=1)
+            ret.l10n_sk_dppo_applicable_version_ids = versions
+
+    @api.onchange("company_id", "date_from", "date_to",
+                  "l10n_sk_dppo_filing_deadline")
+    def _onchange_period_version(self):
+        """The SK reason, when the deadline rule is why nothing applies.
+
+        Every other case — another country, or an SK period older than any
+        shipped vzor — keeps the shared message.
+        """
+        country = self.company_id.account_fiscal_country_id
+        if country.code != "SK" or not (self.date_from and self.date_to):
+            return super()._onchange_period_version()
+        # _origin: on a draft both sides are NewId records, which never
+        # compare equal to the stored ones.
+        applicable = self.l10n_sk_dppo_applicable_version_ids._origin
+        if self.version_id and self.version_id._origin not in applicable:
+            self.version_id = False
+        if applicable:
+            return None
+        if not self._l10n_sk_dppo_requires_2026_form():
+            return super()._onchange_period_version()
+        return {"warning": {
+            "title": _("The 2026 DPPO form is not supported yet"),
+            "message": _(
+                "The filing deadline of this return ends on %(deadline)s, "
+                "after 31 December 2026. Under oznámenie MF/014310/2026-721 "
+                "such a return is filed on the new DPPO form "
+                "MF/014309/2026-721, not on the 2025 form "
+                "(MF/012187/2025-721). The new form has been published, but "
+                "the Financial Administration has not yet published its "
+                "electronic schema (XSD) and this module does not support it "
+                "yet. The return cannot be created until that version is "
+                "installed. If this is not the legal deadline of the return, "
+                "correct the Applicable legal filing deadline.",
+                deadline=self._l10n_sk_dppo_legal_deadline()),
+        }}
+
+    def _l10n_sk_dppo_check_form_applicability(self):
+        """Refuse an export on a vzor the deadline rule does not allow.
+
+        The version dropdown already offers only applicable versions, but a
+        return created before its deadline was corrected (an extension
+        entered later) keeps the version it was created with.
+        """
+        for ret in self:
+            if (ret.country_id.code or "").upper() != "SK":
+                continue
+            if ret.version_id not in ret.l10n_sk_dppo_applicable_version_ids:
+                raise UserError(_(
+                    "The form version %(version)s does not apply to this "
+                    "return. Under oznámenie MF/014310/2026-721 the DPPO form "
+                    "follows the last day of the filing deadline, here "
+                    "%(deadline)s: the 2025 form (MF/012187/2025-721) only "
+                    "when it ends on or before 31 December 2026. Choose a "
+                    "version the return offers for its period and deadline.",
+                    version=ret.version_id.display_name,
+                    deadline=ret._l10n_sk_dppo_legal_deadline()))
+        return True
+
+    def _cssk_preflight_export(self):
+        self._l10n_sk_dppo_check_form_applicability()
+        return super()._cssk_preflight_export()
 
     # Codes the spine writes — present in every official DPPO form version.
     # Guard marker: a version missing any of them is NOT the DPPO form (a
@@ -404,6 +577,13 @@ class CSSKIncomeTaxReturn(models.Model):
             r560,
             {"vat_payer": payer, "not_vat_payer": not payer},
         )
+        # § 46b ods. 2 písm. e) from 1. 1. 2026: turnover above 5 000 000 €
+        # owes 11 520 €, first for a period STARTING from 1. 1. 2026
+        # (§ 52zzzj ods. 5). The 2025 vzor still files such a period when its
+        # deadline falls in 2026 (oznámenie MF/014310/2026-721), and its band
+        # table stops at 3 840 €.
+        if self.date_from and self.date_from >= date(2026, 1, 1) and r560 > 5000000.0:
+            base = max(base, 11520.0)
         months = self._period_months()
         return base if months == 12 else statutory_round(
             base / 12.0 * months, 2)

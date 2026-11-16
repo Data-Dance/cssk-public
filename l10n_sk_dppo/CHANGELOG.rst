@@ -11,10 +11,50 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.5.1 (2026-11-16), not yet on 18.0:** the DPPO form chosen by the
+  filing deadline (oznámenie MF/014310/2026-721), the *Applicable legal
+  filing deadline* field, the export check and their tests. Needs
+  ``l10n_cssk_income_tax_base`` 19.0.1.6.1 for the shared wording.
 - **19.0.1.5.0 (2026-11-09), not yet on 18.0:** tabuľky A and B as return
   lines, r130/r150/r250 derived from them, the table export check, the
   two-digit row fix and its migration. Needs ``l10n_cssk_income_tax_base``
   19.0.1.6.0 (dependency-ordered aggregates) first.
+
+[19.0.1.5.1] — 2026-11-16
+-------------------------
+
+Fixed
+~~~~~
+
+- **A 2026 period whose filing deadline ends by 31. 12. 2026 files on
+  DPPO 2025.** Oznámenie MF/014310/2026-721 picks the form by the last day
+  of the filing deadline, not by the period: MF/012187/2025-721 when it
+  ends on or before 31. 12. 2026, the new MF/014309/2026-721 when it ends
+  later. A period such as 1. 1.–30. 9. 2026 (deadline 31. 12. 2026:
+  liquidation, a change of fiscal year) got no version at all, because the
+  2025 version ends its validity on 31. 12. 2025 and versions were chosen
+  by period overlap. It is now offered DPPO 2025; periods that overlap a
+  version keep the versions they had.
+- A return whose deadline ends after 31. 12. 2026 (a calendar 2026) still
+  gets no version, now with the reason: the 2026 form is published but its
+  XSD is not, and the module does not support it yet. The shared "most
+  likely not published" message no longer applies to it.
+
+- A period beginning in 2026 filed on DPPO 2025 owes the 11 520 € minimum
+  tax above 5 000 000 € (§ 46b ods. 2 písm. e), first for periods starting
+  from 1. 1. 2026 under § 52zzzj ods. 5); the 2025 edition's band table stops
+  at 3 840 €, so r810 now applies that band for such periods, 1/12 per month
+  of a shorter period. Periods starting before 2026 are unchanged.
+
+Added
+~~~~~
+
+- *Applicable legal filing deadline* on the return (Slovak companies): an
+  extension under § 49 ods. 3 extends the lehota na podanie itself, so an
+  extended deadline after 31. 12. 2026 moves the form as well. Empty means
+  the ordinary deadline (end of the third month after the period).
+- Export check: a return on a version the deadline no longer allows (an
+  extension entered after it was created) refuses to export.
 
 [19.0.1.5.0] — 2026-11-09
 -------------------------

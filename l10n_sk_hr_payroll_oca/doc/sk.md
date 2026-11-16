@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.25.1
+verified: 19.0.1.25.2
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -94,8 +94,10 @@ Dodané slovenské typy absencií sú počiatočné nastavenia. Aktualizácia mo
 ## Poistné základy uchované pri páske {#recorded-funds}
 
 Pri výpočte pásky sa uchovajú skutočne použité základy, sadzby a odvody
-jednotlivých poistení vrátane nulových súm. Neskoršia zmena karty zamestnanca
-nedopĺňa údaje do starých miezd.
+jednotlivých poistení vrátane nulových súm: zamestnávateľ oslobodený od
+garančného poistenia má nulový základ garančného poistenia, rovnako ako
+zamestnanec oslobodený od zdravotného poistenia nulový základ zdravotného
+poistenia. Neskoršia zmena karty zamestnanca nedopĺňa údaje do starých miezd.
 
 Upozornenie v poistnom výkaze vymenuje pásky s chýbajúcimi alebo nezhodnými
 podkladmi. Pred opravou staršieho mesiaca porovnajte archivované mzdy a podanie.

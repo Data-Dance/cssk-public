@@ -1,7 +1,7 @@
 ---
 title: Přiznání k dani z příjmů PO (CZ/SK)
 summary: Obrazovka, na které se připravuje přiznání k dani z příjmů právnických osob — výsledek hospodaření z účetnictví, úpravy účetní, výpočet daně, XML ověřené proti schématu a zaúčtování splatné daně.
-verified: 19.0.1.6.0
+verified: 19.0.1.6.1
 ---
 
 ## K čemu slouží {#purpose}
@@ -37,9 +37,11 @@ vybrat verzi tiskopisu.
    vydání tiskopisu. Nabídnou se jen verze státu, ve kterém je společnost
    daňově usazena, platné alespoň pro část období. Potom **Typ výkazu**:
    řádné, opravné nebo dodatečné přiznání, jak je pojmenovává národní modul.
-   Uložte. Pokud období nepokrývá žádná verze — zpravidla proto, že správce
-   daně tiskopis pro daný rok ještě nezveřejnil — upozornění to oznámí hned po
-   zadání dat a přiznání nelze uložit.
+   Uložte. Pokud období nepokrývá žádná nainstalovaná verze — správce daně
+   tiskopis ještě nezveřejnil, nebo jej zveřejnil, ale nainstalované moduly
+   jej nepodporují — upozornění to oznámí hned po zadání dat a přiznání
+   nelze uložit. Národní modul může verzi vybírat nejen podle období a uvést
+   konkrétnější důvod: slovenské přiznání se řídí lhůtou pro podání.
 2. **Vypočítat.** Vyplní kartu *Řádky* a přesune přiznání do stavu
    *Náhled*. U každého řádku je uveden jeho druh:
 

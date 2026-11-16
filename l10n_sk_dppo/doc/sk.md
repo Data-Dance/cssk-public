@@ -1,7 +1,7 @@
 ---
 title: SK daňové priznanie k dani z príjmov PO (DPPO)
 summary: Slovenské daňové priznanie k dani z príjmov právnických osôb — všetky vzory od roku 2013, výsledok hospodárenia z účtovníctva, výpočet dane so sadzbou a minimálnou daňou daného roka a XML overené proti schéme finančnej správy.
-verified: 19.0.1.5.0
+verified: 19.0.1.5.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -110,7 +110,10 @@ Voliteľné moduly, ktoré priznanie dopĺňajú:
 Pri vytváraní priznania zvoľte **Verziu** pre obdobie. Ponúkne sa každý vzor,
 ktorého platnosť sa s obdobím prekrýva, takže pri hospodárskom roku cez dva
 kalendárne roky sa ponúknu dva — zvoľte ten, ktorý pre dané obdobie určuje
-finančná správa. Čo modul vypočíta, závisí od vzoru:
+finančná správa. Obdobiu roka 2026, ktorého lehota na podanie uplynie
+najneskôr 31. 12. 2026, sa ponúkne *DPPO 2025* (pozri
+[Ktorý vzor: lehota na podanie](#deadline)). Čo modul vypočíta, závisí od
+vzoru:
 
 | Verzia | Obdobia | Modul vypočíta |
 |---|---|---|
@@ -119,7 +122,7 @@ finančná správa. Čo modul vypočíta, závisí od vzoru:
 | DPPO 2017, 2018, 2019 | po jednom roku | výpočet dane, sadzba 21 %, daňová licencia, kde ju § 52zk ešte uplatňuje (pozri nižšie) |
 | DPPO 2020, 2021, 2022 | 2020; 2021; 2022 – 2023 | len r. 100 a tabuľky A/B (r. 130, 150, 250) |
 | DPPO 2024 | 2024 | výpočet dane, 15 % / 21 %, minimálna daň |
-| DPPO 2025 | 2025 | výpočet dane, 10 % / 21 % / 24 %, minimálna daň |
+| DPPO 2025 | 2025 a neskoršie obdobia s lehotou na podanie najneskôr 31. 12. 2026 | výpočet dane, 10 % / 21 % / 24 %, minimálna daň |
 
 Pri vzoroch „len r. 100“ zadávate všetky ostatné riadky sami, vrátane dane.
 
@@ -129,11 +132,44 @@ licenciu pre každé neskoršie obdobie zrušil. Riadky na tlačivách ostali,
 lebo licenciu zaplatenú za roky 2015 – 2017 možno ďalej započítať podľa
 § 46b ods. 5; tento zápočet zadajte sami.
 
-**Vzor pre rok 2026 zatiaľ nie je.** Finančná správa ho (`dppo2026.xsd`)
-pri overení 27. 10. 2026 ešte nezverejnila a modul si ho nevymýšľa. Ak
-zadáte obdobie, ktoré začína v roku 2026, priznanie upozorní, že ho
-nepokrýva žiadna verzia tlačiva, a nedá sa uložiť. Vzor pribudne po jeho
-zverejnení.
+### Ktorý vzor: lehota na podanie {#deadline}
+
+Vzor sa neurčuje podľa obdobia, ale podľa **lehoty na podanie**. Oznámenie
+MF/014310/2026-721 ponecháva vzor z roku 2025 (MF/012187/2025-721, tu
+*DPPO 2025*) pre daňovníkov, „ktorým posledný deň lehoty na podanie
+daňového priznania uplynul najneskôr 31. decembra 2026“, a nový vzor
+MF/014309/2026-721 určuje, ak uplynie neskôr. Riadna lehota sú tri
+kalendárne mesiace po skončení obdobia
+([§ 49 ods. 2](law:sk/2003/595#paragraf-49.odsek-2)):
+
+| Obdobie | Lehota | Vzor |
+|---|---|---|
+| 1. 1. – 31. 12. 2025 | 31. 3. 2026 | DPPO 2025 |
+| 1. 7. 2025 – 30. 6. 2026 | 30. 9. 2026 | DPPO 2025 |
+| 1. 1. – 30. 9. 2026 (likvidácia, zmena hospodárskeho roka) | 31. 12. 2026 | DPPO 2025 |
+| 1. 1. – 31. 12. 2026 | 31. 3. 2027 | vzor 2026, zatiaľ nepodporovaný |
+
+Predĺženie podľa [§ 49 ods. 3](law:sk/2003/595#paragraf-49.odsek-3)
+predlžuje samotnú lehotu a oznámenie hovorí o poslednom dni lehoty bez
+toho, aby predĺženú lehotu vylúčilo, preto modul berie predĺženie tak, že
+posúva aj vzor. Predĺženú lehotu zadajte do poľa **Uplatniteľná zákonná
+lehota na podanie**; pri riadnej lehote ho nechajte prázdne. Obdobie
+končiace 30. 9. 2026 s lehotou predĺženou do 31. 3. 2027 preto potrebuje
+vzor 2026. Deň, keď priznanie skutočne podáte, na tom nič nemení.
+
+**Vzor 2026 zatiaľ nie je podporovaný.** Ministerstvo financií ho
+zverejnilo 28. 9. 2026, finančná správa však pri overení 16. 11. 2026 ešte
+nezverejnila jeho XML schému (`dppo2026.xsd` sa nenašla) a modul si ju
+nevymýšľa. Priznanie s lehotou po 31. 12. 2026 upozorní, že potrebuje
+vzor 2026, a nedá sa uložiť. Priznanie, ktoré už je na vzore *DPPO 2025* a
+predĺžená lehota sa k nemu zadá dodatočne, export odmietne.
+
+**Minimálna daň za obdobie roka 2026 na vzore DPPO 2025.** Vzor 2025 nesie
+pásma minimálnej dane roka 2025, ktoré končia na 3 840 eur. Pre obdobie, ktoré
+začína najskôr 1. 1. 2026, platí pásmo 11 520 eur nad 5 000 000 eur
+([§ 52zzzj ods. 5](law:sk/2003/595#paragraf-52zzzj.odsek-5)) a modul ho
+uplatní aj na vzore 2025: ak je r. 560 nad 5 000 000 eur, r. 810 je
+11 520 eur, pri kratšom období 1/12 za každý mesiac.
 
 Sadzby a sumy minimálnej dane sú uložené pri každom vzore, nie v programe.
 Vzor, ktorému chýba sadzba, výpočet odmietne a sadzbu si nedomýšľa.
@@ -292,10 +328,9 @@ Výsledok sa uloží pri priznaní ako porovnanie — otvorí ho tlačidlo
 
 ## Obmedzenia {#limitations}
 
-- **Rok 2026 nie je pokrytý**, kým finančná správa nezverejní vzor pre rok
-  2026 (pozri [Vzory tlačiva](#versions)). Vzor 2025 nepozná pásmo
-  minimálnej dane 11 520 eur pre obdobia začínajúce najskôr 1. 1. 2026;
-  obdobie roka 2026 naň nepodávajte.
+- **Lehota na podanie po 31. 12. 2026** (napríklad kalendárny rok 2026)
+  nie je pokrytá, kým modul nepodporí vzor 2026 (pozri
+  [Ktorý vzor: lehota na podanie](#deadline)).
 - **Vzory 2013, 2014 a 2020 – 2023** počítajú len r. 100 a tabuľky A/B; daň je na vás.
 - Obsah riadkov 3 a 4 tabuľky B vzorov 2013 a 2014 poučenie neuvádza;
   vyplňte ich podľa tlačiva.

@@ -116,6 +116,21 @@ class TestFinalizeFundRows(BaseCase):
         rows = self.finalize([self.health(), employer], topup=-1.0)
         self.assertEqual([row["side"] for row in rows], ["employee", "employer"])
 
+    def test_topup_without_an_employee_health_row_is_missing(self):
+        # The top-up charges the employee health row; without one the charge
+        # would be dropped from the stored evidence, so nothing is stored.
+        employer = ("HEALTHEMPLOYER",
+                    _record("health", "employer", 500, 11, 55, "HEALTHEMPLOYER"),
+                    55.0)
+        sick = ("SICK", _record("sickness", "employee", 500, 1.4, 7, "SICK"), -7.0)
+        for topup in (-3.5, 0.0):
+            with self.subTest(topup=topup):
+                self.assertFalse(self.finalize([employer, sick], topup=topup))
+        self.assertTrue(self.finalize([employer, sick]))
+
+    def test_topup_after_an_unusable_health_record_is_missing(self):
+        self.assertFalse(self.finalize([self.health(total=-50.0)], topup=-3.5))
+
     def test_no_topup_rule_leaves_the_row_untouched(self):
         rows = self.finalize([self.health()])
         self.assertEqual(rows[0]["facts"], {"rule_code": "HEALTH"})

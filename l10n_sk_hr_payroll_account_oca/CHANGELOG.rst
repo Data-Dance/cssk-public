@@ -8,7 +8,7 @@ Changelog
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
-- **19.0.1.0.5 (2026-11-12), not yet on 18.0:** chart reload keeps each company's configured salary-rule accounts (cssk-public#47); the 18.0 module still writes the defaults unconditionally. Carry the per-side check and its tests.
+- **19.0.1.0.5 (2026-11-12), not yet on 18.0:** chart reload keeps each company's configured salary-rule accounts (cssk-public#47); the 18.0 module still writes the defaults unconditionally. Carry the per-side check and its tests. **DISCHARGED 2026-11-16 — do not port this again**: on 18.0 as 18.0.1.0.2 (9366ae2aa).
 
 [19.0.1.0.5] — 2026-11-12
 -------------------------

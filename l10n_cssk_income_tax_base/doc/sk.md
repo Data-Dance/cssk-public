@@ -1,7 +1,7 @@
 ---
 title: Daňové priznanie k dani z príjmov PO (CZ/SK)
 summary: Obrazovka, na ktorej sa pripravuje daňové priznanie k dani z príjmov právnických osôb (DPPO) — výsledok hospodárenia z účtovníctva, úpravy účtovníka, výpočet dane, XML overené proti schéme a zaúčtovanie splatnej dane.
-verified: 19.0.1.6.0
+verified: 19.0.1.6.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -37,9 +37,12 @@ vybrať verziu tlačiva.
    vzor tlačiva. Ponúknu sa len verzie krajiny, v ktorej je spoločnosť
    daňovo usadená, platné aspoň pre časť obdobia. Potom **Typ výkazu**:
    riadne, opravné alebo dodatočné priznanie, ako ich pomenúva národný modul.
-   Uložte. Ak obdobie nepokrýva žiadna verzia — spravidla preto, že správca
-   dane vzor pre ten rok ešte nezverejnil — upozornenie to oznámi hneď po
-   zadaní dátumov a priznanie sa nedá uložiť.
+   Uložte. Ak obdobie nepokrýva žiadna nainštalovaná verzia — správca dane
+   vzor ešte nezverejnil, alebo ho zverejnil, ale nainštalované moduly ho
+   nepodporujú — upozornenie to oznámi hneď po zadaní dátumov a priznanie
+   sa nedá uložiť. Národný modul môže verziu vyberať nielen podľa obdobia a
+   uviesť konkrétnejší dôvod: slovenské priznanie sa riadi lehotou na
+   podanie.
 2. **Vypočítať.** Vyplní kartu *Riadky* a presunie priznanie do stavu
    *Náhľad*. Pri každom riadku je uvedený jeho druh:
 

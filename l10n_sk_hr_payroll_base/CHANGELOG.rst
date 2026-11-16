@@ -17,6 +17,24 @@ Carry-over to 18.0
   and explicitly reviewed legacy corrections. Adapt contract/engine adapters
   and rerun signed, optional-module, refund and legacy-review scenarios.
 
+[19.0.1.4.1] — 2026-11-16
+-------------------------
+
+Fixed
+~~~~~
+
+* **A health minimum top-up without an employee health row was dropped.**
+  Finalisation added a computed top-up (OCA ``HEALTHDOPLATOK``, Enterprise
+  ``HEALTH_DOPLATOK``) only when an employee health row existed, and otherwise
+  stored the other rows without that charge. The payslip is now unrecorded,
+  on both engines, so declarations name it. Stored evidence of payslips that
+  had the row is unchanged.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* Not yet on 18.0 (the recorded fund evidence itself is not ported there).
+
 [19.0.1.4.0] — 2026-11-16
 -------------------------
 

@@ -11,8 +11,23 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.6.1 (2026-11-16), not yet on 18.0:** the reworded "no form
+  version" warning (EN/SK/CS) and its test.
 - **19.0.1.6.0 (2026-11-09), not yet on 18.0:** dependency-ordered
   aggregate evaluation (``_cssk_evaluate_line_defs``) and its tests.
+
+[19.0.1.6.1] — 2026-11-16
+-------------------------
+
+Fixed
+~~~~~
+
+- The warning shown when no form version covers the period no longer says
+  the authority "has most likely not published the form". That was wrong
+  for a form that is published but not supported (the Slovak 2026 DPPO,
+  published without its XSD) and for a Czech period before the one
+  structure. It now names both causes; a country module may give a more
+  specific one (``l10n_sk_dppo`` does).
 
 [19.0.1.6.0] — 2026-11-09
 -------------------------

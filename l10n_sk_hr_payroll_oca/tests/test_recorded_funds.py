@@ -187,6 +187,149 @@ class TestRecordedFundPayroll(TransactionCase):
                 )
             self.assertEqual(ast.dump(current), ast.dump(original), rule.code)
 
+    def test_every_emitted_base_is_the_expression_the_rule_charged_on(self):
+        # The emission repeats the base only where the frozen formula has no
+        # variable for it; then it must be that very expression. Where the
+        # formula names a variable, the emission must use it. An exemption
+        # that zeroes the premium must zero the recorded base too.
+        native = json.loads(
+            (Path(__file__).parent / "data/native_fund_rules.json").read_text()
+        )
+        rules = self.structure.rule_ids.filtered(
+            lambda rule: rule.code in native and rule.code != "HEALTHDOPLATOK"
+        )
+        self.assertEqual(len(rules), 14)
+
+        def is_result(node):
+            return (
+                isinstance(node, ast.Assign)
+                and [ast.unparse(target) for target in node.targets] == ["result"]
+            )
+
+        for rule in rules:
+            with self.subTest(rule=rule.code):
+                body = ast.parse(rule.amount_python_compute.strip()).body
+                call = body.pop().body[0].value
+                fund, side, base, rate, amount = call.args
+                self.assertEqual(ast.unparse(call.func), "payslip.l10n_sk_fund_record")
+                self.assertIn(ast.unparse(amount), {"result", "-result"})
+                charged_at = next(
+                    index for index, node in enumerate(body) if is_result(node)
+                )
+                charged = next(
+                    node.left
+                    for node in ast.walk(body[charged_at].value)
+                    if isinstance(node, ast.BinOp)
+                    and isinstance(node.op, ast.Mult)
+                    and ast.dump(node.right) == ast.dump(rate)
+                )
+                exemptions = [
+                    node.test
+                    for node in body[charged_at + 1 :]
+                    if isinstance(node, ast.If)
+                    and len(node.body) == 1
+                    and is_result(node.body[0])
+                    and ast.unparse(node.body[0].value) == "0.0"
+                ]
+                if exemptions:
+                    (exemption,) = exemptions
+                    self.assertIsInstance(base, ast.IfExp)
+                    self.assertEqual(ast.dump(base.test), ast.dump(exemption))
+                    self.assertEqual(ast.unparse(base.body), "0.0")
+                    base = base.orelse
+                self.assertEqual(ast.dump(base), ast.dump(charged))
+                if isinstance(charged, ast.Name):
+                    # Not reassigned between the charge and the emission.
+                    self.assertFalse(
+                        [
+                            node
+                            for node in body[charged_at + 1 :]
+                            for sub in ast.walk(node)
+                            if isinstance(sub, ast.Name)
+                            and sub.id == charged.id
+                            and isinstance(sub.ctx, ast.Store)
+                        ]
+                    )
+
+    def test_guarantee_exempt_records_base_zero_and_keeps_native_amounts(self):
+        self.version.l10n_sk_guarantee_exempt = True
+        slip = self._compare_original_formulas(wage=1500.123)
+        row = self._funds(slip)[("guarantee", "employer")]
+        self.assertEqual((row["base"], row["amount"]), ("0", "0"))
+        self.assertTrue(slip.l10n_sk_fund_assessment["profile"]["guarantee_exempt"])
+        # Other employer funds keep their base.
+        self.assertNotEqual(self._funds(slip)[("reserve", "employer")]["base"], "0")
+
+    def test_guarantee_insured_records_the_capped_base(self):
+        row = self._funds(self._slip(wage=1500))[("guarantee", "employer")]
+        self.assertEqual((row["base"], row["amount"]), ("1500", "3.75"))
+
+    def test_topup_without_a_health_record_leaves_the_payslip_unrecorded(self):
+        health = self.env.ref(
+            "l10n_sk_hr_payroll_oca.l10n_sk_health_insurance_employee"
+        )
+        topup = self.env.ref("l10n_sk_hr_payroll_oca.l10n_sk_health_doplatok_employee")
+        health.write({"condition_select": "python", "condition_python": "result = False"})
+        topup.amount_python_compute = "result = -1.0"
+        slip = self._slip()
+        self.assertFalse(slip.line_ids.filtered(lambda row: row.code == "HEALTH"))
+        self.assertEqual(
+            slip.line_ids.filtered(lambda row: row.code == "HEALTHDOPLATOK").total, -1.0
+        )
+        self.assertFalse(slip.l10n_sk_fund_assessment)
+
+    def test_payslip_without_contract_records_the_computed_version(self):
+        slip = self._slip(contract_id=False)
+        self.assertFalse(slip.contract_id)
+        self.assertEqual(slip.line_ids.contract_id, self.version)
+        evidence = slip.l10n_sk_fund_assessment
+        self.assertTrue(evidence)
+        # The identity keeps contract_id (empty here), as stored before.
+        self.assertIs(evidence["identity"]["contract"], False)
+        self.assertEqual(evidence["profile"]["version"], self.version.id)
+        self.assertTrue(self._funds(slip))
+
+    def test_profile_of_another_version_is_not_read(self):
+        for values in ({}, {"contract_id": False}):
+            with self.subTest(values=values):
+                slip = self._slip(**values)
+                evidence = deepcopy(slip.l10n_sk_fund_assessment)
+                self.assertEqual(evidence["identity"]["contract"], slip.contract_id.id)
+                evidence["profile"]["version"] = self.version.id + 1000
+                slip._l10n_sk_store_fund_evidence(evidence)
+                self.assertFalse(slip._cssk_recorded_fund_bases())
+
+    def test_lines_of_another_contract_than_contract_id_are_not_read(self):
+        slip = self._slip()
+        self.assertTrue(slip._cssk_recorded_fund_bases())
+        other = self.version.copy({"date_version": "2025-01-01"})
+        slip.line_ids[:1].contract_id = other
+        self.assertFalse(slip._cssk_recorded_fund_bases())
+
+    def test_support_check_uses_the_contracts_the_engine_computes_over(self):
+        # A contract_id outside the period computes no line at all; the
+        # support check must say so itself rather than rely on that.
+        slip = (
+            self.env["hr.payslip"]
+            .with_company(self.company)
+            .create(
+                {
+                    "name": "Outside the contract",
+                    "employee_id": self.employee.id,
+                    "company_id": self.company.id,
+                    "contract_id": self.version.id,
+                    "struct_id": self.version.struct_id.id,
+                    "date_from": "2023-06-01",
+                    "date_to": "2023-06-30",
+                }
+            )
+        )
+        self.assertFalse(slip._get_employee_contracts())
+        self.assertFalse(slip._l10n_sk_can_record_funds())
+        slip.compute_sheet()
+        self.assertFalse(slip.line_ids)
+        self.assertFalse(slip.l10n_sk_fund_assessment)
+
     def test_negative_gross_and_computed_credit_note_keep_native_amounts(self):
         for credit in (False, True):
             with self.subTest(credit=credit):
@@ -249,7 +392,6 @@ class TestRecordedFundPayroll(TransactionCase):
             )
         )
         self.assertLess(len(serialized.encode()), 8000)
-        print("FUND_RECORD_JSON_BYTES=" + str(len(serialized.encode())))
 
     def test_rule_evaluation_cannot_rewrite_confirmed_evidence(self):
         slip = self._slip()

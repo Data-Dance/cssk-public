@@ -70,7 +70,9 @@ def finalize_fund_rows(entries, *, compare_amounts, topup=None, fund_codes=None)
     record for the same fund and side all make the payslip unrecorded.
     ``topup`` is the native total of the engine's separate health minimum
     rule (OCA ``HEALTHDOPLATOK``, Enterprise ``HEALTH_DOPLATOK``) when it was
-    computed; it adds a charge to the employee health row, not a base.
+    computed; it adds a charge to the employee health row, not a base. A
+    computed top-up without an employee health row has nowhere to go, so the
+    payslip is unrecorded rather than stored without that charge.
     """
     codes = FUND_RULE_CODES if fund_codes is None else fund_codes
     records, missing = {}, False
@@ -102,7 +104,9 @@ def finalize_fund_rows(entries, *, compare_amounts, topup=None, fund_codes=None)
     if not records or missing:
         return False
     employee = records.get(("health", "employee"))
-    if employee and topup is not None:
+    if topup is not None and not employee:
+        return False
+    if topup is not None:
         topup = -topup
         records[("health", "employee")] = fund_assessment(
             fund="health",
