@@ -11,6 +11,13 @@ each segment's whole-period calendar divisor. Aggregate the wage into one
 monthly BASIC before evaluating monthly insurance and tax rules; this hook
 does not itself select or consolidate historical employment versions.
 
+For a payslip-specific monthly wage input, override
+`_l10n_sk_monthly_cash_wage(contract)`. Its default is the real contract wage.
+The BASIC helper resolves this scalar once and applies its existing absence
+and calendar proration; hourly pay does not use it. Keep source qualification,
+input review and immutable evidence in the supplying integration. The hook
+does not authorize changing a posted payslip or bypassing statutory checks.
+
 The OCA WORK100 source includes scheduled absence time. The helper subtracts
 the common `l10n_sk_absence_codes()` once for both monthly and hourly wages.
 Leave compensation remains in its own salary rule and category.

@@ -5,6 +5,10 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.25.3 (2026-11-16):** expose a cooperative monthly cash-wage input hook. Integrations can compute
+  a payslip-specific monthly amount without editing its contract version;
+  native absence proration, hourly pay, insurance and tax remain in place.
+
 - **19.0.1.22.0 (2026-11-09), DISCHARGED on 18.0 by 997c7bbb:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
 
 Carry-over to 18.0

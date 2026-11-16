@@ -159,6 +159,54 @@ class TestSkPayroll(TransactionCase):
         self.assertEqual(payslip.get_salary_line_total("BASIC"), 1234.56)
         self.assertEqual(payslip.get_salary_line_total("GROSS"), 1234.56)
 
+    def test_monthly_cash_wage_input_runs_native_insurance_and_tax(self):
+        payslip = self._make_payslip(
+            self.contract_nodecl, self.employee_nodecl,
+            date(2026, 6, 1), date(2026, 6, 30),
+        )
+        before = self.contract_nodecl.wage
+        with patch.object(type(payslip), "_l10n_sk_monthly_cash_wage", return_value=2500):
+            payslip.compute_sheet()
+        self.assertEqual(self.contract_nodecl.wage, before)
+        self.assertEqual(payslip.contract_id, self.contract_nodecl)
+        self.assertEqual(payslip.get_salary_line_total("BASIC"), 2500)
+        self.assertEqual(payslip.get_salary_line_total("GROSS"), 2500)
+        self.assertAlmostEqual(payslip.get_salary_line_total("SOCIALEMPLOYEETOTAL"), -360)
+        self.assertAlmostEqual(payslip.get_salary_line_total("HEALTH"), -125)
+        self.assertAlmostEqual(payslip.get_salary_line_total("TAXBASE"), 2140)
+        self.assertAlmostEqual(payslip.get_salary_line_total("INCOMETAX"), -406.60)
+        self.assertAlmostEqual(payslip.get_salary_line_total("NET"), 1733.40)
+
+    def test_monthly_cash_wage_input_preserves_proration(self):
+        payslip = self._make_payslip(
+            self.contract_nodecl, self.employee_nodecl,
+            date(2026, 6, 1), date(2026, 6, 30),
+        )
+        with patch.object(type(payslip), "_l10n_sk_monthly_cash_wage", return_value=2500):
+            for sign in (-1, 1):
+                worked = WorkedDays(self.employee_nodecl.id, {
+                    "WORK100": SimpleNamespace(number_of_hours=88),
+                    "DOVOLENKA": SimpleNamespace(number_of_hours=sign * 8),
+                }, self.env)
+                self.assertAlmostEqual(payslip.l10n_sk_basic_salary(
+                    self.contract_nodecl, worked, scheduled_hours=176,
+                ), 2500 * 80 / 176)
+            empty = WorkedDays(self.employee_nodecl.id, {}, self.env)
+            self.assertEqual(payslip.l10n_sk_basic_salary(self.contract_nodecl, empty), 2500)
+
+    def test_monthly_cash_wage_input_is_not_used_for_hourly_pay(self):
+        self.contract_nodecl.l10n_sk_hourly_wage = 20
+        payslip = self._make_payslip(
+            self.contract_nodecl, self.employee_nodecl,
+            date(2026, 6, 1), date(2026, 6, 30),
+        )
+        worked = WorkedDays(self.employee_nodecl.id, {
+            "WORK100": SimpleNamespace(number_of_hours=2.5),
+        }, self.env)
+        with patch.object(type(payslip), "_l10n_sk_monthly_cash_wage",
+                          side_effect=AssertionError("A monthly input cannot replace hourly pay")):
+            self.assertEqual(payslip.l10n_sk_basic_salary(self.contract_nodecl, worked), 50)
+
     def test_basic_salary_hook_preserves_segment_divisor_and_absence_signs(self):
         payslip = self._make_payslip(
             self.contract_nodecl,

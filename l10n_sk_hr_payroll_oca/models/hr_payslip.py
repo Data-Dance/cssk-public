@@ -60,6 +60,15 @@ class HrPayslip(models.Model):
         self.ensure_one()
         return self.contract_id or self._get_employee_contracts()[:1]
 
+    def _l10n_sk_monthly_cash_wage(self, contract):
+        """Resolve the monthly wage input without changing the contract.
+
+        Extensions can supply a payslip-specific input while retaining the
+        native absence, calendar, insurance and tax calculation.
+        """
+        self.ensure_one()
+        return contract.wage
+
     def l10n_sk_basic_salary(self, contract, worked_days, scheduled_hours=None):
         """Compute BASIC through a cooperative country-level salary hook.
 
@@ -80,7 +89,8 @@ class HrPayslip(models.Model):
             hours = worked_days.WORK100.number_of_hours
             # Never negative, even when inconsistent leave data exceeds WORK100.
             return round(max(0.0, hours - absence) * contract.l10n_sk_hourly_wage, 2)
-        result = contract.wage
+        monthly_wage = self._l10n_sk_monthly_cash_wage(contract)
+        result = monthly_wage
         if "WORK100" in worked_days.dict:
             scheduled = (
                 self.l10n_sk_scheduled_hours()
@@ -89,7 +99,7 @@ class HrPayslip(models.Model):
             )
             paid_worked = worked_days.WORK100.number_of_hours - absence
             if scheduled and paid_worked < scheduled:
-                result = contract.wage * paid_worked / scheduled
+                result = monthly_wage * paid_worked / scheduled
         return result
 
     def l10n_sk_absence_codes(self):
