@@ -261,7 +261,10 @@ def _table_ek(canvas, data, page_index, continuation=None):
                 "integer": [left, y, left + width, y + 20.1],
                 "decimal": [decimal, y, decimal + 28.8, y + 20.1]}, "Table E row %s" % (index + 1))
     if page_index == 9 and not continuation and data.get("table_k"):
-        for index, item in enumerate(data["table_k"]["items"]):
+        table_k = data["table_k"]
+        claim_filled = table_k.get("current_claim_filled", any(
+            item["claimed"] for item in table_k["items"]))
+        for index, item in enumerate(table_k["items"]):
             y = 560.014 + 50.4 * index
             for offset, key in ((0, "date_from"), (25.2, "date_to")):
                 dy = 560.252 + 50.4 * index + offset
@@ -271,15 +274,18 @@ def _table_ek(canvas, data, page_index, continuation=None):
             for key, left, decimal in (("credit", 171.708, 236.508),
                     ("prior", 272.508, 336.948), ("claimed", 371.508, 436.308),
                     ("remaining", 470.868, 535.668)):
+                if key == "claimed" and not claim_filled:
+                    continue
                 _number(canvas, item[key], {"kind": "money", "continuous_integer": True,
                     "integer": [left, y, left + 57.596, y + 20.1],
                     "decimal": [decimal, y, decimal + 28.8, y + 20.1]}, "Table K " + key)
-        if data["table_k"]["items"]:
-            for key, left, decimal in (("claimed", 371.508, 436.308), ("remaining", 470.868, 535.668)):
-                _number(canvas, sum(item[key] for item in data["table_k"]["items"]),
-                    {"kind": "money", "continuous_integer": True,
-                     "integer": [left, 761.614, left + 57.596, 781.714],
-                     "decimal": [decimal, 761.614, decimal + 28.8, 781.714]}, "Table K total " + key)
+        for key, left, decimal in (("claimed", 371.508, 436.308), ("remaining", 470.868, 535.668)):
+            if not (claim_filled if key == "claimed" else table_k["items"]):
+                continue
+            _number(canvas, sum(item[key] for item in table_k["items"]),
+                {"kind": "money", "continuous_integer": True,
+                 "integer": [left, 761.614, left + 57.596, 781.714],
+                 "decimal": [decimal, 761.614, decimal + 28.8, 781.714]}, "Table K total " + key)
 
 
 def _special_record_lines(value):

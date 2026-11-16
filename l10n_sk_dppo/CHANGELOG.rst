@@ -11,6 +11,11 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Fixed
 ~~~~~
 
+- Keep the current minimum tax when historical Table K has no current claim,
+  including a loss. Separate its evidence from a filled current-claim column
+  and retain the minimum before using row 1000; a fully consumed lawful
+  credit with a minimum-tax exemption still settles to zero.
+
 - Print Table K whole-euro amounts in its continuous rectangles rather than
   imposing an artificial four-digit cell limit. Preserve the original cent
   cells, normal font size and strict checks against actual field width.

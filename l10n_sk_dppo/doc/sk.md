@@ -488,3 +488,12 @@ PDF je pracovná kópia na kontrolu na publikovanom vzore ministerstva.
 Ponecháva označenia VZOR a Príloha č. 2. Nie je podpísaná a nenahrádza
 povinné elektronické XML podanie ani nepotvrdzuje podanie či prijatie.
 Štát v hlavičke sa vždy tlačí po slovensky.
+
+Historická evidencia tabuľky K sa vypĺňa aj bez aktuálneho zápočtu, vrátane
+straty. Uplatnenie nulového aktuálneho zápočtu zachová dôkazy a zostatok,
+ponechá stĺpec aktuálneho zápočtu a riadky 910–1000 prázdne a zachová
+aktuálnu minimálnu daň. Výslovne zadaný nulový aktuálny zápočet je odlišný
+od samotnej evidencie: môže vyplniť tieto polia, ale neoslobodí od minima,
+ktoré prevyšuje riadok 800. Ak daň nie je pod minimom, zákonný úplný zápočet
+stále ponechá riadky 1000 a 1050 nulové. Riadok 1110 má samostatný výpočet
+preddavkov pred odpočtami a neodvodzuje sa z tohto zápočtu.

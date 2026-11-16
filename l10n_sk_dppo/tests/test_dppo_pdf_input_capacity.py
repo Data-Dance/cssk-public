@@ -9,6 +9,9 @@ from pathlib import Path
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
+from unittest.mock import patch
+
+from ..models import official_pdf
 
 
 @tagged("post_install", "-at_install")
@@ -44,3 +47,21 @@ class TestDppoPaperInputCapacity(TransactionCase):
                          "PYTHONPATH": os.pathsep.join(sys.path)}, timeout=45)
                        for seed in (1, 2)]
         self.assertEqual(results[0], results[1])
+
+    def test_table_k_evidence_and_current_claim_draw_distinct_cells(self):
+        for has_items, filled, amount in ((True, False, 0), (True, True, 0),
+                                          (True, True, 200), (False, False, 0),
+                                          (False, True, 0)):
+            with self.subTest(items=has_items, filled=filled, amount=amount):
+                items = [{"date_from": "2025-01-01", "date_to": "2025-12-31",
+                          "credit": 240, "prior": 0, "claimed": amount,
+                          "remaining": 240 - amount}] if has_items else []
+                data = {"table_k": {"items": items, "total": amount,
+                                    "current_claim_filled": filled}}
+                with patch.object(official_pdf, "_number") as number, \
+                        patch.object(official_pdf, "_date"):
+                    official_pdf._table_ek(None, data, 9)
+                names = [call.args[3] for call in number.call_args_list]
+                self.assertEqual("Table K total claimed" in names, filled)
+                self.assertEqual("Table K claimed" in names, filled and has_items)
+                self.assertEqual("Table K total remaining" in names, has_items)

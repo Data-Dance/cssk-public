@@ -286,3 +286,17 @@ class TestDppoPublished2026(AccountTestInvoicingCommon):
         row.write({"is_overridden": True, "manual_value": 1})
         with self.assertRaisesRegex(UserError, "Table K"):
             ret.action_compute_lines()
+
+    def test_zero_current_claim_keeps_minimum_at_and_below_boundary(self):
+        for profit, tax in ((-1000, 0), (0, 0), (1000, 100), (3400, 340), (3400.1, 340.01)):
+            for declared in (False, True):
+                with self.subTest(profit=profit, declared=declared):
+                    ret = self._make()
+                    values = self._set(ret, r100=profit, r560=10000, r810=340)
+                    ret.l10n_sk_form_minimum_credit = declared
+                    ret.action_compute_lines()
+                    values = {line.code: line.value for line in ret.line_ids}
+                    self.assertEqual(values["r800"], tax)
+                    self.assertEqual(values["r1050"], max(340, tax))
+                    self.assertEqual(values["r1110"], tax)
+                    self.assertEqual(values["r1000"], tax if declared else 0)

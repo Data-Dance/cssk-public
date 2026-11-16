@@ -2,6 +2,8 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from io import BytesIO
 
+from odoo import Command
+
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.exceptions import AccessError, UserError
 from odoo.tests import tagged
@@ -77,10 +79,11 @@ class TestDppoCreditAnnexes(AccountTestInvoicingCommon):
         self._k(ret, claimed=0)
         ret.action_apply_table_ek_credits()
         data = ret._l10n_sk_dppo_pdf_payload()
-        self.assertTrue(ret.l10n_sk_form_minimum_credit)
-        self.assertEqual(data["rows"]["r920"], 0)
-        self.assertEqual(data["rows"]["r910"], 660)
-        self.assertEqual(data["rows"]["r1000"], 1000)
+        self.assertFalse(ret.l10n_sk_form_minimum_credit)
+        self.assertFalse(data["table_k"]["current_claim_filled"])
+        for code in ("r910", "r920", "r1000"):
+            self.assertNotIn(code, data["rows"])
+        self.assertEqual(data["rows"]["r1050"], 1000)
         self.assertEqual(data["table_k"]["items"][0]["remaining"], 500)
         self.assertIn("6", PdfReader(BytesIO(ret._l10n_sk_dppo_official_pdf())).pages[9].extract_text())
 
@@ -243,3 +246,58 @@ class TestDppoCreditAnnexes(AccountTestInvoicingCommon):
         self.assertEqual(data["rows"]["r1101"], -3000)
         self.assertEqual(data["table_k"]["total"], 10759.26)
         self.assertEqual(len(PdfReader(BytesIO(ret._l10n_sk_dppo_official_pdf())).pages), 21)
+
+    def test_historical_zero_claim_keeps_minimum_through_provision_and_pdf(self):
+        Account = self.env["account.account"]
+        expense = Account.create({"name": "Synthetic DPPO minimum-tax expense",
+                                  "code": "591990", "account_type": "expense",
+                                  "company_ids": [Command.set([self.company.id])]})
+        payable = Account.create({"name": "Synthetic DPPO minimum-tax payable",
+                                  "code": "341990", "account_type": "liability_current",
+                                  "company_ids": [Command.set([self.company.id])]})
+        for profit in (1000, -1000):
+            with self.subTest(profit=profit):
+                ret = self._return()
+                ret.write({"date_from": "2026-01-01", "date_to": "2026-12-31",
+                           "l10n_sk_form_prepared_on": "2027-03-01",
+                           "provision_expense_account_id": expense.id,
+                           "provision_payable_account_id": payable.id,
+                           "provision_journal_id": self.company_data["default_journal_misc"].id})
+                ret.line_ids.filtered(lambda row: row.code == "r1110").write({"is_overridden": False})
+                self._set(ret, r100=profit, r560=10000, r810=340, r1010=3000)
+                self._k(ret, minimum_tax=340, paid_amount=340, credit_amount=240,
+                        prior_claimed=0, claimed=0, subsequent_period_number="1")
+                ret.action_apply_table_ek_credits()
+                ret.action_compute_lines()
+                by = {row.code: row.value for row in ret.line_ids}
+                self.assertEqual(by["r1050"], 340)
+                self.assertEqual(by["r1100"], 0)
+                self.assertEqual(by["r1101"], -2660)
+                self.assertEqual(by["r1110"], 100 if profit > 0 else 0)
+                self.assertFalse(ret.l10n_sk_form_minimum_credit)
+                data = ret._l10n_sk_dppo_pdf_payload()
+                self.assertFalse(data["table_k"]["current_claim_filled"])
+                self.assertEqual(data["table_k"]["items"][0]["remaining"], 240)
+                for code in ("r910", "r920", "r1000"):
+                    self.assertNotIn(code, data["rows"])
+                self.assertEqual(data["rows"]["r1050"], 340)
+                pdf = ret._l10n_sk_dppo_official_pdf()
+                self.assertEqual(len(PdfReader(BytesIO(pdf)).pages), 21)
+                ret.action_post_provision()
+                move = ret.provision_move_id
+                self.assertEqual(move.state, "posted")
+                self.assertEqual(move.line_ids.filtered(lambda line: line.account_id == expense).debit, 340)
+                self.assertEqual(move.line_ids.filtered(lambda line: line.account_id == payable).credit, 340)
+                self.assertEqual(ret._l10n_sk_dppo_official_pdf(), pdf)
+
+    def test_explicit_zero_claim_is_distinct_from_historical_k(self):
+        ret = self._return()
+        self._k(ret, claimed=0)
+        ret.action_apply_table_ek_credits()
+        ret.l10n_sk_form_minimum_credit = True
+        ret.action_compute_lines()
+        data = ret._l10n_sk_dppo_pdf_payload()
+        self.assertTrue(data["table_k"]["current_claim_filled"])
+        self.assertEqual(data["rows"]["r920"], 0)
+        self.assertEqual(data["rows"]["r1000"], 1000)
+        self.assertEqual(data["rows"]["r1050"], 1000)

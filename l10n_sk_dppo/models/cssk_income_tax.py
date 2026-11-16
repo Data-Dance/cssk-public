@@ -175,13 +175,15 @@ class CSSKIncomeTaxReturn(models.Model):
         }}
 
     def _l10n_sk_dppo_table_k_filled(self):
-        """Table K row 5 column 4 is present even for an entered zero claim.
+        """Current-claim presence in Table K row 5 column 4, not its history.
 
-        The declaration records the accountant's manual body input; entered
-        Table K facts also establish presence, independently of its amount.
+        Historical K entries remain required even without a current claim.
+        The explicit body declaration also permits an entered zero; it must
+        never displace the current minimum tax when r810 exceeds r800.
         """
         self.ensure_one()
-        return bool(self.l10n_sk_form_minimum_credit or self.l10n_sk_table_k_ids)
+        return bool(self.l10n_sk_form_minimum_credit or any(
+            line.claimed for line in self.l10n_sk_table_k_ids))
 
     def _l10n_sk_dppo_check_form_applicability(self):
         """Shared by the paper adapter and XML eligibility checks."""
@@ -742,8 +744,11 @@ class CSSKIncomeTaxReturn(models.Model):
                 "The reviewed prior minimum-tax credit (row 920) must be "
                 "nonnegative and cannot exceed row 910. Review Table K."))
         put("r1000", max(0.0, g("r800") - g("r920")) if table_k_filled else 0.0)
-        put("r1050", g("r1000") if table_k_filled else
-            (g("r900") if g("r810") > g("r800") else g("r800")))
+        # The vzor gives r900 priority when the current tax is below its
+        # minimum. A historical or explicitly zero K claim cannot waive it.
+        # Otherwise a filled r1000 remains the tax even when fully consumed.
+        put("r1050", g("r900") if g("r810") > g("r800") else
+            (g("r1000") if table_k_filled else g("r800")))
         put("r1040", g("r1010") + g("r1020") + g("r1030"))
         put("r1080", sum(g(code) for code in
                          ("r1050", "r1060", "r1070", "r1071", "r1072")))

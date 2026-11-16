@@ -513,3 +513,12 @@ The PDF is a working copy for review on the Ministry's published pattern.
 It retains the original VZOR and Príloha č. 2 marks. It is unsigned, cannot
 replace the required official electronic XML filing and proves no submission
 or acceptance. The header country is always printed in Slovak.
+
+Historical Table K evidence is required even with no current credit, including
+a loss. Applying a zero current claim retains the evidence and remaining
+balance, leaves the current-claim column and rows 910–1000 empty, and preserves
+the current minimum tax. An explicitly entered zero current claim is distinct
+from evidence alone: it may fill those fields, but cannot waive a minimum
+that exceeds row 800. When the tax is not below the minimum, a lawful full
+credit still leaves row 1000 and row 1050 at zero. Row 1110 keeps its separate
+advance-tax calculation before deductions; it is not derived from this credit.

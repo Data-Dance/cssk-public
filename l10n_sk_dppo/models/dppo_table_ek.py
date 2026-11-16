@@ -78,7 +78,9 @@ class DppoTablesEK(models.Model):
         if compare_row and (self.currency_id.compare_amounts(credit_e, rows.get("r710", 0))
                             or self.currency_id.compare_amounts(total, rows.get("r920", 0))):
             raise UserError(_("Apply the reviewed Tables E/K and recompute native rows 710/920."))
-        return {"table_e": e, "table_k": {"items": items, "total": total}}
+        return {"table_e": e, "table_k": {
+            "items": items, "total": total,
+            "current_claim_filled": self._l10n_sk_dppo_table_k_filled()}}
 
     def action_apply_table_ek_credits(self):
         self.ensure_one()
@@ -91,7 +93,7 @@ class DppoTablesEK(models.Model):
                                  ("r920", data["table_k"]["total"])):
                 self.line_ids.filtered(lambda row: row.code == code).write({
                     "is_overridden": True, "manual_value": amount})
-            self.l10n_sk_form_minimum_credit = bool(data["table_k"]["items"])
+            self.l10n_sk_form_minimum_credit = bool(data["table_k"]["total"])
             result = self.action_compute_lines()
             self._l10n_sk_table_ek_payload()
             return result
