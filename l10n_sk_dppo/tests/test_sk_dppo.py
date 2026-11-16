@@ -164,7 +164,9 @@ class TestSkDppo(AccountTestInvoicingCommon):
             ret.line_ids.filtered(lambda l: l.code == code).write(
                 {"is_overridden": True, "manual_value": val})
 
-        setv("r560", 0.0)       # no min tax → r800 dominates
+        setv("r560", 0.0)       # turnover alone does not waive the minimum
+        setv("r810", 0.0)       # explicitly reviewed minimum-tax exemption
+        ret.l10n_sk_form_minimum_exemption = True
         setv("r301", 100.0)     # → r600 = r800 = 10 → r1050 = r1080 = 10
         ret.action_compute_lines()
         self.assertAlmostEqual(
