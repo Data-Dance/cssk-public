@@ -136,6 +136,10 @@ _r = payslip.rule_parameter('l10n_sk_social_sickness_ee')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = -(int(round((min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'sickness', 'employee', min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from)), _r, -result,
+        facts={"rule_code": 'SICK'})
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -158,6 +162,10 @@ _r = payslip.rule_parameter('l10n_sk_social_pension_ee')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = -(int(round((base) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'pension', 'employee', base, _r, -result,
+        facts={"rule_code": 'PENSION'})
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -180,6 +188,10 @@ _r = payslip.rule_parameter('l10n_sk_social_disability_ee')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = -(int(round((base) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'disability', 'employee', base, _r, -result,
+        facts={"rule_code": 'DISABILITY'})
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -198,6 +210,10 @@ _r = payslip.rule_parameter('l10n_sk_social_unemployment_ee')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = -(int(round((min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'unemployment', 'employee', min(categories.GROSS, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from)), _r, -result,
+        facts={"rule_code": 'UNEMPLOYMENT'})
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -219,6 +235,10 @@ _r = payslip.rule_parameter('l10n_sk_social_sickness_er')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'sickness', 'employer', min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max')), _r, result,
+        facts={"rule_code": 'SICKEMPLOYER'})
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -239,6 +259,10 @@ _r = payslip.rule_parameter('l10n_sk_social_pension_er')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = (int(round((base) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'pension', 'employer', base, _r, result,
+        facts={"rule_code": 'PENSIONEMPLOYER'})
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -260,6 +284,10 @@ _r = payslip.rule_parameter('l10n_sk_social_disability_er')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = (int(round((base) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'disability', 'employer', base, _r, result,
+        facts={"rule_code": 'DISABILITYEMPLOYER'})
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -283,6 +311,10 @@ _r = payslip.rule_parameter(
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'unemployment', 'employer', min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max')), _r, result,
+        facts={"rule_code": 'UNEMPLOYMENTEMPLOYER'})
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -301,6 +333,10 @@ _r = payslip.rule_parameter('l10n_sk_social_shorttime_er')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = (int(round((min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'shorttime', 'employer', min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max')), _r, result,
+        facts={"rule_code": 'SHORTTIMEEMPLOYER'})
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -321,6 +357,10 @@ result_rate = 100
 # ≥50% statutory owner is not guarantee-insured (§ 4 ods. 4 z. 461/2003).
 if contract.l10n_sk_guarantee_exempt:
     result = 0.0
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'guarantee', 'employer', min(categories.GROSS, payslip.rule_parameter('l10n_sk_monthly_taxable_max')), _r, result,
+        facts={"rule_code": 'GUARANTEEEMPLOYER'})
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -339,6 +379,10 @@ _r = payslip.rule_parameter('l10n_sk_social_accident_er')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = (int(round((categories.GROSS) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'accident', 'employer', categories.GROSS, _r, result,
+        facts={"rule_code": 'ACCIDENT'})
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -359,6 +403,10 @@ _r = payslip.rule_parameter('l10n_sk_social_reserve_er')
 # §138 z.461/2003: floor each premium DOWN to the eurocent.
 result = (int(round((base) * _r, 4)) / 100.0)
 result_rate = 100
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'reserve', 'employer', base, _r, result,
+        facts={"rule_code": 'RESERVEFUNDEMPLOYER'})
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
@@ -399,6 +447,10 @@ result_rate = 100
 # insurance on agreement income (z. 580/2004).
 if contract.l10n_sk_health_exempt:
     result = 0.0
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'health', 'employee', 0.0 if contract.l10n_sk_health_exempt else base, rate, -result,
+        facts={"rule_code": 'HEALTH'})
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -420,6 +472,10 @@ result = int(round(categories.GROSS * rate, 4)) / 100.0
 result_rate = 100
 if contract.l10n_sk_health_exempt:
     result = 0.0
+if payslip._l10n_sk_is_recording_funds():
+    l10n_sk_fund_record = payslip.l10n_sk_fund_record(
+        'health', 'employer', 0.0 if contract.l10n_sk_health_exempt else categories.GROSS, rate, result,
+        facts={"rule_code": 'HEALTHEMPLOYER'})
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>

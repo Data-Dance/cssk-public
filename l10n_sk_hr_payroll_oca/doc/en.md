@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.24.6
+verified: 19.0.1.25.0
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -94,3 +94,16 @@ The supplied Slovak absence types are installation defaults. A module upgrade pr
 ## Meal allowance from December 2026 {#meal-2026-12}
 
 [Notice 255/2026 Z. z.](https://employment.gov.sk/showdoc.do?docid=60223) raises the 5–12 hour domestic meal allowance to EUR 9.80 from 1 December 2026. The dated payroll parameter also applies in January 2027 until a later rate takes effect. With 20 meal days and the default 55% contribution, payroll records EUR 107.80 employer contribution; a minimum 75% voucher leaves EUR 39.20 employee share. November 2026 still uses EUR 9.30 and EUR 102.40 employer contribution. Explicit contractual contributions retain their existing priority. Travel rates are supplied by the travel module separately.
+
+## Insurance bases kept with the payslip {#recorded-funds}
+
+Calculating a payslip also keeps the bases, rates and charges actually used
+for its insurance contributions. It keeps zero amounts as well. Later changes
+to the employee card do not fill in historical payroll information.
+
+Insurance declarations name missing or inconsistent payroll records in their
+warning. Review the archived payroll before correcting an older month. Where
+precise records are unavailable, enter the reviewed reason on the correction
+and use **Confirm original gross-based calculation**. The confirmation and its
+author appear in the chatter. Changing the reviewed sources requires another
+confirmation; the originally filed copy stays available.

@@ -403,11 +403,18 @@ Limitations
 
 - The figures are shipped for 2024–2026. Check them against the law before using a later period.
 
+Insurance bases kept with payroll
+===================================
+
+Each new payslip calculation keeps the insurance bases and charges it used, including zero charges. Older payslips are not recalculated to fill in missing information. When an insurance declaration uses an older calculation, its warning names the affected payslips in the form and in the chatter.
+
+Review that warning before filing. An original declaration can use the previous gross-based calculation. A correction first requires precise records; for older payroll you can review the archived payroll, enter a reason and explicitly confirm the previous calculation on the correction. The form records who confirmed it and when. Do not recalculate filed payroll just to create records. Systems that do not yet keep these records continue their existing workflow.
+
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_base``
-- **Version:** 19.0.1.2.2
+- **Version:** 19.0.1.3.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``

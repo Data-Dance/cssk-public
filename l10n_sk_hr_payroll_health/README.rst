@@ -115,7 +115,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_health``
-- **Version:** 19.0.1.2.3
+- **Version:** 19.0.1.2.4
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``, ``l10n_sk_base``

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="vehicle_tax_return_company" model="ir.rule">
+        <field name="name">Vehicle tax returns: active companies</field>
+        <field name="model_id" ref="model_l10n_sk_vehicle_tax_return"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="vehicle_tax_line_company" model="ir.rule">
+        <field name="name">Vehicle tax facts: active companies</field>
+        <field name="model_id" ref="model_l10n_sk_vehicle_tax_line"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

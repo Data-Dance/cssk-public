@@ -18,15 +18,49 @@ msgstr ""
 
 #. module: l10n_sk_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__display_name
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_payslip_fund_mixin__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
 
 #. module: l10n_sk_hr_payroll_base
 #: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_version
-msgid "Employee Contract"
-msgstr "Pracovná zmluva zamestnanca"
+msgid "Employee Contract / Version"
+msgstr "Zmluva / verzia zamestnanca"
 
 #. module: l10n_sk_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__id
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_payslip_fund_mixin__id
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_fund_mixin.py:0
+msgid "Recalculate the unconfirmed payslip to record its payroll fund bases."
+msgstr ""
+"Prepočítajte nepotvrdenú výplatnú pásku, aby sa zaznamenali vymeriavacie "
+"základy jej fondov."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_l10n_sk_payslip_fund_mixin
+msgid "Recorded payroll fund evidence"
+msgstr "Zaznamenané podklady mzdových fondov"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_fund_mixin.py:0
+msgid "The recorded payroll fund bases are invalid."
+msgstr "Zaznamenané vymeriavacie základy mzdových fondov sú neplatné."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_fund_mixin.py:0
+msgid "The recorded payroll fund bases no longer match the payslip."
+msgstr ""
+"Zaznamenané vymeriavacie základy mzdových fondov už nezodpovedajú výplatnej "
+"páske."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_version
+msgid "Employee Contract"
+msgstr "Pracovná zmluva zamestnanca"

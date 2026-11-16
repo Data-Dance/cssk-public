@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — VPP (Výkaz poistného a príspevkov, dohody)",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.2.1",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
     "summary": "Slovak social-insurance statement for dohody / irregular "
@@ -22,6 +22,7 @@
         "data/vpp_version_data.xml",
         "views/l10n_sk_vpp_views.xml",
         "views/vpp_correction_views.xml",
+        "views/fund_bases_review_views.xml",
     ],
     "installable": True,
 }

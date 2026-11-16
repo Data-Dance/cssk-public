@@ -123,7 +123,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_eldp``
-- **Version:** 19.0.1.1.3
+- **Version:** 19.0.1.1.4
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``

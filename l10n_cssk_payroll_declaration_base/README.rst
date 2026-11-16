@@ -194,11 +194,26 @@ Limitations
 
 - **The schema check proves the shape, not the figures.** Reconcile the first filing of every form by hand.
 
+Older payroll without recorded insurance bases
+================================================
+
+An insurance declaration names payslips whose detailed bases were not kept or no longer match the payroll. Read the warning in the form and its chatter. An original declaration can use the previous gross-based calculation; a correction normally stops until the precise payroll information is available.
+
+To correct an older month without recalculating already filed wages:
+
+1. Compare the archived payslips and original authority filing.
+
+2. In **Older payroll without recorded fund bases**, enter the reviewed reason for using the previous calculation.
+
+3. Choose **Confirm original gross-based calculation**, then generate the correction and reconcile its figures.
+
+The declaration records the reviewer, time, reason and affected payslips in its chatter. The confirmation applies to the reviewed period and payroll sources; changing them or the reason requires another confirmation. The form marks an expired confirmation and generation explains who confirmed it and when. Review the changed sources and confirm again. Repeating the same confirmation does not create another approval entry. The original filed copy is preserved. A payroll system that does not yet keep detailed bases uses its existing workflow without this warning or confirmation.
+
 Module facts
 ============
 
 - **Technical name:** ``l10n_cssk_payroll_declaration_base``
-- **Version:** 19.0.1.5.1
+- **Version:** 19.0.1.6.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``, ``mail``, ``l10n_cssk_submission_base``

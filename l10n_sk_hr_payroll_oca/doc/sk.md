@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.24.6
+verified: 19.0.1.25.0
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -90,3 +90,16 @@ Dodané slovenské typy absencií sú počiatočné nastavenia. Aktualizácia mo
 ## Stravné od decembra 2026 {#meal-2026-12}
 
 [Oznámenie 255/2026 Z. z.](https://employment.gov.sk/showdoc.do?docid=60223) zvyšuje stravné pre pásmo 5–12 hodín na 9,80 € od 1. 12. 2026. Dátumový mzdový parameter platí aj v januári 2027 až do ďalšej účinnej zmeny. Pri 20 dňoch a predvolenom 55 % príspevku je náklad zamestnávateľa 107,80 €; pri minimálnom 75 % lístku je podiel zamestnanca 39,20 €. November 2026 zachová 9,30 € a príspevok 102,40 €. Výslovné zmluvné príspevky majú pôvodnú prioritu. Cestovné sadzby samostatne dodáva modul pracovných ciest.
+
+## Poistné základy uchované pri páske {#recorded-funds}
+
+Pri výpočte pásky sa uchovajú skutočne použité základy, sadzby a odvody
+jednotlivých poistení vrátane nulových súm. Neskoršia zmena karty zamestnanca
+nedopĺňa údaje do starých miezd.
+
+Upozornenie v poistnom výkaze vymenuje pásky s chýbajúcimi alebo nezhodnými
+podkladmi. Pred opravou staršieho mesiaca porovnajte archivované mzdy a podanie.
+Ak presné údaje nie sú dostupné, zapíšte do opravného výkazu overený dôvod
+a použite **Potvrdiť pôvodný výpočet z hrubej odmeny**. Potvrdenie aj jeho autor
+zostanú v histórii komunikácie. Zmena overených podkladov vyžaduje nové
+potvrdenie; pôvodne podaná kópia zostáva dostupná.

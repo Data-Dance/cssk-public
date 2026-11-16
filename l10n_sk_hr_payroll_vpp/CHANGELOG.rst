@@ -5,6 +5,8 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
+* Show an expired legacy confirmation on the insurance declaration and hide obsolete confirmation labels.
+
 * **19.0.1.2.0 (2026-11-08), not yet on 18.0:** the regular-income
   classification (cssk-public#12). ``l10n_cssk-18.0`` has the same
   agreement-kind predicate. There the payslip's contract is ``hr.contract``

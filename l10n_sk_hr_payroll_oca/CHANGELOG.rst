@@ -10,6 +10,10 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- Not yet ported: recorded fund evidence, engine-neutral missing-reader policy
+  and explicitly reviewed legacy corrections. Adapt contract/engine adapters
+  and rerun signed, optional-module, refund and legacy-review scenarios.
+
 - **19.0.1.24.6 (2026-11-11), not yet on 18.0:** the 9.80 € stravné from
   1. 12. 2026. Data only; the parameter code is the same on 18.0.
 
@@ -55,6 +59,19 @@ Carry-over to 18.0
   ``tests/test_parameters_2027.py``. Data only; the 18.0 parameters carry the
   same codes, so the records port as they are. Adapt the test to the 18.0
   contract (``contract_id``) and payslip states.
+
+[19.0.1.25.0] — 2026-11-11
+==========================
+
+Added
+~~~~~
+
+* Actual signed fund-base/rate/charge capture during payslip calculation with
+  an in-process capability; generated evidence cannot be supplied over RPC.
+* One shared statutory profile without birth numbers, native refund evidence
+  and optional recording for custom structures that emit fund values.
+* Frozen original-formula references and reference fixtures independent of the
+  optional minimum-wage top-up, alongside native signed/subcent/credit cases.
 
 [19.0.1.24.6] — 2026-11-11
 ==========================
