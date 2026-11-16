@@ -2,6 +2,14 @@
 Changelog
 =========
 
+[Unreleased]
+------------
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- Carry the chart-reload preservation of configured salary-rule accounts and its tests.
+
 [19.0.1.0.5] — 2026-11-12
 -------------------------
 

@@ -11,4 +11,4 @@ Inštaluje sa zámerne a vyžaduje modul OCA `payroll_account` a slovenskú úč
 
 Ide o počiatočné predvolené nastavenie. Ak už má pravidlo účet použiteľný spoločnosťou, ďalšie načítanie osnovy zachová jeho dvojicu MD/D vrátane úmyselne prázdnej opačnej strany. Odložené nastavenie spoločnosti preto neprepíše samostatné analytiky poisťovní ani iné účtovné voľby. Nové pravidlá bez použiteľného mapovania dostanú predvolené účty. Vyhľadávanie rešpektuje natívnu firemnú doménu Odoo vrátane povolených účtov materskej spoločnosti pre pobočky.
 
-Ak chcete obnoviť počiatočné predvolené účty, výslovne vyčistite oba účty príslušného pravidla a znovu spustite nastavenie osnovy. Existujúce ochrany mzdových zdrojov naďalej platia: vyčistenie konfigurácie neumožňuje prepísať zaúčtované mzdy ani uchované dôkazy.
+Ak chcete obnoviť predvolené nastavenie, nastavte na pravidle ručne účty uvedené vyššie. Pravidlo s oboma vyčistenými účtami dostane predvolené účty aj pri najbližšom načítaní slovenskej osnovy pre danú spoločnosť. Existujúce ochrany mzdových zdrojov naďalej platia: vyčistenie konfigurácie neumožňuje prepísať zaúčtované mzdy ani uchované dôkazy.

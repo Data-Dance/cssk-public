@@ -11,4 +11,4 @@ Install it on purpose; it needs the OCA `payroll_account` module and the Slovak 
 
 These are initial defaults. Once a rule has an account usable by the company, subsequent chart loads preserve its debit/credit pair, including an intentionally empty opposite side. Separate insurer analytics and other accounting choices therefore survive deferred company setup. Newly installed rules without a usable mapping still receive the defaults. Account lookup uses Odoo's native company domain, including permitted parent-company accounts for branches.
 
-To restore the initial defaults, explicitly clear both accounts on the relevant rule and run chart setup again. Existing payroll source protections still apply: clearing configuration is not a way to rewrite posted payroll or its retained evidence.
+To return to the defaults, set the accounts listed above on the rule by hand. A rule with both accounts cleared also gets the defaults again the next time the Slovak chart is loaded for that company. Existing payroll source protections still apply: clearing configuration is not a way to rewrite posted payroll or its retained evidence.
