@@ -1,7 +1,7 @@
 ---
 title: Oznámenie zrážkovej dane
 summary: Rezidentské dividendy a autorské príjmy, skutočné úhrady, OZN4311v26 a príloha A.
-verified: 19.0.1.0.0
+verified: 19.0.1.1.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -85,7 +85,20 @@ Odmena 1500 mínus dobropis 150 pred platbou, bez DPH a skutočného príspevku 
 znamená príjem 1350, zrážku 256,50 a platbu 1093,50. Každý pôvodný záväzkový riadok
 si zachová vlastný limit; všetky splátkové riadky zároveň zdieľajú znížený limit
 dokladu naprieč mesiacmi a oznámeniami. Úplná oprava nahrádza predchodcu a nečerpá
-ho druhýkrát. Kontrola zahŕňa aj staré uchované podklady bez nových metadát.
+ho druhýkrát. Nový výpočet rezervuje aj sumy a dátumy starých uchovaných podkladov.
+Súčet nárokov musí zodpovedať limitu ku každému dátumu skutočnej platby.
+Skoršie zadanie neskoršej platby ani podanie neskoršieho mesiaca pred opravou
+skoršieho mesiaca výsledok nemení.
+Export uchová kapacitu ku všetkým relevantným dátumom vrátane platieb z iných
+oznámení. Pri neskoršom zaevidovaní tohto podania používa uloženú časovú os,
+nie dnešný stav dobropisov.
+
+Historický export spred tejto funkcie bez spoločných kapacitných podkladov si
+pri evidencii podania zachová pôvodné kontroly riadkov, banky a vysporiadania.
+Program nevymýšľa chýbajúcu historickú kapacitu zo spätne datovaného dobropisu.
+Tento kompatibilný postup zachováva podané fakty; nepotvrdzuje historický limit,
+ktorý sa neuchoval. Nová úplná oprava už používa aktuálne dátumované kontroly
+a pôvodné XML ponecháva osobitne.
 
 Limit dokladu nie je dôkazom výplaty ani automaticky základom dane. Zadajte
 overený skutočný zdaniteľný príjem a uchovajte bankové/zápočtové podklady aj

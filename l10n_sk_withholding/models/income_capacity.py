@@ -12,7 +12,7 @@ def income_pool_key(move_id, account_id):
     return f"income:{move_id}:{account_id}"
 
 
-def income_pool_facts(event, line):
+def income_pool_facts(event, line, *, paid_on=None, income_kind=None):
     """Original author sources minus linked posted credits effective by payment.
 
     A bill may have several payable instalments: allocating separate lines must
@@ -20,8 +20,10 @@ def income_pool_facts(event, line):
     allocation to those lines. Other source types retain their reversal policy.
     """
     move = line.move_id
+    paid_on = paid_on or event.paid_on
+    income_kind = income_kind or event.income_kind
     if (
-        event.income_kind != "author"
+        income_kind != "author"
         or move.move_type not in {"in_invoice", "entry"}
         or move.reversed_entry_id
     ):
@@ -47,7 +49,7 @@ def income_pool_facts(event, line):
     while frontier:
         children = frontier.reversal_move_ids.filtered(
             lambda row: row.state == "posted"
-            and (row.invoice_date or row.date) <= event.paid_on
+            and (row.invoice_date or row.date) <= paid_on
         )
         if children & seen:
             raise UserError(
@@ -117,7 +119,7 @@ def income_pool_facts(event, line):
         "original_move_id": move.id,
         "account_id": line.account_id.id,
         "capacity": float(capacity),
-        "cutoff": str(event.paid_on),
+        "cutoff": str(paid_on),
         "original_lines": [
             {"id": row.id, "balance": row.balance} for row in original.sorted("id")
         ],

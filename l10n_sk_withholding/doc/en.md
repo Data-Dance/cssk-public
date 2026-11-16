@@ -1,7 +1,7 @@
 ---
 title: Slovak withholding tax notice
 summary: Resident dividends and author income, actual settlements, OZN4311v26 and Annex A.
-verified: 19.0.1.0.0
+verified: 19.0.1.1.0
 ---
 
 ## What it is for {#purpose}
@@ -72,8 +72,22 @@ For a 1,500 remuneration and a 150 credit before payment, with no VAT or actual
 art-fund deduction, the remaining income is 1,350, withholding is 256.50 and the
 net payment is 1,093.50. Each original payable line keeps its own limit; all
 instalment lines also share the reduced source limit across months and notices.
+The cumulative claims must fit the source at every actual payment date. Creating
+the later payment first, or filing a later month before an earlier correction,
+does not change that result. A complete replacement and its filed predecessor
+share one reservation chain; their amounts are not added twice.
 A full correction replaces its predecessor rather than consuming it again.
-The same checks include old retained snapshots without the new pool metadata.
+New calculations also reserve the amounts and payment dates of old snapshots.
+They retain the native capacity at every relevant date, including dates of other
+notices, in the exported source timeline. Recording that export later uses its
+frozen timeline, without reinterpreting it through today's credit links.
+
+A historical pre-feature export without pool evidence keeps its original
+per-line, bank and settlement checks when its filing is recorded. The program
+does not invent its missing historical shared capacity from a later backdated
+credit. This compatibility path preserves the filed facts; it does not certify
+a historical capacity that was never recorded. New complete corrections use
+the current dated source checks and preserve the old XML separately.
 
 Source capacity is an upper bound, not proof of payment or the tax base. Enter
 the reviewed actual taxable payment and retain its bank/set-off and deduction

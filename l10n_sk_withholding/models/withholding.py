@@ -19,6 +19,7 @@ from odoo.addons.l10n_cssk_core.tools import split_street
 from .. import wire4311
 from ..deadline4311 import regular_deadline
 from .income_capacity import income_pool_facts, income_pool_key
+from .income_claims import exceeded_income_capacity
 
 MODEL = "l10n.sk.withholding"
 
@@ -655,8 +656,6 @@ class Withholding(models.Model):
                     self._claim_settlement(
                         settlement, value, settlement_allocated, reserved
                     )
-                if income_pool:
-                    self._claim_income_capacity(income_pool, value, allocated, reserved)
                 source["lines"].append(
                     {
                         "kind": kind,
@@ -707,6 +706,7 @@ class Withholding(models.Model):
                 }
             )
             data["sources"].append(source)
+        self._check_income_capacity(data)
         try:
             wire4311.render(
                 data["payer"],
@@ -874,25 +874,136 @@ class Withholding(models.Model):
                     self._claim_settlement(
                         settlement, line["allocated"], claimed, other
                     )
-                if line.get("income_pool"):
-                    self._claim_income_capacity(
-                        line["income_pool"], line["allocated"], claimed, other
-                    )
+        self._check_income_capacity(self.payload, retained_only=True)
 
-    def _claim_income_capacity(self, facts, amount, claimed, other):
-        key = facts["key"]
-        claimed[key] += amount
-        if (
-            self.currency_id.compare_amounts(
-                claimed[key] + other[key], facts["capacity"]
-            )
-            > 0
-        ):
+    def _income_payload_claims(self, payload, pools=None, *, fresh_capacity=False):
+        """Read dated frozen claims without rewriting any retained payload."""
+        rows = []
+        for event, source in zip(payload["events"], payload["sources"], strict=True):
+            for line in source["lines"]:
+                if line["kind"] != "income" or event.get("kind") != "author":
+                    continue
+                if pools is not None and income_pool_key(line["move_id"], line["account_id"]) not in pools:
+                    continue
+                facts = line.get("income_pool")
+                if fresh_capacity:
+                    # A NEW proposal checks today's native links at each
+                    # actual payment date, including other notices' dates.
+                    # Retained validation never enters this branch.
+                    native = self.env["account.move.line"].browse(line["id"]).exists()
+                    native.check_access("read")
+                    if (not native or native.move_id.id != line["move_id"]
+                            or native.account_id.id != line["account_id"]
+                            or native.company_id != self.company_id):
+                        raise UserError(_(
+                            "Use posted source lines of the correct company, account and direction."
+                        ))
+                    facts = income_pool_facts(
+                        self, native, paid_on=fields.Date.to_date(event["paid_on"]),
+                        income_kind="author",
+                    )
+                    if not facts and pools is not None:
+                        raise UserError(_(
+                            "Review the original author bill's payable lines and recipient before allocating its income."
+                        ))
+                if facts or not fresh_capacity:
+                    rows.append({
+                        "key": income_pool_key(line["move_id"], line["account_id"]),
+                        "paid_on": event["paid_on"], "amount": line["allocated"],
+                        "capacity": facts["capacity"] if facts else None,
+                        "facts": facts,
+                    })
+        return rows
+
+    def _income_claim_variants(self, *, retained_only=False, pools=None):
+        """Alternative complete claims of one notice, preserving filed priority."""
+        variants = []
+        if self.source_history:
+            variants.append(self._income_payload_claims(
+                self.source_history[-1]["payload"], pools,
+                fresh_capacity=not retained_only,
+            ))
+            if self.state == "submitted":
+                return variants
+        if self.state == "exported" and self.payload:
+            variants.append(self._income_payload_claims(
+                self.payload, pools, fresh_capacity=not retained_only,
+            ))
+        if not retained_only:
+            working = []
+            for event in self.event_ids.filtered(lambda row: row.income_kind == "author"):
+                if not event.distribution_line_id or not event.paid_on:
+                    continue
+                line = event.distribution_line_id
+                if pools is not None and income_pool_key(line.move_id.id, line.account_id.id) not in pools:
+                    continue
+                facts = income_pool_facts(event, event.distribution_line_id)
+                if not facts and pools is not None:
+                    raise UserError(_(
+                        "Review the original author bill's payable lines and recipient before allocating its income."
+                    ))
+                if facts:
+                    working.append({
+                        "key": facts["key"], "paid_on": str(event.paid_on),
+                        "amount": max(event.gross, 0), "capacity": facts["capacity"],
+                        "facts": facts,
+                    })
+            variants.append(working)
+        return variants
+
+    def _check_income_capacity(self, payload, *, retained_only=False):
+        claims = self._income_payload_claims(payload, fresh_capacity=not retained_only)
+        if not claims:
+            return
+        pools = {row["key"] for row in claims}
+        groups = defaultdict(list)
+        checkpoints = []
+        for notice in self._other_live_notices():
+            root = notice
+            while root.original_return_id:
+                root = root.original_return_id
+            groups[root.id].extend(notice._income_claim_variants(retained_only=retained_only, pools=pools))
+            if retained_only:
+                checkpoints.extend(notice._income_retained_checkpoints())
+        variants = list(groups.values())
+        if retained_only:
+            checkpoints.extend([
+                {"key": row["key"], "paid_on": row["paid_on"],
+                 "capacity": row["facts"]["capacity"]}
+                for row in payload.get("income_capacity_timeline", [])
+            ])
+        if exceeded_income_capacity(claims, variants, checkpoints):
             raise UserError(
                 _(
                     "Notice income allocations exceed the original author source after its linked credit notes."
                 )
             )
+        if not retained_only:
+            # Freeze the capacity at EVERY reservation date. An earlier
+            # notice may be exported after a later legacy notice was filed;
+            # its own event dates alone cannot prove the later pool bound.
+            timeline = {}
+            rows = claims + [row for group in variants for variant in group for row in variant]
+            for row in rows:
+                key = (row["key"], row["paid_on"])
+                if key not in timeline or row["capacity"] < timeline[key]["facts"]["capacity"]:
+                    timeline[key] = {"key": row["key"], "paid_on": row["paid_on"],
+                                     "facts": row["facts"]}
+            payload["income_capacity_timeline"] = [timeline[key] for key in sorted(timeline)]
+
+    def _income_retained_checkpoints(self):
+        """Capacity evidence travels with every retained export using the pool."""
+        payloads = []
+        if self.source_history:
+            payloads.append(self.source_history[-1]["payload"])
+        if self.state == "exported" and self.payload:
+            payloads.append(self.payload)
+        return [
+            {"key": row["key"], "paid_on": row["paid_on"],
+             "capacity": row["facts"]["capacity"]}
+            for payload in payloads
+            for row in payload.get("income_capacity_timeline", [])
+        ]
 
     def _claim_settlement(self, facts, amount, claimed, other):
         """One physical credit pool may back several counterpart allocations."""
@@ -1013,20 +1124,8 @@ class Withholding(models.Model):
         The company coordinator serialises this read with every source mutation.
         """
         self.ensure_one()
-        ignored, ancestor = self, self.original_return_id
-        while ancestor:
-            ignored |= ancestor
-            ancestor = ancestor.original_return_id
-        live = self.search(
-            [("company_id", "=", self.company_id.id), ("id", "not in", ignored.ids)]
-        )
-        live = live.filtered(
-            lambda rec: rec.submission_state not in {"rejected", "cancelled"}
-        )
-        filed = live.filtered("filed_history_ids")
-        superseded = filed.original_return_id
         groups = defaultdict(lambda: defaultdict(float))
-        for notice in live - superseded:
+        for notice in self._other_live_notices():
             root = notice
             while root.original_return_id:
                 root = root.original_return_id
@@ -1039,6 +1138,23 @@ class Withholding(models.Model):
             for key, value in group.items():
                 result[key] += value
         return result
+
+    def _other_live_notices(self):
+        """Shared replacement-chain selection for line and dated pool claims."""
+        self.ensure_one()
+        ignored, ancestor = self, self.original_return_id
+        while ancestor:
+            ignored |= ancestor
+            ancestor = ancestor.original_return_id
+        live = self.search(
+            [("company_id", "=", self.company_id.id), ("id", "not in", ignored.ids)]
+        )
+        live = live.filtered(
+            lambda rec: rec.submission_state not in {"rejected", "cancelled"}
+        )
+        filed = live.filtered("filed_history_ids")
+        superseded = filed.original_return_id
+        return live - superseded
 
     def action_reset_to_draft(self):
         self._lock()

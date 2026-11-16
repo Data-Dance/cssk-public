@@ -1152,6 +1152,143 @@ class TestWithholdingNative(AccountTestInvoicingCommon):
                     ):
                         notice.action_compute_lines()
 
+    def test_author_dated_pool_is_independent_of_event_creation_order(self):
+        for reverse in (False, True):
+            for later_amount, accepted in ((750, False), (600, True)):
+                with self.subTest(reverse=reverse, later_amount=later_amount):
+                    bill, lines = self._author_split_bill()
+                    entries = [(750, "2026-05-10", lines[0]),
+                               (later_amount, "2026-05-20", lines[1])]
+                    notice = None
+                    for amount, day, line in reversed(entries) if reverse else entries:
+                        notice, _event = self._author_notice(
+                            bill, amount, day, income_line=line, notice=notice,
+                        )
+                    if accepted:
+                        notice.action_compute_lines()
+                        notice.action_export_xml()
+                        self.assertEqual(sum(row["gross"] for row in notice.payload["events"]), 1350)
+                    else:
+                        with self.assertRaises(UserError):
+                            notice.action_compute_lines()
+
+    def test_author_dated_pool_is_independent_of_month_filing_order(self):
+        self._assert_author_dated_months(reverse=False)
+
+    def test_author_dated_pool_with_later_month_filed_first(self):
+        self._assert_author_dated_months(reverse=True)
+
+    def test_retained_author_pool_checks_all_claim_dates_before_submission(self):
+        self._assert_author_dated_months(reverse=False, retained=True)
+
+    def test_retained_author_pool_with_later_month_filed_first(self):
+        self._assert_author_dated_months(reverse=True, retained=True)
+
+    def test_legacy_author_export_keeps_its_filing_after_backdated_credit(self):
+        self._assert_legacy_author_backdated_credit(manual=False)
+
+    def test_legacy_author_export_keeps_manual_filing_after_backdated_credit(self):
+        self._assert_legacy_author_backdated_credit(manual=True)
+
+    def _assert_legacy_author_backdated_credit(self, *, manual):
+        # Authentic pre-feature baseline: no credit existed when exported.
+        bill = self._author_bill()
+        notice, _event = self._author_notice(bill, 1500)
+        notice = notice.with_user(self.operator)
+        notice.action_compute_lines()
+        notice.action_export_xml()
+        legacy = deepcopy(notice.payload)
+        legacy.pop("income_capacity_timeline", None)
+        for source in legacy["sources"]:
+            for line in source["lines"]:
+                line.pop("income_pool", None)
+        notice._cssk_workflow_write({"payload": legacy})
+        original = notice.xml_attachment_id.raw
+        self._author_credit(bill, 150)
+        if manual:
+            action = notice.action_create_submission(channel="pfs_manual")
+            submission = self.env["cssk.submission"].browse(action["res_id"])
+            submission.action_attest_manual()
+            self.assertEqual(submission.state, "delivered")
+        else:
+            notice.action_submit()
+        self.assertEqual(notice.state, "submitted")
+        self.assertEqual(notice.submitted_attachment_id.raw, original)
+        self.assertEqual(notice.source_history[-1]["payload"], legacy)
+
+    def test_export_keeps_capacity_at_the_later_legacy_claim_date(self):
+        bill, lines = self._author_split_bill()
+        later, _event = self._author_notice(
+            bill, 750, "2026-06-20", income_line=lines[1],
+        )
+        later.write({"period": "2026-06-01", "prepared_on": "2026-07-15", "filing_on": "2026-07-15"})
+        later.action_compute_lines()
+        later.action_export_xml()
+        legacy = deepcopy(later.payload)
+        legacy.pop("income_capacity_timeline", None)
+        for source in legacy["sources"]:
+            for line in source["lines"]:
+                line.pop("income_pool", None)
+        later._cssk_workflow_write({"payload": legacy})
+        later.action_submit()
+        earlier, _event = self._author_notice(
+            bill, 600, "2026-05-10", income_line=lines[0],
+        )
+        earlier.action_compute_lines()
+        earlier.action_export_xml()
+        timeline = deepcopy(earlier.payload["income_capacity_timeline"])
+        self.assertEqual(
+            {row["paid_on"]: row["facts"]["capacity"] for row in timeline},
+            {"2026-05-10": 1500, "2026-06-20": 1350},
+        )
+        original = earlier.xml_attachment_id.raw
+        self._author_credit(bill, 50)
+        earlier.action_submit()
+        self.assertEqual(earlier.submitted_attachment_id.raw, original)
+        self.assertEqual(earlier.source_history[-1]["payload"]["income_capacity_timeline"], timeline)
+
+    def _assert_author_dated_months(self, *, reverse, retained=False):
+        # A separate test transaction for each order: two independent filed
+        # originals of the same company/month would mask the financial guard.
+        bill, lines = self._author_split_bill()
+        entries = [(750, "2026-05-10", lines[0]),
+                   (750, "2026-06-20", lines[1])]
+        if reverse:
+            entries.reverse()
+        first, _event = self._author_notice(
+            bill, *entries[0][:2], income_line=entries[0][2],
+        )
+        if reverse:
+            first.write({"period": "2026-06-01", "prepared_on": "2026-07-15", "filing_on": "2026-07-15"})
+        first.action_compute_lines()
+        first.action_export_xml()
+        first.action_submit()
+        original_first = first.submitted_attachment_id.raw
+        second, _event = self._author_notice(
+            bill, *entries[1][:2], income_line=entries[1][2],
+        )
+        if not reverse:
+            second.write({"period": "2026-06-01", "prepared_on": "2026-07-15", "filing_on": "2026-07-15"})
+        if retained:
+            # Prepare the old unsafe export shape. The new capacity guard is
+            # disabled ONLY while constructing this historical test fixture.
+            with patch.object(type(second), "_check_income_capacity", return_value=None):
+                second.action_compute_lines()
+                second.action_export_xml()
+            snapshot = deepcopy(second.payload)
+            original = second.xml_attachment_id.raw
+            with self.assertRaises(UserError):
+                second._check_retained_allocations()
+            with self.assertRaises(UserError):
+                second.action_submit()
+            self.assertEqual(second.payload, snapshot)
+            self.assertEqual(second.xml_attachment_id.raw, original)
+        else:
+            with self.assertRaises(UserError):
+                second.action_compute_lines()
+        self.assertEqual(first.submitted_attachment_id.raw, original_first)
+        first._check_retained_export()
+
     def _assert_author_cross_month_capacity(self, *, manual=False, legacy=False):
         bill, lines = self._author_split_bill()
         first, _event = self._author_notice(bill, 700, income_line=lines[0])

@@ -1,6 +1,6 @@
 {
     "name": "Slovakia — Withholding tax notice 4311",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Accounting/Localizations/Reporting",
     "summary": "Native-ledger dividend and author withholding notices with Annex A",
     "author": "Data Dance s.r.o., votrelec",
