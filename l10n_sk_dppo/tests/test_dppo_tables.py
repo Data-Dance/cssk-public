@@ -16,6 +16,11 @@ from odoo.tests import tagged
 
 @tagged("post_install", "-at_install")
 class TestDppoTables(AccountTestInvoicingCommon):
+    def setUp(self):
+        super().setUp()
+        # English regexes are a deliberate fixture language; production follows the user.
+        self.env = self.env(context={**self.env.context, "lang": "en_US"})
+
 
     @classmethod
     @AccountTestInvoicingCommon.setup_country("sk")
@@ -245,6 +250,7 @@ class TestDppoTablesFromRegister(AccountTestInvoicingCommon):
 
     def setUp(self):
         super().setUp()
+        self.env = self.env(context={**self.env.context, "lang": "en_US"})
         if "account.asset.profile" not in self.env or \
                 "tax_line_ids" not in self.env["account.asset"]._fields:
             self.skipTest("account_asset_tax_oca is not installed")

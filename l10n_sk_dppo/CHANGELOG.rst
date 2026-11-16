@@ -5,8 +5,8 @@ Changelog
 All notable changes to **l10n_sk_dppo** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
-[Unreleased]
-------------
+[19.0.1.6.0] — 2026-11-16
+-------------------------
 
 Fixed
 ~~~~~
@@ -17,7 +17,7 @@ Fixed
 
 - Select the published form by its applicable legal filing deadline, including
   a recorded effective extension. Fiscal-period overlap alone cannot authorize
-  the obsolete2025 wire. The paper adapter shares this applicability check;
+  the obsolete 2025 wire. The paper adapter shares this applicability check;
   minimum-tax amounts remain keyed on the period start. A late actual filing
   date does not change the form's legal deadline.
 
@@ -56,8 +56,8 @@ Added
   Equal snapshots reuse attachments; historical PDF bytes remain available.
 
 - Published MF/014309/2026-721 form registry and calculation, separate from
-  historical2025: sports306, shifted vehicle/CFC rows, manual17k adjustment310,
-  subtotal315, special tax1072 and the period-sensitive11,520 minimum band.
+  historical 2025: sports 306, shifted vehicle/CFC rows, manual17k adjustment310,
+  subtotal 315, special tax1072 and the period-sensitive11,520 minimum band.
   Effective accountant overrides feed subsequent rows and the native tax
   provision. The published paper form is not confused with a published XML
   schema: XML export remains explicitly unavailable pending its official
@@ -66,6 +66,10 @@ Added
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.6.0 (2026-11-16), not yet on 18.0:** deadline-based 2026 form
+  registry, native entered Tables D/E/F/I/K/L and official-pattern working
+  PDF copies; XML remains unavailable until its published adapter exists.
 
 - **19.0.1.5.0 (2026-11-09), not yet on 18.0:** tabuľky A and B as return
   lines, r130/r150/r250 derived from them, the table export check, the

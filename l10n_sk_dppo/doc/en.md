@@ -298,7 +298,7 @@ says so and compares nothing.
 ## Limitations {#limitations}
 
 - **The new published form's XML adapter is pending.** Its native calculation
-  includes the11,520 minimum band; do not substitute the obsolete2025 XML.
+  includes the 11,520 minimum band; do not substitute the obsolete 2025 XML.
 - **2013, 2014 and 2020–2023** compute r100 and Tables A/B only; the tax is yours.
 - The meaning of rows 3 and 4 of the 2013/2014 Table B is not stated in
   their instructions; enter them from the form.
@@ -316,27 +316,27 @@ says so and compares nothing.
 The version list uses the applicable **legal filing deadline**, including an
 effective extension entered in *Applicable legal filing deadline*. Leave that
 field empty for the ordinary three-calendar-month deadline. A fiscal period
-July2025–June2026 ordinarily uses the earlier form; an effective extension to
-March2027 requires the new one. December2025–November2026 already requires the
+July 2025–June 2026 ordinarily uses the earlier form; an effective extension to
+March 2027 requires the new one. December 2025–November 2026 already requires the
 new form without an extension. A late actual filing date changes neither rule.
 The minimum-tax top band still depends on when the period began.
 
-The native return supports the published2026 layout for ordinary periods
-starting in2026 and later. The announcement applies where the last day of
-the filing deadline falls after31December2026, subject to later replacements.
-This includes an ordinary2027 first year filed in2028; a name ending26 is
-not a legal restriction to filing during2027.
+The native return supports the published 2026 layout for ordinary periods
+starting in 2026 and later. The announcement applies where the last day of
+the filing deadline falls after 31 December 2026, subject to later replacements.
+This includes an ordinary 2027 first year filed in 2028; a name ending 26 is
+not a legal restriction to filing during 2027.
 
-Row310 is now the accountant's section17k adjustment; the former subtotal
-moves315. Sports306 shifts the vehicle, practical-training and CFC inputs.
-The11,520 minimum above5million applies only to periods starting from2026.
-Record any section46b exemption or halving as a reviewed row810 override;
+Row 310 is now the accountant's section 17k adjustment; the former subtotal
+moves 315. Sports 306 shifts the vehicle, practical-training and CFC inputs.
+The11,520 minimum above 5 million applies only to periods starting from 2026.
+Record any section 46b exemption or halving as a reviewed row 810 override;
 the override then flows into subsequent amounts and the tax provision.
 
 The official paper form and instructions are published. The official XML
 adapter is a separate publication step: its schema was not in the reviewed
 catalog. Calculation is available; XML export gives an explicit explanation
-until the official electronic version is installed. It never emits2025 XML
+until the official electronic version is installed. It never emits 2025 XML
 for the new form. Source hashes and applicability are in
 `data/FORM_PUBLICATION.json`.
 
@@ -459,3 +459,57 @@ evidence, a positive row 610 and zero row 1110; the printed field is then
 left blank. The flag does not infer legal eligibility.
 
 Table K uses continuous whole-euro rectangles. Amounts and totals above four digits are right-aligned at the ordinary font size when they fit the actual rectangle. Cent digits retain their separate printed cells; an amount wider than the physical field is refused rather than clipped.
+
+## Tables E and K on the published paper form
+
+The published MF/014309/2026-721 pattern applies when the last day of the
+legal filing deadline falls after 31 December 2026, until replaced. This
+includes the ordinary 2027 period filed in 2028 under the currently
+published notice. It is not a claim that future replacement forms already
+exist. The XML adapter for this pattern remains unavailable pending the
+authority's publication; historical XML must not be relabelled.
+
+An accountant enters reviewed supporting facts on the existing tax return,
+then uses **Apply reviewed Tables E/K credits**. This atomically applies
+rows 710 and 920 and recomputes the existing tax spine. Table E calculates
+the official ordinary/hybrid ratios, limits and lower-of credit. Its
+country breakdown appears in section IX. Non-EUR source taxes require an
+evidenced section 31 conversion, printed as a separate annex. A lawful
+section 45(2) estimate requires a different foreign tax period; a paid
+source requires an actual payment date. Enter only tax permitted by the
+applicable treaty and supported by income and payment/estimate evidence.
+
+Table K records a positive original minimum-tax difference, original
+minimum tax fully paid, prior usage, current usage and the reviewed first,
+second or third subsequent tax period. Count tax periods, including short
+periods, rather than calendar-year differences. In the first following
+period there can be no prior-period usage. Source periods cannot overlap.
+The total claim cannot exceed the native tax above the current minimum.
+Unused credits expire after the third subsequent period, with an explicit
+section IX explanation. K remains present when the current claim is zero
+and an evidenced carry-forward exists. The official four source-period
+rows are enforced; nothing is silently dropped.
+
+The supporting facts do not determine treaty eligibility, establish that
+a payment was actually made, or replace a filed original return. The
+accountant retains those source documents, intervening-period evidence
+and reviews section 46b(8) expiry events, including liquidation,
+insolvency and legal succession. Existing declarations and ordinary
+manual review of such legal facts remain required. There is no second
+general ledger or tax register.
+
+Edited inputs must be reapplied before PDF output or posting the native
+591/341 provision. Inputs use the existing ordered parent locks,
+state guard, accountant ACL and company rule. Exported historical PDF
+attachments remain snapshots; recomputation/corrections create distinct
+outputs. All 21 original form pages remain in every PDF, with clearly
+marked continuations for country details or conversion evidence.
+
+Primary sources and unmodified authority-asset hashes are recorded in
+`static/forms/SOURCES.json`. The annex implementation is covered by
+`tests/test_dppo_table_ek.py`.
+
+The PDF is a working copy for review on the Ministry's published pattern.
+It retains the original VZOR and Príloha č. 2 marks. It is unsigned, cannot
+replace the required official electronic XML filing and proves no submission
+or acceptance. The header country is always printed in Slovak.

@@ -5,8 +5,8 @@ Changelog
 All notable changes to l10n_sk_dppo_annexes are documented here.
 Format follows Keep a Changelog.
 
-[Unreleased]
-------------
+[19.0.1.0.1] — 2026-11-16
+-------------------------
 
 Fixed
 ~~~~~
@@ -20,6 +20,9 @@ Fixed
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.0.1 (2026-11-16), not yet on 18.0:** reviewed Table A checks
+  for 2026 working PDF copies and native provisions, and atomic batch locks.
 
 - **19.0.1.0.0 (2026-11-10), not yet on 18.0:** the module needs
   l10n_sk_dppo's Table A/B lines (19.0.1.5.0) on 18.0 first.

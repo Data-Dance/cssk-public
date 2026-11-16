@@ -447,3 +447,44 @@ kladným riadkom 610 a nulovým riadkom 1110; tlačené pole sa vtedy nevyplní.
 Príznak sám neurčuje zákonnú oprávnenosť.
 
 Tabuľka K má súvislé obdĺžniky pre celé eurá. Sumy a súčty nad štyri číslice sa zarovnajú doprava bežným písmom, ak sa zmestia do skutočného poľa. Centy zostávajú v samostatných okienkach; suma širšia než fyzické pole sa odmietne bez orezania.
+
+## Tabuľky E a K publikovaného tlačiva
+
+Vzor MF/014309/2026-721 sa podľa oznámenia MF/014310/2026-721 použije, ak
+posledný deň zákonnej lehoty uplynie po 31. decembri 2026, až do nahradenia.
+Nejde o tvrdenie, že budúci náhradný vzor alebo elektronická schéma už existujú.
+Historické XML sa nesmie premenovať.
+
+Účtovník zadá overené podklady a použije **Uplatniť overené zápočty tabuliek
+E/K**. Akcia atomicky zapíše riadky 710/920 a prepočíta natívne priznanie.
+Tabuľka E vypočíta zákonné pomery, limity a nižší zo zaplatenej dane a limitu.
+Rozpis štátov je v IX. časti; neeuróvé dane vyžadujú preukázaný prepočet podľa
+§ 31 v samostatnej prílohe. Odhad podľa § 45 ods. 2 vyžaduje odlišné
+zdaňovacie obdobie zahraničnej dane; zaplatená daň aj skutočný dátum úhrady.
+Prípustnosť zápočtu podľa zmluvy a podklady naďalej overuje účtovník.
+
+Tabuľka K obsahuje kladný pôvodný rozdiel minimálnej dane, úplné zaplatenie
+pôvodnej minimálnej dane, skoršie a aktuálne zápočty a overené poradové číslo
+prvého až tretieho nasledujúceho zdaňovacieho obdobia. Počítajú sa aj krátke
+obdobia. V prvom nasledujúcom období nemôže byť skorší zápočet. Zdrojové
+obdobia sa nesmú prekrývať; aktuálny súčet neprekročí daň nad aktuálnou
+minimálnou daňou. Nevyužitý nárok po treťom období zaniká s vysvetlením v IX.
+časti. Tabuľka zostáva vyplnená aj pri nulovom aktuálnom zápočte, ak existuje
+preukázaný prenášaný nárok. Platia štyri zdrojové riadky vzoru bez vynechávania.
+
+Podklady nenahrádzajú dôkaz zaplatenia, pôvodné podané priznanie ani overenie
+oprávnenosti podľa zmluvy. Účtovník uchová zdroje a dôkazy nasledujúcich období
+a preverí zánik podľa § 46b ods. 8 vrátane likvidácie, konkurzu a nástupníctva.
+Nevzniká druhá hlavná kniha ani daňový register.
+
+Zmenené vstupy treba opätovne uplatniť pred PDF alebo účtovaním rezervy
+591/341. Platia zoradené zámky priznaní, ochrany stavu, účtovnícke oprávnenia
+a pravidlo firmy. Staršie PDF sú nemenné snímky; opravy tvoria odlišné výstupy.
+Zostáva všetkých 21 strán vzoru, prípadné pokračovania sú označené. Primárne
+zdroje a nezmenené kontrolné súčty sú v static/forms/SOURCES.json; regresie
+v tests/test_dppo_table_ek.py.
+
+PDF je pracovná kópia na kontrolu na publikovanom vzore ministerstva.
+Ponecháva označenia VZOR a Príloha č. 2. Nie je podpísaná a nenahrádza
+povinné elektronické XML podanie ani nepotvrdzuje podanie či prijatie.
+Štát v hlavičke sa vždy tlačí po slovensky.

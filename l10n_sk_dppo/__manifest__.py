@@ -1,9 +1,9 @@
 {
     "name": "SK Corporate Income Tax Return (DPPO)",
     "summary": "Slovak DPPO return on the income-tax framework: full r-line set "
-    "+ header mapping + XSD-validated XML export against the official "
-    "published historical schema; the published 2026 form has "
-    "a separate calculation registry pending its XML adapter.",
+               "+ header mapping + XSD-validated XML export against the official "
+               "published historical schema; the published 2026 form has "
+               "a separate calculation registry pending its XML adapter.",
     "description": """
 SK Corporate Income Tax Return (DPPO)
 =====================================
@@ -27,7 +27,7 @@ being automated.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.11.1",
+    "version": "19.0.1.6.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_income_tax_base", "l10n_sk", "l10n_sk_base"],
