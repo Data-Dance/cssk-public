@@ -2,6 +2,13 @@
 Changelog
 =========
 
+18.0.1.8.1 (2026-11-16)
+=======================
+
+* Added scenario *child_bonus_taper_per_child*: the § 33 ods. 11 reduction taken from each child must agree on both engines.
+* The declaration tests use a checksum-valid IČO; the old fixture was rejected by the IČO validation and no declaration parity test ran.
+* Port of 19.0.1.8.1 (19.0 ``ffd67cd0c``).
+
 19.0.1.8.0 (2026-08-07)
 =======================
 

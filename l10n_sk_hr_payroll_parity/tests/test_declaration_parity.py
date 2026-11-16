@@ -89,7 +89,7 @@ class TestDeclarationParity(TransactionCase):
             {
                 "name": "SK Declaration Parity Co",
                 "country_id": cls.env.ref("base.sk").id,
-                "company_registry": "12345678",
+                "company_registry": "12345679",
                 # The ELDP refuses to render without a korAdresa.
                 "street": "Hlavna 1",
                 "city": "Bratislava",

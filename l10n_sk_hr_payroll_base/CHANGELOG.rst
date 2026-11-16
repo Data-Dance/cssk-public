@@ -2,6 +2,13 @@
 Changelog
 =========
 
+18.0.1.1.3 (2026-11-16)
+-----------------------
+
+* **Fixed: a student on a DoBPŠ is no longer charged sickness or unemployment insurance** (nor the short-time work contribution, nor offered sickness compensation), even with a regular monthly income: § 4 ods. 1 písm. a) zákona 461/2003 takes the DoBPŠ out of the definition of a zamestnanec for those funds, and with a regular income the student is pension-insured only (§ 4 ods. 2 písm. b) bod 1). Read by the Enterprise engine; the OCA engine has no DoBPŠ form on 18.0.
+* Pensioners on a DoVP/DoPČ (§ 4 ods. 1 písm. b)) are still charged, because the contract records no pension status.
+* Port of 19.0.1.0.1 (19.0 ``ffd67cd0c``).
+
 18.0.1.1.2 (2026-11-16)
 -----------------------
 

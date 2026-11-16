@@ -30,6 +30,11 @@ DOBPS = "dobps"        # § 227 dohoda o brigádnickej práci študentov
 
 AGREEMENTS = (DOVP, DOPC, DOBPS)
 ALL_FORMS = (EMPLOYMENT,) + AGREEMENTS
+# Forms whose holder can be a zamestnanec for sickness and unemployment
+# insurance at all. § 4 ods. 1 písm. a) zákona 461/2003 takes the DoBPŠ
+# student out of that definition outright; with a regular income they are a
+# zamestnanec for PENSION insurance only (§ 4 ods. 2 písm. b) bod 1).
+SICKNESS_FORMS = (EMPLOYMENT, DOVP, DOPC)
 
 # --- the table --------------------------------------------------------------
 # concept -> {
@@ -53,19 +58,21 @@ APPLICABILITY = {
     # Sickness, unemployment and the short-time contribution follow the
     # REGULARITY of the income, not the kind of agreement. Both DoVP and DoPČ
     # can lawfully be agreed either way; keying these off the agreement type
-    # under-charged every monthly-paid DoVP.
+    # under-charged every monthly-paid DoVP. The one form-based exception is
+    # the DoBPŠ, excluded by § 4 ods. 1 písm. a) whatever its regularity.
     "SICKNESS_INSURANCE": {
-        "forms": ALL_FORMS, "regular": True,
-        "why": "zák. 461/2003 § 4 — nemocenské poistenie only for a "
-        "zamestnanec s pravidelným príjmom.",
+        "forms": SICKNESS_FORMS, "regular": True,
+        "why": "zák. 461/2003 § 4 ods. 1 — nemocenské poistenie only for a "
+        "zamestnanec s pravidelným príjmom, \"okrem fyzickej osoby v právnom "
+        "vzťahu na základe dohody o brigádnickej práci študentov\" (písm. a)).",
     },
     "UNEMPLOYMENT_INSURANCE": {
-        "forms": ALL_FORMS, "regular": True,
-        "why": "zák. 461/2003 § 4 — poistenie v nezamestnanosti only with a "
-        "regular income.",
+        "forms": SICKNESS_FORMS, "regular": True,
+        "why": "zák. 461/2003 § 4 ods. 1 — poistenie v nezamestnanosti only "
+        "with a regular income, DoBPŠ excluded by písm. a).",
     },
     "SHORTTIME_CONTRIBUTION": {
-        "forms": ALL_FORMS, "regular": True,
+        "forms": SICKNESS_FORMS, "regular": True,
         "why": "Financovanie podpory v čase skrátenej práce follows the "
         "sickness/unemployment set.",
     },
@@ -82,7 +89,7 @@ APPLICABILITY = {
         "agreements carry no vacation entitlement, so no náhrada za dovolenku.",
     },
     "SICKNESS_COMPENSATION": {
-        "forms": ALL_FORMS, "regular": True,
+        "forms": SICKNESS_FORMS, "regular": True,
         "why": "Náhrada príjmu pri PN presupposes sickness insurance, which "
         "only a regular income carries.",
     },
@@ -98,6 +105,13 @@ NEEDS_LEGAL_CONFIRMATION = {
     "MEAL_ENTITLEMENT": "Likewise for the § 152 meal entitlement of dohodári "
     "working more than four hours.",
 }
+
+# KNOWN GAP, not a legal doubt: § 4 ods. 1 písm. b) zákona 461/2003 also takes
+# a DoVP/DoPČ holder with a starobný, predčasný starobný, invalidný or (after
+# dôchodkový vek) výsluhový dôchodok out of sickness and unemployment
+# insurance. The contract carries no pension-status field to key that off, so
+# SICKNESS_FORMS still charges such a dohodár. Recording the status is a new
+# field on both engines, not a row here.
 
 
 def applies(concept, form, income_regular=True):

@@ -1370,3 +1370,207 @@ class TestSkPayroll(TransactionCase):
         )
         self.assertAlmostEqual(slip.get_salary_line_total("TAXBASE"), 2525.20, places=2)
         self.assertAlmostEqual(slip.get_salary_line_total("CHILD_BONUS"), 90.48, places=2)
+
+    # ---- 19.0 ffd67cd0c: 2026 NČZD, child bonus, DoBPŠ, health minimum -----
+    def _make_contract(self, name, wage, date_start, calendar, **vals):
+        """Employee + running hr.contract on the Slovak structure.
+
+        The 19.0 helper of the same name writes an ``hr.version``; on 18.0 the
+        contract is its own record, created ``open`` so the payslip finds it.
+        """
+        employee = self.env["hr.employee"].create(
+            {
+                "name": name,
+                "company_id": self.company.id,
+                "resource_calendar_id": calendar.id,
+            }
+        )
+        values = {
+            "name": "%s contract" % name,
+            "employee_id": employee.id,
+            "company_id": self.company.id,
+            "wage": wage,
+            "state": "open",
+            "date_start": date_start,
+            "resource_calendar_id": calendar.id,
+            "struct_id": self.structure.id,
+        }
+        values.update(vals)
+        return self.env["hr.contract"].create(values), employee
+
+    def test_rz_2026_nczd_taper_is_a_third(self):
+        """§ 11 ods. 2 písm. b) ZDP as of 1. 1. 2026: 51,6 × ŽM − ⅓ base.
+
+        Base 40 000 > 26 083,13: NČZD = 14 661,11 − 40 000/3 = 1 327,78.
+        The 2025 shape carried over (12 487,51 − ¼ base) gave 2 487,51.
+        Taxable 38 672,22 × 19 % = 7 347,72.
+        """
+        rz = self.env["l10n.sk.tax.reconciliation"].create(
+            {
+                "employee_id": self.employee_nodecl.id,
+                "company_id": self.company.id,
+                "year": 2026,
+                "gather_from_payslips": False,
+                "annual_tax_base": 40000.0,
+                "annual_advance_tax": 7000.0,
+            }
+        )
+        self.assertAlmostEqual(rz.nczd_taxpayer, 1327.78, places=2)
+        self.assertAlmostEqual(rz.annual_tax, 7347.72, places=2)
+        self.assertAlmostEqual(rz.result_amount, -347.72, places=2)
+        # ...and it reaches zero at 3 × 14 661,11 = 43 983,33.
+        rz.annual_tax_base = 43983.33
+        self.assertAlmostEqual(rz.nczd_taxpayer, 0.0, places=2)
+        # 2025 keeps the quarter: 12 110,36 − 30 000/4 = 4 610,36.
+        rz.write({"year": 2025, "annual_tax_base": 30000.0})
+        self.assertAlmostEqual(rz.nczd_taxpayer, 4610.36, places=2)
+
+    def test_2026_annual_bands_are_the_zm_multiples(self):
+        """§ 15 písm. a) bod 1: 154,8× / 212,4× / 264× ŽM 284,13."""
+        bands = self.env["hr.rule.parameter"]._get_parameter_value(
+            "l10n_sk_income_tax_bands_annual", date(2026, 12, 31)
+        )
+        self.assertEqual(
+            [c for _r, c in bands[:3]], [43983.32, 60349.21, 75010.32]
+        )
+
+    def test_child_bonus_taper_applies_per_child(self):
+        """§ 33 ods. 11: the 1/10 reduction is taken from EACH child.
+
+        2026, wage 3 500: TAXBASE = 3 500 − 329 − 175 = 2 996, monthly
+        threshold 27 432 / 12 = 2 286, reduction 0,1 × 710 = 71 per child,
+        so 2 × (100 − 71) = 58 — not 200 − 71 = 129.
+        """
+        contract, employee = self._make_contract(
+            "Vysoky Prijem", 3500.0, date(2024, 1, 1), self.calendar,
+            l10n_sk_tax_declaration_signed=True,
+            l10n_sk_children_under_15=2,
+        )
+        p = self._make_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+        )
+        self.assertAlmostEqual(p.get_salary_line_total("TAXBASE"), 2996.0, 2)
+        self.assertAlmostEqual(p.get_salary_line_total("CHILD_BONUS"), 58.0, 2)
+
+    def test_rz_child_bonus_taper_applies_per_child(self):
+        """Annual: base 35 000, two children < 15 (2026).
+
+        Reduction 0,1 × (35 000 − 27 432) = 756,80 per child:
+        2 × (1 200 − 756,80) = 886,40 (once in total gave 1 643,20).
+        """
+        rz = self.env["l10n.sk.tax.reconciliation"].create(
+            {
+                "employee_id": self.employee.id,
+                "company_id": self.company.id,
+                "year": 2026,
+                "gather_from_payslips": False,
+                "annual_tax_base": 35000.0,
+            }
+        )
+        self.assertAlmostEqual(rz.child_bonus_entitlement, 886.40, places=2)
+
+    def _two_hour_calendar(self):
+        """Two hours a week: 100 € stays above the pro-rated minimum wage,
+        so the minimum-wage top-up (when installed) cannot lift the gross."""
+        return self.env["resource.calendar"].create(
+            {
+                "name": "SK 2h/week",
+                "company_id": self.company.id,
+                "hours_per_day": 2.0,
+                "attendance_ids": [
+                    (0, 0, {
+                        "name": "Mon",
+                        "dayofweek": "0",
+                        "hour_from": 8.0,
+                        "hour_to": 10.0,
+                        "day_period": "morning",
+                    })
+                ],
+            }
+        )
+
+    def _tiny_part_timer(self, **vals):
+        """€100 a month on two hours a week — below the životné minimum,
+        yet above the pro-rated minimum wage (≈ 8,7 h × 5,259 €)."""
+        calendar = self._two_hour_calendar()
+        return self._make_contract(
+            "Minimalny Preddavok", 100.0, date(2024, 1, 1), calendar, **vals
+        )
+
+    def test_health_minimum_preddavok(self):
+        """§ 16a zákona 580/2004 (2026, ŽM 284,13).
+
+        Minimum = ⌊284,13 × 5 %⌋ + ⌊284,13 × 11 %⌋ = 14,20 + 31,25 = 45,45;
+        actual 5,00 + 11,00 → top-up 29,45.
+        """
+        contract, employee = self._tiny_part_timer()
+        p = self._make_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+        )
+        self.assertAlmostEqual(p.get_salary_line_total("HEALTH"), -5.0, 2)
+        self.assertAlmostEqual(
+            p.get_salary_line_total("HEALTHDOPLATOK"), -29.45, 2)
+
+    def test_health_minimum_preddavok_not_for_ztp(self):
+        """§ 16a ods. 2 písm. c): every ZP day removes its share — a ZŤP
+        employee for the whole month owes no minimum at all."""
+        contract, employee = self._tiny_part_timer(l10n_sk_ztp=True)
+        p = self._make_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+        )
+        self.assertAlmostEqual(
+            p.get_salary_line_total("HEALTHDOPLATOK"), 0.0, 2)
+
+    def test_health_minimum_preddavok_reduced_by_pn_days(self):
+        """§ 16a ods. 2 + § 11 ods. 7: PN days are poistenec-štátu days.
+
+        10 of 30 calendar days: 45,45 × 20/30 = 30,30 − 16,00 = 14,30.
+        """
+        contract, employee = self._tiny_part_timer()
+        p = self._payslip_with_inputs(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30),
+            [("PN_DAYS", 10.0)],
+        )
+        self.assertAlmostEqual(
+            p.get_salary_line_total("HEALTHDOPLATOK"), -14.30, 2)
+
+    def test_health_minimum_preddavok_outside_the_contract(self):
+        """§ 16a ods. 2: days before the contract starts shrink the minimum.
+
+        Hired 16 June 2026: 15 of 30 days, 45,45 × 15/30 = 22,72 (floored)."""
+        contract, employee = self._tiny_part_timer()
+        contract.date_start = date(2026, 6, 16)
+        p = self._make_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30)
+        )
+        health = -p.get_salary_line_total("HEALTH")
+        health_er = p.get_salary_line_total("HEALTHEMPLOYER")
+        self.assertAlmostEqual(
+            p.get_salary_line_total("HEALTHDOPLATOK"),
+            -max(0.0, round(22.72 - health - health_er, 2)), 2)
+
+    # ---- The two 2027 tests held back from 18.0.2.10.0 ---------------------
+    def test_health_minimum_2027(self):
+        """2027: ⌊295,22 × 5 %⌋ + ⌊295,22 × 11 %⌋ = 14,76 + 32,47 = 47,23;
+        actual on 100 € is 5,00 + 11,00, so the top-up is 31,23 (not 31,24,
+        the unfloored 47,2352 − 16)."""
+        _employee, _contract, slip = self._profile_2027(
+            100, resource_calendar_id=self._two_hour_calendar().id
+        )
+        self.assertAlmostEqual(
+            slip.get_salary_line_total("HEALTHDOPLATOK"), -31.23, places=2)
+
+    def test_annual_nczd_and_taper_2027(self):
+        """2027 RZ: full 6 199,62 up to 27 101,20; then 15 233,35 − ⅓ base."""
+        for base, nczd, tax in ((24000, 6199.62, 3382.07),
+                                (30000, 5233.35, 4705.66),
+                                (50000, 0, 9758.00)):
+            with self.subTest(base=base):
+                employee, _contract, _slip = self._profile_2027()
+                annual = self.env["l10n.sk.tax.reconciliation"].create({
+                    "company_id": self.company.id, "employee_id": employee.id,
+                    "year": 2027, "gather_from_payslips": False,
+                    "annual_tax_base": base})
+                annual.action_compute()
+                self.assertAlmostEqual(annual.nczd_taxpayer, nczd, places=2)
+                self.assertAlmostEqual(annual.annual_tax, tax, places=2)

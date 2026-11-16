@@ -261,6 +261,25 @@ SCENARIOS = [
         "expected": {"HEALTH_EE": -50.00},
     },
     {
+        "key": "child_bonus_taper_per_child",
+        "doc": "§ 33 ods. 11 ZDP: above 1,5 × 12 × the average wage the bonus "
+        "of EACH child is cut by 1/10 of the excess. TAXBASE 2 996 against a "
+        "monthly threshold of 27 432 / 12 = 2 286 takes 71 off each child: "
+        "2 × (100 − 71) = 58. Both engines used to take 71 off the total.",
+        "requires": [],
+        "wage": 3500.0,
+        "period": ((2026, 6, 1), (2026, 6, 30)),
+        "version": {
+            "l10n_sk_tax_declaration_signed": True,
+            "l10n_sk_children_under_15": 2,
+        },
+        "inputs": {},
+        "expected": {
+            "TAXBASE": 2996.00,
+            "CHILD_BONUS": 58.00,
+        },
+    },
+    {
         "key": "surcharges",
         "doc": "Night, Saturday and Sunday hours at the 2026 minimum hourly wage "
         "of 5.259. Also proves the surcharges reach GROSS on both engines, "

@@ -2,6 +2,18 @@
 Changelog
 =========
 
+18.0.2.10.1 (2026-11-16)
+========================
+
+* **Fixed: the annual non-taxable part for 2026** (ročné zúčtovanie): above 26 083,13 € it is now 14 661,11 € (51,6 × ŽM 284,13) less **one third** of the tax base, as § 11 ods. 2 písm. b) ZDP reads from 1. 1. 2026; it was the 2025 shape (a quarter of the base), which gave too high an NČZD up to a base of 49 950 €. 2024 and 2025 keep the quarter (new dated parameter *NČZD taper divisor*); 2027 inherits the third with its own constant 15 233,35.
+* **Fixed: the 2026 annual tax bands** are the ŽM multiples of § 15 (43 983,32 / 60 349,21 / 75 010,32 €), not the rounded monthly ceilings × 12.
+* **Fixed: the child tax bonus taper is taken per child** (§ 33 ods. 11 ZDP): above the threshold 1/10 of the excess now comes off EACH child's bonus, monthly and in the annual reconciliation, before the § 33 ods. 6 cap; it used to be taken once from the family total, so families with two or more children received too much.
+* **Fixed: the health minimum preddavok** (§ 16a zákona 580/2004): no top-up for a ZŤP employee; the minimum is reduced pro rata for PN days and for days outside the contract (the contract's ``date_start`` / ``date_end`` on 18.0); each component is floored to the cent. In January 2027 a 100 € slip tops up 31.23, not 31.24.
+* **Fixed: annual leave no longer lapses.** The statutory dovolenka accrual plans forfeited carried-over leave after one year; § 113 Zákonníka práce has no forfeiture, so the validity window is removed. Days already forfeited on existing allocations are not restored automatically — check them.
+* **Not carried: the DoBPŠ part of 19.0.1.18.4** (no sickness, unemployment or short-time contribution and no health minimum for a DoBPŠ student, § 4 ods. 1 písm. a) zákona 461/2003). This engine has no DoBPŠ agreement type on 18.0 (``l10n_sk_agreement_type`` is none / DoVP / DoPČ), so there is nothing to exempt; adding the form is new work. It also still keys those funds on the agreement kind rather than ``l10n_sk_income_regular`` as 19.0 does.
+* Tests: the 2027 annual NČZD taper and health minimum top-up held back from 18.0.2.10.0 are now carried.
+* Port of 19.0.1.18.4 (19.0 ``ffd67cd0c``).
+
 18.0.2.10.0 (2026-11-16)
 ========================
 

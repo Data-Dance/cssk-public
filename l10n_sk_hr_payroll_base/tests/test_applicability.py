@@ -20,11 +20,21 @@ from ..applicability import (
 class TestApplicability(TransactionCase):
     def test_the_fund_set_follows_regularity_not_the_agreement(self):
         """The defect the table exists to prevent, stated as a property."""
-        for form in ALL_FORMS:
+        for form in (EMPLOYMENT, DOVP, DOPC):
             self.assertTrue(applies("SICKNESS_INSURANCE", form, income_regular=True))
             self.assertFalse(applies("SICKNESS_INSURANCE", form, income_regular=False))
             self.assertTrue(applies("UNEMPLOYMENT_INSURANCE", form, True))
             self.assertFalse(applies("UNEMPLOYMENT_INSURANCE", form, False))
+
+    def test_dobps_student_is_never_sickness_or_unemployment_insured(self):
+        """§ 4 ods. 1 písm. a) zákona 461/2003: "okrem fyzickej osoby v právnom
+        vzťahu na základe dohody o brigádnickej práci študentov" — whatever
+        the regularity of the income (pension only, § 4 ods. 2 písm. b) bod 1)."""
+        for regular in (True, False):
+            for concept in ("SICKNESS_INSURANCE", "UNEMPLOYMENT_INSURANCE",
+                            "SHORTTIME_CONTRIBUTION", "SICKNESS_COMPENSATION"):
+                self.assertFalse(applies(concept, DOBPS, regular), concept)
+            self.assertTrue(applies("PENSION_INSURANCE", DOBPS, regular))
 
     def test_pension_and_disability_are_owed_by_everyone(self):
         for form in ALL_FORMS:
