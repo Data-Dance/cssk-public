@@ -8,7 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, models
 
-from ..sick_pay import split_sick_days
+from ..sick_pay import merge_spans, round_sick_pay, sick_pay_amount, split_sick_days
 
 # Leave-type payroll codes that COUNT AS AN ABSENCE (they cut worked days, so
 # the basic wage is prorated down for them). Holiday / paid obstacle are added
@@ -220,10 +220,19 @@ class HrPayslip(models.Model):
         Returns ``(tier1, tier2, calendar_days)``, or ``False`` when no
         validated PN leave reaches the period.
         """
+        spans = self._l10n_sk_pn_spans()
+        if spans is False:
+            return False
+        first, last = self._l10n_sk_pn_payment_period()
+        return split_sick_days(spans, first, last, tier1_days, employer_days)
+
+    def _l10n_sk_pn_spans(self):
+        """The validated PN spans of this company, with their real onset."""
         self.ensure_one()
         leaves = self.env["hr.leave"].sudo().search(
             [
                 ("employee_id", "=", self.employee_id.id),
+                ("company_id", "=", self.company_id.id),
                 ("state", "=", "validate"),
                 ("request_date_from", "<=", self.date_to),
                 ("request_date_to", ">=", self.date_from - timedelta(days=366)),
@@ -235,9 +244,61 @@ class HrPayslip(models.Model):
             start <= self.date_to and end >= self.date_from for start, end in spans
         ):
             return False
-        return split_sick_days(
-            spans, self.date_from, self.date_to, tier1_days, employer_days
-        )
+        return merge_spans(spans)
+
+    def _l10n_sk_pn_payment_period(self):
+        """The employer stops paying when the employment ends."""
+        contract = self.contract_id
+        first, last = self.date_from, self.date_to
+        if contract.date_start:
+            first = max(first, contract.date_start)
+        if contract.date_end:
+            last = min(last, contract.date_end)
+        return first, last
+
+    def l10n_sk_pn_compensation(self, daily_base):
+        """Employer sick pay from the native PN episodes.
+
+        Each episode uses the statutory terms in force at its onset: a PN that
+        began in 2025 keeps the ten-day employer period and the 2025 daily-base
+        cap in 2026 (§ 8 ods. 7 zákona 462/2003). Payment stops at the end of
+        the employment without restarting the day count. The daily base is cut
+        to four decimals (§ 8 ods. 8) and the sum rounded UP to the cent
+        (§ 10 ods. 2). ``False`` means no native episode; 0 is a real result.
+        """
+        spans = self._l10n_sk_pn_spans()
+        if spans is False:
+            return False
+        first, last = self._l10n_sk_pn_payment_period()
+        Param = self.env["hr.rule.parameter"]
+        total = 0
+        for start, end in spans:
+            if start > last or end < first:
+                continue
+
+            def parameter(code, _start=start):
+                return Param._get_parameter_value(code, _start)
+
+            tier1, tier2, _calendar_days = split_sick_days(
+                [(start, end)],
+                first,
+                last,
+                parameter("l10n_sk_pn_tier1_days"),
+                parameter("l10n_sk_pn_employer_days"),
+            )
+            capped = min(daily_base, parameter("l10n_sk_pn_max_dvz"))
+            total += sick_pay_amount(
+                capped,
+                tier1,
+                tier2,
+                parameter("l10n_sk_pn_rate_tier1") / 100.0,
+                parameter("l10n_sk_pn_rate_tier2") / 100.0,
+            )
+        return round_sick_pay(total)
+
+    def l10n_sk_pn_manual_compensation(self, daily_base, tier1, tier2, rate1, rate2):
+        """The manual fallback, on the same statutory rounding."""
+        return round_sick_pay(sick_pay_amount(daily_base, tier1, tier2, rate1, rate2))
 
     def l10n_sk_scheduled_hours(self):
         """Full scheduled working HOURS of the whole payslip period.

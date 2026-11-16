@@ -524,6 +524,14 @@
         <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
         <field name="date_from" eval="datetime(2026, 1, 1).date()"/>
     </record>
+    <!-- Oznámenie MPSVR SR č. 255/2026 Z. z., effective 1 December 2026.
+         https://employment.gov.sk/showdoc.do?docid=60223
+         Earlier payslips keep 9.30. -->
+    <record id="rule_parameter_stravne_5_12h_2026_dec" model="hr.rule.parameter.value">
+        <field name="parameter_value">9.80</field>
+        <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
+        <field name="date_from" eval="datetime(2026, 12, 1).date()"/>
+    </record>
 
     <!-- Employer's meal contribution as % of stravné. Legal minimum is 55%;
          the max tax-deductible is also 55% of stravné (= €5.12 at €9.30). -->
@@ -805,4 +813,67 @@
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
     </record>
 
+    <!-- 2027 (from 1 January 2027): dated values beside the 2026 ones, so a
+         2026 payslip recomputes unchanged. Same figures as 19.0. -->
+    <record id="rule_parameter_2027_monthly_taxable_max" model="hr.rule.parameter.value">
+        <field name="parameter_value">17820</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_monthly_taxable_max"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_health_min_base" model="hr.rule.parameter.value">
+        <field name="parameter_value">295.22</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_health_min_base"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_monthly" model="hr.rule.parameter.value">
+        <field name="parameter_value">516.64</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_monthly"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_annual" model="hr.rule.parameter.value">
+        <field name="parameter_value">6199.62</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_annual"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_taper_threshold" model="hr.rule.parameter.value">
+        <field name="parameter_value">27101.20</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_threshold"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_nczd_taper_const" model="hr.rule.parameter.value">
+        <field name="parameter_value">15233.35</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_nczd_taper_const"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_income_tax_bands" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 3808.34], [0.25, 5225.39], [0.30, 6494.84], [0.35, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_income_tax_bands"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_income_tax_bands_annual" model="hr.rule.parameter.value">
+        <field name="parameter_value">[[0.19, 45700.06], [0.25, 62704.73], [0.30, 77938.08], [0.35, 1000000000.0]]</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_income_tax_bands_annual"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_child_bonus_taper_threshold" model="hr.rule.parameter.value">
+        <field name="parameter_value">29160</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_child_bonus_taper_threshold"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_min_hourly_wage" model="hr.rule.parameter.value">
+        <field name="parameter_value">5.586</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_min_hourly_wage"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <record id="rule_parameter_2027_pn_max_dvz" model="hr.rule.parameter.value">
+        <field name="parameter_value">106.5206</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_pn_max_dvz"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
+    <!-- z.461/2003 §138b: 50% of 2025 average wage 1620 = 810 from 2027. -->
+    <record id="rule_parameter_2027_dohoda_oop_seasonal" model="hr.rule.parameter.value">
+        <field name="parameter_value">810</field>
+        <field name="rule_parameter_id" ref="l10n_sk_hr_payroll_oca.rule_parameter_dohoda_oop_seasonal"/>
+        <field name="date_from">2027-01-01</field>
+    </record>
 </odoo>

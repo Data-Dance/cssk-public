@@ -2,6 +2,14 @@
 Changelog
 =========
 
+[18.0.1.18.1] — 2026-11-16
+--------------------------
+
+Fixed
+~~~~~
+
+- **Updating the module failed with approved leave, and reset company settings.** Reloading the starter leave types rewrote their ``request_unit``, which recomputed approved absences and failed the native leave state check, and overwrote each company's own choices. The starter leave types are now installation defaults (``noupdate``); everything else in those files stays updatable. The same defect as cssk-public#40 in the Slovak engines. Port of 19.0.1.20.1.
+
 [18.0.1.18.0] — 2026-11-10
 --------------------------
 

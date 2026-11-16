@@ -142,18 +142,20 @@ class AccountChartTemplate(models.AbstractModel):
 
         ``account_debit`` / ``account_credit`` are ``company_dependent`` fields,
         so writing them under ``with_company(company)`` stores a per-company
-        value on the global salary rules.
+        value on the global salary rules. Treat an existing usable pair as
+        user configuration, including an intentionally empty opposite side:
+        a chart reload or deferred company setup must not replace that
+        choice. A side holding another company's account is replaced.
         """
-        Rule = self.env["hr.salary.rule"]
         Account = self.env["account.account"]
         for company in companies:
             account_by_code = {}
+            company_domain = Account._check_company_domain(company)
 
-            def _account(code, _company=company):
+            def _account(code, _company=company, _domain=company_domain):
                 if code not in account_by_code:
-                    account_by_code[code] = (
-                        Account.with_company(_company)
-                        .search([("code", "=", code)], limit=1)
+                    account_by_code[code] = Account.with_company(_company).search(
+                        [("code", "=", code), *_domain], limit=1
                     )
                 return account_by_code[code]
 
@@ -161,13 +163,22 @@ class AccountChartTemplate(models.AbstractModel):
                 rule = self.env.ref(_M + xmlid, raise_if_not_found=False)
                 if not rule:
                     continue
+                # Read as superuser: the side may hold another company's
+                # account, which the record rules hide from this company.
+                company_rule = rule.sudo().with_company(company)
+                configured = company_rule.account_debit | company_rule.account_credit
+                usable = configured.filtered_domain(company_domain)
                 vals = {}
-                debit = sides.get("debit")
-                credit = sides.get("credit")
-                if debit and _account(debit):
-                    vals["account_debit"] = _account(debit).id
-                if credit and _account(credit):
-                    vals["account_credit"] = _account(credit).id
+                for side in ("debit", "credit"):
+                    field = "account_" + side
+                    current = company_rule[field]
+                    if current in usable or (not current and usable):
+                        # Keep the company's choice, including an empty side.
+                        continue
+                    code = sides.get(side)
+                    default = _account(code) if code else Account.browse()
+                    if current.id != default.id:
+                        vals[field] = default.id
                 if vals:
                     rule.with_company(company).write(vals)
 

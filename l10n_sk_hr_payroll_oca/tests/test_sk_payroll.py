@@ -12,6 +12,7 @@
 from datetime import date, datetime
 
 from odoo.tests import TransactionCase, tagged
+from odoo.tools.convert import convert_file
 
 
 @tagged("post_install", "-at_install")
@@ -330,6 +331,48 @@ class TestSkPayroll(TransactionCase):
             self.assertAlmostEqual(
                 historical.get_salary_line_total(code), expected, places=2,
                 msg=code)
+
+    def test_meal_allowance_december_2026(self):
+        """Oznámenie č. 255/2026 Z. z.: 9.80 from 1 December 2026, not January.
+
+        Explicit meal days isolate the rate from the calendar.
+        """
+        for year, month, last, rate, employer, employee_share in (
+            (2027, 1, 31, 9.80, 107.80, -39.20),
+            (2026, 12, 31, 9.80, 107.80, -39.20),
+            (2026, 11, 30, 9.30, 102.40, -37.20),
+        ):
+            for kind in ("financial", "voucher"):
+                with self.subTest(year=year, month=month, kind=kind):
+                    employee = self.env["hr.employee"].create(
+                        {"name": "Meal %s" % kind, "company_id": self.company.id}
+                    )
+                    contract = self.env["hr.contract"].create(
+                        {
+                            "name": "Dated statutory meal allowance",
+                            "employee_id": employee.id,
+                            "company_id": self.company.id,
+                            "wage": 2000.0,
+                            "state": "open",
+                            "date_start": date(2026, 1, 1),
+                            "resource_calendar_id": self.calendar.id,
+                            "struct_id": self.structure.id,
+                            "l10n_sk_meal_allowance_type": kind,
+                            "l10n_sk_meal_days": 20,
+                        }
+                    )
+                    slip = self._make_payslip(
+                        contract, employee, date(year, month, 1), date(year, month, last)
+                    )
+                    self.assertEqual(slip.rule_parameter("l10n_sk_stravne_5_12h"), rate)
+                    self.assertAlmostEqual(
+                        slip.get_salary_line_total("MEALEMPLOYER"), employer, places=2
+                    )
+                    self.assertAlmostEqual(
+                        slip.get_salary_line_total("MEALEMPLOYEE"),
+                        employee_share if kind == "voucher" else 0,
+                        places=2,
+                    )
 
     def test_dopc_matches_standard_social(self):
         """DoPČ (regular income): full social set, unchanged from employment."""
@@ -1135,6 +1178,19 @@ class TestSkPayroll(TransactionCase):
         # Halved cap at 1.4 %, floored to the cent.
         self.assertAlmostEqual(p.get_salary_line_total("SICK"), -117.34, places=2)
 
+    def test_daily_cap_rounding_reaches_the_actual_disability_premium(self):
+        contract, employee = self._part_month_contract(
+            50000.0, date_start=date(2026, 1, 16)
+        )
+        slip = self._make_payslip(contract, employee, date(2026, 1, 1), date(2026, 1, 31))
+        self.assertGreater(slip.get_salary_line_total("GROSS"), 16764)
+        # § 138(13): floor(16764 / 31, 2) x 16 = 8652.32.
+        # Employee disability: floor(8652.32 x 3%, 2) = 259.56.
+        self.assertAlmostEqual(slip.get_salary_line_total("DISABILITY"), -259.56, places=2)
+        self.assertAlmostEqual(
+            slip.get_salary_line_total("DISABILITYEMPLOYER"), 502.92, places=2
+        )
+
     def test_health_allowance_reduced_for_a_part_month(self):
         contract, employee = self._part_month_contract(400.0, l10n_sk_health_oop_claim=True)
         p = self._make_payslip(contract, employee, date(2026, 11, 1), date(2026, 11, 30))
@@ -1151,3 +1207,166 @@ class TestSkPayroll(TransactionCase):
         )
         self.assertAlmostEqual(p.get_salary_line_total("SICK_COMP"), 408.0, places=2)
 
+
+    # ---- cssk-public#39: employment boundary, onset terms, statutory rounding
+    def test_sickness_calendar_employer_stops_at_employment_end(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        contract.date_end = date(2026, 6, 9)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 5), date(2026, 6, 18)
+        )
+        slip = self._worked_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30),
+            inputs=[("PN_DVZ", 20)],
+        )
+        # Employer pays only 5-9 June: 3 x 25 % + 2 x 55 % of 20 = 37.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 37)
+
+    def test_sickness_calendar_2025_claim_keeps_ten_day_limit_in_2026(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2025, 12, 30), date(2026, 1, 12)
+        )
+        slip = self._worked_payslip(
+            contract, employee, date(2026, 1, 1), date(2026, 1, 31),
+            inputs=[("PN_DVZ", 20)],
+        )
+        # 1 January is day 3; only 2-8 January (days 4-10) use the second rate.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 82)
+
+    def test_sickness_calendar_2025_claim_keeps_its_daily_cap_and_rounds_up(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2025, 12, 30), date(2026, 1, 12)
+        )
+        slip = self._worked_payslip(
+            contract, employee, date(2026, 1, 1), date(2026, 1, 31),
+            inputs=[("PN_DVZ", 100)],
+        )
+        # 2025 cap 94.0274 x (one day 25 % + seven days 55 %) = 385.51234;
+        # § 10 ods. 2 rounds up, hence 385.52.
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 385.52)
+
+    def test_sickness_calendar_zero_after_termination_does_not_use_manual_fallback(
+        self,
+    ):
+        contract, employee, _calendar = self._abs_setup(wage=1500)
+        contract.date_end = date(2026, 6, 9)
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 10), date(2026, 6, 23)
+        )
+        slip = self._worked_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30),
+            inputs=[("PN_DVZ", 20), ("PN_DAYS", 14)],
+        )
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 0)
+
+    def test_sickness_manual_compensation_uses_statutory_upward_rounding(self):
+        contract, employee = self._make_plain_worker(1500)
+        slip = self._payslip_with_inputs(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30),
+            [("PN_DAYS", 1), ("PN_DVZ", 20.00019)],
+        )
+        self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 5.01)
+
+    def test_leave_starter_upgrade_preserves_approved_absence_and_configuration(self):
+        """cssk-public#40: the starter types are noupdate, so a module update
+        keeps approved absences and a company's own settings."""
+        checked_fields = ["date_from", "date_to", "state", "number_of_days"]
+        for xmlid in ("l10n_sk_leave_type_pn", "l10n_sk_leave_type_dovolenka"):
+            with self.subTest(leave_type=xmlid):
+                _contract, employee, _calendar = self._abs_setup(wage=1500)
+                leave = self._make_leave(
+                    employee, xmlid, date(2026, 6, 5), date(2026, 6, 9)
+                )
+                original = leave.read(checked_fields)
+                leave_type = leave.holiday_status_id.with_context(lang="en_US")
+                leave_type.name = "Company reviewed absence type"
+                convert_file(
+                    self.env,
+                    "l10n_sk_hr_payroll_oca",
+                    "data/hr_leave_type_data.xml",
+                    {},
+                    mode="update",
+                )
+                self.env.flush_all()
+                leave.invalidate_recordset()
+                leave_type.invalidate_recordset()
+                self.assertEqual(leave.read(checked_fields), original)
+                self.assertEqual(leave_type.name, "Company reviewed absence type")
+
+    # ---- The dated 2027 values (same figures and results as 19.0) ----------
+    def _profile_2027(self, wage=1000, declaration=True, year=2027, **vals):
+        employee = self.env["hr.employee"].create(
+            {"name": "2027 case %s" % wage, "company_id": self.company.id}
+        )
+        values = {
+            "name": "Synthetic 2027 parameter case",
+            "employee_id": employee.id,
+            "company_id": self.company.id,
+            "wage": wage,
+            "state": "open",
+            "date_start": date(2026, 1, 1),
+            "resource_calendar_id": self.calendar.id,
+            "struct_id": self.structure.id,
+            "l10n_sk_tax_declaration_signed": declaration,
+        }
+        values.update(vals)
+        contract = self.env["hr.contract"].create(values)
+        slip = self._make_payslip(
+            contract, employee, date(year, 1, 1), date(year, 1, 31)
+        )
+        return employee, contract, slip
+
+    def test_dated_parameter_table_2027(self):
+        _employee, _contract, slip = self._profile_2027()
+        expected = {
+            "l10n_sk_monthly_taxable_max": 17820,
+            "l10n_sk_health_min_base": 295.22,
+            "l10n_sk_nczd_monthly": 516.64,
+            "l10n_sk_nczd_annual": 6199.62,
+            "l10n_sk_nczd_taper_threshold": 27101.20,
+            "l10n_sk_nczd_taper_const": 15233.35,
+            "l10n_sk_child_bonus_taper_threshold": 29160,
+            "l10n_sk_min_hourly_wage": 5.586,
+            "l10n_sk_pn_max_dvz": 106.5206,
+            "l10n_sk_dohoda_oop_seasonal": 810,
+            "l10n_sk_dohoda_oop": 300,
+        }
+        for code, value in expected.items():
+            with self.subTest(code=code):
+                self.assertAlmostEqual(slip.rule_parameter(code), value, places=4)
+
+    def test_monthly_nczd_2027_changes_net(self):
+        _employee, _contract, slip = self._profile_2027()
+        self.assertAlmostEqual(slip.get_salary_line_total("TAXBASE"), 856)
+        self.assertAlmostEqual(slip.get_salary_line_total("INCOMETAX"), -64.48, places=2)
+        self.assertAlmostEqual(slip.get_salary_line_total("NET"), 791.52, places=2)
+
+    def test_2026_recalculation_keeps_old_values(self):
+        _employee, _contract, old = self._profile_2027(year=2026)
+        self.assertEqual(old.rule_parameter("l10n_sk_nczd_monthly"), 497.23)
+        self.assertEqual(old.rule_parameter("l10n_sk_monthly_taxable_max"), 16764)
+        self.assertAlmostEqual(old.get_salary_line_total("NET"), 787.83, places=2)
+
+    def test_second_monthly_tax_band_2027(self):
+        _employee, _contract, slip = self._profile_2027(5200, declaration=False)
+        self.assertAlmostEqual(slip.get_salary_line_total("TAXBASE"), 4451.20, places=2)
+        self.assertAlmostEqual(slip.get_salary_line_total("INCOMETAX"), -884.30, places=2)
+
+    def test_social_cap_and_uncapped_health_accident_2027(self):
+        _employee, _contract, slip = self._profile_2027(20000, declaration=False)
+        for code, value in {"SICK": -249.48, "PENSION": -712.80,
+                            "DISABILITY": -534.60, "UNEMPLOYMENT": -178.20,
+                            "HEALTH": -1000, "HEALTHEMPLOYER": 2200,
+                            "ACCIDENT": 160}.items():
+            self.assertAlmostEqual(
+                slip.get_salary_line_total(code), value, places=2, msg=code
+            )
+
+    def test_child_bonus_taper_2027(self):
+        _employee, _contract, slip = self._profile_2027(
+            2950, l10n_sk_children_under_15=1
+        )
+        self.assertAlmostEqual(slip.get_salary_line_total("TAXBASE"), 2525.20, places=2)
+        self.assertAlmostEqual(slip.get_salary_line_total("CHILD_BONUS"), 90.48, places=2)

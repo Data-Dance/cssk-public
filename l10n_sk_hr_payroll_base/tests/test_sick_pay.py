@@ -4,7 +4,7 @@ from datetime import date
 
 from odoo.tests import TransactionCase, tagged
 
-from ..sick_pay import split_sick_days
+from ..sick_pay import round_sick_pay, sick_pay_amount, split_sick_days
 
 
 @tagged("post_install", "-at_install")
@@ -30,3 +30,12 @@ class TestSickPaySplit(TransactionCase):
     def test_a_gap_starts_a_new_sickness(self):
         spans = [(date(2026, 11, 2), date(2026, 11, 3)), (date(2026, 11, 10), date(2026, 11, 11))]
         self.assertEqual(self.split(spans), (4, 0, 4))
+
+    def test_compensation_rounds_up_without_binary_float_extra_cent(self):
+        self.assertEqual(round_sick_pay(sick_pay_amount(20, 3, 11, 0.25, 0.55)), 136)
+        self.assertEqual(
+            round_sick_pay(sick_pay_amount(20.00019, 1, 0, 0.25, 0.55)), 5.01
+        )
+        self.assertEqual(
+            round_sick_pay(sick_pay_amount(94.0274, 1, 7, 0.25, 0.55)), 385.52
+        )

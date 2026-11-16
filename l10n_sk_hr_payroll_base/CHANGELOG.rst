@@ -2,6 +2,16 @@
 Changelog
 =========
 
+18.0.1.1.2 (2026-11-16)
+-----------------------
+
+* Shared sick-pay arithmetic in ``sick_pay.py``: the daily base is cut to four decimals (§ 8 ods. 8 zákona 462/2003 Z. z.) and the compensation rounded up to the cent (§ 10 ods. 2), in decimal arithmetic. Port of 19.0.1.2.1.
+
+18.0.1.1.1 (2026-11-16)
+-----------------------
+
+* **Fixed: the part-month employee cap floors the daily base first** (§ 138 ods. 13 zákona 461/2003 Z. z., last sentence). The monthly maximum is divided by the days of the month, cut to the cent, and only then multiplied by the insured days: 540.77 × 16 = 8652.32 for a hire on 16 January 2026, not 8652.38. A full month keeps the whole maximum; the employer's cap is unchanged. Port of 19.0.1.2.2.
+
 18.0.1.1.0 (2026-11-09)
 -----------------------
 

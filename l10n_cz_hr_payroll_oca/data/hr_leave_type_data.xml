@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>
+<odoo noupdate="1">
+    <!-- noupdate: starter types; a module update must not rewrite
+         request_unit over approved absences or a company's own settings
+         (cssk-public#40). A change to existing defaults needs a migration. -->
     <!--
         CZ absence taxonomy for the OCA engine.
 

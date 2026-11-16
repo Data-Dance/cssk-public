@@ -84,6 +84,138 @@ class TestSkPayrollAccount(TransactionCase):
         self.assertEqual(basic.account_debit.code, "521000")
         self.assertEqual(net.account_credit.code, "331000")
 
+    # -- Chart reload keeps the company's own configuration (cssk-public#47) --
+
+    def _split_insurer_accounts(self):
+        """Keep the two actual creditors on distinct company accounts."""
+        from ..models.account_chart_template import _M, SK_PAYROLL_ACCOUNT_MAPPING
+
+        social = self._account("336000").copy(
+            {"code": "336100", "name": "Social insurance settlement"}
+        )
+        health = self._account("336000").copy(
+            {"code": "336250", "name": "Health insurance settlement"}
+        )
+        configured = self.env["hr.salary.rule"]
+        for xmlid, sides in SK_PAYROLL_ACCOUNT_MAPPING.items():
+            rule = self.env.ref(_M + xmlid, raise_if_not_found=False)
+            if not rule or "336000" not in sides.values():
+                continue
+            account = health if "health" in xmlid else social
+            values = {
+                "account_" + side: account.id
+                for side, code in sides.items()
+                if code == "336000"
+            }
+            rule.with_company(self.company).write(values)
+            configured |= rule
+        return configured.with_company(self.company), social, health
+
+    def _pairs(self, rules):
+        return {r.id: (r.account_debit.id, r.account_credit.id) for r in rules}
+
+    def test_repeated_mapping_preserves_custom_insurer_accounts(self):
+        rules, social, health = self._split_insurer_accounts()
+        self.assertTrue(rules)
+        before = self._pairs(rules)
+        self.env["account.chart.template"]._configure_sk_payroll_accounts(self.company)
+        self.assertEqual(
+            self._pairs(rules),
+            before,
+            "Repeated chart setup must preserve the user's insurer accounts",
+        )
+        self.assertEqual(social.company_ids, self.company)
+        self.assertEqual(health.company_ids, self.company)
+
+    def test_chart_reload_retains_split_insurer_posting(self):
+        rules, social, health = self._split_insurer_accounts()
+        before = self._pairs(rules)
+        self.env["account.chart.template"].try_loading(
+            "sk", company=self.company, install_demo=False
+        )
+        self.assertEqual(self._pairs(rules), before)
+        slip = (
+            self.env["hr.payslip"]
+            .with_company(self.company)
+            .create(
+                {
+                    "name": "June 2026",
+                    "employee_id": self.employee.id,
+                    "contract_id": self.contract.id,
+                    "struct_id": self.structure.id,
+                    "company_id": self.company.id,
+                    "journal_id": self.journal.id,
+                    "date_from": date(2026, 6, 1),
+                    "date_to": date(2026, 6, 30),
+                }
+            )
+        )
+        slip.compute_sheet()
+        slip.action_payslip_done()
+        self.assertEqual(slip.move_id.state, "posted")
+        amounts = {
+            account.id: sum(
+                slip.move_id.line_ids.filtered(
+                    lambda line, target=account: line.account_id == target
+                ).mapped("balance")
+            )
+            for account in social | health | self._account("336000")
+        }
+        self.assertAlmostEqual(amounts[social.id], -519.0, places=2)
+        self.assertAlmostEqual(amounts[health.id], -240.0, places=2)
+        self.assertAlmostEqual(amounts[self._account("336000").id], 0.0, places=2)
+
+    def test_existing_opposite_side_is_not_augmented_on_reload(self):
+        rule = self.env.ref(
+            "l10n_sk_hr_payroll_oca.l10n_sk_income_tax_employee"
+        ).with_company(self.company)
+        chosen = self._account("342000")
+        rule.write({"account_debit": False, "account_credit": chosen.id})
+        self.env["account.chart.template"]._configure_sk_payroll_accounts(self.company)
+        self.assertFalse(rule.account_debit)
+        self.assertEqual(rule.account_credit, chosen)
+
+    def test_explicitly_cleared_pair_receives_default_mapping(self):
+        rules, _social, _health = self._split_insurer_accounts()
+        rule = rules.filtered(lambda item: item.code == "HEALTH").ensure_one()
+        rule.write({"account_debit": False, "account_credit": False})
+        self.env["account.chart.template"]._configure_sk_payroll_accounts(self.company)
+        self.assertEqual(rule.account_debit, self._account("336000"))
+        self.assertFalse(rule.account_credit)
+
+    def test_foreign_company_fallback_is_replaced_without_touching_other_company(self):
+        rule = self.env.ref(
+            "l10n_sk_hr_payroll_oca."
+            "l10n_sk_hr_payroll_structure_sk_employee_salary_basic_salary_rule"
+        ).with_company(self.company)
+        chosen = self._account("527000")
+        rule.account_debit = chosen
+        other_company = self.env["res.company"].create(
+            {
+                "name": "Second SK payroll company",
+                "country_id": self.env.ref("base.sk").id,
+            }
+        )
+        self.env.user.company_ids |= other_company
+        self.env["account.chart.template"].try_loading(
+            "sk", company=other_company, install_demo=False
+        )
+        other_rule = rule.with_company(other_company)
+        other_rule.write({"account_debit": chosen.id, "account_credit": chosen.id})
+        self.env["account.chart.template"]._configure_sk_payroll_accounts(other_company)
+        self.assertEqual(other_rule.account_debit.code, "521000")
+        self.assertIn(other_company, other_rule.account_debit.company_ids)
+        self.assertFalse(other_rule.account_credit)
+        self.assertEqual(rule.account_debit, chosen)
+        # A partially configured pair must not keep its foreign side merely
+        # because the other side is already valid for this company.
+        local_debit = other_rule.account_debit
+        other_rule.account_credit = chosen
+        self.env["account.chart.template"]._configure_sk_payroll_accounts(other_company)
+        self.assertEqual(other_rule.account_debit, local_debit)
+        self.assertFalse(other_rule.account_credit)
+        self.assertEqual(rule.account_debit, chosen)
+
     def test_posted_payslip_is_balanced(self):
         payslip = (
             self.env["hr.payslip"]

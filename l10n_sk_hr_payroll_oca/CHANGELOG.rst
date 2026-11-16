@@ -2,6 +2,26 @@
 Changelog
 =========
 
+18.0.2.10.0 (2026-11-16)
+========================
+
+* **Added: the dated 2027 statutory values** (from 1 January 2027): maximum assessment base 17 820, health minimum base 295.22, NČZD 516.64 monthly / 6 199.62 annual with its taper threshold 27 101.20 and constant 15 233.35, the monthly and annual tax bands, the child-bonus taper threshold 29 160, the minimum hourly wage 5.586, the maximum daily sick-pay base 106.5206 and the seasonal agreement OOP 810. Older values stay, so a 2026 payslip recomputes unchanged. Port of 19.0.1.20.0 (cssk-public#17). Not carried with it: 19.0's dated NČZD taper divisor (a third of the base from 2026, 19.0 ``ffd67cd0c``), which 18.0's annual settlement still lacks; the tests that depend on it are left out.
+
+18.0.2.9.3 (2026-11-16)
+=======================
+
+* **Fixed: employer sick pay overpaid after the employment ended and across the year.** Payment stops at the end of the contract without restarting the day count; each PN episode uses the terms in force at its onset (a PN begun in 2025 keeps ten employer days and the 2025 daily-base cap in 2026); the daily base is cut to four decimals (§ 8 ods. 8 zákona 462/2003) and the compensation rounded up to the cent (§ 10 ods. 2), also for the manual PN_DAYS fallback. PN leave of another company is no longer read. Port of 19.0.1.24.4 (cssk-public#39); on 18.0 the employment dates are the payslip contract's ``date_start`` / ``date_end``.
+
+18.0.2.9.2 (2026-11-16)
+=======================
+
+* **Fixed: the part-month employee cap floors the daily base first** (§ 138 ods. 13), as in ``l10n_sk_hr_payroll_base``: an employee hired on 16 January 2026 pays the disability premium on 540.77 × 16 = 8652.32 (259.56), not on 8652.38. Port of cssk-public#42 (19.0 ``l10n_sk_hr_payroll_base`` 19.0.1.2.2).
+
+18.0.2.9.1 (2026-11-16)
+=======================
+
+* **Fixed: the 9.80 € stravné from 1 December 2026** (oznámenie MPSVR SR č. 255/2026 Z. z.). Payroll kept 9.30 € for December 2026 and later, so the employer meal contribution and the meal voucher were too low. Earlier payslips keep 9.30 €. Port of 19.0.1.24.6.
+
 18.0.2.9.0 (2026-11-09)
 =======================
 
