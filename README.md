@@ -124,7 +124,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_ekasa_receipt` | 19.0.1.1.2 | Read the QR code on a Slovak fiscal receipt and fetch the registered receipt — items, quantities and the VAT recap — from Finančná správa's… |
 | `l10n_sk_fiscal_year_closing` | 19.0.1.1.0 | Slovak year-end closing template: costs and revenues to 710, balance-sheet accounts to 702, reopened through 701. |
 | `l10n_sk_fs` | 19.0.1.7.5 | Slovak balance sheet (Súvaha) on the shared l10n_cssk_fs_base framework — account-code line mapping + comparison period + XML export. |
-| `l10n_sk_hr_payroll_account_oca` | 19.0.1.0.4 | Post Slovak payslips to the general ledger |
+| `l10n_sk_hr_payroll_account_oca` | 19.0.1.0.5 | Post Slovak payslips to the general ledger |
 | `l10n_sk_hr_payroll_annual_tax_report` | 19.0.2.1.1 | Annual Slovak employer income-tax report (Hlásenie o vyúčtovaní dane a o úhrne príjmov zo závislej činnosti, § 39 ods. 9) for the Finančná správa — aggregate… |
 | `l10n_sk_hr_payroll_base` | 19.0.1.3.0 | Engine-neutral base for the Slovak payroll: the employment forms (pracovný pomer, DoVP, DoPČ, DoBPŠ) and one table saying which contributions and entitlements… |
 | `l10n_sk_hr_payroll_eldp` | 19.0.1.1.4 | Historical Slovak pension record (ELDP), for periods before 2026, filed to the Sociálna poisťovňa — aggregates each year's pension assessment base and insured… |

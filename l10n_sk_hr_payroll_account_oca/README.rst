@@ -15,11 +15,15 @@ Sets the debit and credit accounts of the Slovak salary rules for each company o
 
 Install it on purpose; it needs the OCA ``payroll_account`` module and the Slovak chart of accounts. Choose the *Salary Journal* on each contract.
 
+These are initial defaults. Once a rule has an account usable by the company, subsequent chart loads preserve its debit/credit pair, including an intentionally empty opposite side. Separate insurer analytics and other accounting choices therefore survive deferred company setup. Newly installed rules without a usable mapping still receive the defaults. Account lookup uses Odoo's native company domain, including permitted parent-company accounts for branches.
+
+To return to the defaults, set the accounts listed above on the rule by hand. A rule with both accounts cleared also gets the defaults again the next time the Slovak chart is loaded for that company. Existing payroll source protections still apply: clearing configuration is not a way to rewrite posted payroll or its retained evidence.
+
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_account_oca``
-- **Version:** 19.0.1.0.4
+- **Version:** 19.0.1.0.5
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``payroll_account``, ``l10n_sk``, ``l10n_sk_hr_payroll_oca``
