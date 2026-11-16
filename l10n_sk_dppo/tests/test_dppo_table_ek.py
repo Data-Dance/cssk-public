@@ -301,3 +301,46 @@ class TestDppoCreditAnnexes(AccountTestInvoicingCommon):
         self.assertEqual(data["rows"]["r920"], 0)
         self.assertEqual(data["rows"]["r1000"], 1000)
         self.assertEqual(data["rows"]["r1050"], 1000)
+
+    def test_minimum_exemption_and_half_override_match_pdf_and_provision(self):
+        Account = self.env["account.account"]
+        expense = Account.create({"name": "Synthetic reviewed minimum expense",
+                                  "code": "591990", "account_type": "expense",
+                                  "company_ids": [Command.set([self.company.id])]})
+        payable = Account.create({"name": "Synthetic reviewed minimum payable",
+                                  "code": "341990", "account_type": "liability_current",
+                                  "company_ids": [Command.set([self.company.id])]})
+        for minimum, profit, expected in ((0, 1000, 100), (170, 1000, 170), (0, -1000, 0)):
+            with self.subTest(minimum=minimum, profit=profit):
+                ret = self._return()
+                ret.write({"l10n_sk_form_minimum_exemption": minimum == 0,
+                           "l10n_sk_form_half_minimum": minimum == 170,
+                           "provision_expense_account_id": expense.id,
+                           "provision_payable_account_id": payable.id,
+                           "provision_journal_id": self.company_data["default_journal_misc"].id})
+                ret.line_ids.filtered(lambda row: row.code == "r1110").write({"is_overridden": False})
+                self._set(ret, r100=profit, r560=10000, r810=minimum, r1010=3000)
+                data = ret._l10n_sk_dppo_pdf_payload()
+                tax = 100 if profit > 0 else 0
+                rows = data["rows"]
+                for code in ("r820", "r900"):
+                    self.assertEqual(rows[code], minimum if minimum > tax else 0)
+                self.assertEqual(rows["r830"], max(0, minimum - tax))
+                self.assertEqual(rows["r810"], minimum)
+                self.assertEqual(rows["r1050"], expected)
+                self.assertEqual(rows["r1100"], 0)
+                self.assertEqual(rows["r1101"], expected - 3000)
+                self.assertEqual(rows["r1110"], tax)
+                pdf = ret._l10n_sk_dppo_official_pdf()
+                self.assertEqual(len(PdfReader(BytesIO(pdf)).pages), 21)
+                if expected:
+                    ret.action_post_provision()
+                    move = ret.provision_move_id
+                    self.assertEqual(move.state, "posted")
+                    self.assertEqual(move.line_ids.filtered(lambda row: row.account_id == expense).debit, expected)
+                    self.assertEqual(move.line_ids.filtered(lambda row: row.account_id == payable).credit, expected)
+                else:
+                    with self.assertRaises(UserError):
+                        ret.action_post_provision()
+                    self.assertFalse(ret.provision_move_id)
+                self.assertEqual(ret._l10n_sk_dppo_official_pdf(), pdf)

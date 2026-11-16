@@ -319,6 +319,13 @@ class TestDppoPublished2026(AccountTestInvoicingCommon):
                 self.assertEqual(values["r1050"], expected)
 
     def test_legacy_minimum_override_flows_to_settlement(self):
+        Account = self.env["account.account"]
+        expense = Account.create({"name": "Synthetic legacy income-tax expense",
+                                  "code": "591990", "account_type": "expense",
+                                  "company_ids": [Command.set([self.company.id])]})
+        payable = Account.create({"name": "Synthetic legacy income-tax payable",
+                                  "code": "341990", "account_type": "liability_current",
+                                  "company_ids": [Command.set([self.company.id])]})
         for minimum, expected in ((0, 100), (170, 170)):
             with self.subTest(minimum=minimum):
                 ret = self._make()
@@ -331,5 +338,18 @@ class TestDppoPublished2026(AccountTestInvoicingCommon):
                 self.assertEqual(values["r810"], minimum)
                 self.assertEqual(values["r820"], minimum if minimum > 100 else 0)
                 self.assertEqual(values["r900"], minimum if minimum > 100 else 0)
+                self.assertEqual(values["r830"], max(0, minimum - 100))
                 self.assertEqual(values["r1050"], expected)
                 self.assertEqual(values["r1100"], expected)
+                self.assertEqual(values["r1101"], 0)
+                values = self._set(ret, r1040=3000)
+                self.assertEqual(values["r1100"], 0)
+                self.assertEqual(values["r1101"], expected - 3000)
+                ret.write({"provision_expense_account_id": expense.id,
+                           "provision_payable_account_id": payable.id,
+                           "provision_journal_id": self.company_data["default_journal_misc"].id})
+                ret.action_post_provision()
+                move = ret.provision_move_id
+                self.assertEqual(move.state, "posted")
+                self.assertEqual(move.line_ids.filtered(lambda row: row.account_id == expense).debit, expected)
+                self.assertEqual(move.line_ids.filtered(lambda row: row.account_id == payable).credit, expected)
