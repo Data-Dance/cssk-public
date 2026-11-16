@@ -949,6 +949,35 @@ class TestSkPayroll(TransactionCase):
         # GROSS made whole (no cut) up to the 4-dp PHZ rounding: ~2000.00
         self.assertAlmostEqual(line("GROSS"), 2000.0, places=1)
 
+    def test_probable_holiday_earnings_use_reviewed_monthly_wage(self):
+        contract, employee, _calendar = self._abs_setup()
+        self._make_leave(employee, "l10n_sk_leave_type_dovolenka",
+                         date(2026, 6, 8), date(2026, 6, 12))
+        with patch.object(type(self.env["hr.payslip"]),
+                          "_l10n_sk_monthly_cash_wage", return_value=2500):
+            payslip = self._worked_payslip(
+                contract, employee, date(2026, 6, 1), date(2026, 6, 30))
+            self.assertAlmostEqual(payslip.l10n_sk_average_hourly_earnings(), 14.2045)
+        self.assertEqual(contract.wage, 2000)
+        self.assertAlmostEqual(payslip.get_salary_line_total("BASIC"), 1931.82, places=2)
+        self.assertAlmostEqual(payslip.get_salary_line_total("DOVOLENKA_NAHRADA"), 568.18, places=2)
+        self.assertAlmostEqual(payslip.get_salary_line_total("GROSS"), 2500, places=2)
+
+    def test_reviewed_monthly_wage_keeps_actual_quarter_average(self):
+        contract, employee, _calendar = self._abs_setup()
+        self._seed_prior_quarter(contract, employee)
+        self._make_leave(employee, "l10n_sk_leave_type_dovolenka",
+                         date(2026, 6, 8), date(2026, 6, 12))
+        with patch.object(type(self.env["hr.payslip"]),
+                          "_l10n_sk_monthly_cash_wage", return_value=2500):
+            payslip = self._worked_payslip(
+                contract, employee, date(2026, 6, 1), date(2026, 6, 30))
+            self.assertAlmostEqual(payslip.l10n_sk_average_hourly_earnings(), 11.3636)
+        self.assertEqual(contract.wage, 2000)
+        self.assertAlmostEqual(payslip.get_salary_line_total("BASIC"), 1931.82, places=2)
+        self.assertAlmostEqual(payslip.get_salary_line_total("DOVOLENKA_NAHRADA"), 454.54, places=2)
+        self.assertAlmostEqual(payslip.get_salary_line_total("GROSS"), 2386.36, places=2)
+
     def test_unpaid_leave_prorates_basic(self):
         """5 unpaid-leave days: BASIC prorated, no náhrada, GROSS follows."""
         contract, employee, _cal = self._abs_setup()

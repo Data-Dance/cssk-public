@@ -1,15 +1,11 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.25.3
+verified: 19.0.1.26.1
 family: l10n_sk_hr_payroll_base#engines
 ---
 
-An integration can supply a reviewed monthly wage for an individual payslip
-without editing its contract version. The ordinary absence and calendar
-proration, insurance and tax calculation still apply. Hourly pay keeps its own
-hourly input. The supplying integration owns input review and approval; this
-extension point does not reopen posted payroll.
+
 
 A complete Slovak salary structure for the OCA `payroll` app: four structures, one per employment form, sharing one rule set — social and health insurance, the tax base, the non-taxable part per taxpayer, the progressive income tax, the child tax bonus, holiday and obstacle pay at average earnings, employer sick pay, garnishments and the meal allowance. It also ships the dated rule parameters the rules read, Slovak time-off types with a *Slovak Payroll Code* and accrual plans, and the annual tax reconciliation. The Slovak fields appear on the employee form, *Payroll* tab, and on contract templates; the rule parameters are under *Payroll → Configuration → Rule Parameters*.
 

@@ -64,7 +64,9 @@ class HrPayslip(models.Model):
         """Resolve the monthly wage input without changing the contract.
 
         Extensions can supply a payslip-specific input while retaining the
-        native absence, calendar, insurance and tax calculation.
+        native absence, calendar, insurance and tax calculation. This must be
+        a pure function of the payslip and the supplied contract: dated wage
+        segments can resolve it more than once.
         """
         self.ensure_one()
         return contract.wage
@@ -282,7 +284,7 @@ class HrPayslip(models.Model):
         replacements / náhrady) ÷ hours worked in that quarter, rounded to 4
         decimals. If the employee did not work at least 21 days or 168 hours in the
         determining period (§134 ods. 3) the probable earnings (pravdepodobný
-        zárobok) are used instead — here the current contract wage over the
+        zárobok) are used instead — here the reviewed monthly wage over the
         month's scheduled hours. Finally the statutory floor applies: if the
         result is below the hourly minimum wage it is raised to it (§134 ods. 5).
 
@@ -309,7 +311,8 @@ class HrPayslip(models.Model):
             phz = round(gross / hours, 4)
         else:
             sched_hours = self.l10n_sk_scheduled_hours()
-            phz = round(self._l10n_sk_version().wage / sched_hours, 4) if sched_hours else 0.0
+            contract = self._l10n_sk_version()
+            phz = round(self._l10n_sk_monthly_cash_wage(contract) / sched_hours, 4) if sched_hours else 0.0
         return max(phz, min_hourly)
 
     def l10n_sk_scheduled_days(self):

@@ -17,6 +17,17 @@ The BASIC helper resolves this scalar once and applies its existing absence
 and calendar proration; hourly pay does not use it. Keep source qualification,
 input review and immutable evidence in the supplying integration. The hook
 does not authorize changing a posted payslip or bypassing statutory checks.
+The probable-hourly-earnings fallback uses this same input when the determining
+quarter has insufficient worked time. A qualifying actual-quarter average
+continues to use the retained historical earnings.
+
+The hook must be a pure function of the payslip and the contract it receives,
+without side effects. Dated-segment integrations can call `super()` once per
+segment, so the hook may be resolved more than once for a single payslip.
+
+This seam belongs to the OCA engine. Enterprise BASIC reads `payslip.paid_amount`
+from worked-day amounts, which read the version wage directly; there is no
+equivalent single hook in `l10n_sk_hr_payroll_ee` at present.
 
 The OCA WORK100 source includes scheduled absence time. The helper subtracts
 the common `l10n_sk_absence_codes()` once for both monthly and hourly wages.
