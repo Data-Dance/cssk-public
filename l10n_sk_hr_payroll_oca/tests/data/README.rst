@@ -10,3 +10,7 @@ These are XML field bodies; decode XML entities before executing the reference.
 They deliberately retain the existing rounding and OOP/cap order. A disclosed
 arithmetic correction must review its changed expected amounts separately;
 this reference must not silently follow the implementation being tested.
+
+Disclosed correction: the five pension/disability/reserve formulas now apply
+the agreement OOP before the maximum under section 138. No other arithmetic
+is changed. The reference above is updated only for these five reviewed changes.

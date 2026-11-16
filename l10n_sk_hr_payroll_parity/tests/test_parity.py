@@ -91,6 +91,21 @@ class TestPayrollEngineParity(TransactionCase):
         date_from, date_to = date(y1, m1, d1), date(y2, m2, d2)
 
         calendar = self._scenario_calendar(scenario)
+        # A dohoda needs its own form: the OCA structure of that name, or the
+        # Enterprise structure type of that name over the shared structure.
+        form = scenario.get("form")
+        structure = self.structure
+        if form and self.engine == ENGINE_OCA:
+            structure = self.env.ref(
+                "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_%s" % form
+            )
+        structure_type = None
+        if self.engine == ENGINE_EE:
+            structure_type = (
+                self.env.ref("l10n_sk_hr_payroll_ee.structure_type_%s_sk" % form)
+                if form
+                else structure.type_id
+            )
         emp_vals = {
             "name": "Parity %s" % scenario["key"],
             "company_id": self.company.id,
@@ -100,22 +115,22 @@ class TestPayrollEngineParity(TransactionCase):
             "wage": scenario["wage"],
         }
         if self.engine == ENGINE_OCA:
-            emp_vals["struct_id"] = self.structure.id
+            emp_vals["struct_id"] = structure.id
         else:
-            emp_vals["structure_type_id"] = self.structure.type_id.id
+            emp_vals["structure_type_id"] = structure_type.id
         employee = (
             self.env["hr.employee"].with_company(self.company).create(emp_vals)
         )
         version_vals = dict(scenario["version"])
         version_vals["resource_calendar_id"] = calendar.id
         if self.engine == ENGINE_OCA:
-            version_vals["struct_id"] = self.structure.id
+            version_vals["struct_id"] = structure.id
         employee.version_id.write(version_vals)
 
         slip_vals = {
             "name": "Parity %s" % scenario["key"],
             "employee_id": employee.id,
-            "struct_id": self.structure.id,
+            "struct_id": structure.id,
             "company_id": self.company.id,
             "date_from": date_from,
             "date_to": date_to,

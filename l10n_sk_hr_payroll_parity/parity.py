@@ -51,6 +51,8 @@ from odoo.addons.l10n_cssk_payroll_declaration_base.rule_codes import (  # noqa:
 #
 #   requires  — module names that must be installed for the scenario to run.
 #               A scenario whose modules are absent is skipped LOUDLY.
+#   form      — optional agreement form (``dovp``, ``dopc``, ``dobps``): the
+#               OCA structure and the Enterprise structure type of that name.
 #   version   — values written onto the employee's hr.version.
 #   inputs    — canonical input code -> quantity (hours, for the surcharges).
 #   expected  — canonical concept -> amount, in EUR, to 2 decimals.
@@ -319,6 +321,35 @@ SCENARIOS = [
         "version": {"l10n_sk_tax_declaration_signed": True},
         "inputs": {},
         "expected": {"MIN_WAGE_TOPUP": 0.00, "GROSS": 915.00},
+    },
+    {
+        "key": "dohoda_pension_oop_above_maximum",
+        "doc": "A DoVP with the pension OOP claimed and 17,100 EUR in June 2026. "
+        "§ 138 ods. 1 zákona 461/2003 takes the OOP (200, § 138a) off the "
+        "income BEFORE the 16,764 maximum, so the five reduced funds use "
+        "min(17,100 - 200, 16,764) = 16,764, not 16,764 - 200. Both engines "
+        "used to cap first and charged 662.56 old-age instead of 670.56.",
+        "requires": [],
+        "form": "dovp",
+        "wage": 17100.0,
+        "period": ((2026, 6, 1), (2026, 6, 30)),
+        "version": {
+            "l10n_sk_agreement_type": "dovp",
+            "l10n_sk_agreement_oop": True,
+        },
+        "inputs": {},
+        "expected": {
+            "GROSS": 17100.00,
+            # Irregular income: old-age 4 % 670.56 + disability 3 % 502.92 on
+            # 16,764, plus health 5 % of the full 17,100 (no health OOP on a
+            # dohoda) 855.00.
+            "SOCIAL_EE_TOTAL": -2028.48,
+            # Old-age 14 % 2346.96 + disability 3 % 502.92 + reserve 4.75 %
+            # 796.29 on 16,764; guarantee 0.25 % on the capped income 41.91
+            # (not reduced by the OOP); accident 0.8 % uncapped 136.80; health
+            # 11 % 1881.00.
+            "SOCIAL_ER_TOTAL": 5705.88,
+        },
     },
 ]
 

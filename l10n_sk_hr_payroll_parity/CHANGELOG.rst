@@ -10,6 +10,17 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.8.2] — 2026-11-16
+=========================
+
+**Added**
+
+- Scenario *dohoda_pension_oop_above_maximum*, the first on an agreement form (new optional ``form`` key: the OCA structure or the Enterprise structure type of that name): a DoVP with the pension OOP and 17,100 € in June 2026 must give the same social totals on both engines, with the OOP taken off before the maximum (cssk-public#48 and its Enterprise mirror). Both engines used to cap first.
+
+**Carry-over to 18.0**
+
+- Not yet on 18.0: port the scenario and the ``form`` key together with the 18.0 OOP-before-maximum fix of both engines; until then it would fail there.
+
 [19.0.1.8.1] — 2026-10-27
 =========================
 

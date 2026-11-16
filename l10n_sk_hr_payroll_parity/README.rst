@@ -50,7 +50,7 @@ Known issues
 
 - Slovak only. The Czech localisation has the same two-engine split and no parity harness; ``parity.py`` is structured so a ``parity_cz.py`` alongside it would need only its own scenarios.
 
-- Scenario coverage is the monthly payslip: dated parameters, NČZD and child bonus gating, ZŤP, the wage surcharges and the minimum-wage top-up. Not yet covered — dohody, sickness compensation, holiday náhrada, the annual tax reconciliation, and the garnishment waterfall driven from the order register.
+- Scenario coverage is the monthly payslip: dated parameters, NČZD and child bonus gating, ZŤP, the wage surcharges, the minimum-wage top-up, and one DoVP with the pension OOP above the maximum. Not yet covered — the other dohoda cases, sickness compensation, holiday náhrada, the annual tax reconciliation, and the garnishment waterfall driven from the order register.
 
 - The comparison is on payslip line TOTALS. Two engines could agree on every total while disagreeing on quantities or rates within a line; nothing here would notice.
 
@@ -94,7 +94,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_parity``
-- **Version:** 19.0.1.8.1
+- **Version:** 19.0.1.8.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``, ``l10n_cssk_payroll_declaration_base``

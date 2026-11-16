@@ -1,7 +1,7 @@
 ---
 title: Slovakia: Payroll Engine Parity Harness
 summary: Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and asserts they produce identical figures.
-verified: 19.0.1.8.1
+verified: 19.0.1.8.2
 ---
 
 ## What it is for
@@ -35,7 +35,7 @@ That checks the structural invariants: every engine-suffixed module has its twin
 ## Known issues
 
 - Slovak only. The Czech localisation has the same two-engine split and no parity harness; `parity.py` is structured so a `parity_cz.py` alongside it would need only its own scenarios.
-- Scenario coverage is the monthly payslip: dated parameters, NČZD and child bonus gating, ZŤP, the wage surcharges and the minimum-wage top-up. Not yet covered — dohody, sickness compensation, holiday náhrada, the annual tax reconciliation, and the garnishment waterfall driven from the order register.
+- Scenario coverage is the monthly payslip: dated parameters, NČZD and child bonus gating, ZŤP, the wage surcharges, the minimum-wage top-up, and one DoVP with the pension OOP above the maximum. Not yet covered — the other dohoda cases, sickness compensation, holiday náhrada, the annual tax reconciliation, and the garnishment waterfall driven from the order register.
 - The comparison is on payslip line TOTALS. Two engines could agree on every total while disagreeing on quantities or rates within a line; nothing here would notice.
 - Parity of the statutory reporting family is untested. Those modules are engine-neutral by construction and detect the engine the same way, but no test asserts that a declaration generated on one engine is byte-identical to the other's. That is the natural next scenario set.
 - `NOT_COMPARABLE` records concepts that genuinely cannot be compared, with the reason. Check it before concluding something was forgotten.

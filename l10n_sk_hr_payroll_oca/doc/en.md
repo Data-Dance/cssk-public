@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.25.2
+verified: 19.0.1.26.0
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -109,3 +109,31 @@ precise records are unavailable, enter the reviewed reason on the correction
 and use **Confirm original gross-based calculation**. The confirmation and its
 author appear in the chatter. Changing the reviewed sources requires another
 confirmation; the originally filed copy stays available.
+
+## Agreement OOP before the maximum {#social-oop-order}
+
+For an eligible agreement with the pension OOP claimed, deduct it from income
+before applying the employee or employer maximum. This corrects pension and
+disability on both sides and the employer reserve fund. Guarantee and accident
+remain based on income without that OOP; the existing guarantee maximum still
+applies. For 2026 income of 17,100 EUR, OOP of 200 EUR and a maximum of 16,764 EUR,
+the corrected pension base is 16,764, replacing 16,564. See
+[section 138](law:sk/2003/461#paragraf-138) and the dated deduction in
+[section 138a](law:sk/2003/461#paragraf-138a).
+
+The same ordering reads the existing 2027 parameters (OOP 300 and maximum 17,820 EUR).
+
+Employee deductions also change TAXBASE, the tax withheld (INCOMETAX) and NET.
+For otherwise unchanged 2026 payslips in the 35% marginal tax band:
+
+| Agreement and gross income | Employee insurance | TAXBASE | Tax withheld | NET |
+|---|---:|---:|---:|---:|
+| Old-age pensioner DoPC, 17,100 EUR | +8.00 | -8.00 | -2.80 | -5.20 |
+| Student DoBPS, 19,000 EUR | +14.00 | -14.00 | -4.90 | -9.10 |
+
+The tax deduction line is correspondingly less negative; gross income is
+unchanged. These examples do not replace the employee's actual tax profile.
+
+No rates, rounding methods, dated parameter records or health rules are changed.
+An existing posted amount needs its applicable correction workflow; this change
+does not recalculate historical payroll or claim cumulative independent payslips.

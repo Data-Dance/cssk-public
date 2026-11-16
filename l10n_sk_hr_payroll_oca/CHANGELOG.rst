@@ -10,6 +10,9 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- Not yet ported: mirror the five OOP-before-maximum changes in both engines
+  and rerun the year-boundary, unaffected-fund and tax/net-effect checks.
+
 - Not yet ported: recorded fund evidence, engine-neutral missing-reader policy
   and explicitly reviewed legacy corrections. Adapt contract/engine adapters
   and rerun signed, optional-module, refund and legacy-review scenarios.
@@ -69,6 +72,30 @@ Carry-over to 18.0
   18.0.2.10.0 (fd65fb927). Two tests stay 19.0-only (annual NČZD taper
   above the threshold, 2027 health minimum top-up): they need 19.0's
   ffd67cd0c, which 18.0 still lacks, so 18.0's taper is wrong for 2026 too.
+  **Fully DISCHARGED 2026-11-16**: ffd67cd0c and both tests are on 18.0 as
+  18.0.2.10.1 (48c3c03a0); the DoBPŠ part stays 19.0-only on the OCA engine
+  (18.0 has no DoBPŠ agreement type).
+
+[19.0.1.26.0] — 2026-11-16
+==========================
+
+Fixed
+~~~~~
+
+* Apply the ordinary agreement pension OOP before the statutory maximum in
+  employee pension/disability and employer pension/disability/reserve rules
+  (section 138). Guarantee and accident bases remain unreduced by this OOP.
+  A 2026 eligible agreement at 17,100 EUR now uses 16,764 rather than 16,564.
+  At the 35% marginal tax rate an old-age DoPC employee pays 8.00 more pension
+  insurance, TAXBASE decreases by 8.00, tax withheld by 2.80 and NET by 5.20.
+  The corresponding student DoBPS at 19,000 EUR has NET lower by 9.10.
+
+Changed
+~~~~~~~
+
+* Update the frozen arithmetic reference for these five disclosed changes only.
+  The rest of the native rounding, exemptions, rates and dated parameters stay
+  unchanged. Existing posted payslips are not automatically recomputed.
 
 [19.0.1.25.2] — 2026-11-16
 ==========================
