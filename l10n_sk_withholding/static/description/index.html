@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_withholding/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>Slovak withholding tax notice</h1>
 <p class="cssk-summary">Resident dividends and author income, actual settlements, OZN4311v26 and Annex A.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a>, <a href="../../../l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a>, <a href="../../../l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Prepare a complete monthly resident withholding notice from the company's
@@ -84,11 +84,41 @@ contribution only if that contribution was actually withheld, as required by
 Keep the original remuneration, any actual contribution and their ledger
 evidence. Do not subtract an assumed contribution. The author's payment then
 equals this taxable income less withholding tax.</p>
-<p>Posted reversals currently exclude an original source, including a partially
-credited supplier bill. For example, a bill of 1,500 with a linked credit note
-of 150 cannot yet provide the remaining 1,350 through this adapter. This is a
-known unsupported case; do not remove the native credit-note link or alter
-posted accounting merely to bypass it. Retained exports remain available.</p>
+<p>Original author bills and separate, single-recipient liability journals support
+linked partial credits. The adapter reads currently posted native credits whose
+document date is effective by the actual payment date. A native reversal of a
+credit can restore capacity. Draft credits do not reduce it. Invoice/refund and
+journal reversal links must match their source type, company, payable account
+and recipient.</p>
+<p>For a 1,500 remuneration and a 150 credit before payment, with no VAT or actual
+art-fund deduction, the remaining income is 1,350, withholding is 256.50 and the
+net payment is 1,093.50. Each original payable line keeps its own limit; all
+instalment lines also share the reduced source limit across months and notices.
+The cumulative claims must fit the source at every actual payment date. Creating
+the later payment first, or filing a later month before an earlier correction,
+does not change that result. A complete replacement and its filed predecessor
+share one reservation chain; their amounts are not added twice.
+A full correction replaces its predecessor rather than consuming it again.
+New calculations also reserve the amounts and payment dates of old snapshots.
+They retain the native capacity at every relevant date, including dates of other
+notices, in the exported source timeline. Recording that export later uses its
+frozen timeline, without reinterpreting it through today's credit links.
+Because that timeline includes other notices' dates, a computed preview goes
+stale when another notice adds a claim on the same bill, and export refuses it.
+Use <strong>Reset to draft</strong> and <strong>Review sources</strong> again to recompute it.</p>
+<p>A historical pre-feature export without pool evidence keeps its original
+per-line, bank and settlement checks when its filing is recorded. The program
+does not invent its missing historical shared capacity from a later backdated
+credit. This compatibility path preserves the filed facts; it does not certify
+a historical capacity that was never recorded. New complete corrections use
+the current dated source checks and preserve the old XML separately.</p>
+<p>Source capacity is an upper bound, not proof of payment or the tax base. Enter
+the reviewed actual taxable payment and retain its bank/set-off and deduction
+evidence. A later credit does not automatically rewrite an earlier actual
+payment or its filing. Account for a real refund separately and review the
+correction's tax period before preparing it. Compound or multiple-recipient
+journals keep their existing source policy; do not invent a proportional split,
+unlink credits or rewrite posted accounting to bypass a source check.</p>
 <h2 id="filing">Filing, deadlines and corrections</h2>
 <p>Only remittances through the actual filing cutoff are included. Multiple dates
 remain individually retained. Annex A prints one remittance date per income;
@@ -121,7 +151,7 @@ are outside this adapter. OZN4311v26 does not certify a future form vintage.
 The <a href="https://pfseform.financnasprava.sk/Formulare/eFormVzor/DP/form.626.html">official form</a>
 and original schema bytes are pinned in data/SCHEMA_VERSION. Signature and
 transport are separate integrations.</p>
-<footer><p>Text checked against module version: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

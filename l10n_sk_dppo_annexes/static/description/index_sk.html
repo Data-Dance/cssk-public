@@ -33,18 +33,23 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_dppo_annexes/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Položková tabuľka A DPPO</h1>
 <p class="cssk-summary">Nákladové položky s dokladmi napĺňajú natívne riadky tabuľky A podľa vzoru priznania, bez nahradenia odpisového registra a histórie podaní.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.0.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_sk_dppo/static/description/index_sk.html"><code>l10n_sk_dppo</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.0.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_sk_dppo/static/description/index_sk.html"><code>l10n_sk_dppo</code></a></td></tr></table>
 
 <h2 id="purpose">Účel</h2>
-<p>Doplnok zoskupuje nedaňové náklady do vstupných riadkov tabuľky A zvoleného vzoru DPPO. Vyžaduje l10n_sk_dppo aspoň19.0.1.5.0 a l10n_cssk_income_tax_base aspoň19.0.1.6.0. Daň ďalej počítajú natívne riadky priznania. Tabuľku B a r150/r250 napĺňa odpisový register a natívne ručné vstupy.</p>
+<p>Doplnok zoskupuje nedaňové náklady do vstupných riadkov tabuľky A zvoleného vzoru DPPO. Vyžaduje l10n_sk_dppo aspoň 19.0.1.5.0 a l10n_cssk_income_tax_base aspoň 19.0.1.6.0. Daň ďalej počítajú natívne riadky priznania. Tabuľku B a r150/r250 napĺňa odpisový register a natívne ručné vstupy.</p>
 <h2 id="workflow">Postup</h2>
 <p>Zapnite položkový rozpis, vyberte riadok, zadajte sumu a dôkaz. Overte celý rozpis a prepočítajte priznanie. Viaceré položky jedného riadka sa sčítajú. Popisy vychádzajú z príslušného vzoru; súčtový riadok staršieho formulára nemožno zadať ako nákladovú položku.</p>
 <p>Doplnok spravuje iba riadky s položkami. Ostatné ručné vstupy A a všetky vstupy B zachováva. Pri zapnutom rozpise má súčet položiek prednosť. Odstránenie položky či vypnutie doplnku pri prepočte uvoľní predchádzajúce generované prepisy; nezávisle zmenená ručná hodnota zostáva. Po zmene súm treba pred exportom prepočet.</p>
+<p>Tá istá kontrola aktuálneho rozpisu sa používa pri XML, natívnom úradnom PDF,
+ak je dostupný, aj pri zaúčtovaní dane. Po zmene rozpisu treba priznanie
+prepočítať, až potom výstupy použijú jeho sumy. Historické prílohy ostávajú
+dostupné. Pridanie položiek pre viac priznaní overí celú dávku pred zmenou
+ktoréhokoľvek z nich.</p>
 <h2 id="amendments">Dodatočné priznanie a história</h2>
 <p>Natívne vytvorenie dodatočného priznania skopíruje položky a riadky, ale zruší overenie a jeho dôkaz. Opravu samostatne overte a prepočítajte. Archiváciu podaného XML rieši spoločný rámec. Doplnok nezasahuje do príloh, sťahovania súborov, šablón tabuľky B ani výpočtového jadra. Zmena sídla alebo zaúčtovanie daňovej rezervy neblokuje stiahnutie starého exportu.</p>
 <h2 id="scope">Rozsah</h2>
-<p>Daňovú uznateľnosť a dôkazy posudzuje účtovník. Nevzniká druhá účtovná kniha ani vlastný archív podaní. Aktualizácia súkromných experimentálnych inštalácií pôvodného nevydaného A/B doplnku vyžaduje samostatné overenie migrácie.</p>
-<footer><p>Text overený voči verzii modulu: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<p>Daňovú uznateľnosť a dôkazy posudzuje účtovník. Nevzniká druhá účtovná kniha ani vlastný archív podaní.</p>
+<footer><p>Text overený voči verzii modulu: 19.0.1.0.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
