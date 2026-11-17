@@ -62,7 +62,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_vehicle_tax``
-- **Version:** 19.0.1.0.0
+- **Version:** 19.0.1.0.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_core``, ``l10n_sk_base``, ``base_iban``, ``fleet``

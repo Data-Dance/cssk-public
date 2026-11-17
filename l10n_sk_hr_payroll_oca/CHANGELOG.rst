@@ -10,6 +10,10 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.26.1 (2026-11-17), not yet on 18.0:** the monthly wage hook and
+  the probable-earnings fallback together; on 18.0 the contract is
+  ``hr.contract``. OCA engine only.
+
 - Not yet ported: mirror the five OOP-before-maximum changes in both engines
   and rerun the year-boundary, unaffected-fund and tax/net-effect checks.
 
@@ -75,6 +79,21 @@ Carry-over to 18.0
   **Fully DISCHARGED 2026-11-16**: ffd67cd0c and both tests are on 18.0 as
   18.0.2.10.1 (48c3c03a0); the DoBPŠ part stays 19.0-only on the OCA engine
   (18.0 has no DoBPŠ agreement type).
+
+[19.0.1.26.1] — 2026-11-17
+==========================
+
+Added
+~~~~~
+
+* ``_l10n_sk_monthly_cash_wage(contract)``: a cooperative hook for the
+  monthly wage BASIC is computed from, defaulting to the contract wage. An
+  integration can supply a payslip-specific monthly amount without editing the
+  contract; absence proration, insurance and tax follow it, hourly pay does not
+  use it. The probable-earnings fallback of the § 134 ods. 3 average follows
+  the same amount, so holiday and obstacle pay keep GROSS whole; a quarter with
+  enough worked time keeps its historical average. OCA engine only.
+  Contributed by votrelec (cssk-public#49).
 
 [19.0.1.26.0] — 2026-11-16
 ==========================

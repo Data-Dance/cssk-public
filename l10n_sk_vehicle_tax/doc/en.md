@@ -1,7 +1,7 @@
 ---
 title: Motor vehicle tax — DMVv25
 summary: Prepare Slovak calendar-year motor vehicle tax from the native fleet register.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 Accounting → Reporting → Statutory Reports → Motor vehicle tax.

@@ -133,7 +133,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_income_settlement` | 19.0.1.0.2 | Reviewed monthly additional-income tax and health calculation |
 | `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.1.2 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
 | `l10n_sk_hr_payroll_mvp` | 19.0.1.1.3 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
-| `l10n_sk_hr_payroll_oca` | 19.0.1.26.0 | Slovak payroll rules for the payroll engine |
+| `l10n_sk_hr_payroll_oca` | 19.0.1.26.1 | Slovak payroll rules for the payroll engine |
 | `l10n_sk_hr_payroll_parity` | 19.0.1.8.2 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and… |
 | `l10n_sk_hr_payroll_rlfo` | 19.0.1.3.1 | Slovak social-insurance registration of employees (RLFO / RLZEC) filed to the Sociálna poisťovňa — prihláška / odhláška events built from the employee +… |
 | `l10n_sk_hr_payroll_surcharges` | 19.0.1.2.8 | Engine-neutral statutory wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work (§§ 121–124 and § 96… |
@@ -160,7 +160,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_vat_return` | 19.0.1.15.2 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
 | `l10n_sk_vehicle_expense` | 19.0.1.2.0 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
 | `l10n_sk_vehicle_logbook` | 19.0.2.1.0 | Trip log per vehicle and domestic and foreign travel orders: approval before the trip, advance, settlement after it with the statutory meal, pocket money… |
-| `l10n_sk_vehicle_tax` | 19.0.1.0.0 | Dated vehicle tax assessment and DMVv25 filing |
+| `l10n_sk_vehicle_tax` | 19.0.1.0.1 | Dated vehicle tax assessment and DMVv25 filing |
 | `l10n_sk_vrp2_account` | 19.0.2.4.1 | Fiscalize customer invoices through the Slovak Virtual Cash Register (VRP 2) |
 | `l10n_sk_vrp2_base` | 19.0.2.4.1 | Connection layer for the Slovak Virtual Cash Register (VRP 2) |
 | `l10n_sk_withholding` | 19.0.1.1.0 | Native-ledger dividend and author withholding notices with Annex A |

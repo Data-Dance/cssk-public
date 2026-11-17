@@ -7,6 +7,16 @@ All notable changes to **l10n_sk_vehicle_tax** are documented here.
 [Unreleased]
 ------------
 
+[19.0.1.0.1] — 2026-11-17
+-------------------------
+
+Fixed
+~~~~~
+
+- A normal server start no longer loads the test framework (and logs an
+  ERROR) through the module's entrypoint; Odoo's test loader still finds the
+  suite. Contributed by votrelec (cssk-public#52).
+
 [19.0.1.0.0] — 2026-11-16
 -------------------------
 
