@@ -10,6 +10,9 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.26.2 (2026-11-17), not yet on 18.0:** the annual January tax-fact
+  reader and its tests, on the 18.0 contract model. OCA engine only.
+
 - **19.0.1.26.1 (2026-11-17), not yet on 18.0:** the monthly wage hook and
   the probable-earnings fallback together; on 18.0 the contract is
   ``hr.contract``. OCA engine only.
@@ -79,6 +82,21 @@ Carry-over to 18.0
   **Fully DISCHARGED 2026-11-16**: ffd67cd0c and both tests are on 18.0 as
   18.0.2.10.1 (48c3c03a0); the DoBPŠ part stays 19.0-only on the OCA engine
   (18.0 has no DoBPŠ agreement type).
+
+[19.0.1.26.2] — 2026-11-17
+==========================
+
+Added
+~~~~~
+
+* ``_l10n_sk_annual_january_tax_version()``: one cooperative reader for the
+  January tax fact of the annual reconciliation, used by both the pension
+  default and the annual computation. The default delegates to the dated
+  employee reader and keeps the draft fallback; an extension can supply a
+  reviewed version for annual income after an employment ended, without
+  reopening it or changing monthly payroll. The annual company and
+  pension-consistency checks still run after it. OCA engine only.
+  Contributed by votrelec (cssk-public#51).
 
 [19.0.1.26.1] — 2026-11-17
 ==========================

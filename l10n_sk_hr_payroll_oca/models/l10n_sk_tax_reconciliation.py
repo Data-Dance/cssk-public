@@ -217,9 +217,7 @@ class L10nSkTaxReconciliation(models.Model):
                 rec.pension_annual = 0.0
                 continue
             try:
-                version = employee._l10n_sk_january_tax_version(
-                    rec.year, rec.company_id or employee.company_id,
-                    date(rec.year, 12, 31))
+                version = rec._l10n_sk_annual_january_tax_version()
             except UserError:
                 # action_compute raises the same message with its context.
                 version = employee._get_version(date(rec.year, 1, 1))
@@ -379,6 +377,19 @@ class L10nSkTaxReconciliation(models.Model):
     # ------------------------------------------------------------------
     # Gathering from the monthly payslips
     # ------------------------------------------------------------------
+    def _l10n_sk_annual_january_tax_version(self):
+        """Return the native January tax fact for this annual reconciliation.
+
+        Extensions with separately reviewed annual facts can override this
+        reader without changing employment dates or monthly payroll. They
+        remain responsible for the fact's employee, company and tax year.
+        The default preserves the employee's dated declaration reader.
+        """
+        self.ensure_one()
+        return self.employee_id._l10n_sk_january_tax_version(
+            self.year, self.company_id or self.employee_id.company_id,
+            date(self.year, 12, 31))
+
     def _l10n_sk_year_payslips(self):
         self.ensure_one()
         return self.env["hr.payslip"].search(
@@ -394,8 +405,7 @@ class L10nSkTaxReconciliation(models.Model):
 
     def action_compute(self):
         for rec in self:
-            version = rec.employee_id._l10n_sk_january_tax_version(
-                rec.year, rec.company_id, date(rec.year, 12, 31))
+            version = rec._l10n_sk_annual_january_tax_version()
             if version:
                 if version.company_id != rec.company_id:
                     raise UserError(_("Review the employee's 1 January pension version in the payroll company."))

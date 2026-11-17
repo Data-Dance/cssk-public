@@ -79,3 +79,17 @@ formula JSON plus AST/runtime comparisons protect this evidence contribution's
 arithmetic boundary. Reference-arithmetic fixtures remove the optional
 MIN_WAGE_TOPUP rule from their test structure so their named low/subcent inputs
 remain those inputs; the surcharge module tests the statutory top-up itself.
+
+## Developer extension: annual January tax facts
+
+`l10n.sk.tax.reconciliation._l10n_sk_annual_january_tax_version()` is a
+singleton reader shared by the annual pension default and `action_compute`.
+Its default delegates to the dated employee reader with the reconciliation's
+company and tax year; the existing draft pension fallback remains unchanged.
+An extension may supply a separately reviewed native version for annual
+income after employment ended. It must validate the employee, company, tax
+year and underlying January declaration. Keep the reader free of writes and
+safe for repeated calls. This hook neither reviews a fact nor reopens an
+employment, changes monthly payroll or selects annual income. The annual
+company and pension-consistency checks still run. This is the OCA engine's
+annual model; other engines need their own corresponding adapter.
