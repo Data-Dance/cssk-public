@@ -5,10 +5,19 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.26.4:** correct employer sick-pay maximum DVZ for 2024-2027.
+  Apply the four-place downward rounding in 462/2003 section 8(7)-(8),
+  independently from the Social Insurance Agency sickness-benefit ceiling.
+  The 2024 value also uses the 2022 general assessment base.
+  Recalculation of retained payroll remains an explicit correction workflow.
+
 - **19.0.1.22.0 (2026-11-09), DISCHARGED on 18.0 by 997c7bbb:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.26.4, not yet on 18.0:** employer PN dated caps 2024-2027 and
+  the native/manual cap regressions. OCA parameter model only.
 
 - **19.0.1.26.2 (2026-11-17), not yet on 18.0:** the annual January tax-fact
   reader and its tests, on the 18.0 contract model. OCA engine only.

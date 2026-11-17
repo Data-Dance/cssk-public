@@ -137,3 +137,18 @@ unchanged. These examples do not replace the employee's actual tax profile.
 No rates, rounding methods, dated parameter records or health rules are changed.
 An existing posted amount needs its applicable correction workflow; this change
 does not recalculate historical payroll or claim cumulative independent payslips.
+
+
+## Employer sick-pay ceiling
+
+The maximum daily assessment base for employer-paid sick pay under section8(7)-(8)
+of Act462/2003 is rounded down to four decimal places. The Social Insurance
+Agency sickness-benefit ceiling follows a separate rule and must not be used
+here. Employer maxima:2024=85.7424,2025=94.0273,2026=100.2082,2027=106.5205.
+In2027 the first14 calendar days at the maximum pay724.34 euros after the
+separate upward cent rounding. This applies to native leave and manual PN input.
+The2024 maximum derives from the2022 general assessment base15648 euros.
+Source: https://static.slov-lex.sk/static/SK/ZZ/2003/462/20260101.html and
+https://www.socpoist.sk/nastroje-sluzby/tabulky/tabulka-vseobecneho-vymeriavacieho-zakladu
+Stored payroll is corrected through its ordinary correction workflow; updating
+parameters does not retrospectively certify or repost old payslips.
