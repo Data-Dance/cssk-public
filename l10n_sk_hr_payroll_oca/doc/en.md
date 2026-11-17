@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.26.0
+verified: 19.0.1.26.2
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -137,3 +137,17 @@ unchanged. These examples do not replace the employee's actual tax profile.
 No rates, rounding methods, dated parameter records or health rules are changed.
 An existing posted amount needs its applicable correction workflow; this change
 does not recalculate historical payroll or claim cumulative independent payslips.
+
+## Developer extension: annual January tax facts
+
+`l10n.sk.tax.reconciliation._l10n_sk_annual_january_tax_version()` is a
+singleton reader shared by the annual pension default and `action_compute`.
+Its default delegates to the dated employee reader with the reconciliation's
+company and tax year; the existing draft pension fallback remains unchanged.
+An extension may supply a separately reviewed native version for annual
+income after employment ended. It must validate the employee, company, tax
+year and underlying January declaration. Keep the reader free of writes and
+safe for repeated calls. This hook neither reviews a fact nor reopens an
+employment, changes monthly payroll or selects annual income. The annual
+company and pension-consistency checks still run. This is the OCA engine's
+annual model; other engines need their own corresponding adapter.

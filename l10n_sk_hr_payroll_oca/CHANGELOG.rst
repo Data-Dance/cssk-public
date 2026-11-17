@@ -76,6 +76,21 @@ Carry-over to 18.0
   18.0.2.10.1 (48c3c03a0); the DoBPŠ part stays 19.0-only on the OCA engine
   (18.0 has no DoBPŠ agreement type).
 
+[19.0.1.26.2] — 2026-11-17
+==========================
+
+Added
+~~~~~
+
+* Cooperative annual January tax-fact reader, used by both the pension
+  default and annual computation. The default dated employee reader and
+  draft fallback are unchanged. Extensions can provide reviewed annual
+  facts without reopening an ended employment or changing monthly payroll.
+  Regression tests exercise the actual annual calculation with and without
+  a pension, and retain the default refusal for an ended employment.
+* Carry-over to 18.0: adapt the reader to that engine's contract model and
+  repeat the annual calculation and unchanged monthly/default checks.
+
 [19.0.1.26.0] — 2026-11-16
 ==========================
 
