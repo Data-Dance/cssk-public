@@ -402,11 +402,13 @@ Historical Table K evidence is required even with no current credit, including a
 
 The form deadline and the minimum-tax period are separate: a January–September 2026 period filed on DPPOv25 uses the 2026 minimum-tax bands. Above EUR 5 million its nine-month minimum is EUR 8,640; a period starting in 2025 retains the old ceiling. An ordinary taxpayer with zero revenue or a loss still owes the modern minimum: EUR 255 for nine months in 2026 or EUR 340 for full-year 2025, unless an explicit reviewed exemption applies. Historical licence rules remain separate. Both native layouts and paper validation use the same calculation.
 
+A manually lowered row 910 also limits row 920. Raising row 910 does not increase the statutory credit capacity. An overridden row 910 or row 1000 that differs from the declared Table K calculation produces a warning, shown with the form checks when the working PDF is produced; review such overrides before posting the tax as well.
+
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_dppo``
-- **Version:** 19.0.1.6.0
+- **Version:** 19.0.1.6.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_income_tax_base``, ``l10n_sk``, ``l10n_sk_base``

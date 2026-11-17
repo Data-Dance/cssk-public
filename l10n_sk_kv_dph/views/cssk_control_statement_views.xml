@@ -17,13 +17,13 @@
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
                                 <field name="partner_id" readonly="1"/>
-                                <field name="partner_vat_stripped" readonly="1"/>
+                                <field name="partner_vat" readonly="1"/>
                                 <field name="entry_ref" readonly="1"/>
                                 <field name="supply_date" readonly="1"/>
                                 <field name="product_code" readonly="1"/>
-                                <field name="tax_base_amount" readonly="not is_overridden"/>
+                                <field name="tax_base_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="tax_rate" readonly="1"/>
-                                <field name="tax_amount" readonly="not is_overridden"/>
+                                <field name="tax_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -37,15 +37,15 @@
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
                                 <field name="partner_id" readonly="1"/>
-                                <field name="partner_vat_stripped" readonly="1"/>
+                                <field name="partner_vat" readonly="1"/>
                                 <field name="entry_ref" readonly="1"/>
-                                <field name="tax_base_amount" readonly="not is_overridden"/>
+                                <field name="tax_base_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="goods_code" readonly="1" optional="show"/>
                                 <field name="goods_kind" readonly="1" optional="show"/>
                                 <field name="quantity" readonly="1" optional="show"/>
                                 <field name="uom_code" readonly="1" optional="show"/>
                                 <field name="tax_rate" readonly="1"/>
-                                <field name="tax_amount" readonly="not is_overridden"/>
+                                <field name="tax_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -59,11 +59,11 @@
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
                                 <field name="partner_id" readonly="1"/>
-                                <field name="partner_vat_stripped" readonly="1"/>
+                                <field name="partner_vat" readonly="1"/>
                                 <field name="entry_ref" readonly="1"/>
-                                <field name="tax_base_amount" readonly="not is_overridden"/>
+                                <field name="tax_base_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="tax_rate" readonly="1"/>
-                                <field name="tax_amount" readonly="not is_overridden"/>
+                                <field name="tax_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -77,11 +77,11 @@
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
                                 <field name="partner_id" readonly="1"/>
-                                <field name="partner_vat_stripped" readonly="1"/>
+                                <field name="partner_vat" readonly="1"/>
                                 <field name="entry_ref" readonly="1"/>
-                                <field name="tax_base_amount" readonly="not is_overridden"/>
+                                <field name="tax_base_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="tax_rate" readonly="1"/>
-                                <field name="tax_amount" readonly="not is_overridden"/>
+                                <field name="tax_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -95,10 +95,10 @@
                         <field name="sk_section_b3_ids">
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
-                                <field name="row_count" readonly="1"/>
-                                <field name="total_tax_base" readonly="not is_overridden"/>
-                                <field name="total_tax_amount" readonly="not is_overridden"/>
-                                <field name="total_deducted_amount" readonly="not is_overridden"/>
+                                <field name="row_count" readonly="1" sum="Total"/>
+                                <field name="total_tax_base" readonly="not is_overridden" sum="Total"/>
+                                <field name="total_tax_amount" readonly="not is_overridden" sum="Total"/>
+                                <field name="total_deducted_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -112,10 +112,10 @@
                         <field name="sk_section_b31_ids">
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
-                                <field name="row_count" readonly="1"/>
-                                <field name="total_tax_base" readonly="not is_overridden"/>
-                                <field name="total_tax_amount" readonly="not is_overridden"/>
-                                <field name="total_deducted_amount" readonly="not is_overridden"/>
+                                <field name="row_count" readonly="1" sum="Total"/>
+                                <field name="total_tax_base" readonly="not is_overridden" sum="Total"/>
+                                <field name="total_tax_amount" readonly="not is_overridden" sum="Total"/>
+                                <field name="total_deducted_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -131,10 +131,10 @@
                                   decoration-warning="is_overridden">
                                 <field name="partner_id" readonly="1"/>
                                 <field name="partner_vat" readonly="1"/>
-                                <field name="row_count" readonly="1"/>
-                                <field name="total_tax_base" readonly="not is_overridden"/>
-                                <field name="total_tax_amount" readonly="not is_overridden"/>
-                                <field name="total_deducted_amount" readonly="not is_overridden"/>
+                                <field name="row_count" readonly="1" sum="Total"/>
+                                <field name="total_tax_base" readonly="not is_overridden" sum="Total"/>
+                                <field name="total_tax_amount" readonly="not is_overridden" sum="Total"/>
+                                <field name="total_deducted_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -148,11 +148,11 @@
                         <field name="sk_section_c1_ids">
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
-                                <field name="partner_vat_stripped" readonly="1"/>
+                                <field name="partner_vat" readonly="1"/>
                                 <field name="entry_ref" readonly="1"/>
                                 <field name="entry_ref_original" readonly="1"/>
-                                <field name="tax_base_amount" readonly="not is_overridden"/>
-                                <field name="tax_amount" readonly="not is_overridden"/>
+                                <field name="tax_base_amount" readonly="not is_overridden" sum="Total"/>
+                                <field name="tax_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -165,11 +165,11 @@
                         <field name="sk_section_c2_ids">
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
-                                <field name="partner_vat_stripped" readonly="1"/>
+                                <field name="partner_vat" readonly="1"/>
                                 <field name="entry_ref" readonly="1"/>
                                 <field name="entry_ref_original" readonly="1"/>
-                                <field name="tax_base_amount" readonly="not is_overridden"/>
-                                <field name="tax_amount" readonly="not is_overridden"/>
+                                <field name="tax_base_amount" readonly="not is_overridden" sum="Total"/>
+                                <field name="tax_amount" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -182,12 +182,12 @@
                         <field name="sk_section_d1_ids">
                             <list create="false" delete="false" editable="bottom"
                                   decoration-warning="is_overridden">
-                                <field name="row_count" readonly="1"/>
-                                <field name="turnover" readonly="not is_overridden"/>
-                                <field name="tax_base_basic" readonly="not is_overridden"/>
-                                <field name="tax_amount_basic" readonly="not is_overridden"/>
-                                <field name="tax_base_lower" readonly="not is_overridden"/>
-                                <field name="tax_amount_lower" readonly="not is_overridden"/>
+                                <field name="row_count" readonly="1" sum="Total"/>
+                                <field name="turnover" readonly="not is_overridden" sum="Total"/>
+                                <field name="tax_base_basic" readonly="not is_overridden" sum="Total"/>
+                                <field name="tax_amount_basic" readonly="not is_overridden" sum="Total"/>
+                                <field name="tax_base_lower" readonly="not is_overridden" sum="Total"/>
+                                <field name="tax_amount_lower" readonly="not is_overridden" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -202,11 +202,11 @@
                              columns, which are not the override columns. -->
                         <field name="sk_section_d2_ids">
                             <list create="false" delete="false" edit="false">
-                                <field name="row_count"/>
-                                <field name="tax_base_basic"/>
-                                <field name="tax_amount_basic"/>
-                                <field name="tax_base_lower"/>
-                                <field name="tax_amount_lower"/>
+                                <field name="row_count" sum="Total"/>
+                                <field name="tax_base_basic" sum="Total"/>
+                                <field name="tax_amount_basic" sum="Total"/>
+                                <field name="tax_base_lower" sum="Total"/>
+                                <field name="tax_amount_lower" sum="Total"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"

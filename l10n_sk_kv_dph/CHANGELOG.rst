@@ -14,6 +14,20 @@ Carry-over to 18.0: the posting check and the B.1 / B.2 rule of 19.0.2.9.0. DISC
 
 Carry-over to 18.0: internal credit notes left out of the statement (19.0.2.10.0). DISCHARGED (18.0.2.8.0).
 
+Carry-over to 18.0: the full IČ DPH column and the column totals of 19.0.2.11.0. DISCHARGED (18.0.2.9.0).
+
+[19.0.2.11.0] — 2026-11-17
+--------------------------
+
+Changed
+~~~~~~~
+
+- **The section lists show the counterparty's IČ DPH in full**, country code
+  included (``IE1234567WA``, not ``1234567WA``), which is how the statement
+  files it. Asked for by accountants checking the statement against documents.
+- **Every amount column has a total** at the foot of each section list, and
+  the aggregate sections total their document counts.
+
 [19.0.2.10.0] — 2026-11-10
 --------------------------
 

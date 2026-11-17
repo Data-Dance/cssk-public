@@ -484,6 +484,38 @@ class CSSKIncomeTaxReturn(models.Model):
         limit = statutory_round(r400 * 0.5, 2)
         if (self.country_id.code or "").upper() == "SK":
             out += self._l10n_sk_dppo_table_kontroly()
+            if self.version_id.l10n_sk_dppo_layout == "2026":
+                by_code = {line.code: line for line in self.line_ids}
+                line = by_code.get("r1000")
+                expected = (max(0.0, values.get("r800", 0.0) - values.get("r920", 0.0))
+                            if self._l10n_sk_dppo_table_k_filled() else 0.0)
+                if line and line.is_overridden and statutory_round(line.value - expected, 2):
+                    out.append({
+                        "code": "DPPO_MINIMUM_CREDIT_TOTAL",
+                        "severity": "warning",
+                        "desc": _("Overridden row 1000 differs from the minimum-tax credit calculation"),
+                        "detail": _(
+                            "Row 1000 is %(actual).2f; the calculation from rows 800 and 920 "
+                            "and the Table K declaration gives %(expected).2f. Review the override.",
+                            actual=line.value, expected=expected),
+                    })
+                # Row 910 is the positive difference between rows 800 and 810,
+                # printed only with a Table K claim (vzor footnote 2a). An
+                # override cannot raise the legal credit (row 920 is held to
+                # the statutory capacity), but it can print a wrong row 910.
+                line = by_code.get("r910")
+                expected = (max(0.0, values.get("r800", 0.0) - values.get("r810", 0.0))
+                            if self._l10n_sk_dppo_table_k_filled() else 0.0)
+                if line and line.is_overridden and statutory_round(line.value - expected, 2):
+                    out.append({
+                        "code": "DPPO_MINIMUM_CREDIT_BASE",
+                        "severity": "warning",
+                        "desc": _("Overridden row 910 differs from the minimum-tax credit calculation"),
+                        "detail": _(
+                            "Row 910 is %(actual).2f; rows 800 and 810 and the Table K "
+                            "declaration give %(expected).2f. Review the override.",
+                            actual=line.value, expected=expected),
+                    })
         if (
             self.date_from.year >= 2020
             and r410 > limit + 0.005
@@ -835,10 +867,14 @@ class CSSKIncomeTaxReturn(models.Model):
         if g("r920") and not table_k_filled:
             raise UserError(_("Complete the reviewed Table K declaration before entering row 920."))
         put("r910", capacity if table_k_filled else 0.0)
-        if g("r920") < 0 or statutory_round(g("r920") - capacity, 2) > 0:
+        if g("r920") < 0 or statutory_round(g("r920") - g("r910"), 2) > 0:
             raise UserError(_(
                 "The reviewed prior minimum-tax credit (row 920) must be "
                 "nonnegative and cannot exceed row 910. Review Table K."))
+        if statutory_round(g("r920") - capacity, 2) > 0:
+            raise UserError(_(
+                "Row 920 cannot exceed the calculated current tax less its minimum. "
+                "Review the overridden row 910 and Table K."))
         put("r1000", max(0.0, g("r800") - g("r920")) if table_k_filled else 0.0)
         # The vzor gives r900 priority when the current tax is below its
         # minimum. A historical or explicitly zero K claim cannot waive it.

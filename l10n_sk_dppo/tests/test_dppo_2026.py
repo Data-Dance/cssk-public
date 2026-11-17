@@ -259,6 +259,53 @@ class TestDppoPublished2026(AccountTestInvoicingCommon):
         self.assertEqual(values["r1000"], 10759.26)
         self.assertEqual(values["r1050"], 10759.26)
 
+    def test_prior_credit_respects_a_lower_effective_row_910(self):
+        ret = self._make()
+        with self.assertRaisesRegex(UserError, "cannot exceed row 910"), self.cr.savepoint():
+            self._set(ret, r800=1000, r810=340, r910=400, r920=500)
+        values = self._set(ret, r800=1000, r810=340, r910=400, r920=400)
+        self.assertEqual(values["r1000"], 600)
+        self.assertEqual(values["r1050"], 600)
+
+    def test_higher_row_910_cannot_increase_statutory_credit_capacity(self):
+        ret = self._make()
+        with self.assertRaisesRegex(UserError, "calculated current tax"), self.cr.savepoint():
+            self._set(ret, r800=1000, r810=340, r910=1000, r920=700)
+
+    def test_inconsistent_overridden_row_1000_is_a_visible_warning(self):
+        ret = self._make()
+        values = self._set(ret, r800=1000, r810=340, r920=200, r1000=700)
+        self.assertEqual(values["r1050"], 700)
+        warnings = {row["code"]: row for row in ret.check_kontroly()}
+        self.assertEqual(warnings["DPPO_MINIMUM_CREDIT_TOTAL"]["severity"], "warning")
+        self._set(ret, r1000=800)
+        self.assertNotIn("DPPO_MINIMUM_CREDIT_TOTAL", {row["code"] for row in ret.check_kontroly()})
+
+    def test_inconsistent_overridden_row_910_is_a_visible_warning(self):
+        ret = self._make()
+        # Raised above r800 - r810 = 660: the credit stays within 660, but the
+        # printed row 910 is wrong.
+        self._set(ret, r800=1000, r810=340, r910=900, r920=600)
+        warnings = {row["code"]: row for row in ret.check_kontroly()}
+        self.assertEqual(warnings["DPPO_MINIMUM_CREDIT_BASE"]["severity"], "warning")
+        # An override equal to the calculation is silent.
+        self._set(ret, r910=660)
+        self.assertNotIn("DPPO_MINIMUM_CREDIT_BASE", {row["code"] for row in ret.check_kontroly()})
+
+    def test_credit_override_messages_follow_the_user_language(self):
+        for language, warning_prefix, error_prefix in (
+                ("sk_SK", "Ručne upravený riadok 1000", "Riadok 920"),
+                ("cs_CZ", "Ručně upravený řádek 1000", "Řádek 920")):
+            with self.subTest(language=language):
+                ret = self._make().with_context(lang=language)
+                self._set(ret, r800=1000, r810=340, r920=200, r1000=700)
+                warning = next(row for row in ret.check_kontroly()
+                               if row["code"] == "DPPO_MINIMUM_CREDIT_TOTAL")
+                self.assertTrue(warning["desc"].startswith(warning_prefix))
+                with self.assertRaises(UserError) as raised, self.cr.savepoint():
+                    self._set(ret, r910=1000, r920=700)
+                self.assertTrue(str(raised.exception).startswith(error_prefix))
+
     def test_short_2026_deadline_selects_legacy_form(self):
         ret = self._make()
         ret.write({"date_from": "2026-01-01", "date_to": "2026-09-30"})

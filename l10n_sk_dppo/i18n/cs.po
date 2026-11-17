@@ -1493,3 +1493,45 @@ msgstr "Pásma sazeb podle § 15"
 #: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
 msgid "§ 46b minimum-tax bands"
 msgstr "Pásma minimální daně podle § 46b"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid "Overridden row 1000 differs from the minimum-tax credit calculation"
+msgstr "Ručně upravený řádek 1000 se liší od výpočtu zápočtu minimální daně"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"Row 1000 is %(actual).2f; the calculation from rows 800 and 920 and the "
+"Table K declaration gives %(expected).2f. Review the override."
+msgstr ""
+"Řádek 1000 je %(actual).2f; výpočet z řádků 800 a 920 a prohlášení tabulky K"
+" dává %(expected).2f. Ověřte ruční úpravu."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"Row 920 cannot exceed the calculated current tax less its minimum. Review "
+"the overridden row 910 and Table K."
+msgstr ""
+"Řádek 920 nesmí překročit vypočtenou aktuální daň sníženou o minimální daň. "
+"Ověřte ručně upravený řádek 910 a tabulku K."
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid "Overridden row 910 differs from the minimum-tax credit calculation"
+msgstr "Ručně upravený řádek 910 se liší od výpočtu zápočtu minimální daně"
+
+#. module: l10n_sk_dppo
+#. odoo-python
+#: code:addons/l10n_sk_dppo/models/cssk_income_tax.py:0
+msgid ""
+"Row 910 is %(actual).2f; rows 800 and 810 and the Table K declaration give "
+"%(expected).2f. Review the override."
+msgstr ""
+"Řádek 910 je %(actual).2f; z řádků 800 a 810 a prohlášení v tabulce K "
+"vychází %(expected).2f. Zkontrolujte ruční úpravu."

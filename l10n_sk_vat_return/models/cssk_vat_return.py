@@ -25,6 +25,7 @@ the version's ``own_tax_line_code`` / ``excess_line_code`` /
 ``diff_line_code``.
 """
 import logging
+import re
 from datetime import date
 
 from odoo import _, api, fields, models
@@ -45,6 +46,8 @@ SK_FILER_STATUS = [
     ("zastupca69aa", "Daňový zástupca podľa § 69aa"),
 ]
 _SK_ZASTUPCA_69AA_FROM = date(2018, 1, 1)
+#: A Slovak IČ DPH: ``SK`` and the ten digits of the DIČ.
+_SK_IC_DPH_RE = re.compile(r"SK\d{10}")
 
 
 class CSSKVatReturn(models.Model):
@@ -110,16 +113,33 @@ class CSSKVatReturn(models.Model):
                     "1. 1. 2018; the form for an earlier period has no such "
                     "box."))
 
+    def _l10n_sk_filer_ids(self):
+        """``(IČ DPH without the country code, DIČ)`` as the hlavička files them.
+
+        The DIČ is the company's own DIČ field where it is filled in, and the
+        digits of the IČ DPH otherwise: a Slovak IČ DPH is ``SK`` + the DIČ,
+        so the two agree whenever both are right.
+        """
+        self.ensure_one()
+        company = self.company_id
+        vat = re.sub(r"\s+", "", company.vat or "").upper()
+        cislo = vat[2:] if vat[:2].isalpha() else vat
+        dic = re.sub(r"\s+", "", company.income_tax_id or "") or cislo
+        return cislo, dic
+
     def _cssk_render_context(self):
         ctx = super()._cssk_render_context()
         if self.country_id.code != "SK":
             return ctx
+        ic_dph_cislo, dic = self._l10n_sk_filer_ids()
         ulica, cislo = split_street(self.company_id.partner_id)
         excess_code = self.version_id.excess_line_code
         excess = {line.code: line.value for line in self.line_ids}.get(
             excess_code, 0.0) if excess_code else 0.0
         declared = self.l10n_sk_declaration_date or fields.Date.context_today(self)
         ctx.update({
+            "sk_ic_dph_cislo": ic_dph_cislo,
+            "sk_dic": dic,
             "sk_ulica": ulica,
             "sk_cislo": cislo,
             "sk_osoba": {
@@ -140,6 +160,21 @@ class CSSKVatReturn(models.Model):
         for rec in self:
             if rec.country_id.code != "SK":
                 continue
+            # The schema types the IČ DPH and the DIČ as plain strings too, so
+            # a registry number (IČO) typed into the company's Tax ID exports
+            # and is refused only by the tax office's form.
+            vat = re.sub(r"\s+", "", rec.company_id.vat or "").upper()
+            if not _SK_IC_DPH_RE.fullmatch(vat):
+                raise UserError(_(
+                    "The Tax ID of company '%(company)s' is '%(vat)s', which "
+                    "is not a Slovak IČ DPH (SK and ten digits, for example "
+                    "SK2020123456). The VAT return carries it as the filer's "
+                    "identification. Correct the Tax ID on the company "
+                    "(Settings → Users & Companies → Companies → "
+                    "%(company)s); the registry number (IČO) belongs in "
+                    "Company ID.",
+                    company=rec.company_id.display_name,
+                    vat=rec.company_id.vat))
             if not rec.company_id.l10n_cssk_tax_authority_id.submission_code:
                 raise UserError(_(
                     "Company '%(company)s' has no tax office with a submission "

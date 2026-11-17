@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_dppo/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Corporate Income Tax Return (DPPO)</h1>
 <p class="cssk-summary">The Slovak corporate income tax return — every official form edition since 2013, the accounting result from the books, the tax computation with the rate and minimum tax of the year, and an XML file checked against the Financial Administration&#x27;s schema.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.6.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_dppo_annexes/static/description/index.html"><code>l10n_sk_dppo_annexes</code></a>, <a href="/l10n_sk_dppo_fs/static/description/index.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.6.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_dppo_annexes/static/description/index.html"><code>l10n_sk_dppo_annexes</code></a>, <a href="/l10n_sk_dppo_fs/static/description/index.html"><code>l10n_sk_dppo_fs</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Every Slovak company files the <em>daňové priznanie k dani z príjmov
@@ -749,7 +749,12 @@ ceiling. An ordinary taxpayer with zero revenue or a loss still owes the
 modern minimum: EUR 255 for nine months in 2026 or EUR 340 for full-year 2025,
 unless an explicit reviewed exemption applies. Historical licence rules remain
 separate. Both native layouts and paper validation use the same calculation.</p>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.1.6.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<p>A manually lowered row 910 also limits row 920. Raising row 910 does not
+increase the statutory credit capacity. An overridden row 910 or row 1000 that
+differs from the declared Table K calculation produces a warning, shown with
+the form checks when the working PDF is produced; review such overrides before
+posting the tax as well.</p>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.1.6.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

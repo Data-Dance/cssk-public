@@ -11,6 +11,10 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- DISCHARGED 2026-11-17 (18.0.1.2.0) — do not port this again.
+  **19.0.1.16.0 (2026-11-17), not yet on 18.0:** the export check that the
+  company's Tax ID is a Slovak IČ DPH, and ``<dic>`` from the DIČ field.
+
 - **19.0.1.15.1 (2026-11-09), not yet on 18.0:** the export guard for an empty
   tax office and the authorised-person warning.
 
@@ -23,6 +27,19 @@ Carry-over to 18.0
   chart's tax xmlids, tags and fiscal-position mapping mechanism first: the
   CSV mirrors 19.0's ``vs_tuz_*`` / ``vs_rc_*``, and 18.0 maps through
   ``account.fiscal.position.tax`` rows rather than ``original_tax_ids``.
+
+[19.0.1.16.0] — 2026-11-17
+--------------------------
+
+Fixed
+~~~~~
+
+- A return is refused at export when the company's Tax ID is not a Slovak
+  IČ DPH (``SK`` and ten digits). The XSD types the number as a plain string,
+  so a registry number (IČO) typed there exported, and only the tax office's
+  form rejected it.
+- ``<dic>`` files the company's own DIČ field where it is filled in, and the
+  digits of the IČ DPH otherwise. Both numbers are filed without whitespace.
 
 [19.0.1.15.2] — 2026-11-10
 --------------------------

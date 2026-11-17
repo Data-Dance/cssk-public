@@ -39,9 +39,9 @@
             <hlavicka>
                 <identifikacneCislo>
                     <kodStatu>SK</kodStatu>
-                    <cislo t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                    <cislo t-out="sk_ic_dph_cislo"/>
                 </identifikacneCislo>
-                <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                <dic t-out="sk_dic"/>
                 <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
                 <nevzniklaPov>0</nevzniklaPov>
                 <typDP>
@@ -129,9 +129,9 @@
             <hlavicka>
                 <identifikacneCislo>
                     <kodStatu>SK</kodStatu>
-                    <cislo t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                    <cislo t-out="sk_ic_dph_cislo"/>
                 </identifikacneCislo>
-                <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                <dic t-out="sk_dic"/>
                 <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
                 <nevzniklaPov>0</nevzniklaPov>
                 <typDP>
@@ -263,9 +263,9 @@
             <hlavicka>
                 <identifikacneCislo>
                     <kodStatu>SK</kodStatu>
-                    <cislo t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                    <cislo t-out="sk_ic_dph_cislo"/>
                 </identifikacneCislo>
-                <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                <dic t-out="sk_dic"/>
                 <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
                 <nevzniklaPov>0</nevzniklaPov>
                 <typDP>
@@ -379,9 +379,9 @@
             <hlavicka>
                 <identifikacneCislo>
                     <kodStatu>SK</kodStatu>
-                    <cislo t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                    <cislo t-out="sk_ic_dph_cislo"/>
                 </identifikacneCislo>
-                <dic t-out="(company.vat or '')[2:] if (company.vat or '')[:2].isalpha() else (company.vat or '')"/>
+                <dic t-out="sk_dic"/>
                 <danovyUrad t-out="company.l10n_cssk_tax_authority_id.submission_code or ''"/>
                 <nevzniklaPov>0</nevzniklaPov>
                 <typDP>
