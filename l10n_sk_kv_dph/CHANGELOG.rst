@@ -11,6 +11,19 @@ those releases, and the entries are what the port brought over.
 [Unreleased]
 ------------
 
+[18.0.2.9.0] — 2026-11-17
+-------------------------
+
+Changed
+~~~~~~~
+
+- **The section lists show the counterparty's IČ DPH in full**, country code
+  included (``IE1234567WA``, not ``1234567WA``), which is how the statement
+  files it. Asked for by accountants checking the statement against documents.
+  Port of 19.0.2.11.0.
+- **Every amount column has a total** at the foot of each section list, and
+  the aggregate sections total their document counts.
+
 [18.0.2.8.0] — 2026-11-10
 -------------------------
 

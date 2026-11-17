@@ -8,6 +8,19 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[18.0.1.2.0] — 2026-11-17
+-------------------------
+
+Fixed
+~~~~~
+
+- A return is refused at export when the company's Tax ID is not a Slovak
+  IČ DPH (``SK`` and ten digits). The XSD types the number as a plain string,
+  so a registry number (IČO) typed there exported, and only the tax office's
+  form rejected it. Port of 19.0.1.16.0.
+- ``<dic>`` files the company's own DIČ field where it is filled in, and the
+  digits of the IČ DPH otherwise. Both numbers are filed without whitespace.
+
 [18.0.1.1.1] — 2026-11-10
 -------------------------
 

@@ -30,6 +30,10 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
     @AccountTestInvoicingCommon.setup_country("sk")
     def setUpClass(cls):
         super().setUpClass()
+        # These tests match English messages; pin the language so they also
+        # pass in a database with Slovak or Czech loaded.
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
+        cls.env.user.lang = "en_US"
         cls.company = cls.company_data["company"]
         # Identification fields the official dph2025 schema needs.
         cls.company.write({
@@ -68,6 +72,36 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
         self.company.l10n_cssk_tax_authority_id.submission_code = False
         with self.assertRaisesRegex(UserError, "tax office"):
             ret.action_export_xml()
+
+    def test_export_refuses_a_tax_id_that_is_not_an_ic_dph(self):
+        """A registry number in the Tax ID validates against the schema and
+        was filed as the IČ DPH; only this check stops it."""
+        ret = self._make_return()
+        ret.action_compute_lines()
+        for wrong in ("SK12345678", "12345678", "CZ12345678"):
+            self.company.partner_id.flush_recordset()
+            self.env.cr.execute(
+                "UPDATE res_partner SET vat = %s WHERE id = %s",
+                (wrong, self.company.partner_id.id))
+            self.company.invalidate_recordset(["vat"])
+            self.company.partner_id.invalidate_recordset(["vat"])
+            with self.assertRaisesRegex(UserError, "not a Slovak IČ DPH"):
+                ret.action_export_xml()
+            self.assertNotEqual(ret.state, "exported")
+
+    def test_the_header_files_the_ic_dph_and_the_dic(self):
+        ret = self._make_return()
+        ret.action_compute_lines()
+        ret.action_export_xml()
+        h = etree.fromstring(
+            base64.b64decode(ret.xml_attachment_id.datas)).find("hlavicka")
+        self.assertEqual(h.findtext("identifikacneCislo/kodStatu"), "SK")
+        self.assertEqual(h.findtext("identifikacneCislo/cislo"), "2023456787")
+        self.assertEqual(h.findtext("dic"), "2023456787",
+                         "no DIČ on the company: the digits of the IČ DPH")
+        # The company's own DIČ field is what the <dic> element files.
+        self.company.income_tax_id = " 2020 123456 "
+        self.assertEqual(ret._l10n_sk_filer_ids(), ("2023456787", "2020123456"))
 
     def test_compute_and_export(self):
         self.init_invoice(

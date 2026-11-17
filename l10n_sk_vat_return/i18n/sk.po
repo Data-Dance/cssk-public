@@ -250,5 +250,11 @@ msgstr "Žiadne faktúry nespĺňajú podmienky § 53b k %s."
 #. module: l10n_sk_vat_return
 #. odoo-python
 #: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
+msgid "The Tax ID of company '%(company)s' is '%(vat)s', which is not a Slovak IČ DPH (SK and ten digits, for example SK2020123456). The VAT return carries it as the filer's identification. Correct the Tax ID on the company (Settings → Users & Companies → Companies → %(company)s); the registry number (IČO) belongs in Company ID."
+msgstr "DIČ/IČ DPH spoločnosti „%(company)s“ je „%(vat)s“, čo nie je slovenské IČ DPH (SK a desať číslic, napríklad SK2020123456). Daňové priznanie ho uvádza ako identifikáciu podávajúceho. Opravte DIČ/IČ DPH pri spoločnosti (Nastavenia → Používatelia a spoločnosti → Spoločnosti → %(company)s); IČO patrí do poľa IČO."
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
 msgid "Company '%(company)s' has no tax office with a submission code, but the VAT return must name it (danovyUrad). Set the Tax Authority on the company (Settings → Users & Companies → Companies → %(company)s) and export again."
 msgstr "Spoločnosť „%(company)s“ nemá daňový úrad s kódom pre podanie, ale daňové priznanie ho musí uvádzať (danovyUrad). Nastavte daňový úrad pri spoločnosti (Nastavenia → Používatelia a spoločnosti → Spoločnosti → %(company)s) a exportujte znova."
