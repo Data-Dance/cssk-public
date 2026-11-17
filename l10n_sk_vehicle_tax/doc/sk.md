@@ -1,7 +1,7 @@
 ---
 title: Daň z motorových vozidiel — DMVv25
 summary: Príprava slovenskej dane z motorových vozidiel z natívnej evidencie vozidiel.
-verified: 19.0.1.0.0
+verified: 19.0.1.0.1
 ---
 
 Účtovníctvo → Výkazy → Zákonné výkazy → Daň z motorových vozidiel.
