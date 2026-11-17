@@ -133,3 +133,13 @@ Príklady nenahrádzajú skutočný daňový profil zamestnanca.
 Nemenia sa sadzby, zaokrúhľovanie, záznamy parametrov ani zdravotné pravidlá. Zaúčtovaná
 suma potrebuje príslušný opravný postup; zmena spätne neprepočítava mzdy ani
 nepredstavuje vyriešenú kumuláciu nezávislých pások.
+
+## Rozporné definície parametra
+
+Parameter používa posledný dátum účinnosti, ktorý nie je neskorší ako dátum
+pásky. Ak má tento dátum viac definícií, zhodné vyhodnotené hodnoty zostávajú
+použiteľné. Rozporné hodnoty vyvolajú chybu pred použitím parametra; poradie
+riadkov databázy nerozhoduje. Po overení pôvodu a dátumu opravte rozpornú
+definíciu v Mzdy → Konfigurácia → Parametre pravidiel. Staršie a novšie dátumy
+sa posudzujú samostatne. Čítanie nemení definície ani neprepočítava uchované
+pásky. Kontrola platí pre model parametrov OCA; Enterprise nebol overený.

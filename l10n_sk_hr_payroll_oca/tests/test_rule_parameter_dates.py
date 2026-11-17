@@ -4,7 +4,7 @@
 from copy import deepcopy
 
 from odoo.exceptions import UserError
-from odoo.tests import TransactionCase, tagged
+from odoo.tests import TransactionCase, new_test_user, tagged
 
 
 @tagged("post_install", "-at_install")
@@ -105,4 +105,35 @@ class TestRuleParameterDates(TransactionCase):
         self.assertEqual(
             rows.read(["parameter_value", "date_from", "write_date", "write_uid"]),
             before,
+        )
+
+    def test_readonly_payroll_user_reads_matching_rows_and_refuses_conflicts(self):
+        reader = new_test_user(
+            self.env,
+            login="effective.parameter.reader",
+            groups="base.group_user,payroll.group_payroll_user",
+        )
+        self.assertFalse(reader.has_group("payroll.group_payroll_manager"))
+        self.assertFalse(reader.has_group("base.group_system"))
+        parameters = self.parameters.with_user(reader)
+        values = self.values.with_user(reader)
+        self.assertFalse(parameters.has_access("write"))
+        self.assertFalse(values.has_access("write"))
+        original = self.value("50.0")
+        copied = original.copy()
+        self.assertEqual(
+            parameters._get_parameter_value(self.parameter.code, "2027-01-01"), 50.0
+        )
+        copied.parameter_value = "60.0"
+        with self.assertRaisesRegex(
+            UserError, "Conflicting salary rule parameter values"
+        ):
+            parameters._get_parameter_value(self.parameter.code, "2027-01-01")
+        copied.parameter_value = "50.0"
+        # Restoring test setup changes write metadata; the reader itself must not.
+        before = deepcopy((original | copied).read(["parameter_value", "write_date"]))
+        parameters._get_parameter_value(self.parameter.code, "2027-01-01")
+        (original | copied).invalidate_recordset()
+        self.assertEqual(
+            (original | copied).read(["parameter_value", "write_date"]), before
         )
