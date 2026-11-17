@@ -10,6 +10,9 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- Port the annual January tax-fact reader to the 18.0 contract model and
+  repeat the annual calculation and unchanged monthly/default checks.
+
 - Not yet ported: mirror the five OOP-before-maximum changes in both engines
   and rerun the year-boundary, unaffected-fund and tax/net-effect checks.
 
@@ -88,8 +91,6 @@ Added
   facts without reopening an ended employment or changing monthly payroll.
   Regression tests exercise the actual annual calculation with and without
   a pension, and retain the default refusal for an ended employment.
-* Carry-over to 18.0: adapt the reader to that engine's contract model and
-  repeat the annual calculation and unchanged monthly/default checks.
 
 [19.0.1.26.0] — 2026-11-16
 ==========================

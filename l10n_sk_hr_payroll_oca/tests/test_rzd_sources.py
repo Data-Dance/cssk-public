@@ -152,17 +152,23 @@ class TestRzdSources(TransactionCase):
         rec.write({'gather_from_payslips': False,
                    'annual_tax_base': 10000, 'annual_advance_tax': 2000})
         with patch.object(type(rec), '_l10n_sk_annual_january_tax_version',
-                          return_value=employee.version_id):
-            with self.assertRaises(UserError):
-                rec.action_compute()
+                          return_value=employee.version_id) as reader:
+            with self.assertRaisesRegex(
+                    UserError,
+                    "Review the employee's 1 January pension version in the payroll company"):
+                rec.with_context(lang='en_US').action_compute()
+            reader.assert_called_once()
         self.assertEqual(rec.state, 'draft')
 
     def test_annual_fact_extension_retains_pension_consistency_check(self):
         employee, version = self._ended_employee_with_january_fact(pension=True)
         with patch.object(type(self.rec), '_l10n_sk_annual_january_tax_version',
-                          return_value=version):
+                          return_value=version) as reader:
             rec = self._manual_annual(employee)
             rec.pension_annual = 0
-            with self.assertRaises(UserError):
-                rec.action_compute()
+            reader.reset_mock()
+            with self.assertRaisesRegex(
+                    UserError, 'Reconcile the 1 January tax pension flag'):
+                rec.with_context(lang='en_US').action_compute()
+            reader.assert_called_once()
         self.assertEqual(rec.state, 'draft')

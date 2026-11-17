@@ -133,17 +133,3 @@ Príklady nenahrádzajú skutočný daňový profil zamestnanca.
 Nemenia sa sadzby, zaokrúhľovanie, záznamy parametrov ani zdravotné pravidlá. Zaúčtovaná
 suma potrebuje príslušný opravný postup; zmena spätne neprepočítava mzdy ani
 nepredstavuje vyriešenú kumuláciu nezávislých pások.
-
-## Rozšírenie pre vývojárov: januárové daňové údaje pre ročné zúčtovanie
-
-`l10n.sk.tax.reconciliation._l10n_sk_annual_january_tax_version()` číta jeden
-ročný záznam a používa sa pri predvyplnení ročného dôchodku aj v
-`action_compute`. Štandardne volá dátumovaný reader zamestnanca pre firmu a
-daňový rok zúčtovania; pôvodný náhradný výber dôchodku v návrhu sa nemení.
-Rozšírenie môže poskytnúť osobitne overenú natívnu verziu pre ročný príjem po
-skončení pracovného vzťahu. Musí overiť osobu, firmu, daňový rok a podklad
-januárového vyhlásenia. Reader nesmie zapisovať a musí zvládnuť opakované
-volania. Tento hook sám neoveruje podklad, neobnovuje pracovný vzťah, nemení
-mesačné mzdy ani nevyberá ročné príjmy. Kontroly firmy a súladu dôchodkových
-údajov sa naďalej vykonajú. Ide o ročný model enginu OCA; ostatné enginy
-potrebujú vlastný zodpovedajúci adaptér.
