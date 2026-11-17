@@ -106,3 +106,9 @@ bežného účtovného správcu bez sudo. XSD nie je potvrdením prijatia úrado
 Pre každý ostrý rok znovu overte legislatívu, formulár a sadzby. Otvorená
 platnosť zverejnenej verzie negarantuje nezmeniteľnosť zákona. Pri zmene
 pripravte novú dátumovanú verziu; už použitá verzia sa neprepisuje.
+
+## Bežný štart a testy
+
+Vstupný súbor modulu načítava iba modely. Existujúci balík testov objavuje
+natívny testovací loader Odoo pri zapnutých testoch. Bežný štart nenačítava
+testovací framework.

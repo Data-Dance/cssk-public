@@ -114,3 +114,9 @@ XSD validation is distinct from acceptance by an authority.
 Review the law, form and rates for each production year. An open-ended published
 edition is not a guarantee against future amendments. Create a new dated
 edition when needed; an edition already retained by a calculation is protected.
+
+## Production startup and tests
+
+The business entrypoint loads models only. Odoo's native test loader discovers
+the existing test package when tests are enabled. Normal startup does not load
+the test framework.

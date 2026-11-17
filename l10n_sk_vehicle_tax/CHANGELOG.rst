@@ -7,6 +7,11 @@ All notable changes to **l10n_sk_vehicle_tax** are documented here.
 [Unreleased]
 ------------
 
+- Keep test-framework imports out of normal production startup; the native
+  Odoo test loader continues to discover the vehicle-tax suite.
+- Bežný štart nenačítava testovací framework; testy naďalej objavuje natívny
+  testovací loader Odoo.
+
 [19.0.1.0.0] — 2026-11-16
 -------------------------
 
