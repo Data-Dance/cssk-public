@@ -6,3 +6,4 @@ from . import test_payslip_company_rules
 from . import test_rules_shared
 from . import test_rzd_sources
 from . import test_recorded_funds
+from . import test_rule_parameter_dates

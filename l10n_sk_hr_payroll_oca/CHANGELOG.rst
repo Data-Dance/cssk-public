@@ -5,10 +5,18 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.26.3:** reject conflicting rule-parameter definitions at the same
+  effective date. Matching legacy rows remain readable, and historical dates
+  are checked independently. No definition, payslip or retained evidence is
+  rewritten by the reader. OCA parameter model only; Enterprise not tested.
+
 - **19.0.1.22.0 (2026-11-09), DISCHARGED on 18.0 by 997c7bbb:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.26.3, not yet on 18.0:** apply the same effective-date ambiguity
+  check and native-copy regression to the OCA rule-parameter reader.
 
 - **19.0.1.26.2 (2026-11-17), not yet on 18.0:** the annual January tax-fact
   reader and its tests, on the 18.0 contract model. OCA engine only.
