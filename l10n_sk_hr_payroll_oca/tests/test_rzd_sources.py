@@ -148,7 +148,9 @@ class TestRzdSources(TransactionCase):
             'name': 'Synthetic other company January fact',
             'company_id': self.other.id, 'date_version': '2025-01-01',
             'contract_date_start': '2025-01-01'})
-        rec = self._manual_annual(self.employee)
+        rec = self.rec
+        rec.write({'gather_from_payslips': False,
+                   'annual_tax_base': 10000, 'annual_advance_tax': 2000})
         with patch.object(type(rec), '_l10n_sk_annual_january_tax_version',
                           return_value=employee.version_id):
             with self.assertRaises(UserError):
