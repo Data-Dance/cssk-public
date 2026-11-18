@@ -93,3 +93,24 @@ safe for repeated calls. This hook neither reviews a fact nor reopens an
 employment, changes monthly payroll or selects annual income. The annual
 company and pension-consistency checks still run. This is the OCA engine's
 annual model; other engines need their own corresponding adapter.
+
+## Monthly income-tax calculation
+
+hr.payslip._l10n_sk_monthly_income_tax(base, version) is the OCA INCOMETAX
+calculation on an explicit monthly base. It returns the negative advance,
+using the existing monthly allowance reader and dated progressive bands.
+The salary rule delegates to it once. No settlement adjustment is included.
+
+The default preserves the existing unrounded intermediate amounts.
+_l10n_sk_monthly_income_tax_round(amount) is an identity extension point
+after max(0, base - allowance) and on each charged band amount. An integration
+with an existing intermediate-rounding policy can override this method, for
+example with the payslip company's currency_id.round, without duplicating
+the allowance and band formula. This does not change the default rounding.
+
+Callers must aggregate the intended monthly base before resolving the
+allowance; summing independently calculated portions can apply it repeatedly.
+Recalculation is read-only and does not select or qualify income receipts,
+allocate bank payments, supply historical facts, post accounting, or authorize
+a correction. A settlement integration keeps any base preparation and final
+tax adjustment outside this calculator and applies each exactly once.

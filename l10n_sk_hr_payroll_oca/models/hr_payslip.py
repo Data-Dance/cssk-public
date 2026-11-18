@@ -146,6 +146,38 @@ class HrPayslip(models.Model):
                 raise UserError(_("The 1 January version indicates a pension. Review its tax-relevant pension flag against the retained declaration."))
         return self.rule_parameter("l10n_sk_nczd_monthly")
 
+    def _l10n_sk_monthly_income_tax_round(self, amount):
+        """Intermediate rounding policy; the default keeps native precision.
+
+        Used after subtracting the allowance and for each progressive band.
+        An extension can use the company currency's rounding at these exact
+        points without maintaining a second allowance or tax-band formula.
+        """
+        return amount
+
+    def _l10n_sk_monthly_income_tax(self, base, version):
+        """Calculate the negative monthly advance on an explicit full base.
+
+        This is the INCOMETAX calculation, before any settlement adjustment.
+        The caller owns aggregation: resolve the allowance once on the whole
+        monthly base, then compare calculations if a difference is needed.
+        No receipt, payment, source qualification or accounting is created.
+        """
+        self.ensure_one()
+        # The annual high-income taper remains an RZD matter. January pension
+        # eligibility is handled by the existing monthly allowance reader.
+        nczd = self.l10n_sk_monthly_nczd(version)
+        taxable = self._l10n_sk_monthly_income_tax_round(max(0.0, base - nczd))
+        bands = self.rule_parameter("l10n_sk_income_tax_bands")
+        tax = 0.0
+        prev = 0.0
+        for rate, ceiling in bands:
+            if taxable > prev:
+                amt = min(taxable, ceiling) - prev
+                tax += self._l10n_sk_monthly_income_tax_round(amt * rate)
+            prev = ceiling
+        return -tax
+
     def compute_sheet(self):
         # A rule's safe_eval wraps UserError in a Python traceback. Validate
         # before evaluation so the payroll officer gets the business message.

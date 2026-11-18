@@ -580,26 +580,7 @@ result = max(0.0, categories.GROSS + categories.SOCIALEMPLOYEE)
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-base = result_rules.TAXBASE.total
-
-# --- NČZD (non-taxable part per taxpayer) ---
-# The annual high-income taper remains an RZD matter. January pension
-# eligibility is separate: FS FAQ7/9 excludes the monthly allowance.
-nczd = payslip.l10n_sk_monthly_nczd(contract)
-
-taxable = max(0.0, base - nczd)
-
-# --- Progressive monthly bands ---
-bands = payslip.rule_parameter('l10n_sk_income_tax_bands')
-tax = 0.0
-prev = 0.0
-for rate, ceiling in bands:
-    if taxable &gt; prev:
-        amt = min(taxable, ceiling) - prev
-        tax += amt * rate
-    prev = ceiling
-
-result = -tax
+result = payslip._l10n_sk_monthly_income_tax(result_rules.TAXBASE.total, contract)
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
