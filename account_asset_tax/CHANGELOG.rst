@@ -8,6 +8,12 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+- **19.0.1.13.1:** declare the depreciation-group code unique key with
+  ``models.Constraint`` on Odoo 19. The SQL name and existing error message
+  are retained. Upgrades preserve group records and asset references.
+  Existing duplicate codes require review before the database can install
+  the key. Odoo 18 keeps its supported legacy declaration.
+
 Carry-over to 18.0: 19.0.1.13.0 (§ 52zzzk vehicle VAT). DISCHARGED (18.0.1.10.0).
 
 [19.0.1.13.0] — 2026-11-11

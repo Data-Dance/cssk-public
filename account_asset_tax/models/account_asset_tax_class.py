@@ -53,9 +53,10 @@ class AccountAssetTaxClass(models.Model):
         help="Coefficient applied after a technical improvement (CZ §32 / SK §28).",
     )
 
-    _sql_constraints = [
-        ("code_uniq", "unique(code)", "The tax depreciation group code must be unique."),
-    ]
+    _code_uniq = models.Constraint(
+        "unique(code)",
+        "The tax depreciation group code must be unique.",
+    )
 
     @api.depends("code", "name", "useful_life_years")
     def _compute_display_name(self):
