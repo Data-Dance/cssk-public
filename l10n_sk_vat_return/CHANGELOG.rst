@@ -8,6 +8,20 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[18.0.1.2.1] — 2026-11-18
+-------------------------
+
+Fixed
+~~~~~
+
+- A DIČ on the company that is not nine or ten digits is refused at export:
+  it is filed in its own box next to the IČ DPH, and the tax office's form
+  takes nothing else there. Both identifier checks count ASCII digits only.
+  From 19.0.1.16.1. The rest of that release, filing by DIČ without an IČ
+  DPH, concerns the statuses *Iná osoba povinná podať priznanie* and
+  *Zdaniteľná osoba podľa § 3 ods. 5*; this series files as *Platiteľ dane*
+  only, for whom the IČ DPH stays required.
+
 [18.0.1.2.0] — 2026-11-17
 -------------------------
 

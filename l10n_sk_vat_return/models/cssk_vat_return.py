@@ -30,7 +30,10 @@ from odoo import _, models
 from odoo.exceptions import UserError
 
 #: A Slovak IČ DPH: ``SK`` and the ten digits of the DIČ.
-_SK_IC_DPH_RE = re.compile(r"SK\d{10}")
+_SK_IC_DPH_RE = re.compile(r"SK\d{10}", re.ASCII)
+#: What the form takes in "Daňové identifikačné číslo / Rodné číslo": nine or
+#: ten digits (a DIČ has ten).
+_SK_DIC_RE = re.compile(r"\d{9,10}", re.ASCII)
 
 
 class CSSKVatReturn(models.Model):
@@ -80,6 +83,18 @@ class CSSKVatReturn(models.Model):
                     "Company ID.",
                     company=rec.company_id.display_name,
                     vat=rec.company_id.vat))
+            elif not _SK_DIC_RE.fullmatch(rec._l10n_sk_filer_ids()[1]):
+                # Filed next to the IČ DPH in its own box, which takes nine
+                # or ten digits.
+                raise UserError(_(
+                    "The DIČ of company '%(company)s' is '%(dic)s', which is "
+                    "not a DIČ (ten digits; nine or ten for a rodné číslo). "
+                    "The VAT return files it next to the IČ DPH. Correct it "
+                    "on the company (Settings → Users & Companies → "
+                    "Companies → %(company)s), or clear it and the digits of "
+                    "the IČ DPH are filed.",
+                    company=rec.company_id.display_name,
+                    dic=rec.company_id.income_tax_id or ""))
             if not rec.company_id.l10n_cssk_tax_authority_id.submission_code:
                 raise UserError(_(
                     "Company '%(company)s' has no tax office with a submission "

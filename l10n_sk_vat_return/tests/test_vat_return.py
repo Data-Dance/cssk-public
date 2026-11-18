@@ -89,6 +89,18 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
                 ret.action_export_xml()
             self.assertNotEqual(ret.state, "exported")
 
+    def test_a_dic_that_is_not_one_is_refused_next_to_an_ic_dph(self):
+        """The DIČ is filed in its own box whatever the IČ DPH is."""
+        ret = self._make_return()
+        ret.action_compute_lines()
+        for wrong in ("SK2020123456", "1234", "２０２０１２３４５６"):
+            self.company.income_tax_id = wrong
+            with self.assertRaisesRegex(UserError, "is not a DIČ"):
+                ret.action_export_xml()
+        self.company.income_tax_id = False
+        ret.action_export_xml()
+        self.assertEqual(ret.state, "exported")
+
     def test_the_header_files_the_ic_dph_and_the_dic(self):
         ret = self._make_return()
         ret.action_compute_lines()

@@ -258,3 +258,9 @@ msgstr "DIČ/IČ DPH spoločnosti „%(company)s“ je „%(vat)s“, čo nie je
 #: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
 msgid "Company '%(company)s' has no tax office with a submission code, but the VAT return must name it (danovyUrad). Set the Tax Authority on the company (Settings → Users & Companies → Companies → %(company)s) and export again."
 msgstr "Spoločnosť „%(company)s“ nemá daňový úrad s kódom pre podanie, ale daňové priznanie ho musí uvádzať (danovyUrad). Nastavte daňový úrad pri spoločnosti (Nastavenia → Používatelia a spoločnosti → Spoločnosti → %(company)s) a exportujte znova."
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
+msgid "The DIČ of company '%(company)s' is '%(dic)s', which is not a DIČ (ten digits; nine or ten for a rodné číslo). The VAT return files it next to the IČ DPH. Correct it on the company (Settings → Users & Companies → Companies → %(company)s), or clear it and the digits of the IČ DPH are filed."
+msgstr "DIČ spoločnosti „%(company)s“ je „%(dic)s“, čo nie je DIČ (desať číslic; pri rodnom čísle deväť alebo desať). Daňové priznanie ho uvádza popri IČ DPH. Opravte ho pri spoločnosti (Nastavenia → Používatelia a spoločnosti → Spoločnosti → %(company)s), alebo ho vymažte a podajú sa číslice IČ DPH."
