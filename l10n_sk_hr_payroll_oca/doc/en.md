@@ -1,7 +1,7 @@
 ---
 title: Slovak Payroll (OCA)
 summary: The Slovak monthly payslip for the OCA payroll app on Odoo Community — a complete salary structure for a pracovný pomer and the three dohody.
-verified: 19.0.1.26.2
+verified: 19.0.1.26.4
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -62,7 +62,7 @@ including paragraphs 1–7, verified against the published version applying from
 
 ## Sickness compensation entitlement {#sickness-entitlement}
 
-Approved PN dates determine calendar-day tiers, while the native shared `SICKNESS_COMPENSATION` applicability policy determines entitlement. A valid absence or entered DVZ alone does not confer insurance. Regular employment remains entitled even for an old-age pensioner; irregular agreements, student agreements and pensioner DoVP/DoPC agreements receive no employer sickness compensation. See [Act462/2003](law:sk/2003/462) and [Act461/2003](law:sk/2003/461). The statutory compensation is income-tax exempt under §5(7)(f) of Act595/2003, as confirmed by the [Financial Administration](https://podpora.financnasprava.sk/589698-N%C3%A1hrada-pr%C3%ADjmu-a-pr%C3%ADplatok-k-n%C3%A1hrade-pr%C3%ADjmu-pri-do%C4%8Dasnej-PN); its exclusion from taxable GROSS is retained. DVZ determination, missing/overlapping medical evidence and manual continuation inputs still require their separate review.
+Approved PN dates determine calendar-day tiers, while the native shared `SICKNESS_COMPENSATION` applicability policy determines entitlement. A valid absence or entered DVZ alone does not confer insurance. Regular employment remains entitled even for an old-age pensioner; irregular agreements, student agreements and pensioner DoVP/DoPC agreements receive no employer sickness compensation. See [Act 462/2003](law:sk/2003/462) and [Act 461/2003](law:sk/2003/461). The statutory compensation is income-tax exempt under § 5(7)(f) of Act 595/2003, as confirmed by the [Financial Administration](https://podpora.financnasprava.sk/589698-N%C3%A1hrada-pr%C3%ADjmu-a-pr%C3%ADplatok-k-n%C3%A1hrade-pr%C3%ADjmu-pri-do%C4%8Dasnej-PN); its exclusion from taxable GROSS is retained. DVZ determination, missing/overlapping medical evidence and manual continuation inputs still require their separate review.
 
 ## Actual worked time in the average {#average-worked-time}
 
@@ -137,3 +137,33 @@ unchanged. These examples do not replace the employee's actual tax profile.
 No rates, rounding methods, dated parameter records or health rules are changed.
 An existing posted amount needs its applicable correction workflow; this change
 does not recalculate historical payroll or claim cumulative independent payslips.
+
+
+## Conflicting parameter definitions
+
+The latest effective date on or before the payslip date determines a rule
+parameter. If several definitions have that date, matching evaluated values
+remain usable; an integer and a decimal with the same value (`1` and `1.0`)
+match, a boolean and a number (`True` and `1`) do not. Conflicting values raise
+an error before that parameter can be used; there is no silent choice by
+database row order. Correct the conflicting
+definition in Payroll → Configuration → Rule Parameters after checking its
+source and effective date. Earlier and later dates remain separate. Reading a
+parameter never changes stored definitions or recalculates retained payslips.
+This check applies to the OCA payroll parameter model. Enterprise does not need
+it: its rule parameter values carry a unique key on the parameter and the date,
+so a second definition on the same date is refused when it is entered.
+
+## Employer sick-pay ceiling
+
+The maximum daily assessment base for employer-paid sick pay under section 8(7)–(8)
+of Act 462/2003 is rounded down to four decimal places. The Social Insurance
+Agency sickness-benefit ceiling follows a separate rule and must not be used
+here. Employer maxima: 2024 = 85.7424, 2025 = 94.0273, 2026 = 100.2082, 2027 = 106.5205.
+In 2027 the first 14 calendar days at the maximum pay 724.34 euros after the
+separate upward cent rounding. This applies to native leave and manual PN input.
+The 2024 maximum derives from the 2022 general assessment base of 15 648 euros.
+Source: https://static.slov-lex.sk/static/SK/ZZ/2003/462/20260101.html and
+https://www.socpoist.sk/nastroje-sluzby/tabulky/tabulka-vseobecneho-vymeriavacieho-zakladu
+Stored payroll is corrected through its ordinary correction workflow; updating
+parameters does not retrospectively certify or repost old payslips.

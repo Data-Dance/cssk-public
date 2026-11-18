@@ -133,7 +133,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_income_settlement` | 19.0.1.0.2 | Reviewed monthly additional-income tax and health calculation |
 | `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.1.2 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
 | `l10n_sk_hr_payroll_mvp` | 19.0.1.1.3 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
-| `l10n_sk_hr_payroll_oca` | 19.0.1.26.2 | Slovak payroll rules for the payroll engine |
+| `l10n_sk_hr_payroll_oca` | 19.0.1.26.4 | Slovak payroll rules for the payroll engine |
 | `l10n_sk_hr_payroll_parity` | 19.0.1.8.2 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and… |
 | `l10n_sk_hr_payroll_rlfo` | 19.0.1.3.1 | Slovak social-insurance registration of employees (RLFO / RLZEC) filed to the Sociálna poisťovňa — prihláška / odhláška events built from the employee +… |
 | `l10n_sk_hr_payroll_surcharges` | 19.0.1.2.8 | Engine-neutral statutory wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work (§§ 121–124 and § 96… |
@@ -157,7 +157,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_transaction_tax` | 19.0.1.0.0 | Reviewed native-ledger DFT sources and OZNDFTv26 |
 | `l10n_sk_ubl_bis3` | 19.0.3.5.0 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
 | `l10n_sk_vat_registration` | 19.0.1.1.1 | Record which paragraph of the SK VAT Act a partner's IČ DPH was issued under, and warn when a § 69/12 reverse charge is aimed at a § 7 / § 7a registrant, who… |
-| `l10n_sk_vat_return` | 19.0.1.16.0 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
+| `l10n_sk_vat_return` | 19.0.1.16.1 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
 | `l10n_sk_vehicle_expense` | 19.0.1.2.0 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
 | `l10n_sk_vehicle_logbook` | 19.0.2.1.0 | Trip log per vehicle and domestic and foreign travel orders: approval before the trip, advance, settlement after it with the statutory meal, pocket money… |
 | `l10n_sk_vehicle_tax` | 19.0.1.0.1 | Dated vehicle tax assessment and DMVv25 filing |
@@ -173,7 +173,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_accrual` | 19.0.1.1.1 | Estimated unbilled items — book an estimate to the accrual account (CZ 388/389, SK 326 or a receivable analytic), then link the actual invoice to true it up. |
 | `l10n_cssk_banks` | 19.0.2.0.0 | Czech and Slovak banks with their codes and BICs, generated from the ČNB and NBS registries |
 | `l10n_cssk_cash_journal_base` | 19.0.1.6.3 | Country-neutral single-entry cash journal derived from ordinary double-entry books: payments become dated, categorised denník rows, with the year-end balances… |
-| `l10n_cssk_core` | 19.0.1.20.1 | Country-neutral foundation for the Czech & Slovak statutory localization: tax-authority registry, person types, shared company/partner fields, settings and… |
+| `l10n_cssk_core` | 19.0.1.20.2 | Country-neutral foundation for the Czech & Slovak statutory localization: tax-authority registry, person types, shared company/partner fields, settings and… |
 | `l10n_cssk_ec_summary_base` | 19.0.1.7.2 | Country-neutral framework for the Slovak Súhrnný výkaz and Czech Souhrnné hlášení (EC sales list): single-line aggregation per (country, VAT, transaction… |
 | `l10n_cssk_ec_summary_vies` | 19.0.1.0.4 | Validate EC sales list partners against VIES at export and snapshot the consultation number onto each line. |
 | `l10n_cssk_fs_base` | 19.0.1.10.3 | Country-neutral framework for the Slovak and Czech financial statements (balance sheet + P&L): line trees computed from account-code balances + aggregates… |

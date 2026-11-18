@@ -11,6 +11,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.16.1 (2026-11-18):** the DIČ check and the ASCII digits are on
+  18.0 (18.0.1.2.1) — DISCHARGED, do not port them again. Filing by DIČ
+  without an IČ DPH is NOT on 18.0 and has nothing to attach to there: 18.0
+  has no *Postavenie osoby* and files as *Platiteľ dane* only. It goes with
+  the Hlavička fields (19.0.1.15.x) when those are ported, together with
+  ``_cssk_filer_needs_company_vat`` of ``l10n_cssk_core``.
+
 - DISCHARGED 2026-11-17 (18.0.1.2.0) — do not port this again.
   **19.0.1.16.0 (2026-11-17), not yet on 18.0:** the export check that the
   company's Tax ID is a Slovak IČ DPH, and ``<dic>`` from the DIČ field.
@@ -27,6 +34,27 @@ Carry-over to 18.0
   chart's tax xmlids, tags and fiscal-position mapping mechanism first: the
   CSV mirrors 19.0's ``vs_tuz_*`` / ``vs_rc_*``, and 18.0 maps through
   ``account.fiscal.position.tax`` rows rather than ``original_tax_ids``.
+
+[19.0.1.16.1] — 2026-11-18
+--------------------------
+
+Fixed
+~~~~~
+
+- A person with no IČ DPH can export again. The check of 19.0.1.16.0 demanded
+  a Slovak IČ DPH from every filer, but the form's instructions (poučenie
+  DPHv25, bod 10 with body 4 to 6, 54 and 55) have a person who is not
+  registered for the tax leave that box empty and fill in the DIČ, or the
+  rodné číslo for a citizen. With *Postavenie osoby* set to *Iná osoba povinná
+  podať priznanie* or *Zdaniteľná osoba podľa § 3 ods. 5* and the company's
+  Tax ID empty, the return now files an empty IČ DPH and the company's DIČ,
+  which must be nine or ten digits; a rodné číslo typed with its slash is
+  filed without it. The other four statuses keep the strict check, and a Tax
+  ID that is filled in must be a Slovak IČ DPH for every filer.
+  Reported as cssk-public #53.
+- A DIČ on the company that is not nine or ten digits is refused at export
+  also when the IČ DPH is right: it is filed in its own box next to it.
+- Both checks count ASCII digits only.
 
 [19.0.1.16.0] — 2026-11-17
 --------------------------
