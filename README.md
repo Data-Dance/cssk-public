@@ -133,7 +133,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_hr_payroll_income_settlement` | 19.0.1.0.2 | Reviewed monthly additional-income tax and health calculation |
 | `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.1.2 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
 | `l10n_sk_hr_payroll_mvp` | 19.0.1.1.3 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
-| `l10n_sk_hr_payroll_oca` | 19.0.1.26.4 | Slovak payroll rules for the payroll engine |
+| `l10n_sk_hr_payroll_oca` | 19.0.1.26.5 | Slovak payroll rules for the payroll engine |
 | `l10n_sk_hr_payroll_parity` | 19.0.1.8.2 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and… |
 | `l10n_sk_hr_payroll_rlfo` | 19.0.1.3.1 | Slovak social-insurance registration of employees (RLFO / RLZEC) filed to the Sociálna poisťovňa — prihláška / odhláška events built from the employee +… |
 | `l10n_sk_hr_payroll_surcharges` | 19.0.1.2.8 | Engine-neutral statutory wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work (§§ 121–124 and § 96… |
@@ -284,7 +284,7 @@ this repository. Add them to the addons path as well:
 | Module | Version | What it does |
 |---|---|---|
 | `account_asset_board` | 19.0.1.0.2 | Interactive depreciation schedule and pivot/graph analysis for OCA assets (Community) |
-| `account_asset_tax` | 19.0.1.13.0 | Country-neutral engine for a second, non-posted tax-depreciation board alongside accounting depreciation (daňové vs účetní/účtovné odpisy) |
+| `account_asset_tax` | 19.0.1.13.1 | Country-neutral engine for a second, non-posted tax-depreciation board alongside accounting depreciation (daňové vs účetní/účtovné odpisy) |
 | `account_asset_tax_oca` | 19.0.1.7.0 | Attach the CZ/SK tax-depreciation board to OCA account_asset_management (Community) |
 | `account_cz_bankfile_base` | 19.0.1.3.2 | Shared ABO and MultiCash payment-file builders. The CE (account_payment_order) and EE (account_batch_payment) variants of account_abo / account_multicash both… |
 | `account_debit_note_dd` | 19.0.1.0.2 | Names Odoo's core debit note as the Czech vrubopis (opravný daňový doklad zvyšující základ) on screen and on the printed document — a UI and report layer that… |

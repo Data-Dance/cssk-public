@@ -93,3 +93,46 @@ safe for repeated calls. This hook neither reviews a fact nor reopens an
 employment, changes monthly payroll or selects annual income. The annual
 company and pension-consistency checks still run. This is the OCA engine's
 annual model; other engines need their own corresponding adapter.
+
+## Developer extension: monthly tax facts
+
+`hr.payslip._l10n_sk_monthly_tax_facts(version, include_january=False)` is
+the shared reader for monthly NČZD and evidence integrations. The allowance
+first calls it without January facts. A signed declaration triggers a second
+call with `include_january=True`; the unsigned path returns after the first
+call. Payroll evaluates the allowance in the `compute_sheet` pre-check and
+again in the salary rule. Keep this hook a pure, repeatable function of the
+payslip and version, with no writes or privilege elevation.
+
+Return a fresh dictionary with all of these stable keys.
+
+| Key | Value |
+| --- | --- |
+| `company` | Payslip company ID. |
+| `employee` | Payslip employee ID. |
+| `version` | Supplied contract version ID. |
+| `year` | Year of `date_to`, or `False` if unset. |
+| `as_of` | ISO date of `date_to`, or `False` if unset. |
+| `signed` | Boolean declaration flag from `l10n_sk_tax_declaration_signed`. |
+| `january` | January dictionary, or `False` when absent or unrequested. |
+
+Use a dated payslip for January lookup. When present, the January dictionary
+has all of the following keys.
+
+| Key | Value |
+| --- | --- |
+| `version` | January version ID. |
+| `company` | January version company ID. |
+| `date` | ISO date of `date_version`, or `False` if unset. |
+| `tax_pensioner` | Boolean value of `l10n_sk_tax_pensioner`. |
+| `insurance_pension` | Code from `l10n_sk_pension_type`, or `False`. |
+| `pension_annual` | Annual amount from `l10n_sk_nczd_pension_annual` as a float. |
+
+The annual January reader returns a native version. Detached monthly facts
+let an evidence adapter supply its separately reviewed source without
+having to return a live `hr.version`. The default still uses the native
+employee January reader. An override must verify its owned source, employee,
+company, date and provenance. Monthly NČZD retains its employee/company scope
+check, January company and pension checks, and dated allowance parameter.
+This hook belongs to the OCA engine. The 18.0 carry-over is tracked in the
+changelog.

@@ -10,6 +10,9 @@ Unreleased
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.26.5 (2026-11-18), not yet on 18.0:** the monthly tax-facts
+  reader and its tests, on the 18.0 contract model. OCA engine only.
+
 - **19.0.1.26.4 (2026-11-18), not yet on 18.0:** the employer PN maximum
   DVZ for 2024–2027 and the native/manual cap regressions. OCA parameter
   model only.
@@ -91,6 +94,21 @@ Carry-over to 18.0
   **Fully DISCHARGED 2026-11-16**: ffd67cd0c and both tests are on 18.0 as
   18.0.2.10.1 (48c3c03a0); the DoBPŠ part stays 19.0-only on the OCA engine
   (18.0 has no DoBPŠ agreement type).
+
+[19.0.1.26.5] — 2026-11-18
+==========================
+
+Added
+~~~~~
+
+* ``_l10n_sk_monthly_tax_facts(version, *, include_january=False)``: one
+  cooperative reader for the dated facts the monthly NČZD uses (company,
+  employee, version, year, cut-off, signed declaration and, on request, the
+  January pension facts), returned as a detached dictionary. Evidence readers
+  call it instead of duplicating the allowance policy. The monthly NČZD keeps
+  its company/employee check, its early exit for an unsigned declaration and
+  the January company/pension-consistency checks. OCA engine only.
+  Contributed by votrelec (cssk-public#56).
 
 [19.0.1.26.4] — 2026-11-18
 ==========================
