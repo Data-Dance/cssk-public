@@ -28,6 +28,17 @@ Fixed
   country: Odoo drops a string domain when it copies a field into a related
   one.
 
+[18.0.1.17.1] — 2026-11-18
+--------------------------
+
+Fixed
+~~~~~
+
+- The company form shows *Tax Authority*, *Entity Type* and the registration
+  line as labelled fields after the registry number. They sat inside the
+  address block, after the country, where a field has no label: the tax office
+  read as a line of the address. Ported from 19.0.1.20.1.
+
 [18.0.1.17.0] — 2026-10-19
 --------------------------
 

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Slovak tax offices (daňové úrady): the 8 regional offices (one per kraj)
      plus the Daňový úrad pre vybrané daňové subjekty.
-     submission_code = the free-text "danovyUrad" string emitted in the FS SR
-     hlavička (dph2025.xsd / svdph20.xsd declare it as an unconstrained
-     xsd:string). The full office name is used; verify the exact convention
-     against a real submission if your DÚ rejects it.
+     submission_code = the "danovyUrad" string emitted in the FS SR hlavička.
+     dph2025.xsd / svdph20.xsd declare it as an unconstrained xsd:string, but
+     the tax office's form offers a list and matches the value against it: the
+     regional offices are listed by their seat alone ("Bratislava"), which is
+     also what filed returns carry. A full office name leaves the box empty.
+     The office for selected taxpayers is listed there as "Úrad pre vybrané
+     hospodárske subjekty" (the DPHv25 form's own option list, read
+     2026-11-18).
      Addresses/phones: Finančná správa SR published contacts — verify against the
      live FS SR pages, as switchboard numbers change. -->
 <odoo>
@@ -12,7 +16,7 @@
     <record id="sk_du_ba" model="cssk.tax.authority">
       <field name="name">Daňový úrad Bratislava</field>
       <field name="code">SK-BA</field>
-      <field name="submission_code">Daňový úrad Bratislava</field>
+      <field name="submission_code">Bratislava</field>
       <field name="country_id" ref="base.sk"/>
       <field name="street">Ševčenkova 32</field>
       <field name="zip">850 00</field>
@@ -22,7 +26,7 @@
     <record id="sk_du_tt" model="cssk.tax.authority">
       <field name="name">Daňový úrad Trnava</field>
       <field name="code">SK-TT</field>
-      <field name="submission_code">Daňový úrad Trnava</field>
+      <field name="submission_code">Trnava</field>
       <field name="country_id" ref="base.sk"/>
       <field name="street">Hlboká 8/1</field>
       <field name="zip">917 65</field>
@@ -32,7 +36,7 @@
     <record id="sk_du_tn" model="cssk.tax.authority">
       <field name="name">Daňový úrad Trenčín</field>
       <field name="code">SK-TN</field>
-      <field name="submission_code">Daňový úrad Trenčín</field>
+      <field name="submission_code">Trenčín</field>
       <field name="country_id" ref="base.sk"/>
       <field name="street">K dolnej stanici 22</field>
       <field name="zip">911 33</field>
@@ -42,7 +46,7 @@
     <record id="sk_du_nr" model="cssk.tax.authority">
       <field name="name">Daňový úrad Nitra</field>
       <field name="code">SK-NR</field>
-      <field name="submission_code">Daňový úrad Nitra</field>
+      <field name="submission_code">Nitra</field>
       <field name="country_id" ref="base.sk"/>
       <field name="street">Damborského 5</field>
       <field name="zip">949 01</field>
@@ -52,7 +56,7 @@
     <record id="sk_du_za" model="cssk.tax.authority">
       <field name="name">Daňový úrad Žilina</field>
       <field name="code">SK-ZA</field>
-      <field name="submission_code">Daňový úrad Žilina</field>
+      <field name="submission_code">Žilina</field>
       <field name="country_id" ref="base.sk"/>
       <field name="street">Janka Kráľa 2</field>
       <field name="zip">010 01</field>
@@ -62,7 +66,7 @@
     <record id="sk_du_bb" model="cssk.tax.authority">
       <field name="name">Daňový úrad Banská Bystrica</field>
       <field name="code">SK-BB</field>
-      <field name="submission_code">Daňový úrad Banská Bystrica</field>
+      <field name="submission_code">Banská Bystrica</field>
       <field name="country_id" ref="base.sk"/>
       <field name="street">Nová 13</field>
       <field name="zip">974 04</field>
@@ -72,7 +76,7 @@
     <record id="sk_du_po" model="cssk.tax.authority">
       <field name="name">Daňový úrad Prešov</field>
       <field name="code">SK-PO</field>
-      <field name="submission_code">Daňový úrad Prešov</field>
+      <field name="submission_code">Prešov</field>
       <field name="country_id" ref="base.sk"/>
       <field name="street">Hviezdoslavova 7</field>
       <field name="zip">080 01</field>
@@ -82,7 +86,7 @@
     <record id="sk_du_ke" model="cssk.tax.authority">
       <field name="name">Daňový úrad Košice</field>
       <field name="code">SK-KE</field>
-      <field name="submission_code">Daňový úrad Košice</field>
+      <field name="submission_code">Košice</field>
       <field name="country_id" ref="base.sk"/>
       <field name="street">Železničná 1</field>
       <field name="zip">041 90</field>
@@ -92,7 +96,7 @@
     <record id="sk_du_vds" model="cssk.tax.authority">
       <field name="name">Daňový úrad pre vybrané daňové subjekty</field>
       <field name="code">SK-VDS</field>
-      <field name="submission_code">Daňový úrad pre vybrané daňové subjekty</field>
+      <field name="submission_code">Úrad pre vybrané hospodárske subjekty</field>
       <field name="country_id" ref="base.sk"/>
       <field name="street">Radlinského 37</field>
       <field name="zip">817 73</field>

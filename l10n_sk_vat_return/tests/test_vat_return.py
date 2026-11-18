@@ -103,6 +103,17 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
         self.company.income_tax_id = " 2020 123456 "
         self.assertEqual(ret._l10n_sk_filer_ids(), ("2023456787", "2020123456"))
 
+    def test_the_seeded_office_files_its_seat(self):
+        """The tax office's form lists the regional offices by seat and
+        leaves the box empty for any other wording."""
+        self.company.l10n_cssk_tax_authority_id = self.env.ref(
+            "l10n_sk_statutory.sk_du_ba")
+        ret = self._make_return()
+        ret.action_compute_lines()
+        ret.action_export_xml()
+        root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
+        self.assertEqual(root.findtext("hlavicka/danovyUrad"), "Bratislava")
+
     def test_compute_and_export(self):
         self.init_invoice(
             "out_invoice", partner=self.partner_a,
