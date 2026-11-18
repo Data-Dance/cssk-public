@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.26.2
+verified: 19.0.1.26.4
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -59,7 +59,7 @@ Pri skutočnom mzdovom období preveriť ďalšie novelizácie.
 
 ## Nárok na náhradu príjmu počas PN {#sickness-entitlement}
 
-Dátumy schválenej PN určujú kalendárne dni jednotlivých pásiem; nárok určuje spoločné natívne pravidlo `SICKNESS_COMPENSATION`. Samotná absencia alebo zadaný DVZ nezakladajú nemocenské poistenie. Pri pravidelnom pracovnom pomere zostáva nárok aj starobnému dôchodcovi. Pri nepravidelných dohodách, študentskej dohode a dôchodkových DoVP/DoPČ sa náhrada neposkytuje. Právny základ: [462/2003](law:sk/2003/462) a [461/2003](law:sk/2003/461). Zákonná náhrada je podľa §5 ods.7 písm.f) zákona595/2003 oslobodená od dane, čo potvrdzuje [Finančná správa](https://podpora.financnasprava.sk/589698-N%C3%A1hrada-pr%C3%ADjmu-a-pr%C3%ADplatok-k-n%C3%A1hrade-pr%C3%ADjmu-pri-do%C4%8Dasnej-PN). Jej vylúčenie zo zdaniteľného GROSS zostáva zachované. Určenie DVZ, chýbajúce či prekrývajúce sa lekárske podklady a ručne zadané pokračovanie vyžadujú samostatné overenie.
+Dátumy schválenej PN určujú kalendárne dni jednotlivých pásiem; nárok určuje spoločné natívne pravidlo `SICKNESS_COMPENSATION`. Samotná absencia alebo zadaný DVZ nezakladajú nemocenské poistenie. Pri pravidelnom pracovnom pomere zostáva nárok aj starobnému dôchodcovi. Pri nepravidelných dohodách, študentskej dohode a dôchodkových DoVP/DoPČ sa náhrada neposkytuje. Právny základ: [462/2003](law:sk/2003/462) a [461/2003](law:sk/2003/461). Zákonná náhrada je podľa § 5 ods. 7 písm. f) zákona 595/2003 oslobodená od dane, čo potvrdzuje [Finančná správa](https://podpora.financnasprava.sk/589698-N%C3%A1hrada-pr%C3%ADjmu-a-pr%C3%ADplatok-k-n%C3%A1hrade-pr%C3%ADjmu-pri-do%C4%8Dasnej-PN). Jej vylúčenie zo zdaniteľného GROSS zostáva zachované. Určenie DVZ, chýbajúce či prekrývajúce sa lekárske podklady a ručne zadané pokračovanie vyžadujú samostatné overenie.
 
 ## Skutočne odpracovaný čas pri priemere {#average-worked-time}
 
@@ -74,7 +74,7 @@ dní zamestnávateľa, sadzby a strop DVZ platné pri jej vzniku. PN začatá v 
 zostáva v desaťdňovom režime aj v roku 2026.
 
 DVZ zamestnávateľa sa zaokrúhli na štyri desatinné miesta nadol. Výsledná mesačná
-náhrada sa podľa §10 ods.2 zákona 462/2003 zaokrúhli na eurocenty nahor.
+náhrada sa podľa § 10 ods. 2 zákona 462/2003 zaokrúhli na eurocenty nahor.
 Desiatková aritmetika nepridáva cent spôsobený binárnou nepresnosťou. Rovnaké
 peňažné zaokrúhlenie používa pôvodný manuálny vstup. Jeho pokračovanie a určenie
 zadaného DVZ naďalej vyžadujú overenie; samotný počet dní nenahrádza dátumy PN.
@@ -133,3 +133,31 @@ Príklady nenahrádzajú skutočný daňový profil zamestnanca.
 Nemenia sa sadzby, zaokrúhľovanie, záznamy parametrov ani zdravotné pravidlá. Zaúčtovaná
 suma potrebuje príslušný opravný postup; zmena spätne neprepočítava mzdy ani
 nepredstavuje vyriešenú kumuláciu nezávislých pások.
+
+## Rozporné definície parametra
+
+Parameter používa posledný dátum účinnosti, ktorý nie je neskorší ako dátum
+pásky. Ak má tento dátum viac definícií, zhodné vyhodnotené hodnoty zostávajú
+použiteľné; celé a desatinné číslo s rovnakou hodnotou (`1` a `1.0`) sa zhodujú,
+logická hodnota a číslo (`True` a `1`) nie. Rozporné hodnoty vyvolajú chybu pred použitím parametra; poradie
+riadkov databázy nerozhoduje. Po overení pôvodu a dátumu opravte rozpornú
+definíciu v *Konfigurácia → Parametre pravidiel* aplikácie miezd. Staršie a novšie dátumy
+sa posudzujú samostatne. Čítanie nemení definície ani neprepočítava uchované
+pásky. Kontrola platí pre model parametrov OCA. Enterprise ju nepotrebuje:
+hodnoty parametrov tam majú jedinečný kľúč na parameter a dátum, takže druhú
+definíciu s rovnakým dátumom odmietne už pri zadaní.
+
+
+## Maximum náhrady príjmu pri PN u zamestnávateľa
+
+Maximálny denný vymeriavací základ podľa § 8 ods. 7–8 zákona 462/2003 sa
+zaokrúhľuje nadol na štyri desatinné miesta. Strop nemocenskej dávky Sociálnej
+poisťovne má iné zaokrúhlenie a nesmie ho nahrádzať. Maximá zamestnávateľa:
+2024 = 85,7424; 2025 = 94,0273; 2026 = 100,2082; 2027 = 106,5205 eura.
+V roku 2027 predstavuje maximum za prvých 14 kalendárnych dní 724,34 eura po
+samostatnom zaokrúhlení výslednej náhrady nahor na centy. Platí pre evidovanú PN
+aj manuálny PN vstup. Maximum 2024 vychádza zo všeobecného vymeriavacieho základu 2022 = 15 648 eur.
+Podklad: https://static.slov-lex.sk/static/SK/ZZ/2003/462/20260101.html a
+https://www.socpoist.sk/nastroje-sluzby/tabulky/tabulka-vseobecneho-vymeriavacieho-zakladu
+Uchované mzdy sa opravujú riadnym opravným postupom; aktualizácia parametrov
+spätne nepotvrdzuje ani nepreúčtováva staré pásky.
