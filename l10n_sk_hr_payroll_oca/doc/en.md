@@ -137,3 +137,23 @@ unchanged. These examples do not replace the employee's actual tax profile.
 No rates, rounding methods, dated parameter records or health rules are changed.
 An existing posted amount needs its applicable correction workflow; this change
 does not recalculate historical payroll or claim cumulative independent payslips.
+
+
+## Shared monthly tax facts
+
+Extensions that read monthly tax evidence can use
+`_l10n_sk_monthly_tax_facts(version, include_january=True)` on the payslip.
+It returns detached scalar facts: company, employee and version IDs, tax year,
+ISO cutoff date, signed-declaration flag and, when requested, the actual
+January version facts. January data includes the real version/company IDs,
+version date, tax-pension flag, insurance-pension type and annual pension
+amount. An absent or unrequested January record is `False`.
+
+The default reader uses the existing native versions. Monthly allowance still
+checks company/employee scope before calling the hook, exits before a January
+lookup for an unsigned declaration, and keeps the same January company and
+pension-consistency checks. The existing dated allowance parameter is unchanged.
+The reader stores no facts and does not treat a caller dictionary or context as
+authority. Integrations supplying other evidence must check their owned source
+and preserve its relevant year, scope and provenance. OCA only; Enterprise and
+the18.0 adaptation are not tested.

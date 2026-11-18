@@ -5,10 +5,18 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.26.5:** expose a cooperative detached monthly tax-facts reader
+  for allowance calculation and evidence adapters. Native company/employee,
+  January pension consistency and unsigned-declaration behaviour are retained;
+  no new register, field or statutory amount is introduced.
+
 - **19.0.1.22.0 (2026-11-09), DISCHARGED on 18.0 by 997c7bbb:** the employee social insurance cap is prorated for a part-month (§ 138 ods. 13, employer cap untouched); sick pay and the § 16a minimum count calendar days from the start of the incapacity (§ 8 zákona 462/2003); the health allowance is reduced for a part-month (§ 16 ods. 18).
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.26.5, not yet on 18.0:** the OCA monthly tax-facts reader and
+  its allowance/evidence adapter tests, using the18.0 contract model.
 
 - **19.0.1.26.2 (2026-11-17), not yet on 18.0:** the annual January tax-fact
   reader and its tests, on the 18.0 contract model. OCA engine only.
