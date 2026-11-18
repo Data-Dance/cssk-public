@@ -2253,7 +2253,7 @@ class TestSkPayroll(TransactionCase):
             date(2026, 1, 31),
             inputs=[("PN_DVZ", 100)],
         )
-        # 2025 cap94.0274 x (one day25% + seven days55%) =385.51234.
+        # 2025 cap 94.0273 × (one day at 25% + seven days at 55%) = 385.51193.
         # Section10(2) requires upward rounding, hence385.52.
         self.assertEqual(slip.get_salary_line_total("SICK_COMP"), 385.52)
 

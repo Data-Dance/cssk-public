@@ -137,13 +137,13 @@ nepredstavuje vyriešenú kumuláciu nezávislých pások.
 
 ## Maximum náhrady príjmu pri PN u zamestnávateľa
 
-Maximálny denný vymeriavací základ podľa §8 ods.7–8 zákona462/2003 sa
+Maximálny denný vymeriavací základ podľa § 8 ods. 7–8 zákona č. 462/2003 Z. z. sa
 zaokrúhľuje nadol na štyri desatinné miesta. Strop nemocenskej dávky Sociálnej
 poisťovne má iné zaokrúhlenie a nesmie ho nahrádzať. Maximá zamestnávateľa:
-2024=85,7424;2025=94,0273;2026=100,2082;2027=106,5205 eura.
-V roku2027 predstavuje maximum za prvých14 kalendárnych dní724,34 eura po
+2024 = 85,7424; 2025 = 94,0273; 2026 = 100,2082; 2027 = 106,5205 eura.
+V roku 2027 predstavuje maximum za prvých 14 kalendárnych dní 724,34 eura po
 samostatnom zaokrúhlení výslednej náhrady nahor na centy. Platí pre evidovanú PN
-aj manuálny PN vstup. Maximum2024 vychádza zo všeobecného základu2022=15648 eur.
+aj manuálny PN vstup. Maximum pre rok 2024 vychádza zo všeobecného vymeriavacieho základu za rok 2022 vo výške 15 648 eur.
 Podklad: https://static.slov-lex.sk/static/SK/ZZ/2003/462/20260101.html a
 https://www.socpoist.sk/nastroje-sluzby/tabulky/tabulka-vseobecneho-vymeriavacieho-zakladu
 Uchované mzdy sa opravujú riadnym opravným postupom; aktualizácia parametrov

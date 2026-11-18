@@ -6,7 +6,7 @@ Unreleased
 ==========
 
 - **19.0.1.26.4:** correct employer sick-pay maximum DVZ for 2024-2027.
-  Apply the four-place downward rounding in 462/2003 section 8(7)-(8),
+  Apply the four-place downward rounding under sections 8(7)–(8) of Act 462/2003,
   independently from the Social Insurance Agency sickness-benefit ceiling.
   The 2024 value also uses the 2022 general assessment base.
   Recalculation of retained payroll remains an explicit correction workflow.
