@@ -17,6 +17,22 @@ Carry-over to 18.0
   ``base/data/res.lang.csv``.
 - The private workflow-write seam still needs an 18.0 port together with
   generated-field guard and common export/filing/reset regression tests.
+- **19.0.1.20.2 (2026-11-18), not yet on 18.0:**
+  ``_cssk_filer_needs_company_vat()``. Nothing on 18.0 would call it until the
+  Slovak DPH return's *Postavenie osoby* is ported; port the two together.
+
+[19.0.1.20.2] — 2026-11-18
+--------------------------
+
+Added
+~~~~~
+
+- ``_cssk_filer_needs_company_vat()`` on the statutory submission mixin. The
+  shared export check demands the company's VAT number because every form
+  carries it as the filer's identification; a country module returns False
+  for the filers its form identifies otherwise and checks that identification
+  itself. Used by the Slovak DPH return for persons with no IČ DPH
+  (cssk-public #53). Default True: nothing changes for any other form.
 
 [19.0.1.20.1] — 2026-11-17
 --------------------------

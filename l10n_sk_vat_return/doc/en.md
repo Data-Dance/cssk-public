@@ -1,7 +1,7 @@
 ---
 title: SK VAT Return (Daňové priznanie k DPH)
 summary: The Slovak VAT return computed from the tax tags of Odoo's Slovak chart, in the form vintage of each period, exported as the Finančná správa XML and validated against its XSD.
-verified: 19.0.1.16.0
+verified: 19.0.1.16.1
 ---
 
 ## What it is for {#purpose}
@@ -123,6 +123,12 @@ Beyond the [engine's setup](module:l10n_cssk_vat_return_base#setup):
   **Street 2** is filed as the house number only when it holds nothing but a
   number — a building, a floor or a c/o line there never is; a street that
   does not end in a number is written whole with *číslo* empty.
+- **A filer with no IČ DPH**: a person who is not registered for the tax and
+  files as *Iná osoba povinná podať priznanie* or *Zdaniteľná osoba podľa § 3
+  ods. 5* leaves the company's Tax ID empty and fills in the **DIČ** (a
+  citizen the rodné číslo). The return then files the IČ DPH box empty and
+  that number, nine or ten digits, as the form's instructions prescribe. For
+  the other four statuses an IČ DPH is required.
 - **Service products bought from the EU** need the right vendor tax; see
   [below](#eu-services).
 

@@ -47,7 +47,16 @@ SK_FILER_STATUS = [
 ]
 _SK_ZASTUPCA_69AA_FROM = date(2018, 1, 1)
 #: A Slovak IČ DPH: ``SK`` and the ten digits of the DIČ.
-_SK_IC_DPH_RE = re.compile(r"SK\d{10}")
+_SK_IC_DPH_RE = re.compile(r"SK\d{10}", re.ASCII)
+#: Filers the form identifies without an IČ DPH (poučenie DPHv25, bod 10 with
+#: body 4 to 6 and 54, 55): a person not registered for the tax who files
+#: under § 78 ods. 3, 4 or 9, or who claims the § 3 ods. 5 deduction, leaves
+#: the IČ DPH box empty and fills in "Daňové identifikačné číslo / Rodné
+#: číslo".
+_SK_FILERS_WITHOUT_IC_DPH = ("inaPovinna", "zdanitelna")
+#: What the form takes in that box: nine or ten digits (a DIČ has ten, a
+#: rodné číslo nine or ten).
+_SK_DIC_RE = re.compile(r"\d{9,10}", re.ASCII)
 
 
 class CSSKVatReturn(models.Model):
@@ -118,14 +127,24 @@ class CSSKVatReturn(models.Model):
 
         The DIČ is the company's own DIČ field where it is filled in, and the
         digits of the IČ DPH otherwise: a Slovak IČ DPH is ``SK`` + the DIČ,
-        so the two agree whenever both are right.
+        so the two agree whenever both are right. A filer with no IČ DPH
+        (``_SK_FILERS_WITHOUT_IC_DPH``) files the first one empty. A rodné
+        číslo typed with its slash is filed without it: the box takes ten
+        characters.
         """
         self.ensure_one()
         company = self.company_id
         vat = re.sub(r"\s+", "", company.vat or "").upper()
         cislo = vat[2:] if vat[:2].isalpha() else vat
-        dic = re.sub(r"\s+", "", company.income_tax_id or "") or cislo
+        dic = re.sub(r"[\s/]+", "", company.income_tax_id or "") or cislo
         return cislo, dic
+
+    def _cssk_filer_needs_company_vat(self):
+        self.ensure_one()
+        if (self.country_id.code == "SK"
+                and self.l10n_sk_filer_status in _SK_FILERS_WITHOUT_IC_DPH):
+            return False
+        return super()._cssk_filer_needs_company_vat()
 
     def _cssk_render_context(self):
         ctx = super()._cssk_render_context()
@@ -164,7 +183,24 @@ class CSSKVatReturn(models.Model):
             # a registry number (IČO) typed into the company's Tax ID exports
             # and is refused only by the tax office's form.
             vat = re.sub(r"\s+", "", rec.company_id.vat or "").upper()
-            if not _SK_IC_DPH_RE.fullmatch(vat):
+            if not vat and not rec._cssk_filer_needs_company_vat():
+                # No IČ DPH assigned: the form identifies this filer by the
+                # DIČ (a citizen by the rodné číslo) and leaves the IČ DPH
+                # box empty. Its own check is "IČ DPH alebo DIČ/RČ je
+                # povinné".
+                dic = rec._l10n_sk_filer_ids()[1]
+                if not _SK_DIC_RE.fullmatch(dic):
+                    raise UserError(_(
+                        "Company '%(company)s' has no Tax ID (IČ DPH), so "
+                        "this return identifies it by its DIČ, or by the "
+                        "rodné číslo for a citizen, and '%(dic)s' is not one "
+                        "(nine or ten digits). Fill in the DIČ on the "
+                        "company (Settings → Users & Companies → Companies "
+                        "→ %(company)s). If the company does have an IČ "
+                        "DPH, fill in its Tax ID instead.",
+                        company=rec.company_id.display_name,
+                        dic=rec.company_id.income_tax_id or ""))
+            elif not _SK_IC_DPH_RE.fullmatch(vat):
                 raise UserError(_(
                     "The Tax ID of company '%(company)s' is '%(vat)s', which "
                     "is not a Slovak IČ DPH (SK and ten digits, for example "
@@ -175,6 +211,18 @@ class CSSKVatReturn(models.Model):
                     "Company ID.",
                     company=rec.company_id.display_name,
                     vat=rec.company_id.vat))
+            elif not _SK_DIC_RE.fullmatch(rec._l10n_sk_filer_ids()[1]):
+                # Filed next to the IČ DPH in its own box, which takes nine
+                # or ten digits.
+                raise UserError(_(
+                    "The DIČ of company '%(company)s' is '%(dic)s', which is "
+                    "not a DIČ (ten digits; nine or ten for a rodné číslo). "
+                    "The VAT return files it next to the IČ DPH. Correct it "
+                    "on the company (Settings → Users & Companies → "
+                    "Companies → %(company)s), or clear it and the digits of "
+                    "the IČ DPH are filed.",
+                    company=rec.company_id.display_name,
+                    dic=rec.company_id.income_tax_id or ""))
             if not rec.company_id.l10n_cssk_tax_authority_id.submission_code:
                 raise UserError(_(
                     "Company '%(company)s' has no tax office with a submission "

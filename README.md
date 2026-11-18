@@ -157,7 +157,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_transaction_tax` | 19.0.1.0.0 | Reviewed native-ledger DFT sources and OZNDFTv26 |
 | `l10n_sk_ubl_bis3` | 19.0.3.5.0 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
 | `l10n_sk_vat_registration` | 19.0.1.1.1 | Record which paragraph of the SK VAT Act a partner's IČ DPH was issued under, and warn when a § 69/12 reverse charge is aimed at a § 7 / § 7a registrant, who… |
-| `l10n_sk_vat_return` | 19.0.1.16.0 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
+| `l10n_sk_vat_return` | 19.0.1.16.1 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
 | `l10n_sk_vehicle_expense` | 19.0.1.2.0 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
 | `l10n_sk_vehicle_logbook` | 19.0.2.1.0 | Trip log per vehicle and domestic and foreign travel orders: approval before the trip, advance, settlement after it with the statutory meal, pocket money… |
 | `l10n_sk_vehicle_tax` | 19.0.1.0.1 | Dated vehicle tax assessment and DMVv25 filing |
@@ -173,7 +173,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_accrual` | 19.0.1.1.1 | Estimated unbilled items — book an estimate to the accrual account (CZ 388/389, SK 326 or a receivable analytic), then link the actual invoice to true it up. |
 | `l10n_cssk_banks` | 19.0.2.0.0 | Czech and Slovak banks with their codes and BICs, generated from the ČNB and NBS registries |
 | `l10n_cssk_cash_journal_base` | 19.0.1.6.3 | Country-neutral single-entry cash journal derived from ordinary double-entry books: payments become dated, categorised denník rows, with the year-end balances… |
-| `l10n_cssk_core` | 19.0.1.20.1 | Country-neutral foundation for the Czech & Slovak statutory localization: tax-authority registry, person types, shared company/partner fields, settings and… |
+| `l10n_cssk_core` | 19.0.1.20.2 | Country-neutral foundation for the Czech & Slovak statutory localization: tax-authority registry, person types, shared company/partner fields, settings and… |
 | `l10n_cssk_ec_summary_base` | 19.0.1.7.2 | Country-neutral framework for the Slovak Súhrnný výkaz and Czech Souhrnné hlášení (EC sales list): single-line aggregation per (country, VAT, transaction… |
 | `l10n_cssk_ec_summary_vies` | 19.0.1.0.4 | Validate EC sales list partners against VIES at export and snapshot the consultation number onto each line. |
 | `l10n_cssk_fs_base` | 19.0.1.10.3 | Country-neutral framework for the Slovak and Czech financial statements (balance sheet + P&L): line trees computed from account-code balances + aggregates… |
