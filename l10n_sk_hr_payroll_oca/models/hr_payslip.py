@@ -177,39 +177,19 @@ class HrPayslip(models.Model):
         Keep this eligibility hook separate from dated statutory parameters.
         """
         self.ensure_one()
-        if (
-            version.employee_id != self.employee_id
-            or version.company_id != self.company_id
-        ):
-            raise UserError(
-                _(
-                    "Use the employee and company contract version for the monthly pension tax profile."
-                )
-            )
+        if version.employee_id != self.employee_id or version.company_id != self.company_id:
+            raise UserError(_("Use the employee and company contract version for the monthly pension tax profile."))
         if not self._l10n_sk_monthly_tax_facts(version)["signed"]:
             return 0.0
-        historical = self._l10n_sk_monthly_tax_facts(version, include_january=True)[
-            "january"
-        ]
+        historical = self._l10n_sk_monthly_tax_facts(version, include_january=True)["january"]
         if historical:
             if historical["company"] != self.company_id.id:
-                raise UserError(
-                    _(
-                        "Review the employee's 1 January pension version in the payroll company."
-                    )
-                )
+                raise UserError(_("Review the employee's 1 January pension version in the payroll company."))
             if historical["tax_pensioner"]:
                 return 0.0
-            if (
-                historical["insurance_pension"]
-                in ("old_age", "early_old_age", "service_at_age")
-                or historical["pension_annual"] > 0
-            ):
-                raise UserError(
-                    _(
-                        "The 1 January version indicates a pension. Review its tax-relevant pension flag against the retained declaration."
-                    )
-                )
+            if (historical["insurance_pension"] in ("old_age", "early_old_age", "service_at_age")
+                    or historical["pension_annual"] > 0):
+                raise UserError(_("The 1 January version indicates a pension. Review its tax-relevant pension flag against the retained declaration."))
         return self.rule_parameter("l10n_sk_nczd_monthly")
 
     def compute_sheet(self):

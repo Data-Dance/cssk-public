@@ -16,7 +16,7 @@ Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
 - **19.0.1.26.5, not yet on 18.0:** the OCA monthly tax-facts reader and
-  its allowance/evidence adapter tests, using the18.0 contract model.
+  its allowance/evidence adapter tests, using the 18.0 contract model.
 
 - **19.0.1.26.2 (2026-11-17), not yet on 18.0:** the annual January tax-fact
   reader and its tests, on the 18.0 contract model. OCA engine only.

@@ -133,22 +133,3 @@ Príklady nenahrádzajú skutočný daňový profil zamestnanca.
 Nemenia sa sadzby, zaokrúhľovanie, záznamy parametrov ani zdravotné pravidlá. Zaúčtovaná
 suma potrebuje príslušný opravný postup; zmena spätne neprepočítava mzdy ani
 nepredstavuje vyriešenú kumuláciu nezávislých pások.
-
-
-## Spoločné mesačné daňové fakty
-
-Rozšírenia pre daňové podklady môžu na páske použiť
-`_l10n_sk_monthly_tax_facts(version, include_january=True)`.
-Výsledok obsahuje samostatné skalárne údaje: ID firmy, zamestnanca a verzie,
-daňový rok, hraničný dátum ISO, podpísané vyhlásenie a na požiadanie skutočné
-januárové údaje. Január obsahuje ID verzie a firmy, dátum verzie, príznak
-daňového dôchodcu, poistný druh dôchodku a ročnú sumu dôchodku. Chýbajúci
-alebo nevyžiadaný januárový záznam je `False`.
-
-Predvolený reader používa existujúce natívne verzie. Mesačná NČZD naďalej
-kontroluje firmu a zamestnanca pred volaním hooku, pri nepodpísanom vyhlásení
-končí pred januárovým vyhľadávaním a zachováva kontroly januárovej firmy aj
-rozporných dôchodkových údajov. Dátumovaný parameter NČZD sa nemení.
-Reader nič neukladá a nepovažuje slovník ani kontext volajúceho za oprávnenie.
-Iný poskytovateľ musí overiť vlastný podklad, jeho rok, rozsah a pôvod.
-Overenie sa týka OCA; Enterprise a úprava pre18.0 neboli testované.
