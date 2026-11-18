@@ -164,8 +164,9 @@ for the period.</p>
 <h2 id="setup">Setting it up</h2>
 <p>Beyond the <a href="../../../l10n_cssk_vat_return_base/static/description/index.html#setup">engine's setup</a>:</p>
 <ul>
-<li><strong>Company data used in the XML header</strong>: the VAT number (<em>IČ DPH</em>; the <em>DIČ</em>
-  is written as the same number without <code>SK</code>), the tax office from <strong>Daňový
+<li><strong>Company data used in the XML header</strong>: the VAT number (<em>IČ DPH</em>, which must be
+  <code>SK</code> and ten digits; the <em>DIČ</em> comes from the company's <strong>DIČ</strong> field, or is
+  the same number without <code>SK</code> where that is empty), the tax office from <strong>Daňový
   úrad</strong> (its submission code), the name, the street and house number, ZIP,
   city, phone and e-mail. The house number (<em>číslo</em>) is the number at the end
   of <strong>Street</strong> ("Mlynská 1234/5" gives <em>ulica</em> "Mlynská" and <em>číslo</em>
@@ -387,7 +388,7 @@ the reduced rate, and a second family with the same name would collide.</p>
 <li>Nothing is filed from here: export the XML and submit it on the portal of
   Finančná správa, then mark the return submitted.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.15.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2009/563/">Zákon č. 563/2009 Z. z. o správe daní (daňový poriadok) a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.16.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
