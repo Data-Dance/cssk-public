@@ -1,7 +1,7 @@
 ---
 title: SK VAT Return (Daňové priznanie k DPH)
 summary: The Slovak VAT return computed from the tax tags of Odoo's Slovak chart, in the form vintage of each period, exported as the Finančná správa XML and validated against its XSD.
-verified: 19.0.1.15.2
+verified: 19.0.1.16.0
 ---
 
 ## What it is for {#purpose}
@@ -113,8 +113,9 @@ There is no version for periods before 2012.
 
 Beyond the [engine's setup](module:l10n_cssk_vat_return_base#setup):
 
-- **Company data used in the XML header**: the VAT number (*IČ DPH*; the *DIČ*
-  is written as the same number without `SK`), the tax office from **Daňový
+- **Company data used in the XML header**: the VAT number (*IČ DPH*, which must be
+  `SK` and ten digits; the *DIČ* comes from the company's **DIČ** field, or is
+  the same number without `SK` where that is empty), the tax office from **Daňový
   úrad** (its submission code), the name, the street and house number, ZIP,
   city, phone and e-mail. The house number (*číslo*) is the number at the end
   of **Street** ("Mlynská 1234/5" gives *ulica* "Mlynská" and *číslo*

@@ -6,10 +6,12 @@
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
-            <field name="country_id" position="after">
+            <!-- After the registry number, not after the country: the country
+                 sits inside the address block, where a field shows no label. -->
+            <xpath expr="//field[@name='company_registry']" position="after">
                 <field name="l10n_cssk_tax_authority_id"/>
                 <field name="l10n_cssk_person_type_id"/>
-            </field>
+            </xpath>
         </field>
     </record>
 

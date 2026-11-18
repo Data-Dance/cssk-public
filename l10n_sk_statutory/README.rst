@@ -42,7 +42,7 @@ The tax office can also be set under *Accounting → Configuration → Settings*
 How the filings use it
 ========================
 
-The Slovak filing schemas have no code list for tax offices: the office is a free-text element (``danovyUrad``). The *Submission Code* (*Kód podania*) of each office therefore holds its full name, for example *Daňový úrad Žilina*, and that text is what ``l10n_sk_vat_return`` and ``l10n_sk_ec_sales`` write into the file. Leave it unchanged unless the Financial Administration expects a different wording.
+The Slovak filing schemas have no code list for tax offices: the office is a free-text element (``danovyUrad``). The Financial Administration's form, however, offers the offices as a list and matches the text against it, and it lists the regional offices by their seat alone. The *Submission Code* (*Kód podania*) of each regional office therefore holds its seat, for example *Žilina*, and that text is what ``l10n_sk_vat_return`` and ``l10n_sk_ec_sales`` write into the file. With any other wording the form loads the file with the *Daňový úrad* box empty. The office for selected taxpayers is the one exception to the seat: the form lists it as *Úrad pre vybrané hospodárske subjekty*, and that is its code.
 
 Limitations
 =============
@@ -59,7 +59,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_statutory``
-- **Version:** 19.0.1.0.1
+- **Version:** 19.0.1.1.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_sk``, ``l10n_cssk_core``

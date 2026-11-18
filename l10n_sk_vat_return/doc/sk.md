@@ -1,7 +1,7 @@
 ---
 title: SK Daňové priznanie k DPH
 summary: Slovenské daňové priznanie k DPH vypočítané z daňových značiek slovenskej účtovej osnovy Odoo, vo vzore platnom pre dané obdobie, exportované ako XML finančnej správy a overené voči jej XSD.
-verified: 19.0.1.15.2
+verified: 19.0.1.16.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -115,8 +115,9 @@ Pre obdobia pred rokom 2012 verzia nie je.
 
 Okrem [nastavenia spoločného základu](module:l10n_cssk_vat_return_base#setup):
 
-- **Údaje spoločnosti v hlavičke XML**: IČ DPH z poľa *DIČ* (ako *DIČ* sa do XML zapíše to isté
-  číslo bez `SK`), daňový úrad z poľa **Daňový úrad** (jeho kód pre podanie),
+- **Údaje spoločnosti v hlavičke XML**: IČ DPH z poľa *DIČ/IČ DPH* (musí to byť
+  `SK` a desať číslic; *DIČ* sa do XML zapíše z poľa **DIČ** spoločnosti, a ak
+  je prázdne, to isté číslo bez `SK`), daňový úrad z poľa **Daňový úrad** (jeho kód pre podanie),
   názov, ulica a číslo, PSČ, obec, telefón a e-mail. *Číslo* je číslo na konci
   poľa **Ulica** („Mlynská 1234/5“ dá *ulica* „Mlynská“ a *číslo* „1234/5“),
   prípadne polia čísla domu, ak sa adresa vedie rozdelená. **Ulica2** sa ako

@@ -1,7 +1,7 @@
 ---
 title: SK statutárne číselníky
 summary: Slovenské daňové úrady a typy daňových subjektov, aby spoločnosť mohla určiť daňový úrad, ktorému posiela elektronické podania.
-verified: 19.0.1.0.1
+verified: 19.0.1.1.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -36,11 +36,15 @@ blok *Česká / slovenská lokalizácia*, pole *Predvolený správca dane*. Zozn
 ## Ako ho podania používajú {#usage}
 
 Slovenské XML schémy podaní nemajú pre daňové úrady číselník: úrad je
-voľný text (prvok `danovyUrad`). *Kód podania* každého úradu preto obsahuje
-jeho celý názov, napríklad *Daňový úrad Žilina*, a práve tento text zapíšu do
-súboru moduly [module:l10n_sk_vat_return](module:l10n_sk_vat_return) a
-[module:l10n_sk_ec_sales](module:l10n_sk_ec_sales). Nemeňte ho, pokiaľ
-finančná správa neočakáva iné znenie.
+voľný text (prvok `danovyUrad`). Formulár finančnej správy však úrady ponúka
+ako zoznam, text s ním porovnáva a krajské úrady v ňom uvádza len sídlom.
+*Kód podania* každého krajského úradu preto obsahuje jeho sídlo, napríklad
+*Žilina*, a práve tento text zapíšu do súboru moduly
+[module:l10n_sk_vat_return](module:l10n_sk_vat_return) a
+[module:l10n_sk_ec_sales](module:l10n_sk_ec_sales). Pri inom znení formulár
+načíta súbor s prázdnym poľom *Daňový úrad*. Jedinou výnimkou zo sídla je úrad pre
+vybrané subjekty: formulár ho uvádza ako *Úrad pre vybrané hospodárske
+subjekty* a taký je aj jeho kód.
 
 ## Obmedzenia {#limitations}
 

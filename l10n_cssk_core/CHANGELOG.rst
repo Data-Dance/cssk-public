@@ -18,6 +18,17 @@ Carry-over to 18.0
 - The private workflow-write seam still needs an 18.0 port together with
   generated-field guard and common export/filing/reset regression tests.
 
+[19.0.1.20.1] — 2026-11-17
+--------------------------
+
+Fixed
+~~~~~
+
+- The company form shows *Tax Authority* and *Entity Type* as labelled fields
+  after the registry number. They sat inside the address block, after the
+  country, where a field has no label: the tax office read as a line of the
+  address.
+
 [19.0.1.20.0] — 2026-11-10
 --------------------------
 
