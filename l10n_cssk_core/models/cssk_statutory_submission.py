@@ -1090,16 +1090,30 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
         company's VAT number (IČ DPH / DIČ z DPH) as the filer identification.
         Statement bases / country modules extend this with form-specific
         checks (per-row partner VAT, supply dates, …).
+
+        A form that some filers file without a VAT number says so through
+        ``_cssk_filer_needs_company_vat`` and checks the identification it
+        files instead.
         """
         for rec in self:
             company = getattr(rec, "company_id", None)
-            if company is not None and not company.vat:
+            if (company is not None and not company.vat
+                    and rec._cssk_filer_needs_company_vat()):
                 raise UserError(_(
                     "Company '%(company)s' has no VAT number set, but the "
                     "exported XML must carry it as the filer identification. "
                     "Set the 'Tax ID' (VAT) field on the company (Settings → "
                     "Users & Companies → Companies → %(company)s) and export "
                     "again.", company=company.display_name))
+        return True
+
+    def _cssk_filer_needs_company_vat(self):
+        """Whether this filing identifies its filer by the company's VAT
+        number. True for every form by default. A country module returns False
+        for the filers its form identifies otherwise (a person with no VAT
+        registration filing the Slovak DPH return by DIČ), and then checks
+        that other identification in its own ``_cssk_preflight_export``."""
+        self.ensure_one()
         return True
 
     # ------------------------------------------------------------------

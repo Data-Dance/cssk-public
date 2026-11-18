@@ -507,3 +507,15 @@ msgstr "DIČ společnosti „%(company)s“ je „%(vat)s“, což není slovens
 #: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
 msgid "• Oprávnená osoba: no authorised person is filled in on the return. That is correct when the filer files for itself; otherwise fill it in before filing."
 msgstr "• Oprávnená osoba: v přiznání není vyplněna oprávněná osoba. Je to správně, pokud daňový subjekt podává sám za sebe; jinak ji před podáním vyplňte."
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
+msgid "Company '%(company)s' has no Tax ID (IČ DPH), so this return identifies it by its DIČ, or by the rodné číslo for a citizen, and '%(dic)s' is not one (nine or ten digits). Fill in the DIČ on the company (Settings → Users & Companies → Companies → %(company)s). If the company does have an IČ DPH, fill in its Tax ID instead."
+msgstr "Společnost „%(company)s“ nemá vyplněné DIČ (IČ DPH), proto ji toto přiznání identifikuje podle slovenského DIČ, občana podle rodného čísla, a „%(dic)s“ jím není (devět nebo deset číslic). Vyplňte slovenské DIČ u společnosti (Nastavení → Uživatelé a společnosti → Společnosti → %(company)s). Pokud společnost IČ DPH má, vyplňte místo toho pole DIČ."
+
+#. module: l10n_sk_vat_return
+#. odoo-python
+#: code:addons/l10n_sk_vat_return/models/cssk_vat_return.py:0
+msgid "The DIČ of company '%(company)s' is '%(dic)s', which is not a DIČ (ten digits; nine or ten for a rodné číslo). The VAT return files it next to the IČ DPH. Correct it on the company (Settings → Users & Companies → Companies → %(company)s), or clear it and the digits of the IČ DPH are filed."
+msgstr "Slovenské DIČ společnosti „%(company)s“ je „%(dic)s“, což není DIČ (deset číslic; u rodného čísla devět nebo deset). Daňové přiznání ho uvádí vedle IČ DPH. Opravte ho u společnosti (Nastavení → Uživatelé a společnosti → Společnosti → %(company)s), nebo ho vymažte a podají se číslice IČ DPH."

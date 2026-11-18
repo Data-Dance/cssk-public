@@ -186,7 +186,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_kv_dph``
-- **Version:** 19.0.2.10.0
+- **Version:** 19.0.2.11.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_kv_kh_base``, ``l10n_sk``

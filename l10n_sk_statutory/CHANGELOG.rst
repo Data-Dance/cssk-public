@@ -8,6 +8,10 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0: the selected-taxpayers office code of 19.0.1.1.1. DISCHARGED 2026-11-18 (18.0.1.1.1) — do not port this again.
+
+Carry-over to 18.0: the tax offices' submission codes of 19.0.1.1.0. DISCHARGED 2026-11-18 (18.0.1.1.0) — do not port this again.
+
 Changed
 ~~~~~~~
 
@@ -15,6 +19,32 @@ Changed
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
+
+[19.0.1.1.1] — 2026-11-18
+-------------------------
+
+Fixed
+~~~~~
+
+- The office for selected taxpayers files "Úrad pre vybrané hospodárske
+  subjekty", the wording of the tax office's own list in the DPHv25 form. It
+  had kept "Daňový úrad pre vybrané daňové subjekty", which that list does not
+  contain, so the *Daňový úrad* box loaded empty. A migration rewrites the
+  existing record, unless someone changed the code.
+
+[19.0.1.1.0] — 2026-11-17
+-------------------------
+
+Fixed
+~~~~~
+
+- The eight regional tax offices carry their seat ("Bratislava") as the
+  submission code, not the full office name. The tax office's form lists the
+  offices by seat and matches the exported ``danovyUrad`` against that list, so
+  a return or a súhrnný výkaz loaded with the *Daňový úrad* box empty. Returns
+  filed from other software carry the seat alone. The data is ``noupdate``, so
+  a migration rewrites the existing records, unless someone changed the code.
+  The office for selected taxpayers is unchanged.
 
 [19.0.1.0.1] — 2026-11-06
 -------------------------

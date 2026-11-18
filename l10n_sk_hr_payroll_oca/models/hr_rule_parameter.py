@@ -9,6 +9,28 @@ from odoo.exceptions import UserError
 from odoo.tools.safe_eval import safe_eval
 
 
+def _parameter_value_key(value):
+    """Compare evaluated definitions without merging bool/int or list/tuple.
+
+    An int and a float compare by value (``1`` matches ``1.0``): every rule
+    computes the same result from either. A bool stays apart from both.
+    """
+    if isinstance(value, bool):
+        return bool, value
+    if isinstance(value, (int, float)):
+        return float, value
+    if isinstance(value, (list, tuple)):
+        return type(value), tuple(_parameter_value_key(item) for item in value)
+    if isinstance(value, dict):
+        return dict, frozenset(
+            (_parameter_value_key(key), _parameter_value_key(item))
+            for key, item in value.items()
+        )
+    if isinstance(value, (set, frozenset)):
+        return type(value), frozenset(_parameter_value_key(item) for item in value)
+    return type(value), value
+
+
 class HrRuleParameter(models.Model):
     _name = "hr.rule.parameter"
     _description = "Salary Rule Parameter"
@@ -39,22 +61,27 @@ class HrRuleParameter(models.Model):
     def _get_parameter_value(self, code, date):
         """Return the safe_eval'd value of parameter ``code`` effective at ``date``.
 
-        Picks the value whose ``date_from`` is the latest one that is still
-        <= ``date``.
+        Picks the latest effective date that is still <= ``date``. Identical
+        legacy definitions at that date are accepted; conflicting definitions
+        require an explicit correction instead of choosing one by row order.
         """
         param = self.search([("code", "=", code)], limit=1)
         if not param:
             raise UserError(
                 self.env._("No salary rule parameter found for code '%s'.") % code
             )
-        value = self.env["hr.rule.parameter.value"].search(
+        # Two rows: the second tells in the same query whether another
+        # definition shares the effective date, so the common path stays one
+        # search and only a tie pays for the full peer search below.
+        candidates = self.env["hr.rule.parameter.value"].search(
             [
                 ("rule_parameter_id", "=", param.id),
                 ("date_from", "<=", date),
             ],
-            order="date_from desc",
-            limit=1,
+            order="date_from desc, id",
+            limit=2,
         )
+        value = candidates[:1]
         if not value:
             raise UserError(
                 self.env._(
@@ -62,7 +89,38 @@ class HrRuleParameter(models.Model):
                 )
                 % {"code": code, "date": date}
             )
-        return safe_eval(value.parameter_value)
+        result = safe_eval(value.parameter_value)
+        if len(candidates) < 2 or candidates[1].date_from != value.date_from:
+            return result
+        # Multiple modules or a native copy can define the same effective date.
+        # Preserve equivalent legacy rows, but never let SQL tie order decide
+        # which conflicting legal/configuration value a calculation consumes.
+        peers = (
+            self.env["hr.rule.parameter.value"].search(
+                [
+                    ("rule_parameter_id", "=", param.id),
+                    ("date_from", "=", value.date_from),
+                ],
+                order="id",
+            )
+            - value
+        )
+        if not peers:
+            return result
+        expected = _parameter_value_key(result)
+        if any(
+            _parameter_value_key(safe_eval(peer.parameter_value)) != expected
+            for peer in peers
+        ):
+            raise UserError(
+                self.env._(
+                    "Conflicting salary rule parameter values for '%(code)s' on "
+                    "%(date)s. Keep one definition or matching values for that "
+                    "effective date."
+                )
+                % {"code": code, "date": value.date_from}
+            )
+        return result
 
 
 class HrRuleParameterValue(models.Model):

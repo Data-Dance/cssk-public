@@ -18,6 +18,15 @@ Carry-over to 18.0
 - **19.0.1.26.5, not yet on 18.0:** the OCA monthly tax-facts reader and
   its allowance/evidence adapter tests, using the 18.0 contract model.
 
+- **19.0.1.26.4 (2026-11-18), not yet on 18.0:** the employer PN maximum
+  DVZ for 2024–2027 and the native/manual cap regressions. OCA parameter
+  model only.
+
+- **19.0.1.26.3 (2026-11-18), not yet on 18.0:** the effective-date
+  ambiguity check in the OCA rule-parameter reader and
+  ``tests/test_rule_parameter_dates.py`` (native-copy regression included).
+  OCA engine only.
+
 - **19.0.1.26.2 (2026-11-17), not yet on 18.0:** the annual January tax-fact
   reader and its tests, on the 18.0 contract model. OCA engine only.
 
@@ -90,6 +99,40 @@ Carry-over to 18.0
   **Fully DISCHARGED 2026-11-16**: ffd67cd0c and both tests are on 18.0 as
   18.0.2.10.1 (48c3c03a0); the DoBPŠ part stays 19.0-only on the OCA engine
   (18.0 has no DoBPŠ agreement type).
+
+[19.0.1.26.4] — 2026-11-18
+==========================
+
+Fixed
+~~~~~
+
+* Employer sick-pay maximum DVZ for 2024–2027. Apply the four-place
+  downward rounding in 462/2003 section 8(7)-(8), independently from the
+  Social Insurance Agency sickness-benefit ceiling. The 2024 value also uses
+  the 2022 general assessment base. Recalculation of retained payroll
+  remains an explicit correction workflow.
+  Contributed by votrelec (cssk-public#55).
+* The Enterprise engine carries the same four values from
+  ``l10n_sk_hr_payroll_ee`` 19.0.1.26.2.
+
+[19.0.1.26.3] — 2026-11-18
+==========================
+
+Fixed
+~~~~~
+
+* Conflicting rule-parameter definitions at the same effective date are
+  rejected. The reader no longer lets database row order pick one of them:
+  matching legacy rows remain readable, conflicting ones raise an error that
+  names the parameter and the date, and earlier and later dates are checked
+  independently. No definition, payslip or retained evidence is rewritten by
+  the reader. OCA parameter model only; Enterprise refuses such a tie at
+  entry with a unique key on the parameter and the date.
+  Contributed by votrelec (cssk-public#54).
+* An integer and a decimal with the same value (``1`` and ``1.0``) on one
+  date count as matching; a boolean and a number still conflict.
+* The reader finds a tie in its first query (two rows instead of one), so
+  a parameter without a tie is still read with one search.
 
 [19.0.1.26.2] — 2026-11-17
 ==========================

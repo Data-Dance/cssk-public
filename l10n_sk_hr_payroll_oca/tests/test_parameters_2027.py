@@ -61,7 +61,7 @@ class TestParameters2027(TestSkPayroll):
                     'l10n_sk_nczd_taper_const': 15233.35,
                     'l10n_sk_child_bonus_taper_threshold': 29160,
                     'l10n_sk_min_hourly_wage': 5.586,
-                    'l10n_sk_pn_max_dvz': 106.5206,
+                    'l10n_sk_pn_max_dvz': 106.5205,
                     'l10n_sk_dohoda_oop_seasonal': 810}
         for code, value in expected.items():
             with self.subTest(code=code):
@@ -116,3 +116,31 @@ class TestParameters2027(TestSkPayroll):
                 annual.action_compute()
                 self.assertAlmostEqual(annual.nczd_taxpayer, nczd, places=2)
                 self.assertAlmostEqual(annual.annual_tax, tax, places=2)
+
+    def test_employer_pn_maximum_dvz_uses_each_years_assessment_base(self):
+        expected = {2024: 85.7424, 2025: 94.0273, 2026: 100.2082, 2027: 106.5205}
+        parameters = self.env['hr.rule.parameter']
+        for year, maximum in expected.items():
+            for month_day in ('01-01', '12-31'):
+                with self.subTest(year=year, month_day=month_day):
+                    self.assertEqual(parameters._get_parameter_value(
+                        'l10n_sk_pn_max_dvz', f'{year}-{month_day}'), maximum)
+
+    def test_2027_maximum_native_employer_sick_pay_is_724_34(self):
+        contract, employee, _calendar = self._abs_setup(wage=1500.0)
+        self._make_leave(employee, 'l10n_sk_leave_type_pn',
+                         date(2027, 1, 4), date(2027, 1, 17))
+        slip = self._worked_payslip(contract, employee,
+                                   date(2027, 1, 1), date(2027, 1, 31),
+                                   inputs=[('PN_DVZ', 200.0)])
+        # floor4(2 * 19440 / 365) * (3 * .25 + 11 * .55), then ceil cents.
+        # Applying the SP ceiling 106.5206 would instead produce 724.35.
+        self.assertEqual(slip.get_salary_line_total('SICK_COMP'), 724.34)
+
+    def test_2027_maximum_manual_employer_sick_pay_matches_native_episode(self):
+        contract, employee = self._make_contract(
+            'Manual capped employer PN', 1500, date(2026, 1, 1), self.calendar)
+        slip = self._worked_payslip(contract, employee,
+                                 date(2027, 1, 1), date(2027, 1, 31),
+                                 inputs=[('PN_DVZ', 200.0), ('PN_DAYS', 14)])
+        self.assertEqual(slip.get_salary_line_total('SICK_COMP'), 724.34)

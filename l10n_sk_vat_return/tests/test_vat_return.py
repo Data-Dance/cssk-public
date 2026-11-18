@@ -548,6 +548,92 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
                 ret.action_export_xml()
             self.assertNotEqual(ret.state, "exported")
 
+    def test_a_filer_without_an_ic_dph_files_by_dic(self):
+        """Poučenie DPHv25, bod 10: a person not registered for the tax who
+        files under § 78 ods. 3, 4 or 9, or claims the § 3 ods. 5 deduction,
+        leaves the IČ DPH box empty and fills in the DIČ or the rodné číslo."""
+        self.company.vat = False
+        self.company.income_tax_id = "2020123456"
+        for status in ("inaPovinna", "zdanitelna"):
+            ret = self._make_return()
+            ret.l10n_sk_filer_status = status
+            ret.action_compute_lines()
+            ret.action_export_xml()
+            h = etree.fromstring(
+                base64.b64decode(ret.xml_attachment_id.datas)).find("hlavicka")
+            self.assertFalse(h.findtext("identifikacneCislo/cislo"), status)
+            self.assertEqual(h.findtext("dic"), "2020123456", status)
+            self.assertEqual(h.findtext("osoba/%s" % status), "1")
+            self.assertEqual(h.findtext("osoba/platitel"), "0")
+        # A rodné číslo typed with its slash is filed as its digits.
+        self.company.income_tax_id = "800101/1234"
+        ret = self._make_return()
+        ret.l10n_sk_filer_status = "inaPovinna"
+        ret.action_compute_lines()
+        ret.action_export_xml()
+        root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
+        self.assertEqual(root.findtext("hlavicka/dic"), "8001011234")
+
+    def test_a_filer_without_an_ic_dph_needs_a_dic(self):
+        self.company.vat = False
+        for dic in (False, "12345678", "SK2020123456"):
+            self.company.income_tax_id = dic
+            ret = self._make_return()
+            ret.l10n_sk_filer_status = "inaPovinna"
+            ret.action_compute_lines()
+            with self.assertRaisesRegex(UserError, "identifies it by its DIČ"):
+                ret.action_export_xml()
+            self.assertNotEqual(ret.state, "exported")
+
+    def test_a_filer_without_an_ic_dph_still_names_its_tax_office(self):
+        self.company.vat = False
+        self.company.income_tax_id = "2020123456"
+        self.company.l10n_cssk_tax_authority_id = False
+        ret = self._make_return()
+        ret.l10n_sk_filer_status = "zdanitelna"
+        ret.action_compute_lines()
+        with self.assertRaisesRegex(UserError, "tax office"):
+            ret.action_export_xml()
+
+    def test_a_registered_filer_cannot_file_without_an_ic_dph(self):
+        """The four statuses the form gives an IČ DPH keep the strict check,
+        with a DIČ on the company or without."""
+        self.company.vat = False
+        self.company.income_tax_id = "2020123456"
+        for status in ("platitel", "registrovana", "zastupca", "zastupca69aa"):
+            ret = self._make_return()
+            ret.l10n_sk_filer_status = status
+            ret.action_compute_lines()
+            with self.assertRaisesRegex(UserError, "no VAT number"):
+                ret.action_export_xml()
+
+    def test_a_dic_that_is_not_one_is_refused_next_to_an_ic_dph(self):
+        """The DIČ is filed in its own box whatever the IČ DPH is."""
+        ret = self._make_return()
+        ret.action_compute_lines()
+        for wrong in ("SK2020123456", "1234", "２０２０１２３４５６"):
+            self.company.income_tax_id = wrong
+            with self.assertRaisesRegex(UserError, "is not a DIČ"):
+                ret.action_export_xml()
+        self.company.income_tax_id = False
+        ret.action_export_xml()
+        self.assertEqual(ret.state, "exported")
+
+    def test_a_wrong_tax_id_is_refused_for_every_filer(self):
+        """A filer that may file without an IČ DPH still may not file a
+        registry number as one."""
+        ret = self._make_return()
+        ret.l10n_sk_filer_status = "inaPovinna"
+        ret.action_compute_lines()
+        self.company.partner_id.flush_recordset()
+        self.env.cr.execute(
+            "UPDATE res_partner SET vat = %s WHERE id = %s",
+            ("12345678", self.company.partner_id.id))
+        self.company.invalidate_recordset(["vat"])
+        self.company.partner_id.invalidate_recordset(["vat"])
+        with self.assertRaisesRegex(UserError, "not a Slovak IČ DPH"):
+            ret.action_export_xml()
+
     def test_the_header_files_the_ic_dph_and_the_dic(self):
         ret = self._make_return()
         ret.action_compute_lines()
@@ -563,6 +649,17 @@ class TestSkVatReturnCompute(AccountTestInvoicingCommon):
         self.assertEqual(ret._l10n_sk_filer_ids(), ("2023456787", "2023456787"))
         self.company.income_tax_id = " 2020 123456 "
         self.assertEqual(ret._l10n_sk_filer_ids(), ("2023456787", "2020123456"))
+
+    def test_the_seeded_office_files_its_seat(self):
+        """The tax office's form lists the regional offices by seat and
+        leaves the box empty for any other wording."""
+        self.company.l10n_cssk_tax_authority_id = self.env.ref(
+            "l10n_sk_statutory.sk_du_ba")
+        ret = self._make_return()
+        ret.action_compute_lines()
+        ret.action_export_xml()
+        root = etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
+        self.assertEqual(root.findtext("hlavicka/danovyUrad"), "Bratislava")
 
     def test_export_warns_only_without_an_authorised_person(self):
         ret = self._make_return()
