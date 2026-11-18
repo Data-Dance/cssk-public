@@ -62,22 +62,25 @@ class HrRuleParameter(models.Model):
             raise UserError(
                 self.env._("No salary rule parameter found for code '%s'.") % code
             )
-        value = self.env["hr.rule.parameter.value"].search(
+        values = self.env["hr.rule.parameter.value"].search(
             [
                 ("rule_parameter_id", "=", param.id),
                 ("date_from", "<=", date),
             ],
             order="date_from desc, id",
-            limit=1,
+            limit=2,
         )
-        if not value:
+        if not values:
             raise UserError(
                 self.env._(
                     "No value defined for rule parameter '%(code)s' at date %(date)s."
                 )
                 % {"code": code, "date": date}
             )
+        value = values[0]
         result = safe_eval(value.parameter_value)
+        if len(values) == 1 or values[1].date_from != value.date_from:
+            return result
         # Multiple modules or a native copy can define the same effective date.
         # Preserve equivalent legacy rows, but never let SQL tie order decide
         # which conflicting legal/configuration value a calculation consumes.
@@ -91,8 +94,6 @@ class HrRuleParameter(models.Model):
             )
             - value
         )
-        if not peers:
-            return result
         expected = _parameter_value_key(result)
         if any(
             _parameter_value_key(safe_eval(peer.parameter_value)) != expected

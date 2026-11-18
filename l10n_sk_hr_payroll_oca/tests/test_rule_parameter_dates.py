@@ -70,6 +70,13 @@ class TestRuleParameterDates(TransactionCase):
         ):
             self.lookup()
 
+    def test_conflict_after_two_matching_rows(self):
+        self.value("2")
+        self.value("1 + 1")
+        self.value("3")
+        with self.assertRaisesRegex(UserError, "Conflicting salary rule parameter values"):
+            self.lookup()
+
     def test_older_conflict_does_not_block_a_later_unambiguous_date(self):
         original = self.value("1", "2026-01-01")
         original.copy({"parameter_value": "2"})

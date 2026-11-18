@@ -140,6 +140,8 @@ Parameter používa posledný dátum účinnosti, ktorý nie je neskorší ako d
 pásky. Ak má tento dátum viac definícií, zhodné vyhodnotené hodnoty zostávajú
 použiteľné. Rozporné hodnoty vyvolajú chybu pred použitím parametra; poradie
 riadkov databázy nerozhoduje. Po overení pôvodu a dátumu opravte rozpornú
-definíciu v Mzdy → Konfigurácia → Parametre pravidiel. Staršie a novšie dátumy
+definíciu v časti Konfigurácia → Parametre pravidiel. Staršie a novšie dátumy
 sa posudzujú samostatne. Čítanie nemení definície ani neprepočítava uchované
-pásky. Kontrola platí pre model parametrov OCA; Enterprise nebol overený.
+pásky. Pri porovnaní sa rozlišujú typy, takže 1 a 1.0 sú rozdielne definície.
+Model OCA overuje dátumy pri čítaní. Enterprise bráni zhodným dátumom jedného
+parametra unikátnym kľúčom.

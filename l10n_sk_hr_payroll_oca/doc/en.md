@@ -143,9 +143,11 @@ does not recalculate historical payroll or claim cumulative independent payslips
 
 The latest effective date on or before the payslip date determines a rule
 parameter. If several definitions have that date, matching evaluated values
-remain usable. Conflicting values raise an error before that parameter can be
+remain usable. The comparison retains Python types, so 1 and 1.0 are
+different definitions. Conflicting values raise an error before that parameter can be
 used; there is no silent choice by database row order. Correct the conflicting
 definition in Payroll → Configuration → Rule Parameters after checking its
 source and effective date. Earlier and later dates remain separate. Reading a
 parameter never changes stored definitions or recalculates retained payslips.
-This check applies to the OCA payroll parameter model; Enterprise is not tested.
+The OCA model checks these dates when reading. Enterprise prevents duplicate
+dates for one parameter with a unique key.
