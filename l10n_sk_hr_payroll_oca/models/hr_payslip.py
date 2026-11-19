@@ -1,4 +1,5 @@
 # Copyright 2026 Data Dance s.r.o.
+# Copyright 2026 votrelec
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 import calendar as _calendar
@@ -123,6 +124,52 @@ class HrPayslip(models.Model):
         self.ensure_one()
         return self.env["hr.rule.parameter"]._get_parameter_value(code, self.date_to)
 
+    def _l10n_sk_monthly_tax_facts(self, version, *, include_january=False):
+        """Read detached facts for monthly allowance and evidence consumers.
+
+        January lookup is opt-in so an unsigned declaration keeps its native
+        early exit. Extensions may supply checked, owned facts through this
+        cooperative reader; a caller dictionary or context is not authority.
+        The default reads the actual native contract and January version.
+        """
+        self.ensure_one()
+        if (
+            version.employee_id != self.employee_id
+            or version.company_id != self.company_id
+        ):
+            raise UserError(
+                _(
+                    "Use the employee and company contract version for the monthly pension tax profile."
+                )
+            )
+        facts = {
+            "company": self.company_id.id,
+            "employee": self.employee_id.id,
+            "version": version.id,
+            "year": self.date_to.year if self.date_to else False,
+            "as_of": self.date_to.isoformat() if self.date_to else False,
+            "signed": bool(version.l10n_sk_tax_declaration_signed),
+            "january": False,
+        }
+        if include_january:
+            historical = self.employee_id._l10n_sk_january_tax_version(
+                self.date_to.year, self.company_id, self.date_to
+            )
+            if historical:
+                facts["january"] = {
+                    "version": historical.id,
+                    "company": historical.company_id.id,
+                    "date": (
+                        historical.date_version.isoformat()
+                        if historical.date_version
+                        else False
+                    ),
+                    "tax_pensioner": bool(historical.l10n_sk_tax_pensioner),
+                    "insurance_pension": historical.l10n_sk_pension_type or False,
+                    "pension_annual": float(historical.l10n_sk_nczd_pension_annual),
+                }
+        return facts
+
     def l10n_sk_monthly_nczd(self, version):
         """Sections 35/36 and 11(6), FS FAQ 7/9: no January-pension allowance.
 
@@ -132,49 +179,47 @@ class HrPayslip(models.Model):
         self.ensure_one()
         if version.employee_id != self.employee_id or version.company_id != self.company_id:
             raise UserError(_("Use the employee and company contract version for the monthly pension tax profile."))
-        if not version.l10n_sk_tax_declaration_signed:
+        if not self._l10n_sk_monthly_tax_facts(version)["signed"]:
             return 0.0
-        historical = self.employee_id._l10n_sk_january_tax_version(
-            self.date_to.year, self.company_id, self.date_to)
+        historical = self._l10n_sk_monthly_tax_facts(version, include_january=True)["january"]
         if historical:
-            if historical.company_id != self.company_id:
+            if historical["company"] != self.company_id.id:
                 raise UserError(_("Review the employee's 1 January pension version in the payroll company."))
-            if historical.l10n_sk_tax_pensioner:
+            if historical["tax_pensioner"]:
                 return 0.0
-            if (historical.l10n_sk_pension_type in ("old_age", "early_old_age", "service_at_age")
-                    or historical.l10n_sk_nczd_pension_annual > 0):
+            if (historical["insurance_pension"] in ("old_age", "early_old_age", "service_at_age")
+                    or historical["pension_annual"] > 0):
                 raise UserError(_("The 1 January version indicates a pension. Review its tax-relevant pension flag against the retained declaration."))
         return self.rule_parameter("l10n_sk_nczd_monthly")
 
-    def _l10n_sk_monthly_income_tax_round(self, amount):
-        """Intermediate rounding policy; the default keeps native precision.
+    def _l10n_sk_monthly_taxable_wage_round(self, amount):
+        """Round the taxable wage if needed, before applying any band.
 
-        Used after subtracting the allowance and for each progressive band.
-        An extension can use the company currency's rounding at these exact
-        points without maintaining a second allowance or tax-band formula.
+        Native TAXBASE is already in cents. Extensions handling sub-cent
+        bases round the taxable wage half up under § 47, without flooring
+        or rounding individual bands.
         """
         return amount
 
     def _l10n_sk_monthly_income_tax(self, base, version):
-        """Calculate the negative monthly advance on an explicit full base.
+        """Return the negative monthly advance before final rounding.
 
-        This is the INCOMETAX calculation, before any settlement adjustment.
-        The caller owns aggregation: resolve the allowance once on the whole
-        monthly base, then compare calculations if a difference is needed.
-        No receipt, payment, source qualification or accounting is created.
+        Pass the full whole-cent monthly base in EUR unless an extension
+        rounds the taxable wage to cents. The caller aggregates the base
+        before applying the allowance once and rounds the result once.
         """
         self.ensure_one()
         # The annual high-income taper remains an RZD matter. January pension
         # eligibility is handled by the existing monthly allowance reader.
         nczd = self.l10n_sk_monthly_nczd(version)
-        taxable = self._l10n_sk_monthly_income_tax_round(max(0.0, base - nczd))
+        taxable = self._l10n_sk_monthly_taxable_wage_round(max(0.0, base - nczd))
         bands = self.rule_parameter("l10n_sk_income_tax_bands")
         tax = 0.0
         prev = 0.0
         for rate, ceiling in bands:
             if taxable > prev:
                 amt = min(taxable, ceiling) - prev
-                tax += self._l10n_sk_monthly_income_tax_round(amt * rate)
+                tax += amt * rate
             prev = ceiling
         return -tax
 

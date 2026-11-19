@@ -343,7 +343,7 @@ Module facts
 ============
 
 - **Technical name:** ``account_asset_tax``
-- **Version:** 19.0.1.13.0
+- **Version:** 19.0.1.13.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``account``

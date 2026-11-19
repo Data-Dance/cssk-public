@@ -94,23 +94,71 @@ employment, changes monthly payroll or selects annual income. The annual
 company and pension-consistency checks still run. This is the OCA engine's
 annual model; other engines need their own corresponding adapter.
 
+## Developer extension: monthly tax facts
+
+`hr.payslip._l10n_sk_monthly_tax_facts(version, include_january=False)` is
+the shared reader for monthly NČZD and evidence integrations. The allowance
+first calls it without January facts. A signed declaration triggers a second
+call with `include_january=True`; the unsigned path returns after the first
+call. Payroll evaluates the allowance in the `compute_sheet` pre-check and
+again in the salary rule. Keep this hook a pure, repeatable function of the
+payslip and version, with no writes or privilege elevation.
+
+Return a fresh dictionary with all of these stable keys.
+
+| Key | Value |
+| --- | --- |
+| `company` | Payslip company ID. |
+| `employee` | Payslip employee ID. |
+| `version` | Supplied contract version ID. |
+| `year` | Year of `date_to`, or `False` if unset. |
+| `as_of` | ISO date of `date_to`, or `False` if unset. |
+| `signed` | Boolean declaration flag from `l10n_sk_tax_declaration_signed`. |
+| `january` | January dictionary, or `False` when absent or unrequested. |
+
+Use a dated payslip for January lookup. When present, the January dictionary
+has all of the following keys.
+
+| Key | Value |
+| --- | --- |
+| `version` | January version ID. |
+| `company` | January version company ID. |
+| `date` | ISO date of `date_version`, or `False` if unset. |
+| `tax_pensioner` | Boolean value of `l10n_sk_tax_pensioner`. |
+| `insurance_pension` | Code from `l10n_sk_pension_type`, or `False`. |
+| `pension_annual` | Annual amount from `l10n_sk_nczd_pension_annual` as a float. |
+
+The annual January reader returns a native version. Detached monthly facts
+let an evidence adapter supply its separately reviewed source without
+having to return a live `hr.version`. The default still uses the native
+employee January reader. An override must verify its owned source, employee,
+company, date and provenance. Monthly NČZD retains its employee/company scope
+check, January company and pension checks, and dated allowance parameter.
+This hook belongs to the OCA engine. The 18.0 carry-over is tracked in the
+changelog.
+
 ## Monthly income-tax calculation
 
-hr.payslip._l10n_sk_monthly_income_tax(base, version) is the OCA INCOMETAX
-calculation on an explicit monthly base. It returns the negative advance,
-using the existing monthly allowance reader and dated progressive bands.
-The salary rule delegates to it once. No settlement adjustment is included.
+`hr.payslip._l10n_sk_monthly_income_tax(base, version)` returns the negative
+advance on the full monthly base in EUR, before final rounding. OCA passes
+its whole-cent `TAXBASE`, uses the existing allowance reader and dated bands,
+and rounds the resulting payroll line.
 
-The default preserves the existing unrounded intermediate amounts.
-_l10n_sk_monthly_income_tax_round(amount) is an identity extension point
-after max(0, base - allowance) and on each charged band amount. An integration
-with an existing intermediate-rounding policy can override this method, for
-example with the payslip company's currency_id.round, without duplicating
-the allowance and band formula. This does not change the default rounding.
+The default `_l10n_sk_monthly_taxable_wage_round(amount)` preserves native
+precision. It runs once, on the non-negative taxable wage after NČZD.
+For explicit sub-cent bases, an extension can override it with
+`float_round(amount, precision_digits=2, rounding_method="HALF-UP")`
+from `odoo.tools.float_utils`. Under § 35(2) and § 47 of Act 595/2003, round
+the taxable wage to cents, sum the band amounts at full precision, then
+round the total once. Explicit callers round their own result. Flooring the
+taxable wage or rounding individual bands can change the advance.
 
-Callers must aggregate the intended monthly base before resolving the
-allowance; summing independently calculated portions can apply it repeatedly.
-Recalculation is read-only and does not select or qualify income receipts,
-allocate bank payments, supply historical facts, post accounting, or authorize
-a correction. A settlement integration keeps any base preparation and final
-tax adjustment outside this calculator and applies each exactly once.
+Aggregate the monthly base before applying the allowance once. The helper
+is read-only and has no settlement, accounting or payment side effects.
+The intended `l10n_sk_hr_payroll_income_settlement` integration currently
+uses its own Decimal calculator with taxable-wage and total rounding.
+Annual reconciliation keeps its separate annual calculation.
+
+This helper is OCA-only. Enterprise uses separate `INCOMETAX19` and
+`INCOMETAX25` rules with its own `NCZD` rule. The parity harness covers the
+default calculation. An OCA-side rounding override is outside that scope.

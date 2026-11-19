@@ -8,6 +8,22 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.13.1] — 2026-11-18
+--------------------------
+
+Fixed
+~~~~~
+
+- **The unique depreciation-group code was never created on Odoo 19.**
+  Odoo 19 no longer reads ``_sql_constraints``, so duplicates went in
+  silently; the key is now declared with ``models.Constraint`` under its old
+  SQL name and message. Groups are shared statutory data (``CZ-1``…,
+  ``SK-0``…), so the key is global. An upgrade keeps every group and asset
+  reference; a database that already holds a duplicate code logs that the
+  key could not be added and needs the duplicate merged first. Odoo 18 keeps
+  its ``_sql_constraints`` declaration, which it still reads. Contributed by
+  votrelec (cssk-public#58).
+
 Carry-over to 18.0: 19.0.1.13.0 (§ 52zzzk vehicle VAT). DISCHARGED (18.0.1.10.0).
 
 [19.0.1.13.0] — 2026-11-11
