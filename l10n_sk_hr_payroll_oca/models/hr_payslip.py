@@ -192,6 +192,37 @@ class HrPayslip(models.Model):
                 raise UserError(_("The 1 January version indicates a pension. Review its tax-relevant pension flag against the retained declaration."))
         return self.rule_parameter("l10n_sk_nczd_monthly")
 
+    def _l10n_sk_monthly_taxable_wage_round(self, amount):
+        """Round the taxable wage if needed, before applying any band.
+
+        Native TAXBASE is already in cents. Extensions handling sub-cent
+        bases round the taxable wage half up under § 47, without flooring
+        or rounding individual bands.
+        """
+        return amount
+
+    def _l10n_sk_monthly_income_tax(self, base, version):
+        """Return the negative monthly advance before final rounding.
+
+        Pass the full whole-cent monthly base in EUR unless an extension
+        rounds the taxable wage to cents. The caller aggregates the base
+        before applying the allowance once and rounds the result once.
+        """
+        self.ensure_one()
+        # The annual high-income taper remains an RZD matter. January pension
+        # eligibility is handled by the existing monthly allowance reader.
+        nczd = self.l10n_sk_monthly_nczd(version)
+        taxable = self._l10n_sk_monthly_taxable_wage_round(max(0.0, base - nczd))
+        bands = self.rule_parameter("l10n_sk_income_tax_bands")
+        tax = 0.0
+        prev = 0.0
+        for rate, ceiling in bands:
+            if taxable > prev:
+                amt = min(taxable, ceiling) - prev
+                tax += amt * rate
+            prev = ceiling
+        return -tax
+
     def compute_sheet(self):
         # A rule's safe_eval wraps UserError in a Python traceback. Validate
         # before evaluation so the payroll officer gets the business message.

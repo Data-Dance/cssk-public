@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.26.5
+verified: 19.0.1.26.6
 family: l10n_sk_hr_payroll_base#engines
 ---
 

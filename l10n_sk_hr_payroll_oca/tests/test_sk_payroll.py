@@ -2540,3 +2540,137 @@ class TestSkPayroll(TransactionCase):
                 with patch.object(type(slip), "_l10n_sk_monthly_tax_facts", reviewed):
                     with self.assertRaisesRegex(UserError, error):
                         slip.l10n_sk_monthly_nczd(version)
+
+    def test_monthly_income_tax_rule_delegates_once(self):
+        slip = self._make_payslip(
+            self.contract_nodecl, self.employee_nodecl,
+            date(2026, 6, 1), date(2026, 6, 30),
+        )
+        with patch.object(
+            type(slip), "_l10n_sk_monthly_income_tax", return_value=-123.456789,
+        ) as calculate:
+            slip.compute_sheet()
+        calculate.assert_called_once()
+        base, version = calculate.call_args.args
+        self.assertEqual(base, slip.get_salary_line_total("TAXBASE"))
+        self.assertEqual(version, self.contract_nodecl)
+        self.assertEqual(slip.get_salary_line_total("INCOMETAX"), slip.company_id.currency_id.round(-123.456789))
+
+    def test_monthly_income_tax_default_dated_band_boundaries(self):
+        # Independent progressive sum over real dated parameters and native
+        # allowance facts. Check whole-cent bases at every band and allowance.
+        for version, employee in (
+            (self.contract, self.employee),
+            (self.contract_nodecl, self.employee_nodecl),
+        ):
+            for year in (2025, 2026, 2027):
+                slip = self._make_payslip(
+                    version, employee, date(year, 6, 1), date(year, 6, 30),
+                )
+                allowance = slip.l10n_sk_monthly_nczd(version)
+                bands = slip.rule_parameter("l10n_sk_income_tax_bands")
+                bases = [-100, 0, 0.01, allowance - 0.01, allowance, allowance + 0.01]
+                for rate, ceiling in bands:
+                    if ceiling < 1e9:
+                        bases.extend(allowance + ceiling + delta
+                                     for delta in (-0.01, 0, 0.01))
+                before = [(line.id, line.code, line.total) for line in slip.line_ids]
+                for base in bases:
+                    with self.subTest(signed=version.l10n_sk_tax_declaration_signed,
+                                      year=year, base=base):
+                        taxable = max(0.0, base - allowance)
+                        lower = [0.0] + [ceiling for rate, ceiling in bands[:-1]]
+                        expected = -sum(
+                            max(0.0, min(taxable, ceiling) - floor) * rate
+                            for floor, (rate, ceiling) in zip(lower, bands)
+                        )
+                        self.assertAlmostEqual(
+                            slip._l10n_sk_monthly_income_tax(base, version), expected, places=10,
+                        )
+                self.assertEqual(before, [
+                    (line.id, line.code, line.total) for line in slip.line_ids
+                ])
+
+    def test_monthly_income_tax_rounds_taxable_wage_once(self):
+        version = self.contract_nodecl
+        slip = self._make_payslip(
+            version, self.employee_nodecl, date(2026, 6, 1), date(2026, 6, 30),
+        )
+        currency = slip.company_id.currency_id
+        with patch.object(
+            type(slip), "_l10n_sk_monthly_taxable_wage_round",
+            side_effect=currency.round,
+        ) as rounding:
+            tax = slip._l10n_sk_monthly_income_tax(0.015, version)
+            rounding.assert_called_once_with(0.015)
+            self.assertAlmostEqual(tax, -0.0038)
+            rounding.reset_mock()
+
+            # With the June 2026 bands, rounding each band would give 696.41.
+            tax = slip._l10n_sk_monthly_income_tax(3665.34, version)
+            rounding.assert_called_once_with(3665.34)
+            self.assertAlmostEqual(tax, -696.4182)
+            self.assertEqual(currency.round(tax), -696.42)
+
+    def test_monthly_income_tax_aggregate_and_recompute(self):
+        slip = self._make_payslip(
+            self.contract, self.employee, date(2026, 6, 1), date(2026, 6, 30),
+        )
+        before = (slip.state, slip.line_ids.ids, self.contract.write_date)
+        self.assertEqual(slip._l10n_sk_monthly_income_tax(400, self.contract), 0)
+        full = slip._l10n_sk_monthly_income_tax(800, self.contract)
+        self.assertAlmostEqual(full, -57.5263)
+        self.assertNotEqual(full, 2 * slip._l10n_sk_monthly_income_tax(400, self.contract))
+        self.assertEqual(slip._l10n_sk_monthly_income_tax(800, self.contract), full)
+        self.assertEqual((slip.state, slip.line_ids.ids, self.contract.write_date), before)
+        slip.compute_sheet()
+        self.assertEqual(slip._l10n_sk_monthly_income_tax(800, self.contract), full)
+
+    def test_monthly_income_tax_keeps_january_and_company_checks(self):
+        version, employee = self._monthly_pension_profile(
+            l10n_sk_tax_pensioner=False, l10n_sk_pension_type=False,
+        )
+        employee.create_version({
+            "date_version": date(2026, 5, 1), "l10n_sk_pension_type": "old_age",
+            "l10n_sk_tax_pensioner": True,
+        })
+        later = employee._get_version(date(2026, 12, 1))
+        december = self._make_payslip(
+            later, employee, date(2026, 12, 1), date(2026, 12, 31),
+        )
+        january = self._make_payslip(
+            later, employee, date(2027, 1, 1), date(2027, 1, 31),
+        )
+        self.assertAlmostEqual(december._l10n_sk_monthly_income_tax(1000, later), -95.5263)
+        self.assertAlmostEqual(january._l10n_sk_monthly_income_tax(1000, later), -190)
+        self.assertAlmostEqual(december._l10n_sk_monthly_income_tax(1000, later), -95.5263)
+        with self.assertRaisesRegex(UserError, "employee and company contract version"):
+            december._l10n_sk_monthly_income_tax(1000, self.contract)
+        other = self.env["res.company"].create({
+            "name": "Other tax calculation company", "country_id": self.env.ref("base.sk").id,
+        })
+        self.env.user.company_ids |= other
+        # Use the payslip company even when another company is active.
+        self.assertEqual(
+            december.with_company(other)._l10n_sk_monthly_income_tax(1000, later),
+            december._l10n_sk_monthly_income_tax(1000, later),
+        )
+        version.write({"l10n_sk_pension_type": "old_age"})
+        with self.assertRaisesRegex(UserError, "1 January version indicates a pension"):
+            december._l10n_sk_monthly_income_tax(1000, later)
+
+    def test_monthly_income_tax_credit_note_has_same_calculation(self):
+        slip = self._make_payslip(
+            self.contract_nodecl, self.employee_nodecl,
+            date(2026, 6, 1), date(2026, 6, 30),
+        )
+        refund = slip.copy({"credit_note": True})
+        refund.compute_sheet()
+        self.assertEqual(refund.get_salary_line_total("INCOMETAX"),
+                         slip.get_salary_line_total("INCOMETAX"))
+        base = refund.get_salary_line_total("TAXBASE")
+        self.assertEqual(
+            refund._l10n_sk_monthly_income_tax(base, self.contract_nodecl),
+            slip._l10n_sk_monthly_income_tax(base, self.contract_nodecl),
+        )
+        self.assertEqual(refund._l10n_sk_monthly_income_tax(-base, self.contract_nodecl), 0)
