@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="../../../l10n_sk_hr_payroll_surcharges/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK mzdové zvýhodnenia a minimálne mzdové nároky</h1>
 <p class="cssk-summary">Zákonné mzdové zvýhodnenia za nočnú prácu, prácu v sobotu, v nedeľu a vo sviatok, za prácu nadčas, mzdová kompenzácia za sťažený výkon práce a náhrada za pracovnú pohotovosť, ako aj doplatok do minimálneho mzdového nároku podľa stupňa náročnosti, v oboch mzdových enginoch.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.8</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>hr</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index_sk.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><code>l10n_sk_hr_payroll_surcharges_ee</code>, <code>l10n_sk_hr_payroll_surcharges_oca</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.3.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>hr</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index_sk.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><code>l10n_sk_hr_payroll_surcharges_ee</code>, <code>l10n_sk_hr_payroll_surcharges_oca</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Zákonník práce priznáva zamestnancovi mzdové zvýhodnenie za prácu v určitom
@@ -68,7 +68,7 @@ mzdového enginu; mzdové pravidlá pridáva jeho mostík k enginu (pozri
 <td>Práca nadčas</td>
 <td><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-121.odsek-1">§ 121 ods. 1</a></td>
 <td>dosiahnutá mzda + 25 % (pri rizikových prácach 35 %)</td>
-<td>priemerného zárobku</td>
+<td>priemerného zárobku (len zvýhodnenie)</td>
 </tr>
 <tr>
 <td>Práca vo sviatok</td>
@@ -240,9 +240,24 @@ evidujte popri bežnej práci alebo použite vstupy.</p>
   zamestnanca — a pri sviatku a práci nadčas <strong>priemerný hodinový zárobok</strong>
   zamestnanca.</li>
 <li><strong>Mzda za prácu nadčas.</strong> Hodiny nadčas sú mimo času, ktorý pokrýva mesačná
-  mzda, preto <em>Overtime Pay</em> pridá popri zvýhodnení aj mzdu za tieto hodiny v
-  sume priemerného zárobku. Za hodiny vo sviatok sa pridá len zvýhodnenie;
-  mzda za ne sa predpokladá v základnej mzde.</li>
+  mzda, preto <em>Overtime Pay</em> pridá popri zvýhodnení aj dosiahnutú mzdu za
+  tieto hodiny (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-121.odsek-1">§ 121 ods. 1</a>:
+  „dosiahnutá mzda a mzdové zvýhodnenie najmenej v sume 25 % jeho priemerného
+  zárobku"). Z priemerného zárobku sa počíta len zvýhodnenie. Suma sa
+  zaokrúhli na eurocent nahor, raz. Dosiahnutá mzda sa berie len zo základnej
+  mzdy alebo sadzby; osobné ohodnotenie ani inú pravidelnú zložku, ktorá by
+  za hodiny nadčas tiež patrila, zmluva nepozná a treba ju zadať ručne. Za
+  hodiny vo sviatok sa pridá len zvýhodnenie; mzda za ne sa predpokladá v
+  základnej mzde. Hodiny nadčas sa platia zo mzdy mesiaca, v ktorom boli
+  odpracované:</li>
+<li>pri mesačnej mzde mzda delená počtom hodín, ktoré pracovný kalendár
+    zamestnanca obsahuje v danom mesiaci — vrátane sviatkov a bez odpočítania
+    neprítomností — krát hodiny nadčas. Deliteľom je fond pracovného času
+    samotného mesiaca, nie priemerný mesiac roka: v apríli 2026 (176 hodín) je
+    osem hodín nadčas pri mzde 2 100 € 2 100 × 8 / 176 = 95,46 €, bez ohľadu na
+    priemerný zárobok z predchádzajúceho štvrťroka;</li>
+<li>pri hodinovej mzde presná hodinová sadzba krát hodiny nadčas:
+    8 × 7,333 = 58,67 €.</li>
 <li><strong>Minimum Wage Top-up</strong> (doplatok). Porovnáva <strong>základnú mzdu</strong> — bez
   zvýhodnení, práce nadčas a náhrad mzdy — s nárokom pre stupeň zmluvy:</li>
 <li>pri mesačnej mzde s mesačným nárokom zníženým v pomere bežne
@@ -374,8 +389,18 @@ výpočet a tie isté údaje z tohto modulu.</p>
   nevzťahuje), ani minimálnu mzdu za hodinu.</li>
 <li><strong>Hodiny sa zadávajú, neodvodzujú.</strong> Modul nedodáva typy pracovných
   záznamov a hodiny neberie z dochádzky ani z kalendára.</li>
-<li><strong>Práca nadčas</strong> sa oceňuje priemerným zárobkom; zamestnávateľ, ktorého
-  zmluvy uvádzajú hodinovú mzdu, musí upraviť pravidlo <em>Overtime Pay</em>.</li>
+<li><strong>Práca nadčas</strong> sa platí len zo základnej mzdy alebo hodinovej sadzby a
+  mesačná mzda sa delí hodinami samotného mesiaca; zamestnávateľ, ktorý delí
+  priemerným mesiacom roka, musí upraviť <code>_l10n_sk_overtime_fund_hours</code>.
+  Zmluva bez pracovného kalendára nemá hodiny, ktorými by sa mzda delila, a
+  jej hodiny nadčas sa platia priemerným zárobkom. Náhradné voľno namiesto zvýhodnenia
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-121.odsek-3">§ 121 ods. 3</a>) modul nepozná:
+  hodiny zadané ako <code>NADCAS</code> dostanú vždy oba riadky, preto hodiny, za ktoré
+  sa bude čerpať náhradné voľno, nezadávajte, alebo ich zvýhodnenie odoberte
+  ručne. V jadre OCA patria pravidlá zvýhodnení len štruktúre pracovného
+  pomeru, takže dohoda nedostane žiadne; v Enterprise dostane dohoda všetky
+  vrátane práce nadčas, hoci prácu nadčas s dohodárom nemožno dohodnúť
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-223.odsek-2">§ 223 ods. 2</a>).</li>
 <li><strong>Pohotovosť</strong> pokrýva len neaktívnu časť mimo pracoviska; neaktívna
   pohotovosť na pracovisku je pracovný čas a modul ju nerozpozná.</li>
 <li><strong>Sťažený výkon práce</strong> má jednu sadzbu; sadzby podľa druhu rizika, ktoré
@@ -384,7 +409,7 @@ výpočet a tie isté údaje z tohto modulu.</p>
   percentuálne polia nevedia vyjadriť zvýhodnenie určené pevnou sumou.</li>
 </ul>
 <p>Od 1. januára 2027 sú doplnené mesačné aj hodinové nároky všetkých šiestich stupňov podľa <a href="https://static.slov-lex.sk/static/SK/ZZ/2026/233/20260923.print.html">233/2026 Z. z.</a>. Hodinový základ prvého stupňa pre príplatky sa mení z 5,259 EUR na 5,586 EUR; staršie pásky používajú hodnoty svojho obdobia.</p>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2007/663/">Zákon č. 663/2007 Z. z. o minimálnej mzde</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.2.8 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2007/663/">Zákon č. 663/2007 Z. z. o minimálnej mzde</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

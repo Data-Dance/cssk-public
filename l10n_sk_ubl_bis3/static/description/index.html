@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_ubl_bis3/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>Slovakia — Peppol BIS Billing 3.0 (eFaktúra)</h1>
 <p class="cssk-summary">Produces Slovak electronic invoices in Peppol BIS Billing 3.0, identifies Slovak parties on Peppol by their DIČ, and puts the variable symbol where the payer&#x27;s bank looks for it.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.3.5.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.3.8.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Odoo can write an invoice as a Peppol BIS Billing 3.0 file (UBL 2.1,
@@ -57,7 +57,9 @@ This module fills those gaps:</p>
   supply date.</li>
 </ul>
 <p>The file itself is plain Peppol BIS Billing 3.0, with no national
-extension. The module creates the file; <strong>sending</strong> it over Peppol needs an
+extension and no Slovak validation rule on top. What Slovak law asks for
+beyond the standard is listed in <a href="#transposition">What the transposition asks for</a>.
+The module creates the file; <strong>sending</strong> it over Peppol needs an
 access point, for example Odoo's own Peppol service or
 <a href="../../../edi_base_peppol/static/description/index.html"><code>edi_base_peppol</code></a> with a provider such as
 <a href="../../../edi_epostak_peppol/static/description/index.html"><code>edi_epostak_peppol</code></a>. Reporting the
@@ -170,8 +172,30 @@ A company created for an existing contact keeps that contact's scheme.</p>
   reference, otherwise the invoice number; reduced to digits and the last
   10 kept.</li>
 <li><strong>TaxPointDate (BT-7)</strong> — the date of supply from the invoice's <em>Taxable
-  Supply Date</em>, on invoices and credit notes. A received invoice carrying
-  the element fills the same field on the vendor bill.</li>
+  Supply Date</em>, on invoices and credit notes, when it differs from the
+  invoice date; a file without it means the two are the same. A received
+  invoice carrying the element fills the same field on the vendor bill.</li>
+<li><strong>CompanyLegalForm (BT-33)</strong> — the seller's legal form and register entry
+  (§ 3a of the Commercial Code), when
+  <a href="../../../l10n_sk_trade_registry/static/description/index.html"><code>l10n_sk_trade_registry</code></a> is installed
+  and holds them for your company; otherwise the element is left out.</li>
+<li><strong>Company ID (BT-30 / BT-47)</strong> — the IČO of a Slovak seller or buyer from
+  the contact's <em>Company ID</em>, under scheme <code>0158</code>. The IČ DPH appears only as
+  the VAT identifier. A Slovak contact with no IČO gets no legal-entity
+  identifier.</li>
+<li><strong>BillingReference (BT-25 / BT-26)</strong> — on a credit note or debit note
+  created from an invoice, the number and issue date of that invoice. On a
+  credit note entered by hand, the numbers typed in <em>Original invoice
+  number(s)</em>, each with its date where it is one of your invoices to that
+  customer.</li>
+<li><strong>Note (BT-22)</strong> — the invoice's terms and conditions. On a credit or debit
+  note, the reason typed in the wizard goes first, as "Reason for the
+  correction: …" in the customer's language.</li>
+<li><strong>InvoiceTypeCode</strong> — 380 for an invoice, 383 for a debit note; a credit
+  note is a separate document type with code 381.</li>
+<li><strong>OrderReference (BT-13)</strong> — the invoice's <em>Customer Reference</em>. On a
+  credit or debit note whose reference only quotes the original invoice, the
+  original's reference is used, or the document number.</li>
 <li>The invoice PDF embedded in the file.</li>
 <li>File name <code>INV_2026_00042_ubl_bis3_sk.xml</code> (the invoice number with <code>/</code>
   replaced).</li>
@@ -181,16 +205,119 @@ customer</strong>, where they are Slovak, have a DIČ. If not, it stops with a
 message naming the contact and the scheme it is currently published under.
 A contact registered under another scheme passes, as long as its DIČ is
 recorded.</p>
+<p>The same check stops the export when a Slovak supplier or customer has no
+street, city or postcode, and when its <em>Company ID</em> is filled in but is not
+an IČO (up to 8 digits). The message names the contact and what is missing.</p>
+<p>To find such contacts before an invoice is stopped, open <strong>Contacts</strong> and
+use the filter <strong>E-invoice would be refused</strong>. It lists the Slovak companies
+with no DIČ, an incomplete address or a <em>Company ID</em> that is not an IČO.</p>
+<p>Two things are only pointed out, in a yellow banner on the invoice, and
+never stop it:</p>
+<ul>
+<li><strong>No bank account</strong> on a customer invoice that is not yet paid: the file
+  then does not say where to pay. Set <em>Recipient Bank</em>, unless the invoice
+  is paid in cash or by card.</li>
+<li><strong>No original invoice</strong> on a credit note entered by hand: fill in
+  <em>Original invoice number(s)</em>, separated by commas. The field shows on a
+  customer credit note that was not created from an invoice.</li>
+</ul>
+<h2 id="transposition">What the transposition asks for</h2>
+<p>Finančná správa publishes <em>Transpozície štandardu Peppol BIS v podmienkach
+Slovenskej legislatívy</em>, a workbook that marks every term of the standard
+as required, conditionally required or not required by Slovak law. It adds
+no validation rule of its own. The module was read against version
+<strong>1.13 (29 October 2026)</strong>; the file, its checksum and how to re-check a
+newer version are in the module's <code>data/TRANSPOSITION_VERSION</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>What the transposition says</th>
+<th>What the module does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BT-34, BT-49 electronic address</td>
+<td>required, scheme 0245 = DIČ</td>
+<td>0245 + DIČ; export refused without a DIČ</td>
+</tr>
+<tr>
+<td>BT-35/37/38, BT-50/52/53 address</td>
+<td>required (§ 74), though optional in the standard</td>
+<td>export refused when street, city or postcode is missing</td>
+</tr>
+<tr>
+<td>BT-30, BT-47 legal registration</td>
+<td>required when an IČO was assigned</td>
+<td>IČO under scheme 0158</td>
+</tr>
+<tr>
+<td>BT-31, BT-48 VAT identifier</td>
+<td>required when an IČ DPH was assigned</td>
+<td>IČ DPH from the contact</td>
+</tr>
+<tr>
+<td>BT-7 date of supply</td>
+<td>only when it differs from the issue date and is known</td>
+<td>written only then</td>
+</tr>
+<tr>
+<td>BT-8 VAT point date code</td>
+<td>not to be used</td>
+<td>never written</td>
+</tr>
+<tr>
+<td>BT-33 seller's legal form and register entry</td>
+<td>conditionally required (§ 3a Commercial Code)</td>
+<td>from the trade-registry module when installed</td>
+</tr>
+<tr>
+<td>BT-25 preceding invoice</td>
+<td>not required until 1 July 2030</td>
+<td>written on credit and debit notes made from an invoice, and from the numbers typed on a credit note entered by hand; a warning when there is neither</td>
+</tr>
+<tr>
+<td>BT-83 payment information</td>
+<td>variable symbol, at most 10 digits</td>
+<td>variable symbol, last 10 digits</td>
+</tr>
+<tr>
+<td>BT-84 payment account</td>
+<td>the supplier's account number is required</td>
+<td>the invoice's bank account when it has one; a <strong>warning</strong> on the invoice when it has none, the export is not refused</td>
+</tr>
+<tr>
+<td>BT-120 exemption reason text</td>
+<td>required when a supply is exempt</td>
+<td>from the tax, as Odoo fills it; <strong>not checked</strong></td>
+</tr>
+<tr>
+<td>BT-22 invoice note</td>
+<td>carries the statutory wordings with no field of their own (for example cash accounting, § 68d)</td>
+<td>the invoice's terms and conditions, and the reason on a credit or debit note; the statutory wordings are <strong>not added</strong> automatically</td>
+</tr>
+</tbody>
+</table>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li>The module produces the file only. Transmission over Peppol and the
-  reporting of invoice data to Finančná správa are done by the access point.</li>
+<li>An exempt tax with no reason text and a missing statutory wording are not
+  checked: the invoice goes out as it is. An invoice with no bank account
+  and a credit note that names no original are warned about, not stopped.</li>
+<li>
+<p>Postcodes are sent as typed, prices with the decimals Odoo holds, and the
+  import does not tell a debit note (383) from an invoice.</p>
+</li>
+<li>
+<p>The module produces the file only. Transmission over Peppol and the
+  reporting of invoice data to Finančná správa are done by the access point.</p>
+</li>
 <li>It does not decide which invoices must be sent electronically under
   § 85o; it offers the format for every Slovak contact.</li>
 <li>On uninstalling, the format is removed from contacts; their Peppol
   addresses are kept.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.3.4.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.3.8.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

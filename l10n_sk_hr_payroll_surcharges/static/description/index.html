@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_hr_payroll_surcharges/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Wage Surcharges and Minimum Wage Claims</h1>
 <p class="cssk-summary">Statutory Slovak wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work, and the top-up to the minimum wage claim of the job&#x27;s stupeň náročnosti, on either payroll engine.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.8</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Extended by</th><td><code>l10n_sk_hr_payroll_surcharges_ee</code>, <code>l10n_sk_hr_payroll_surcharges_oca</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <a href="../../../l10n_sk_hr_payroll_base/static/description/index.html"><code>l10n_sk_hr_payroll_base</code></a></td></tr><tr><th>Extended by</th><td><code>l10n_sk_hr_payroll_surcharges_ee</code>, <code>l10n_sk_hr_payroll_surcharges_oca</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Zákonník práce entitles an employee to a <em>mzdové zvýhodnenie</em> for work at
@@ -67,8 +67,8 @@ otherwise.</p>
 <tr>
 <td>Overtime</td>
 <td><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-121.odsek-1">§ 121 ods. 1</a></td>
-<td>wage for the hour + 25 % (35 % for risky work)</td>
-<td>average earnings</td>
+<td>the wage achieved for the hour + 25 % (35 % for risky work)</td>
+<td>average earnings (the premium only)</td>
 </tr>
 <tr>
 <td>Public holiday</td>
@@ -235,9 +235,24 @@ alongside ordinary work, or use the inputs.</p>
   conditions and standby — whatever the employee's own level — and the
   employee's <strong>average hourly earnings</strong> for public holidays and overtime.</li>
 <li><strong>Overtime pay.</strong> Overtime hours fall outside the time a monthly wage pays
-  for, so <em>Overtime Pay</em> adds the wage for those hours at average earnings
-  next to the surcharge. Public-holiday hours get only the surcharge; their
-  basic pay is assumed to be in the basic wage.</li>
+  for, so <em>Overtime Pay</em> adds the wage achieved for those hours next to the
+  surcharge (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-121.odsek-1">§ 121 ods. 1</a>: „dosiahnutá
+  mzda a mzdové zvýhodnenie najmenej v sume 25 % jeho priemerného zárobku").
+  Only the surcharge is on average earnings. The amount is rounded up to the
+  cent once. The wage achieved is taken from the basic salary or rate alone;
+  a personal bonus or another regular component that the overtime hours
+  should also earn is not known to the contract and has to be entered by
+  hand. Public-holiday hours get only the surcharge; their basic pay is
+  assumed to be in the basic wage. The overtime hours are paid from the wage
+  of the month they were worked in:</li>
+<li>for a monthly wage, the salary divided by the hours the employee's
+    working schedule holds in that month — public holidays included, absences
+    not taken off — times the overtime hours. The divisor is the month's own
+    fund, not an average month of the year: in April 2026 (176 hours) eight
+    overtime hours on 2 100 € are 2 100 × 8 / 176 = 95.46 €, whatever the
+    average earnings of the quarter before;</li>
+<li>for an hourly wage, the exact hourly rate times the overtime hours:
+    8 × 7.333 = 58.67 €.</li>
 <li><strong>Minimum Wage Top-up.</strong> Compares the <strong>basic wage</strong> — without surcharges,
   overtime and wage replacements — with the claim for the contract's level:</li>
 <li>for a monthly wage, against the monthly claim reduced by the ordinary
@@ -369,8 +384,20 @@ arithmetic and the same data from this module.</p>
   does not apply to them) nor the minimum hourly wage.</li>
 <li><strong>Hours are entered, not derived.</strong> No work entry types are shipped, and
   hours are not taken from attendance or the calendar.</li>
-<li><strong>Overtime</strong> is valued at average earnings; an employer whose contracts
-  state an hourly rate has to adjust the <em>Overtime Pay</em> rule.</li>
+<li><strong>Overtime</strong> hours are paid from the basic salary or hourly rate only, and
+  a monthly salary is divided by the month's own hours; an employer who
+  divides by the average month of the year has to adjust
+  <code>_l10n_sk_overtime_fund_hours</code>. A contract with no working schedule has no
+  hours to divide by, and its overtime hours are paid at average earnings.
+  Compensatory time off instead of the
+  surcharge (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-121.odsek-3">§ 121 ods. 3</a>) is not
+  modelled: hours entered as <code>NADCAS</code> always get both lines, so hours to be
+  taken as time off must not be entered, or their surcharge has to be taken
+  back by hand. On the OCA engine the surcharge rules belong to the
+  employment structure only, so an agreement gets none of them; on Enterprise
+  an agreement gets all of them, overtime included, although overtime cannot
+  be agreed with a dohodár
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-223.odsek-2">§ 223 ods. 2</a>).</li>
 <li><strong>Standby</strong> covers only the inactive part away from the workplace; inactive
   standby at the workplace is working time and is not detected.</li>
 <li><strong>Difficult conditions</strong> use one rate; the hazard-specific rates of some
@@ -379,7 +406,7 @@ arithmetic and the same data from this module.</p>
   and its percentage fields cannot express a surcharge set as a fixed amount.</li>
 </ul>
 <p>From 1 January 2027, all six dated monthly and hourly claims follow <a href="https://static.slov-lex.sk/static/SK/ZZ/2026/233/20260923.print.html">233/2026 Z. z.</a>. The level-1 hourly surcharge base changes from EUR 5.259 to EUR 5.586; earlier payslips retain their dated values.</p>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2007/663/">Zákon č. 663/2007 Z. z. o minimálnej mzde</a></li></ul><p>Text checked against module version: 19.0.1.2.8 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2007/663/">Zákon č. 663/2007 Z. z. o minimálnej mzde</a></li></ul><p>Text checked against module version: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

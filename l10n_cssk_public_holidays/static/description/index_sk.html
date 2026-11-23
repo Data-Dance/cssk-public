@@ -32,8 +32,8 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <p class="cssk-note"><a href="../../../index_sk.html">← Používateľská príručka</a></p>
 <nav class="cssk-lang"><a href="../../../l10n_cssk_public_holidays/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="../../../l10n_cssk_public_holidays/static/description/index_cs.html">Čeština</a></nav>
 <h1>Sviatky: Slovensko a Česko</h1>
-<p class="cssk-summary">Dopĺňa slovenské a české dni pracovného pokoja do kalendára sviatkov OCA, rok po roku, so zákonnými výnimkami.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.0.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>calendar_public_holiday</code></td></tr></table>
+<p class="cssk-summary">Dopĺňa slovenské a české dni pracovného pokoja do kalendára sviatkov OCA, rok po roku, so zákonnými výnimkami, a slovenské udržiava aj ako štátne sviatky pracovných kalendárov.</p>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.0.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>calendar_public_holiday</code>, <code>resource</code></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Dovolenka a dochádzka nesmú počítať deň pracovného pokoja ako pracovný deň.
@@ -83,16 +83,60 @@ existujú, zostanú aj s vašimi úpravami; regionálny riadok (s vyplnenými
 regiónmi) sa za celoštátny deň nepovažuje. Ak chcete zmenu vynútiť, zmažte
 riadok alebo celý rok a plánovanú akciu spustite znova (<em>Nastavenia →
 Technické → Naplánované akcie</em>, <em>Spustiť manuálne</em>).</p>
+<h2 id="calendars">Pracovné kalendáre</h2>
+<p>Voľné dni a mzdy kalendár sviatkov nečítajú. Sviatok poznajú len ako <em>štátny
+sviatok</em> pracovných kalendárov (<em>Voľné dni → Konfigurácia → Štátne sviatky</em>).
+Modul preto slovenské sviatky udržiava aj tam:</p>
+<ul>
+<li>každá spoločnosť, ktorej krajinou je Slovensko, dostane jeden štátny sviatok
+  za každý celoštátny riadok, bez určeného pracovného kalendára, takže platí
+  pre všetky kalendáre spoločnosti, terajšie aj budúce;</li>
+<li>riadok, ktorý premenujete, presuniete, zmeníte na regionálny alebo zmažete,
+  vezme svoj štátny sviatok so sebou a opakované generovanie nič nezdvojí;</li>
+<li>deň, na ktorý už spoločnosť má ručne zadaný štátny sviatok, sa ponechá
+  tomuto záznamu;</li>
+<li>spoločnosť vytvorenú neskôr zachytí najbližší beh plánovanej akcie, od
+  prvého dňa mesiaca pred týmto behom; ak chcete sviatky hneď, spustite ju
+  ručne.</li>
+</ul>
+<p>Zápis robí plánovaná akcia a zapisuje dni od prvého dňa predchádzajúceho
+kalendárneho mesiaca. Mzdy za mesiac sa počítajú začiatkom nasledujúceho,
+takže práve skončený mesiac je ešte otvorený: pri behu 5. septembra akcia
+zapíše aj 29. august a 5. júl nechá tak. V januári vygeneruje aj
+predchádzajúci rok, aby bol december na mieste.</p>
+<p>Štátny sviatok, ktorý je pre spoločnosť nový, spôsobí, že Voľné dni
+prepočítajú žiadosti o voľno, ktoré cezeň prechádzajú. Schválený týždeň
+dovolenky cez piatok 29. augusta sa zmení z piatich dní na štyri, deň sa
+vráti do nároku a Voľné dni to zamestnancovi oznámia v histórii žiadosti.
+Pre otvorený mesiac je to správny počet; so starším obdobím to modul bez
+vyžiadania nerobí. Sviatok, ktorý už v kalendároch je, sa znova nezapisuje,
+takže opakovaný beh nič neprepočíta a nikomu nič neoznámi.</p>
+<p>Inštalácia alebo aktualizácia modulu požiada plánovanú akciu o okamžitý beh,
+takže sviatky pribudnú o chvíľu; kde plánované akcie nebežia, spustite ju
+ručne. Riadok, ktorý pridáte alebo zmeníte ručne, sa uplatní hneď a bez
+ohľadu na dátum. Ak chcete do kalendárov dostať
+aj staršie sviatky, zavolajte <code>cssk_sync_calendar_leaves(date_from=…)</code> na
+modeli <code>calendar.public.holiday</code>, napríklad zo serverovej akcie.</p>
+<p>Systémový parameter <code>l10n_cssk_public_holidays.calendar_leave_countries</code>
+obsahuje zoznam krajín oddelených čiarkou. Predvolená hodnota je <code>SK</code>. České
+spoločnosti sú vynechané, kým sa české mzdy neoveria so sviatkom vnútri
+neprítomnosti; <code>SK,CZ</code> ich pridá a <code>none</code> funkciu vypne. Zmena sa prejaví pri
+najbližšom behu plánovanej akcie, ktorá zároveň odstráni sviatky krajiny
+vyradenej zo zoznamu, od predchádzajúceho mesiaca.</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
 <li>Pravidlá sú tabuľkou v kóde. Pri zmene zákona treba modul aktualizovať; už
   vygenerované roky sa samy neopravia — zmažte dotknutý rok a vygenerujte ho
   znova.</li>
 <li>Len Slovensko a Česko, len celoštátne dni.</li>
+<li>Štátny sviatok zadaný ručne len pre jeden pracovný kalendár nepustí na ten
+  deň celopodnikový záznam modulu, takže ostatné kalendáre spoločnosti ho
+  nedostanú. Ručne zadaný záznam odstráňte alebo deň zadajte aj pre ostatné
+  kalendáre.</li>
 <li>Nedele sa negenerujú: kalendár eviduje sviatky, pracovný čas určuje pracovný
   kalendár zamestnanca.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1993/241/">Zákon Národnej rady Slovenskej republiky č. 241/1993 Z. z. o štátnych sviatkoch, dňoch pracovného pokoja a pamätných dňoch</a></li><li><a href="https://e-sbirka.gov.cz/sb/2000/245">Zákon č. 245/2000 Sb., o státních svátcích, o ostatních svátcích, o významných dnech a o dnech pracovního klidu</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1993/241/">Zákon Národnej rady Slovenskej republiky č. 241/1993 Z. z. o štátnych sviatkoch, dňoch pracovného pokoja a pamätných dňoch</a></li><li><a href="https://e-sbirka.gov.cz/sb/2000/245">Zákon č. 245/2000 Sb., o státních svátcích, o ostatních svátcích, o významných dnech a o dnech pracovního klidu</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.0.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

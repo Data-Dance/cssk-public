@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_cssk_vat_return_base/static/description/index_sk.html">Slovenčina</a> · <a href="../../../l10n_cssk_vat_return_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ/SK VAT Return — Shared Engine</h1>
 <p class="cssk-summary">The screens and the workflow behind the Slovak and Czech VAT returns — compute the rows from tax tags, check them against the journal items, export the official XML and keep the filed copy.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.13.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <a href="../../../l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="../../../l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="../../../l10n_sk_vat_return/static/description/index.html"><code>l10n_sk_vat_return</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.14.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>account</code>, <code>mail</code>, <a href="../../../l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="../../../l10n_cssk_submission_base/static/description/index.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="../../../l10n_sk_vat_return/static/description/index.html"><code>l10n_sk_vat_return</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>This module is the common engine of the VAT return (<em>daňové priznanie k DPH</em>
@@ -79,23 +79,26 @@ is everything the two share:</p>
 <td>The filing company (defaults to the current one).</td>
 </tr>
 <tr>
-<td>Date From / Date To</td>
-<td>The first and last day of the tax period.</td>
+<td>Period Type</td>
+<td><em>Monthly</em> or <em>Quarterly</em>. A new return starts with the type of the company's previous return.</td>
 </tr>
 <tr>
-<td>Period Type</td>
-<td><em>Monthly</em> or <em>Quarterly</em> — written into the XML as the month or the quarter of <em>Date From</em>.</td>
+<td>Period</td>
+<td>The month or the quarter, picked in one control: click it, move between years with the arrows and choose the month or quarter. A new return opens on the last closed period. <em>Dates</em> below shows the first and last day that follow from it.</td>
 </tr>
 <tr>
 <td>Version</td>
-<td>The form vintage. The list offers only versions of the company's fiscal country valid in the period; see <a href="#versions">Form versions</a>.</td>
+<td>The form vintage. It is selected for you from the period; the list offers only versions of the company's fiscal country valid in the period, see <a href="#versions">Form versions</a>.</td>
 </tr>
 <tr>
 <td>Statement Type</td>
-<td>Regular, corrective or supplementary — the choices come from the version.</td>
+<td>Regular, corrective or supplementary — the choices come from the version, and the regular one is preselected.</td>
 </tr>
 </tbody>
 </table>
+<p>Once the return is exported or submitted the period can no longer be changed;
+reset the return to draft first. <em>Submission Reference</em>, the confirmation
+number the portal gives you, appears once the XML has been exported.</p>
 <p>Then click <strong>Compute</strong>. The return moves to <em>Preview</em> and its <strong>Lines</strong> tab
 fills with one row per line of the form.</p>
 <p><strong>Which documents belong to the period.</strong> The two sides of the return are
@@ -228,8 +231,9 @@ empty ones fall back to 343000 (settlement), 548000 and 648000 (rounding).</p>
 it (<em>Amends</em>), carrying over its manual overrides. On the new return:</p>
 <ol>
 <li>choose the right <strong>Statement Type</strong> — the copy starts with the original's;</li>
-<li>fill in the <strong>Difference identification date</strong>, which the form requires on
-   a return that amends another (it defaults to today);</li>
+<li>for a supplementary return, fill in the <strong>Difference identification
+   date</strong> (it defaults to today). The field shows only for that kind of
+   return: a corrective return states no such date;</li>
 <li>correct the accounting, <strong>Compute</strong>, review, export and file as usual.</li>
 </ol>
 <p>What the country form needs beyond that (for example the Slovak difference
@@ -278,7 +282,7 @@ amendment from it; the amendment is an ordinary return.</p>
   posted without tags, reaches the wrong row or none; review the
   <strong>Documents</strong> drill-down before filing.</li>
 </ul>
-<footer><p>Text checked against module version: 19.0.1.13.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.14.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

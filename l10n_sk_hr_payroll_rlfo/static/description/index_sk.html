@@ -32,8 +32,8 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <p class="cssk-note"><a href="../../../index_sk.html">← Používateľská príručka</a></p>
 <nav class="cssk-lang"><a href="../../../l10n_sk_hr_payroll_rlfo/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK RLFO — prihlásenie a odhlásenie zamestnancov</h1>
-<p class="cssk-summary">Prihlášky a odhlášky zamestnancov do Sociálnej poisťovne zadané ako dávka udalostí a vyexportované do XML overeného voči oficiálnej schéme.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.3.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<p class="cssk-summary">Prihlášky a odhlášky zamestnancov do Sociálnej poisťovne a oznámenie OOP z dohody, zadané ako dávka udalostí a vyexportované do XML overeného voči oficiálnej schéme.</p>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.4.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Zamestnávateľ zamestnanca pred začatím práce prihlási do <strong>Sociálnej
@@ -104,7 +104,7 @@ vygeneruje v schéme RLZEC 2027, skoršia v RLZEC 2026.</p>
 </tr>
 <tr>
 <td><em>Typ udalosti</em></td>
-<td><em>Prihláška</em> (<code>PA</code>) alebo <em>Odhláška</em> (<code>OD</code>)</td>
+<td><em>Prihláška</em> (<code>PA</code>), <em>Odhláška</em> (<code>OD</code>) alebo <em>Zmena (OOP z dohody)</em> (<code>ZM</code>)</td>
 </tr>
 <tr>
 <td><em>Typ vzťahu (typZec)</em></td>
@@ -117,6 +117,26 @@ vygeneruje v schéme RLZEC 2027, skoršia v RLZEC 2026.</p>
 <tr>
 <td><em>Zánik poistenia (datZaniku)</em></td>
 <td>povinný pri odhláške</td>
+</tr>
+<tr>
+<td><em>Zmena platí od (datUplatnenia)</em></td>
+<td>povinný pri zmene</td>
+</tr>
+<tr>
+<td><em>Oznámenie uplatnenia OOP (datOznUplatnOop)</em></td>
+<td>prihláška alebo zmena pri dohode: deň, keď pracovník oznámil uplatnenie OOP; navrhne sa zo zmluvy</td>
+</tr>
+<tr>
+<td><em>OOP z dôvodu MD/OD/RD (uplatnOopMdOdRd)</em></td>
+<td>OOP si uplatňuje osoba na materskej, otcovskej alebo rodičovskej dovolenke; navrhne sa zo zmluvy</td>
+</tr>
+<tr>
+<td><em>Oznámenie ukončenia OOP (datOznUkoncUplatnOop)</em></td>
+<td>zmena: deň, keď pracovník oznámil, že si OOP ďalej neuplatňuje (skrytý stĺpec)</td>
+</tr>
+<tr>
+<td><em>Skončenie MD/OD/RD (datSkonceniaMdOdRd)</em></td>
+<td>zmena: posledný deň dovolenky (skrytý stĺpec)</td>
 </tr>
 <tr>
 <td><em>Štatutár s účasťou 50 % a viac</em></td>
@@ -167,18 +187,46 @@ dohôd vrátane DoBPŠ sa odhlasujú vetvou schémy pre dohody.</p>
 Neberie sa z políčka zamestnanca <em>Oslobodený od garančného poistenia</em>, ktoré
 sa neskôr môže zmeniť. Po vygenerovaní dávky sú obe polia zamknuté; na opravu
 vráťte dávku do konceptu.</p>
+<h3 id="oop">Odvodová odpočítateľná položka z dohody</h3>
+<p>Zamestnávateľ oznamuje uplatnenie odvodovej odpočítateľnej položky na dohode
+a jeho ukončenie najneskôr v prvý pracovný deň po dni, keď mu to pracovník
+oznámil
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-1.pismeno-e">§ 231 ods. 1 písm. e)</a>).</p>
+<ul>
+<li><strong>Uplatnenie pri vzniku dohody:</strong> vyplňte <em>Oznámenie uplatnenia OOP</em> na
+  prihláške.</li>
+<li><strong>Uplatnenie alebo ukončenie neskôr:</strong> pridajte riadok <em>Zmena (OOP z
+  dohody)</em> s dňom, od ktorého zmena platí, a s príslušným dátumom oznámenia —
+  uplatnenia alebo ukončenia.</li>
+<li><strong>Rodič na materskej, otcovskej alebo rodičovskej dovolenke</strong> (DoVP a
+  DoPČ, od roku 2027): zaškrtnite aj <em>OOP z dôvodu MD/OD/RD</em>. Keď sa
+  dovolenka skončí, podajte zmenu s poľom <em>Skončenie MD/OD/RD</em>. Obe polia má
+  až vzor RLZEC 2027, preto musí byť dávka za január 2027 alebo neskôr;
+  uplatnenie oznámené v decembri 2026 na január patrí do dávky za január
+  2027.</li>
+</ul>
+<p>Uplatnenie, dôvod a dátum oznámenia sa navrhnú z polí zmluvy <em>OOP z dohody</em>,
+<em>Dôvod OOP</em> a <em>Oznámenie o OOP doručené</em>; skontrolujte ich, neskôr sa znova
+nenačítajú. Polia OOP sa dajú použiť len pri typoch vzťahu pre dohody.</p>
 <p>Potom <strong>Generovať</strong>. XML sa overí voči schéme vzoru (<code>RLZEC-v2026.xsd</code> alebo
 <code>RLZEC-v2027.xsd</code>) a priloží; nahrajte
 ho na portál Sociálnej poisťovne a kliknite na <strong>Označiť ako odoslané</strong>.
 Odhláška sa zapíše do vetvy podľa typu vzťahu (dohoda, nepravidelný príjem
 alebo pracovný pomer s pravidelným príjmom).</p>
 <p>Generovanie sa zastaví, ak dávka nemá žiadnu udalosť, ak zamestnanec nemá
-platné rodné číslo, ak chýba dátum, ktorý udalosť vyžaduje, alebo ak má
-prihláška stav účasti <em>Neoverené</em> či žiadny doklad.</p>
+platné rodné číslo, ak chýba dátum, ktorý udalosť vyžaduje, ak má prihláška
+stav účasti <em>Neoverené</em> či žiadny doklad, ak zmena nič neoznamuje, alebo ak
+je pole OOP vyplnené tam, kde ho tlačivo neprijíma (mimo dohody, dôvod
+dovolenky pri DoBPŠ alebo pred vzorom 2027).</p>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
-<li><strong>Len dva typy udalostí:</strong> prihláška a odhláška. Zmenu, prerušenie
-  a zrušenie prihlásenia treba podať cez portál.</li>
+<li><strong>Prihláška, odhláška a jediný druh zmeny:</strong> OOP z dohody. Inú zmenu,
+  prerušenie a zrušenie prihlásenia treba podať cez portál.</li>
+<li><strong>Polia OOP vychádzajú zo schémy a zo zákona, nie zo zverejneného návodu
+  na vyplnenie.</strong> V čase písania (november 2026) Sociálna poisťovňa zverejnila
+  schému RLZEC 2027 a popis zmien, ale nie pokyny k dvom novým poliam.
+  Kontroly portálu môžu vyžadovať kombináciu, ktorú modul nevytvára; prvé
+  podanie porovnajte s formulárom na portáli.</li>
 <li><strong>Zo zmluvy sa doplní len typ vzťahu.</strong> Dátumy sa zadávajú ručne
   a nekontrolujú sa voči zmluve ani dátumu nástupu či odchodu; pri nástupe
   alebo odchode zamestnanca sa udalosť sama nevytvorí — dodržanie lehôt je na
@@ -190,12 +238,10 @@ prihláška stav účasti <em>Neoverené</em> či žiadny doklad.</p>
 <li>Kontaktné údaje v súbore sú telefón a e-mail spoločnosti a meno užívateľa,
   ktorý dávku generuje.</li>
 <li>Zmena stavu účasti po prihlásení je <em>zmena</em>, ktorú modul nevytvára.</li>
-<li>Dodávajú sa vzory RLZEC 2026 a 2027. Nové prvky schémy 2027 pre odvodovú
-  odpočítateľnú položku rodiča na materskej, otcovskej alebo rodičovskej
-  dovolenke sa nevytvárajú. Overenie voči schéme kontroluje tvar súboru, nie
-  údaje.</li>
+<li>Dodávajú sa vzory RLZEC 2026 a 2027. Overenie voči schéme kontroluje tvar
+  súboru, nie údaje.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.3.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.4.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

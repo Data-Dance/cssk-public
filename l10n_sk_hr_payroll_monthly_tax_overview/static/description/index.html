@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_sk_hr_payroll_monthly_tax_overview/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Monthly Tax Overview (Prehľad)</h1>
 <p class="cssk-summary">The monthly overview of income-tax advances withheld from employees and the child tax bonus paid, generated from the month&#x27;s payslips as XML for the Slovak financial administration.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.1.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="../../../l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Every Slovak employer that withholds income tax from wages files, each month, a
@@ -106,6 +106,38 @@ príjmov</em>). Statutory terms are given in Slovak.</p>
 <p>The list of employees on the form shows who contributed to the figures and
 their gross wage; the overview itself is employer-level only and carries no
 per-employee data.</p>
+<h2 id="manual">Without payroll in the database</h2>
+<p>A company whose wages are computed elsewhere, by an outside payroll office,
+has no payslips here. Tick <strong>Enter the amounts by hand</strong> on the overview and
+fill in three figures from the payroll office's recapitulation:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What to enter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Taxable income paid (r. 0)</td>
+<td>the taxable employment income settled and paid out to all employees for the month</td>
+</tr>
+<tr>
+<td>Tax advances withheld (r. 1)</td>
+<td>the tax advances withheld, <strong>before</strong> the child tax bonus is taken off</td>
+</tr>
+<tr>
+<td>Child tax bonus paid (§ 33)</td>
+<td>the bonus paid to the employees in total; leave 0 when there is none</td>
+</tr>
+</tbody>
+</table>
+<p>Then <strong>Generate</strong> as usual. Rows 4, 5 and 8 and Part II are derived from the
+three figures exactly as they are from payslips (see the table below), and
+the list of employees stays empty. The box is ticked by itself when no
+payroll app is installed. Once the overview is generated the amounts are
+locked; <em>Reset to Draft</em> opens them again. A month in which nothing was paid
+is filed with all three at zero.</p>
 <h2 id="mapping">What goes onto the form</h2>
 <table>
 <thead>
@@ -160,6 +192,11 @@ each recomputed from that month's non-cancelled payslips. The company needs a
 bank account for the refund; generation stops without one. The tick cannot be
 set on any other month. Leave it off to deduct the difference later instead;
 the file is then unchanged.</p>
+<p>On an overview entered by hand there are no payslips to recompute the earlier
+months from, so each of them is taken from the overview <strong>generated</strong> for it:
+the latest one of the month, which is the corrective overview where the month
+was corrected. Drafts are not counted. Generation stops when an earlier month
+of the quarter has no generated overview.</p>
 <h2 id="corrections">Corrections</h2>
 <p>The overview accepts two kinds of filing: <em>riadny</em> and <em>opravný</em>. Set
 <strong>Correction Type</strong> to <em>Corrective</em> to produce an <em>opravný prehľad</em>. The
@@ -184,7 +221,8 @@ cancelling overview cannot be produced.</p>
   their payment of advances yourself. Row 08 never goes negative.</li>
 <li>The <em>zamestnanecká prémia</em>, the bonus on mortgage interest (§ 33a) and the
   corrections from the annual reconciliation (rows 02 and 03) have no source
-  in the payroll and must be added by hand.</li>
+  in the payroll and no field for entering them by hand either; add them to
+  the file yourself.</li>
 <li>The <strong>legal form</strong> element of the header is the <em>Právna forma</em> recorded on the company's contact by <code>l10n_sk_trade_registry</code>; without that module, or with the field empty, the element stays empty.</li>
 <li>The <em>opravný</em> overview leaves the date the correction was discovered
   (<em>dátum zistenia</em>) empty.</li>
@@ -193,7 +231,7 @@ cancelling overview cannot be produced.</p>
 <li>Nothing is sent to the authority: <em>Mark Submitted</em> only records that you
   filed it.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.2.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text checked against module version: 19.0.2.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>
