@@ -15,6 +15,21 @@
     "en": "Setting up account assignment"
    }
   },
+  "cz_assets": {
+   "country": "cz",
+   "langs": [
+    "en",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Dlouhodobý majetek od přijaté faktury po vyřazení — profily majetku, účetní odpisový plán a jeho měsíční zápisy, české daňové odpisové skupiny, porovnání na konci roku a protokoly o zařazení a vyřazení.",
+    "en": "A fixed asset from the vendor bill to its disposal — asset profiles, the accounting depreciation plan and its monthly entries, Czech tax depreciation groups, the year-end comparison and the commissioning and disposal protocols."
+   },
+   "title": {
+    "cs": "Dlouhodobý majetek a odpisy",
+    "en": "Fixed assets and depreciation"
+   }
+  },
   "cz_bank": {
    "country": "cz",
    "langs": [
@@ -45,6 +60,21 @@
     "en": "Daily bookkeeping"
    }
   },
+  "cz_ledgers": {
+   "country": "cz",
+   "langs": [
+    "en",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Deník, hlavní kniha, obratová předvaha a saldokonto v Odoo — který výkaz je která kniha, jak je spustit, číst a exportovat a jak odsouhlasit zůstatky s partnery.",
+    "en": "The deník, hlavní kniha, obratová předvaha and saldokonto in Odoo — which report is which, how to run, read and export them, and how to confirm balances with partners."
+   },
+   "title": {
+    "cs": "Účetní knihy a výkazy",
+    "en": "Ledgers and reports"
+   }
+  },
   "cz_orientation": {
    "country": "cz",
    "langs": [
@@ -73,6 +103,21 @@
    "title": {
     "cs": "Měsíční uzávěrka DPH",
     "en": "Month-end VAT close"
+   }
+  },
+  "cz_year_end": {
+   "country": "cz",
+   "langs": [
+    "en",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Uzavření účetního roku krok za krokem — inventarizace, časové rozlišení a dohadné položky, kurzové rozdíly, daň z příjmů, účetní závěrka, uzavření a otevření účetních knih a data uzamčení.",
+    "en": "Closing the accounting year step by step — stock-taking, cut-offs and estimated accruals, exchange differences, the income tax, the financial statements, the closing and opening of the books and the lock dates."
+   },
+   "title": {
+    "cs": "Konec roku",
+    "en": "Year end"
    }
   },
   "document_capture": {
@@ -378,7 +423,9 @@
   },
   {
    "guides": [
-    "mis_reports"
+    "mis_reports",
+    "cz_ledgers",
+    "cz_year_end"
    ],
    "intro": {
     "cs": "Rozvaha a výkaz zisku a ztráty, přiznání k dani z příjmů, peněžní deník, časové rozlišení, kurzové rozdíly a uzavření roku.",
@@ -443,7 +490,9 @@
    }
   },
   {
-   "guides": [],
+   "guides": [
+    "cz_assets"
+   ],
    "intro": {
     "cs": "Účetní a daňové odpisy, protokoly o majetku, leasing a úvěry.",
     "en": "Accounting and tax depreciation, asset protocols, leasing and loans.",

@@ -125,13 +125,20 @@ class TestGuideScan(TransactionCase):
         guides = task_guides(data, topic, "sk", "all")
         self.assertEqual([g["key"] for g in guides][:1], ["mis_reports"])
         self.assertTrue(guides[0]["url"].endswith("/mis_reports/index_sk.html"))
-        # a guide for one country is hidden under the other
+        # a guide for one country is hidden under the other; the topic also
+        # lists Czech guides, so look for this one by its key
+
+        def shown(lang, country):
+            return {g["key"]: g for g in task_guides(data, topic, lang, country)}
+
         data["guides"]["mis_reports"]["country"] = "sk"
-        self.assertFalse(task_guides(data, topic, "en", "cz"))
-        self.assertTrue(task_guides(data, topic, "en", "sk"))
+        self.assertNotIn("mis_reports", shown("en", "cz"))
+        self.assertIn("mis_reports", shown("en", "sk"))
+        self.assertIn("cz_year_end", shown("en", "cz"))
+        self.assertNotIn("cz_year_end", shown("en", "sk"))
         # a language the guide is not written in falls back to English
         data["guides"]["mis_reports"]["langs"] = ["en", "sk"]
-        self.assertTrue(task_guides(data, topic, "cs", "sk")[0]["url"]
+        self.assertTrue(shown("cs", "sk")["mis_reports"]["url"]
                         .endswith("/index.html"))
 
     def test_read_page(self):
