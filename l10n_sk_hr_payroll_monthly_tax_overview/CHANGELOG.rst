@@ -18,6 +18,34 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.2.2.0] — 2026-11-22
+=========================
+
+Added
+~~~~~
+
+- **The amounts can be entered by hand.** The overview was summed from the
+  month's payslips and from nothing else, so a company whose wages are
+  computed outside the database (an external payroll office) could create
+  the record but never generate it: *Generate* stopped on the missing
+  payroll app. *Enter the amounts by hand* now takes three figures instead
+  of payslips: the taxable income paid (r. 0), the tax advances withheld
+  (r. 1) and the child tax bonus paid. Rows 4, 5 and 8 and Part II are
+  derived from them exactly as from payslips. The box is ticked by default
+  where no payroll app is installed; the amounts are locked once the
+  overview is generated.
+
+- The refund request of Part III on an overview entered by hand adds up the
+  quarter from the overviews generated for its earlier months (the latest
+  one of each month, so a corrective overview counts), and refuses when a
+  month has none.
+
+Upgrade
+~~~~~~~
+
+- Overviews that exist already stay unticked: they were generated from
+  payslips.
+
 [19.0.2.1.2] — 2026-11-05
 =========================
 

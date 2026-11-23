@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-04 12:58+0000\n"
-"PO-Revision-Date: 2026-11-04 12:58+0000\n"
+"POT-Creation-Date: 2026-11-22 22:09+0000\n"
+"PO-Revision-Date: 2026-11-22 22:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,11 @@ msgstr ""
 msgid ""
 "%s historical VAT rate(s) are available. They are archived: an importer can "
 "use them, and they will not appear when raising a new document."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "<span>–</span>"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -249,6 +254,11 @@ msgstr ""
 msgid ""
 "Date the fact giving rise to the amended return was identified "
 "(datumZisteniaDdp); mandatory for an amended return."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Dates"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -679,6 +689,11 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return__needs_discovery_date
+msgid "Needs Discovery Date"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
 #. odoo-python
 #: code:addons/l10n_cssk_vat_return_base/models/cssk_vat_return.py:0
 msgid ""
@@ -767,6 +782,11 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,field_description:l10n_cssk_vat_return_base.field_cssk_vat_return_version__own_tax_line_code
 msgid "Own-tax line code"
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_vat_return_base.cssk_vat_return_view_form
+msgid "Period"
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base
@@ -1022,6 +1042,13 @@ msgstr ""
 #. module: l10n_cssk_vat_return_base
 #: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return_line_def__tag_formula
 msgid "Tax-tag formula for kind=tags, e.g. '-03' (tag '03', sign −1)."
+msgstr ""
+
+#. module: l10n_cssk_vat_return_base
+#: model:ir.model.fields,help:l10n_cssk_vat_return_base.field_cssk_vat_return__needs_discovery_date
+msgid ""
+"Technical: the chosen kind of return is an additional one (dodatočné), the "
+"only kind that states the date the difference was identified."
 msgstr ""
 
 #. module: l10n_cssk_vat_return_base

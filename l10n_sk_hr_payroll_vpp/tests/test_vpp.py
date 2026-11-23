@@ -113,8 +113,6 @@ class TestVpp(TransactionCase):
                 }
             )
         )
-        if self.engine == "ee":
-            slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
         confirm_payslips(slip)
         return employee, slip
@@ -262,6 +260,26 @@ class TestVpp(TransactionCase):
         messages = " ".join(str(body) for body in correction.message_ids.mapped("body"))
         self.assertIn("Synthetic review of archived original payroll", messages)
         self.assertIn(self.env.user.display_name, messages)
+
+    def test_correction_of_a_month_without_records_on_the_engines_own_reader(self):
+        """The payroll engine's reader, not a stand-in: a filed month whose
+        payslip carries no fund records is corrected only after the reviewed
+        confirmation, and the correction names the payslip."""
+        _employee, slip, _original, correction = self.legacy_correction()
+        if not callable(getattr(slip, "_cssk_recorded_fund_bases", None)):
+            self.skipTest("this payroll engine has no fund records to read")
+        self.assertTrue(slip._cssk_recorded_fund_bases())
+        slip._l10n_sk_store_fund_evidence(False)
+        self.assertIs(slip._cssk_recorded_fund_bases(), False)
+        with self.assertRaisesRegex(UserError, "Precise recorded fund bases"):
+            correction.action_generate()
+        correction.fund_bases_fallback_reason = (
+            "Synthetic review of archived original payroll and filing"
+        )
+        correction.action_confirm_legacy_fund_bases()
+        correction.action_generate()
+        self.assertEqual(correction.state, "generated")
+        self.assertIn(slip.display_name, correction.fund_bases_warning)
 
     def test_legacy_consent_is_not_a_caller_flag_or_a_forgeable_field(self):
         _employee, slip, _original, correction = self.legacy_correction()

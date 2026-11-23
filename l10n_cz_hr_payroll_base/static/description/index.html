@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_hr_payroll_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>Czech Payroll</h1>
 <p class="cssk-summary">The Czech payroll family in one place — the monthly payslip for a pracovní poměr, DPP and DPČ on either the OCA payroll app or Odoo Enterprise Payroll, with dated statutory rates, time off, the annual tax reconciliation and posting to the general ledger.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.5.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <code>hr_holidays</code></td></tr><tr><th>Extended by</th><td><code>l10n_cz_hr_payroll_ee</code>, <code>l10n_cz_hr_payroll_oca</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.6.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <code>hr_holidays</code></td></tr><tr><th>Extended by</th><td><code>l10n_cz_hr_payroll_ee</code>, <code>l10n_cz_hr_payroll_oca</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Czech payroll is delivered as a family of modules. This page describes the
@@ -192,7 +192,10 @@ checked against the consolidated texts in force in October 2026.</p>
   reconciliation is <a href="https://e-sbirka.gov.cz/sb/1992/586">§ 38ch</a>.</li>
 <li><strong>Meal allowance.</strong> A <em>stravenkový paušál</em> is tax-exempt up to 70 % of the
   upper limit of the meal allowance for a 5–12 hour business trip
-  (<a href="https://e-sbirka.gov.cz/sb/1992/586">§ 6 odst. 9 písm. b)</a>).</li>
+  (<a href="https://e-sbirka.gov.cz/sb/1992/586">§ 6 odst. 9 písm. b)</a>). What the employer pays above
+  that is taxable income and, as income not exempt from the tax, part of the
+  social and health assessment bases (<a href="https://e-sbirka.gov.cz/sb/1992/589">§ 5 odst. 1</a>,
+  <a href="https://e-sbirka.gov.cz/sb/1992/592">§ 3 odst. 1</a>).</li>
 <li><strong>Minimum wage and wage replacements.</strong> The minimum wage is set under
   <a href="https://e-sbirka.gov.cz/sb/2006/262">§ 111 of the Labour Code</a> and announced by an MPSV
   communication (for 2026, No. 356/2025 Sb.; for 2027, No. 171/2026 Sb.). A wage below it is topped up
@@ -257,7 +260,7 @@ checked against the consolidated texts in force in October 2026.</p>
 </tr>
 <tr>
 <td>Meal allowance / shift</td>
-<td>The <em>stravenkový paušál</em> per shift, capped at the tax-exempt limit and paid for each worked day.</td>
+<td>The <em>stravenkový paušál</em> in money per shift, paid for each worked day. Exempt up to the limit; what is above it is paid too, taxed and insured.</td>
 </tr>
 <tr>
 <td>Average hourly earnings</td>
@@ -307,13 +310,18 @@ the same months.</p>
 <p>In the order the rules run:</p>
 <ol>
 <li><strong>Basic Salary.</strong> The contract wage, reduced for every absence in the
-   period.</li>
+   period and for the part of the period outside the contract. A public
+   holiday on the working calendar is paid time of a monthly wage (see
+   <a href="#leave">Time off</a>).</li>
 <li><strong>Wage surcharges</strong> and the <strong>Overtime Wage</strong> for overtime hours, when the
    surcharges family is installed.</li>
 <li><strong>Wage replacements</strong> at average hourly earnings: <em>Holiday Pay</em>, <em>Paid
    Obstacle</em> (doctor, escort, blood donation, public office and the other
    § 199–206 reasons) and <em>Employer Work Obstacle (§§ 207–209)</em> at 80, 60,
    100 % (short-time working: the company's agreed rate, 100 % by default).
+   On Enterprise an hourly wage also gets <em>Public Holiday Compensation</em> for
+   a public holiday on a usual working day
+   (<a href="https://e-sbirka.gov.cz/sb/2006/262">§ 115 odst. 3</a>).
    Average hourly earnings are the basic wage of the validated
    payslips of the previous calendar quarter divided by their worked hours;
    without such a quarter, the contract wage over the period's scheduled
@@ -343,13 +351,16 @@ the same months.</p>
    when an employer-side obstacle is on the payslip; nobody pays it for a
    state-insured person or a ZTP/P card holder.</li>
 <li>Agreements below their threshold pay neither insurance.</li>
-<li><strong>Tax Base</strong> = gross pay plus sickness compensation. <strong>Income Tax Advance</strong>: the base rounded up to
+<li><strong>Tax Base</strong> = gross pay; sickness compensation of the first 14 days is exempt (§ 6 odst. 9 písm. p) ZDP) and stays outside. <strong>Income Tax Advance</strong>: the base rounded up to
    whole hundreds of crowns, 15 % up to the monthly threshold and 23 % above.
    <strong>Withholding Tax</strong> instead for an agreement below its threshold without a
    declaration: 15 % of the whole-crown gross, no credits. From the January
    2027 payslip such an agreement gets the advance instead, still without
    credits (rule parameter <code>l10n_cz_wh_tax_dependent</code>).</li>
-<li><strong>Tax Credits</strong> with a signed declaration, at most the advance.</li>
+<li><strong>Tax Credits</strong> with a signed declaration, at most the advance. The
+    disability and ZTP/P credits are those of the contract version in force
+    on the first day of the month (<a href="https://e-sbirka.gov.cz/sb/1992/586">§ 35ba odst. 3</a>): one
+    entered on a version dated inside a month counts from the next month.</li>
 <li><strong>Child Tax Benefit</strong> for the month's children (see
     <a href="#children">Children</a>) up to the remaining tax, and <strong>Child Tax Bonus</strong>
     for the rest if the tax base reaches half the minimum wage and the bonus
@@ -357,7 +368,9 @@ the same months.</p>
 <li><strong>Wage Garnishment</strong> and the other deductions (see
     <a href="#garnishment">Garnishments</a>), <strong>Reimbursement</strong>, and the <strong>Annual Tax
     Settlement</strong> when present.</li>
-<li><strong>Meal Allowance</strong>, outside gross pay.</li>
+<li><strong>Meal Allowance</strong>, outside gross pay: the exempt part, and on its own
+    line <em>Meal Allowance above the Exempt Limit</em>, which is added to the
+    social and health bases and to the tax base.</li>
 <li><strong>Net Salary</strong>, and the employer totals.</li>
 </ol>
 <h2 id="rates">Statutory figures</h2>
@@ -527,6 +540,21 @@ work entry type; on the OCA engine to a Czech payroll code:</p>
 </table>
 <p>The family-care and escort types with a limit require an allocation; the
 transport of a disabled child accrues 6 days a year through its own plan.</p>
+<p><strong>Public holidays</strong> are entered as time off of the working calendar that
+belongs to no employee (<em>Time Off → Configuration → Public Holidays</em>). For a
+monthly wage the holiday is paid time: the wage is not reduced for it
+(<a href="https://e-sbirka.gov.cz/sb/2006/262">§ 115 odst. 3</a>), and its hours stay in the month's hours
+when an absence or a part month is prorated, so a week of sickness beside
+New Year's Day leaves 128 of January 2026's 176 hours. An hourly wage
+(Enterprise) earns nothing for the holiday and is paid <em>Public Holiday
+Compensation</em> at average earnings for its hours instead. Time off entered
+over a public holiday keeps the holiday as the holiday: it is not a day of
+<em>dovolená</em> (<a href="https://e-sbirka.gov.cz/sb/2006/262">§ 219 odst. 2</a>). The exception is a sickness
+or a quarantine: the holiday inside it is a day of the sickness, with no
+wage and with sickness compensation for its hours within the first 14 days
+(<a href="https://e-sbirka.gov.cz/sb/2006/262">§ 192 odst. 1</a>), so a sickness of 1 to 9 January 2026
+leaves 120 of the 176 hours and compensates 56. On Enterprise, regenerate
+the work entries of a period after adding a holiday to it.</p>
 <p><strong>Annual leave accrual plans</strong> are shipped by the base module, so they are
 the same on both engines. <em>Statutory annual leave — 4 weeks (160 h/year)</em>
 and <em>Annual leave — 5 weeks (200 h/year)</em> accrue leave in hours each week
@@ -713,6 +741,18 @@ Each report's page says which.</p>
 <li><strong>Working pensioner discount.</strong> The conditions are yours to check: pension
   age, pension drawn in full, all of the calendar month. It is claimed once
   across all jobs with one employer, so tick it on only one of them.</li>
+<li><strong>Public holidays.</strong> A holiday inside unpaid leave, family care or
+  maternity, parental or paternity leave is paid as the holiday of a monthly
+  wage: no provision settles it the way <a href="https://e-sbirka.gov.cz/sb/2006/262">§ 192 odst. 1</a>
+  does for a sickness. The OCA engine has no hourly wage, so no holiday
+  compensation either. On Enterprise, work entries generated before
+  19.0.1.22.0 keep a holiday inside a sickness as paid time until they are
+  regenerated.</li>
+<li><strong>Inputs on Enterprise.</strong> <em>Attachment of Salary</em>, <em>Assignment of Salary</em>,
+  <em>Child Support</em> and the garnishment inputs typed on a payslip by hand are
+  removed by Enterprise when the payslip's employee, contract, structure or
+  period is changed afterwards: these input types belong to salary
+  attachments there. Enter a salary attachment, or type them last.</li>
 <li><strong>Sickness compensation.</strong> The 14 days are counted from the first day of
   the sick leave; an incapacity that began after a shift already worked
   (when the 14 days start the next day) and a reduced or forfeited
@@ -740,8 +780,10 @@ Each report's page says which.</p>
   it only when a union agreement or an internal regulation sets a lower rate;
   payslips never go below the statutory 60 %.</li>
 <li><strong>Meal allowance</strong> is paid for every worked day; the module does not check
-  the three-hour shift or a business trip on the same day, and an amount above
-  the exempt limit is cut to it rather than paid as taxable income.</li>
+  the three-hour shift or a business trip on the same day. The part above
+  the exempt limit is taxed and insured but is not wage: it is outside gross
+  pay, the minimum wage comparison and the net wage a garnishment is
+  computed from, which is still lowered by the tax and insurance on it.</li>
 <li><strong>OCA engine.</strong> The <strong>Czech Payroll Code</strong> of your own time-off types is
   set on the time-off type form, next to <em>Count as</em>; a type without a code
   is treated as an ordinary absence.</li>
@@ -756,7 +798,7 @@ Each report's page says which.</p>
   apply until they are added. Check the figures against the law before
   using a later period.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/589">Zákon č. 589/1992 Sb., o pojistném na sociální zabezpečení a příspěvku na státní politiku zaměstnanosti</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/592">Zákon č. 592/1992 Sb., o pojistném na veřejné zdravotní pojištění</a></li><li><a href="https://e-sbirka.gov.cz/sb/1997/48">Zákon č. 48/1997 Sb., o veřejném zdravotním pojištění a o změně a doplnění některých souvisejících zákonů</a></li><li><a href="https://e-sbirka.gov.cz/sb/2006/187">Zákon č. 187/2006 Sb., o nemocenském pojištění</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/2025/360">Zákon č. 360/2025 Sb., kterým se mění některé zákony v souvislosti s přijetím zákona o jednotném měsíčním hlášení zaměstnavatele</a></li><li><a href="https://e-sbirka.gov.cz/sb/2006/262">Zákon č. 262/2006 Sb., zákoník práce</a></li></ul><p>Text checked against module version: 19.0.1.5.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/589">Zákon č. 589/1992 Sb., o pojistném na sociální zabezpečení a příspěvku na státní politiku zaměstnanosti</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/592">Zákon č. 592/1992 Sb., o pojistném na veřejné zdravotní pojištění</a></li><li><a href="https://e-sbirka.gov.cz/sb/1997/48">Zákon č. 48/1997 Sb., o veřejném zdravotním pojištění a o změně a doplnění některých souvisejících zákonů</a></li><li><a href="https://e-sbirka.gov.cz/sb/2006/187">Zákon č. 187/2006 Sb., o nemocenském pojištění</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/2025/360">Zákon č. 360/2025 Sb., kterým se mění některé zákony v souvislosti s přijetím zákona o jednotném měsíčním hlášení zaměstnavatele</a></li><li><a href="https://e-sbirka.gov.cz/sb/2006/262">Zákon č. 262/2006 Sb., zákoník práce</a></li></ul><p>Text checked against module version: 19.0.1.6.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

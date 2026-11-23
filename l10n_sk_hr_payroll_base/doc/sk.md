@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy
 summary: Celá skupina modulov slovenských miezd na jednom mieste — mesačná výplatná páska pre pracovný pomer a tri dohody v Odoo Enterprise Payroll alebo v aplikácii OCA payroll, s datovanými zákonnými sadzbami, voľnom, ročným zúčtovaním dane a zaúčtovaním do hlavnej knihy.
-verified: 19.0.1.4.1
+verified: 19.0.1.7.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -85,10 +85,13 @@ Odkazy na paragrafy sú overené voči úplným zneniam platným v októbri 2026
   vymeriavacieho základu spred dvoch rokov, okrem úrazového poistenia
   ([§ 138 ods. 10](law:sk/2003/461#paragraf-138.odsek-10)). Jednotlivé sumy
   poistného sa zaokrúhľujú na eurocent nadol
-  ([§ 129 ods. 2](law:sk/2003/461#paragraf-129.odsek-2)). Pri dohode s
-  dôchodcom alebo študentom sa vymeriavací základ znižuje o odvodovú
-  odpočítateľnú položku 200 eur mesačne
-  ([§ 138a](law:sk/2003/461#paragraf-138a)).
+  ([§ 129 ods. 2](law:sk/2003/461#paragraf-129.odsek-2)). Pri dohode
+  určenej na tento účel sa vymeriavací základ znižuje o odvodovú
+  odpočítateľnú položku 200 eur mesačne, od roku 2027 o 300 eur
+  ([§ 138a](law:sk/2003/461#paragraf-138a)). Jednu dohodu mesačne môže určiť
+  študent na DoBPŠ a dôchodca na DoVP alebo DoPČ; od 1. januára 2027 aj
+  osoba na materskej, otcovskej alebo rodičovskej dovolenke
+  ([§ 227a](law:sk/2003/461#paragraf-227a)).
 - **Sadzby zdravotného poistenia** sú pre zamestnanca 5 % (pri osobe so
   zdravotným postihnutím 2,5 %) podľa
   [§ 12 ods. 1 zákona o zdravotnom poistení](law:sk/2004/580#paragraf-12.odsek-1)
@@ -156,7 +159,7 @@ Odkazy na paragrafy sú overené voči úplným zneniam platným v októbri 2026
 
 | Pole | Čo robí |
 |---|---|
-| Podpísané vyhlásenie na zdanenie príjmov | Zamestnanec podpísal u tohto zamestnávateľa vyhlásenie: uplatní sa mesačná nezdaniteľná časť základu dane a daňový bonus. Naraz ich môže uplatňovať len jeden zamestnávateľ. |
+| Podpísané vyhlásenie na zdanenie príjmov | Zamestnanec podpísal u tohto zamestnávateľa vyhlásenie: uplatní sa mesačná nezdaniteľná časť základu dane a daňový bonus. Naraz ich môže uplatňovať len jeden zamestnávateľ a vyhlásenie sa zamestnávateľovi podáva raz ([§ 36 ods. 6](law:sk/2003/595#paragraf-36.odsek-6)): ak má jedna osoba vo firme viac kariet zamestnanca (pracovný pomer a dohodu, rozpoznané podľa rovnakého rodného čísla), pole možno naraz zaškrtnúť len na jednej z nich. |
 | Deti do 15 rokov (daňový bonus), Deti 15–17 rokov (daňový bonus) | Počet detí na daňový bonus. |
 | ZŤP / zdravotne postihnutý | Polovičné sadzby zdravotného poistenia (zamestnanca aj zamestnávateľa). |
 | Uplatniť OOP na zdravotné poistenie | Uplatní odpočítateľnú položku na zdravotné poistenie pri nízkom príjme. Zobrazí sa len pri pracovnom pomere. |
@@ -166,10 +169,15 @@ Odkazy na paragrafy sú overené voči úplným zneniam platným v októbri 2026
 | Hodinová mzda (SK) | Len engine OCA: základná mzda sa vypočíta ako odpracované hodiny × táto sadzba namiesto mesačnej mzdy. Enterprise používa vlastný *Typ mzdy: hodinová* a *Hodinovú mzdu* Odoo. |
 | Upozornenie na odmenu z dohody | Zobrazí sa, keď je hodinová odmena z dohody nižšia ako minimálna hodinová mzda platná dnes ([§ 119 ods. 1](law:sk/2001/311#paragraf-119.odsek-1), ktorý na dohody rozširuje [§ 223 ods. 2](law:sk/2001/311#paragraf-223.odsek-2)). Je to len upozornenie; výplatná páska odmenu nedopláca. |
 | Priznaný dôchodok (SK) | Dôchodok, ktorý má pracovník priznaný. Na DoVP/DoPČ s ktorýmkoľvek z nich sa neplatí nemocenské poistenie ani poistenie v nezamestnanosti; poberateľ starobného, predčasného starobného alebo invalidného dôchodku nad 70 % neplatí poistenie v nezamestnanosti v žiadnej forme; po starobnom, predčasnom starobnom alebo (po dovŕšení dôchodkového veku) výsluhovom dôchodku neplatí invalidné poistenie ani jedna strana. Pozostalostné dôchodky v zozname nie sú, nič nemenia. |
-| OOP z dohody (študent/dôchodca) | Pri dohode s dôchodcom alebo študentom zníži vymeriavací základ na starobné a invalidné poistenie a do rezervného fondu solidarity najviac o 200 eur. |
+| OOP z dohody | Na dohode, ktorú si na to pracovník určil, zníži vymeriavací základ na starobné a invalidné poistenie a do rezervného fondu solidarity najviac o 200 eur mesačne (od roku 2027 o 300 eur). Nemocenské poistenie a poistenie v nezamestnanosti zostávajú z plného základu. |
+| Dôvod OOP | *Dôchodca alebo študent*, alebo *Materská, otcovská alebo rodičovská dovolenka*. Druhý dôvod existuje len pri DoVP a DoPČ a má účinky od januára 2027. |
+| Oznámenie o OOP doručené | Deň, keď pracovník písomne oznámil uplatnenie a pri dôvode dovolenky ju aj preukázal potvrdením zamestnávateľa, u ktorého dovolenku čerpá. Pri dôvode dovolenky je povinný. Ak je vyplnený, OOP sa uplatní od vzniku dohody, ak oznámenie prišlo najneskôr v ten deň, inak od nasledujúceho mesiaca ([§ 227a ods. 3](law:sk/2003/461#paragraf-227a.odsek-3)); ak pri druhom dôvode zostane prázdny, OOP platí, kým je pole zaškrtnuté. |
+| Koniec dovolenky (OOP) | Pri dôvode dovolenky: posledný deň dovolenky, ktorý pracovník oznámi najneskôr osem dní vopred. OOP sa skončí mesiacom tohto dňa ([§ 227a ods. 4](law:sk/2003/461#paragraf-227a.odsek-4)). |
 | Oslobodený od zdravotného poistenia (štátny poistenec) | Pri dohode: žiadne zdravotné poistenie, pre študenta alebo dôchodcu, za ktorého platí poistné štát. |
 | Oslobodený od garančného poistenia (≥50 % štatutárny spoločník) | Bez garančného poistenia pre štatutárny orgán s najmenej 50 % účasťou. |
-| Typ stravného, Dni stravného / mesiac | *Žiadne*, *Stravný lístok* alebo *Finančný príspevok* a počet dní (0 = odpracované dni z výplatnej pásky). |
+| Zdaňované spolu s | Iná karta zamestnanca tej istej osoby vo firme, na ktorej výplatnej páske sa počíta daň z príjmov tejto karty; pozri *Viac kariet jednej osoby* nižšie. Prázdne: karta sa zdaňuje samostatne. |
+| Typ stravného, Dni stravného / mesiac | *Žiadne*, *Stravný lístok* alebo *Finančný príspevok* a počet dní (0 = dni výplatnej pásky, v ktorých zamestnanec odpracoval viac ako štyri hodiny). |
+| Stravovanie aj pri zmene štyri hodiny a menej | Pre zamestnávateľa, ktorý poskytuje stravovanie aj pri kratšej zmene ([§ 152 ods. 9](law:sk/2001/311#paragraf-152.odsek-9)): deň sa počíta, ak sa v ňom vykonala akákoľvek práca. Predvolene vypnuté; nepoužije sa, ak sú vyplnené *Dni stravného / mesiac*. |
 | Vyživované osoby (exekúcia) | Osoby, ktoré zvyšujú nepostihnuteľnú sumu pri exekučných zrážkach. |
 
 V engine OCA má zmluva navyše denné prepisy súm stravného. Enterprise na to
@@ -193,7 +201,13 @@ V poradí, v akom pravidlá bežia:
 3. **Mzdové zvýhodnenia a doplatok do minimálneho mzdového nároku**, ak je
    nainštalovaný
    [module:l10n_sk_hr_payroll_surcharges](module:l10n_sk_hr_payroll_surcharges).
-4. **Hrubá mzda.**
+4. **Hrubá mzda.** Každá zložka mzdy uvedená vyššie je presný výsledok
+   svojho vzorca za celé obdobie, zaokrúhlený raz na eurocent nahor:
+   vyplácaná mzda sa zaokrúhľuje nahor
+   ([§ 130 ods. 1](law:sk/2001/311#paragraf-130.odsek-1)) a pre jednotlivú
+   zložku zákon pravidlo nemá, takže žiadna nepríde o zlomok centu. Celý
+   odpracovaný mesiac pri plnej mzde je presne mzda; mesiac s platenou
+   dovolenkou môže byť o cent vyšší.
 5. **Sociálne poistenie** zamestnanca aj zamestnávateľa, každý fond zo
    zastropovaného základu a zaokrúhlený na eurocent nadol. Nemocenské
    poistenie a poistenie v nezamestnanosti sa platia len pri pravidelnom
@@ -235,8 +249,47 @@ V poradí, v akom pravidlá bežia:
 platí zamestnávateľ: 25 % denného vymeriavacieho základu za 1. až 3. deň a
 55 % od 4. dňa, v roku 2025 do 10. dňa a od roku 2026 do 14. dňa, so
 zastropovaným základom. Dni PN sa berú z voľna PN alebo zo vstupu *Dni
-práceneschopnosti (PN)*; denný vymeriavací základ treba zadať ako vstup
-*Denný vymeriavací základ pri PN (DVZ)*.
+práceneschopnosti (PN)*.
+
+**Denný vymeriavací základ (DVZ)** pri voľne PN sa určí z potvrdených
+výplatných pások rozhodujúceho obdobia
+([§ 8 zákona 462/2003](law:sk/2003/462#paragraf-8),
+[§ 54 zákona 461/2003](law:sk/2003/461#paragraf-54)): pri pracovnom vzťahu
+trvajúcom od 1. januára predchádzajúceho roka je ním predchádzajúci kalendárny
+rok, inak obdobie od vzniku vzťahu do konca mesiaca pred vznikom PN.
+Vymeriavacie základy na nemocenské poistenie z týchto pások sa vydelia počtom
+dní obdobia zníženým o dni schválenej PN, OČR, materskej, otcovskej,
+rodičovskej dovolenky a neplateného voľna a výsledok sa zaokrúhli na štyri
+desatinné miesta nadol.
+
+U nového zamestnanca ([§ 8 ods. 4 a 6](law:sk/2003/462#paragraf-8)):
+
+- **pri pracovnom vzťahu kratšom ako 90 dní** je obdobím čas od jeho vzniku
+  do dňa pred vznikom PN. Časť mesiaca, v ktorom PN vznikla, sa vezme z pásky
+  tohto mesiaca, ak PN trvá do konca mesiaca (alebo pracovného vzťahu), takže
+  všetko, čo zamestnanec v tom mesiaci zarobil, zarobil pred ňou;
+- **pri PN od prvého dňa** alebo ak v období nie je žiadny vymeriavací
+  základ, je základom ten, z ktorého by sa platilo poistné v mesiaci vzniku
+  PN: mesačná mzda (pri hodinovej mzde sadzba za rozvrhnuté hodiny mesiaca),
+  najviac mesačný maximálny vymeriavací základ, delená počtom dní mesiaca.
+
+Vstupom *Denný vymeriavací základ pri PN (DVZ)* ho možno prepísať. **Vstup je
+povinný** vždy, keď pásky odpoveď nedajú:
+
+- za niektorý mesiac rozhodujúceho obdobia tu nie je potvrdená páska (mesiace
+  pred spracovaním miezd v tejto databáze), je za neúplný mesiac, sú dve,
+  alebo ide o opravnú pásku;
+- zamestnanec s pracovným vzťahom kratším ako 90 dní sa v mesiaci vzniku PN
+  vrátil do práce: to, čo zarobil pred PN, potom nie je na žiadnej páske;
+- PN vznikla v prvý deň pracovného vzťahu, ktorý sa začal v priebehu mesiaca:
+  zákon pre mesiac poistený len sčasti neurčuje deliteľa;
+- dni PN pochádzajú zo vstupu *Dni práceneschopnosti (PN)*, nie z voľna.
+
+Bez základu sa náhrada nevypočíta a páska to povie: uvedie zamestnanca, PN
+a vstup a nedá sa potvrdiť, kým vstup nezadáte.
+
+Za vznik nemocenského poistenia sa berie začiatok pracovného vzťahu; štrajk
+a rehabilitačné sa z obdobia nevylučujú.
 
 **Exekúcie.** S modulom
 [module:l10n_cssk_hr_payroll_garnishment_base](module:l10n_cssk_hr_payroll_garnishment_base)
@@ -247,12 +300,80 @@ pásku, tretina (neprednostná) alebo dve tretiny (prednostná) čistej mzdy nad
 nepostihnuteľnou sumou a celý zvyšok nad trojnásobkom základnej
 nepostihnuteľnej sumy.
 
+V oboch prípadoch je čistou mzdou hrubá mzda po odpočítaní poistného
+zamestnanca a preddavku na daň
+([§ 69 ods. 1 Exekučného poriadku](law:sk/1995/233#paragraf-69.odsek-1))
+a k nej náhrada príjmu pri dočasnej pracovnej neschopnosti za daný mesiac,
+ktorá mzdu nahrádza
+([§ 89 ods. 1](law:sk/1995/233#paragraf-89.odsek-1)).
+Daňový bonus na dieťa nie je mzda
+([§ 118 ods. 2 Zákonníka práce](law:sk/2001/311#paragraf-118.odsek-2)):
+odpočíta sa preddavok pred znížením o bonus a bonus sa vypláca celý popri
+zrážke. Do čistej mzdy nepatrí ani príspevok na stravovanie, náhrada výdavkov
+a výsledok ročného zúčtovania dane.
+
 **Stravné.** Príspevok zamestnávateľa na deň je 55 % stravného pri pracovnej
 ceste v trvaní 5 až 12 hodín, zaokrúhlený na eurocent nahor — najviac, koľko
 § 152 ods. 3 na jedno jedlo dovoľuje. Pri *Stravnom lístku* platí zamestnanec
 zvyšok hodnoty stravovacej poukážky v sume 75 % tohto stravného, čo je
 najnižšia hodnota podľa § 152 ods. 4. Pri *Finančnom príspevku* sa príspevok
 vyplatí s čistou mzdou.
+
+Deň so stravným je deň, v ktorom zamestnanec odpracoval viac ako štyri hodiny
+([§ 152 ods. 2](law:sk/2001/311#paragraf-152.odsek-2)). Každý deň výplatnej
+pásky sa posudzuje samostatne, z rozvrhnutých hodín bez neprítomností a
+sviatkov (v Enterprise z pracovných záznamov): pol dňa dovolenky pri
+osemhodinovej zmene nárok nedáva, dve hodiny u lekára ho ponechávajú, dva
+poldni sa nesčítajú do jedného dňa a pri rozvrhu štyri hodiny denne nárok
+nevzniká. Ďalšie jedlo pri zmene dlhšej ako 11 hodín sa nepočíta. Počet v
+poli *Dni stravného / mesiac* na zmluve výpočet nahrádza. Zamestnávateľ,
+ktorý poskytuje stravovanie aj pri kratšej zmene
+([§ 152 ods. 9](law:sk/2001/311#paragraf-152.odsek-9)), zaškrtne
+*Stravovanie aj pri zmene štyri hodiny a menej*: nárok potom dáva každý deň,
+v ktorom sa vykonala akákoľvek práca, teda aj pri rozvrhu štyri hodiny denne
+a v deň s pol dňom dovolenky; deň celý na dovolenke alebo sviatok ho nedáva.
+
+**Viac kariet jednej osoby.** Pracovný pomer a dohoda jednej osoby sú dve
+karty zamestnanca, každá s vlastnou výplatnou páskou.
+[§ 35 ods. 1](law:sk/2003/595#paragraf-35.odsek-1) zdaňuje úhrn, ktorý
+zamestnávateľ zamestnancovi za mesiac vyplatí, znížený o poistné zamestnanca
+a o jednu nezdaniteľnú časť základu dane. Žiadny výklad výslovne nehovorí,
+ako sa zdaňujú dva vzťahy u jedného zamestnávateľa, preto modul nič
+neodvodzuje sám: na karte dohody vyberte v poli *Zdaňované spolu s* kartu,
+ktorá zdaní mesiac za obe, spravidla pracovný pomer, kde je zaškrtnuté
+vyhlásenie. Odvtedy:
+
+- výplatná páska prepojenej karty ukáže svoj základ dane na riadku *Základ
+  dane zdanený na výplatnej páske inej karty* a nemá nezdaniteľnú časť, daň
+  ani daňový bonus;
+- výplatná páska vybranej karty pripočíta základy z výplatných pások
+  prepojených kariet za ten istý mesiac (riadok *Základ dane prevzatý z
+  kariet zdaňovaných spolu*), úhrn raz ohraničí nulou a vypočíta z neho jednu
+  nezdaniteľnú časť, preddavok a daňový bonus s jeho percentuálnou hranicou.
+  Pracovný pomer 400 € a DoPČ 300 € v roku 2026: základy 342,40 a 256,80,
+  samostatne 0,00 a 48,79, spolu (342,40 + 256,80 − 497,23) × 19 % =
+  19,37 €.
+
+Výplatné pásky prepojených kariet vypočítajte ako prvé; v jednej dávke to
+modul urobí sám. Výplatná páska, ktorá zdaňuje mesiac, sa nevypočíta, kým
+čaká prepojená páska toho mesiaca, a nepotvrdí sa, ak prepojené pásky už
+neobsahujú to, čo prevzala: vypočítajte ju znova. Po jej potvrdení nemožno
+prepojené pásky toho mesiaca meniť, zrušiť ani dobropisovať; najprv
+dobropisujte ju. Dobropis a páska, ktorú dobropisuje, sa vynechávajú.
+Prepojenie nemožno zmeniť medzi dvoma potvrdeniami jedného mesiaca. Prepojená
+karta sa zdaňuje samostatne v mesiaci, v ktorom netrvá žiadna zmluva druhej
+karty.
+
+Zrážky zo mzdy sa na spolu zdaňovaných páskach nepočítajú: vykonávajú sa z
+celej čistej mzdy osoby od zamestnávateľa
+([§ 69 Exekučného poriadku](law:sk/1995/233#paragraf-69)), ktorú jedna
+výplatná páska neobsahuje. Bez prepojenia sa každá karta zdaňuje samostatne
+ako doteraz.
+
+Ročné zúčtovanie sa vykonáva pre kartu, ktorá zdaňuje mesiac, a zahŕňa aj
+prepojené karty. Hlásenie a potvrdenie o zdaniteľných príjmoch zatiaľ uvádzajú
+každú kartu zamestnanca v samostatnom stĺpci; osobu s prepojenými kartami v
+nich treba do jedného stĺpca spojiť ručne, kým ich nebudú nasledovať.
 
 ## Zákonné údaje {#rates}
 
@@ -314,11 +435,29 @@ platené prekážky, ktoré vyžadujú alokáciu — lekárske vyšetrenie (7 dn
 sprevádzanie rodinného príslušníka (7 dní) a sprevádzanie zdravotne
 postihnutého dieťaťa (10 dní) — strážia ročný limit už pri zadaní voľna.
 
+**Sviatky.** Mzdy a Voľné dni poznajú sviatok len ako štátny sviatok
+pracovných kalendárov (*Voľné dni → Konfigurácia → Štátne sviatky*);
+slovenské tam udržiava
+[module:l10n_cssk_public_holidays](module:l10n_cssk_public_holidays). Pri
+mesačnej mzde je sviatok, ktorý pripadne na obvyklý pracovný deň, súčasťou
+mzdy ([§ 122 ods. 3](law:sk/2001/311#paragraf-122.odsek-3)). Sviatok počas
+dovolenky nie je dňom dovolenky
+([§ 112 ods. 3](law:sk/2001/311#paragraf-112.odsek-3)): zostatok dovolenky
+ani náhrada mzdy ho nepočítajú a mzda sa zaň nekráti. Počas PN, OČR,
+materskej, otcovskej a rodičovskej dovolenky a neplateného voľna zostáva deň
+touto neprítomnosťou a mzda zaň nepatrí; náhrada príjmu pri PN sa poskytuje
+za kalendárne dni
+([§ 7 ods. 2 zákona 462/2003](law:sk/2003/462#paragraf-7.odsek-2)).
+
 ## Ročné zúčtovanie dane {#tax-reconciliation}
 
 *Mzdy → Výplatné pásky → SK ročné zúčtovanie dane* (v engine OCA priamo v
 hlavnom menu *Výplatná listina*) vedie jeden záznam na zamestnanca a daňový
-rok pre ročné zúčtovanie preddavkov na daň.
+rok pre ročné zúčtovanie preddavkov na daň. Zúčtovanie patrí daňovníkovi: ak
+sa viac kariet jednej osoby zdaňuje spolu, vykonajte ho pre kartu, ktorá
+zdaňuje mesiac, a zahrnie výplatné pásky všetkých; pre samotnú prepojenú
+kartu sa odmietne. Dve karty s rovnakým rodným číslom nemôžu mať každá svoje
+zúčtovanie za ten istý rok.
 
 1. Vytvorte záznam pre zamestnanca a rok. Pri zapnutom **Načítať z výplatných
    pások** tlačidlo **Vypočítať** sčíta základy dane, zrazené preddavky a
@@ -404,13 +543,20 @@ a fungujú s oboma enginmi:
   dni voľna PN a rozhodnutie zamestnanca s viacerými zamestnávateľmi minimum
   neuplatniť ([§ 16a ods. 5](law:sk/2004/580#paragraf-16a.odsek-5)) sa
   nemodeluje.
-- **Odpočítateľná položka na zdravotné poistenie** sa za neúplný mesiac
-  pomerne neznižuje a znižuje len základ zamestnanca.
-- **Náhrada príjmu pri PN** sa na výplatnej páske nezdaňuje, denný
-  vymeriavací základ treba zadať ručne a namiesto kalendárnych dní, ktoré
-  počíta zákon, sa použijú pracovné dni voľna.
+- **Odpočítateľná položka na zdravotné poistenie** sa pomerne znižuje za
+  kalendárne dni mesiaca mimo trvania zmluvy
+  ([§ 16 ods. 18](law:sk/2004/580#paragraf-16.odsek-18)) a znižuje len základ
+  zamestnanca.
+- **Náhrada príjmu pri PN.** Denný vymeriavací základ treba zadať ručne tam,
+  kde ho pásky v databáze neurčia; pozri *Práceneschopnosť* vyššie.
 - **Priemerný zárobok** počíta hrubú mzdu bez riadkov náhrad mzdy z modulu a
   overuje len podmienku 168 hodín, nie 21 dní.
+- **Dni stravného.** Nadčas a práca vo sviatok zadané ako hodiny vstupu
+  príplatku nemajú deň, preto sa zmena, ku ktorej patria, nepočíta
+  (Enterprise počíta nadčas zadaný ako pracovný záznam). Deň je kalendárny
+  deň: nočná zmena rozvrhnutá na dva dni sú dva dni. Ručne prepísané riadky
+  odpracovaných dní sa počítajú po celých dňoch. Kde treba počet určiť,
+  použite *Dni stravného / mesiac*.
 - **Dovolenka.** Nevyčerpaná dovolenka sa prenáša bez obmedzenia a
   neprepadá ([§ 113](law:sk/2001/311#paragraf-113)); kedy sa vyčerpá, určuje
   zamestnávateľ. Do verzie 19.0.1.18.3 (OCA) / 19.0.1.17.5 (Enterprise) ju
@@ -438,5 +584,23 @@ Pred podaním upozornenie skontrolujte. Pôvodný výkaz môže použiť doteraj
 výpočet z hrubej odmeny. Opravný výkaz najprv vyžaduje presné podklady;
 pri starších mzdách môžete porovnať pôvodné mzdy a podanie, zapísať dôvod
 a výslovne potvrdiť pôvodný postup. Formulár zaznamená kto a kedy ho potvrdil.
-Už podané mzdy neprepočítavajte iba kvôli doplneniu údajov. V systémoch,
-ktoré tieto údaje ešte neuchovávajú, pokračuje doterajší postup.
+Už podané mzdy neprepočítavajte iba kvôli doplneniu údajov.
+
+Tieto údaje uchovávajú a čítajú obe jadrá: jadro OCA pri páskach vypočítaných
+od verzie 19.0.1.25.0, jadro Enterprise pri páskach vypočítaných od verzie
+19.0.1.26.0, pričom výkazy ich na ňom čítajú od verzie 19.0.1.28.4. Čo to
+znamená pre jednotlivé poistné výkazy:
+
+| Výkaz | Z uchovaných údajov | Obdobie s páskou bez uchovaných údajov |
+|---|---|---|
+| [module:l10n_sk_hr_payroll_health](module:l10n_sk_hr_payroll_health) (dávka 514) | vymeriavací základ zamestnanca po odpočítateľnej položke, položka, obe sadzby | riadok sa vykáže z hrubej mzdy bez odpočítateľnej položky a výkaz pásku vymenuje |
+| [module:l10n_sk_hr_payroll_mvp](module:l10n_sk_hr_payroll_mvp) | zatiaľ nič: každý základ je hrubá mzda | výkaz sa vytvorí ako doteraz a pásku vymenuje |
+| [module:l10n_sk_hr_payroll_vpp](module:l10n_sk_hr_payroll_vpp) | zatiaľ nič: každý základ je hrubá mzda | pôvodný výkaz pásku vymenuje; opravný výkaz sa zastaví, kým nepotvrdíte pôvodný postup podľa opisu vyššie |
+| [module:l10n_sk_hr_payroll_eldp](module:l10n_sk_hr_payroll_eldp) | zatiaľ nič | jeho obdobia sa končia rokom 2025 a vtedy vypočítané pásky údaje nemajú: výkaz sa vytvorí ako doteraz a pásky vymenuje |
+
+Páska nemá použiteľné údaje, ak bola vypočítaná pred uvedenou verziou alebo
+ak sa jej riadky potom zmenili, ručne alebo v sprievodcovi úpravy riadkov
+pásky. Páska v stave koncept ich získa pri prepočítaní. Storno
+vytvorené vlastnou funkciou jadra sa číta ako pôvodná páska s opačným
+znamienkom, takže sa vo výkaze za svoj mesiac navzájom vyrušia; ručne zmenené
+storno sa počíta ako páska bez údajov.

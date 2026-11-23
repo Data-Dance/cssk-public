@@ -8,6 +8,26 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.5.0] — 2026-11-21
+-------------------------
+
+Added
+~~~~~
+
+- **Triangular-trade taxes for the middle party (§ 17).** The l10n_cz chart
+  had the return tags for rows 30 and 31 but no tax to carry them, so neither
+  leg of a triangular trade reached the return or the EC sales list.
+  ``0% 3S P`` (acquisition, row 30) and ``0% 3S D`` (supply, row 31 and EC
+  sales list code 2) are added to the chart, and to companies charted before
+  this version by the migration.
+
+Fixed
+~~~~~
+
+- The manifest described the EC codes as "1 = triangular, 2 = services"; the
+  form's codes are 1 = transfer of own goods, 2 = triangular trade,
+  3 = services, which is what the module already used.
+
 [19.0.1.4.1] — 2026-11-05
 -------------------------
 

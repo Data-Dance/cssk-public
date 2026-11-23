@@ -13,8 +13,11 @@
         record if you need to recompute an older period.
 
         Slovakia — nariadenie vlády 268/2006 Z. z. Only the subsistence
-        minimum moves; the coefficients have been stable since 1 Nov 2020, so
-        one record per ŽM vintage (1 July each year) is enough.
+        minimum moves; the coefficients are those in force from 1 January
+        2022 (nariadenie vlády 390/2021 Z. z.), so one record per ŽM vintage
+        (1 July each year) is enough. The Slovak payroll modules keep the
+        same minimum in their rule parameter l10n_sk_zivotne_minimum; the
+        two must hold the same amount for every date.
     -->
 
     <!-- ==================================================== CZECH REPUBLIC -->
@@ -41,10 +44,27 @@
 
     <!-- ============================================================ SLOVAKIA -->
     <!-- Coefficients: § 1 ods. 1 = 140 % ŽM (neprednostná); § 2 ods. 2 =
-         100 % ŽM (prednostná); § 2 ods. 1 = 70 % zo 60 % ŽM (výživné na
-         maloleté dieťa); § 2a = 50 % ŽM (pokuty za priestupky). Per dependant
-         25 %, or 50 % for a poberateľ dôchodkových dávok. § 3: everything
-         above 3× the § 1 ods. 1 basic sum is seized without limitation. -->
+         100 % ŽM (prednostná); § 2 ods. 1 with § 70 ods. 2 Exekučného
+         poriadku = 70 % zo 60 % ŽM (výživné na maloleté dieťa); § 2b = 50 %
+         ŽM (pokuty za priestupky). Per dependant 25 %, or 50 % for a
+         poberateľ dôchodkových dávok (§ 2a). § 3: everything above 3× the
+         § 1 ods. 1 basic sum is seized without limitation. § 4: every sum is
+         rounded down to the cent. -->
+    <!-- ŽM valid 1.7.2023 – 30.6.2024: 268,88 € (opatrenie 220/2023 Z. z.). -->
+    <record id="rate_sk_2023" model="hr.wage.garnishment.rate">
+        <field name="country_id" ref="base.sk"/>
+        <field name="date_from" eval="datetime(2023, 7, 1).date()"/>
+        <field name="sk_zivotne_minimum">268.88</field>
+        <field name="sk_basic_coeff">1.40</field>
+        <field name="sk_priority_coeff">1.00</field>
+        <field name="sk_maintenance_outer_coeff">0.70</field>
+        <field name="sk_maintenance_inner_coeff">0.60</field>
+        <field name="sk_fine_coeff">0.50</field>
+        <field name="sk_dependent_coeff">0.25</field>
+        <field name="sk_dependent_coeff_pensioner">0.50</field>
+        <field name="sk_unlimited_mult">3.0</field>
+    </record>
+
     <record id="rate_sk_2024" model="hr.wage.garnishment.rate">
         <field name="country_id" ref="base.sk"/>
         <field name="date_from" eval="datetime(2024, 7, 1).date()"/>
@@ -74,8 +94,8 @@
     </record>
 
     <!-- ŽM valid 1.7.2026 – 30.6.2027: 295,22 €.
-         Základná suma 140 % = 413,31 €; na vyživovanú osobu 103,33 €;
-         hranica bez obmedzenia 3 × 413,31 = 1 239,93 €.
+         Základná suma 140 % = 413,30 € (413,308 rounded down); na vyživovanú
+         osobu 103,32 €; hranica bez obmedzenia 3 × 413,30 = 1 239,90 €.
          Source: podnikajte.sk "Životné minimum od 1.7.2026 do 30.6.2027",
          jaspis.sk "Exekučné zrážky zo mzdy zamestnanca od 1.7.2026". -->
     <record id="rate_sk_2026" model="hr.wage.garnishment.rate">

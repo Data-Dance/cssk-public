@@ -1,7 +1,7 @@
 ---
 title: Příplatky ke mzdě (CZ)
 summary: Zákonné příplatky ke mzdě za práci přesčas, ve svátek, v noci, v sobotu a v neděli a ve ztíženém pracovním prostředí, mzda za práci přesčas a doplatek do minimální mzdy, z datovaných sazeb, pro obě mzdová jádra.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## Na co slouží {#purpose}
@@ -133,7 +133,7 @@ Za každý kód: hodiny × hodinový základ × procento, zaokrouhleno na halé�
 - **Doplatek do minimální mzdy** (*Minimum Wage Top-up*) se počítá po
   náhradách mzdy a před hrubou mzdou, takže se z něj platí pojistné i daň.
   Porovnává se základní mzda a složky mzdy spočtené před ním, bez mzdy za
-  práci přesčas, příplatků a náhrad mzdy (dovolená, překážky); hodinami jsou
+  práci přesčas, příplatků a náhrad mzdy (dovolená, svátek, překážky); hodinami jsou
   odpracované hodiny běžné pracovní doby bez nepřítomností a přesčasů. Při
   hodinovém porovnání činí doplatek (hodinová minimální mzda − mzda na
   hodinu) × hodiny; při měsíčním měsíční minimální mzdu, poměrně sníženou

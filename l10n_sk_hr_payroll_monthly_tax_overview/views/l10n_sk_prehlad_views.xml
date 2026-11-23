@@ -54,7 +54,23 @@
                             <field name="xml_attachment_id"/>
                         </group>
                     </group>
-                    <field name="line_ids">
+                    <group>
+                        <group string="Amounts">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="manual_entry"
+                                   readonly="state != 'draft'"/>
+                            <field name="manual_taxable_income"
+                                   invisible="not manual_entry"
+                                   readonly="state != 'draft'"/>
+                            <field name="manual_tax_advance"
+                                   invisible="not manual_entry"
+                                   readonly="state != 'draft'"/>
+                            <field name="manual_child_bonus"
+                                   invisible="not manual_entry"
+                                   readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <field name="line_ids" invisible="manual_entry">
                         <list>
                             <field name="sequence"/>
                             <field name="employee_id"/>

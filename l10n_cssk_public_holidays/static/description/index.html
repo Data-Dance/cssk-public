@@ -31,8 +31,8 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <main class="cssk-doc">
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cssk_public_holidays/static/description/index_sk.html">Slovenčina</a> · <a href="/l10n_cssk_public_holidays/static/description/index_cs.html">Čeština</a></nav>
 <h1>Public Holidays: Slovakia and Czech Republic</h1>
-<p class="cssk-summary">Generates the Slovak and Czech days of rest into the OCA public holiday calendar, year by year, with the statutory exceptions.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>calendar_public_holiday</code></td></tr></table>
+<p class="cssk-summary">Generates the Slovak and Czech days of rest into the OCA public holiday calendar, year by year, with the statutory exceptions, and keeps the Slovak ones as public holidays of the working schedules.</p>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>calendar_public_holiday</code>, <code>resource</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Leave counting and attendance must not count a day of rest as a working day.
@@ -73,16 +73,61 @@ kept, including your edits; a regional line (one with states) does not count
 as the nationwide day. To force a change, delete the line or the whole year
 and run the scheduled action again (<em>Settings → Technical → Scheduled
 Actions</em>, <em>Run Manually</em>).</p>
+<h2 id="calendars">Working schedules</h2>
+<p>Time Off and payroll do not read the public holiday calendar. They know a
+holiday only as a <em>public holiday</em> of the working schedules (<em>Time Off →
+Configuration → Public Holidays</em>). The module therefore keeps the Slovak
+holidays there as well:</p>
+<ul>
+<li>every company whose country is Slovakia gets one public holiday per
+  nationwide line, with no working schedule set, so that it holds for all the
+  company's schedules, present and future;</li>
+<li>a line that is renamed, moved, made regional or deleted takes its public
+  holiday along, and generating again adds nothing twice;</li>
+<li>a day on which the company already has a public holiday entered by hand is
+  left to that record;</li>
+<li>a company created later is reached by the next run of the scheduled action,
+  from the first day of the month before that run; run it manually to have
+  the holidays at once.</li>
+</ul>
+<p>The scheduled action does the writing, and it writes the days from the first
+day of the previous calendar month on. Payroll for a month is computed early
+in the next one, so the month just ended is still open: run on 5 September,
+the action writes 29 August as well and leaves 5 July alone. In January it
+also generates the year before, so that December is there.</p>
+<p>A public holiday that is new to a company makes Time Off recount the leave
+requests that span it. An approved week of leave over a Friday 29 August goes
+from five days to four, the day returns to the allocation, and Time Off tells
+the employee so in the request's history. For the open month that is the
+right count; the module does not do it to anything older unasked. A holiday
+that is already there is not written again, so a repeated run recounts
+nothing and tells nobody anything.</p>
+<p>Installing or upgrading the module asks the scheduled action to run at once,
+so the holidays appear a moment later; where scheduled actions do not run,
+run it manually. A line you add or change by hand is applied immediately,
+whatever its date. To put older holidays into the schedules
+as well, call <code>cssk_sync_calendar_leaves(date_from=…)</code> on
+<code>calendar.public.holiday</code>, for example from a server action.</p>
+<p>The system parameter <code>l10n_cssk_public_holidays.calendar_leave_countries</code>
+lists the countries, comma separated. The default is <code>SK</code>. Czech companies
+are left out until Czech payroll is verified with a holiday inside an
+absence; <code>SK,CZ</code> adds them, and <code>none</code> switches the feature off. A change
+takes effect at the next run of the scheduled action, which also removes,
+from the previous month on, the holidays of a country taken off the list.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
 <li>The rules are a table in the code. When the law changes, the module must be
   updated; years already generated are not corrected automatically — delete
   the affected year and regenerate it.</li>
 <li>Only Slovakia and the Czech Republic, nationwide days only.</li>
+<li>A public holiday entered by hand for one working schedule only keeps the
+  module's company-wide record of that day away, so the other schedules of
+  the company do not get it. Remove the record entered by hand, or enter the
+  day for the other schedules too.</li>
 <li>Sundays are not generated: the calendar lists holidays, and working time is
   defined by the employee's working schedule.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1993/241/">Zákon Národnej rady Slovenskej republiky č. 241/1993 Z. z. o štátnych sviatkoch, dňoch pracovného pokoja a pamätných dňoch</a></li><li><a href="https://e-sbirka.gov.cz/sb/2000/245">Zákon č. 245/2000 Sb., o státních svátcích, o ostatních svátcích, o významných dnech a o dnech pracovního klidu</a></li></ul><p>Text checked against module version: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1993/241/">Zákon Národnej rady Slovenskej republiky č. 241/1993 Z. z. o štátnych sviatkoch, dňoch pracovného pokoja a pamätných dňoch</a></li><li><a href="https://e-sbirka.gov.cz/sb/2000/245">Zákon č. 245/2000 Sb., o státních svátcích, o ostatních svátcích, o významných dnech a o dnech pracovního klidu</a></li></ul><p>Text checked against module version: 19.0.1.0.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

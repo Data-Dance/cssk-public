@@ -13,6 +13,7 @@
             t-att-dapdph_forma="statement.statement_type_id.fa_xml_value"
             t-att-d_zjist="statement.cz_discovery_date.strftime('%d.%m.%Y') if statement.cz_discovery_date else None"
             t-att-typ_platce="company._l10n_cz_typ_platce(statement.date_to)"
+            t-att-trans="cz_trans"
             k_uladis="DPH"/>
         <VetaP t-att="company._l10n_cz_epo_vetap()"/>
         <Veta1

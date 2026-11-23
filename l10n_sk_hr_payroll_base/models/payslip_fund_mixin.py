@@ -13,17 +13,48 @@ adapter, not to this abstract protocol.
 """
 
 from copy import deepcopy
+from decimal import Decimal
 
 from odoo import _, models
 from odoo.exceptions import UserError
+from odoo.tools import format_date
 
 from ..fund_assessment import fund_assessment, index_assessments
+from ..sick_pay import (
+    EXCLUDED_INCAPACITY_MAX_DAYS,
+    daily_assessment_base,
+    merge_spans,
+    decisive_period,
+    days_in_spans,
+    month_bounds,
+    period_months,
+    probable_daily_base,
+    split_sick_days,
+)
+from datetime import timedelta
 from ..fund_capture import (
     CAPTURE_KEY,
     _FundCapture,
     may_write_evidence,
     writer_context,
 )
+from ..garnishment import garnishment_net_wage
+from ..wage_rounding import round_wage_component
+
+
+#: Context key of the rule categories of the computations in progress.
+LIVE_CATEGORIES_KEY = "_l10n_sk_live_categories"
+
+
+class _LiveCategories:
+    """The category totals of each payslip being computed, as the rules see them.
+
+    An in-process holder placed in the context by the engine's
+    ``compute_sheet``; JSON/RPC cannot construct it.
+    """
+
+    def __init__(self):
+        self.by_slip = {}
 
 
 class FundEvidenceError(UserError):
@@ -33,6 +64,28 @@ class FundEvidenceError(UserError):
 class PayslipFundMixin(models.AbstractModel):
     _name = "l10n.sk.payslip.fund.mixin"
     _description = "Recorded payroll fund evidence"
+
+    def l10n_sk_round_wage_component(self, amount):
+        """Rule helper: a wage component rounded up to the cent, once."""
+        return round_wage_component(amount)
+
+    def l10n_sk_garnishment_net_wage(self, categories):
+        """Rule helper: the net wage a garnishment is computed from.
+
+        ``categories`` is the rule namespace's category totals, a mapping on
+        Enterprise and an object holding one on the OCA engine. The rule must
+        run after the sick pay rule.
+
+        A payslip taxed together with another record's holds only a part of
+        the person's net wage, and the month's tax sits on one of the two:
+        no deduction is computed from it
+        (``l10n.sk.payslip.joint.tax.mixin``).
+        """
+        refuse = getattr(self, "_l10n_sk_check_joint_tax_garnishment", None)
+        if refuse:
+            refuse(force=True)
+        return garnishment_net_wage(
+            categories if isinstance(categories, dict) else categories.dict)
 
     def l10n_sk_fund_record(self, fund, side, base, rate, amount, facts=None):
         """Rule helper returning data only; RPC cannot write generated evidence."""
@@ -94,7 +147,7 @@ class PayslipFundMixin(models.AbstractModel):
             "agreement": version.l10n_sk_employment_form(),
             "pension": version.l10n_sk_pension_status(),
             "regular": version.l10n_sk_income_is_regular(),
-            "oop": version.l10n_sk_agreement_oop,
+            "oop": version.l10n_sk_agreement_oop_applies(self.date_from),
             "guarantee_exempt": version.l10n_sk_guarantee_exempt,
         }
 
@@ -168,3 +221,356 @@ class PayslipFundMixin(models.AbstractModel):
                 _("The recorded payroll fund bases are invalid.")
             ) from error
         return list(records.values())
+
+    # ------------------------------------------------------------------
+    # Daily assessment base of the employer's sick pay (§ 8 z. 462/2003)
+    # ------------------------------------------------------------------
+    # Leave codes § 54 ods. 10 zákona 461/2003 takes out of the decisive
+    # period: the incapacity itself, nursing, maternity and paternity leave
+    # (the time with a claim to materské), and the interruptions of the
+    # insurance (parental and unpaid leave). A strike is not modelled.
+    _L10N_SK_DVZ_EXCLUDED_CODES = (
+        "PN", "OCR", "MATERSKA", "OTCOVSKA", "RODICOVSKA", "NEPLATENE")
+
+    def _l10n_sk_dvz_confirmed_states(self):
+        """Payslip states that are a wage accounted to the employee."""
+        raise NotImplementedError
+
+    def _l10n_sk_leave_code_field(self):
+        """Dotted path from ``hr.leave`` to the Slovak payroll code."""
+        raise NotImplementedError
+
+    def _l10n_sk_parameter_on(self, code):
+        """The rule parameter in force on this payslip, on either engine."""
+        reader = getattr(self, "rule_parameter", None) or self._rule_parameter
+        return reader(code)
+
+    def _l10n_sk_parameter_at(self, code, day):
+        """The rule parameter in force on ``day``, on either engine."""
+        Parameter = self.env["hr.rule.parameter"]
+        reader = getattr(Parameter, "_get_parameter_value", None)
+        return (reader or Parameter._get_parameter_from_code)(code, day)
+
+    def _l10n_sk_with_live_categories(self):
+        """These payslips, ready to register their categories while computing."""
+        return self.with_context(**{LIVE_CATEGORIES_KEY: _LiveCategories()})
+
+    def _l10n_sk_register_live_categories(self, categories):
+        """Called by the engine with the mapping its rules accumulate into."""
+        live = self.env.context.get(LIVE_CATEGORIES_KEY)
+        if isinstance(live, _LiveCategories):
+            live.by_slip[self.id] = categories
+
+    def _l10n_sk_dvz_live_gross(self):
+        """GROSS of the computation in progress on this payslip, or ``None``.
+
+        The sickness rule charges on it before the sick-pay rule runs, and
+        sick pay is no part of it.
+        """
+        live = self.env.context.get(LIVE_CATEGORIES_KEY)
+        categories = (
+            live.by_slip.get(self.id) if isinstance(live, _LiveCategories) else None
+        )
+        if categories is None or "GROSS" not in categories:
+            return None
+        return categories["GROSS"]
+
+    def _l10n_sk_month_wage_due(self, month_first, month_last):
+        """The wage the contract would pay for that whole month, or ``None``.
+
+        Each engine supplies it: the monthly wage, or the hourly rate over
+        the hours the working calendar schedules in the month.
+        """
+        return None
+
+    def _l10n_sk_dvz_excluded_spans(self, first, last):
+        if "hr.leave" not in self.env:
+            return []
+        leaves = self.env["hr.leave"].sudo().search([
+            ("employee_id", "=", self.employee_id.id),
+            ("company_id", "=", self.company_id.id),
+            ("state", "=", "validate"),
+            ("request_date_from", "<=", last),
+            ("request_date_to", ">=", first),
+            (self._l10n_sk_leave_code_field(), "in",
+             self._L10N_SK_DVZ_EXCLUDED_CODES),
+        ])
+        code_path = self._l10n_sk_leave_code_field().split(".")
+        incapacity, other = [], []
+        for leave in leaves:
+            code = leave
+            for name in code_path:
+                code = code[name]
+            span = (leave.request_date_from, leave.request_date_to)
+            (incapacity if code == "PN" else other).append(span)
+        # 52 weeks at most per incapacity, which may be several leave records.
+        limit = timedelta(days=EXCLUDED_INCAPACITY_MAX_DAYS - 1)
+        return other + [
+            (start, min(end, start + limit))
+            for start, end in merge_spans(incapacity)]
+
+    def _l10n_sk_dvz_sickness_base(self):
+        """The sickness assessment base of one confirmed payslip.
+
+        The recorded employee-side sickness base where the payslip has fund
+        evidence; otherwise what the SICK rule charged on, gross pay under the
+        employee maximum of its month. ``None`` when the worker paid no
+        sickness premium on it.
+        """
+        self.ensure_one()
+        rows = self._l10n_sk_read_recorded_fund_bases() or []
+        for row in rows:
+            if row.get("fund") == "sickness" and row.get("side") == "employee":
+                return float(row["base"])
+        version = self._l10n_sk_version()
+        if rows or not version.l10n_sk_applies("SICKNESS_INSURANCE"):
+            return None
+        gross = sum(self.line_ids.filtered(
+            lambda line: line.code == "GROSS").mapped("total"))
+        return self._l10n_sk_dvz_capped(gross)
+
+    def _l10n_sk_dvz_capped(self, gross):
+        """What the SICK rule charges on: gross pay under the employee maximum."""
+        cap = self._l10n_sk_version().l10n_sk_employee_social_cap(
+            self._l10n_sk_parameter_on("l10n_sk_monthly_taxable_max"),
+            self.date_from)
+        return max(0.0, min(gross, cap))
+
+    def _l10n_sk_dvz_own_sickness_base(self):
+        """The sickness base of this payslip itself, or ``None``.
+
+        While the payslip is being computed, what its SICK rule has just
+        charged on; afterwards, what its lines hold.
+        """
+        self.ensure_one()
+        gross = self._l10n_sk_dvz_live_gross()
+        if gross is None:
+            return self._l10n_sk_dvz_sickness_base() if self.line_ids else None
+        if not self._l10n_sk_version().l10n_sk_applies("SICKNESS_INSURANCE"):
+            return None
+        return self._l10n_sk_dvz_capped(gross)
+
+    def _l10n_sk_dvz_confirmed_slips(self, first, last, insured_from):
+        """Confirmed payslips of this employment within ``first``..``last``."""
+        return self.search([
+            ("employee_id", "=", self.employee_id.id),
+            ("company_id", "=", self.company_id.id),
+            ("state", "in", self._l10n_sk_dvz_confirmed_states()),
+            ("date_from", ">=", first),
+            ("date_to", "<=", last),
+            ("id", "not in", self._origin.ids),
+        ]).filtered(
+            lambda slip: slip._l10n_sk_version().contract_date_start
+            == insured_from)
+
+    def _l10n_sk_dvz_onset_month_base(self, onset, insured_from):
+        """The base reached in the month of ``onset`` before the incapacity.
+
+        § 8 ods. 4, an employment under 90 days: the decisive period ends the
+        day before the incapacity, inside a month. The base of a month is one
+        figure, on its payslip. It is the base reached before the incapacity
+        only when nothing was earned in that month from the incapacity on:
+        the incapacity lasts to the end of the month, or of the employment in
+        it. Then it is this payslip's own base when this is that month, and
+        the confirmed payslip's otherwise. ``None`` when the wage of the
+        month would have to be split by day, or the payslip is not there.
+        """
+        month_first, month_last = month_bounds(onset.year, onset.month)
+        version = self._l10n_sk_version()
+        covered_to = min(month_last, version.contract_date_end or month_last)
+        spans = self._l10n_sk_pn_spans() or []
+        if not any(start == onset and end >= covered_to for start, end in spans):
+            return None
+        insured_first = max(month_first, insured_from)
+        if month_first <= self.date_from <= month_last:
+            slip = self
+        else:
+            slip = self._l10n_sk_dvz_confirmed_slips(
+                month_first, month_last, insured_from)
+            if len(slip) != 1 or slip.credit_note or slip._l10n_sk_refund_original():
+                return None
+        if slip.date_from > insured_first or slip.date_to < covered_to:
+            return None
+        if slip == self:
+            return self._l10n_sk_dvz_own_sickness_base()
+        return slip._l10n_sk_dvz_sickness_base()
+
+    def _l10n_sk_pn_probable_daily_base(self, onset):
+        """§ 8 ods. 6: the base premium would be paid on in the month of ``onset``.
+
+        The wage the contract would pay for that month, under the employee
+        maximum, over the days of the month. Only where the employment covers
+        the whole month; for a month insured in part the Act names no
+        divisor, and that base is typed in. ``False`` when it cannot be said.
+        """
+        version = self._l10n_sk_version()
+        month_first, month_last = month_bounds(onset.year, onset.month)
+        start, end = version.contract_date_start, version.contract_date_end
+        if (
+            not version.l10n_sk_applies("SICKNESS_INSURANCE")
+            or not start
+            or start > month_first
+            or (end and end < month_last)
+        ):
+            return False
+        wage = self._l10n_sk_month_wage_due(month_first, month_last)
+        if not wage:
+            return False
+        cap = version.l10n_sk_employee_social_cap(
+            self._l10n_sk_parameter_at("l10n_sk_monthly_taxable_max", month_first),
+            month_first)
+        return probable_daily_base(min(wage, cap), onset.year, onset.month) or False
+
+    def l10n_sk_pn_determined_daily_base(self, onset):
+        """The denný vymeriavací základ for an incapacity beginning ``onset``.
+
+        § 8 ods. 4, 5 and 8 zákona 462/2003 Z. z.: the sickness assessment
+        bases of the decisive period over its days, less the periods § 54
+        ods. 10 zákona 461/2003 excludes, to four places rounded down. The
+        maximum of § 8 ods. 7 is applied by the caller, dated by the onset.
+
+        * An employment of at least 90 days: the previous calendar year, or
+          from its start to the end of the month before the incapacity.
+        * Under 90 days: from its start to the day before the incapacity.
+          The part of the month of the incapacity is taken from that month's
+          payslip where the incapacity lasts to its end
+          (``_l10n_sk_dvz_onset_month_base``).
+        * The incapacity on the first insured day, or no base in the period:
+          § 8 ods. 6, the base of the month the incapacity began in
+          (``_l10n_sk_pn_probable_daily_base``).
+
+        Returns ``False`` whenever the payslips on file cannot answer, and the
+        base then has to be typed in (the ``PN_DVZ`` input):
+
+        * the employment has no start date;
+        * a month of the period has no confirmed payslip of this employment
+          and is not wholly excluded — typically the months before payroll
+          was run in this database;
+        * a month has a part-month payslip or more than one;
+        * a payslip of the period is a refund;
+        * an employment under 90 days whose worker was back at work in the
+          month of the incapacity: what was earned before the incapacity is
+          then on no payslip;
+        * the base of § 8 ods. 6 for a month the employment covers in part.
+        """
+        self.ensure_one()
+        version = self._l10n_sk_version()
+        insured_from = version.contract_date_start
+        if not insured_from or not onset:
+            return False
+        period = decisive_period(insured_from, onset)
+        if not period:
+            return self._l10n_sk_pn_probable_daily_base(onset)
+        first, last = period
+        # A period that ends inside a month: that month is the incapacity's.
+        ends_in_month = last != month_bounds(last.year, last.month)[1]
+        whole_last = last.replace(day=1) - timedelta(days=1) if ends_in_month else last
+        slips = self._l10n_sk_dvz_confirmed_slips(
+            first.replace(day=1), whole_last, insured_from)
+        if any(slip.credit_note or slip._l10n_sk_refund_original()
+               for slip in slips):
+            return False
+        excluded = self._l10n_sk_dvz_excluded_spans(first, last)
+        # Summed as decimals: a float sum a hair under the cents it stands
+        # for would lose the fourth place when the quotient is cut.
+        total = Decimal(0)
+        for year, month in period_months(first, last):
+            if ends_in_month and (year, month) == (last.year, last.month):
+                base = self._l10n_sk_dvz_onset_month_base(onset, insured_from)
+                if base is None:
+                    return False
+                total += Decimal(str(base))
+                continue
+            month_first, month_last = month_bounds(year, month)
+            month_first, month_last = max(month_first, first), min(month_last, last)
+            in_month = slips.filtered(
+                lambda slip: slip.date_from.year == year
+                and slip.date_from.month == month)
+            if not in_month:
+                wholly_excluded = days_in_spans(
+                    excluded, month_first, month_last
+                ) == (month_last - month_first).days + 1
+                if wholly_excluded:
+                    continue
+                return False
+            # One payslip for the whole insured part of the month: a part-month
+            # or a second payslip would need the month's maximum applied once
+            # across them, which only the recorded bases could show.
+            if (
+                len(in_month) != 1
+                or in_month.date_from > month_first
+                or in_month.date_to < month_last
+            ):
+                return False
+            base = in_month._l10n_sk_dvz_sickness_base()
+            if base is None:
+                return False
+            total += Decimal(str(base))
+        determined = daily_assessment_base(total, period, excluded)
+        if determined is None:
+            # No base or no day left in the period: § 8 ods. 6.
+            return self._l10n_sk_pn_probable_daily_base(onset)
+        return determined
+
+    def _l10n_sk_pn_episode_base(self, manual_base, onset):
+        """The typed-in base wins; otherwise the one the payslips determine."""
+        return manual_base or self.l10n_sk_pn_determined_daily_base(onset) or 0.0
+
+    def l10n_sk_pn_base_determinable(self):
+        """Whether every PN leave paid on this payslip has a determined base.
+
+        Lets the sick-pay rule run without the ``PN_DVZ`` input.
+        """
+        self.ensure_one()
+        spans = self._l10n_sk_pn_spans()
+        if not spans:
+            return False
+        first, last = self._l10n_sk_pn_payment_period()
+        paid = [start for start, end in spans if start <= last and end >= first]
+        return bool(paid) and all(
+            self.l10n_sk_pn_determined_daily_base(start) for start in paid)
+
+    def _l10n_sk_pn_missing_base_onsets(self):
+        """Onsets of the incapacities paid here whose daily base is unknown.
+
+        The employer owes sick pay for them on this payslip, no ``PN_DVZ``
+        input is given and the payslips do not determine the base.
+        """
+        self.ensure_one()
+        version = self._l10n_sk_version()
+        if (
+            self.struct_id.country_id.code != "SK"
+            or not version
+            or not version.l10n_sk_applies("SICKNESS_COMPENSATION")
+            or any(line.code == "PN_DVZ" for line in self.input_line_ids)
+        ):
+            return []
+        spans = self._l10n_sk_pn_spans()
+        if not spans:
+            return []
+        first, last = self._l10n_sk_pn_payment_period()
+        onsets = []
+        for start, end in spans:
+            if start > last or end < first:
+                continue
+            tier1, tier2, _days = split_sick_days(
+                [(start, end)], first, last,
+                self._l10n_sk_parameter_at("l10n_sk_pn_tier1_days", start),
+                self._l10n_sk_parameter_at("l10n_sk_pn_employer_days", start))
+            if tier1 + tier2 and not self.l10n_sk_pn_determined_daily_base(start):
+                onsets.append(start)
+        return onsets
+
+    def _l10n_sk_pn_missing_base_message(self):
+        """What to tell the payroll officer about a missing daily base."""
+        onsets = self._l10n_sk_pn_missing_base_onsets()
+        if not onsets:
+            return False
+        return _(
+            "%(employee)s: no sick pay is computed for the incapacity from "
+            "%(onsets)s, because its daily assessment base cannot be "
+            "determined from the confirmed payslips. Enter the base as the "
+            "payslip input PN_DVZ.",
+            employee=self.employee_id.name,
+            onsets=", ".join(format_date(self.env, onset) for onset in onsets),
+        )

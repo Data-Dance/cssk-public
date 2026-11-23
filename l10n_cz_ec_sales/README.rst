@@ -70,8 +70,22 @@ The module sets the transaction code on the intra-EU taxes of every company that
      - 0
    * - 0% EU S — intra-Community supply of services
      - 3
+   * - 0% 3S D — triangular trade, supply by the middle party
+     - 2
 
-There is no standard tax for codes **1** and **2**. If you transfer your own goods or act as the middle party in a triangular trade, the tax you use for it has to be coded yourself — see setting up the framework, which also lists the company data the export needs (VAT number, the tax office under *Default tax authority*).
+The l10n_cz chart has no tax for a triangular trade, so this module adds two for the middle party (§ 17), both at 0 % — the end customer pays the VAT:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Tax
+     - Reported on
+   * - 0% 3S P — triangular trade, acquisition by the middle party
+     - DPHDP3 row 30
+   * - 0% 3S D — triangular trade, supply by the middle party
+     - DPHDP3 row 31 and the EC sales list, code 2
+
+There is no standard tax for code **1**. If you transfer your own goods to another member state, the tax you use for it has to be coded yourself — see setting up the framework, which also lists the company data the export needs (VAT number, the tax office under *Default tax authority*).
 
 Preparing and filing
 ======================
@@ -109,7 +123,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_ec_sales``
-- **Version:** 19.0.1.4.1
+- **Version:** 19.0.1.5.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_ec_summary_base``, ``l10n_cz``, ``l10n_cz_statutory``

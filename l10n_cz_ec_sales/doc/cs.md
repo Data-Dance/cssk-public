@@ -1,7 +1,7 @@
 ---
 title: Souhrnné hlášení CZ
 summary: České souhrnné hlášení — tiskopis EPO DPHSHV — vypočtené z daní pro plnění do EU v české účtové osnově Odoo a exportované jako XML pro EPO.
-verified: 19.0.1.4.1
+verified: 19.0.1.5.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -80,10 +80,18 @@ později, pokud tam kód ještě není:
 |---|---|
 | 0% EU G — dodání zboží do EU | 0 |
 | 0% EU S — poskytnutí služby do EU | 3 |
+| 0% 3S D — třístranný obchod, dodání prostřední osobou | 2 |
 
-Pro kódy **1** a **2** standardní daň neexistuje. Přemísťujete-li vlastní zboží
-nebo jste prostřední osobou v třístranném obchodu, musíte daň, kterou k tomu
-používáte, označit sami — viz [nastavení společného
+Česká osnova Odoo nemá pro třístranný obchod žádnou daň, proto modul přidává
+dvě pro prostřední osobu (§ 17), obě s 0 % — daň přiznává konečný odběratel:
+
+| Daň | Kam se vykazuje |
+|---|---|
+| 0% 3S P — třístranný obchod, pořízení prostřední osobou | DPHDP3 ř. 30 |
+| 0% 3S D — třístranný obchod, dodání prostřední osobou | DPHDP3 ř. 31 a souhrnné hlášení, kód 2 |
+
+Pro kód **1** standardní daň neexistuje. Přemísťujete-li vlastní zboží do
+jiného členského státu, musíte daň, kterou k tomu používáte, označit sami — viz [nastavení společného
 modulu](module:l10n_cssk_ec_summary_base#setup), kde jsou i údaje
 společnosti, které export potřebuje (DIČ, finanční úřad v nastavení *Výchozí
 správce daně*).

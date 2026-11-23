@@ -1,7 +1,7 @@
 ---
 title: SK Monthly Health Insurance Statement (dávka 514)
 summary: The monthly výkaz preddavkov na poistné for a Slovak health insurer (VšZP, Dôvera, Union) in the common dávka 514 format, built from the month's payslips and exported as XML.
-verified: 19.0.1.2.4
+verified: 19.0.1.2.6
 ---
 
 ## What it is for {#purpose}
@@ -100,14 +100,44 @@ covers only the insurer the statement is addressed to.
 |---|---|
 | `Identification` | type 514, character *N*, IČO, payer number, the insurer's four-digit code (2500, 2400, 2700), date of sending, serial number 1, number of rows |
 | `CorporateBody` | period, day of payment, company name, IČO, payer number, DIČ, IBAN |
-| `InsuranceBody` | employer totals: number of employees, days, income, assessment base, employer and employee advances, top-up, total |
-| `PersonData` | per employee: birth number, days, the employer's and employee's rate, income, assessment base, advances, top-up |
+| `InsuranceBody` | employer totals in two groups, employees without and with a health disability: the number of employees an advance is paid for, days, income, the employees' assessment base and the employer's and the employees' advances of each group; then the grand total |
+| `PersonData` | per employee: birth number, days, the employer's and employee's rate, income, the employee's assessment base, advances, the income for the deductible item, other income, the deductible item, whether no minimum advance applies, and the minimum top-up |
 
 The amounts come from the payslip lines: *HEALTHEMPLOYER* (employer's
-advance), *HEALTH* (employee's advance) and the health minimum-base top-up
-(*HEALTHDOPLATOK* or *HEALTH_DOPLATOK*, depending on the engine). The
-assessment base and the income are the employee's *GROSS*. The rates are not
-read from a table: they are worked back as advance ÷ base.
+advance), *HEALTH* (employee's advance) and the health minimum top-up
+(*HEALTHDOPLATOK* or *HEALTH_DOPLATOK*, depending on the engine). What each
+figure contains follows § 1 ods. 3 of vyhláška č. 159/2018 Z. z. and the item
+descriptions in the schema:
+
+- **Groups.** An employee whose contract has *ZŤP / Disabled* ticked is
+  reported in the second group, the one with the reduced rates of
+  [§ 12](law:sk/2004/580#paragraf-12.odsek-1); everyone else in the first.
+  The employees' advance of a group includes the minimum top-up, which raises
+  the employee's advance
+  ([§ 16a ods. 4](law:sk/2004/580#paragraf-16a.odsek-4)).
+- **Days.** The calendar days of employment in the month without the days of
+  sick leave, nursing, maternity and paternity leave, for which the State
+  pays ([§ 11 ods. 7 písm. m)](law:sk/2004/580#paragraf-11.odsek-7.pismeno-m)),
+  and without the days of parental and unpaid leave, on which a person
+  without income is not an employee
+  ([§ 11 ods. 3](law:sk/2004/580#paragraf-11.odsek-3)). They are read from
+  the approved time off of the Slovak leave types; a day of leave taken in
+  part (half a day, some hours) is not removed. When the payslip carries the *PN_DAYS* input, the sick days
+  are taken from it, as the payslip takes them. An employee with no such day
+  and no advance is listed, and is not counted among those an advance is paid
+  for.
+- **Income and base.** The income is the payslip's *GROSS*; it is also the
+  employer's base ([§ 13 ods. 4](law:sk/2004/580#paragraf-13.odsek-4)). The
+  employee's base is the income less the deductible item
+  ([§ 16 ods. 16 to 18](law:sk/2004/580#paragraf-16.odsek-16)). The base, the
+  item and the two rates are the ones the payslip recorded when it was
+  computed. The income of an employment relationship is the income for the
+  deductible item; the income of an agreement (DoVP, DoPČ, DoBPŠ) is other
+  income.
+- **No minimum advance.** `NotAppliedMinimum` is set where the payslip
+  computes no minimum for the whole month — a disabled employee, a
+  health-exempt contract, a DoBPŠ — or where the month has no day an advance
+  is paid for, and no top-up was charged.
 
 **Checking the file.** The official schema `514-2023.xsd` contradicts itself
 (patterns that admit only one digit in fields that must be 8 to 12 characters
@@ -121,11 +151,21 @@ element, the three header blocks and that the number of rows matches.
   of insurer during the year (allowed once a year, from 1 January) has to be
   recorded on the employee before generating; past statements are not
   recomputed.
-- **The assessment base is the payslip's GROSS**, not a base computed under
-  the Health Insurance Act; the rate shown is derived from it.
-- Every employee counts as a full calendar month of days, and everyone is
-  reported in the first group (the second group of counts and bases is always
-  zero).
+- **The deductible item needs the fund bases the payslip recorded.** A
+  payslip computed before the Slovak payroll recorded them (OCA engine
+  19.0.1.25.0, Enterprise engine 19.0.1.26.0), or whose lines were changed
+  afterwards, is reported on its gross: no item, and rates worked back as
+  advance ÷ gross. The statement names the payslips reported this way;
+  correct the row of an employee who claims the item by hand.
+- **The minimum top-up is the one the payslip charged.** The payslip reduces
+  the minimum advance for sick days and days outside the contract only, so
+  in a month with nursing, maternity, parental or unpaid leave the top-up is
+  higher than the days on the statement give.
+- **One row per employee record.** A person kept as two employees (two
+  concurrent contracts) gets two rows with the same birth number. Income paid
+  after the employment ended is not separated as other income.
+- Disability is the tick on the contract the payslip was computed on; there
+  is no date of the decision.
 - Only a regular statement (*N*) with serial number 1. Corrections after an
   error report must be made through the insurer's electronic branch.
 - Because the official schema cannot be applied, the module cannot guarantee

@@ -213,7 +213,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cssk_payroll_declaration_base``
-- **Version:** 19.0.1.6.1
+- **Version:** 19.0.1.7.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``, ``mail``, ``l10n_cssk_submission_base``

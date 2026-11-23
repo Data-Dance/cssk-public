@@ -16,3 +16,11 @@ class HrPayslip(models.Model):
         # worked-day lines. So WORK100 here is gross and the absence hours have
         # to come back off it.
         return True
+
+    def _l10n_sk_average_worked_time(self):
+        # § 134 ods. 1 Zákonníka práce divides the wage accounted for the
+        # decisive period by the time worked in it. Overtime pay is in that
+        # wage, and overtime is outside the schedule WORK100 holds, so its
+        # hours are added here.
+        days, hours = super()._l10n_sk_average_worked_time()
+        return days, hours + self._l10n_sk_surcharge_hours("NADCAS")

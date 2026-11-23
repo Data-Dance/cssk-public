@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Wage Garnishments
 summary: A register of Czech and Slovak wage-garnishment orders, the statutory waterfall across all of an employee's orders on the payslip, the employer's notices to the court or bailiff, and remitting the deductions to the payee.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.2
 ---
 
 ## What it is for {#purpose}
@@ -256,6 +256,7 @@ employee.
 | Country | Valid from | Figures |
 |---|---|---|
 | CZ | 1 Jan 2026 | subsistence minimum 4 860 Kč, normative rent 9 430 Kč, energy allowance 2 300 Kč (sum 16 590 Kč); 85 %; ¼ per person; unlimited above 31 521 Kč (1.9 × 16 590); insolvency trustee monthly amount 1 089 Kč ((750 + 150) × 1.21, vyhl. 313/2007 Sb.) |
+| SK | 1 Jul 2023 | subsistence minimum 268.88 € |
 | SK | 1 Jul 2024 | subsistence minimum 273.99 € |
 | SK | 1 Jul 2025 | subsistence minimum 284.13 € |
 | SK | 1 Jul 2026 | subsistence minimum 295.22 € |
@@ -269,7 +270,11 @@ For 2026/27 that is a protected base of 413.30 € (295.22 € × 140 % =
 No Czech record before 2026 is shipped: the 2026 reform changed the formula
 itself. From 1 October 2026 the Czech subsistence minimum for an individual
 is 5 500 Kč, but § 4 of the regulation keeps the 1 January value for wages
-paid in 2026; add a 2027 record before computing wages paid in 2027.
+paid in 2026; add a 2027 record before computing wages paid in 2027. A Czech
+wage paid in a year with no record of its own is refused, not computed on the
+previous year's amounts: that includes a December 2026 wage paid in January
+2027. The 2027 record ships once the government has published the normative
+rent and the energy allowance for 2027.
 
 ## Notices and the account of deductions {#notices}
 

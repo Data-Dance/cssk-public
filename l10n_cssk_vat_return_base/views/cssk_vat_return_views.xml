@@ -105,10 +105,35 @@
                         <group>
                             <field name="company_id"/>
                             <field name="country_id"/>
+                            <!-- Period first: the version and the kind of
+                                 return are chosen FOR a period, and stayed
+                                 empty while the two dates sat further down
+                                 the form. A VAT period is a month or a
+                                 quarter, so that is what is picked, in one
+                                 control (widget cssk_period, l10n_cssk_core);
+                                 the two dates are shown as what the choice
+                                 means and saved from it. -->
+                            <field name="period_type"
+                                   readonly="state not in ('draft', 'preview')"/>
+                            <field name="date_from" string="Period"
+                                   widget="cssk_period"
+                                   options="{'period_type_field': 'period_type'}"
+                                   readonly="state not in ('draft', 'preview')"/>
+                            <label for="date_to" string="Dates"/>
+                            <div class="o_row text-muted" name="period_dates">
+                                <field name="date_from" nolabel="1"
+                                       readonly="1" force_save="1"/>
+                                <span>–</span>
+                                <field name="date_to" nolabel="1"
+                                       readonly="1" force_save="1"/>
+                            </div>
                             <field name="version_id"/>
                             <field name="statement_type_id"/>
                             <field name="original_return_id" readonly="1"
                                    invisible="not original_return_id"/>
+                            <!-- Only an additional return (dodatočné) states
+                                 the date the difference was identified, so
+                                 the field shows for that kind alone. -->
                             <!-- ⚠️ Required to FILE, so not required on a
                                  record that cannot be filed. datumZisteniaDdp
                                  is mandatory on a dodatočné DP, and this
@@ -126,19 +151,21 @@
                                  fabricated statutory date on a record an
                                  accountant reads as history, which is worse
                                  than a blank one. -->
+                            <field name="needs_discovery_date" invisible="1"/>
                             <field name="discovery_date"
-                                   required="original_return_id and not legacy"/>
+                                   invisible="not needs_discovery_date"
+                                   required="needs_discovery_date and not legacy"/>
                         </group>
                         <group>
-                            <field name="date_from"/>
-                            <field name="date_to"/>
-                            <field name="period_type"/>
                             <field name="xml_attachment_id"/>
                             <field name="submitted_attachment_id"
                                    invisible="not submitted_attachment_id"/>
                             <field name="submitted_date"
                                    invisible="not submitted_date"/>
-                            <field name="submission_reference"/>
+                            <!-- The portal's confirmation number: there is
+                                 none before a file exists to be sent. -->
+                            <field name="submission_reference"
+                                   invisible="state in ('draft', 'preview')"/>
                             <!-- Provenance: only shown on a historical
                                  filing, where "which migration produced this
                                  figure" is the question somebody asks. -->
@@ -157,8 +184,12 @@
                                 overrides are preserved and flow into dependent
                                 lines.
                             </p>
+                            <!-- Every row at once: the form is read
+                                 top to bottom against the paper one, and the
+                                 default page of 40 cut it in two. -->
                             <field name="line_ids">
                                 <list editable="bottom" create="false"
+                                      limit="500"
                                       delete="false"
                                       decoration-warning="is_overridden"
                                       decoration-muted="kind == 'aggregate'">

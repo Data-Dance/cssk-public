@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cssk_vat_return_base/static/description/index.html">English</a> · <b>Slovenčina</b> · <a href="/l10n_cssk_vat_return_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>Daňové priznanie k DPH CZ/SK — spoločný základ</h1>
 <p class="cssk-summary">Obrazovky a postup, na ktorých stojí slovenské aj české daňové priznanie k DPH — výpočet riadkov z daňových značiek, kontrola voči účtovným zápisom, export úradného XML a uchovanie podanej verzie.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.13.1</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index_sk.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="/l10n_sk_vat_return/static/description/index_sk.html"><code>l10n_sk_vat_return</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.14.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><code>account</code>, <code>mail</code>, <a href="/l10n_cssk_core/static/description/index_sk.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_submission_base/static/description/index_sk.html"><code>l10n_cssk_submission_base</code></a></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="/l10n_sk_vat_return/static/description/index_sk.html"><code>l10n_sk_vat_return</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Modul je spoločným jadrom daňového priznania k DPH (na Slovensku <em>daňové
@@ -80,23 +80,26 @@ všetko, čo majú obe krajiny spoločné:</p>
 <td>Spoločnosť, za ktorú sa podáva (predvolená je aktuálna).</td>
 </tr>
 <tr>
-<td>Dátum od / Dátum do</td>
-<td>Prvý a posledný deň zdaňovacieho obdobia.</td>
+<td>Typ obdobia</td>
+<td><em>Mesačne</em> alebo <em>Štvrťročne</em>. Nové priznanie začína typom predchádzajúceho priznania spoločnosti.</td>
 </tr>
 <tr>
-<td>Typ obdobia</td>
-<td><em>Mesačne</em> alebo <em>Štvrťročne</em> — do XML sa zapíše mesiac alebo štvrťrok podľa <em>Dátumu od</em>.</td>
+<td>Obdobie</td>
+<td>Mesiac alebo štvrťrok, vyberá sa v jednom poli: kliknite naň, šípkami prejdite na iný rok a zvoľte mesiac alebo štvrťrok. Nové priznanie sa otvorí na poslednom uzavretom období. <em>Dátumy</em> pod ním ukazujú prvý a posledný deň, ktoré z toho vyplývajú.</td>
 </tr>
 <tr>
 <td>Verzia</td>
-<td>Vzor tlačiva. Ponúkajú sa len verzie krajiny spoločnosti platné v danom období, pozri <a href="#versions">Verzie tlačiva</a>.</td>
+<td>Vzor tlačiva. Vyberie sa sám podľa obdobia; ponúkajú sa len verzie krajiny spoločnosti platné v danom období, pozri <a href="#versions">Verzie tlačiva</a>.</td>
 </tr>
 <tr>
 <td>Typ výkazu</td>
-<td>Riadne, opravné alebo dodatočné — možnosti určuje verzia.</td>
+<td>Riadne, opravné alebo dodatočné — možnosti určuje verzia, predvolené je riadne.</td>
 </tr>
 </tbody>
 </table>
+<p>Po exporte alebo podaní sa obdobie už zmeniť nedá; priznanie najprv vráťte
+do návrhu. <em>Referencia podania</em>, potvrdenie z portálu, sa zobrazí až po
+exporte XML.</p>
 <p>Potom kliknite na <strong>Vypočítať</strong>. Priznanie prejde do stavu <em>Náhľad</em> a karta
 <strong>Riadky</strong> sa naplní riadkami tlačiva.</p>
 <p><strong>Ktoré doklady patria do obdobia.</strong> Obe strany priznania sa datujú inak, tak
@@ -230,8 +233,9 @@ prepojený s pôvodným (<em>Opravuje</em>) a prenesie doň ručné prepisy. Na 
 priznaní:</p>
 <ol>
 <li>zvoľte správny <strong>Typ výkazu</strong> — kópia začína typom pôvodného priznania;</li>
-<li>vyplňte <strong>Deň zistenia rozdielu</strong>, ktorý tlačivo pri priznaní opravujúcom
-   iné vyžaduje (predvolený je dnešný deň);</li>
+<li>pri dodatočnom priznaní vyplňte <strong>Deň zistenia rozdielu</strong> (predvolený je
+   dnešný deň). Pole sa zobrazí len pri tomto type: opravné priznanie taký
+   dátum neuvádza;</li>
 <li>opravte účtovníctvo, <strong>Vypočítajte</strong>, skontrolujte, exportujte a podajte
    ako zvyčajne.</li>
 </ol>
@@ -278,7 +282,7 @@ priznanie; to je už bežné priznanie.</p>
   značiek skončí v zlom riadku alebo v žiadnom; pred podaním si prejdite
   preklik <strong>Doklady</strong>.</li>
 </ul>
-<footer><p>Text overený voči verzii modulu: 19.0.1.13.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text overený voči verzii modulu: 19.0.1.14.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

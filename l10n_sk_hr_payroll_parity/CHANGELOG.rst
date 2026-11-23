@@ -5,10 +5,107 @@ Changelog
 Unreleased
 ==========
 
+* **19.0.1.8.8 (2026-11-21):** ``OVERTIME_SCENARIOS``: the overtime hours at
+  the wage achieved and the premium on average earnings (§ 121 ods. 1
+  Zákonníka práce), with the same figures on both engines:
+  *overtime_after_a_raise* (1 600 in the first quarter of 2026, 2 100 and
+  eight hours in April: 95.46 and 18.75, GROSS 2 214.21),
+  *overtime_hourly_rate_three_decimals* (6.125 raised to 7.333: 58.67 and
+  12.25, BASIC 1 290.61) and *overtime_in_a_month_with_an_unpaid_day* (June
+  2026 on 2 000: 90.91 and 22.73, BASIC 1 909.10). New scenario keys:
+  ``history`` confirms payslips of earlier months at an earlier wage or
+  hourly rate, and ``expected_lines`` compares payslip lines by rule code.
+  Not yet on 18.0.
+
+* **19.0.1.8.7 (2026-11-21):** ``RECORDED_FUND_SCENARIOS``: the fund rows a
+  really computed payslip records and each engine's reader returns (base,
+  rate and amount of the fourteen fund sides) for a wage of 2 000, one above
+  the maximum base, one with the health deductible item and one with the
+  health minimum top-up, and the figures of the dávka 514 generated from the
+  deductible-item payslip. Both engines must give the same rows, or a
+  statement that reads them would differ between them.
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
+
+[19.0.1.9.0] — 2026-11-21
+=========================
+
+**Added**
+
+- Scenarios of several employee records of one person taxed together (§ 35 ods. 1 zákona 595/2003 Z. z.), June 2026: *joint_tax_month_taxed_once* (two agreements, 400 with the declaration and 300 linked to it: bases 342.40 and 256.80, advance 19.37 on the principal's payslip and 0.00 on the linked one, NET 323.03 and 256.80), *joint_tax_child_bonus_cap_on_the_month* (one child under 15: the bonus is whole, 100.00, where 29 % of 342.40 alone would give 99.30) and *joint_tax_second_band_on_the_month* (3 000 and 2 500: 3 665.28 at 19 % and 545.49 at 25 %, 832.78).
+- Scenario key ``linked`` (further employee records of the person, whose payslips of the period are computed first) with its own ``expected``, and ``expected_lines`` for lines whose rule code both engines share (``TAXBASE_MOVED``, ``TAXBASE_TAKEN``).
+
+**Carry-over to 18.0**
+
+- Not yet on 18.0: port the scenarios with the joint taxation of both engines.
+
+[19.0.1.8.7] — 2026-11-21
+=========================
+
+**Added**
+
+- ``PART_MONTH_SCENARIOS`` for the contract option *Meal also for a Shift of Four Hours or Less* (§ 152 ods. 9 Zákonníka práce), June 2026 at 5.12 a day: *meal_short_shift_option_four_hour_schedule* (22 days, 112.64; none without the option), *meal_short_shift_option_half_day_of_leave* (22 days, 112.64, BASIC 1 954.55; 21 without) and *meal_short_shift_option_day_of_leave* (a day without work earns none: 21 days, 107.52, BASIC 1 909.10).
+
+**Carry-over to 18.0**
+
+- Not yet on 18.0: port the scenarios with the option on both engines.
+
+[19.0.1.8.6] — 2026-11-21
+=========================
+
+**Added**
+
+- ``PART_MONTH_SCENARIOS`` for the meal days of § 152 ods. 2 Zákonníka práce, a day with more than four hours worked, June 2026 at 5.12 a day: *meal_full_month* (22 days, 112.64), *meal_afternoon_closed_in_the_calendar* (21 days, 107.52), *meal_half_day_of_leave* (21 days, 107.52, BASIC 1 954.55), *meal_two_half_days_do_not_add_up* (20 days, 102.40, BASIC 1 909.10), *meal_two_hours_at_the_doctor* (22 days, 112.64, BASIC 1 977.28), *meal_schedule_of_four_hours_a_day* (0.00) and *meal_days_on_the_contract_win* (20 days set on the contract, 102.40).
+- ``LEAVE_SCENARIOS`` with several leave types of one payroll code in one payslip, June 2026 on 2 000: *two_unpaid_leave_types* (unpaid leave and unpaid leave for education, a day each: BASIC 1 818.19), *sickness_and_quarantine* (two and three scheduled days: BASIC 1 545.46) and *three_paid_obstacle_types* (a day each: BASIC 1 727.28, GROSS 2 000.01).
+- Scenario keys ``calendar_closures`` (a part of a day closed in the calendar, ``(date, hour from, hour to)``) and ``worked_days`` (real worked days where no absence asks for them), and a fourth element of a leave, ``{"half": "am"}`` or ``{"hours": (8.0, 10.0)}``, booked on a copy of the starter leave type that takes half days or hours.
+
+**Carry-over to 18.0**
+
+- Not yet on 18.0: port the scenarios with the meal-day count of both engines.
+
+[19.0.1.8.5] — 2026-11-21
+=========================
+
+**Added**
+
+- Scenarios *child_of_18_or_over_december_2024* (§ 52zzp ods. 4 and 5 zákona 595/2003 Z. z.: 1 000 € with two children under 18 and one over, bonus 294.44 at 34 % for three children) and *count_of_18_or_over_ignored_from_2025* (850 € in January 2025 with four children under 15 and the number left filled: 368.05 at 50 % for four).
+- ``PART_MONTH_SCENARIOS`` *hourly_rate_three_decimals* (new optional ``hourly_rate`` key: 176 hours at 5.259 €, BASIC 925.59) and *hourly_rate_fractional_hours* (165 hours of a 7.5-hour day, BASIC 867.74).
+
+**Carry-over to 18.0**
+
+- Not yet on 18.0: port the scenarios with the third child counter and the four decimals of the hourly rate.
+
+[19.0.1.8.4] — 2026-11-21
+=========================
+
+**Added**
+
+- ``HOLIDAY_SCENARIOS``, a public holiday of the calendar inside an absence, monthly salary 2 000 €: *sickness_from_a_public_holiday* (sick 1 to 15 May 2026, daily base 40: BASIC 952.39, employee levies 137.12, tax 154.90, NET 932.37 with 272.00 of sick pay), *unpaid_leave_from_a_public_holiday* (BASIC 952.39), *parental_leave_from_a_public_holiday* (whole May: BASIC 0.00), *leave_from_a_public_holiday* (leave booked 3 to 10 April 2026: BASIC 1 636.37, GROSS 2 000.01) and *public_holiday_inside_leave* (leave 27 April to 5 May 2026, May: BASIC 1 809.53, GROSS 2 000.01).
+
+**Carry-over to 18.0**
+
+- Not yet on 18.0: port the scenarios with the public-holiday handling of both engines.
+
+[19.0.1.8.3] — 2026-11-21
+=========================
+
+**Added**
+
+- Scenarios *net_is_income_less_the_rounded_tax* and *net_is_income_less_rounded_tax_plus_rounded_bonus*: NET is the income less the tax advance and plus the child bonus as rounded by § 47 zákona 595/2003 Z. z. (1 238 € in March 2026: 952.85; 918 € with four children: 1 123.89).
+- ``PART_MONTH_SCENARIOS``, run with real worked days (new optional ``contract_start`` and ``contract_end`` keys): *contract_ends_mid_month* (2 000 € ending 15 June 2026: BASIC 1 000.00), *hire_mid_month_whole_cents* (1 000 € from 10 March 2026: BASIC 727.28, NET 504.28), *unpaid_day_whole_cent_gross* (2 005 € with one unpaid day in June 2026: BASIC 1 913.87, employer health 210.52), *full_month_is_exactly_the_salary*, *leave_day_base_and_leave_pay_round_up* (2 000 € with one day of leave in May 2026: BASIC 1 904.77, GROSS 2 000.01), *unpaid_day_below_the_minimum_wage* (900 € with one unpaid day in May 2026: BASIC 857.15, top-up 14.28), *meal_days_are_days_worked* (17 days with five days of leave in June 2026, § 152 ods. 2 Zákonníka práce) and *parental_leave_owes_no_topup* (§ 120 ods. 6).
+- The leave test also checks ``expected_abs``.
+- New optional ``public_holidays`` key: the dates become plain public holidays of a calendar of the scenario's own.
+
+**Changed**
+
+- Wage components are rounded up to the cent, once (owner's decision of 2026-11-21; § 130 ods. 1 Zákonníka práce rounds the wage paid out upward and has no rule for a single component). *employer_obstacle_weather*: BASIC 1 545.45 → 1 545.46, compensation 227.27 → 227.28, GROSS 1 772.72 → 1 772.74. *employer_obstacle_uneven_calendar*: BASIC 1 886.36 → 1 886.37, GROSS 2 000.00 → 2 000.01: two components each rounded up can make GROSS a cent more than the salary.
+
+**Carry-over to 18.0**
+
+- Not yet on 18.0: port the scenarios together with the corresponding fixes of both engines; until then they would fail there.
 
 [19.0.1.8.2] — 2026-11-16
 =========================

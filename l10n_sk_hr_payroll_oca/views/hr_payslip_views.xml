@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sick pay that could not be computed is said on the payslip. -->
+    <record id="hr_payslip_view_form_l10n_sk" model="ir.ui.view">
+        <field name="name">hr.payslip.form.l10n_sk</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="payroll.hr_payslip_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning mb-0" role="alert"
+                     invisible="not l10n_sk_sick_pay_warning">
+                    <field name="l10n_sk_sick_pay_warning" readonly="1"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

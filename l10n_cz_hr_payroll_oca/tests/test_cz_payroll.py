@@ -406,12 +406,13 @@ class TestCzPayroll(TransactionCase):
                              (agreement, wage, declared))
 
     def test_working_pensioner_discount(self):
-        """Premium 7.1 % of 40 011 = 2 840.78; discount 6.5 % rounded up."""
+        """Premium 7.1 % of 40 011 = 2 840.781 -> 2 841 (§ 7 odst. 3 zák.
+        589/1992 Sb.); discount 6.5 % = 2 600.715 -> 2 601; withheld 240."""
         emp, con = self._employee(
             "Dana Duchodkyne", wage=40011.0, l10n_cz_pensioner_discount=True)
         p = self._payslip(emp, con, date(2026, 3, 1), date(2026, 3, 31))
         self.assertEqual(self._t(p, "SOCIAL_PENSIONER"), 2601.0)
-        self.assertAlmostEqual(self._t(p, "SOCIALEETOT"), -239.78, 2)
+        self.assertAlmostEqual(self._t(p, "SOCIALEETOT"), -240.0, 2)
         emp2, con2 = self._employee("Bez Slevy", wage=40011.0)
         q = self._payslip(emp2, con2, date(2026, 3, 1), date(2026, 3, 31))
         self.assertAlmostEqual(self._t(p, "NET") - self._t(q, "NET"), 2601.0, 2)
@@ -668,7 +669,8 @@ class TestCzPayroll(TransactionCase):
 
     def test_sick_nahrada(self):
         """Náhrada mzdy: PHV 200 (< RH1) reduced to 180; 60% x 180 x 40h = 4320,
-        outside GROSS (no insurance) but inside TAXBASE."""
+        outside GROSS (no insurance) and outside TAXBASE (exempt, § 6 odst. 9
+        písm. p) ZDP)."""
         emp, con = self._employee(
             "Nemocny",
             wage=50000.0,
@@ -684,10 +686,113 @@ class TestCzPayroll(TransactionCase):
         self.assertEqual(self._t(p, "GROSS"), 50000.0)  # sick pay not in gross
         self.assertEqual(self._t(p, "SOCIALEE"), -3550.0)  # insurance on gross
         self.assertEqual(self._t(p, "HEALTHEE"), -2250.0)
-        # ... but taxed (§ 6 ZDP): 54320 -> 54400 x 15 % = 8160.
-        self.assertEqual(self._t(p, "TAXBASE"), 54320.0)
-        self.assertEqual(self._t(p, "INCOMETAX"), -8160.0)
-        self.assertEqual(self._t(p, "NET"), 42930.0)
+        # ... and no tax: the base is the gross alone, 50000 x 15 % = 7500.
+        self.assertEqual(self._t(p, "TAXBASE"), 50000.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), -7500.0)
+        # 50000 + 4320 - 3550 - 2250 - (7500 - 2570)
+        self.assertEqual(self._t(p, "NET"), 43590.0)
+
+    def test_sick_pay_is_outside_the_child_bonus_income_test(self):
+        """§ 35d odst. 4 ZDP: the half-minimum-wage test of the monthly bonus
+        leaves exempt income out. Wage 9 000 (under 11 200) and 5 400 of sick
+        pay (PHV 250 -> 225; 60 % x 225 x 40 h): no bonus, although the two
+        together are over the limit."""
+        emp, con = self._employee(
+            "Nemocny Rodic",
+            wage=9000.0,
+            l10n_cz_tax_declaration=True,
+            l10n_cz_children_t1=1,
+            l10n_cz_avg_hourly_earnings=250.0,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip_with_inputs(
+            emp, con, [{"code": "SICK_HOURS", "name": "Nemoc", "amount": 40.0}])
+        self.assertEqual(self._t(p, "SICKNAHRADA"), 5400.0)
+        self.assertEqual(self._t(p, "TAXBASE"), 9000.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), -1350.0)
+        self.assertEqual(self._t(p, "CHILDBONUS"), 0.0)
+
+    def test_sick_pay_counts_for_the_withholding_limit(self):
+        """§ 6 odst. 4 ZDP speaks of "příjmy podle odstavce 1" and names no
+        exception for exempt income: 4 000 of wage with 5 400 of sick pay is
+        not an income under the rozhodný příjem (4 500), so it is taxed by
+        the advance, on the 4 000 alone."""
+        emp, con = self._employee(
+            "Nemocny Bez Prohlaseni",
+            wage=4000.0,
+            l10n_cz_tax_declaration=False,
+            l10n_cz_avg_hourly_earnings=250.0,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip_with_inputs(
+            emp, con, [{"code": "SICK_HOURS", "name": "Nemoc", "amount": 40.0}])
+        self.assertEqual(self._t(p, "TAXBASE"), 4000.0)
+        self.assertEqual(self._t(p, "WHTAX"), 0.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), -600.0)
+
+    def _gross_correction(self, amount):
+        """A correction rule that takes *amount* off the gross of the month.
+        It runs after the minimum wage top-up of the surcharges family (95),
+        which would otherwise lift the corrected wage back to the minimum."""
+        rule = self.env["hr.salary.rule"].create({
+            "name": "Correction of an earlier month",
+            "code": "CORRECTION",
+            "sequence": 97,
+            "company_id": False,
+            "category_id": self.env.ref("l10n_cz_hr_payroll_oca.ALW").id,
+            "condition_select": "none",
+            "amount_select": "fix",
+            "amount_fix": -amount,
+        })
+        self.structure.rule_ids = [(4, rule.id)]
+
+    def test_negative_tax_base_charges_no_advance(self):
+        """A correction month: wage 40 000 less 50 000 is a tax base of
+        -10 000. The advance is 0, not a positive line of 1 500 (15 % of
+        -10 000 with the sign turned), and no credit is set against it."""
+        self._gross_correction(50000.0)
+        emp, con = self._employee(
+            "Zaporny Zaklad", wage=40000.0, l10n_cz_tax_declaration=True)
+        p = self._payslip(emp, con)
+        self.assertEqual(self._t(p, "TAXBASE"), -10000.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), 0.0)
+        self.assertEqual(self._t(p, "TAXCREDIT"), 0.0)
+
+    def test_negative_tax_base_beside_sick_pay_charges_no_advance(self):
+        """No declaration, wage 4 000 less 4 500 and 5 400 of sick pay: the
+        limit of § 6 odst. 4 counts -500 + 5 400 = 4 900, not under 4 500, so
+        the advance rule applies, on a base of -500. It charges 0, not +75."""
+        self._gross_correction(4500.0)
+        emp, con = self._employee(
+            "Zaporny Zaklad S Nemoci",
+            wage=4000.0,
+            l10n_cz_tax_declaration=False,
+            l10n_cz_avg_hourly_earnings=250.0,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip_with_inputs(
+            emp, con, [{"code": "SICK_HOURS", "name": "Nemoc", "amount": 40.0}])
+        self.assertEqual(self._t(p, "TAXBASE"), -500.0)
+        self.assertEqual(self._t(p, "SICKNAHRADA"), 5400.0)
+        self.assertFalse(p.line_ids.filtered(lambda line: line.code == "WHTAX"))
+        self.assertEqual(self._t(p, "INCOMETAX"), 0.0)
+
+    def test_negative_tax_base_withholds_nothing(self):
+        """The same correction without sick pay stays under the limit: the
+        withholding tax applies and is 0 on a base of -500."""
+        self._gross_correction(4500.0)
+        emp, con = self._employee(
+            "Zaporny Zaklad Srazka",
+            wage=4000.0,
+            l10n_cz_tax_declaration=False,
+            resource_calendar_id=self._part_time_calendar(5).id,
+        )
+        p = self._payslip(emp, con)
+        self.assertEqual(self._t(p, "TAXBASE"), -500.0)
+        self.assertTrue(p.line_ids.filtered(lambda line: line.code == "WHTAX"))
+        self.assertEqual(self._t(p, "WHTAX"), 0.0)
+        self.assertFalse(
+            p.line_ids.filtered(lambda line: line.code == "INCOMETAX"))
 
     # -- P3: absence -> payroll (leave-driven) ----------------------------
 
@@ -1209,7 +1314,7 @@ class TestCzPayroll(TransactionCase):
                 self.assertFalse(ltype.requires_allocation)
 
     # ------------------------------------------------------------------
-    # § 192 ZP — sickness compensation: taxed, first 14 calendar days only
+    # § 192 ZP — sickness compensation: first 14 calendar days only
     # ------------------------------------------------------------------
     def test_sick_compensation_stops_after_fourteen_days(self):
         """A DPN lasting all March: the employer pays only 1-14 March
@@ -1223,11 +1328,13 @@ class TestCzPayroll(TransactionCase):
         self.assertEqual(p.l10n_cz_leave_hours("CZSICK"), 176.0)
         self.assertEqual(p.l10n_cz_sick_compensated_hours(), 80.0)
         self.assertEqual(self._t(p, "SICKNAHRADA"), 8640.0)
-        # Taxed (8700 -> 1305), no insurance, no minimum health base left.
-        self.assertEqual(self._t(p, "TAXBASE"), 8640.0)
-        self.assertEqual(self._t(p, "INCOMETAX"), -1305.0)
+        # Exempt from tax (§ 6 odst. 9 písm. p) ZDP), no insurance, no minimum
+        # health base left: the whole compensation is paid out.
+        self.assertEqual(self._t(p, "TAXBASE"), 0.0)
+        self.assertEqual(self._t(p, "INCOMETAX"), 0.0)
+        self.assertEqual(self._t(p, "WHTAX"), 0.0)
         self.assertEqual(self._t(p, "HEALTHEE"), 0.0)
-        self.assertEqual(self._t(p, "NET"), 7335.0)
+        self.assertEqual(self._t(p, "NET"), 8640.0)
 
     def test_sick_fourteen_days_run_across_requests(self):
         """The 14 days count from the first day of an uninterrupted DPN, even

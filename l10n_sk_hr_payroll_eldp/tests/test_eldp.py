@@ -88,8 +88,6 @@ class TestEldp(TransactionCase):
             "date_from": date(2025, 3, 1),
             "date_to": date(2025, 3, 31),
         })
-        if self.engine == "ee":
-            slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
         confirm_payslips(slip)
         return employee, slip

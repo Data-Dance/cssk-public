@@ -184,8 +184,8 @@ These surfaced while building and are tracked in the modules' own
 
 - ❌ **PN's denný vymeriavací základ is still a payslip input** (`PN_DVZ`). It
   derives from the prior year's assessment base, which is not modelled.
-- ❌ **Sickness náhrada (`SICK_COMP`) is not taxed** on the payslip, as a
-  documented simplification. In reality it is subject to income tax.
+- ✅ **Sickness náhrada (`SICK_COMP`) is not taxed** on the payslip: it is
+  exempt from income tax under § 5 ods. 7 písm. f) zákona 595/2003 Z. z.
 - 🟡 **Priemerný zárobok (§ 134) simplifications:** counted gross is the GROSS
   line less the SK náhrada lines rather than a from-scratch § 118 wage
   classification; only the ≥168-hours branch is exercised, not the ≥21-days

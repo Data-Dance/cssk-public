@@ -1153,6 +1153,11 @@ msgid "Findings nobody has answered yet."
 msgstr "Zistenia, na ktoré zatiaľ nikto neodpovedal."
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_company__l10n_cssk_fiscal_country_code
+msgid "Fiscal Country Code"
+msgstr "Kód fiškálnej krajiny"
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__fiscal_country_codes
 msgid "Fiscal Country Codes"
 msgstr "Kódy daňovej krajiny"
@@ -3162,3 +3167,45 @@ msgid ""
 msgstr ""
 "Technické: modul krajiny partnera (l10n_cz, l10n_sk) je nainštalovaný a IČO "
 "už zobrazuje vedľa IČ DPH, preto kópia v skupine Rôzne zostáva skrytá."
+
+#. module: l10n_cssk_core
+#. odoo-javascript
+#: code:addons/l10n_cssk_core/static/src/period_field/period_field.xml:0
+msgid "Next year"
+msgstr "Nasledujúci rok"
+
+#. module: l10n_cssk_core
+#. odoo-javascript
+#: code:addons/l10n_cssk_core/static/src/period_field/period_field.xml:0
+msgid "Previous year"
+msgstr "Predchádzajúci rok"
+
+#. module: l10n_cssk_core
+#. odoo-javascript
+#: code:addons/l10n_cssk_core/static/src/period_field/period_field.xml:0
+msgid "Pick a period"
+msgstr "Vybrať obdobie"
+
+#. module: l10n_cssk_core
+#. odoo-javascript
+#: code:addons/l10n_cssk_core/static/src/period_field/period_field.js:0
+msgid "Period type field"
+msgstr "Pole s typom obdobia"
+
+#. module: l10n_cssk_core
+#. odoo-javascript
+#: code:addons/l10n_cssk_core/static/src/period_field/period_field.js:0
+msgid "Q%(quarter)s"
+msgstr "%(quarter)s. Q"
+
+#. module: l10n_cssk_core
+#. odoo-javascript
+#: code:addons/l10n_cssk_core/static/src/period_field/period_field.js:0
+msgid "Q%(quarter)s %(year)s"
+msgstr "%(quarter)s. štvrťrok %(year)s"
+
+#. module: l10n_cssk_core
+#. odoo-javascript
+#: code:addons/l10n_cssk_core/static/src/period_field/period_field.js:0
+msgid "Tax period (month or quarter)"
+msgstr "Zdaňovacie obdobie (mesiac alebo štvrťrok)"

@@ -13,13 +13,13 @@ preflight from the base — and exports the EPO **Pisemnost / DPHSHV** XML
 (VetaD / VetaP + one VetaR per reported partner line).
 
 Transaction codes come from ``account.tax.cssk_ec_summary_code`` (0 = goods,
-1 = triangular, 2 = services …). The official EPO DPHSHV XSD
+1 = transfer of own goods, 2 = triangular trade, 3 = services). The official EPO DPHSHV XSD
 (``data/dphshv_epo2.xsd``) is wired onto the version record and the export is
 validated against it (``schema.assertValid``) before it is attached.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.4.1",
+    "version": "19.0.1.5.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_ec_summary_base", "l10n_cz", "l10n_cz_statutory"],

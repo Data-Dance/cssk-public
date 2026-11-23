@@ -503,8 +503,22 @@ class HrWageGarnishment(models.Model):
         orders = self._active_orders(employee, date_from, date_to, company)
         if not orders:
             return orders, None
-        rate = self.env["hr.wage.garnishment.rate"]._get_rate(
-            code, self._rate_date(code, date_to, payment_date))
+        rate_date = self._rate_date(code, date_to, payment_date)
+        rate = self.env["hr.wage.garnishment.rate"]._get_rate(code, rate_date)
+        if code == "CZ" and rate.date_from.year != rate_date.year:
+            # § 4 NV 595/2006 Sb. fixes the amounts on 1 January of the year
+            # the wage is paid in, and at least one of the three components
+            # moves every year. The newest record of an earlier year is not
+            # those amounts: say so instead of deducting on them.
+            raise UserError(_(
+                "The Czech wage-garnishment amounts valid on 1 January "
+                "%(year)s are not configured (the newest record is of "
+                "%(last)s). A wage paid in %(year)s is computed on the "
+                "subsistence minimum, normative rent and energy allowance "
+                "valid that day (§ 4 nařízení vlády č. 595/2006 Sb.): add a "
+                "Wage Garnishment Rate record dated 1 January %(year)s under "
+                "Garnishments → Configuration, or update the module.",
+                year=rate_date.year, last=rate.date_from))
         rates = rate._rates_dict()
         claims = [order._as_claim(date_to) for order in orders]
         dependents = self._dependents(employee, code, date_to)

@@ -1,0 +1,18 @@
+.o_cssk_period_toggle {
+    min-width: 11rem;
+    cursor: pointer;
+}
+
+.o_cssk_period_menu {
+    min-width: 15rem;
+}
+
+.o_cssk_period_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.25rem;
+
+    &.o_cssk_period_quarters {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

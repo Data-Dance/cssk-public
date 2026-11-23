@@ -18,6 +18,7 @@
                     <field name="l10n_sk_ztp"/>
                     <field name="l10n_sk_children_under_15"/>
                     <field name="l10n_sk_children_15_18"/>
+                    <field name="l10n_sk_children_over_18"/>
                     <field name="l10n_sk_health_oop_claim"
                            invisible="l10n_sk_agreement_type != 'none'"/>
                 </group>
@@ -25,6 +26,8 @@
                     <field name="l10n_sk_meal_allowance_type"/>
                     <field name="l10n_sk_meal_days"
                            invisible="l10n_sk_meal_allowance_type == 'none'"/>
+                    <field name="l10n_sk_meal_short_shift"
+                           invisible="l10n_sk_meal_allowance_type == 'none' or l10n_sk_meal_days"/>
                     <field name="l10n_sk_meal_voucher_employer"
                            invisible="l10n_sk_meal_allowance_type == 'none'"/>
                     <field name="l10n_sk_meal_voucher_employee"
@@ -44,6 +47,13 @@
                     <field name="l10n_sk_pension_type"/>
                     <field name="l10n_sk_agreement_oop"
                            invisible="l10n_sk_agreement_type == 'none'"/>
+                    <field name="l10n_sk_agreement_oop_reason"
+                           invisible="l10n_sk_agreement_type == 'none' or not l10n_sk_agreement_oop"/>
+                    <field name="l10n_sk_agreement_oop_notified"
+                           invisible="l10n_sk_agreement_type == 'none' or not l10n_sk_agreement_oop"
+                           required="l10n_sk_agreement_oop and l10n_sk_agreement_oop_reason == 'parental'"/>
+                    <field name="l10n_sk_agreement_oop_leave_end"
+                           invisible="l10n_sk_agreement_type == 'none' or not l10n_sk_agreement_oop or l10n_sk_agreement_oop_reason != 'parental'"/>
                     <field name="l10n_sk_health_exempt"
                            invisible="l10n_sk_agreement_type == 'none'"/>
                     <field name="l10n_sk_guarantee_exempt"/>
@@ -70,10 +80,17 @@
                 <group name="l10n_sk_payroll" invisible="company_country_code != 'SK'">
                     <group string="Slovak Payroll" groups="payroll.group_payroll_user">
                         <field name="l10n_sk_tax_declaration_signed"/>
+                        <field name="l10n_sk_tax_principal_id"
+                               options="{'no_create': True}"
+                               invisible="l10n_sk_tax_linked_ids"/>
+                        <field name="l10n_sk_tax_linked_ids" widget="many2many_tags"
+                               readonly="1"
+                               invisible="not l10n_sk_tax_linked_ids"/>
                         <field name="l10n_sk_nczd_pension_annual"/>
                         <field name="l10n_sk_ztp"/>
                         <field name="l10n_sk_children_under_15"/>
                         <field name="l10n_sk_children_15_18"/>
+                        <field name="l10n_sk_children_over_18"/>
                         <field name="l10n_sk_health_oop_claim"
                                invisible="l10n_sk_agreement_type != 'none'"/>
                     </group>
@@ -81,6 +98,8 @@
                         <field name="l10n_sk_meal_allowance_type"/>
                         <field name="l10n_sk_meal_days"
                                invisible="l10n_sk_meal_allowance_type == 'none'"/>
+                        <field name="l10n_sk_meal_short_shift"
+                               invisible="l10n_sk_meal_allowance_type == 'none' or l10n_sk_meal_days"/>
                         <field name="l10n_sk_meal_voucher_employer"
                                invisible="l10n_sk_meal_allowance_type == 'none'"/>
                         <field name="l10n_sk_meal_voucher_employee"
@@ -100,6 +119,13 @@
                         <field name="l10n_sk_pension_type"/>
                         <field name="l10n_sk_agreement_oop"
                                invisible="l10n_sk_agreement_type == 'none'"/>
+                        <field name="l10n_sk_agreement_oop_reason"
+                               invisible="l10n_sk_agreement_type == 'none' or not l10n_sk_agreement_oop"/>
+                        <field name="l10n_sk_agreement_oop_notified"
+                               invisible="l10n_sk_agreement_type == 'none' or not l10n_sk_agreement_oop"
+                               required="l10n_sk_agreement_oop and l10n_sk_agreement_oop_reason == 'parental'"/>
+                        <field name="l10n_sk_agreement_oop_leave_end"
+                               invisible="l10n_sk_agreement_type == 'none' or not l10n_sk_agreement_oop or l10n_sk_agreement_oop_reason != 'parental'"/>
                         <field name="l10n_sk_health_exempt"
                                invisible="l10n_sk_agreement_type == 'none'"/>
                         <field name="l10n_sk_guarantee_exempt"/>

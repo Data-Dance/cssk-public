@@ -14,3 +14,7 @@ this reference must not silently follow the implementation being tested.
 Disclosed correction: the five pension/disability/reserve formulas now apply
 the agreement OOP before the maximum under section 138. No other arithmetic
 is changed. The reference above is updated only for these five reviewed changes.
+
+Disclosed change: the health-minimum formula reads the ``PN_DAYS`` input
+through ``payslip.l10n_sk_input_amount``, the sum of the input lines of that
+code. With one line the arithmetic is unchanged.

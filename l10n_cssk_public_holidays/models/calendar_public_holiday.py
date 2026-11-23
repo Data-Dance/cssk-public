@@ -10,10 +10,35 @@ that year, while payroll still treats it as a holiday on its own rules.
 
 Sources: SK zákon č. 241/1993 Z. z. as amended by 261/2025 Z. z. (effective
 1. 11. 2025); CZ zákon č. 245/2000 Sb.
-"""
-from datetime import date, timedelta
 
-from odoo import api, models
+The working calendars
+---------------------
+Time Off and both payroll engines know a public holiday only as a public
+holiday of the working calendars: a ``resource.calendar.leaves`` record with
+no resource. The lines of the countries named by the system parameter
+``l10n_cssk_public_holidays.calendar_leave_countries`` (default ``SK``) are
+therefore kept as such records, one per company of the country and holiday,
+with no working calendar set, so that every calendar of the company has it.
+"""
+from datetime import date, datetime, time, timedelta
+
+import pytz
+from dateutil.relativedelta import relativedelta
+
+from odoo import api, fields, models
+
+# Countries whose holidays go into the working calendars, comma separated.
+LEAVE_COUNTRIES_PARAM = "l10n_cssk_public_holidays.calendar_leave_countries"
+LEAVE_COUNTRIES_DEFAULT = "SK"
+# The day of rest is a calendar day of the country.
+COUNTRY_TZ = {"SK": "Europe/Bratislava", "CZ": "Europe/Prague"}
+# Context key: lines created in bulk wait for ``cssk_sync_calendar_leaves``.
+NO_LEAVES_KEY = "cssk_no_calendar_leaves"
+CRON_XMLID = "l10n_cssk_public_holidays.ir_cron_cssk_public_holidays"
+# Whole calendar months before the current one that the working calendars
+# are kept for unasked. Payroll for a month is computed early in the next
+# one, so the month just ended is still open and needs its holidays.
+OPEN_MONTHS_BACK = 1
 
 # (month, day, name, from_year, to_year, skipped_years)
 # from_year / to_year are inclusive bounds; None means open.
@@ -113,7 +138,9 @@ class CalendarPublicHoliday(models.Model):
                 existing = set(
                     holiday.line_ids.filtered(lambda line: not line.state_ids).mapped("date")
                 )
-                Line.create(
+                # A year is generated in bulk; ``cssk_sync_calendar_leaves``
+                # puts its days into the working calendars.
+                Line.with_context(**{NO_LEAVES_KEY: True}).create(
                     [
                         {
                             "public_holiday_id": holiday.id,
@@ -129,7 +156,195 @@ class CalendarPublicHoliday(models.Model):
         return records
 
     @api.model
+    def _cssk_default_sync_start(self):
+        """The first day of the earliest month still open for payroll."""
+        return date.today().replace(day=1) - relativedelta(months=OPEN_MONTHS_BACK)
+
+    @api.model
+    def _cssk_kept_years(self):
+        """The years kept present: the open months, this year and the next."""
+        year = date.today().year
+        return tuple(range(self._cssk_default_sync_start().year, year + 2))
+
+    @api.model
     def cssk_generate_next_year(self):
         """Cron entry point: keep the current and the next year present."""
-        year = date.today().year
-        return self.cssk_generate(years=(year, year + 1))
+        records = self.cssk_generate(years=self._cssk_kept_years())
+        # Also reaches a company created since the last run.
+        self.cssk_sync_calendar_leaves()
+        return records
+
+    @api.model
+    def cssk_run_scheduled_action_soon(self):
+        """Ask the scheduled action to run at once.
+
+        For the install hook and the upgrade: while modules are loading,
+        Time Off and payroll may not be in the registry yet, and a public
+        holiday written then would not make them recount what spans it.
+        """
+        cron = self.env.ref(CRON_XMLID, raise_if_not_found=False)
+        if cron:
+            cron._trigger()
+        return bool(cron)
+
+    @api.model
+    def cssk_sync_calendar_leaves(self, date_from=None):
+        """Bring the working calendars in line with the holiday lines.
+
+        Covers the lines dated ``date_from`` or later; when not given, from
+        the first day of the previous calendar month. A public holiday that
+        is new to a company makes Time Off recount the leave that spans it;
+        one that is already there is not written again. Pass an earlier day
+        to put older holidays into the calendars as well.
+        """
+        date_from = date_from or self._cssk_default_sync_start()
+        lines = self.env["calendar.public.holiday.line"].search(
+            [
+                ("date", ">=", date_from),
+                ("public_holiday_id.country_id.code", "in", list(RULES)),
+            ]
+        )
+        lines._cssk_sync_calendar_leaves()
+        return True
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "country_id" in vals:
+            self.line_ids._cssk_sync_calendar_leaves()
+        return res
+
+    def unlink(self):
+        # The lines go by database cascade, which would skip their leaves.
+        self.line_ids._cssk_calendar_leaves().unlink()
+        return super().unlink()
+
+
+class CalendarPublicHolidayLine(models.Model):
+    _inherit = "calendar.public.holiday.line"
+
+    @api.model
+    def _cssk_leave_countries(self):
+        """Codes of the countries whose holidays go into the working calendars."""
+        value = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param(LEAVE_COUNTRIES_PARAM, LEAVE_COUNTRIES_DEFAULT)
+        )
+        codes = {code.strip().upper() for code in (value or "").split(",")}
+        return codes & set(RULES)
+
+    def _cssk_calendar_leaves(self):
+        """The public holidays of the working calendars kept for these lines."""
+        return (
+            self.env["resource.calendar.leaves"]
+            .sudo()
+            .search([("l10n_cssk_public_holiday_line_id", "in", self.ids)])
+        )
+
+    @api.model
+    def _cssk_day_bounds(self, day, country_code):
+        """The calendar day in the country, as naive UTC datetimes."""
+        tz = pytz.timezone(COUNTRY_TZ[country_code])
+
+        def to_utc(moment):
+            local = tz.localize(datetime.combine(day, moment))
+            return local.astimezone(pytz.utc).replace(tzinfo=None)
+
+        return to_utc(time.min), to_utc(time(23, 59, 59))
+
+    def _cssk_sync_calendar_leaves(self):
+        """Create, move, rename or remove the calendar leaves of these lines.
+
+        One public holiday per company of the line's country, for every
+        working calendar of the company. A nationwide line of an enabled
+        country has one; any other line has none. A day on which the company
+        already has a public holiday of its own is left to that record.
+        """
+        Leave = self.env["resource.calendar.leaves"].sudo()
+        countries = self._cssk_leave_countries()
+        companies = {}
+        for line in self.sudo():
+            code = line.public_holiday_id.country_id.code
+            wanted = self.env["res.company"].sudo()
+            if code in countries and not line.state_ids:
+                if code not in companies:
+                    companies[code] = wanted.search(
+                        [("partner_id.country_id.code", "=", code)]
+                    )
+                wanted = companies[code]
+            leaves = line._cssk_calendar_leaves()
+            kept = leaves.filtered(lambda leave: leave.company_id in wanted)
+            (leaves - kept).unlink()
+            if not wanted:
+                continue
+            start, stop = self._cssk_day_bounds(line.date, code)
+            by_company = kept.grouped("company_id")
+            for company in wanted:
+                mine = by_company.get(company, Leave.browse())
+                if mine[1:] or (mine.date_from, mine.date_to) != (start, stop):
+                    # A moved leave is written anew: a change of its dates
+                    # has its company computed again, as the active one.
+                    mine.unlink()
+                    mine = Leave.browse()
+                if mine:
+                    if mine.name != line.name:
+                        mine.name = line.name
+                    continue
+                if Leave.search_count(
+                    [
+                        ("resource_id", "=", False),
+                        ("company_id", "=", company.id),
+                        ("date_from", "<=", stop),
+                        ("date_to", ">=", start),
+                    ],
+                    limit=1,
+                ):
+                    continue
+                leave = Leave.with_company(company).create(
+                    {
+                        "name": line.name,
+                        "calendar_id": False,
+                        "resource_id": False,
+                        "date_from": start,
+                        "date_to": stop,
+                        "time_type": "leave",
+                        "l10n_cssk_public_holiday_line_id": line.id,
+                    }
+                )
+                # Without a calendar the company is computed as the active
+                # one, whenever that happens to be computed.
+                if leave.company_id != company:
+                    leave.company_id = company
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        lines = super().create(vals_list)
+        if not self.env.context.get(NO_LEAVES_KEY):
+            lines._cssk_sync_calendar_leaves()
+        return lines
+
+    def write(self, vals):
+        res = super().write(vals)
+        if {"date", "name", "state_ids", "public_holiday_id"} & set(vals):
+            self._cssk_sync_calendar_leaves()
+        return res
+
+    def unlink(self):
+        self._cssk_calendar_leaves().unlink()
+        return super().unlink()
+
+
+class ResourceCalendarLeaves(models.Model):
+    _inherit = "resource.calendar.leaves"
+
+    l10n_cssk_public_holiday_line_id = fields.Many2one(
+        "calendar.public.holiday.line",
+        string="Public Holiday Line",
+        ondelete="cascade",
+        index="btree_not_null",
+        copy=False,
+        readonly=True,
+        help="The line of the public holiday calendar this public holiday of "
+        "the working calendars is kept for. It follows the line when the "
+        "line is renamed, moved or removed.",
+    )

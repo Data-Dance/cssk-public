@@ -62,14 +62,18 @@ Claim class                    Základná suma na povinného   Na vyživovanú o
 neprednostná (§ 1)             140 % ŽM                     25 % of that
 prednostná (§ 2 ods. 2)        100 % ŽM                     25 % ŽM
 výživné na maloleté (§ 2/1)    70 % of 60 % ŽM              70 % of 25 % ŽM
-pokuta za priestupok (§ 2a)    50 % ŽM                      25 % ŽM
+pokuta za priestupok (§ 2b)    50 % ŽM                      25 % ŽM
 ============================== ============================ =====================
 
-For a *poberateľ dôchodkových dávok* the per-dependant coefficient is 50 %
-instead of 25 %. ``§ 3``: the part of the remainder above 3× the § 1 ods. 1
-basic sum is seized without limitation. ``§ 4``: every one of those sums is
-rounded DOWN to whole cents. The remainder is rounded down to a sum divisible
-by three (in cents).
+Maintenance of a minor child: § 2 ods. 1 of the decree sets 60 % ŽM as the
+sum the protected amount is computed FROM, § 2 ods. 3 adds 25 % ŽM per
+dependant to it, and § 70 ods. 2 Exekučného poriadku protects 70 % of the
+result. For a *poberateľ dôchodkových dávok* (§ 2a) the per-dependant
+coefficient is 50 % instead of 25 %. ``§ 3``: the part of the remainder above
+3× the § 1 ods. 1 basic sum is seized without limitation. ``§ 4``: every one
+of those sums is rounded DOWN to whole cents. § 71 ods. 1 Exekučného
+poriadku: the remainder is rounded down to a sum divisible by three (in
+cents).
 
 Modelling choice (documented deviation)
 +++++++++++++++++++++++++++++++++++++++
@@ -91,7 +95,7 @@ from collections import defaultdict
 # SK: výživné na maloleté dieťa, which carries its own deeper base).
 CLASS_MAINTENANCE = "maintenance"
 CLASS_PRIORITY = "priority"
-CLASS_FINE = "fine"  # SK only — pokuty za priestupky (NV 268/2006 § 2a)
+CLASS_FINE = "fine"  # SK only — pokuty za priestupky (NV 268/2006 § 2b)
 CLASS_ORDINARY = "ordinary"
 
 PRIORITY_CLASSES = (CLASS_MAINTENANCE, CLASS_PRIORITY, CLASS_FINE)
@@ -465,7 +469,7 @@ def compute_cz(net, rates, dependents, claims, digits=0, two_thirds=False,
 # Slovakia
 # ---------------------------------------------------------------------------
 def sk_protected_amount(rates, dependents, claim_class, is_pensioner=False, digits=2):
-    """Základná suma for one claim class per NV 268/2006 § 1, § 2, § 2a."""
+    """Základná suma for one claim class per NV 268/2006 § 1 to § 2b."""
     zm = rates["zivotne_minimum"]
     dep_coeff = (
         rates["dependent_coeff_pensioner"] if is_pensioner else rates["dependent_coeff"]
@@ -474,8 +478,8 @@ def sk_protected_amount(rates, dependents, claim_class, is_pensioner=False, digi
         debtor = zm * rates["basic_coeff"]
         per_dependent = debtor * dep_coeff
     elif claim_class == CLASS_MAINTENANCE:
-        # § 2 ods. 1 — výživné na maloleté dieťa: 70 % of 60 % ŽM, and the
-        # per-dependant amount is 70 % of the ordinary 25 % of ŽM.
+        # § 2 ods. 1 and 3 with § 70 ods. 2 Exekučného poriadku — výživné
+        # na maloleté dieťa: 70 % of (60 % ŽM plus 25 % ŽM per dependant).
         debtor = zm * rates["maintenance_outer_coeff"] * rates["maintenance_inner_coeff"]
         per_dependent = zm * rates["maintenance_outer_coeff"] * dep_coeff
     elif claim_class == CLASS_FINE:

@@ -88,6 +88,13 @@ msgid "Annual Tax Settlement"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_bonus_doplatek
+msgid ""
+"Annual child bonus not yet paid monthly, less a tax underpayment (§ 35d "
+"odst. 7 ZDP)."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_credit
 msgid ""
 "Annual spouse tax credit (24 840; 49 680 for a ZTP/P spouse). Enter the "
@@ -577,6 +584,11 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_gift_max_pct
 msgid "Czechia: Gift deduction cap (% of the annual tax base)"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_retro_declaration
+msgid "Declaration made after the year (§ 38k odst. 7)"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1088,8 +1100,9 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_meal_allowance
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_meal_allowance
 msgid ""
-"Per-shift meal allowance. Tax-exempt up to the statutory limit; the excess "
-"(taxable) is P2."
+"Meal allowance in money per shift worked. Exempt from tax and insurance up "
+"to the statutory limit (70 % of the upper meal limit); what is paid above "
+"it is taxed and insured."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1137,13 +1150,6 @@ msgstr ""
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_karantena
 msgid "Quarantine / Isolation (karanténa)"
-msgstr ""
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_overpayment
-msgid ""
-"Refund paid to the employee in the March payslip. An underpayment is not "
-"collected through the annual reconciliation."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1355,6 +1361,14 @@ msgid "Tax after Credits"
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_overpayment
+msgid ""
+"Tax overpayment left after monthly child bonuses paid in excess were set off"
+" against it (§ 35d odst. 7 ZDP), paid to the employee in the March payslip. "
+"An underpayment is not collected through the annual reconciliation."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__year
 msgid "Tax year that is being reconciled."
 msgstr ""
@@ -1372,6 +1386,16 @@ msgid ""
 "claim. When any is recorded, the payslip and the annual tax reconciliation "
 "count these month by month and the child counts on the contract are not "
 "used."
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_retro_declaration
+msgid ""
+"The employee made the taxpayer declaration for the year only afterwards, by "
+"15 February (§ 38k odst. 7 ZDP). The income taxed by the withholding tax "
+"then enters the reconciliation and the tax withheld counts with the "
+"advances. Otherwise that income is a separate tax base and stays out (§ 6 "
+"odst. 4)."
 msgstr ""
 
 #. module: l10n_cz_hr_payroll_oca
@@ -1484,4 +1508,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_children_ztpp
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_ztpp
 msgid "of which ZTP/P Children"
+msgstr ""
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_meal_allowance_taxable_rule
+#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_meal_taxable
+msgid "Meal Allowance above the Exempt Limit"
 msgstr ""

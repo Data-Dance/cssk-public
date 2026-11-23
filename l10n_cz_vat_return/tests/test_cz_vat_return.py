@@ -59,6 +59,17 @@ class TestCzVatReturn(AccountTestInvoicingCommon):
         from lxml import etree
         return etree.fromstring(base64.b64decode(ret.xml_attachment_id.datas))
 
+    def test_a_period_with_nothing_in_it_says_so(self):
+        """VetaD/@trans: N for a return with no figure, A once it has one."""
+        ret = self._return()
+        ret.action_export_xml()
+        self.assertFalse(any(ret.line_ids.mapped("value")))
+        self.assertEqual(self._root(ret).find(".//VetaD").get("trans"), "N")
+        line = ret.line_ids.filtered(lambda l: l.code == "obrat23")
+        self.assertTrue(line)
+        line.value = 1000.0
+        self.assertEqual(ret._cz_trans(), "A")
+
     def test_filer_block_and_payer_type(self):
         """VetaP comes from the company (l10n_cz_statutory), typ_platce from
         the company's status on the last day of the period."""

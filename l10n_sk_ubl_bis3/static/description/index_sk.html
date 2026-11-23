@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_ubl_bis3/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Slovensko — Peppol BIS Billing 3.0 (eFaktúra)</h1>
 <p class="cssk-summary">Vyhotovuje slovenské elektronické faktúry vo formáte Peppol BIS Billing 3.0, identifikuje slovenské subjekty v sieti Peppol podľa DIČ a zapisuje variabilný symbol tam, kde ho hľadá banka platiteľa.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.3.5.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.3.8.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Nainštaluje sa sám, keď sú nainštalované</th><td><code>account_edi_ubl_cii</code>, <code>l10n_sk</code>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Odoo vie zapísať faktúru ako súbor Peppol BIS Billing 3.0 (UBL 2.1,
@@ -53,7 +53,9 @@ medzery dopĺňa:</p>
   (<em>TaxPointDate</em>, BT-7) a z prijatých faktúr ho číta späť; samotné Odoo
   tento prvok z dátumu dodania faktúry nikdy nevyplní.</li>
 </ul>
-<p>Samotný súbor je čistý Peppol BIS Billing 3.0 bez národného rozšírenia.
+<p>Samotný súbor je čistý Peppol BIS Billing 3.0 bez národného rozšírenia
+a bez slovenského validačného pravidla navyše. Čo slovenské právo žiada nad
+rámec štandardu, je v časti <a href="#transposition">Čo žiada transpozícia</a>.
 Modul súbor vytvorí; na jeho <strong>odoslanie</strong> cez Peppol je potrebný prístupový
 bod, napríklad služba Peppol od Odoo alebo modul
 <a href="/edi_base_peppol/static/description/index_sk.html"><code>edi_base_peppol</code></a> s poskytovateľom ako
@@ -163,8 +165,29 @@ Spoločnosť založená k existujúcemu kontaktu si ponechá jeho schému.</p>
   nainštalovaný modul platobných symbolov, inak jej referencia platby, inak
   číslo faktúry; zredukované na číslice, ponechaných posledných 10.</li>
 <li><strong>TaxPointDate (BT-7)</strong> — dátum dodania z poľa <em>Dátum dodania</em> faktúry, na
-  faktúrach aj dobropisoch. Prijatá faktúra s týmto prvkom vyplní to isté pole
+  faktúrach aj dobropisoch, ak sa líši od dátumu vyhotovenia; súbor bez neho
+  znamená, že sú zhodné. Prijatá faktúra s týmto prvkom vyplní to isté pole
   na dodávateľskej faktúre.</li>
+<li><strong>CompanyLegalForm (BT-33)</strong> — právna forma dodávateľa a zápis v registri
+  (§ 3a Obchodného zákonníka), ak je nainštalovaný modul
+  <a href="/l10n_sk_trade_registry/static/description/index_sk.html"><code>l10n_sk_trade_registry</code></a> a má ich pre
+  vašu spoločnosť; inak sa prvok vynechá.</li>
+<li><strong>Company ID (BT-30 / BT-47)</strong> — IČO slovenského dodávateľa alebo
+  odberateľa z poľa <em>IČO</em> na kontakte, v schéme <code>0158</code>. IČ DPH sa uvádza len
+  ako identifikátor na účely DPH. Slovenský kontakt bez IČO nemá v súbore
+  žiadny identifikátor zákonnej registrácie.</li>
+<li><strong>BillingReference (BT-25 / BT-26)</strong> — na dobropise alebo ťarchopise
+  vytvorenom z faktúry číslo a dátum vystavenia tejto faktúry. Na ručne
+  zadanom dobropise čísla zapísané v poli <em>Čísla pôvodných faktúr</em>, každé s
+  dátumom, ak ide o vašu faktúru pre toho istého odberateľa.</li>
+<li><strong>Note (BT-22)</strong> — obchodné podmienky faktúry. Na dobropise alebo
+  ťarchopise je pred nimi dôvod zadaný v sprievodcovi, ako „Dôvod opravy: …“
+  v jazyku odberateľa.</li>
+<li><strong>InvoiceTypeCode</strong> — 380 pre faktúru, 383 pre ťarchopis; dobropis je
+  samostatný typ dokladu s kódom 381.</li>
+<li><strong>OrderReference (BT-13)</strong> — <em>Referencia zákazníka</em> z faktúry. Na dobropise
+  alebo ťarchopise, ktorého referencia iba cituje pôvodnú faktúru, sa použije
+  referencia pôvodnej faktúry, inak číslo dokladu.</li>
 <li>PDF faktúry vložené do súboru.</li>
 <li>Názov súboru <code>INV_2026_00042_ubl_bis3_sk.xml</code> (číslo faktúry s <code>/</code>
   nahradeným).</li>
@@ -173,16 +196,118 @@ Spoločnosť založená k existujúcemu kontaktu si ponechá jeho schému.</p>
 sú slovenskí, majú DIČ. Ak nie, zastaví sa so správou, ktorá pomenuje kontakt
 a schému, pod ktorou je práve zverejnený. Kontakt registrovaný pod inou
 schémou prejde, ak má DIČ vyplnené.</p>
+<p>Tá istá kontrola zastaví export, keď slovenský dodávateľ alebo odberateľ nemá
+ulicu, mesto alebo PSČ, a keď má pole <em>IČO</em> vyplnené hodnotou, ktorá nie je
+IČO (najviac 8 číslic). Hlásenie uvedie kontakt a čo chýba.</p>
+<p>Takéto kontakty nájdete skôr, než sa faktúra zastaví: otvorte <strong>Kontakty</strong> a
+použite filter <strong>E-faktúra by bola odmietnutá</strong>. Zobrazí slovenské firmy bez
+DIČ, s neúplnou adresou alebo s poľom <em>IČO</em>, ktoré nie je IČO.</p>
+<p>Na dve veci modul iba upozorní žltým pruhom na faktúre a nikdy ju nezastaví:</p>
+<ul>
+<li><strong>Chýba bankový účet</strong> na zatiaľ nezaplatenej odberateľskej faktúre: súbor
+  potom neuvádza, kam zaplatiť. Nastavte <em>Banka príjemcu</em>, ak sa faktúra
+  neplatí v hotovosti alebo kartou.</li>
+<li><strong>Chýba pôvodná faktúra</strong> na ručne zadanom dobropise: vyplňte <em>Čísla
+  pôvodných faktúr</em>, oddelené čiarkou. Pole sa zobrazuje na odberateľskom
+  dobropise, ktorý nevznikol z faktúry.</li>
+</ul>
+<h2 id="transposition">Čo žiada transpozícia</h2>
+<p>Finančná správa zverejňuje <em>Transpozície štandardu Peppol BIS v podmienkach
+Slovenskej legislatívy</em>, zošit, ktorý pri každom termíne štandardu uvádza,
+či ho slovenské právo vyžaduje, podmienene vyžaduje alebo nevyžaduje.
+Vlastné validačné pravidlo nepridáva. Modul bol porovnaný s verziou
+<strong>1.13 (29. októbra 2026)</strong>; súbor, jeho kontrolný súčet a postup kontroly
+novšej verzie sú v súbore modulu <code>data/TRANSPOSITION_VERSION</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Termín</th>
+<th>Čo hovorí transpozícia</th>
+<th>Čo robí modul</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BT-34, BT-49 elektronická adresa</td>
+<td>vyžaduje sa, schéma 0245 = DIČ</td>
+<td>0245 + DIČ; bez DIČ sa export odmietne</td>
+</tr>
+<tr>
+<td>BT-35/37/38, BT-50/52/53 adresa</td>
+<td>vyžaduje sa (§ 74), hoci je v štandarde nepovinná</td>
+<td>export sa odmietne, ak chýba ulica, mesto alebo PSČ</td>
+</tr>
+<tr>
+<td>BT-30, BT-47 zákonná registrácia</td>
+<td>vyžaduje sa, ak bolo IČO pridelené</td>
+<td>IČO v schéme 0158</td>
+</tr>
+<tr>
+<td>BT-31, BT-48 identifikátor pre DPH</td>
+<td>vyžaduje sa, ak bolo IČ DPH pridelené</td>
+<td>IČ DPH z kontaktu</td>
+</tr>
+<tr>
+<td>BT-7 dátum dodania</td>
+<td>len ak sa líši od dátumu vyhotovenia a je známy</td>
+<td>zapíše sa len vtedy</td>
+</tr>
+<tr>
+<td>BT-8 kód dátumu vzniku daňovej povinnosti</td>
+<td>nepoužívať</td>
+<td>nikdy sa nezapíše</td>
+</tr>
+<tr>
+<td>BT-33 právna forma a zápis dodávateľa v registri</td>
+<td>podmienene vyžadované (§ 3a Obchodného zákonníka)</td>
+<td>z modulu obchodného registra, ak je nainštalovaný</td>
+</tr>
+<tr>
+<td>BT-25 predchádzajúca faktúra</td>
+<td>nevyžaduje sa do 1. júla 2030</td>
+<td>zapíše sa na dobropise a ťarchopise vytvorenom z faktúry a z čísel zapísaných na ručne zadanom dobropise; ak nie je ani jedno, upozornenie</td>
+</tr>
+<tr>
+<td>BT-83 informácie o platbe</td>
+<td>variabilný symbol, najviac 10 číslic</td>
+<td>variabilný symbol, posledných 10 číslic</td>
+</tr>
+<tr>
+<td>BT-84 platobný účet</td>
+<td>číslo účtu dodávateľa je povinné</td>
+<td>bankový účet faktúry, ak ho má; ak ho nemá, <strong>upozornenie</strong> na faktúre, export sa neodmietne</td>
+</tr>
+<tr>
+<td>BT-120 text dôvodu oslobodenia</td>
+<td>vyžaduje sa pri oslobodenom plnení</td>
+<td>z dane, ako ho vypĺňa Odoo; <strong>nekontroluje sa</strong></td>
+</tr>
+<tr>
+<td>BT-22 poznámka k faktúre</td>
+<td>nesie zákonné formulácie bez vlastného poľa (napríklad uplatňovanie DPH na základe prijatia platby, § 68d)</td>
+<td>obchodné podmienky faktúry a dôvod na dobropise alebo ťarchopise; zákonné formulácie sa automaticky <strong>nepridávajú</strong></td>
+</tr>
+</tbody>
+</table>
 <h2 id="limitations">Obmedzenia</h2>
 <ul>
-<li>Modul vytvára len súbor. Prenos cez Peppol a oznamovanie údajov z faktúr
-  Finančnej správe zabezpečuje prístupový bod.</li>
+<li>Oslobodená daň bez textu dôvodu a chýbajúca zákonná formulácia sa
+  nekontrolujú: faktúra odíde tak, ako je. Na faktúru bez bankového účtu a
+  na dobropis bez pôvodnej faktúry modul upozorní, ale nezastaví ich.</li>
+<li>
+<p>PSČ sa posiela tak, ako je zapísané, ceny s desatinnými miestami, ktoré
+  drží Odoo, a import nerozlišuje ťarchopis (383) od faktúry.</p>
+</li>
+<li>
+<p>Modul vytvára len súbor. Prenos cez Peppol a oznamovanie údajov z faktúr
+  Finančnej správe zabezpečuje prístupový bod.</p>
+</li>
 <li>Nerozhoduje, ktoré faktúry treba podľa § 85o poslať elektronicky; formát
   ponúka pre každý slovenský kontakt.</li>
 <li>Pri odinštalovaní sa formát z kontaktov odstráni; ich adresy Peppol
   zostanú.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.3.4.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.3.8.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

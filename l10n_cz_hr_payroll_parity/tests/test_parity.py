@@ -12,7 +12,9 @@ payroll databases and both runs must be green. One green run proves half of the
 property and is not evidence of parity.
 """
 
-from datetime import date
+from datetime import date, datetime, time
+
+import pytz
 
 from odoo.addons.l10n_cz_hr_payroll_parity.parity_cz import (
     AVG_EARNINGS_SCENARIOS,
@@ -91,7 +93,46 @@ class TestCzPayrollEngineParity(TransactionCase):
         """
         hours = scenario.get("calendar_hours")
         if not hours:
-            return self.calendar
+            if not scenario.get("holidays"):
+                return self.calendar
+            # Its own calendar, so the public holidays of one scenario are
+            # not on the schedule of the next.
+            calendar = self.env["resource.calendar"].create(
+                {
+                    "name": "CZ Parity %s" % scenario["key"],
+                    "company_id": self.company.id,
+                }
+            )
+            self._add_public_holidays(calendar, scenario["holidays"])
+            return calendar
+        calendar = self._uneven_calendar(scenario, hours)
+        self._add_public_holidays(calendar, scenario.get("holidays", ()))
+        return calendar
+
+    def _add_public_holidays(self, calendar, days):
+        """Public holidays as the payroll learns of them: time off of the
+        working calendar that belongs to no employee."""
+        tz = pytz.timezone(calendar.tz or "UTC")
+        for day in days:
+            day = date(*day)
+            self.env["resource.calendar.leaves"].create(
+                {
+                    "name": "CZ Parity public holiday %s" % day,
+                    "company_id": self.company.id,
+                    "calendar_id": calendar.id,
+                    "resource_id": False,
+                    "date_from": tz.localize(datetime.combine(day, time.min))
+                    .astimezone(pytz.utc)
+                    .replace(tzinfo=None),
+                    "date_to": tz.localize(
+                        datetime.combine(day, time(23, 59, 59))
+                    )
+                    .astimezone(pytz.utc)
+                    .replace(tzinfo=None),
+                }
+            )
+
+    def _uneven_calendar(self, scenario, hours):
         return self.env["resource.calendar"].create(
             {
                 "name": "CZ Parity %s" % scenario["key"],
@@ -131,14 +172,25 @@ class TestCzPayrollEngineParity(TransactionCase):
         employee = self.env["hr.employee"].with_company(self.company).create(vals)
         version_vals = dict(scenario["version"])
         version_vals["resource_calendar_id"] = calendar.id
+        if scenario.get("contract_end"):
+            version_vals["contract_date_end"] = date(*scenario["contract_end"])
         if self.engine == ENGINE_OCA:
             version_vals["struct_id"] = self.structure.id
         employee.version_id.write(version_vals)
+        later = scenario.get("later_version")
+        if later:
+            # A second contract version inside the employment: what a change
+            # entered "from the 15th" is.
+            version = employee.create_version(
+                {"date_version": date(*later["date"])}
+            )
+            version.write(later["values"])
         return employee
 
-    def _compute(self, employee, date_from, date_to, name):
+    def _compute(self, employee, date_from, date_to, name, inputs=()):
         """A REAL payslip: worked-day lines must exist or an absence scenario
         would compare two untouched full-month payslips and pass."""
+        version = employee._get_version(date_to)
         vals = {
             "name": name,
             "employee_id": employee.id,
@@ -148,19 +200,42 @@ class TestCzPayrollEngineParity(TransactionCase):
             "date_to": date_to,
         }
         if self.engine == ENGINE_OCA:
-            vals["contract_id"] = employee.version_id.id
+            vals["contract_id"] = version.id
         else:
-            vals["version_id"] = employee.version_id.id
+            vals["version_id"] = version.id
         slip = self.env["hr.payslip"].with_company(self.company).create(vals)
         if self.engine == ENGINE_OCA:
             # The OCA engine fills worked-day lines from an onchange, which does
             # not fire on create() in a test.
-            worked = slip.get_worked_day_lines(
-                employee.version_id, date_from, date_to
-            )
+            worked = slip.get_worked_day_lines(version, date_from, date_to)
             slip.worked_days_line_ids = [(0, 0, line) for line in worked]
+        if inputs:
+            # The payslip is SAVED before its inputs are typed, as it is in
+            # the form. Enterprise computes the input lines of a new payslip
+            # from the employee's salary attachments when it is first saved,
+            # and that pass removes attachment-type lines it did not create.
+            self.env.flush_all()
+        for code, amount in inputs:
+            self._add_input(slip, version, code, amount)
         slip.compute_sheet()
         return slip
+
+    def _add_input(self, slip, version, code, amount):
+        """One hand-entered "other input" line."""
+        vals = {
+            "payslip_id": slip.id,
+            "name": "CZ Parity %s %s" % (code, amount),
+            "amount": amount,
+        }
+        if self.engine == ENGINE_OCA:
+            vals.update(code=code, contract_id=version.id)
+        else:
+            input_type = self.env["hr.payslip.input.type"].search(
+                [("code", "=", code)], limit=1
+            )
+            self.assertTrue(input_type, "No payslip input type %s" % code)
+            vals["input_type_id"] = input_type.id
+        return self.env["hr.payslip.input"].create(vals)
 
     def _seed_prior_quarter(self, employee):
         """A plain worked March 2026, marked done/validated so it counts as the
@@ -201,13 +276,15 @@ class TestCzPayrollEngineParity(TransactionCase):
     def _build_slip(self, scenario):
         calendar = self._scenario_calendar(scenario)
         employee = self._make_employee(scenario, calendar)
-        self._seed_prior_quarter(employee)
+        if scenario.get("seed", True):
+            self._seed_prior_quarter(employee)
         for name, d_from, d_to in scenario.get("leaves", ()):
             self._book_leave(employee, name, date(*d_from), date(*d_to))
         (y1, m1, d1), (y2, m2, d2) = scenario["period"]
         return self._compute(
             employee, date(y1, m1, d1), date(y2, m2, d2),
             "CZ Parity %s" % scenario["key"],
+            inputs=scenario.get("inputs", ()),
         )
 
     @staticmethod

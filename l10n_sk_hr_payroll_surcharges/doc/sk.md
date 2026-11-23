@@ -1,7 +1,7 @@
 ---
 title: SK mzdové zvýhodnenia a minimálne mzdové nároky
 summary: Zákonné mzdové zvýhodnenia za nočnú prácu, prácu v sobotu, v nedeľu a vo sviatok, za prácu nadčas, mzdová kompenzácia za sťažený výkon práce a náhrada za pracovnú pohotovosť, ako aj doplatok do minimálneho mzdového nároku podľa stupňa náročnosti, v oboch mzdových enginoch.
-verified: 19.0.1.2.8
+verified: 19.0.1.3.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -29,7 +29,7 @@ Ak nie je uvedené inak, odkazy sú na [Zákonník práce](law:sk/2001/311).
 
 | Zvýhodnenie | Paragraf | Najmenej | Z |
 |---|---|---|---|
-| Práca nadčas | [§ 121 ods. 1](law:sk/2001/311#paragraf-121.odsek-1) | dosiahnutá mzda + 25 % (pri rizikových prácach 35 %) | priemerného zárobku |
+| Práca nadčas | [§ 121 ods. 1](law:sk/2001/311#paragraf-121.odsek-1) | dosiahnutá mzda + 25 % (pri rizikových prácach 35 %) | priemerného zárobku (len zvýhodnenie) |
 | Práca vo sviatok | [§ 122 ods. 1](law:sk/2001/311#paragraf-122.odsek-1) | 100 % | priemerného zárobku |
 | Práca v sobotu | [§ 122a](law:sk/2001/311#paragraf-122a) | 50 % (45 % dohodou, ak sa v sobotu pracuje pravidelne) | minimálnej mzdy v eurách za hodinu |
 | Práca v nedeľu | [§ 122b](law:sk/2001/311#paragraf-122b) | 100 % (90 % dohodou, ak sa v nedeľu pracuje pravidelne) | minimálnej mzdy v eurách za hodinu |
@@ -125,9 +125,24 @@ evidujte popri bežnej práci alebo použite vstupy.
   zamestnanca — a pri sviatku a práci nadčas **priemerný hodinový zárobok**
   zamestnanca.
 - **Mzda za prácu nadčas.** Hodiny nadčas sú mimo času, ktorý pokrýva mesačná
-  mzda, preto *Overtime Pay* pridá popri zvýhodnení aj mzdu za tieto hodiny v
-  sume priemerného zárobku. Za hodiny vo sviatok sa pridá len zvýhodnenie;
-  mzda za ne sa predpokladá v základnej mzde.
+  mzda, preto *Overtime Pay* pridá popri zvýhodnení aj dosiahnutú mzdu za
+  tieto hodiny ([§ 121 ods. 1](law:sk/2001/311#paragraf-121.odsek-1):
+  „dosiahnutá mzda a mzdové zvýhodnenie najmenej v sume 25 % jeho priemerného
+  zárobku"). Z priemerného zárobku sa počíta len zvýhodnenie. Suma sa
+  zaokrúhli na eurocent nahor, raz. Dosiahnutá mzda sa berie len zo základnej
+  mzdy alebo sadzby; osobné ohodnotenie ani inú pravidelnú zložku, ktorá by
+  za hodiny nadčas tiež patrila, zmluva nepozná a treba ju zadať ručne. Za
+  hodiny vo sviatok sa pridá len zvýhodnenie; mzda za ne sa predpokladá v
+  základnej mzde. Hodiny nadčas sa platia zo mzdy mesiaca, v ktorom boli
+  odpracované:
+  - pri mesačnej mzde mzda delená počtom hodín, ktoré pracovný kalendár
+    zamestnanca obsahuje v danom mesiaci — vrátane sviatkov a bez odpočítania
+    neprítomností — krát hodiny nadčas. Deliteľom je fond pracovného času
+    samotného mesiaca, nie priemerný mesiac roka: v apríli 2026 (176 hodín) je
+    osem hodín nadčas pri mzde 2 100 € 2 100 × 8 / 176 = 95,46 €, bez ohľadu na
+    priemerný zárobok z predchádzajúceho štvrťroka;
+  - pri hodinovej mzde presná hodinová sadzba krát hodiny nadčas:
+    8 × 7,333 = 58,67 €.
 - **Minimum Wage Top-up** (doplatok). Porovnáva **základnú mzdu** — bez
   zvýhodnení, práce nadčas a náhrad mzdy — s nárokom pre stupeň zmluvy:
   - pri mesačnej mzde s mesačným nárokom zníženým v pomere bežne
@@ -189,8 +204,18 @@ výpočet a tie isté údaje z tohto modulu.
   nevzťahuje), ani minimálnu mzdu za hodinu.
 - **Hodiny sa zadávajú, neodvodzujú.** Modul nedodáva typy pracovných
   záznamov a hodiny neberie z dochádzky ani z kalendára.
-- **Práca nadčas** sa oceňuje priemerným zárobkom; zamestnávateľ, ktorého
-  zmluvy uvádzajú hodinovú mzdu, musí upraviť pravidlo *Overtime Pay*.
+- **Práca nadčas** sa platí len zo základnej mzdy alebo hodinovej sadzby a
+  mesačná mzda sa delí hodinami samotného mesiaca; zamestnávateľ, ktorý delí
+  priemerným mesiacom roka, musí upraviť `_l10n_sk_overtime_fund_hours`.
+  Zmluva bez pracovného kalendára nemá hodiny, ktorými by sa mzda delila, a
+  jej hodiny nadčas sa platia priemerným zárobkom. Náhradné voľno namiesto zvýhodnenia
+  ([§ 121 ods. 3](law:sk/2001/311#paragraf-121.odsek-3)) modul nepozná:
+  hodiny zadané ako `NADCAS` dostanú vždy oba riadky, preto hodiny, za ktoré
+  sa bude čerpať náhradné voľno, nezadávajte, alebo ich zvýhodnenie odoberte
+  ručne. V jadre OCA patria pravidlá zvýhodnení len štruktúre pracovného
+  pomeru, takže dohoda nedostane žiadne; v Enterprise dostane dohoda všetky
+  vrátane práce nadčas, hoci prácu nadčas s dohodárom nemožno dohodnúť
+  ([§ 223 ods. 2](law:sk/2001/311#paragraf-223.odsek-2)).
 - **Pohotovosť** pokrýva len neaktívnu časť mimo pracoviska; neaktívna
   pohotovosť na pracovisku je pracovný čas a modul ju nerozpozná.
 - **Sťažený výkon práce** má jednu sadzbu; sadzby podľa druhu rizika, ktoré

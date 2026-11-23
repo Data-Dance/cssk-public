@@ -97,8 +97,8 @@ The minimum-base rule **does not apply** to defined categories (state pays for t
 Sources: https://financnisprava.gov.cz/cs/financni-sprava/media-a-verejnost/tiskove-zpravy-gfr/tiskove-zpravy-2026/danove-novinky-pro-rok-2026 ; https://www.ey.com/cs_cz/technical/tax/tax-alerts/2024/09/zmeny-v-danovych-limitech-pro-rok-2025
 
 ### Monthly advance computation (záloha na daň), high level
-1. `base = gross` (rounded up to whole 100 Kč, per §38h ZDP).
-2. `advance = 15% * min(base, monthly_threshold) + 23% * max(base - monthly_threshold, 0)`.
+1. `base = gross`, rounded up to whole 100 Kč; a base up to 100 Kč is rounded up to whole crowns (§ 38h odst. 1 ZDP).
+2. `advance = 15% * min(base, monthly_threshold) + 23% * max(base - monthly_threshold, 0)`, rounded up to whole crowns (§ 38h odst. 3 ZDP).
 3. Subtract monthly **slevy na dani** (tax credits) — only if the employee has signed **prohlášení poplatníka** (taxpayer declaration) with this employer → `advance_after_credits = max(advance - credits, 0)`.
 4. Subtract monthly **daňové zvýhodnění na děti**; if it exceeds the tax after credits, the negative part becomes **daňový bonus** (paid out), subject to eligibility.
 5. If no prohlášení signed **and** monthly income is low, a **srážková daň** (15 % withholding, final) regime may apply for certain small incomes / DPP — see §6.
@@ -176,7 +176,7 @@ Source: https://www.idoklad.cz/blog/dohody-o-praci-dpp-dpc-jejich-limity-i-vyhod
 - **Náhrada mzdy = 60 % of the reduced average hourly earnings** (redukovaný průměrný hodinový výdělek). The average hourly earnings from the previous quarter are reduced at three **redukční hranice** (hourly = daily sickness thresholds × 0.175):
   - Derived from the daily sickness reduction thresholds **[2026 confirmed]** 1st **1 633 Kč**, 2nd **2 449 Kč**, 3rd **4 897 Kč** (source: https://www.cssz.gov.cz/-/prehled-nejdulezitejsich-udaju-pro-socialni-zabezpeceni-v-roce-2026 ).
   - Hourly earnings above ≈ **814,80 Kč** are ignored; max náhrada per 40 h ≈ **10 756 Kč** [2026]. Source: https://www.mesec.cz/kalkulacky/nemocenske-nahrada-mzdy/
-- Náhrada mzdy is **not** subject to social/health insurance and (as sick pay) is exempt from income tax.
+- Náhrada mzdy is **not** subject to social/health insurance and is exempt from income tax up to the statutory minimum (§ 6 odst. 9 písm. p) ZDP: "do výše minimálního nároku určeného zvláštním právním předpisem upravujícím pracovně právní vztahy"). A compensation agreed above 60 % (§ 192 odst. 3 ZP) is taxable in its excess; the module pays the statutory amount only.
 
 ---
 
@@ -236,4 +236,4 @@ Sources: https://www.podnikatel.cz/clanky/exekucni-srazky-v-roce-2026-skutecna-n
 | 22 | Fully-attachable threshold (1.9×) | — | **31 521 Kč** | podnikatel.cz |
 | 23 | Minimum wage monthly / hourly | 20 800 / 124,40 Kč | **22 400 / 134,40 Kč** | mpsv.gov.cz |
 
-**Confidence:** rows marked **bold 2026** are confirmed against ČSSZ / MPSV / VZP / Finanční správa 2026 publications. 2025 columns are historical. Rounding conventions (monthly advance base rounded up to 100 Kč; social base rounding) should be verified against §38h ZDP and the ČSSZ methodology before go-live.
+**Confidence:** rows marked **bold 2026** are confirmed against ČSSZ / MPSV / VZP / Finanční správa 2026 publications. 2025 columns are historical. Rounding was read in the consolidated statutes on 2026-11-21 (zakonyprolidi.cz): the social assessment base up to whole crowns (§ 5d zák. 589/1992 Sb.), the social premium up to whole crowns (§ 7 odst. 3), the health premium up to whole crowns (§ 2 odst. 2 zák. 592/1992 Sb., which has no rounding of an employee's base), the advance base up to whole 100 Kč or, up to 100 Kč, to whole crowns (§ 38h odst. 1 ZDP), the advance up to whole crowns (§ 38h odst. 3), the annual tax base down to whole 100 Kč (§ 16 odst. 2) and the tax up to whole crowns (§ 146 odst. 1 daňového řádu).

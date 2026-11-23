@@ -1,18 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_sk_hr_payroll_monthly_tax_overview
+# 	* l10n_sk_hr_payroll_monthly_tax_overview
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-22 20:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: cs_CZ\n"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__message_needaction
@@ -40,9 +41,19 @@ msgid "Activity Type Icon"
 msgstr "Ikona typu aktivity"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_monthly_tax_overview.view_l10n_sk_prehlad_form
+msgid "Amounts"
+msgstr "Částky"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__message_attachment_count
 msgid "Attachment Count"
 msgstr "Počet příloh"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_child_bonus
+msgid "Child tax bonus paid (§ 33)"
+msgstr "Vyplacený daňový bonus (§ 33)"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__company_id
@@ -56,6 +67,8 @@ msgid ""
 "Company '%(company)s' needs a 10-digit DIČ (tax identification number) for "
 "the monthly tax overview <dic> element. Set 'DIČ' on the company."
 msgstr ""
+"Společnost '%(company)s' potřebuje 10místné DIČ (daňové identifikační číslo)"
+" pro element <dic> měsíčního přehledu. Nastavte 'DIČ' na společnosti."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #. odoo-python
@@ -113,6 +126,15 @@ msgid "Date To"
 msgstr "Datum do"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_child_bonus
+msgid ""
+"Daňový bonus podľa § 33 paid to the employees in total (Part II, row A). Row"
+" 5 takes it up to the withheld advances; the rest is row C of Part II."
+msgstr ""
+"Daňový bonus podle § 33 vyplacený zaměstnancům celkem (II. část, ř. A). Do "
+"ř. 5 se uvede nejvýše do výše sražených záloh; zbytek je ř. C II. části."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__submission_state
 msgid "Delivery"
 msgstr "Doručení"
@@ -131,6 +153,22 @@ msgstr "Hlášení zaměstnanců"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__lines_count
 msgid "Employees"
 msgstr "Zaměstnanci"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_entry
+msgid "Enter the amounts by hand"
+msgstr "Zadat částky ručně"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_fallback_reason
+msgid ""
+"Explain the reviewed correction of older payroll without recorded fund "
+"bases. Confirm it before generating the correction; do not recalculate filed"
+" payroll to create historical evidence."
+msgstr ""
+"Zdůvodněte ověřenou opravu starších mezd bez zaznamenaných vyměřovacích "
+"základů. Potvrďte ji před vygenerováním opravy; již podané mzdy kvůli "
+"historickým podkladům nepřepočítávejte."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__submitted_attachment_id
@@ -160,6 +198,17 @@ msgstr ""
 "toho odečíst od záloh na daň v následujících měsících."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_entry
+msgid ""
+"Fill the overview from the amounts entered below instead of summing the "
+"month's payslips. For a company whose wages are computed outside this "
+"database. Ticked by default when no payroll app is installed."
+msgstr ""
+"Přehled se vyplní z částek zadaných níže místo součtu výplatních pásek "
+"měsíce. Pro společnost, jejíž mzdy se počítají mimo tuto databázi. Ve "
+"výchozím stavu zaškrtnuto, není-li nainstalována žádná mzdová aplikace."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__message_follower_ids
 msgid "Followers"
 msgstr "Sledující"
@@ -187,7 +236,7 @@ msgstr "Má zprávu"
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_exception_icon
@@ -231,6 +280,21 @@ msgid "Last Updated on"
 msgstr "Naposledy upraveno dne"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_confirmed_by
+msgid "Legacy calculation confirmed by"
+msgstr "Původní výpočet potvrdil(a)"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_confirmed_at
+msgid "Legacy calculation confirmed on"
+msgstr "Původní výpočet potvrzen dne"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_confirmation_expired
+msgid "Legacy confirmation expired"
+msgstr "Platnost původního potvrzení vypršela"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_monthly_tax_overview.view_l10n_sk_prehlad_form
 msgid "Mark Submitted"
 msgstr "Označit jako podané"
@@ -266,11 +330,6 @@ msgid "Name"
 msgstr "Název"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_calendar_event_id
-msgid "Next Activity Calendar Event"
-msgstr "Další aktivita z kalendáře"
-
-#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr "Termín další aktivity"
@@ -284,6 +343,16 @@ msgstr "Souhrn další aktivity"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_type_id
 msgid "Next Activity Type"
 msgstr "Typ další aktivity"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"No payroll engine is installed (hr.payslip is unavailable), so there are no "
+"payslips to aggregate."
+msgstr ""
+"Není nainstalován žádný mzdový engine (hr.payslip není k dispozici), takže "
+"neexistují žádné výplatní pásky k agregaci."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__message_needaction_counter
@@ -320,6 +389,20 @@ msgid "Payment Date"
 msgstr "Datum výplaty"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_warning
+msgid ""
+"Payslips for which the declaration used the original gross-based calculation"
+" instead of recorded fund bases."
+msgstr ""
+"Výplatní pásky, u nichž výkaz místo zaznamenaných vyměřovacích základů "
+"použil původní výpočet z hrubé mzdy."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_fallback_reason
+msgid "Reason for using the original gross-based calculation"
+msgstr "Důvod použití původního výpočtu z hrubé mzdy"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__report_code
 msgid "Report Code"
 msgstr "Kód výkazu"
@@ -330,6 +413,12 @@ msgid "Request refund of the child tax bonus difference"
 msgstr "Požádat o vrácení rozdílu daňového bonusu na dítě"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid "Reset the overview to draft before changing its amounts."
+msgstr "Před změnou částek vraťte přehled do konceptu."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_monthly_tax_overview.view_l10n_sk_prehlad_form
 msgid "Reset to Draft"
 msgstr "Vrátit do konceptu"
@@ -338,6 +427,11 @@ msgstr "Vrátit do konceptu"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_user_id
 msgid "Responsible User"
 msgstr "Odpovědný uživatel"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_confirmation_digest
+msgid "Reviewed payroll sources"
+msgstr "Ověřené mzdové podklady"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model,name:l10n_sk_hr_payroll_monthly_tax_overview.model_l10n_sk_prehlad
@@ -388,9 +482,25 @@ msgid "Submitted Date"
 msgstr "Datum odeslání"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_tax_advance
+msgid "Tax advances withheld (r. 1)"
+msgstr "Sražené zálohy na daň (ř. 1)"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_taxable_income
+msgid "Taxable income paid (r. 0)"
+msgstr "Vyplacené zdanitelné příjmy (ř. 0)"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__is_correction
 msgid "Technical: true for anything that amends an earlier filing."
 msgstr "Technické: pravda pro vše, co opravuje dřívější podání."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid "The amounts of the overview are entered as positive numbers."
+msgstr "Částky přehledu se zadávají jako kladná čísla."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__correction_reference
@@ -412,9 +522,38 @@ msgstr ""
 "měsíc kalendářního čtvrtletí (březen, červen, září nebo prosinec)."
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"The overview for %(month)02d/%(year)s was generated from payslips and no "
+"payroll app is installed any more, so its child tax bonus cannot be added to"
+" the refund. Enter that month by hand in a new overview."
+msgstr ""
+"Přehled za %(month)02d/%(year)s byl vygenerován z výplatních pásek a mzdová "
+"aplikace už není nainstalována, proto jeho daňový bonus nelze přičíst k "
+"žádosti o poukázání. Zadejte tento měsíc ručně v novém přehledu."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"The refund of the child tax bonus difference adds up the three months of the"
+" quarter, and no overview was generated for %(month)02d/%(year)s. Enter and "
+"generate that month's overview first."
+msgstr ""
+"Žádost o poukázání rozdílu daňového bonusu sčítá tři měsíce čtvrtletí a za "
+"%(month)02d/%(year)s nebyl vygenerován žádný přehled. Nejprve zadejte a "
+"vygenerujte přehled za tento měsíc."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "Typ výjimečné aktivity na záznamu."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_warning
+msgid "Unrecorded fund bases"
+msgstr "Chybějící zaznamenané základy fondů"
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__version_id
@@ -450,3 +589,25 @@ msgstr "Příloha XML"
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__year
 msgid "Year"
 msgstr "Rok"
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_tax_advance
+msgid ""
+"Úhrn zrazených preddavkov na daň: the income-tax advances withheld from the "
+"employees, BEFORE the child tax bonus is taken off. Rows 4 and 8 are "
+"computed from it."
+msgstr ""
+"Úhrn sražených záloh na daň zaměstnancům PŘED odečtením daňového bonusu. "
+"Řádky 4 a 8 se z něj vypočítají."
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_taxable_income
+msgid ""
+"Úhrn zúčtovaných a vyplatených zdaniteľných príjmov: the taxable employment "
+"income settled and paid out to all employees for the month."
+msgstr ""
+"Úhrn zúčtovaných a vyplacených zdanitelných příjmů ze závislé činnosti všech"
+" zaměstnanců za měsíc."
+
+#~ msgid "Next Activity Calendar Event"
+#~ msgstr "Další aktivita z kalendáře"

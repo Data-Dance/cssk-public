@@ -19,6 +19,39 @@ Carry-over to 18.0
   ``res.company`` before porting. Nothing on 18.0 is broken without it -
   18.0 users post the closing by hand as before.
 
+[19.0.1.14.0] — 2026-11-22
+--------------------------
+
+Changed
+~~~~~~~
+
+- **The period is picked as a month or a quarter, first on the form.** The
+  return asked for two free dates in its second column, while *Version* and
+  *Statement Type* above them offered nothing until both were typed. The form
+  now reads company, period type, period, version, statement type. *Period*
+  is one control (widget ``cssk_period`` of ``l10n_cssk_core`` 19.0.1.21.0)
+  showing "October 2026" or "Q4 2026" and offering the months or quarters of
+  a year; the two dates are shown beneath it and follow from the choice. A
+  new return opens on the last closed period, monthly or quarterly as the
+  company's previous return was.
+
+- **The version and the statement type follow from the period.** The version
+  valid for the period (and allowed for its period type) is selected, and
+  with it the regular statement type; moving to a period under another
+  vintage keeps the kind of return. ``create()`` does the same for a caller
+  that gives only the company and the period.
+
+- **The difference identification date shows for an additional return only**
+  (``fa_xml_value`` ``D``, on the Czech form also ``E``), and is required
+  there. It used to be required on any return linked to an original, a
+  corrective one included, which states no such date.
+
+- **All lines of the return are on one screen.** The list was paged by 40,
+  which cut every form in two.
+
+- *Submission Reference* is hidden until the XML is exported, and the period
+  is read-only once it is.
+
 [19.0.1.13.1] — 2026-11-04
 --------------------------
 

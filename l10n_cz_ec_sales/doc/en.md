@@ -1,7 +1,7 @@
 ---
 title: CZ EC Sales List (Souhrnné hlášení)
 summary: The Czech EC sales list — souhrnné hlášení, EPO form DPHSHV — computed from the intra-EU supply taxes of Odoo's Czech chart and exported as EPO XML.
-verified: 19.0.1.4.1
+verified: 19.0.1.5.0
 ---
 
 ## What it is for {#purpose}
@@ -84,10 +84,18 @@ unless a code is already there:
 |---|---|
 | 0% EU G — intra-Community supply of goods | 0 |
 | 0% EU S — intra-Community supply of services | 3 |
+| 0% 3S D — triangular trade, supply by the middle party | 2 |
 
-There is no standard tax for codes **1** and **2**. If you transfer your own
-goods or act as the middle party in a triangular trade, the tax you use for it
-has to be coded yourself — see
+The l10n_cz chart has no tax for a triangular trade, so this module adds two
+for the middle party (§ 17), both at 0 % — the end customer pays the VAT:
+
+| Tax | Reported on |
+|---|---|
+| 0% 3S P — triangular trade, acquisition by the middle party | DPHDP3 row 30 |
+| 0% 3S D — triangular trade, supply by the middle party | DPHDP3 row 31 and the EC sales list, code 2 |
+
+There is no standard tax for code **1**. If you transfer your own goods to
+another member state, the tax you use for it has to be coded yourself — see
 [setting up the framework](module:l10n_cssk_ec_summary_base#setup), which also
 lists the company data the export needs (VAT number, the tax office under
 *Default tax authority*).

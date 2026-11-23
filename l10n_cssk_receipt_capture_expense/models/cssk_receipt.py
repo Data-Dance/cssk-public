@@ -19,6 +19,38 @@ class CSSKReceipt(models.Model):
             receipt.expense_count = len(receipt.expense_ids)
 
     # ------------------------------------------------------------------
+    # a reading that arrives after its expense
+    # ------------------------------------------------------------------
+    def write(self, vals):
+        """A receipt that becomes ``captured`` fills the expenses waiting on it.
+
+        An uploaded photograph makes its expense at once and is read at once,
+        but the reading can fail and succeed only later: a retry by hand, the
+        cron's retry of a transient failure, a review overridden. The expense
+        was filled only inside the upload, so any later success left it an
+        untitled 0.00 that could not be submitted.
+        """
+        # EXTENDS l10n_cssk_receipt_capture
+        res = super().write(vals)
+        if vals.get("state") == "captured":
+            self._fill_waiting_expenses()
+        return res
+
+    def _fill_waiting_expenses(self):
+        """Fill, from each captured receipt, the expenses still waiting on it.
+
+        With sudo: whoever reads the receipt again is usually an accountant,
+        who does not necessarily see the employee's expense.
+        """
+        for receipt in self.sudo().filtered(lambda r: r.state == "captured"):
+            for expense in receipt.expense_ids:
+                if not expense._cssk_awaits_reading():
+                    continue
+                expense = expense.with_company(expense.company_id)
+                expense._cssk_apply_captured_receipt(receipt)
+                expense._cssk_post_reading_result(receipt)
+
+    # ------------------------------------------------------------------
     def _expense_product(self):
         self.ensure_one()
         product = self.company_id.cssk_receipt_expense_product_id

@@ -108,6 +108,58 @@ class TestCzPayrollAccount(TransactionCase):
         self.assertAlmostEqual(residual, net, 2,
             "Net residual on 331 does not match NET")
 
+    def test_meal_allowance_above_the_limit_is_posted(self):
+        """150 Kč a shift against the exempt 129.50: both parts are paid to
+        the employee, so 331 carries them (NET) and 527 the whole allowance.
+        The part above the limit is outside GROSS; unmapped it would be paid
+        but never posted."""
+        employee = self.env["hr.employee"].with_company(self.company).create({
+            "name": "CZ Emp Meal",
+            "company_id": self.company.id,
+            "resource_calendar_id": self.calendar.id,
+            "date_version": date(2024, 1, 1),
+            "contract_date_start": date(2024, 1, 1),
+            "wage": 50000.0,
+            "struct_id": self.structure.id,
+        })
+        version = employee.version_id
+        version.write({
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_meal_allowance": 150.0,
+        })
+        d_from, d_to = date(2026, 3, 1), date(2026, 3, 31)
+        payslip = self.env["hr.payslip"].with_company(self.company).create({
+            "name": "Payslip CZ meal",
+            "employee_id": employee.id,
+            "contract_id": version.id,
+            "struct_id": self.structure.id,
+            "company_id": self.company.id,
+            "date_from": d_from,
+            "date_to": d_to,
+        })
+        # The allowance is per shift worked: the worked-day lines must exist.
+        payslip.worked_days_line_ids = [
+            (0, 0, line)
+            for line in payslip.get_worked_day_lines(version, d_from, d_to)
+        ]
+        payslip.compute_sheet()
+        totals = {line.code: line.total for line in payslip.line_ids}
+        # March 2026: 22 shifts.
+        self.assertAlmostEqual(totals["MEAL"], 2849.0, 2)
+        self.assertAlmostEqual(totals["MEALTAXABLE"], 451.0, 2)
+        payslip.action_payslip_done()
+        move = payslip.move_id
+
+        def balance(code):
+            lines = move.line_ids.filtered(
+                lambda l: l.account_id == self._account(code))
+            return sum(lines.mapped("debit")) - sum(lines.mapped("credit"))
+
+        self.assertAlmostEqual(balance("527"), 3300.0, 2)
+        self.assertAlmostEqual(-balance("331"), totals["NET"], 2)
+        self.assertFalse(
+            move.line_ids.filtered(lambda l: l.name == "Adjustment Entry"))
+
     def test_every_mapping_key_resolves(self):
         """Every code in the map is a rule of the Czech structure and got both
         accounts. A key that resolves to nothing would be skipped silently."""
@@ -184,6 +236,77 @@ class TestCzPayrollAccount(TransactionCase):
         employer_si = (totals.get("SOCIALER", 0.0) + totals.get("HEALTHER", 0.0)
                        + totals["SOCIAL_DISCOUNT"])
         self.assertAlmostEqual(-balance("524"), employer_si, 2)
+
+    def test_payslip_takes_a_journal_of_its_own_company(self):
+        """The engine's default journal is the first general journal the
+        user may see, whichever company owns it. A Czech payslip created
+        without a journal must not carry another company's: its entry could
+        not be posted. The contract's journal wins, then the Salaries
+        journal of the company; a journal given explicitly is kept."""
+        other = self.env["res.company"].create({"name": "Other Co"})
+        self.env.user.company_ids |= other
+        foreign = self.env["account.journal"].with_company(other).create({
+            "name": "First of all", "code": "AAA", "type": "general",
+            "company_id": other.id, "sequence": -100,
+        })
+        env = self.env(context=dict(
+            self.env.context, allowed_company_ids=[self.company.id, other.id]))
+        self.assertEqual(
+            env["account.journal"].search([("type", "=", "general")], limit=1),
+            foreign, "the fixture must reproduce the engine's default")
+        own = env["account.journal"].create({
+            "name": "Wages of the plant", "code": "WPL", "type": "general",
+            "company_id": self.company.id,
+        })
+        employee = env["hr.employee"].create({
+            "name": "CZ Emp Journal",
+            "company_id": self.company.id,
+            "resource_calendar_id": self.calendar.id,
+            "date_version": date(2024, 1, 1),
+            "contract_date_start": date(2024, 1, 1),
+            "wage": 30000.0,
+            "struct_id": self.structure.id,
+        })
+        version = employee.version_id
+
+        def payslip(**extra):
+            return env["hr.payslip"].create(dict({
+                "name": "Payslip CZ journal",
+                "employee_id": employee.id,
+                "contract_id": version.id,
+                "struct_id": self.structure.id,
+                "company_id": self.company.id,
+                "date_from": date(2026, 3, 1),
+                "date_to": date(2026, 3, 31),
+            }, **extra))
+
+        self.assertEqual(payslip().journal_id, self.journal)
+        version.journal_id = own
+        self.assertEqual(payslip().journal_id, own)
+        self.assertEqual(
+            payslip(journal_id=self.journal.id).journal_id, self.journal)
+        # A batch hands its journal over in the context: the engine's rule
+        # (contract's journal, else the batch's) holds while that journal
+        # is of the payslip's company, and not for another company's.
+        version.journal_id = False
+        for month, batch_journal, expected in (
+            (4, own, own), (5, foreign, self.journal),
+        ):
+            batch = env["hr.payslip"].with_context(journal_id=batch_journal.id)
+            self.assertEqual(batch.create({
+                "name": "Payslip CZ batch",
+                "employee_id": employee.id,
+                "contract_id": version.id,
+                "struct_id": self.structure.id,
+                "company_id": self.company.id,
+                "date_from": date(2026, month, 1),
+                "date_to": date(2026, month, 28),
+            }).journal_id, expected)
+        # Posting works with the journal the payslip chose itself.
+        slip = payslip()
+        slip.compute_sheet()
+        slip.action_payslip_done()
+        self.assertEqual(slip.move_id.company_id, self.company)
 
     def test_company_loading_the_chart_later_is_configured(self):
         """The install hook only reached companies already on the Czech chart.

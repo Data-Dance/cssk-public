@@ -19,7 +19,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_surcharges_oca``
-- **Version:** 19.0.1.0.6
+- **Version:** 19.0.1.0.8
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_sk_hr_payroll_oca``, ``l10n_sk_hr_payroll_surcharges``

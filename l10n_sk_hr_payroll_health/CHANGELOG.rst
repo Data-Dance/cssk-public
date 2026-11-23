@@ -5,6 +5,52 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
+* **19.0.1.2.6 (2026-11-21):** on the Enterprise engine the statement reads
+  the recorded fund bases too (``l10n_sk_hr_payroll_ee`` 19.0.1.28.4): wage
+  400 with the deductible item shows item 340.00, base 60.00 and 5.00 % on
+  both engines, where an Enterprise row was reported on gross with no item.
+  A payslip computed before the engine recorded its bases, or changed
+  afterwards, is still reported on gross and the statement names it. Nothing
+  changes on the OCA engine. The statement has no corrective variant, so it
+  never stops for missing records.
+
+* **19.0.1.2.5 (2026-11-21):** the figures of the statement follow § 1 ods. 3
+  vyhlášky č. 159/2018 Z. z. and the item descriptions of the schema. One
+  statement of March 2026 with six payslips reported every figure below
+  wrongly while its grand total, 411.23, was right.
+
+  * A disabled employee is reported in the second group, with the rates of
+    § 12 zákona 580/2004 Z. z. Wage 1 000, advances 55.00 and 25.00: they
+    were added to the first group and the second was written as zeros.
+  * The minimum top-up (§ 16a ods. 4) is part of the employees' advance of
+    the group and of the person's total: wage 200 gives 22.00 for the
+    employer and 10.00 + 13.45 = 23.45 for the employee. The top-ups stood
+    in ``DepositOfInsurance3``, the employer's advance for disabled
+    employees, and ``DepositOfTotal`` left them out.
+  * ``NumberOfDays`` is the days the advance is paid for: the days of
+    employment without sick, nursing, maternity and paternity leave (§ 11
+    ods. 7 písm. m)) and without parental and unpaid leave (§ 11 ods. 3).
+    An employee sick from 2 to 11 March has 21 days, not 31. The days are
+    stored on the statement's row. An employee with no such day and no
+    advance is listed and not counted in the group.
+  * The deductible item is reported, with the employee's base after it and
+    the statutory rates (§ 13 ods. 1 and 4, § 16 ods. 16 to 18): wage 400
+    with the item shows income 400.00, item 340.00, base 60.00 and 5.00 %,
+    where it showed base 400.00, item 0.00 and 0.75 %. The base and the rate
+    are read from the fund bases the payslip recorded; without them the row
+    is reported on its gross as before. The Enterprise payslip records them
+    and does not hand them to the declarations yet.
+  * Income of an agreement is ``TotalReceiptOfOther``; ``ReceiptOfEmployee``
+    is the income of an employment relationship (§ 13a ods. 1).
+  * ``NotAppliedMinimum`` is set for a disabled employee, a health-exempt
+    contract, a DoBPŠ and a month with no day an advance is paid for, where
+    no top-up was charged (§ 16a ods. 2).
+  * The tests of the excluded agreements run on Enterprise: their fixture
+    asked for salary structures only the OCA engine has.
+
+  *18.0 carry-over:* not yet on 18.0. The fund bases are not recorded there,
+  so the deductible item cannot be reported the same way.
+
 * Show an expired legacy confirmation on the insurance declaration and hide obsolete confirmation labels.
 
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:

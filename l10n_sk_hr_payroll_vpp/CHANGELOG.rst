@@ -5,6 +5,17 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
+* **19.0.1.2.2 (2026-11-21):** on the Enterprise engine the statement now
+  checks the recorded fund bases of its payslips, as it does on the OCA
+  engine (``l10n_sk_hr_payroll_ee`` 19.0.1.28.4). No figure changes: every
+  base is still the gross wage. For a period with a payslip computed before
+  Enterprise recorded its bases (19.0.1.26.0), or changed afterwards, an
+  original statement is generated as before and shows a warning naming the
+  payslip; a corrective statement stops until the archived payroll has been
+  compared with the original filing, a reason entered under *Older payroll
+  without recorded fund bases* and *Confirm original gross-based
+  calculation* chosen.
+
 * Show an expired legacy confirmation on the insurance declaration and hide obsolete confirmation labels.
 
 * **19.0.1.2.0 (2026-11-08), not yet on 18.0:** the regular-income

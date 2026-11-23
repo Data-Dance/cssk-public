@@ -65,7 +65,13 @@ class TestPriplatkyOca(TransactionCase):
         return version, employee
 
     def _make_payslip(
-        self, contract, employee, hours_by_code=None, worked=None, absence=None
+        self,
+        contract,
+        employee,
+        hours_by_code=None,
+        worked=None,
+        absence=None,
+        absence_code="DOVOLENKA",
     ):
         vals = {
             "name": "Payslip",
@@ -112,8 +118,8 @@ class TestPriplatkyOca(TransactionCase):
                         0,
                         0,
                         {
-                            "name": "Holiday",
-                            "code": "DOVOLENKA",
+                            "name": "Absence",
+                            "code": absence_code,
                             "number_of_days": -absence[0],
                             "number_of_hours": -absence[1],
                             "contract_id": contract.id,
@@ -241,19 +247,103 @@ class TestPriplatkyOca(TransactionCase):
     def test_overtime_pays_the_hour_and_the_uplift(self):
         contract, employee = self._make_contract("Nadcasnik", 2000.0)
         p = self._make_payslip(contract, employee, {"NADCAS": 10.0})
-        phz = p.l10n_sk_average_hourly_earnings()
         line = p.get_salary_line_total
-        # § 121: the wage for the hour PLUS at least 25 % of average earnings.
-        self.assertAlmostEqual(
-            line("NADCAS_MZDA"), surcharge_amount(10, phz, 100.0), places=2
+        # § 121 ods. 1: the wage achieved for the hours, the salary over the
+        # 176 hours of June 2026: 2 000 x 10 / 176 = 113.6364.
+        self.assertEqual(line("NADCAS_MZDA"), 113.64)
+        # And at least 25 % of average earnings on top. No payslips in the
+        # quarter before: the probable average 11.3636, 28.409.
+        self.assertEqual(line("PRIPLATOK_NADCAS"), 28.41)
+
+    def _confirmed_first_quarter(self, contract, employee):
+        """January to March 2026 without overtime: 176 + 160 + 176 hours."""
+        for month, last_day in ((1, 31), (2, 28), (3, 31)):
+            self._make_dated_payslip(
+                contract,
+                employee,
+                date(2026, month, 1),
+                date(2026, month, last_day),
+                overtime=0.0,
+            ).action_payslip_done()
+
+    def test_overtime_after_a_raise_is_paid_at_the_new_salary(self):
+        """The hours at the wage achieved, the premium on average earnings.
+
+        1 600 a month in the first quarter of 2026, an average of
+        4 800 / 512 = 9.375. From April 2 100, and eight overtime hours in
+        April (176 hours): 2 100 x 8 / 176 = 95.4545 for the hours, and
+        8 x 9.375 x 25 % = 18.75 on top.
+        """
+        contract, employee = self._make_contract("Nadcas Po Zvyseni", 1600.0)
+        self._confirmed_first_quarter(contract, employee)
+        contract.wage = 2100.0
+        april = self._make_dated_payslip(
+            contract, employee, date(2026, 4, 1), date(2026, 4, 30), overtime=8.0
         )
-        self.assertAlmostEqual(
-            line("PRIPLATOK_NADCAS"), surcharge_amount(10, phz, 25.0), places=2
+        self.assertEqual(april.l10n_sk_average_hourly_earnings(), 9.375)
+        line = april.get_salary_line_total
+        self.assertEqual(line("NADCAS_MZDA"), 95.46)
+        self.assertEqual(line("PRIPLATOK_NADCAS"), 18.75)
+        self.assertEqual(line("GROSS"), 2214.21)
+
+    def test_overtime_of_an_hourly_wage_is_paid_at_the_exact_rate(self):
+        """6.125 an hour in the first quarter of 2026, 7.333 from April.
+
+        Eight overtime hours in April: 8 x 7.333 = 58.664 for the hours, and
+        8 x 6.125 x 25 % = 12.25 on the average of the quarter. The 176
+        hours of April are 1 290.608.
+        """
+        contract, employee = self._make_contract(
+            "Nadcas Hodinovy", 0.0, l10n_sk_hourly_wage=6.125
         )
-        # The uplift really is a quarter of the pay for the same hours.
-        self.assertAlmostEqual(
-            line("PRIPLATOK_NADCAS") / line("NADCAS_MZDA"), 0.25, places=3
+        self._confirmed_first_quarter(contract, employee)
+        contract.l10n_sk_hourly_wage = 7.333
+        april = self._make_dated_payslip(
+            contract, employee, date(2026, 4, 1), date(2026, 4, 30), overtime=8.0
         )
+        self.assertEqual(april.l10n_sk_average_hourly_earnings(), 6.125)
+        line = april.get_salary_line_total
+        self.assertEqual(line("BASIC"), 1290.61)
+        self.assertEqual(line("NADCAS_MZDA"), 58.67)
+        self.assertEqual(line("PRIPLATOK_NADCAS"), 12.25)
+        self.assertEqual(line("GROSS"), 1361.53)
+
+    def test_overtime_in_a_month_with_an_unpaid_day_keeps_the_months_divisor(self):
+        """The salary is divided by the month's hours, not by the hours worked.
+
+        June 2026, 176 hours, 2 000 and one unpaid day: the salary is
+        2 000 x 168 / 176 = 1 909.0909, and eight overtime hours are
+        2 000 x 8 / 176 = 90.9091 (over 168 hours they would be 95.24).
+        """
+        contract, employee = self._make_contract("Nadcas Neplatene", 2000.0)
+        p = self._make_payslip(
+            contract,
+            employee,
+            {"NADCAS": 8.0},
+            worked=(22.0, 176.0),
+            absence=(1.0, 8.0),
+            absence_code="NEPLATENE",
+        )
+        line = p.get_salary_line_total
+        self.assertEqual(line("BASIC"), 1909.1)
+        self.assertEqual(line("NADCAS_MZDA"), 90.91)
+        # 8 x 11.3636 x 25 % = 22.7272
+        self.assertEqual(line("PRIPLATOK_NADCAS"), 22.73)
+        self.assertEqual(line("GROSS"), 2022.74)
+
+    def test_overtime_on_a_payslip_of_a_part_of_the_month(self):
+        """The divisor is the whole month, whatever days the payslip covers.
+
+        A payslip of 10 to 30 June 2026 on 2 000: eight overtime hours are
+        2 000 x 8 / 176 = 90.9091, not the salary over the 120 hours of
+        those days.
+        """
+        contract, employee = self._make_contract("Nadcas Cast Mesiaca", 2000.0)
+        p = self._make_dated_payslip(
+            contract, employee, date(2026, 6, 10), date(2026, 6, 30), overtime=8.0
+        )
+        self.assertEqual(p._l10n_sk_overtime_fund_hours(), 176.0)
+        self.assertEqual(p.get_salary_line_total("NADCAS_MZDA"), 90.91)
 
     def test_public_holiday_is_the_uplift_only(self):
         contract, employee = self._make_contract("Sviatocny Robotnik", 2000.0)
@@ -343,6 +433,102 @@ class TestPriplatkyOca(TransactionCase):
         # Claim 915 x 88/176 = 457.50; BASIC prorated to 400.00 -> 57.50 due.
         self.assertAlmostEqual(p.get_salary_line_total("BASIC"), 400.0, places=2)
         self.assertAlmostEqual(p.get_salary_line_total("MIN_WAGE_TOPUP"), 57.50, places=2)
+
+    def test_every_absence_that_cuts_the_wage_cuts_the_claim(self):
+        """§ 120 ods. 6: the monthly claim follows the time worked.
+
+        A month of parental leave, or of any other absence BASIC is cut for,
+        leaves no wage and no hours, so no top-up.
+        """
+        codes = self.env["hr.payslip"].l10n_sk_absence_codes()
+        self.assertEqual(len(codes), 12)
+        for code in codes:
+            with self.subTest(code=code):
+                contract, employee = self._make_contract("Absent %s" % code, 800.0)
+                p = self._make_payslip(
+                    contract,
+                    employee,
+                    worked=(22.0, 176.0),
+                    absence=(22.0, 176.0),
+                    absence_code=code,
+                )
+                self.assertEqual(p._l10n_sk_ordinary_hours(), 0.0)
+                self.assertEqual(p.get_salary_line_total("BASIC"), 0.0)
+                self.assertEqual(p.get_salary_line_total("MIN_WAGE_TOPUP"), 0.0)
+
+    def test_half_a_month_of_parental_leave_halves_the_claim(self):
+        contract, employee = self._make_contract("Polovica Rodicovska", 800.0)
+        p = self._make_payslip(
+            contract,
+            employee,
+            worked=(22.0, 176.0),
+            absence=(11.0, 88.0),
+            absence_code="RODICOVSKA",
+        )
+        self.assertEqual(p._l10n_sk_ordinary_hours(), 88.0)
+        # Claim 915 x 88/176 = 457.50; BASIC 400.00.
+        self.assertEqual(p.get_salary_line_total("BASIC"), 400.0)
+        self.assertEqual(p.get_salary_line_total("MIN_WAGE_TOPUP"), 57.5)
+
+    # ------------------------------------------------------------------
+    # average earnings
+    # ------------------------------------------------------------------
+    def test_overtime_hours_are_time_worked_for_the_average(self):
+        """§ 134 ods. 1: the wage of the quarter over the time worked in it.
+
+        Second quarter of 2026, 520 scheduled hours, 2 000 a month and ten
+        overtime hours each month. The overtime pay is in the wage, so the
+        thirty hours belong to the divisor: 550, not 520.
+        """
+        contract, employee = self._make_contract("Nadcas Priemer", 2000.0)
+        gross = 0.0
+        for month, last_day in ((4, 30), (5, 31), (6, 30)):
+            slip = self._make_dated_payslip(
+                contract, employee, date(2026, month, 1), date(2026, month, last_day)
+            )
+            self.assertGreater(slip.get_salary_line_total("NADCAS_MZDA"), 0.0)
+            gross += slip.get_salary_line_total("GROSS")
+            slip.action_payslip_done()
+        # 113.64 + 28.41, 119.05 + 29.77, 113.64 + 28.41 on top of 6 000.
+        self.assertAlmostEqual(gross, 6432.92, places=2)
+        july = self._make_dated_payslip(
+            contract, employee, date(2026, 7, 1), date(2026, 7, 31), overtime=0.0
+        )
+        self.assertEqual(july.l10n_sk_average_hourly_earnings(), 11.6962)
+
+    def _make_dated_payslip(self, contract, employee, date_from, date_to, overtime=10.0):
+        slip = (
+            self.env["hr.payslip"]
+            .with_company(self.company)
+            .create(
+                {
+                    "name": "Payslip %s" % date_from,
+                    "employee_id": employee.id,
+                    "contract_id": contract.id,
+                    "struct_id": self.structure.id,
+                    "company_id": self.company.id,
+                    "date_from": date_from,
+                    "date_to": date_to,
+                    "input_line_ids": [
+                        (
+                            0,
+                            0,
+                            {
+                                "name": "NADCAS",
+                                "code": "NADCAS",
+                                "amount": overtime,
+                                "contract_id": contract.id,
+                            },
+                        )
+                    ]
+                    if overtime
+                    else [],
+                }
+            )
+        )
+        slip.onchange_dates()
+        slip.compute_sheet()
+        return slip
 
     def test_a_dohodar_gets_no_minimum_wage_topup(self):
         """§ 120 sets claims for a pracovný pomer, not for agreements.

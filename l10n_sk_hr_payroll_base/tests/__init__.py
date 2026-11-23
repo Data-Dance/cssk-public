@@ -3,3 +3,8 @@ from . import test_sick_pay
 from . import test_social_daily_cap
 from . import test_fund_assessment
 from . import test_fund_capture
+from . import test_wage_rounding
+from . import test_meal_days
+from . import test_garnishment
+from . import test_tax_declaration_guard
+from . import test_tax_principal_link

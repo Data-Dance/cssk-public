@@ -66,6 +66,47 @@ class ResPartner(models.Model):
                 and partner.peppol_eas in ('0245', '9950')
             )
 
+    l10n_sk_einvoice_incomplete = fields.Boolean(
+        string="E-invoice would be refused",
+        compute='_compute_l10n_sk_einvoice_incomplete',
+        search='_search_l10n_sk_einvoice_incomplete',
+        help="A Slovak company whose e-invoice the export would refuse: no "
+             "DIČ, an incomplete address, or a Company ID that is not an IČO.",
+    )
+
+    def _l10n_sk_einvoice_is_incomplete(self):
+        self.ensure_one()
+        if not self.is_company or self.parent_id or self.country_code != 'SK':
+            return False
+        builder = self.env['account.edi.xml.ubl_sk']
+        return bool(
+            not self._l10n_sk_get_dic()
+            or builder._l10n_sk_party_constraints('customer', self)
+        )
+
+    @api.depends('is_company', 'parent_id', 'country_id', 'street', 'city', 'zip', 'company_registry', 'l10n_sk_dic')
+    def _compute_l10n_sk_einvoice_incomplete(self):
+        for partner in self:
+            partner.l10n_sk_einvoice_incomplete = partner._l10n_sk_einvoice_is_incomplete()
+
+    def _search_l10n_sk_einvoice_incomplete(self, operator, value):
+        # The IČO rule is not a domain, so the Slovak companies are read and
+        # tested with the very check the export runs.
+        if operator != 'in':
+            return NotImplemented
+        candidates = self.with_context(active_test=False).search([
+            ('is_company', '=', True),
+            ('parent_id', '=', False),
+            ('country_id.code', '=', 'SK'),
+        ])
+        incomplete = candidates.filtered(lambda p: p._l10n_sk_einvoice_is_incomplete())
+        wanted = {bool(v) for v in value}
+        if wanted == {True}:
+            return [('id', 'in', incomplete.ids)]
+        if wanted == {False}:
+            return [('id', 'not in', incomplete.ids)]
+        return []
+
     def _get_edi_builder(self, invoice_edi_format):
         # EXTENDS 'account_edi_ubl_cii'
         if invoice_edi_format == 'ubl_bis3_sk':

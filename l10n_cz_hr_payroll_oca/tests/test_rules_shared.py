@@ -25,3 +25,25 @@ class TestRulesAreShared(TransactionCase):
             if self.env[d.model].browse(d.res_id).company_id
         ]
         self.assertFalse(owned, "rules or categories tied to one company")
+
+    def test_employee_form_offers_the_shipped_structures(self):
+        """OCA payroll's own domain on the employee form is the employee's
+        company only, which hid every structure shipped here."""
+        from lxml import etree
+        from odoo.tools.safe_eval import safe_eval
+
+        arch = etree.fromstring(
+            self.env["hr.employee"].get_view(view_type="form")["arch"])
+        fields_found = arch.xpath("//field[@name='struct_id']")
+        self.assertTrue(fields_found, "the form has the structure field")
+        domain = safe_eval(
+            fields_found[0].get("domain"),
+            {"company_id": self.env.company.id})
+        shipped = self.env["ir.model.data"].search([
+            ("module", "=", "l10n_cz_hr_payroll_oca"),
+            ("model", "=", "hr.payroll.structure"),
+        ]).mapped("res_id")
+        self.assertTrue(shipped, "the module ships structures")
+        offered = self.env["hr.payroll.structure"].search(
+            domain + [("id", "in", shipped)])
+        self.assertEqual(sorted(offered.ids), sorted(shipped))

@@ -59,6 +59,12 @@ class HrEmployee(models.Model):
         readonly=False,
         groups="payroll.group_payroll_user",
     )
+    l10n_sk_children_over_18 = fields.Integer(
+        related="version_id.l10n_sk_children_over_18",
+        inherited=True,
+        readonly=False,
+        groups="payroll.group_payroll_user",
+    )
     l10n_sk_ztp = fields.Boolean(
         related="version_id.l10n_sk_ztp",
         inherited=True,
@@ -83,8 +89,9 @@ class HrEmployee(models.Model):
         readonly=False,
         groups="payroll.group_payroll_user",
     )
-    l10n_sk_hourly_wage = fields.Monetary(
+    l10n_sk_hourly_wage = fields.Float(
         related="version_id.l10n_sk_hourly_wage",
+        digits=(16, 4),
         inherited=True,
         readonly=False,
         groups="payroll.group_payroll_user",
@@ -107,6 +114,24 @@ class HrEmployee(models.Model):
         readonly=False,
         groups="payroll.group_payroll_user",
     )
+    l10n_sk_agreement_oop_reason = fields.Selection(
+        related="version_id.l10n_sk_agreement_oop_reason",
+        inherited=True,
+        readonly=False,
+        groups="payroll.group_payroll_user",
+    )
+    l10n_sk_agreement_oop_notified = fields.Date(
+        related="version_id.l10n_sk_agreement_oop_notified",
+        inherited=True,
+        readonly=False,
+        groups="payroll.group_payroll_user",
+    )
+    l10n_sk_agreement_oop_leave_end = fields.Date(
+        related="version_id.l10n_sk_agreement_oop_leave_end",
+        inherited=True,
+        readonly=False,
+        groups="payroll.group_payroll_user",
+    )
     l10n_sk_garnishment_dependents = fields.Integer(
         related="version_id.l10n_sk_garnishment_dependents",
         inherited=True,
@@ -121,6 +146,12 @@ class HrEmployee(models.Model):
     )
     l10n_sk_meal_days = fields.Integer(
         related="version_id.l10n_sk_meal_days",
+        inherited=True,
+        readonly=False,
+        groups="payroll.group_payroll_user",
+    )
+    l10n_sk_meal_short_shift = fields.Boolean(
+        related="version_id.l10n_sk_meal_short_shift",
         inherited=True,
         readonly=False,
         groups="payroll.group_payroll_user",

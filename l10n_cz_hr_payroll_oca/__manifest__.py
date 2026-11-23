@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic - Payroll",
-    "version": "19.0.1.20.1",
+    "version": "19.0.1.23.1",
     "category": "Human Resources/Payroll",
     "summary": "Czech payroll rules for the payroll engine",
     "countries": ["cz"],
@@ -25,6 +25,7 @@
         "data/hr_payroll_structure_data.xml",
         "views/hr_contract_views.xml",
         "views/hr_employee_views.xml",
+        "views/hr_employee_struct_views.xml",
         "views/hr_leave_type_views.xml",
         "views/hr_rule_parameter_views.xml",
         "views/hr_payroll_cz_annual_tax_recon_views.xml",

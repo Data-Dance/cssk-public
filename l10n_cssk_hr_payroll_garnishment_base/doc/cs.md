@@ -1,7 +1,7 @@
 ---
 title: Srážky ze mzdy CZ/SK
 summary: Evidence českých a slovenských nařízení srážek ze mzdy, zákonné pořadí uspokojení všech nařízení zaměstnance na výplatní pásce, oznámení plátce mzdy soudu či exekutorovi a poukázání srážek příjemci.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.2
 ---
 
 ## K čemu slouží {#purpose}
@@ -254,6 +254,7 @@ skutečně sráželo. Co pojistky uberou, zůstává zaměstnanci.
 | Země | Platí od | Částky |
 |---|---|---|
 | CZ | 1. 1. 2026 | životní minimum 4 860 Kč, normativní nájemné 9 430 Kč, energetický paušál 2 300 Kč (součet 16 590 Kč); 85 %; ¼ na osobu; bez omezení nad 31 521 Kč (1,9 × 16 590); měsíční částka insolvenčního správce (*Insolvency trustee monthly amount*) 1 089 Kč ((750 + 150) × 1,21, vyhl. 313/2007 Sb.) |
+| SK | 1. 7. 2023 | životné minimum 268,88 € |
 | SK | 1. 7. 2024 | životné minimum 273,99 € |
 | SK | 1. 7. 2025 | životné minimum 284,13 € |
 | SK | 1. 7. 2026 | životné minimum 295,22 € |
@@ -267,6 +268,10 @@ základní sumy.
 vzorec. Od 1. 10. 2026 činí životní minimum jednotlivce 5 500 Kč, ale podle
 § 4 nařízení se pro mzdy vyplácené v roce 2026 použije částka k 1. lednu;
 před výpočtem mezd vyplácených v roce 2027 přidejte záznam pro rok 2027.
+Česká mzda vyplácená v roce, který vlastní záznam nemá, se odmítne a
+nepočítá se z částek předchozího roku: to platí i pro mzdu za prosinec 2026
+vyplácenou v lednu 2027. Záznam pro rok 2027 bude dodán, jakmile vláda
+vyhlásí normativní nájemné a energetický paušál pro rok 2027.
 
 ## Oznámení a vyúčtování srážek {#notices}
 

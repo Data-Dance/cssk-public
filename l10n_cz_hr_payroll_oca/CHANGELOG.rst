@@ -5,8 +5,24 @@ Changelog
 [Unreleased]
 ------------
 
+- **19.0.1.23.1 (2026-11-22):** the employee form offers the salary structures shipped here. OCA
+  payroll limits the *Salary Structure* field to the structures of the
+  employee's own company, and the shipped ones belong to no company, so
+  none could be picked and typing a name created an empty structure.
+  Found by opening the form in a browser.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+Owed to the 18.0 branch: 19.0.1.23.0 (2026-11-21: the public holiday inside
+a sickness, the meal allowance above its exempt limit) and all the
+corrections of 19.0.1.22.0 (2026-11-21), the
+rounding, the tax base and the annual reconciliation included, and for the
+engine seam:
+worked days cut at the contract end, the public holiday inside a leave
+(``_l10n_cz_leave_pieces``), the meal days, BASIC in hellers, summed inputs
+and the reliefs of the month's first day. On 18.0 the contract is
+``hr.contract``, so the relief reads the contract in force on the first day.
 
 DISCHARGED 2026-11-09 by af36f8dc on 18.0 (merged as 078362f2), with the
 rest of 19.0's Czech payroll since August — do not port this again.
@@ -35,6 +51,150 @@ Owed to the 18.0 branch: the child tax benefit month by month
 children's counts on ``hr.contract``; the month helpers go on the contract,
 and the reconciliation reads the contract in force on each month's first day
 instead of ``_get_version``.
+
+[19.0.1.23.0] — 2026-11-21
+--------------------------
+
+Fixed
+~~~~~
+
+- **A public holiday inside a sickness or a quarantine is a day of the
+  sickness.** § 192 odst. 1 of the Labour Code gives the employer's
+  compensation "za dny, které jsou pro zaměstnance pracovními dny, a za
+  svátky, za které jinak přísluší zaměstnanci náhrada mzdy nebo se mu plat
+  nebo mzda nekrátí". The holiday was paid as wage and left out of the
+  compensated hours. Wage 50 000, sickness 1 to 9 January 2026: the wage was
+  36 363.64 (128 of 176 hours) with 48 hours compensated; it is 34 090.91
+  (120 hours) with 56 hours compensated. After the first 14 calendar days
+  the holiday earns neither. Dovolená keeps the holiday out of the leave
+  (§ 219 odst. 2) as before, and nothing changes for unpaid leave, family
+  care and maternity, parental or paternity leave, which no provision
+  settles this way.
+- **A meal allowance in money above the exempt limit is paid, taxed and
+  insured.** § 6 odst. 9 písm. b) of the Income Tax Act exempts the
+  allowance up to 70 % of the upper meal limit for a shift (129.50 Kč in
+  2026). The rule paid ``min(allowance, limit)``, so the part above the limit
+  was not paid at all. The ``MEAL`` line stays the exempt part; the new line
+  ``MEALTAXABLE`` (*Meal Allowance above the Exempt Limit*) carries the rest.
+  It is taxable income, so it is added to ``TAXBASE``, and income that is
+  not exempt from the tax is in both assessment bases (§ 5 odst. 1 zák.
+  589/1992 Sb., § 3 odst. 1 zák. 592/1992 Sb.): it is added to the social
+  base, with the count towards the annual maximum and the 5 % discount, to
+  the health base and to the income tested against the insurance limit of a
+  DPP or DPČ. It is no wage: it stays outside ``GROSS`` and is paid out at
+  net pay like the exempt part. Neither part is rounded, the statute gives
+  no rounding. 150 Kč a shift, 21 shifts, wage 50 000: 3 150 paid (was
+  2 719.50), 430.50 above the limit, social base 50 431, health premium on
+  50 430.50, advance on 50 500, net pay 42 294. The net wage a garnishment
+  is computed from does not include the allowance, and is lowered by the
+  tax and insurance on the part above the limit.
+
+[19.0.1.22.0] — 2026-11-21
+--------------------------
+
+Fixed
+~~~~~
+
+- **The employee's social insurance premium is rounded up to whole crowns**
+  (§ 7 odst. 3 zák. 589/1992 Sb.: "Pojistné se zaokrouhluje na celé koruny
+  směrem nahoru"). A gross of 51 263 withheld 3 639.67 and the hellers reached
+  the net pay, while the monthly return reported 3 640. The ``SOCIALEE`` line
+  now carries the premium itself; the assessment base is the amount of the
+  ``SOCIALER`` line.
+- **The social assessment base is rounded up to whole crowns** (§ 5d: a gross
+  of 30 000.40 is insured on 30 001), on the payslip, in the count towards
+  the annual maximum and in the employer's 5 % discount line, whose 1.5×
+  average-wage limit is rounded up as well (§ 7a odst. 3 písm. a)).
+- **The income tax advance is rounded up to whole crowns** (§ 38h odst. 3
+  ZDP). It showed above the 23 % threshold: 150 000 in 2026 gave 22 747.92,
+  now 22 748.
+- **An advance base up to 100 Kč is rounded up to whole crowns**, not to
+  100 Kč (§ 38h odst. 1 ZDP).
+- **The annual tax of the reconciliation is rounded up to whole crowns**
+  (§ 146 odst. 1 daňového řádu): a base of 2 000 000 in 2026 gave 318 975.04,
+  now 318 976.
+- **Sickness compensation is not taxed.** The employer's compensation for
+  the first 14 days of an incapacity is exempt from income tax up to the
+  statutory minimum (§ 6 odst. 9 písm. p) of the Income Tax Act), and the
+  payslip pays exactly that minimum (§ 192 odst. 2 of the Labour Code).
+  19.0.1.13.0 had added it to the tax base; that change is taken back. Wage
+  40 000 with 5 400 of compensation was charged an advance of 4 240 instead
+  of 3 430. It is out of the tax base again, so out of the advance
+  (§ 38h odst. 1), of the income test of the monthly child bonus (§ 35d
+  odst. 4) and of the income of the annual tax reconciliation. Payslips
+  confirmed in between keep the tax they were computed with; recompute them
+  before confirming, or correct the confirmed ones. The limits that decide
+  between the withholding tax and the advance (§ 6 odst. 4) still count it:
+  that paragraph names no exception for exempt income. Insurance is
+  unchanged: the compensation was and stays outside both bases.
+- **Annual tax reconciliation: monthly child bonuses already paid are set
+  off against the result** (§ 35d odst. 7; rows 28 to 32 of the form
+  *Výpočet daně a daňového zvýhodnění*). The tax overpayment and the bonus
+  difference were each floored at zero, so bonuses paid in months of low
+  income were never taken back when the year's tax covered the whole child
+  benefit. One child, six months at 15 000 and six at 60 000: the
+  reconciliation paid 9 522, the Act gives 1 920. With a year's income under
+  six minimum wages the monthly bonuses paid are kept (§ 35d odst. 6), an
+  annual bonus under 100 Kč is not claimable (§ 35c odst. 3), the sum is paid
+  only above 50 Kč and a negative sum is not collected (§ 35d odst. 8), as
+  before. *Overpayment* and *Bonus top-up* now show what is left of each
+  after the set-off.
+- **Annual tax reconciliation: payslips taxed by the withholding tax stay
+  out.** Their income is a separate tax base (§ 6 odst. 4), yet it was added
+  to the annual base while the tax withheld was not counted, so it was taxed
+  twice. Three months at 4 000 withheld, then nine at 40 000: refund 5 910
+  instead of 7 710.
+- **A negative tax base gave a positive tax line.**
+  A correction month whose gross is negative left the advance rule with a
+  negative base, and with sick pay beside it the § 6 odst. 4 limit can send
+  such a payslip to the advance: the line then came out positive, a refund
+  of tax the payslip may not make. The advance is 0 for a base that is not
+  positive, as the withholding tax already was.
+
+Each of the following gave a different payslip than the Enterprise engine on
+the same input; the parity scenarios of ``l10n_cz_hr_payroll_parity`` now hold
+both engines to one figure.
+
+- **A leaver was paid the whole month.** The worked days ran to the end of
+  the period whatever the contract end: a salary of 50 000 ending on
+  15 January 2026 paid 50 000.00. They now end with the contract, 88 of 176
+  hours, 25 000.00. The same cut applies to a contract version replaced
+  inside the month.
+- **A leave that touches a public holiday of the working calendar.** A
+  leave beginning on the holiday was filed whole as the holiday: dovolená,
+  sickness or unpaid leave of 1-9 January 2026 paid the full wage, with no
+  leave, no náhrada and no sick pay. A leave beginning before the holiday
+  counted the holiday as leave: dovolená over Easter 2026 was 64 hours
+  instead of 48. Each piece of time off now goes to the leave that covers
+  it, and a public holiday is the holiday whatever lies over it: it is not
+  counted into dovolená (§ 219 odst. 2 ZP) and a monthly wage is not reduced
+  for it (§ 115 odst. 3 ZP). Dovolená of 1-9 January: 36 363.64 + 14 400.00
+  at an average of 300.
+- **The meal allowance was paid for every scheduled day**, days of leave,
+  sickness and public holidays included. It is paid per shift worked
+  (§ 6 odst. 9 písm. b) ZDP): 129 Kč with two days of leave in June 2026 is
+  2 580.00, not 2 838.00.
+- **The basic wage reached the bases unrounded.** 30 000 with three days of
+  leave showed a gross of 30 000.00 and computed the health premium and the
+  tax from a fraction of a heller more: 1 351 and 4 515 instead of 1 350 and
+  4 500. ``BASIC`` is now in hellers.
+- **Several inputs of one code were not added up.** Two deductions of 500
+  and 300 deducted 300. ``DEDUCTION``, ``REIMBURSEMENT``, ``ATTACH_SALARY``,
+  ``ASSIG_SALARY`` and ``CHILD_SUPPORT`` now sum their input lines.
+- **The disability and ZTP/P reliefs follow the first day of the month**
+  (§ 35ba odst. 3 ZDP: "na jehož počátku"). A disability entered on a
+  contract version dated 15 March counted in March on a payslip computed on
+  that version; it now counts from April, and one that ends inside a month
+  still counts for that month.
+
+Added
+~~~~~
+
+- **Annual tax reconciliation: *Declaration made after the year (§ 38k
+  odst. 7)*.** When the employee makes the taxpayer declaration for the year
+  afterwards, by 15 February, tick it: the income taxed by the withholding
+  tax then enters the reconciliation and the tax withheld counts with the
+  advances.
 
 [19.0.1.20.1] — 2026-11-10
 --------------------------

@@ -27,6 +27,8 @@ RULE_ACCOUNT_MAP = {
     "GROSS": ("521", "331"),
     "SICKNAHRADA": ("521", "331"),
     "MEAL": ("527", "331"),
+    # What is paid of it above the exempt limit: outside GROSS too.
+    "MEALTAXABLE": ("527", "331"),
     "SOCIALEE": ("336", "331"),
     # Working pensioner discount: a positive line that lowers the employee's
     # premium and raises the net pay: DR 336 / CR 331.

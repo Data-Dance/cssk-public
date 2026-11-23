@@ -202,7 +202,7 @@ mapovanie, ktoré už na fiškálnej pozícii je.
 
 Pri inštalácii sa mapovanie doplní každej spoločnosti, ktorá už dane OSS má.
 Spoločnosti, ktoré OSS nikdy nepoužili, ostanú bez zmeny. Mapovanie je návrh,
-rovnako ako v samotnom Odoo: skontrolujte ho podľa tovaru, ktorý predávate.
+rovnako ako v samotnom Odoo: skontrolujte ho podľa tovaru, ktorý predávate. Tabuľka Odoo nenavrhuje každú zníženú sadzbu: rakúskych 4,9 % na základné potraviny (od 1. júla 2026), fínskych 13,5 % (okrem iného potraviny; do konca roka 2025 to bolo 14 %) a litovských 12 % (od roku 2026) slovenskému ani českému predajcovi nikdy nenavrhne, preto pri predaji takého tovaru daň vytvorte a na fiškálnej pozícii namapujte ručne. Priznanie označí každú sadzbu, ktorá nie je základnou sadzbou štátu, ako zníženú.
 
 **Upozornenia exportu.** Kontroly, ktoré export nezastavia, sa zobrazia v
 žltom pruhu navrchu formulára a v chatteri až do ďalšieho exportu.

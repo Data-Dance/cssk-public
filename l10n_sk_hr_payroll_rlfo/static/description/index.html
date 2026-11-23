@@ -31,8 +31,8 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <main class="cssk-doc">
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_hr_payroll_rlfo/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Social Insurance Registration of Employees (RLFO)</h1>
-<p class="cssk-summary">Registrations (prihláška) and de-registrations (odhláška) of employees with the Sociálna poisťovňa, entered as a batch of events and exported as XML checked against the official schema.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
+<p class="cssk-summary">Registrations (prihláška) and de-registrations (odhláška) of employees with the Sociálna poisťovňa, and the notice of an agreement&#x27;s OOP, entered as a batch of events and exported as XML checked against the official schema.</p>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Before an employee starts work, the employer registers them with the
@@ -104,7 +104,7 @@ one in RLZEC 2026.</p>
 </tr>
 <tr>
 <td><em>Event type</em></td>
-<td><em>Registration</em> (prihláška, <code>PA</code>) or <em>De-registration</em> (odhláška, <code>OD</code>)</td>
+<td><em>Registration</em> (prihláška, <code>PA</code>), <em>De-registration</em> (odhláška, <code>OD</code>) or <em>Change (agreement OOP)</em> (zmena, <code>ZM</code>)</td>
 </tr>
 <tr>
 <td><em>Relationship type (typZec)</em></td>
@@ -117,6 +117,26 @@ one in RLZEC 2026.</p>
 <tr>
 <td><em>Insurance end (datZaniku)</em></td>
 <td>required for a de-registration</td>
+</tr>
+<tr>
+<td><em>Change applies from (datUplatnenia)</em></td>
+<td>required for a change</td>
+</tr>
+<tr>
+<td><em>OOP claim notified (datOznUplatnOop)</em></td>
+<td>registration or change of an agreement: the day the worker notified the OOP claim; proposed from the contract</td>
+</tr>
+<tr>
+<td><em>OOP on the ground of leave (uplatnOopMdOdRd)</em></td>
+<td>the claim is made by a person on maternity, paternity or parental leave; proposed from the contract</td>
+</tr>
+<tr>
+<td><em>OOP end notified (datOznUkoncUplatnOop)</em></td>
+<td>change: the day the worker notified that the OOP is no longer claimed (hidden column)</td>
+</tr>
+<tr>
+<td><em>Leave ends (datSkonceniaMdOdRd)</em></td>
+<td>change: the last day of the leave (hidden column)</td>
 </tr>
 <tr>
 <td><em>Statutory owner 50%+</em></td>
@@ -168,19 +188,50 @@ agreement branch of the schema.</p>
 event. It is not taken from the employee's <em>Guarantee-insurance exempt</em> box,
 which can change later. Once the batch is generated both fields are locked;
 reset the batch to draft to correct them.</p>
+<h3 id="oop">The agreement OOP</h3>
+<p>The employer reports a worker's claim of the <em>odvodová odpočítateľná položka</em>
+on an agreement, and its end, no later than the first working day after the
+worker notified it
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-1.pismeno-e">§ 231 ods. 1 písm. e)</a>).</p>
+<ul>
+<li><strong>Claimed when the agreement starts:</strong> fill in <em>OOP claim notified</em> on the
+  registration.</li>
+<li><strong>Claimed or ended later:</strong> add a <em>Change (agreement OOP)</em> line with the day
+  the change applies from and the notice date that fits — the claim, or its
+  end.</li>
+<li><strong>A parent on maternity, paternity or parental leave</strong> (DoVP and DoPČ,
+  from 2027): also tick <em>OOP on the ground of leave</em>. When the leave ends,
+  file a change with <em>Leave ends</em>. Both are fields of the RLZEC 2027 form, so
+  the batch must be for January 2027 or later; a claim notified in December
+  2026 for January goes into a January 2027 batch.</li>
+</ul>
+<p>The claim, the ground and the notice date are proposed from the contract's
+<em>OOP Agreement</em>, <em>OOP Ground</em> and <em>OOP Notice Received</em>; check them, they are
+not re-read later. The OOP fields are accepted on the agreement relationship
+types only.</p>
 <p>Then <strong>Generate</strong>. The XML is validated against the vintage's schema
 (<code>RLZEC-v2026.xsd</code> or <code>RLZEC-v2027.xsd</code>) and attached;
 upload it to the Sociálna poisťovňa portal and click <strong>Mark Submitted</strong>. A
 de-registration is written in the branch that matches its relationship type
 (agreement, irregular income, or regular employment).</p>
 <p>Generation stops if the batch has no events, if an employee lacks a valid
-birth number, if a date required for the event is missing, or if a
-registration's ownership status is <em>Not reviewed</em> or has no evidence.</p>
+birth number, if a date required for the event is missing, if a
+registration's ownership status is <em>Not reviewed</em> or has no evidence, if a
+change reports nothing, or if an OOP field is filled in where the form does
+not take it (outside an agreement, the ground of leave on a DoBPŠ or before
+the 2027 form).</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li><strong>Two event types only:</strong> registration and de-registration. A change
-  (<em>zmena</em>), an interruption (<em>prerušenie</em>) or a cancelled registration
-  (<em>zrušenie prihlásenia</em>) must be filed through the portal.</li>
+<li><strong>Registration, de-registration and one kind of change:</strong> the agreement
+  OOP. Any other change (<em>zmena</em>), an interruption (<em>prerušenie</em>) or a
+  cancelled registration (<em>zrušenie prihlásenia</em>) must be filed through the
+  portal.</li>
+<li><strong>The OOP fields follow the schema and the act, not a published filling
+  guide.</strong> When this was written (November 2026) the Sociálna poisťovňa had
+  published the RLZEC 2027 schema and its list of changes, but no
+  instructions for the two new fields. The portal's own checks may ask for a
+  combination the module does not produce; compare the first filing with the
+  portal form.</li>
 <li><strong>Nothing is filled in from the contracts but the relationship type.</strong> The
   dates are entered by hand and are not checked against the contract or the
   employee's hire and departure dates, and no event is created when an
@@ -193,11 +244,10 @@ registration's ownership status is <em>Not reviewed</em> or has no evidence.</p>
   the user who generates the batch.</li>
 <li>A change of the ownership status after the registration is a <em>zmena</em>,
   which this module does not produce.</li>
-<li>RLZEC 2026 and 2027 are shipped. The 2027 schema's new elements for the
-  agreement OOP of a parent on maternity, paternity or parental leave are not
-  produced. Schema validation checks the shape of the file, not the data.</li>
+<li>RLZEC 2026 and 2027 are shipped. Schema validation checks the shape of the
+  file, not the data.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text checked against module version: 19.0.1.3.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li></ul><p>Text checked against module version: 19.0.1.4.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

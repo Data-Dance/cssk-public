@@ -9,7 +9,7 @@ SK Social Insurance Registration of Employees (RLFO)
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
    :alt: License: AGPL-3
 
-**Registrations (prihláška) and de-registrations (odhláška) of employees with the Sociálna poisťovňa, entered as a batch of events and exported as XML checked against the official schema.**
+**Registrations (prihláška) and de-registrations (odhláška) of employees with the Sociálna poisťovňa, and the notice of an agreement's OOP, entered as a batch of events and exported as XML checked against the official schema.**
 
 What it is for
 ================
@@ -55,13 +55,23 @@ Add one line per event under *Registration events*:
    * - *Employee*
      - the employee
    * - *Event type*
-     - *Registration* (prihláška, ``PA``) or *De-registration* (odhláška, ``OD``)
+     - *Registration* (prihláška, ``PA``), *De-registration* (odhláška, ``OD``) or *Change (agreement OOP)* (zmena, ``ZM``)
    * - *Relationship type (typZec)*
      - proposed from the employee's contract, editable — see below
    * - *Insurance start (datVznikPoist)*
      - required for both event types
    * - *Insurance end (datZaniku)*
      - required for a de-registration
+   * - *Change applies from (datUplatnenia)*
+     - required for a change
+   * - *OOP claim notified (datOznUplatnOop)*
+     - registration or change of an agreement: the day the worker notified the OOP claim; proposed from the contract
+   * - *OOP on the ground of leave (uplatnOopMdOdRd)*
+     - the claim is made by a person on maternity, paternity or parental leave; proposed from the contract
+   * - *OOP end notified (datOznUkoncUplatnOop)*
+     - change: the day the worker notified that the OOP is no longer claimed (hidden column)
+   * - *Leave ends (datSkonceniaMdOdRd)*
+     - change: the last day of the leave (hidden column)
    * - *Statutory owner 50%+*
      - for a registration: *Not reviewed* (the default), *Not a statutory member with at least 50% ownership*, or *Statutory member with at least 50% ownership*
    * - *Ownership evidence*
@@ -92,14 +102,29 @@ The relationship type is proposed from the contract's *Agreement Type* and *Regu
 
 The ownership status is a fact as of the registration, entered for each event. It is not taken from the employee's *Guarantee-insurance exempt* box, which can change later. Once the batch is generated both fields are locked; reset the batch to draft to correct them.
 
+The agreement OOP
+-------------------
+
+The employer reports a worker's claim of the *odvodová odpočítateľná položka* on an agreement, and its end, no later than the first working day after the worker notified it (`§ 231 ods. 1 písm. e) <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-231.odsek-1.pismeno-e>`__).
+
+- **Claimed when the agreement starts:** fill in *OOP claim notified* on the registration.
+
+- **Claimed or ended later:** add a *Change (agreement OOP)* line with the day the change applies from and the notice date that fits — the claim, or its end.
+
+- **A parent on maternity, paternity or parental leave** (DoVP and DoPČ, from 2027): also tick *OOP on the ground of leave*. When the leave ends, file a change with *Leave ends*. Both are fields of the RLZEC 2027 form, so the batch must be for January 2027 or later; a claim notified in December 2026 for January goes into a January 2027 batch.
+
+The claim, the ground and the notice date are proposed from the contract's *OOP Agreement*, *OOP Ground* and *OOP Notice Received*; check them, they are not re-read later. The OOP fields are accepted on the agreement relationship types only.
+
 Then **Generate**. The XML is validated against the vintage's schema (``RLZEC-v2026.xsd`` or ``RLZEC-v2027.xsd``) and attached; upload it to the Sociálna poisťovňa portal and click **Mark Submitted**. A de-registration is written in the branch that matches its relationship type (agreement, irregular income, or regular employment).
 
-Generation stops if the batch has no events, if an employee lacks a valid birth number, if a date required for the event is missing, or if a registration's ownership status is *Not reviewed* or has no evidence.
+Generation stops if the batch has no events, if an employee lacks a valid birth number, if a date required for the event is missing, if a registration's ownership status is *Not reviewed* or has no evidence, if a change reports nothing, or if an OOP field is filled in where the form does not take it (outside an agreement, the ground of leave on a DoBPŠ or before the 2027 form).
 
 Limitations
 =============
 
-- **Two event types only:** registration and de-registration. A change (*zmena*), an interruption (*prerušenie*) or a cancelled registration (*zrušenie prihlásenia*) must be filed through the portal.
+- **Registration, de-registration and one kind of change:** the agreement OOP. Any other change (*zmena*), an interruption (*prerušenie*) or a cancelled registration (*zrušenie prihlásenia*) must be filed through the portal.
+
+- **The OOP fields follow the schema and the act, not a published filling guide.** When this was written (November 2026) the Sociálna poisťovňa had published the RLZEC 2027 schema and its list of changes, but no instructions for the two new fields. The portal's own checks may ask for a combination the module does not produce; compare the first filing with the portal form.
 
 - **Nothing is filled in from the contracts but the relationship type.** The dates are entered by hand and are not checked against the contract or the employee's hire and departure dates, and no event is created when an employee is hired or leaves — keeping to the deadlines is up to you.
 
@@ -111,13 +136,13 @@ Limitations
 
 - A change of the ownership status after the registration is a *zmena*, which this module does not produce.
 
-- RLZEC 2026 and 2027 are shipped. The 2027 schema's new elements for the agreement OOP of a parent on maternity, paternity or parental leave are not produced. Schema validation checks the shape of the file, not the data.
+- RLZEC 2026 and 2027 are shipped. Schema validation checks the shape of the file, not the data.
 
 Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_rlfo``
-- **Version:** 19.0.1.3.1
+- **Version:** 19.0.1.4.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``

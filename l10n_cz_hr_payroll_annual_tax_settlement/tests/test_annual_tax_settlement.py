@@ -154,8 +154,11 @@ class TestVyuctovani(TransactionCase):
         decl = self.env["l10n.cz.vyuctovani"].with_company(
             self.company).create({"company_id": self.company.id,
                                   "year": "2027"})
+        # The message is translated: read it in the source language, whatever
+        # language the database gave the test user.
         with self.assertRaisesRegex(UserError, "discontinued.*JMHZ"):
-            decl.action_generate()
+            decl.with_context(lang="en_US").action_generate()
+        self.assertFalse(decl.xml_attachment_id, "nothing was generated")
 
     def test_submit_locks(self):
         self._employee_payslip()

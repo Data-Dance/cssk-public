@@ -2,6 +2,31 @@
 Changelog
 =========
 
+[19.0.1.1.3] — 2026-11-21
+-------------------------
+
+Fixed
+~~~~~
+
+- **A Czech payslip is posted in a journal of its own company.** The
+  engine's default journal is the first general journal the user may see,
+  whichever company owns it, and the contract's journal was read only in
+  the form and in a batch. In a database where another company has a chart,
+  a payslip of the Czech company created without a journal carried that
+  company's journal and its entry was refused. Such a payslip now takes the
+  contract's journal, then the batch's, when they are of its company, and
+  otherwise the *Salaries* journal this module creates; the form replaces a
+  journal of another company the same way. A journal given explicitly is
+  kept.
+
+Added
+~~~~~
+
+- accounts for ``MEALTAXABLE``, the meal allowance paid above its exempt
+  limit (DR 527 / CR 331, as the exempt part). The line is outside gross
+  pay, so without accounts it would be paid and not posted. An upgrade maps
+  it for the companies already on the Czech chart.
+
 [19.0.1.1.2] — 2026-11-09
 -------------------------
 

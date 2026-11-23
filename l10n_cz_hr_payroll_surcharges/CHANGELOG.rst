@@ -14,6 +14,15 @@ Added
 - The 2027 minimum wage, 24 900 Kč / 148.30 Kč an hour (sdělení MPSV
   č. 171/2026 Sb.); manifest 19.0.1.2.0.
 
+Fixed
+~~~~~
+
+- The minimum wage top-up leaves out the compensation an hourly wage gets
+  for a public holiday (``SVATEKNAHRADA`` of the Enterprise engine,
+  § 115 odst. 3 of the Labour Code), like the other wage replacements: it
+  pays for hours that are not among the hours worked the wage is compared
+  on (§ 111 odst. 1); manifest 19.0.1.2.1.
+
 Changed
 ~~~~~~~
 

@@ -21,7 +21,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cssk_receipt_capture_expense``
-- **Version:** 19.0.1.1.1
+- **Version:** 19.0.1.2.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_receipt_capture``, ``hr_expense``

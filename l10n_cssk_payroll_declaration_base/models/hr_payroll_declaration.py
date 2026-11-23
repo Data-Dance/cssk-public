@@ -400,6 +400,22 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
         self.ensure_one()
         return self.date_from
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        """A sheet created for another period than today's gets the form
+        version of that period, unless the caller named one: the default
+        only knows today."""
+        records = super().create(vals_list)
+        for rec, vals in zip(records, vals_list):
+            if vals.get("version_id") or not rec._report_code:
+                continue
+            ref = rec._version_reference_date()
+            version = ref and rec._find_version(
+                ref, rec.company_id.country_id)
+            if version and version != rec.version_id:
+                rec.version_id = version
+        return records
+
     @api.onchange("year", "month", "company_id")
     def _onchange_period_version(self):
         for rec in self:
@@ -661,6 +677,24 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                 "Reset the declaration to draft before regenerating it."))
         self._ensure_period_version()
         self._preflight()
+        data = self._generation_data()
+        self._prepare_employee_declarations(data)
+        xml_bytes = self._render_xml(data)
+        self._validate_against_schema(xml_bytes)
+        self._attach_xml(xml_bytes)
+        self.state = "generated"
+        self.message_post(body=_("Declaration generated and XSD-validated."))
+        return True
+
+    def _generation_data(self):
+        """The figures the declaration is rendered from, in the shape of
+        ``_collect_payslip_totals``: the period's confirmed payslips.
+
+        A hook, so that a form whose figures the user may enter by hand (an
+        employer whose wages are computed outside this database) can supply
+        them without a payroll engine installed.
+        """
+        self.ensure_one()
         payslips = self._get_period_payslips()
         if payslips is None:
             raise UserError(_(
@@ -671,14 +705,7 @@ class CSSKPayrollDeclarationMixin(models.AbstractModel):
                 "No payslips found for %(company)s in %(month)s/%(year)s.",
                 company=self.company_id.display_name,
                 month=self.month, year=self.year))
-        data = self._collect_payslip_totals(payslips)
-        self._prepare_employee_declarations(data)
-        xml_bytes = self._render_xml(data)
-        self._validate_against_schema(xml_bytes)
-        self._attach_xml(xml_bytes)
-        self.state = "generated"
-        self.message_post(body=_("Declaration generated and XSD-validated."))
-        return True
+        return self._collect_payslip_totals(payslips)
 
     def _preflight(self):
         """Master-data checks the XML template relies on. Concrete reports

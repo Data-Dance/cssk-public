@@ -128,6 +128,33 @@ RULE_CODES = {
         "EMPLOYER_OBSTACLE": {
             ENGINE_OCA: ("PREKAZKANAHRADA",), ENGINE_EE: ("PREKAZKANAHRADA",),
         },
+        "SICK_NAHRADA": {
+            ENGINE_OCA: ("SICKNAHRADA",), ENGINE_EE: ("SICKNAHRADA",),
+        },
+        # MEAL is the exempt part of the meal allowance in money; what is
+        # paid above the exempt limit is a line of its own (taxed, insured).
+        "MEAL": {ENGINE_OCA: ("MEAL",), ENGINE_EE: ("MEAL",)},
+        "MEAL_TAXABLE": {
+            ENGINE_OCA: ("MEALTAXABLE",), ENGINE_EE: ("MEALTAXABLE",),
+        },
+        "TAX_BASE": {ENGINE_OCA: ("TAXBASE",), ENGINE_EE: ("TAXBASE",)},
+        "MIN_WAGE_TOPUP": {
+            ENGINE_OCA: ("MINWAGE_TOPUP",), ENGINE_EE: ("MINWAGE_TOPUP",),
+        },
+        "TAX_CREDIT": {ENGINE_OCA: ("TAXCREDIT",), ENGINE_EE: ("TAXCREDIT",)},
+        "DEDUCTION": {ENGINE_OCA: ("DEDUCTION",), ENGINE_EE: ("DEDUCTION",)},
+        "REIMBURSEMENT": {
+            ENGINE_OCA: ("REIMBURSEMENT",), ENGINE_EE: ("REIMBURSEMENT",),
+        },
+        "ATTACH_SALARY": {
+            ENGINE_OCA: ("ATTACH_SALARY",), ENGINE_EE: ("ATTACH_SALARY",),
+        },
+        "ASSIG_SALARY": {
+            ENGINE_OCA: ("ASSIG_SALARY",), ENGINE_EE: ("ASSIG_SALARY",),
+        },
+        "CHILD_SUPPORT": {
+            ENGINE_OCA: ("CHILD_SUPPORT",), ENGINE_EE: ("CHILD_SUPPORT",),
+        },
     },
 }
 
@@ -144,16 +171,6 @@ NOT_COMPARABLE = {
     "scenario meal_financial_contribution asserts it through expected_abs. If "
     "a declaration or report ever needs this line, it must take abs() or the "
     "two engines will disagree by twice the amount.",
-    "HOURLY_PAY": "The OCA engine has an hourly-pay path the Enterprise one "
-    "does not: its BASIC rule branches on l10n_sk_hourly_wage and pays "
-    "hours x rate with no proration, for a DoBPŠ student paid per actual "
-    "hour. The Enterprise module defines no such field and always prorates a "
-    "monthly wage, so an Enterprise deployment cannot express hourly pay "
-    "through the SK module at all. This is a CAPABILITY gap rather than a "
-    "silently wrong number — there is nothing to configure on the Enterprise "
-    "side — but it is a real parity break and it is why no scenario compares "
-    "an hourly worker. Found by the engine-seam audit, 2026-08-06.",
-
     "NCZD": "Enterprise emits the Slovak non-taxable part as its own payslip "
     "line; the OCA rule applies it inside INCOMETAX and never materialises it. "
     "Compare through INCOME_TAX and NET instead.",

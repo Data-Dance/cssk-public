@@ -1,7 +1,7 @@
 ---
 title: CZ/SK VAT Return — Shared Engine
 summary: The screens and the workflow behind the Slovak and Czech VAT returns — compute the rows from tax tags, check them against the journal items, export the official XML and keep the filed copy.
-verified: 19.0.1.13.1
+verified: 19.0.1.14.0
 ---
 
 ## What it is for {#purpose}
@@ -41,10 +41,14 @@ is everything the two share:
 | Field | What to enter |
 |---|---|
 | Company | The filing company (defaults to the current one). |
-| Date From / Date To | The first and last day of the tax period. |
-| Period Type | *Monthly* or *Quarterly* — written into the XML as the month or the quarter of *Date From*. |
-| Version | The form vintage. The list offers only versions of the company's fiscal country valid in the period; see [Form versions](#versions). |
-| Statement Type | Regular, corrective or supplementary — the choices come from the version. |
+| Period Type | *Monthly* or *Quarterly*. A new return starts with the type of the company's previous return. |
+| Period | The month or the quarter, picked in one control: click it, move between years with the arrows and choose the month or quarter. A new return opens on the last closed period. *Dates* below shows the first and last day that follow from it. |
+| Version | The form vintage. It is selected for you from the period; the list offers only versions of the company's fiscal country valid in the period, see [Form versions](#versions). |
+| Statement Type | Regular, corrective or supplementary — the choices come from the version, and the regular one is preselected. |
+
+Once the return is exported or submitted the period can no longer be changed;
+reset the return to draft first. *Submission Reference*, the confirmation
+number the portal gives you, appears once the XML has been exported.
 
 Then click **Compute**. The return moves to *Preview* and its **Lines** tab
 fills with one row per line of the form.
@@ -174,8 +178,9 @@ On a submitted return, **Amended / corrective** creates a new draft linked to
 it (*Amends*), carrying over its manual overrides. On the new return:
 
 1. choose the right **Statement Type** — the copy starts with the original's;
-2. fill in the **Difference identification date**, which the form requires on
-   a return that amends another (it defaults to today);
+2. for a supplementary return, fill in the **Difference identification
+   date** (it defaults to today). The field shows only for that kind of
+   return: a corrective return states no such date;
 3. correct the accounting, **Compute**, review, export and file as usual.
 
 What the country form needs beyond that (for example the Slovak difference

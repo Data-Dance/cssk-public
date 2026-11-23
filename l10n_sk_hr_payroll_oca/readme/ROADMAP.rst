@@ -48,9 +48,9 @@ production use:
   correct 100 % ŽM base, but simultaneous claims are not ordered. The
   per-dependant amount (25 % of the basic non-seizable amount) rounds to
   99.44–99.45 € depending on the source.
-* Sickness compensation (náhrada príjmu pri PN) is modelled as exempt from the
-  odvody and, as a simplification, is NOT taxed on the payslip (in reality it is
-  subject to income tax).
+* Sickness compensation (náhrada príjmu pri PN) is kept out of the odvody
+  bases and is not taxed on the payslip: it is exempt from income tax under
+  § 5 ods. 7 písm. f) zákona 595/2003 Z. z.
 * Priemerný zárobok counts the GROSS line less the SK náhrada lines (rather than
   a from-scratch §118 wage classification), tests only the ≥168-hours branch (not
   the ≥21-days alternative), and drives the PN náhrada from the leave's WORKING

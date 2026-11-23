@@ -21,6 +21,39 @@ Carry-over to 18.0
   ``_cssk_filer_needs_company_vat()``. Nothing on 18.0 would call it until the
   Slovak DPH return's *Postavenie osoby* is ported; port the two together.
 
+[19.0.1.21.1] — 2026-11-23
+--------------------------
+
+Fixed
+~~~~~
+
+- **Tax Authority and Entity Type on the company form could not be opened.**
+  Opening either picker raised "Invalid domain representation:
+  country_code,=," in the browser. Their domain read
+  ``account_fiscal_country_id.code``, and the web client, which evaluates a
+  field's domain string, holds a many2one as its id only. The company now
+  carries the fiscal country's code as ``l10n_cssk_fiscal_country_code`` and
+  both pickers filter on that. Present since the first release; the Settings
+  picker of the tax authority was not affected.
+- A test fails on any field of these modules whose domain string follows a
+  many2one on its value side, since neither an install nor an ORM test
+  evaluates such a string.
+
+[19.0.1.21.0] — 2026-11-22
+--------------------------
+
+Added
+~~~~~
+
+- **Field widget ``cssk_period``: a tax period picked in one control.** Bound
+  to the date a period starts on, it shows "October 2026" or "Q4 2026" and
+  opens a year with its twelve months or four quarters, with arrows to change
+  the year. Whether months or quarters are offered comes from a selection
+  field of the same record (option ``period_type_field``, default
+  ``period_type``, values ``month`` / ``quarter``). The core date picker can
+  be limited to months, but still shows a day and knows no quarters. First
+  used by the VAT return (``l10n_cssk_vat_return_base`` 19.0.1.14.0).
+
 [19.0.1.20.2] — 2026-11-18
 --------------------------
 

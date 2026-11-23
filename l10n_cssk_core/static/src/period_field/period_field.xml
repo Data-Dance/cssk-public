@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="l10n_cssk_core.PeriodField">
+        <span t-if="props.readonly" t-esc="label"/>
+        <Dropdown t-else="" state="dropdown" onOpened.bind="onOpened"
+                  menuClass="'o_cssk_period_menu p-2'">
+            <button type="button"
+                    class="o_cssk_period_toggle o_input text-start d-flex align-items-center"
+                    t-att-id="props.id">
+                <span class="flex-grow-1" t-esc="label"/>
+                <i class="fa fa-calendar text-muted ms-2" role="img" aria-label="Pick a period"/>
+            </button>
+            <t t-set-slot="content">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <button type="button" class="btn btn-light btn-sm o_cssk_period_prev"
+                            title="Previous year" t-on-click.stop="() => this.shiftYear(-1)">
+                        <i class="fa fa-chevron-left" role="img" aria-label="Previous year"/>
+                    </button>
+                    <strong class="o_cssk_period_year" t-esc="state.year"/>
+                    <button type="button" class="btn btn-light btn-sm o_cssk_period_next"
+                            title="Next year" t-on-click.stop="() => this.shiftYear(1)">
+                        <i class="fa fa-chevron-right" role="img" aria-label="Next year"/>
+                    </button>
+                </div>
+                <div class="o_cssk_period_grid"
+                     t-att-class="{ o_cssk_period_quarters: isQuarter }">
+                    <t t-foreach="items" t-as="item" t-key="item.key">
+                        <button type="button" class="btn btn-sm o_cssk_period_item"
+                                t-att-class="item.selected ? 'btn-primary' : 'btn-light'"
+                                t-att-title="item.title"
+                                t-on-click="() => this.select(item)">
+                            <t t-esc="item.label"/>
+                        </button>
+                    </t>
+                </div>
+            </t>
+        </Dropdown>
+    </t>
+
+</templates>

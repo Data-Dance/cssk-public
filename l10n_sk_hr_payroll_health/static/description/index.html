@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_hr_payroll_health/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Monthly Health Insurance Statement (dávka 514)</h1>
 <p class="cssk-summary">The monthly výkaz preddavkov na poistné for a Slovak health insurer (VšZP, Dôvera, Union) in the common dávka 514 format, built from the month&#x27;s payslips and exported as XML.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.4</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.6</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Every month the employer reports to each <strong>health insurer</strong> the health
@@ -159,19 +159,50 @@ covers only the insurer the statement is addressed to.</p>
 </tr>
 <tr>
 <td><code>InsuranceBody</code></td>
-<td>employer totals: number of employees, days, income, assessment base, employer and employee advances, top-up, total</td>
+<td>employer totals in two groups, employees without and with a health disability: the number of employees an advance is paid for, days, income, the employees' assessment base and the employer's and the employees' advances of each group; then the grand total</td>
 </tr>
 <tr>
 <td><code>PersonData</code></td>
-<td>per employee: birth number, days, the employer's and employee's rate, income, assessment base, advances, top-up</td>
+<td>per employee: birth number, days, the employer's and employee's rate, income, the employee's assessment base, advances, the income for the deductible item, other income, the deductible item, whether no minimum advance applies, and the minimum top-up</td>
 </tr>
 </tbody>
 </table>
 <p>The amounts come from the payslip lines: <em>HEALTHEMPLOYER</em> (employer's
-advance), <em>HEALTH</em> (employee's advance) and the health minimum-base top-up
-(<em>HEALTHDOPLATOK</em> or <em>HEALTH_DOPLATOK</em>, depending on the engine). The
-assessment base and the income are the employee's <em>GROSS</em>. The rates are not
-read from a table: they are worked back as advance ÷ base.</p>
+advance), <em>HEALTH</em> (employee's advance) and the health minimum top-up
+(<em>HEALTHDOPLATOK</em> or <em>HEALTH_DOPLATOK</em>, depending on the engine). What each
+figure contains follows § 1 ods. 3 of vyhláška č. 159/2018 Z. z. and the item
+descriptions in the schema:</p>
+<ul>
+<li><strong>Groups.</strong> An employee whose contract has <em>ZŤP / Disabled</em> ticked is
+  reported in the second group, the one with the reduced rates of
+  <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-12.odsek-1">§ 12</a>; everyone else in the first.
+  The employees' advance of a group includes the minimum top-up, which raises
+  the employee's advance
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-16a.odsek-4">§ 16a ods. 4</a>).</li>
+<li><strong>Days.</strong> The calendar days of employment in the month without the days of
+  sick leave, nursing, maternity and paternity leave, for which the State
+  pays (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-11.odsek-7.pismeno-m">§ 11 ods. 7 písm. m)</a>),
+  and without the days of parental and unpaid leave, on which a person
+  without income is not an employee
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-11.odsek-3">§ 11 ods. 3</a>). They are read from
+  the approved time off of the Slovak leave types; a day of leave taken in
+  part (half a day, some hours) is not removed. When the payslip carries the <em>PN_DAYS</em> input, the sick days
+  are taken from it, as the payslip takes them. An employee with no such day
+  and no advance is listed, and is not counted among those an advance is paid
+  for.</li>
+<li><strong>Income and base.</strong> The income is the payslip's <em>GROSS</em>; it is also the
+  employer's base (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-13.odsek-4">§ 13 ods. 4</a>). The
+  employee's base is the income less the deductible item
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-16.odsek-16">§ 16 ods. 16 to 18</a>). The base, the
+  item and the two rates are the ones the payslip recorded when it was
+  computed. The income of an employment relationship is the income for the
+  deductible item; the income of an agreement (DoVP, DoPČ, DoBPŠ) is other
+  income.</li>
+<li><strong>No minimum advance.</strong> <code>NotAppliedMinimum</code> is set where the payslip
+  computes no minimum for the whole month — a disabled employee, a
+  health-exempt contract, a DoBPŠ — or where the month has no day an advance
+  is paid for, and no top-up was charged.</li>
+</ul>
 <p><strong>Checking the file.</strong> The official schema <code>514-2023.xsd</code> contradicts itself
 (patterns that admit only one digit in fields that must be 8 to 12 characters
 long, impossible numeric limits), so no real file can pass it. The module
@@ -183,18 +214,28 @@ element, the three header blocks and that the number of rows matches.</p>
   of insurer during the year (allowed once a year, from 1 January) has to be
   recorded on the employee before generating; past statements are not
   recomputed.</li>
-<li><strong>The assessment base is the payslip's GROSS</strong>, not a base computed under
-  the Health Insurance Act; the rate shown is derived from it.</li>
-<li>Every employee counts as a full calendar month of days, and everyone is
-  reported in the first group (the second group of counts and bases is always
-  zero).</li>
+<li><strong>The deductible item needs the fund bases the payslip recorded.</strong> A
+  payslip computed before the Slovak payroll recorded them (OCA engine
+  19.0.1.25.0, Enterprise engine 19.0.1.26.0), or whose lines were changed
+  afterwards, is reported on its gross: no item, and rates worked back as
+  advance ÷ gross. The statement names the payslips reported this way;
+  correct the row of an employee who claims the item by hand.</li>
+<li><strong>The minimum top-up is the one the payslip charged.</strong> The payslip reduces
+  the minimum advance for sick days and days outside the contract only, so
+  in a month with nursing, maternity, parental or unpaid leave the top-up is
+  higher than the days on the statement give.</li>
+<li><strong>One row per employee record.</strong> A person kept as two employees (two
+  concurrent contracts) gets two rows with the same birth number. Income paid
+  after the employment ended is not separated as other income.</li>
+<li>Disability is the tick on the contract the payslip was computed on; there
+  is no date of the decision.</li>
 <li>Only a regular statement (<em>N</em>) with serial number 1. Corrections after an
   error report must be made through the insurer's electronic branch.</li>
 <li>Because the official schema cannot be applied, the module cannot guarantee
   that the insurer will accept the file. Reconcile the first statement with
   the insurer.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.2.4 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text checked against module version: 19.0.1.2.6 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

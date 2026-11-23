@@ -1,7 +1,7 @@
 ---
 title: SK dávka 514 — mesačný výkaz preddavkov na zdravotné poistenie
 summary: Mesačný výkaz preddavkov na poistné pre slovenskú zdravotnú poisťovňu (VšZP, Dôvera, Union) v spoločnom formáte dávky 514, zostavený z výplatných pások mesiaca a vyexportovaný do XML.
-verified: 19.0.1.2.4
+verified: 19.0.1.2.6
 ---
 
 ## Na čo slúži {#purpose}
@@ -100,14 +100,46 @@ poisťovne, ktorej je výkaz určený.
 |---|---|
 | `Identification` | typ 514, charakter *N*, IČO, číslo platiteľa, štvormiestny kód poisťovne (2500, 2400, 2700), dátum odoslania, poradové číslo 1, počet viet |
 | `CorporateBody` | obdobie, deň platby, názov spoločnosti, IČO, číslo platiteľa, DIČ, IBAN |
-| `InsuranceBody` | úhrny za zamestnávateľa: počet zamestnancov, dni, príjem, vymeriavací základ, preddavky zamestnávateľa a zamestnancov, doplatok, spolu |
-| `PersonData` | za zamestnanca: rodné číslo, dni, sadzba zamestnávateľa a zamestnanca, príjem, vymeriavací základ, preddavky, doplatok |
+| `InsuranceBody` | úhrny za zamestnávateľa v dvoch skupinách, zamestnanci bez zdravotného postihnutia a so zdravotným postihnutím: počet zamestnancov, za ktorých sa platí preddavok, dni, príjem, vymeriavací základ zamestnancov a preddavky zamestnávateľa a zamestnancov každej skupiny; potom preddavok spolu |
+| `PersonData` | za zamestnanca: rodné číslo, dni, sadzba zamestnávateľa a zamestnanca, príjem, vymeriavací základ zamestnanca, preddavky, príjem na uplatnenie odpočítateľnej položky, ďalšie príjmy, odpočítateľná položka, údaj o neuplatnení minimálneho preddavku a dopočet do minimálneho preddavku |
 
 Sumy sa berú z riadkov výplatných pások: *HEALTHEMPLOYER* (preddavok
-zamestnávateľa), *HEALTH* (preddavok zamestnanca) a doplatok do minimálneho
-základu (*HEALTHDOPLATOK* alebo *HEALTH_DOPLATOK* podľa jadra). Vymeriavací
-základ aj príjem sú *GROSS* zamestnanca. Sadzby sa neberú z tabuľky, spätne sa
-dopočítajú ako preddavok ÷ základ.
+zamestnávateľa), *HEALTH* (preddavok zamestnanca) a dopočet do minimálneho
+preddavku (*HEALTHDOPLATOK* alebo *HEALTH_DOPLATOK* podľa jadra). Obsah
+jednotlivých údajov sa riadi § 1 ods. 3 vyhlášky č. 159/2018 Z. z. a opisom
+položiek v schéme:
+
+- **Skupiny.** Zamestnanec, ktorého zmluva má zaškrtnuté *ZŤP*, sa vykazuje
+  v druhej skupine, so zníženými sadzbami podľa
+  [§ 12](law:sk/2004/580#paragraf-12.odsek-1); ostatní v prvej. Preddavok
+  zamestnancov skupiny obsahuje aj dopočet do minimálneho preddavku, o ktorý
+  sa preddavok zamestnanca navyšuje
+  ([§ 16a ods. 4](law:sk/2004/580#paragraf-16a.odsek-4)).
+- **Dni.** Kalendárne dni zamestnania v mesiaci bez dní
+  práceneschopnosti, ošetrovania, materskej a otcovskej dovolenky, za ktoré
+  je platiteľom štát
+  ([§ 11 ods. 7 písm. m)](law:sk/2004/580#paragraf-11.odsek-7.pismeno-m)),
+  a bez dní rodičovskej dovolenky a neplateného voľna, v ktorých sa osoba bez
+  príjmu nepovažuje za zamestnanca
+  ([§ 11 ods. 3](law:sk/2004/580#paragraf-11.odsek-3)). Berú sa zo
+  schválených neprítomností slovenských typov; deň, v ktorom neprítomnosť
+  trvala len jeho časť (pol dňa, niekoľko hodín), sa neodoberá. Ak má výplatná páska vstup *PN_DAYS*, dni
+  práceneschopnosti sa berú z neho, tak ako ich berie páska. Zamestnanec bez
+  takého dňa a bez preddavku je vo výkaze uvedený a nepočíta sa medzi
+  zamestnancov, za ktorých sa platí preddavok.
+- **Príjem a základ.** Príjem je *GROSS* z výplatnej pásky; je zároveň
+  vymeriavacím základom zamestnávateľa
+  ([§ 13 ods. 4](law:sk/2004/580#paragraf-13.odsek-4)). Vymeriavací základ
+  zamestnanca je príjem znížený o odpočítateľnú položku
+  ([§ 16 ods. 16 až 18](law:sk/2004/580#paragraf-16.odsek-16)). Základ,
+  položka aj obe sadzby sú tie, ktoré páska zaznamenala pri výpočte. Príjem
+  z pracovného pomeru je príjmom na uplatnenie odpočítateľnej položky; príjem
+  z dohody (DoVP, DoPČ, DoBPŠ) patrí medzi ďalšie príjmy.
+- **Bez minimálneho preddavku.** `NotAppliedMinimum` sa uvedie tam, kde páska
+  minimálny preddavok za celý mesiac nepočíta — zamestnanec so zdravotným
+  postihnutím, zmluva oslobodená od zdravotného poistenia, DoBPŠ — alebo kde
+  mesiac nemá žiadny deň, za ktorý sa platí preddavok, a dopočet nebol
+  zrazený.
 
 **Kontrola súboru.** Oficiálna schéma `514-2023.xsd` si protirečí (vzory,
 ktoré pripúšťajú len jednu číslicu v poliach s dĺžkou 8 až 12 znakov,
@@ -120,10 +152,21 @@ element, tri bloky hlavičky a zhodu počtu viet.
 - **Poisťovňa je údaj zamestnanca, nie mesiaca.** Zmenu poisťovne počas roka
   (možnú raz ročne, od 1. januára) treba pred generovaním zapísať pri
   zamestnancovi; staršie výkazy sa neprepočítajú.
-- **Vymeriavací základ je GROSS z výplatnej pásky**, nie základ vypočítaný
-  podľa zákona o zdravotnom poistení; zobrazená sadzba sa odvodzuje z neho.
-- Každý zamestnanec má plný počet kalendárnych dní mesiaca a všetci sa
-  vykazujú v prvej skupine (druhá skupina počtov a základov je vždy nulová).
+- **Odpočítateľná položka potrebuje základy fondov, ktoré páska
+  zaznamenala.** Páska vypočítaná skôr, ako ich slovenské mzdy zaznamenávali
+  (jadro OCA 19.0.1.25.0, jadro Enterprise 19.0.1.26.0), alebo páska, ktorej
+  riadky sa potom zmenili, sa vykáže z hrubej mzdy: bez položky a so sadzbami
+  dopočítanými ako preddavok ÷ hrubá mzda. Výkaz takto vykázané pásky
+  vymenuje; riadok zamestnanca, ktorý si položku uplatňuje, opravte ručne.
+- **Dopočet do minimálneho preddavku je ten, ktorý zrazila páska.** Páska
+  znižuje minimálny preddavok len za dni práceneschopnosti a dni mimo zmluvy,
+  takže v mesiaci s ošetrovaním, materskou, rodičovskou dovolenkou alebo
+  neplateným voľnom je dopočet vyšší, ako zodpovedá dňom vo výkaze.
+- **Jeden riadok za záznam zamestnanca.** Osoba vedená ako dvaja zamestnanci
+  (dve súbežné zmluvy) má dva riadky s rovnakým rodným číslom. Príjem
+  vyplatený po skončení zamestnania sa medzi ďalšie príjmy nevyčleňuje.
+- Zdravotné postihnutie je zaškrtnutie na zmluve, podľa ktorej bola páska
+  vypočítaná; dátum rozhodnutia sa neeviduje.
 - Len riadny výkaz (*N*) s poradovým číslom 1. Opravy po chybovom protokole
   treba urobiť cez elektronickú pobočku poisťovne.
 - Keďže oficiálnu schému nemožno uplatniť, modul nezaručí, že poisťovňa súbor

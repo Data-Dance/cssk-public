@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        OCA payroll offers on the employee form only the salary structures of
+        the employee's own company. The structures of this localisation
+        belong to no company (hr_payroll_structure.py), so none of them could
+        be picked there. Offer the company-less ones as well; the country
+        record rules still decide which of them the user sees.
+    -->
+    <record id="hr_employee_view_form_struct_domain" model="ir.ui.view">
+        <field name="name">hr.employee.view.form.l10n_sk_hr_payroll_oca.struct</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="payroll.hr_employee_view_form"/>
+        <field name="arch" type="xml">
+            <field name="struct_id" position="attributes">
+                <attribute name="domain">['|', ('company_id', '=', False), ('company_id', '=', company_id)]</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

@@ -7,3 +7,13 @@ from . import test_rules_shared
 from . import test_rzd_sources
 from . import test_recorded_funds
 from . import test_rule_parameter_dates
+from . import test_payslip_amounts
+from . import test_sk_tax_settlement_rules
+from . import test_public_holiday_absences
+from . import test_confirmed_payslip
+from . import test_generated_public_holidays
+from . import test_garnishment_rule
+from . import test_sk_rates
+from . import test_new_hire_sick_base
+from . import test_shared_payroll_codes
+from . import test_joint_taxation

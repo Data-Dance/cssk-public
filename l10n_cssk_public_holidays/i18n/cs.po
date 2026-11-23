@@ -22,16 +22,46 @@ msgid "Calendar Public Holiday"
 msgstr "Státní svátky v kalendáři"
 
 #. module: l10n_cssk_public_holidays
+#: model:ir.model,name:l10n_cssk_public_holidays.model_calendar_public_holiday_line
+msgid "Calendar Public Holiday Line"
+msgstr "Řádek kalendáře státních svátků"
+
+#. module: l10n_cssk_public_holidays
 #: model:ir.model.fields,field_description:l10n_cssk_public_holidays.field_calendar_public_holiday__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_public_holidays.field_calendar_public_holiday_line__display_name
+#: model:ir.model.fields,field_description:l10n_cssk_public_holidays.field_resource_calendar_leaves__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný název"
 
 #. module: l10n_cssk_public_holidays
 #: model:ir.model.fields,field_description:l10n_cssk_public_holidays.field_calendar_public_holiday__id
+#: model:ir.model.fields,field_description:l10n_cssk_public_holidays.field_calendar_public_holiday_line__id
+#: model:ir.model.fields,field_description:l10n_cssk_public_holidays.field_resource_calendar_leaves__id
 msgid "ID"
 msgstr "ID"
+
+#. module: l10n_cssk_public_holidays
+#: model:ir.model.fields,field_description:l10n_cssk_public_holidays.field_resource_calendar_leaves__l10n_cssk_public_holiday_line_id
+msgid "Public Holiday Line"
+msgstr "Řádek státního svátku"
 
 #. module: l10n_cssk_public_holidays
 #: model:ir.actions.server,name:l10n_cssk_public_holidays.ir_cron_cssk_public_holidays_ir_actions_server
 msgid "Public holidays: generate next year (SK, CZ)"
 msgstr "Státní svátky: vytvořit další rok (SK, CZ)"
+
+#. module: l10n_cssk_public_holidays
+#: model:ir.model,name:l10n_cssk_public_holidays.model_resource_calendar_leaves
+msgid "Resource Time Off Detail"
+msgstr "Podrobnosti o volnu zdroje"
+
+#. module: l10n_cssk_public_holidays
+#: model:ir.model.fields,help:l10n_cssk_public_holidays.field_resource_calendar_leaves__l10n_cssk_public_holiday_line_id
+msgid ""
+"The line of the public holiday calendar this public holiday of the working "
+"calendars is kept for. It follows the line when the line is renamed, moved "
+"or removed."
+msgstr ""
+"Řádek kalendáře státních svátků, pro který se tento státní svátek pracovních"
+" kalendářů udržuje. Mění se spolu s řádkem, když se řádek přejmenuje, "
+"přesune nebo odstraní."

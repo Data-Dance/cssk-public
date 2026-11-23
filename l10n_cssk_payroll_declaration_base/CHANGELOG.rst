@@ -5,13 +5,35 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.6.2 (2026-11-22):** a sheet created for another period than today's shows the form version
+  of that period from the start, unless the caller named one. Until now a
+  batch for January 2027 created through the API showed the 2026 form until
+  *Generate* replaced it; the file was right, the screen was not.
+
+* ``NOT_COMPARABLE`` no longer lists ``HOURLY_PAY``: the Slovak Enterprise overlay carries the exact hourly rate under the same name as the Community engine (``l10n_sk_hr_payroll_ee`` 19.0.1.28.2), and the parity harness compares two hourly payslips.
+
 * Explain expired legacy confirmations, exclude the version's log-access columns (save timestamps and the users who saved it) from their source digest and localize the confirmation time.
 
 Added
 ~~~~~
 
+- ``_generation_data()``: where *Generate* takes its figures from, split out
+  of ``action_generate`` as a hook. The default is unchanged (the period's
+  confirmed payslips); a form can override it to render from amounts the user
+  entered by hand, which lets it work with no payroll engine installed
+  (``l10n_sk_hr_payroll_monthly_tax_overview`` 19.0.2.2.0).
+
+- ``MEAL_TAXABLE`` (``MEALTAXABLE`` on both engines, the meal allowance paid
+  above its exempt limit) and ``TAX_BASE`` in the Czech rule-code map, for
+  the parity scenarios of ``l10n_cz_hr_payroll_parity`` 19.0.1.2.6.
+
 - ``SEPARATE_TAX_BASE`` in the Czech rule-code map: ``PAR6BASE`` on both
   engines, the separate tax base of § 6 odst. 4 ZDP from 2027.
+
+- ``SICK_NAHRADA``, ``MEAL``, ``MIN_WAGE_TOPUP``, ``TAX_CREDIT``,
+  ``DEDUCTION``, ``REIMBURSEMENT``, ``ATTACH_SALARY``, ``ASSIG_SALARY`` and
+  ``CHILD_SUPPORT`` in the Czech rule-code map, for the parity scenarios of
+  ``l10n_cz_hr_payroll_parity`` 19.0.1.2.5.
 
 - ``_payslip_version(payslip)``: the contract version a payslip was computed
   on, engine-neutral (Enterprise ``version_id``, OCA ``contract_id``), falling

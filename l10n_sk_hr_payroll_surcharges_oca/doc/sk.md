@@ -1,7 +1,7 @@
 ---
 title: SK mzdové zvýhodnenia (OCA)
 summary: Slovenské mzdové zvýhodnenia a doplatok do minimálneho mzdového nároku ako mzdové pravidlá aplikácie OCA payroll.
-verified: 19.0.1.0.6
+verified: 19.0.1.0.8
 family: l10n_sk_hr_payroll_surcharges#engines
 ---
 

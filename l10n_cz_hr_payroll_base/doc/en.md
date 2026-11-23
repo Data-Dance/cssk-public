@@ -1,7 +1,7 @@
 ---
 title: Czech Payroll
 summary: The Czech payroll family in one place — the monthly payslip for a pracovní poměr, DPP and DPČ on either the OCA payroll app or Odoo Enterprise Payroll, with dated statutory rates, time off, the annual tax reconciliation and posting to the general ledger.
-verified: 19.0.1.5.0
+verified: 19.0.1.6.0
 ---
 
 ## What it is for {#purpose}
@@ -97,7 +97,10 @@ checked against the consolidated texts in force in October 2026.
   reconciliation is [§ 38ch](law:cz/1992/586).
 - **Meal allowance.** A *stravenkový paušál* is tax-exempt up to 70 % of the
   upper limit of the meal allowance for a 5–12 hour business trip
-  ([§ 6 odst. 9 písm. b)](law:cz/1992/586)).
+  ([§ 6 odst. 9 písm. b)](law:cz/1992/586)). What the employer pays above
+  that is taxable income and, as income not exempt from the tax, part of the
+  social and health assessment bases ([§ 5 odst. 1](law:cz/1992/589),
+  [§ 3 odst. 1](law:cz/1992/592)).
 - **Minimum wage and wage replacements.** The minimum wage is set under
   [§ 111 of the Labour Code](law:cz/2006/262) and announced by an MPSV
   communication (for 2026, No. 356/2025 Sb.; for 2027, No. 171/2026 Sb.). A wage below it is topped up
@@ -143,7 +146,7 @@ checked against the consolidated texts in force in October 2026.
 | Taxpayer declaration signed | The employee signed the *prohlášení poplatníka* with this employer: the monthly tax credits and the child tax benefit are applied, and an agreement below the threshold is taxed by advance instead of by withholding. |
 | Employee Holds ZTP/P, Invalidity Degree | Add the ZTP/P credit, or the basic (I/II) or extended (III) disability credit. |
 | State-insured person | The health insurance minimum base is not applied. Tick it only when one of the § 3 odst. 8 exemptions lasts the whole month. |
-| Meal allowance / shift | The *stravenkový paušál* per shift, capped at the tax-exempt limit and paid for each worked day. |
+| Meal allowance / shift | The *stravenkový paušál* in money per shift, paid for each worked day. Exempt up to the limit; what is above it is paid too, taxed and insured. |
 | Average hourly earnings | Overrides the computed average hourly earnings (never below the hourly minimum wage). Leave empty to let the payslip compute it. |
 | Garnishment dependents | Dependants raising the non-seizable amount when a garnishment is entered as a payslip input. |
 | Working pensioner discount | Lowers the employee's social insurance by 6.5 % of the assessment base, rounded up to whole crowns. Tick it from the month the employee applies with proof. |
@@ -180,13 +183,18 @@ the same months.
 In the order the rules run:
 
 1. **Basic Salary.** The contract wage, reduced for every absence in the
-   period.
+   period and for the part of the period outside the contract. A public
+   holiday on the working calendar is paid time of a monthly wage (see
+   [Time off](#leave)).
 2. **Wage surcharges** and the **Overtime Wage** for overtime hours, when the
    surcharges family is installed.
 3. **Wage replacements** at average hourly earnings: *Holiday Pay*, *Paid
    Obstacle* (doctor, escort, blood donation, public office and the other
    § 199–206 reasons) and *Employer Work Obstacle (§§ 207–209)* at 80, 60,
    100 % (short-time working: the company's agreed rate, 100 % by default).
+   On Enterprise an hourly wage also gets *Public Holiday Compensation* for
+   a public holiday on a usual working day
+   ([§ 115 odst. 3](law:cz/2006/262)).
    Average hourly earnings are the basic wage of the validated
    payslips of the previous calendar quarter divided by their worked hours;
    without such a quarter, the contract wage over the period's scheduled
@@ -216,13 +224,16 @@ In the order the rules run:
    when an employer-side obstacle is on the payslip; nobody pays it for a
    state-insured person or a ZTP/P card holder.
 8. Agreements below their threshold pay neither insurance.
-9. **Tax Base** = gross pay plus sickness compensation. **Income Tax Advance**: the base rounded up to
+9. **Tax Base** = gross pay; sickness compensation of the first 14 days is exempt (§ 6 odst. 9 písm. p) ZDP) and stays outside. **Income Tax Advance**: the base rounded up to
    whole hundreds of crowns, 15 % up to the monthly threshold and 23 % above.
    **Withholding Tax** instead for an agreement below its threshold without a
    declaration: 15 % of the whole-crown gross, no credits. From the January
    2027 payslip such an agreement gets the advance instead, still without
    credits (rule parameter `l10n_cz_wh_tax_dependent`).
-10. **Tax Credits** with a signed declaration, at most the advance.
+10. **Tax Credits** with a signed declaration, at most the advance. The
+    disability and ZTP/P credits are those of the contract version in force
+    on the first day of the month ([§ 35ba odst. 3](law:cz/1992/586)): one
+    entered on a version dated inside a month counts from the next month.
 11. **Child Tax Benefit** for the month's children (see
     [Children](#children)) up to the remaining tax, and **Child Tax Bonus**
     for the rest if the tax base reaches half the minimum wage and the bonus
@@ -230,7 +241,9 @@ In the order the rules run:
 12. **Wage Garnishment** and the other deductions (see
     [Garnishments](#garnishment)), **Reimbursement**, and the **Annual Tax
     Settlement** when present.
-13. **Meal Allowance**, outside gross pay.
+13. **Meal Allowance**, outside gross pay: the exempt part, and on its own
+    line *Meal Allowance above the Exempt Limit*, which is added to the
+    social and health bases and to the tax base.
 14. **Net Salary**, and the employer totals.
 
 ## Statutory figures {#rates}
@@ -280,6 +293,22 @@ work entry type; on the OCA engine to a Czech payroll code:
 
 The family-care and escort types with a limit require an allocation; the
 transport of a disabled child accrues 6 days a year through its own plan.
+
+**Public holidays** are entered as time off of the working calendar that
+belongs to no employee (*Time Off → Configuration → Public Holidays*). For a
+monthly wage the holiday is paid time: the wage is not reduced for it
+([§ 115 odst. 3](law:cz/2006/262)), and its hours stay in the month's hours
+when an absence or a part month is prorated, so a week of sickness beside
+New Year's Day leaves 128 of January 2026's 176 hours. An hourly wage
+(Enterprise) earns nothing for the holiday and is paid *Public Holiday
+Compensation* at average earnings for its hours instead. Time off entered
+over a public holiday keeps the holiday as the holiday: it is not a day of
+*dovolená* ([§ 219 odst. 2](law:cz/2006/262)). The exception is a sickness
+or a quarantine: the holiday inside it is a day of the sickness, with no
+wage and with sickness compensation for its hours within the first 14 days
+([§ 192 odst. 1](law:cz/2006/262)), so a sickness of 1 to 9 January 2026
+leaves 120 of the 176 hours and compensates 56. On Enterprise, regenerate
+the work entries of a period after adding a holiday to it.
 
 **Annual leave accrual plans** are shipped by the base module, so they are
 the same on both engines. *Statutory annual leave — 4 weeks (160 h/year)*
@@ -420,6 +449,18 @@ Each report's page says which.
 - **Working pensioner discount.** The conditions are yours to check: pension
   age, pension drawn in full, all of the calendar month. It is claimed once
   across all jobs with one employer, so tick it on only one of them.
+- **Public holidays.** A holiday inside unpaid leave, family care or
+  maternity, parental or paternity leave is paid as the holiday of a monthly
+  wage: no provision settles it the way [§ 192 odst. 1](law:cz/2006/262)
+  does for a sickness. The OCA engine has no hourly wage, so no holiday
+  compensation either. On Enterprise, work entries generated before
+  19.0.1.22.0 keep a holiday inside a sickness as paid time until they are
+  regenerated.
+- **Inputs on Enterprise.** *Attachment of Salary*, *Assignment of Salary*,
+  *Child Support* and the garnishment inputs typed on a payslip by hand are
+  removed by Enterprise when the payslip's employee, contract, structure or
+  period is changed afterwards: these input types belong to salary
+  attachments there. Enter a salary attachment, or type them last.
 - **Sickness compensation.** The 14 days are counted from the first day of
   the sick leave; an incapacity that began after a shift already worked
   (when the 14 days start the next day) and a reduced or forfeited
@@ -447,8 +488,10 @@ Each report's page says which.
   it only when a union agreement or an internal regulation sets a lower rate;
   payslips never go below the statutory 60 %.
 - **Meal allowance** is paid for every worked day; the module does not check
-  the three-hour shift or a business trip on the same day, and an amount above
-  the exempt limit is cut to it rather than paid as taxable income.
+  the three-hour shift or a business trip on the same day. The part above
+  the exempt limit is taxed and insured but is not wage: it is outside gross
+  pay, the minimum wage comparison and the net wage a garnishment is
+  computed from, which is still lowered by the tax and insurance on it.
 - **OCA engine.** The **Czech Payroll Code** of your own time-off types is
   set on the time-off type form, next to *Count as*; a type without a code
   is treated as an ordinary absence.

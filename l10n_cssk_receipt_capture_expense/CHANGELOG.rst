@@ -21,6 +21,22 @@ Carry-over to 18.0
   computes with ``special_mode='total_included'`` (hr_expense.py:549), so the
   same refusal is wrong there. Drop it with the port.
 
+[19.0.1.2.0] — 2026-11-22
+-------------------------
+
+Fixed
+~~~~~
+
+- **A reading that succeeded after the upload never reached the expense.**
+  The expense was filled only inside the upload itself, so a photograph whose
+  first reading failed and was read later — a retry by hand, the cron's retry
+  of a transient failure, a review overridden — left its expense untitled at
+  0.00, which cannot be submitted. A receipt that becomes *captured* now
+  fills every expense still waiting on it (a draft with no amount) with the
+  receipt's date, total, taxes and seller; an expense already filled, by a
+  reading or by hand, is left alone. The upgrade fills the expenses already
+  stranded this way.
+
 [19.0.1.1.1] — 2026-11-05
 -------------------------
 

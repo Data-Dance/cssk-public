@@ -1,7 +1,7 @@
 ---
 title: CZ VAT Return (DPHDP3)
 summary: The Czech VAT return computed from the tax tags of Odoo's Czech chart and exported as the EPO DPHDP3 XML, validated against the current official XSD for every period.
-verified: 19.0.1.17.0
+verified: 19.0.1.18.1
 ---
 
 ## What it is for {#purpose}
@@ -75,7 +75,9 @@ amounts of rows 52 and 53, row 60 and the total on row 63) rounded **down**,
 so that rounding never adds to it; a base or a
 value to the nearest crown, a half up; the coefficients of rows 52 and 53 up
 to a whole percent (§ 76 odst. 3 ZDPH). The filing date in the XML
-(*d_poddp*) is the day of the export.
+(*d_poddp*) is the day of the export. A return for a period in which every
+row is zero is marked as one in which no tax liability arose (*trans* = N in
+the XML); any figure makes it A.
 
 ## Setting it up {#setup}
 
@@ -104,7 +106,7 @@ caption, in Czech, as annex 1 of vyhláška č. 387/2025 Sb. states it, most
 specific part first (column — rate — row), e.g. *Základ daně — základní sazba
 — Dodání zboží nebo poskytnutí služby s místem plnění v tuzemsku*.
 
-**Computed from tags**: rows 1–13 (base and tax), 20–26, 30, 32, 33, 34, the
+**Computed from tags**: rows 1–13 (base and tax), 20–26, 30, 31, 32, 33, 34, the
 base and the full deduction of rows 40–44 and 47, row 50, 51 and 61.
 
 **Computed from the other rows**, as the EPO structure defines them, after
@@ -132,7 +134,6 @@ refund, and the carry of an excess deduction).
 
 | Row | Content |
 |---|---|
-| 31 | triangular trade, middle person |
 | 40–44, 47 (*reduced_claim*) | the deduction in reduced amount (*v krácené výši*) |
 | 45 | correction of deduction |
 | 52, 53 | coefficients and the settlement of the deduction |
@@ -230,7 +231,7 @@ three years between are not excluded by its dates.
 
 ## Limitations {#limitations}
 
-- The reduced-amount deductions, rows 31, 45, 52, 53 and 60, are manual (see
+- The reduced-amount deductions, rows 45, 52, 53 and 60, are manual (see
   [above](#usage)), and so is the § 108 odst. 4 g)/h) part of row 62.
 - The content checks cover rows 64 and 65 only; the schema cannot tell
   whether the other figures are consistent.

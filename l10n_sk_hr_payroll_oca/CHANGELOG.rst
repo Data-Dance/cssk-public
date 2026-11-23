@@ -5,6 +5,389 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.29.1 (2026-11-22):** the employee form offers the salary structures shipped here. OCA
+  payroll limits the *Salary Structure* field to the structures of the
+  employee's own company, and the shipped ones belong to no company, so
+  none could be picked and typing a name created an empty structure.
+  Found by opening the form in a browser.
+  The warning about an agreement's working time no longer mixes English
+  (*per year*, *per week*) into the Slovak or Czech sentence.
+
+- **19.0.1.29.0 (2026-11-21):** the annual tax reconciliation is the
+  taxpayer's, not the employee record's.
+
+  * A reconciliation made for a record that taxes the month for others
+    gathers the year's payslips of all those records: two months of the
+    example give bases of 2 × (342.40 + 256.80) = 1 198.40 and
+    advances of 2 × 19.37 = 38.74. The children are still read from
+    that record itself.
+  * For a linked record alone it is refused, with the record to make it
+    for. Two records with the same birth number cannot each have one for
+    the same year (§ 38 zákona 595/2003 Z. z.): the second is refused, and
+    the message says to link the records so that one gathers both. Checked
+    when a reconciliation is saved; existing ones are not touched.
+  * The annual report and the certificate of income still give each
+    employee record a column of its own.
+
+- **19.0.1.29.0 (2026-11-21):** several employee records of one person are
+  taxed together, where the payroll officer says so.
+
+  * § 35 ods. 1 zákona 595/2003 Z. z.: „Zdaniteľnou mzdou je úhrn
+    zdaniteľných príjmov zo závislej činnosti zúčtovaných a vyplatených
+    zamestnancovi za kalendárny mesiac ..., znížený o a) sumy zrazené na
+    poistné a príspevky, ktoré je povinný platiť zamestnanec, b) nezdaniteľnú
+    časť základu dane na daňovníka“. Each payslip was taxed alone: an
+    employment of 400 with the declaration and a DoPČ of 300 beside it paid
+    0.00 and 48.79, where the tax of the month's total is (342.40 +
+    256.80 − 497.23) × 19 % = 19.37. No authority says in so many
+    words how two relationships at one employer are taxed, so nothing is
+    inferred: the employee record gains *Taxed Together With*.
+  * The payslip of a record linked this way computes its pay, premiums
+    and tax base as before and no non-taxable amount, tax or child bonus;
+    the line *Tax Base Taxed on the Other Record's Payslip*
+    (``TAXBASE_MOVED``) shows the base. The payslip of the record named adds
+    those bases of the same month (line ``TAXBASE_TAKEN``), floors the total
+    at zero once and computes on it the one non-taxable amount, the bands and
+    the child bonus with its limit: 19.37 in the example; one child under
+    15 keeps the whole 100.00 (29 % of 342.40 alone gave 99.30); 3 000
+    and 2 500 are taxed 832.78 with the excess over 3 665.28 at 25 %
+    (alone 393.45 and 406.60).
+  * Order: the linked payslips are computed first, in one batch by
+    themselves. The payslip that taxes the month refuses to be computed
+    while a linked payslip of the month is not, and to be confirmed when
+    the linked payslips no longer hold what it took over. Once it is
+    confirmed, a linked payslip of the month cannot be changed, cancelled,
+    refunded or deleted, and no new one computed; refund the confirmed
+    payslip first. A confirmed payslip is never changed.
+  * A refund and the payslip it refunds are both left out of the sums.
+    The link cannot be changed between the two confirmations of a month. A
+    linked record is taxed on its own in a month in which no contract of
+    the other record runs. Where the record that taxes the month has two
+    payslips in it, the first computed takes the bases over.
+  * A wage garnishment is refused on payslips taxed together: it is
+    deducted from the person's whole net wage from the employer (§ 69
+    Exekučného poriadku), which one payslip does not hold.
+  * Nothing changes until a link is set.
+
+- **19.0.1.29.0 (2026-11-21):** one declaration of the taxpayer for one
+  employer.
+
+  * § 36 ods. 6 zákona 595/2003 Z. z. has the employee give the
+    declaration to an employer, and § 35 ods. 1 písm. b) takes the
+    non-taxable amount once off what the employer pays in the month. An
+    employment and an agreement of one person are two employee records
+    here, and *Tax Declaration Signed* could be ticked on both: each payslip
+    then took the whole non-taxable amount. 400 in an employment and 300 in a
+    DoPČ, both ticked, were taxed 0.00 where the month's tax is 19.37.
+  * Among the employee records of one company with the same birth number
+    the box can now be ticked on one contract version valid on a given day.
+    Records without a birth number, records of different companies and
+    contracts that do not share a day are not matched; the slash of a birth
+    number does not matter.
+  * The rule is checked when a record is saved. An update does not check
+    it and cannot fail on it: it lists every pair that breaks the rule
+    already in the server log (*the taxpayer's declaration is signed twice
+    for one birth number*), with both employees and the dates of the
+    versions. Such a pair is refused the next time one of its versions is
+    saved, with a message naming the other record.
+  * No payslip changes.
+
+- **19.0.1.28.4 (2026-11-21):** an option for an employer who provides the
+  meal on a shorter shift.
+
+  * § 152 ods. 9 Zákonníka práce: „Zamestnávateľ môže po prerokovaní so
+    zástupcami zamestnancov ... c) rozšíriť okruh fyzických osôb, ktorým
+    zabezpečí stravovanie, a ktorým bude prispievať na stravovanie podľa
+    odseku 3.“ An employer who does so had only *Meal Days / Month* to say
+    it with, a fixed number that does not follow the absences.
+  * New on the contract, off by default: *Meal also for a Shift of Four
+    Hours or Less* (``l10n_sk_meal_short_shift``). With it a day earns the
+    meal when any work was done on it; a day without work, on leave or on a
+    public holiday, still earns none, and there is one meal a day. The rest
+    of the count is as it was, the whole days of worked-day lines typed by
+    hand included, and a number in *Meal Days / Month* is still taken as it
+    is.
+  * June 2026, 22 days, 5.12 a day: a schedule of four hours a day earns
+    22 meals and 112.64 with the option (none without); half a day of leave
+    on an eight-hour day leaves 22 (21 without); a whole day of leave leaves
+    21 and 107.52 either way.
+  * The decision is the ``any_work`` argument of ``meal_days`` in
+    ``l10n_sk_hr_payroll_base``, the same for both engines.
+
+- **19.0.1.28.4 (2026-11-21):** the object that gives the rules all the
+  worked-day lines of a code now lives in ``l10n_sk_hr_payroll_base``
+  (``worked_days.WorkedDayTotal``, ``worked_day_totals``), where the
+  Enterprise overlay reads it too. Nothing changes on this engine.
+
+- **19.0.1.28.3 (2026-11-21):** leave types that share a Slovak payroll
+  code are paid together.
+
+  * Each leave type has a worked-day line of its own on the payslip, and
+    several starter types share a code: unpaid leave and unpaid leave for
+    education are NEPLATENE, sickness and quarantine are PN, and the paid
+    obstacles are OBSTACLE. The rules were handed one line per code, so
+    with two types of a code in one payslip only one of them counted.
+  * The rules now read the days and hours of all the lines of a code,
+    whatever built the lines: the calendar, an earlier version of the
+    module, or a hand. The lines themselves stay as they are, one per leave
+    type.
+  * June 2026, 22 days of eight hours on 2 000: a day of unpaid leave and a
+    day of unpaid leave for education give a salary of 2 000 x 160 / 176 =
+    1 818.19 (was 1 909.10, one of the two days paid). Sick for two
+    scheduled days and in quarantine for three: 2 000 x 136 / 176 =
+    1 545.46 (was 1 727.28). A paid obstacle, a blood donation and paid
+    leave for education, a day each: salary 1 727.28 and 24 hours of
+    compensation, 272.73 (was 1 909.10 and 8 hours, 90.91).
+  * The sick pay, the meal days and the worked time of the average earnings
+    were right before: they do not read the lines by code.
+  * The update recomputes nothing. A draft payslip with such absences takes
+    the right amounts when it is computed again, without its worked days
+    being rebuilt; a confirmed payslip stays as it is.
+
+- **19.0.1.28.3 (2026-11-21):** a meal day is a day with more than four
+  hours worked.
+
+  * § 152 ods. 2 Zákonníka práce gives the meal, or the financial
+    contribution, to an employee „ktorý v rámci pracovnej zmeny vykonáva
+    prácu viac ako štyri hodiny“. The meal days of a payslip were the days
+    worked added up, parts of days included: an afternoon closed in the
+    calendar gave 21.5 meal days in a month of 22, and half a day of leave
+    on two days took one meal day where two shifts fell to four hours.
+  * Each scheduled day of the period is now decided alone. Its scheduled
+    hours, less the hours of absence and of a public holiday on that day,
+    must exceed the new dated parameter ``l10n_sk_meal_min_hours`` (4).
+    June 2026, 22 days of eight hours at 5.12 a day: an afternoon closed in
+    the calendar, or half a day of leave, gives 21 days and 107.52 (was 21.5
+    and 110.08); half a day of leave on two days gives 20 and 102.40 (was 21
+    and 107.52); two hours at the doctor's leave six hours worked, 22 days
+    and 112.64 (was 21.75 and 111.36). A whole month is 22 days as before.
+  * A schedule of four hours a day earns no meal (it earned one every day):
+    no shift has more than four hours of work. Where the employer provides
+    one all the same (§ 152 ods. 9), set *Meal Days / Month* on the
+    contract; that number is taken as it is, as before.
+  * The second meal for a shift of more than 11 hours is the employer's
+    option (§ 152 ods. 2) and is not counted.
+  * Overtime and work on a public holiday are inputs with hours and no day,
+    so they are not in the hours of a day; a public holiday is a day without
+    work.
+  * A day is the calendar day of the schedule, so a night shift scheduled
+    over two days is counted as two days.
+  * Worked-day lines that do not hold the hours the calendar and the
+    absences give were typed by hand, or are older than an absence. They do
+    not say which days were worked: their whole days count (19.5 days are
+    19).
+  * The update recomputes nothing. A draft payslip takes the new count when
+    it is computed again; a confirmed payslip stays as it is.
+
+- **19.0.1.28.3 (2026-11-21):** the employer's sick pay is part of the net
+  wage a garnishment is computed from. § 89 ods. 1 Exekučného poriadku
+  applies the deductions from wages to income that replaces the remuneration
+  for work and names the náhrada príjmu pri dočasnej pracovnej neschopnosti;
+  the rule left it out, so in a month with sick pay less was deducted than
+  the claim could reach. Sick pay of 74.00 next to a net wage of 1 134.51
+  gives 1 208.51 to compute the deduction from. The rule ``GARNISHMENT`` moves
+  from sequence 176 to 179, after ``SICK_COMP``, on the payslip input and
+  with an order in the register alike.
+
+- **19.0.1.28.3 (2026-11-21):** the net wage a garnishment is computed from
+  no longer contains the child tax bonus. § 69 ods. 1 Exekučného poriadku
+  takes the wage less the tax advance and the premiums, and the daňový bonus
+  is not wage (§ 118 ods. 2 Zákonníka práce); the Ministry of Justice says
+  the same in its opinion on deductions from income that does not replace the
+  remuneration for work. The rule added the whole bonus. July 2026, wage
+  1 500.00, two children, two dependants: premiums 216.00, advance before
+  the bonus 149.49, net wage 1 134.51 and a deduction of 171.52 for an
+  ordinary claim, where it was 1 334.51 and 238.19; the bonus of 200.00 is
+  paid on top in full, NET 1 162.99. The same on the payslip input and with
+  an order in the register. The rule now reads the net wage from
+  ``payslip.l10n_sk_garnishment_net_wage(categories)`` of
+  ``l10n_sk_hr_payroll_base`` 19.0.1.6.3, one definition for both engines.
+  An upgrade changes draft payslips when they are recomputed; confirmed ones
+  stay.
+
+- **19.0.1.28.2 (2026-11-21):** the daily base of the employer's sick pay
+  for a new employee (§ 8 ods. 4 and 6 zákona 462/2003 Z. z.), determined in
+  ``l10n_sk_hr_payroll_base``.
+
+  * Under 90 days of employment the decisive period runs from its start to
+    the day before the incapacity (§ 8 ods. 4). The part of the month of the
+    incapacity is that month's own sickness base, where the incapacity lasts
+    to the end of the month or of the employment, so that all of it was
+    reached before the incapacity. Hired 1 March 2026 on 2 000, sick 20 to
+    30 April: (2 000.00 + 1 181.82) / 50 days = 63.6364 and 327.73 of sick
+    pay; hired 10 March, sick 25 to 31 March: 1 000.00 / 15 = 66.6666 and
+    196.67.
+  * Sick on the first day, or with no base in the period: the base premium
+    would be paid on in the month the incapacity began (§ 8 ods. 6), the
+    monthly wage (an hourly rate over the month's scheduled hours) under the
+    monthly maximum, over the days of that month. Hired 1 June 2026 and sick
+    that day: 2 000 / 30 = 66.6666.
+  * Still to be typed in as *PN_DVZ*: an employee of under 90 days who was
+    back at work in the month of the incapacity (the wage of that month
+    would have to be split by day), and a first-day incapacity in an
+    employment that began inside a month (the Act names no divisor).
+  * A payslip that owes sick pay it could not compute says so and cannot be
+    confirmed: a warning on the payslip form, and an error on confirmation. It names the employee, the incapacity and the
+    *PN_DVZ* input. It used to show no sick-pay line and nothing else.
+  * The bases of the decisive period are summed as decimals: 2 000.00 +
+    1 181.82 as floats is 3 181.8199999…, which cut the fourth place of the
+    daily base to 63.6363.
+
+- **19.0.1.28.2 (2026-11-21):** a public holiday inside an absence, confirmed
+  payslips, the annual tax settlement, the garnishment inputs, the child of
+  18 or over and the hourly rate.
+
+  * An absence that begins on a public holiday of the working calendar is
+    that absence. The whole of it used to be filed as the holiday and paid as
+    worked: 2 000 with sickness from 1 to 15 May 2026 paid 2 000.00 and no
+    sick pay; it pays 952.39 (2 000 × 80 / 168) and 272.00 of sick pay on a
+    daily base of 40. Maternity, paternity, parental, nursing and unpaid
+    leave from 1 May paid the full salary and now pay nothing.
+  * A public holiday inside paid leave is not a day of leave (§ 112 ods. 3
+    Zákonníka práce) and stays inside the monthly wage (§ 122 ods. 3). Leave
+    from 27 April to 5 May 2026 paid three days of leave in May; it pays two,
+    1 809.53 + 190.48. Leave booked from Good Friday 3 April to 10 April 2026
+    is four days of leave, 1 636.37 + 363.64, where the payslip showed no
+    leave at all.
+  * Which of the two a day is: sickness, nursing, maternity, paternity,
+    parental and unpaid leave keep a holiday that falls inside them, and no
+    wage is due for it (the employer's sick pay runs by calendar day, § 7
+    ods. 2 zákona 462/2003 Z. z.); in paid leave and in an obstacle in work
+    the day is the holiday. The list is
+    ``ABSENCES_OVER_A_PUBLIC_HOLIDAY`` of ``l10n_sk_hr_payroll_base``.
+  * With the OCA module ``hr_holidays_public`` installed, the engine left the
+    holidays of the OCA holiday calendar out of the worked days while the
+    month's hours kept them, so a whole month worked with one holiday paid
+    2 000 × 168 / 176 = 1 909.10 of a salary of 2 000. The worked days of a
+    Slovak contract are the whole schedule again; the holiday is inside the
+    monthly wage (§ 122 ods. 3).
+  * ``compute_sheet`` computes a Slovak payslip only while it is a draft or
+    waiting. The engine computes whatever it is given and sets it to waiting,
+    so a confirmed payslip called through the API or a batch was recomputed
+    on today's contract and left the confirmed state. A confirmed or
+    cancelled payslip now stays as it is, with its recorded fund bases.
+  * The annual tax settlement keeps a child tax bonus that the employer
+    granted during the tax years 2023 and 2024 when the recomputation gives
+    less (§ 33 ods. 11 zákona 595/2003 Z. z. as in force to 31. 12. 2024:
+    the taxpayer "nestráca nárok na už priznaný daňový bonus"). Zákon
+    278/2024 Z. z. replaced the paragraph and its § 52zzzb ods. 6 applies
+    the new wording first for January 2025, so from the tax year 2025 the
+    difference is still taken back. Tax year 2024, 1 820 granted and 1 680
+    recomputed: 0,00, not −140,00. The switch is the dated parameter
+    ``l10n_sk_child_bonus_keep_granted``.
+  * An underpayment of tax of 5 € or less from the annual settlement is not
+    withheld (§ 38 ods. 7 zákona 595/2003): 3,50 used to be withheld. It is
+    set off against child bonus still to be paid in the settlement; what the
+    bonus does not cover is withheld only when the new box *Assigns a Share
+    of Tax (§ 50, § 50aa)* is ticked. A bonus taken back is not such an
+    underpayment. The new field *Tax Underpayment Not Withheld* shows the
+    amount left unpaid, and the limit is the dated parameter
+    ``l10n_sk_tax_underpayment_not_withheld``.
+  * The update recomputes the settlements that are not posted yet under
+    both rules and leaves a posted settlement as it was posted.
+  * The *GARNISHMENT* and *GARNISHMENT_PRIORITY* inputs round the protected
+    sums down to the cent, as § 4 nariadenia vlády č. 268/2006 Z. z. says and
+    as the garnishment register does: the sum for the debtor, the sum per
+    dependant and the limit of § 3 ods. 1. They were rounded to the nearest
+    cent, so one claim gave two deductions depending on where it was entered.
+    July 2026, living minimum 295.22, two dependants, net wage 1 134.51:
+    413.30 + 2 × 103.32 = 619.94 is protected and one third of the rest is
+    171.52, not 171.51; in August 2024 (273.99) a wage above the limit was
+    deducted 3 cents short. A test compares the input with the register for
+    five months, four wages and up to three dependants, and another the living
+    minimum and the coefficients of the rule parameters with the register's
+    rate records.
+  * For January 2023 to December 2024 a dependent child of 18 or over has a
+    child tax bonus of 50 € a month (§ 52zzp ods. 4 and 5 zákona 595/2003 Z.
+    z.) and counts for the percentage limit of § 33 ods. 6 like every
+    dependent child. The contract gains *Children 18y+ (tax bonus to 2024)*
+    and the dated parameter ``l10n_sk_child_bonus_over_18`` (50 from 1
+    January 2023, 0 from 1 January 2025); the monthly rule and the annual
+    settlement read both. 1 000 € in December 2024 with two children under
+    18 and one over: 330 limited to 34 % of 866,00 = 294,44. From January
+    2025 a number left there gives nothing and does not raise the limit.
+  * An hourly wage keeps four decimals. The minimum hourly wage and its
+    degree claims have three (§ 2 ods. 2 zákona 663/2007 Z. z., § 120 ods. 7
+    Zákonníka práce), and *Hourly Wage (SK)* was an amount in whole cents:
+    5,259 was stored as 5,26 and 176 hours paid 925,76 where 925,59 is due
+    (925,584 rounded up). The field is now a number with four decimals;
+    rates already entered stay as they are. The warning on an agreement
+    under the minimum hourly wage sees a rate under it by a fraction of a
+    cent, and the probable earnings of an hourly wage are the rate itself,
+    not the monthly wage over the month's hours.
+
+- **19.0.1.28.1 (2026-11-21):** corrections to the payslip arithmetic.
+
+  * A monthly salary is prorated in the month the contract ends: the
+    worked-day lines stop at the contract end, as they start at its start.
+    2 000 with a contract ending on 15 June 2026 was paid 2 000.00 and is
+    now 1 000.00.
+  * The basic wage of a part month is a whole-cent amount before any levy or
+    the tax reads it: 1 000 from 10 March 2026 went into the levies and the
+    tax as 727.2727.
+  * Every wage component is rounded up to the cent (owner's decision of
+    2026-11-21): the base pay, monthly and hourly, the leave pay and the two
+    obstacle compensations, which were rounded to the nearest cent. § 130
+    ods. 1 Zákonníka práce rounds the wage paid out upward and has no rule
+    for a single component, so each component is rounded in the direction
+    that can never take a fraction of a cent from the employee. The exact
+    result of the formula for the whole period is rounded once
+    (``round_wage_component`` of ``l10n_sk_hr_payroll_base``), a whole-cent
+    result stays as it is, and a full month is exactly the salary. 1 000
+    from 10 March 2026 is 727.28 (727.2727), NET 504.28; 2 000 with one day
+    of leave in May 2026 is 1 904.77 (1 904.7619) plus 95.24 of leave pay
+    (95.2384), GROSS 2 000.01. The premiums, the overtime pay and the
+    minimum wage top-up were rounded up already; levies, tax, child bonus,
+    sick pay and meal amounts keep their own rounding.
+  * The tax advance and the child bonus are rounded to the cent before NET
+    reads them (§ 47 zákona 595/2003 Z. z.), so the lines add up to NET:
+    1 238 with the declaration in March 2026 is 1 238 − 178.27 − 106.88 =
+    952.85, not 952.86. ``_l10n_sk_monthly_income_tax`` still returns the
+    advance before rounding.
+  * Several payslip inputs of one code are summed by the rules that read an
+    amount or a number of days (the deductions, the reimbursement, the
+    garnishment debt, *PN_DAYS*, the annual settlement). Two *DEDUCTION*
+    inputs of 50 and 30 deducted 30. *PN_DVZ* is a daily base and is not
+    summed.
+  * With *Meal Days / Month* at 0 the meal rules count the days worked: the
+    scheduled days less the days of absence and the public holidays (§ 152
+    ods. 2 Zákonníka práce). They counted every scheduled day.
+  * The annual tax of the settlement rounds an exact half cent upward (§ 47):
+    19 % of 9 999.50 is 1 899.91, not 1 899.90.
+  * The living minimum is 273.99 from 1 July 2024. Its record and the one
+    for the first half of 2024 (268.88) shared an XML id, so the second
+    overwrote the first and 268.88 applied until 30 June 2025. It feeds the
+    protected amount of the *GARNISHMENT* input. An upgrade corrects the
+    record and adds the missing one; a test refuses an id declared twice in
+    a data file.
+  * Meal allowance for 5 to 12 hours: 7.80 on 1 January 2024 (opatrenie MPSVR
+    SR č. 368/2023 Z. z., from 1 October 2023) and 8.30 from 1 September 2024
+    (č. 211/2024 Z. z.). The data had 7.30 until the end of 2024. An upgrade
+    corrects both values.
+  * Texts: the monthly allowance is applied in full (the taper of § 11 ods. 2
+    is annual), and the employer's sick pay is exempt from income tax (§ 5
+    ods. 7 písm. f) zákona 595/2003 Z. z.).
+
+- **19.0.1.28.0 (2026-11-21):** the daily assessment base of the employer's sick
+  pay is determined from the confirmed payslips when the *PN_DVZ* input is
+  absent (§ 8 ods. 4, 5 and 8 zákona 462/2003 Z. z., § 54 zákona 461/2003):
+  the decisive period, the sickness bases of its payslips over its days less
+  the excluded leave, four places downward. The input still wins, and is
+  still required when the payslips do not cover the period completely; the
+  rule ``SICK_COMP`` no longer needs it to run. The logic is in
+  ``l10n_sk_hr_payroll_base`` 19.0.1.6.0.
+
+- **19.0.1.27.0 (2026-11-20):** the agreement OOP of a person on maternity,
+  paternity or parental leave (§ 227a zákona 461/2003 Z. z. from 1 January
+  2027). The contract gains *OOP Ground*, *OOP Notice Received* and *Leave
+  Ends (OOP)*; on the ground of leave the OOP applies on a DoVP or DoPČ from
+  January 2027, from the notice (ods. 3) to the month the leave ends (ods. 4).
+  A claim on the other ground with a notice date follows the same start rule;
+  without one it is unchanged. *OOP Agreement (student/pensioner)* is now
+  *OOP Agreement*. The salary rules ask
+  ``l10n_sk_agreement_oop_applies(payslip.date_from)`` of
+  ``l10n_sk_hr_payroll_base`` 19.0.1.5.0 instead of reading the box.
+
 - **19.0.1.26.6 (2026-11-19):** share the OCA monthly income-tax calculation
   for explicit monthly bases, with a taxable-wage rounding hook. The default
   preserves the native payslip calculation.
@@ -13,6 +396,45 @@ Unreleased
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.29.0 (2026-11-21), not yet on 18.0:** the single declaration of
+  one person at one employer; there the box is on ``hr.contract``.
+
+- **19.0.1.28.4 (2026-11-21), not yet on 18.0:** the option of a meal on
+  a shorter shift, with the meal days of 19.0.1.28.3.
+
+- **19.0.1.28.3 (2026-11-21), not yet on 18.0:** the meal days counted
+  by shift of more than four hours, with ``meal_days`` of the base module.
+
+- **19.0.1.28.3 (2026-11-21), not yet on 18.0:** the garnishment net wage
+  without the child tax bonus.
+
+- **19.0.1.28.2 (2026-11-21), not yet on 18.0:** the public holiday inside an
+  absence (``_l10n_sk_leave_pieces``) and the guard of ``compute_sheet`` on a
+  confirmed payslip. Check both against the 18.0 engine first. The two rules
+  of the annual tax settlement (a child bonus granted in 2023 and 2024 is
+  kept; an underpayment of 5 € or less is not withheld) are not on 18.0
+  either; the reconciliation model is the same there. Also not on 18.0: the
+  rounding of the protected sums of the garnishment inputs. Nor are the child
+  of 18 or over and the four decimals of the hourly rate; there the fields go
+  on ``hr.contract``.
+
+- **19.0.1.28.1 (2026-11-21), not yet on 18.0:** the payslip arithmetic
+  corrections (worked days cut at the contract end, wage components rounded
+  up to the cent once, rounded tax and child bonus in NET, summed inputs,
+  meal days, the half-up annual tax) and the two 2024 meal allowance values. On 18.0 the contract
+  is ``hr.contract`` and the monthly tax is computed inline in the rule;
+  reproduce each with its test before porting.
+
+- **19.0.1.28.0 (2026-11-21), not yet on 18.0:** the determined daily
+  assessment base of sick pay. On 18.0 the confirmed payslip state and the
+  contract model differ; the two engine hooks carry both.
+
+- **19.0.1.27.0 (2026-11-20), not yet on 18.0:** the agreement OOP on the
+  ground of maternity, paternity or parental leave — the three contract
+  fields (on ``hr.contract`` there), the constraint, the rule condition and
+  the ``l10n_sk_agreement_oop_applies`` helper of the base module. Needed on
+  18.0 before the January 2027 payroll.
 
 - **19.0.1.26.6 (2026-11-19), not yet on 18.0:** the shared monthly
   income-tax calculation and taxable-wage rounding hook. Port after the

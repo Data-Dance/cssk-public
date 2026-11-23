@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_hr_payroll_base/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>Slovak Payroll</h1>
 <p class="cssk-summary">The Slovak payroll family in one place — the monthly payslip for a pracovný pomer and the three dohody on either Odoo Enterprise Payroll or the OCA payroll app, with dated statutory rates, leave, the annual tax reconciliation and posting to the general ledger.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code></td></tr><tr><th>Extended by</th><td><code>l10n_sk_hr_payroll_ee</code>, <code>l10n_sk_hr_payroll_oca</code>, <a href="/l10n_sk_hr_payroll_surcharges/static/description/index.html"><code>l10n_sk_hr_payroll_surcharges</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.7.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code></td></tr><tr><th>Extended by</th><td><code>l10n_sk_hr_payroll_ee</code>, <code>l10n_sk_hr_payroll_oca</code>, <a href="/l10n_sk_hr_payroll_surcharges/static/description/index.html"><code>l10n_sk_hr_payroll_surcharges</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Slovak payroll is delivered as a family of modules. This page describes the
@@ -173,9 +173,12 @@ were checked against the consolidated texts in force in October 2026.</p>
   (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-138.odsek-10">§ 138 ods. 10</a>). Each premium is
   rounded down to the cent
   (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-129.odsek-2">§ 129 ods. 2</a>). On an agreement
-  with a pensioner or student the base is reduced by the
-  <em>odvodová odpočítateľná položka</em> of 200 € a month
-  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-138a">§ 138a</a>).</li>
+  designated for it the base is reduced by the
+  <em>odvodová odpočítateľná položka</em> of 200 € a month, 300 € from 2027
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-138a">§ 138a</a>). A DoBPŠ holder and a pensioner
+  on a DoVP or DoPČ may designate one agreement a month; from 1 January 2027
+  so may a person on maternity, paternity or parental leave
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-227a">§ 227a</a>).</li>
 <li><strong>Health insurance rates</strong> are 5 % for the employee (2.5 % for a person with
   a disability) under
   <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-12.odsek-1">§ 12 ods. 1 zákona o zdravotnom poistení</a>,
@@ -270,7 +273,7 @@ were checked against the consolidated texts in force in October 2026.</p>
 <tbody>
 <tr>
 <td>Tax Declaration Signed</td>
-<td>The employee signed the <em>vyhlásenie</em> with this employer: the monthly non-taxable part and the child tax bonus are applied. Only one employer at a time may apply them.</td>
+<td>The employee signed the <em>vyhlásenie</em> with this employer: the monthly non-taxable part and the child tax bonus are applied. Only one employer at a time may apply them, and the declaration is given to the employer once (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-36.odsek-6">§ 36 ods. 6</a>): where one person has several employee records in the company (an employment and an agreement, recognised by the same birth number), the box can be ticked on one of them at a time.</td>
 </tr>
 <tr>
 <td>Children &lt; 15y (tax bonus), Children 15–17y (tax bonus)</td>
@@ -309,8 +312,20 @@ were checked against the consolidated texts in force in October 2026.</p>
 <td>The dôchodok the worker has been granted, if any. A DoVP/DoPČ holder with any of them pays no sickness or unemployment insurance; a starobný, predčasný starobný or over-70 % invalidný pensioner pays no unemployment insurance on any form; after a starobný, predčasný starobný or (at pension age) výsluhový dôchodok neither side pays disability insurance. Survivors' pensions are not listed: they change nothing.</td>
 </tr>
 <tr>
-<td>OOP Agreement (student/pensioner)</td>
-<td>Reduces the old-age, disability and reserve fund base by up to 200 € on an agreement with an eligible pensioner or student.</td>
+<td>OOP Agreement</td>
+<td>Reduces the old-age, disability and reserve fund base by up to 200 € a month (300 € from 2027) on the agreement the worker designated for it. Sickness and unemployment insurance stay on the full base.</td>
+</tr>
+<tr>
+<td>OOP Ground</td>
+<td><em>Pensioner or student</em>, or <em>Maternity, paternity or parental leave</em>. The second exists on a DoVP or DoPČ only and has effect from January 2027.</td>
+</tr>
+<tr>
+<td>OOP Notice Received</td>
+<td>The day the worker notified the claim in writing and, on the ground of leave, proved the leave with the confirmation of the employer the leave is taken with. Required on the ground of leave. When filled in, the OOP applies from the start of the agreement if the notice came no later than that day, otherwise from the following month (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-227a.odsek-3">§ 227a ods. 3</a>); left empty on the other ground, it applies while the box is ticked.</td>
+</tr>
+<tr>
+<td>Leave Ends (OOP)</td>
+<td>On the ground of leave: the last day of the leave, which the worker reports at least eight days ahead. The OOP stops with the month of that day (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-227a.odsek-4">§ 227a ods. 4</a>).</td>
 </tr>
 <tr>
 <td>Health-insurance exempt (štátny poistenec)</td>
@@ -321,8 +336,16 @@ were checked against the consolidated texts in force in October 2026.</p>
 <td>No guarantee insurance for a statutory body with at least a 50 % share.</td>
 </tr>
 <tr>
+<td>Taxed Together With</td>
+<td>Another employee record of the same person in the company, on whose payslip the income tax of this record is computed; see <em>Several records of one person</em> below. Empty: the record is taxed on its own.</td>
+</tr>
+<tr>
 <td>Meal Allowance Type, Meal Days / Month</td>
-<td><em>None</em>, <em>Meal voucher</em> or <em>Financial contribution</em>, and the number of days (0 = the worked days of the payslip).</td>
+<td><em>None</em>, <em>Meal voucher</em> or <em>Financial contribution</em>, and the number of days (0 = the days of the payslip with more than four hours worked).</td>
+</tr>
+<tr>
+<td>Meal also for a Shift of Four Hours or Less</td>
+<td>For an employer who provides the meal on a shorter shift too (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-152.odsek-9">§ 152 ods. 9</a>): a day counts when any work was done on it. Off by default; not used when <em>Meal Days / Month</em> is set.</td>
 </tr>
 <tr>
 <td>Garnishment Dependents</td>
@@ -348,7 +371,13 @@ that purpose.</p>
 <li><strong>Wage surcharges and the minimum wage top-up</strong>, when
    <a href="/l10n_sk_hr_payroll_surcharges/static/description/index.html"><code>l10n_sk_hr_payroll_surcharges</code></a>
    is installed.</li>
-<li><strong>Gross pay.</strong></li>
+<li><strong>Gross pay.</strong> Each wage component above is the exact result of its
+   formula for the whole period, rounded up to the cent once: the wage paid
+   out is rounded upward
+   (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-130.odsek-1">§ 130 ods. 1</a>) and the Code has
+   no rule for a single component, so none loses a fraction of a cent. A
+   whole month at the full wage is exactly the wage; a month with paid leave
+   can be a cent above it.</li>
 <li><strong>Social insurance</strong>, employee and employer, each fund on the capped base
    and rounded down to the cent. Sickness and unemployment insurance apply
    only with a regular income, and the <em>Pension granted</em> field takes them
@@ -387,8 +416,45 @@ that purpose.</p>
 <p><strong>Sickness.</strong> <em>Sickness Income Compensation</em> pays the employer's part of sick
 leave: 25 % of the daily assessment base for days 1–3 and 55 % from day 4, up
 to day 10 in 2025 and day 14 from 2026, with the base capped. The sick days come
-from the PN leave or the <em>Sick-leave days (PN)</em> input; the daily base must be
-entered as the <em>Sick-leave daily assessment base (DVZ)</em> input.</p>
+from the PN leave or the <em>Sick-leave days (PN)</em> input.</p>
+<p>The <strong>daily assessment base (DVZ)</strong> of a PN leave is determined from the
+confirmed payslips of the decisive period
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/#paragraf-8">§ 8 zákona 462/2003</a>,
+<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/#paragraf-54">§ 54 zákona 461/2003</a>): the previous calendar
+year for an employment running since 1 January of that year, otherwise from
+the start of the employment to the end of the month before the sickness. The
+sickness assessment bases of those payslips are divided by the days of the
+period, less the days of approved sick, nursing, maternity, paternity,
+parental and unpaid leave, and cut to four decimals.</p>
+<p>For a new employee (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/#paragraf-8">§ 8 ods. 4 and 6</a>):</p>
+<ul>
+<li><strong>under 90 days of employment</strong> the period runs from its start to the day
+  before the sickness. The part of the month of the sickness is taken from
+  that month's own payslip, when the sickness lasts to the end of the month
+  (or of the employment), so that everything earned in that month was earned
+  before it;</li>
+<li><strong>sick on the first day</strong>, or with no base in the period, the base is the
+  one premium would be paid on in the month the sickness began: the monthly
+  wage (for an hourly wage the rate over the month's scheduled hours), under
+  the monthly maximum, over the days of that month.</li>
+</ul>
+<p>Enter the <em>Sick-leave daily assessment base (DVZ)</em> input to override it. <strong>The
+input is required</strong> whenever the payslips cannot answer:</p>
+<ul>
+<li>a month of the decisive period has no confirmed payslip here (the months
+  before payroll ran in this database), a part-month payslip, two payslips,
+  or a refund;</li>
+<li>an employee of under 90 days was back at work in the month the sickness
+  began: what was earned before the sickness is then on no payslip;</li>
+<li>the sickness begins on the first day of an employment that started inside
+  a month: the Act names no divisor for a month insured in part;</li>
+<li>the sick days come from the <em>Sick-leave days (PN)</em> input instead of a leave.</li>
+</ul>
+<p>No sick pay is computed without the base, and the payslip says so: it names
+the employee, the sickness and the input, and it cannot be confirmed until
+the input is entered.</p>
+<p>The employment's start date stands for the start of the sickness insurance;
+a strike and a rehabilitation benefit are not excluded from the period.</p>
 <p><strong>Garnishment.</strong> With
 <a href="/l10n_cssk_hr_payroll_garnishment_base/static/description/index.html"><code>l10n_cssk_hr_payroll_garnishment_base</code></a>
 and an order on file, the order register computes the deduction. Otherwise
@@ -396,12 +462,73 @@ enter the outstanding debt as the <em>Wage Garnishment (ordinary claim)</em> or
 <em>Wage Garnishment (priority claim)</em> input: one claim per payslip, one third
 (ordinary) or two thirds (priority) of the net wage above the non-seizable
 amount, and everything above three times the basic non-seizable amount.</p>
+<p>On both paths the net wage is the gross wage less the employee's premiums
+and the income tax advance
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1995/233/#paragraf-69.odsek-1">§ 69 ods. 1 Exekučného poriadku</a>),
+plus the employer's sick pay of the month, which replaces the wage
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1995/233/#paragraf-89.odsek-1">§ 89 ods. 1</a>).
+The child tax bonus is not wage
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-118.odsek-2">§ 118 ods. 2 Zákonníka práce</a>): the
+advance deducted is the one before the bonus, and the bonus is paid on top in
+full. The meal contribution, a reimbursement and the result of the annual tax
+settlement are no part of the net wage either.</p>
 <p><strong>Meals.</strong> The employer contribution per day is 55 % of the meal allowance for
 a 5–12 hour business trip, rounded up to the cent — the most
 § 152 ods. 3 allows per meal. With <em>Meal voucher</em> the employee pays the rest of
 a voucher worth 75 % of that allowance, the minimum voucher value under
 § 152 ods. 4. With <em>Financial contribution</em> the contribution is paid out with
 the net wage.</p>
+<p>A meal day is a day on which the employee worked more than four hours
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-152.odsek-2">§ 152 ods. 2</a>). Each day of the
+payslip is decided alone, from its scheduled hours less absences and public
+holidays (Enterprise: from its work entries): half a day of leave on an
+eight-hour day earns no meal, two hours at the doctor's keep it, two half
+days do not add up to one, and a schedule of four hours a day earns none.
+The second meal for a shift of more than 11 hours is not counted. A number
+in <em>Meal Days / Month</em> on the contract replaces the count. An employer who
+provides the meal on a shorter shift too
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-152.odsek-9">§ 152 ods. 9</a>) ticks <em>Meal also for
+a Shift of Four Hours or Less</em>: every day with any work on it then earns the
+meal, so a schedule of four hours a day and a day with half a day of leave
+count, and a day wholly on leave or on a public holiday still does not.</p>
+<p><strong>Several records of one person.</strong> An employment and an agreement of one
+person are two employee records with a payslip each.
+<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-35.odsek-1">§ 35 ods. 1</a> taxes the total the
+employer pays the employee in the month, less the employee's premiums and one
+non-taxable amount. No authority says in so many words how two relationships
+at one employer are taxed, so the module infers nothing: on the record of the
+agreement choose in <em>Taxed Together With</em> the record that taxes the month
+for both, usually the employment, where the declaration is ticked. From then
+on:</p>
+<ul>
+<li>the payslip of the linked record shows its tax base on the line <em>Tax Base
+  Taxed on the Other Record's Payslip</em> and no non-taxable amount, no tax and
+  no child bonus;</li>
+<li>the payslip of the record named adds the bases of the linked records'
+  payslips of the same month (line <em>Tax Base Taken Over from Records Taxed
+  Together</em>), floors the total at zero once and computes on it the one
+  non-taxable amount, the advance and the child bonus with its percentage
+  limit. An employment of 400 € and a DoPČ of 300 € in 2026: bases 342.40 and
+  256.80, taxed alone 0.00 and 48.79, together (342.40 + 256.80 − 497.23) ×
+  19 % = 19.37 €.</li>
+</ul>
+<p>Compute the linked payslips first; in one batch the module does so itself.
+The payslip that taxes the month is not computed while a linked payslip of
+the month waits, and is not confirmed when the linked payslips no longer hold
+what it took over: compute it again. Once it is confirmed, the linked
+payslips of the month cannot be changed, cancelled or refunded; refund it
+first. A refund and the payslip it refunds are both left out. The link cannot
+be changed between the two confirmations of a month. A linked record is taxed
+on its own in a month in which no contract of the other record runs.</p>
+<p>A wage garnishment is not computed on payslips taxed together: it is deducted
+from the person's whole net wage from the employer
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1995/233/#paragraf-69">§ 69 Exekučného poriadku</a>), which one payslip
+does not hold. Without the link each record is taxed on its own, as before.</p>
+<p>The annual tax reconciliation is made for the record that taxes the month
+and covers the linked records with it. The annual report and the certificate
+of income still show each employee record in a column of its own; a person
+with linked records has to be put into one column there by hand until they
+follow.</p>
 <h2 id="rates">Statutory figures</h2>
 <p>All rates and amounts are dated values, so a payslip uses the figure in force
 on its date. The values shipped:</p>
@@ -557,10 +684,26 @@ whole year on 1 January ship archived.</p>
 paid obstacles that require an allocation — medical examination (7 days a
 year), accompanying a family member (7 days) and accompanying a disabled child
 (10 days) — enforce their annual caps when the leave is booked.</p>
+<p><strong>Public holidays.</strong> Payroll and Time Off know a holiday only as a public
+holiday of the working schedules (<em>Time Off → Configuration → Public
+Holidays</em>);
+<code>l10n_cssk_public_holidays</code> keeps
+the Slovak ones there. For a monthly wage a holiday on a usual working day is
+inside the wage (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-122.odsek-3">§ 122 ods. 3</a>). A
+holiday inside paid leave is not a day of leave
+(<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-112.odsek-3">§ 112 ods. 3</a>): the leave balance and
+the leave pay skip it and the wage is not reduced for it. Inside sick leave,
+family care, maternity, paternity, parental or unpaid leave the day stays
+that absence and no wage is due for it; the employer's sick pay runs by
+calendar day (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/#paragraf-7.odsek-2">§ 7 ods. 2 zákona 462/2003</a>).</p>
 <h2 id="tax-reconciliation">Annual tax reconciliation</h2>
 <p><em>Payroll → Payslips → SK Annual Tax Reconciliation</em> (on the OCA engine
 directly under <em>Payroll</em>) holds one record per employee and tax year for the
-<em>ročné zúčtovanie preddavkov na daň</em>.</p>
+<em>ročné zúčtovanie preddavkov na daň</em>. It is the taxpayer's: where several
+records of one person are taxed together, make it for the record that taxes
+the month, and it gathers the payslips of all of them; for a linked record
+alone it is refused. Two records with the same birth number cannot each have
+one for the same year.</p>
 <ol>
 <li>Create the record for the employee and year. With <strong>Gather from Payslips</strong>
    ticked, <strong>Compute</strong> sums the year's tax bases, withheld advances and paid
@@ -706,13 +849,20 @@ and work with either engine:</p>
   days when no <em>PN days</em> input is given, and the choice of an employee with
   several employers not to apply the minimum
   (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-16a.odsek-5">§ 16a ods. 5</a>) is not modelled.</li>
-<li><strong>Health <em>odpočítateľná položka</em></strong> is not prorated for a partial month and
-  reduces only the employee's base.</li>
-<li><strong>Sick pay</strong> is not taxed on the payslip, the daily assessment base must be
-  entered by hand, and the leave's working days stand in for the calendar
-  days the law counts.</li>
+<li><strong>Health <em>odpočítateľná položka</em></strong> is reduced for the calendar days of the
+  month outside the contract
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-16.odsek-18">§ 16 ods. 18</a>) and reduces only the
+  employee's base.</li>
+<li><strong>Sick pay.</strong> The daily assessment base has to be entered by hand where
+  the payslips on file do not determine it; see <em>Sickness</em> above.</li>
 <li><strong>Average earnings</strong> count gross pay less the module's wage replacement
   lines, and test only the 168-hour condition, not the 21-day one.</li>
+<li><strong>Meal days.</strong> Overtime and work on a public holiday entered as hours of a
+  surcharge input have no day, so the shift they belong to is not counted
+  (Enterprise counts overtime entered as a work entry). A day is a calendar
+  day: a night shift scheduled over two days is two days. Worked-day lines
+  typed by hand count their whole days. Use <em>Meal Days / Month</em> where the
+  count has to be set.</li>
 <li><strong>Annual leave.</strong> Unused leave is carried over without limit and never
   lapses (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-113">§ 113</a>); planning when it is taken
   is up to the employer. Until version 19.0.1.18.3 (OCA) / 19.0.1.17.5
@@ -738,9 +888,49 @@ warning names the affected payslips in the form and in the chatter.</p>
 gross-based calculation. A correction first requires precise records; for older
 payroll you can review the archived payroll, enter a reason and explicitly
 confirm the previous calculation on the correction. The form records who
-confirmed it and when. Do not recalculate filed payroll just to create records.
-Systems that do not yet keep these records continue their existing workflow.</p>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2007/663/">Zákon č. 663/2007 Z. z. o minimálnej mzde</a></li></ul><p>Text checked against module version: 19.0.1.4.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+confirmed it and when. Do not recalculate filed payroll just to create records.</p>
+<p>Both engines keep and read these records: the OCA engine for payslips
+computed since 19.0.1.25.0, the Enterprise engine for payslips computed since
+19.0.1.26.0 and read by the statements since 19.0.1.28.4. What that means for
+each insurance statement:</p>
+<table>
+<thead>
+<tr>
+<th>Statement</th>
+<th>Taken from the records</th>
+<th>A period with a payslip that has no records</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>l10n_sk_hr_payroll_health</code> (dávka 514)</td>
+<td>the employee's base after the deductible item, the item, both rates</td>
+<td>the row is reported on gross with no deductible item, and the statement names the payslip</td>
+</tr>
+<tr>
+<td><code>l10n_sk_hr_payroll_mvp</code></td>
+<td>nothing yet: every base is the gross wage</td>
+<td>the statement is generated as before and names the payslip</td>
+</tr>
+<tr>
+<td><code>l10n_sk_hr_payroll_vpp</code></td>
+<td>nothing yet: every base is the gross wage</td>
+<td>an original names the payslip; a corrective statement stops until you confirm the previous calculation as described above</td>
+</tr>
+<tr>
+<td><code>l10n_sk_hr_payroll_eldp</code></td>
+<td>nothing yet</td>
+<td>its periods end in 2025, and payslips computed then have no records: the statement is generated as before and names them</td>
+</tr>
+</tbody>
+</table>
+<p>A payslip has no usable records when it was computed before the version
+above, or when its lines were changed afterwards, by hand or by the <em>Edit
+Payslip Lines</em> wizard. A draft payslip gets them when it is recomputed. A
+refund made with the engine's own refund is read as its original with the
+opposite sign, so the two cancel out in a statement of their month; a refund
+changed by hand counts as a payslip without records.</p>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/">Zákon č. 311/2001 Z. z. Zákonník práce</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/461/">Zákon č. 461/2003 Z. z. o sociálnom poistení</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2007/663/">Zákon č. 663/2007 Z. z. o minimálnej mzde</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/">Zákon č. 462/2003 Z. z. o náhrade príjmu pri dočasnej pracovnej neschopnosti zamestnanca</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1995/233/">Zákon Národnej rady Slovenskej republiky č. 233/1995 Z. z. o súdnych exekútoroch a exekučnej činnosti (Exekučný poriadok) a o zmene a doplnení ďalších zákonov</a></li></ul><p>Text checked against module version: 19.0.1.7.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

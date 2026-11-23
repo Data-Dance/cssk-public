@@ -8,3 +8,6 @@ from . import hr_leave_accrual_plan
 from . import hr_payslip
 from . import l10n_sk_tax_reconciliation
 from . import fund_capture
+from . import hr_payslip_sick_base
+from . import hr_payslip_closed
+from . import hr_payslip_joint_tax

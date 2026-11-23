@@ -5,6 +5,13 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
+* **19.0.1.1.5 (2026-11-21):** on the Enterprise engine the ELDP now checks
+  the recorded fund bases of its payslips, as it does on the OCA engine
+  (``l10n_sk_hr_payroll_ee`` 19.0.1.28.4). No figure changes. Its periods end
+  in 2025, and payslips computed then have no recorded bases, so an ELDP is
+  generated as before and shows a warning naming them. It has no corrective
+  variant and never stops for missing records.
+
 * Show an expired legacy confirmation on the insurance declaration and hide obsolete confirmation labels.
 
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:

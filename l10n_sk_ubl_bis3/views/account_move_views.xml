@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- A credit note typed by hand has no link to the invoice it corrects;
+         this is where the user names it. -->
+    <record id="view_move_form_original_invoice_ref" model="ir.ui.view">
+        <field name="name">account.move.form.l10n_sk_ubl_bis3</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@id='header_right_group']//field[@name='payment_reference']" position="before">
+                <field name="l10n_sk_original_invoice_ref"
+                       invisible="move_type != 'out_refund' or reversed_entry_id or country_code != 'SK'"
+                       readonly="state == 'cancel'"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

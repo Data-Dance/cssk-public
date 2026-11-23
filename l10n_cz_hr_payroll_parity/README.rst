@@ -57,7 +57,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_parity``
-- **Version:** 19.0.1.2.4
+- **Version:** 19.0.1.2.6
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``, ``l10n_cssk_payroll_declaration_base``

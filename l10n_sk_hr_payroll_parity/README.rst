@@ -94,7 +94,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_parity``
-- **Version:** 19.0.1.8.2
+- **Version:** 19.0.1.9.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``, ``l10n_cssk_payroll_declaration_base``

@@ -39,10 +39,10 @@
                 <TotalReceipt2 t-out="agg514['prijem2']"/>
                 <BaseOfAssess1 t-out="agg514['vz1']"/>
                 <BaseOfAssess2 t-out="agg514['vz2']"/>
-                <DepositOfInsurance1 t-out="agg514['preddavok_zamtel']"/>
-                <DepositOfInsurance2 t-out="agg514['preddavok_zamnec']"/>
-                <DepositOfInsurance3 t-out="agg514['doplatok']"/>
-                <DepositOfInsurance4>0.00</DepositOfInsurance4>
+                <DepositOfInsurance1 t-out="agg514['preddavok_zamtel1']"/>
+                <DepositOfInsurance2 t-out="agg514['preddavok_zamnec1']"/>
+                <DepositOfInsurance3 t-out="agg514['preddavok_zamtel2']"/>
+                <DepositOfInsurance4 t-out="agg514['preddavok_zamnec2']"/>
                 <TotalDepositOfInsurance t-out="agg514['preddavok_spolu']"/>
             </InsuranceBody>
             <t t-foreach="rows514" t-as="row">
@@ -57,10 +57,10 @@
                     <DepositOfEmployer t-out="row['preddavok_zamtel']"/>
                     <DepositOfEmployee t-out="row['preddavok_zamnec']"/>
                     <DepositOfTotal t-out="row['preddavok_spolu']"/>
-                    <ReceiptOfEmployee t-out="row['prijem']"/>
-                    <TotalReceiptOfOther>0.00</TotalReceiptOfOther>
-                    <OP>0.00</OP>
-                    <NotAppliedMinimum>0</NotAppliedMinimum>
+                    <ReceiptOfEmployee t-out="row['prijem_op']"/>
+                    <TotalReceiptOfOther t-out="row['prijem_ostatny']"/>
+                    <OP t-out="row['op']"/>
+                    <NotAppliedMinimum t-out="row['bez_minima']"/>
                     <DepositOffEmployeeAdd t-out="row['doplatok']"/>
                 </PersonData>
             </t>

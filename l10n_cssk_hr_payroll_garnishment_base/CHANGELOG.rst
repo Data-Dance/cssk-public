@@ -5,10 +5,48 @@ Changelog
 Unreleased
 ----------
 
+* **19.0.1.3.2 (2026-11-21):** Slovak rate records and texts.
+
+  * A rate record for the living minimum of 268.88 valid from 1 July 2023
+    (opatrenie č. 220/2023 Z. z.). The first shipped record started on 1 July
+    2024, so a Slovak wage of the first half of 2024 with an order on file
+    stopped with "no rates configured", while the payslip input of the
+    Slovak payroll computed the same month on 268.88. An upgrade creates the
+    record.
+  * Texts follow nariadenie vlády č. 268/2006 Z. z. as in force from
+    1 January 2022: the fine class is § 2b (§ 2a is the pension recipient),
+    the 70 % of the maintenance class is § 70 ods. 2 Exekučného poriadku
+    applied to the § 2 ods. 1 sum, and the note on the record of 1 July 2026
+    gives the sums the code computes (413.30, 103.32 and 1 239.90, rounded
+    down under § 4).
+  * *18.0 carry-over:* not yet on 18.0.
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
+
+[19.0.1.3.1] — 2026-11-21
+-------------------------
+
+Fixed
+~~~~~
+
+* **A Czech wage is no longer computed on a previous year's amounts.** § 4 of
+  nařízení vlády č. 595/2006 Sb. fixes the subsistence minimum, the normative
+  rent and the energy allowance on 1 January of the year the wage is paid in.
+  With no record for that year the newest earlier one was used without a
+  word, so a December 2026 wage paid in January 2027 would have been computed
+  on the 2026 subsistence minimum of 4 860 Kč instead of 5 500 Kč. The
+  computation now stops and asks for the year's record. The 2027 record is
+  not shipped yet: the normative rent and the energy allowance for 2027 were
+  not published by 2026-11-21.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+* **19.0.1.3.1 (2026-11-21), not yet on 18.0:** the refusal of a Czech wage
+  paid in a year without its own rate record.
 
 [19.0.1.3.0] — 2026-10-27
 -------------------------

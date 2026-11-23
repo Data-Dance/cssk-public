@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_vat_return/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ VAT Return (DPHDP3)</h1>
 <p class="cssk-summary">The Czech VAT return computed from the tax tags of Odoo&#x27;s Czech chart and exported as the EPO DPHDP3 XML, validated against the current official XSD for every period.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.17.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.18.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Czech layer of the <a href="/l10n_cssk_vat_return_base/static/description/index.html">shared VAT-return engine</a>.
@@ -101,7 +101,9 @@ amounts of rows 52 and 53, row 60 and the total on row 63) rounded <strong>down<
 so that rounding never adds to it; a base or a
 value to the nearest crown, a half up; the coefficients of rows 52 and 53 up
 to a whole percent (§ 76 odst. 3 ZDPH). The filing date in the XML
-(<em>d_poddp</em>) is the day of the export.</p>
+(<em>d_poddp</em>) is the day of the export. A return for a period in which every
+row is zero is marked as one in which no tax liability arose (<em>trans</em> = N in
+the XML); any figure makes it A.</p>
 <h2 id="setup">Setting it up</h2>
 <p>Beyond the <a href="/l10n_cssk_vat_return_base/static/description/index.html#setup">engine's setup</a>, the XML
 needs, on the company:</p>
@@ -152,7 +154,7 @@ needs, on the company:</p>
 caption, in Czech, as annex 1 of vyhláška č. 387/2025 Sb. states it, most
 specific part first (column — rate — row), e.g. <em>Základ daně — základní sazba
 — Dodání zboží nebo poskytnutí služby s místem plnění v tuzemsku</em>.</p>
-<p><strong>Computed from tags</strong>: rows 1–13 (base and tax), 20–26, 30, 32, 33, 34, the
+<p><strong>Computed from tags</strong>: rows 1–13 (base and tax), 20–26, 30, 31, 32, 33, 34, the
 base and the full deduction of rows 40–44 and 47, row 50, 51 and 61.</p>
 <p><strong>Computed from the other rows</strong>, as the EPO structure defines them, after
 the rows above (each summed in whole crowns, as exported, so the totals foot):</p>
@@ -206,10 +208,6 @@ refund, and the carry of an excess deduction).</p>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>31</td>
-<td>triangular trade, middle person</td>
-</tr>
 <tr>
 <td>40–44, 47 (<em>reduced_claim</em>)</td>
 <td>the deduction in reduced amount (<em>v krácené výši</em>)</td>
@@ -346,7 +344,7 @@ rate (rows 1/2, deduction row 40) apart from the reduced one (rows 3/4, row 41):
 three years between are not excluded by its dates.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li>The reduced-amount deductions, rows 31, 45, 52, 53 and 60, are manual (see
+<li>The reduced-amount deductions, rows 45, 52, 53 and 60, are manual (see
   <a href="#usage">above</a>), and so is the § 108 odst. 4 g)/h) part of row 62.</li>
 <li>The content checks cover rows 64 and 65 only; the schema cannot tell
   whether the other figures are consistent.</li>
@@ -360,7 +358,7 @@ three years between are not excluded by its dates.</p>
 <li>The rows follow <code>l10n_cz</code>'s tags. A tax created by hand without the right
   tags reaches the wrong row or none.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.17.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.18.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

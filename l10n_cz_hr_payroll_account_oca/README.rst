@@ -11,7 +11,7 @@ Czech Payroll — Accounting (OCA)
 
 **Posts Czech payslips of the OCA payroll app to the Czech chart of accounts.**
 
-Sets accounts of the Czech chart on the Czech salary rules — 521 gross pay and sick pay, 524 employer insurance less the employer's social insurance discount, 527 meal allowance, 331 net pay, 336 social and health insurance, 342 income tax less the child tax bonus and the annual tax settlement paid out, 379 garnishments and other deductions, 333 reimbursements — with a debit and a credit account on every rule, so a validated payslip posts a balanced entry. It also creates a general journal *Salaries* (code ``SLR``); choose it as the **Salary Journal** on the contract.
+Sets accounts of the Czech chart on the Czech salary rules — 521 gross pay and sick pay, 524 employer insurance less the employer's social insurance discount, 527 meal allowance (the exempt part and what is paid above the limit), 331 net pay, 336 social and health insurance, 342 income tax less the child tax bonus and the annual tax settlement paid out, 379 garnishments and other deductions, 333 reimbursements — with a debit and a credit account on every rule, so a validated payslip posts a balanced entry. It also creates a general journal *Salaries* (code ``SLR``): a payslip of the company is posted in it unless the contract names another **Salary Journal** of the same company.
 
 Install it on purpose; it needs the OCA ``payroll_account`` module and the Czech payroll. The accounts are set at installation for the companies already on the Czech chart, and for any company when it loads the Czech chart later.
 
@@ -19,7 +19,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_account_oca``
-- **Version:** 19.0.1.1.2
+- **Version:** 19.0.1.1.3
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``payroll_account``, ``l10n_cz``, ``l10n_cz_hr_payroll_oca``

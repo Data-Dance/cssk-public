@@ -1,0 +1,41 @@
+PPPZ_2025_v8.xsd  12554a11216e10b29828024a75011991  8677
+HOZ_2025_v8.xsd   db8c75bbff11c20db5657f02986ee49f  14440
+
+PPPZ  Revision 08 of 2025-12-08, "platná od 1.1.2026"   (prehledPlatbyZamestnavatele_2025_v8.xsd)
+HOZ   Revision 08 of 2025-12-08, "platná od 1.1.2026"   (hromadneOznameniZamestnavatele_2025_v8.xsd)
+
+Digest and size of the bundled schemas of the common structure of the Czech
+health insurers (author: Všeobecná zdravotní pojišťovna ČR), pinned by hand.
+
+THE NAME IS NOT THE VALIDITY. "2025_v8" is the authority's own file name for
+the structure in force FROM 1 January 2026, the first year in which both
+forms are filed only electronically; the fixed header text of each document
+reads "… 2026+". There is no separate "2026" file to look for.
+
+WHY: each file stamps itself with a Revision and a Date in an
+xsd:documentation annotation, and each document carries a fixed GUID
+(identifikacePredmetuPodaniKod) that changes with the structure. Both are
+honest signals, but nothing here validates the annotation, and a schema
+revised in place would still load. Only this file makes a refresh visible.
+
+REFRESH PROCEDURE
+  1. Download the two sample packages the Česká průmyslová zdravotní
+     pojišťovna publishes on https://cpzp.cz/formulare (and on
+     https://cpzp.cz/clanek/921-0-Oznamovaci-povinnost-pro-platce.html):
+     "Vzorový soubor XML + XSD (ZIP)" for the Přehled o platbě pojistného
+     and for the Hromadné oznámení zaměstnavatele. Each holds the XSD under
+     the authority's file name and a sample XML.
+  2. Compare the XSDs with data/PPPZ_2025_v8.xsd and data/HOZ_2025_v8.xsd
+     byte for byte. Judge a download by its CONTENT: the OZP's page links
+     the same file names, and on 2026-11-21 both links answered 200 with
+     the same 50 kB HTML page.
+  3. If either moved: read the Revision / Date annotation and the "platná
+     od" line, replace the file, update the digest and size above; a new
+     structure (a new GUID, a new file name) is a new
+     cssk.payroll.declaration.version record with its own template.
+  4. The VZP publishes no changelog; diff the two XSDs.
+
+VERIFIED 2026-11-21: both bundled files are byte-identical to the XSDs in
+the ČPZP packages (PPPZ: cdn file MXbpnsy7ySdD6zUbQb0YOSS7FI9nWRcV.zip,
+HOZ: AT5h76gIrTehI8L0ou2p3oQvJTwdlQMQ.zip). No newer structure was found
+for 2026 or announced for 2027.

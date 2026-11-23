@@ -1,0 +1,25 @@
+# The Finančná správa SR document this module's Slovak rules were read against.
+#
+# "Transpozície štandardu Peppol BIS v podmienkach Slovenskej legislatívy" is
+# a workbook, not a schema: it lists every EN 16931 business term with the
+# column "Povinná náležitosť faktúry podľa SK legislatívy" (vyžaduje sa /
+# podmienene vyžadované / nevyžaduje sa) and comments. It adds no validation
+# rule of its own; the rule sheets repeat EN 16931 and Peppol BIS Billing 3.0.
+#
+# The file is replaced in place under a new name with every revision, and the
+# workbook's first sheet ("Úvod") lists what each revision changed.
+#
+# Refresh procedure:
+#   1. open https://www.financnasprava.sk/sk/podnikatelia/dane/dan-z-pridanej-hodnoty/e-faktura
+#      (section "Validačné pravidlá") and compare the version with the one below;
+#   2. read the change list on the sheet "Úvod" from the pinned version on;
+#   3. re-check the terms listed in doc/en.md ("What the transposition asks
+#      for") against the sheet "Obchod. term.(legis.) validácia";
+#   4. update this file, the version named in doc/*.md and the test.
+version: 1.13
+dated: 2026-10-29
+file: 2026.10.29_Peppol_Bis3_v1_13.xlsx
+url: https://www.financnasprava.sk/_img/pfsedit/Dokumenty_PFS/Podnikatelia/Dan_z_pridanej_hodnoty/efaktura/2026/2026.10.29_Peppol_Bis3_v1_13.xlsx
+size: 942785
+md5: 4b9affa3b8e7af86f81f2c83b383876f
+read: 2026-11-21

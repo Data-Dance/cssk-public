@@ -351,3 +351,25 @@ class TestPvpoj(TransactionCase):
             int(root.find(".//p:pojistneZamestnance", ns).text), 4262)
         self.assertEqual(
             int(root.find(".//p:pojistneCelkem", ns).text), 14881 + 4262)
+
+    def test_return_agrees_with_what_the_payslips_withheld(self):
+        """The payslip rounds the assessment base (§ 5d zák. 589/1992 Sb.)
+        and the employee's premium (§ 7 odst. 3) up to whole crowns, as the
+        return does, so the two agree. 51 263 -> 3 639.673 -> 3 640; a gross
+        of 30 000.40 is a base of 30 001 -> 2 130.071 -> 2 131."""
+        _emp, first = self._employee_payslip(wage=51263.0, name="Pavel Novak")
+        _emp, second = self._employee_payslip(
+            wage=30000.40, name="Petr Svoboda")
+        lines = (first | second).line_ids
+        withheld = -sum(lines.filtered(
+            lambda line: line.code == "SOCIALEETOT").mapped("total"))
+        bases = sum(lines.filtered(
+            lambda line: line.code == "SOCIALER").mapped("amount"))
+        self.assertEqual(withheld, 5771.0)
+        self.assertEqual(bases, 81264.0)
+        decl, root = self._generate_root()
+        ns = {"p": "http://schemas.cssz.cz/POJ/PVPOJ2025"}
+        self.assertEqual(
+            int(root.find(".//p:pojistneZamestnance", ns).text), 5771)
+        self.assertEqual(
+            int(root.find(".//p:zakladZamestnavateleA", ns).text), 81264)

@@ -186,6 +186,168 @@ class TestRlfo(TransactionCase):
         self.assertEqual(etree.QName(root).namespace,
                          "http://socpoist.sk/xsd/rlzec2026")
 
+    def test_batch_created_for_2027_shows_the_2027_form(self):
+        """Before Generate too: the default version only knows today."""
+        rlfo = self.env["l10n.sk.rlfo"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2027", "month": "1"})
+        self.assertEqual(rlfo.version_id, self.env.ref(
+            "l10n_sk_hr_payroll_rlfo.rlfo_version_2027"))
+        named = self.env["l10n.sk.rlfo"].with_company(self.company).create({
+            "company_id": self.company.id, "year": "2027", "month": "1",
+            "version_id": self.env.ref(
+                "l10n_sk_hr_payroll_rlfo.rlfo_version_2026").id})
+        self.assertEqual(named.version_id, self.env.ref(
+            "l10n_sk_hr_payroll_rlfo.rlfo_version_2026"),
+            "a version the caller names is kept until Generate")
+
+    # ------------------------------------------------------------------
+    # Agreement OOP (§ 227a, § 231 ods. 1 písm. e) zákona 461/2003 Z. z.)
+    # ------------------------------------------------------------------
+    NS27 = {"r": "http://socpoist.sk/xsd/rlzec2027"}
+
+    def _oop_batch(self, year, events):
+        rlfo = self.env["l10n.sk.rlfo"].with_company(self.company).create({
+            "company_id": self.company.id, "year": year, "month": "1"})
+        for sequence, values in enumerate(events, start=1):
+            self.env["l10n.sk.rlfo.event"].create(dict({
+                "rlfo_id": rlfo.id,
+                "sequence": sequence,
+                "employee_id": self.employee.id,
+                "typ_zec": "ZECD2",
+                "owner50_status": "no",
+                "ownership_evidence": "Synthetic agreement worker",
+            }, **values))
+        return rlfo
+
+    def _generated_root(self, rlfo, vintage):
+        rlfo.action_generate()
+        root = etree.fromstring(base64.b64decode(rlfo.xml_attachment_id.datas))
+        etree.XMLSchema(etree.parse(file_path(
+            "l10n_sk_hr_payroll_rlfo/data/RLZEC-v%s.xsd" % vintage,
+        ))).assertValid(root)
+        return root
+
+    def test_registration_reports_the_parental_oop_claim(self):
+        rlfo = self._oop_batch("2027", [{
+            "typ_rl": "PA",
+            "date_start": date(2027, 1, 4),
+            "oop_notified_date": date(2027, 1, 4),
+            "oop_parental": True,
+        }])
+        root = self._generated_root(rlfo, "2027")
+        self.assertEqual(
+            root.find(".//r:prihlaska//r:uplatnOopMdOdRd", self.NS27).text,
+            "true")
+        self.assertEqual(
+            root.find(".//r:zecPrihl/r:datOznUplatnOop", self.NS27).text,
+            "04.01.2027")
+
+    def test_change_reports_the_claim_and_its_end(self):
+        """An agreement running since 2026: the claim from January 2027, and
+        later the end of the leave with the end of the claim."""
+        rlfo = self._oop_batch("2027", [{
+            "typ_rl": "ZM",
+            "date_change": date(2027, 1, 1),
+            "oop_notified_date": date(2026, 12, 15),
+            "oop_parental": True,
+        }, {
+            "typ_rl": "ZM",
+            "date_change": date(2027, 5, 1),
+            "oop_end_notified_date": date(2027, 4, 2),
+            "parental_leave_end": date(2027, 4, 15),
+        }])
+        root = self._generated_root(rlfo, "2027")
+        first, second = root.findall(".//r:regListZec", self.NS27)
+        self.assertEqual(first.get("typRL"), "ZM")
+        self.assertEqual(
+            first.find(".//r:zmena", self.NS27).get("datUplatnenia"),
+            "01.01.2027")
+        self.assertEqual(
+            first.find(".//r:identFODoplZmena/r:uplatnOopMdOdRd",
+                       self.NS27).text, "true")
+        change = first.find(".//r:zecZmena", self.NS27)
+        self.assertEqual(change.get("typZec"), "ZECD2")
+        self.assertEqual(
+            change.find("r:datOznUplatnOop", self.NS27).text, "15.12.2026")
+        self.assertIsNone(second.find(".//r:identFODoplZmena", self.NS27))
+        self.assertEqual(
+            second.find(".//r:datOznUkoncUplatnOop", self.NS27).text,
+            "02.04.2027")
+        self.assertEqual(
+            second.find(".//r:datSkonceniaMdOdRd", self.NS27).text,
+            "15.04.2027")
+
+    def test_pensioner_oop_change_is_valid_on_the_2026_form(self):
+        rlfo = self._oop_batch("2026", [{
+            "typ_rl": "ZM",
+            "date_change": date(2026, 2, 1),
+            "oop_notified_date": date(2026, 1, 20),
+        }])
+        root = self._generated_root(rlfo, "2026")
+        self.assertEqual(
+            root.find(".//r:zecZmena/r:datOznUplatnOop", NS).text,
+            "20.01.2026")
+
+    def test_parental_oop_is_refused_on_the_2026_form(self):
+        rlfo = self._oop_batch("2026", [{
+            "typ_rl": "ZM",
+            "date_change": date(2026, 2, 1),
+            "oop_notified_date": date(2026, 1, 20),
+            "oop_parental": True,
+        }])
+        with self.assertRaises(UserError):
+            rlfo.action_generate()
+
+    def test_oop_is_refused_outside_an_agreement(self):
+        rlfo = self._oop_batch("2027", [{
+            "typ_rl": "PA",
+            "typ_zec": "ZEC",
+            "date_start": date(2027, 1, 4),
+            "oop_notified_date": date(2027, 1, 4),
+        }])
+        with self.assertRaises(UserError):
+            rlfo.action_generate()
+
+    def test_parental_oop_is_refused_on_a_dobps(self):
+        rlfo = self._oop_batch("2027", [{
+            "typ_rl": "PA",
+            "typ_zec": "ZECD3",
+            "date_start": date(2027, 1, 4),
+            "oop_notified_date": date(2027, 1, 4),
+            "oop_parental": True,
+        }])
+        with self.assertRaises(UserError):
+            rlfo.action_generate()
+
+    def test_change_must_report_something_and_be_dated(self):
+        rlfo = self._oop_batch("2027", [{
+            "typ_rl": "ZM", "date_change": date(2027, 1, 1)}])
+        with self.assertRaises(UserError):
+            rlfo.action_generate()
+        rlfo = self._oop_batch("2027", [{
+            "typ_rl": "ZM", "oop_notified_date": date(2027, 1, 1)}])
+        with self.assertRaises(UserError):
+            rlfo.action_generate()
+
+    def test_inconsistent_oop_change_is_refused(self):
+        rlfo = self._oop_batch("2027", [{
+            "typ_rl": "ZM", "date_change": date(2027, 5, 1),
+            "oop_parental": True,
+            "parental_leave_end": date(2027, 4, 15)}])
+        with self.assertRaises(UserError):
+            rlfo.action_generate()
+        rlfo = self._oop_batch("2027", [{
+            "typ_rl": "ZM", "date_change": date(2027, 5, 1),
+            "oop_notified_date": date(2027, 4, 15),
+            "oop_end_notified_date": date(2027, 4, 2)}])
+        with self.assertRaises(UserError):
+            rlfo.action_generate()
+
+    def test_registration_without_oop_is_unchanged(self):
+        """No OOP element appears unless a date was entered."""
+        root = self._generated_root(self._make_batch(), "2026")
+        self.assertIsNone(root.find(".//r:datOznUplatnOop", NS))
+
     # ------------------------------------------------------------------
     # typZec — the relationship code the Sociálna poisťovňa registers
     # ------------------------------------------------------------------

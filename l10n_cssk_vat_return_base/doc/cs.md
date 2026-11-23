@@ -1,7 +1,7 @@
 ---
 title: Přiznání k DPH CZ/SK — společný základ
 summary: Obrazovky a postup, na kterých stojí české i slovenské přiznání k DPH — výpočet řádků z daňových štítků, kontrola proti účetním záznamům, export úředního XML a uchování podané verze.
-verified: 19.0.1.13.1
+verified: 19.0.1.14.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -41,10 +41,14 @@ vše, co mají obě země společné:
 | Pole | Co vyplnit |
 |---|---|
 | Společnost | Společnost, za kterou se podává (výchozí je aktuální). |
-| Datum od / Datum do | První a poslední den zdaňovacího období. |
-| Typ období | *Měsíčně* nebo *Čtvrtletně* — do XML se zapíše měsíc nebo čtvrtletí podle *Data od*. |
-| Verze | Verze formuláře. Nabízejí se jen verze země společnosti platné v daném období, viz [Verze formuláře](#versions). |
-| Typ výkazu | Řádné, opravné nebo dodatečné — možnosti určuje verze. |
+| Typ období | *Měsíčně* nebo *Čtvrtletně*. Nové přiznání začíná typem předchozího přiznání společnosti. |
+| Období | Měsíc nebo čtvrtletí, vybírá se v jednom poli: klikněte na ně, šipkami přejděte na jiný rok a zvolte měsíc nebo čtvrtletí. Nové přiznání se otevře na posledním uzavřeném období. *Data* pod ním ukazují první a poslední den, které z toho plynou. |
+| Verze | Verze formuláře. Vybere se sama podle období; nabízejí se jen verze země společnosti platné v daném období, viz [Verze formuláře](#versions). |
+| Typ výkazu | Řádné, opravné nebo dodatečné — možnosti určuje verze, výchozí je řádné. |
+
+Po exportu nebo podání už období změnit nelze; přiznání nejprve vraťte do
+konceptu. *Reference podání*, potvrzení z portálu, se zobrazí až po exportu
+XML.
 
 Potom klikněte na **Vypočítat**. Přiznání přejde do stavu *Náhled* a záložka
 **Řádky** se naplní řádky formuláře.
@@ -172,8 +176,9 @@ propojený s původním (*Opravuje*) a přenese do něj ruční přepisy. Na nov
 přiznání:
 
 1. zvolte správný **Typ výkazu** — kopie začíná typem původního přiznání;
-2. vyplňte **Den zjištění rozdílu**, který formulář u přiznání opravujícího
-   jiné vyžaduje (výchozí je dnešní den);
+2. u dodatečného přiznání vyplňte **Den zjištění rozdílu** (výchozí je
+   dnešní den). Pole se zobrazí jen u tohoto typu: opravné přiznání takové
+   datum neuvádí;
 3. opravte účetnictví, **Vypočítejte**, zkontrolujte, exportujte a podejte jako
    obvykle.
 

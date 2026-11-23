@@ -32,8 +32,9 @@
         <field name="amount_python_compute">
 # NOTE: no paid_amount on the OCA engine; contract.wage is the full monthly wage.
 # Partial-month + absence proration: for a mid-month hire/leaver the worked hours
-# (WORK100, clamped by the engine to the contract start/end) are fewer than the
-# full scheduled hours of the period; and any absence leave (dovolenka / PN /
+# (WORK100, cut at the contract start by the engine and at its end by
+# hr.payslip.get_worked_day_lines) are fewer than the full scheduled hours of
+# the period; and any absence leave (dovolenka / PN /
 # OČR / neplatené / prekážka) cuts additional hours. Holiday and paid obstacle
 # are added back as náhrada at priemerný zárobok by their own rules, so reducing
 # BASIC here for them is correct (the wage for those hours is paid via the
@@ -49,7 +50,12 @@
 # ABOVE the full wage for a 100 % reason that must leave it untouched. The
 # Enterprise engine has always prorated its paid_amount by hours, so this also
 # closes an 11 EUR gap between the two engines on the same input.
-result = payslip.l10n_sk_basic_salary(contract, worked_days)
+#
+# A wage is an amount in whole cents: GROSS, every levy base and the tax base
+# are built from this figure, so it is rounded here, once, and upward like
+# every wage component (l10n_sk_hr_payroll_base.wage_rounding).
+result = payslip.l10n_sk_round_wage_component(
+    payslip.l10n_sk_basic_salary(contract, worked_days))
 </field>
     </record>
 
@@ -75,7 +81,7 @@ result = payslip.l10n_sk_basic_salary(contract, worked_days)
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 hours = abs(worked_days.dict['DOVOLENKA'].number_of_hours) if 'DOVOLENKA' in worked_days.dict else 0.0
-result = round(hours * payslip.l10n_sk_average_hourly_earnings(), 2)
+result = payslip.l10n_sk_round_wage_component(hours * payslip.l10n_sk_average_hourly_earnings())
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -96,7 +102,7 @@ result = round(hours * payslip.l10n_sk_average_hourly_earnings(), 2)
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 hours = abs(worked_days.dict['OBSTACLE'].number_of_hours) if 'OBSTACLE' in worked_days.dict else 0.0
-result = round(hours * payslip.l10n_sk_average_hourly_earnings(), 2)
+result = payslip.l10n_sk_round_wage_component(hours * payslip.l10n_sk_average_hourly_earnings())
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -156,7 +162,7 @@ if payslip._l10n_sk_is_recording_funds():
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 base = categories.GROSS
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
+if contract.l10n_sk_agreement_oop_applies(payslip.date_from):
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
 base = min(base, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))
 _r = payslip.rule_parameter('l10n_sk_social_pension_ee')
@@ -183,7 +189,7 @@ if payslip._l10n_sk_is_recording_funds():
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 base = categories.GROSS
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
+if contract.l10n_sk_agreement_oop_applies(payslip.date_from):
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
 base = min(base, contract.l10n_sk_employee_social_cap(payslip.rule_parameter('l10n_sk_monthly_taxable_max'), payslip.date_from))
 _r = payslip.rule_parameter('l10n_sk_social_disability_ee')
@@ -255,7 +261,7 @@ if payslip._l10n_sk_is_recording_funds():
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 base = categories.GROSS
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
+if contract.l10n_sk_agreement_oop_applies(payslip.date_from):
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
 base = min(base, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 _r = payslip.rule_parameter('l10n_sk_social_pension_er')
@@ -281,7 +287,7 @@ if payslip._l10n_sk_is_recording_funds():
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 base = categories.GROSS
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
+if contract.l10n_sk_agreement_oop_applies(payslip.date_from):
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
 base = min(base, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 _r = payslip.rule_parameter('l10n_sk_social_disability_er')
@@ -401,7 +407,7 @@ if payslip._l10n_sk_is_recording_funds():
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 base = categories.GROSS
-if contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop:
+if contract.l10n_sk_agreement_oop_applies(payslip.date_from):
     base = max(0.0, base - payslip.rule_parameter('l10n_sk_dohoda_oop'))
 base = min(base, payslip.rule_parameter('l10n_sk_monthly_taxable_max'))
 _r = payslip.rule_parameter('l10n_sk_social_reserve_er')
@@ -535,7 +541,7 @@ else:
   # PN calendar days: the PN_DAYS input when given; otherwise the PN leave's
   # calendar days inside this period.
   if 'PN_DAYS' in inputs.dict:
-    pn_days = inputs.PN_DAYS.amount
+    pn_days = payslip.l10n_sk_input_amount('PN_DAYS')
   elif 'PN' in worked_days.dict:
     _split = payslip.l10n_sk_pn_split(0, 0)
     pn_days = _split[2] if _split else abs(worked_days.dict['PN'].number_of_days)
@@ -568,9 +574,50 @@ result = max(0.0, categories.GROSS + categories.SOCIALEMPLOYEE)
         <field name="appears_on_payslip" eval="True"/>
     </record>
 
+    <!-- ============================== SEVERAL RECORDS OF ONE PERSON, ONE TAX -->
+    <!-- § 35 ods. 1 zákona 595/2003: the taxable wage is the total the
+         employer pays the employee in the month, less the premiums and ONE
+         non-taxable amount. Where an employee record names the record it is
+         taxed together with (hr.employee.l10n_sk_tax_principal_id), its
+         payslip shows the base it moves there, exact and not floored, and the
+         principal's payslip shows the bases taken over. Both lines are
+         informational; the tax and child-bonus rules read the base through
+         hr.payslip._l10n_sk_monthly_tax_base. See
+         l10n_sk_hr_payroll_base, l10n.sk.payslip.joint.tax.mixin. -->
+    <record id="l10n_sk_tax_base_moved" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
+        <field name="category_id" ref="hr_payroll_joint_tax_info"/>
+        <field name="name">Tax Base Taxed on the Other Record's Payslip</field>
+        <field name="code">TAXBASE_MOVED</field>
+        <field name="sequence">161</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(payslip._l10n_sk_tax_principal())</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = categories.GROSS + categories.SOCIALEMPLOYEE
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+    <record id="l10n_sk_tax_base_taken" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
+        <field name="category_id" ref="hr_payroll_joint_tax_info"/>
+        <field name="name">Tax Base Taken Over from Records Taxed Together</field>
+        <field name="code">TAXBASE_TAKEN</field>
+        <field name="sequence">162</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = payslip._l10n_sk_takes_over_tax_base()</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result = payslip._l10n_sk_tax_base_taken_over()
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
     <!-- =========================================================== INCOME TAX -->
-    <!-- Monthly advance: apply NČZD (if the Vyhlásenie is signed) with the
-         high-income taper, then the progressive monthly bands. -->
+    <!-- Monthly advance: apply the monthly NČZD in full (if the Vyhlásenie is
+         signed; the high-income taper of § 11 ods. 2 is annual), then the
+         progressive monthly bands. The advance withheld is the amount rounded
+         to the cent (§ 47 zákona 595/2003 Z. z.), and NET reads that amount. -->
     <record id="l10n_sk_income_tax_employee" model="hr.salary.rule">
         <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_income_tax_employee"/>
@@ -580,7 +627,14 @@ result = max(0.0, categories.GROSS + categories.SOCIALEMPLOYEE)
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = payslip._l10n_sk_monthly_income_tax(result_rules.TAXBASE.total, contract)
+# The base of the month: this payslip's own, and for a record that taxes the
+# month for others also the bases taken over; none on a payslip whose base is
+# taxed on another record's (hr.payslip._l10n_sk_monthly_tax_base).
+result = payslip.l10n_sk_round_cent(
+    payslip._l10n_sk_monthly_income_tax(
+        payslip._l10n_sk_monthly_tax_base(
+            categories.GROSS + categories.SOCIALEMPLOYEE),
+        contract))
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -602,14 +656,22 @@ result = payslip._l10n_sk_monthly_income_tax(result_rules.TAXBASE.total, contrac
         <field name="amount_python_compute">
 n_young = contract.l10n_sk_children_under_15
 n_teen = contract.l10n_sk_children_15_18
-n = n_young + n_teen
+# A dependent child of 18 or over has a bonus for 2023 and 2024 only (§ 52zzp
+# ods. 4 and 5 ZDP); while it has one it counts for the percentage limit, as
+# every vyživované dieťa of § 33 ods. 2 does. Afterwards the count is ignored.
+adult = payslip.rule_parameter('l10n_sk_child_bonus_over_18')
+n_adult = contract.l10n_sk_children_over_18 if adult else 0
+n = n_young + n_teen + n_adult
 
 if n &lt;= 0 or not contract.l10n_sk_tax_declaration_signed:
     result = 0.0
 else:
     young = payslip.rule_parameter('l10n_sk_child_bonus_under_15')
     teen = payslip.rule_parameter('l10n_sk_child_bonus_15_18')
-    base = result_rules.TAXBASE.total
+    # The base of the month, as for the advance: with the bases taken over
+    # on a record that taxes the month for others, none on a linked one.
+    base = payslip._l10n_sk_monthly_tax_base(
+        categories.GROSS + categories.SOCIALEMPLOYEE)
 
     # § 33 ods. 11 ZDP: above the threshold the bonus "na každé jedno
     # vyživované dieťa sa znižuje o 1/10 rozdielu" — the reduction is
@@ -622,14 +684,16 @@ else:
         coeff = payslip.rule_parameter('l10n_sk_child_bonus_taper_coeff')
         reduction = coeff * (base - threshold_m)
     amount = (n_young * max(0.0, young - reduction)
-              + n_teen * max(0.0, teen - reduction))
+              + n_teen * max(0.0, teen - reduction)
+              + n_adult * max(0.0, adult - reduction))
 
     # § 33 ods. 6: cap at %-of-(partial)-tax-base by number of children (1..6+).
     caps = payslip.rule_parameter('l10n_sk_child_bonus_pct_caps')
     cap_pct = caps[min(n, len(caps)) - 1]
     amount = min(amount, base * cap_pct / 100.0)
 
-    result = max(0.0, amount)
+    # § 47: the bonus paid is the amount rounded to the cent; NET reads it.
+    result = payslip.l10n_sk_round_cent(max(0.0, amount))
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -655,7 +719,8 @@ if mtype == 'none':
 else:
     days = contract.l10n_sk_meal_days
     if not days:
-        days = worked_days.WORK100.number_of_days if 'WORK100' in worked_days.dict else 0.0
+        # § 152 ods. 2: a meal for a shift worked, not for a day of absence.
+        days = payslip.l10n_sk_meal_days()
     if contract.l10n_sk_meal_voucher_employer:
         per_day = contract.l10n_sk_meal_voucher_employer
     else:
@@ -697,7 +762,8 @@ if mtype != 'voucher':
 else:
     days = contract.l10n_sk_meal_days
     if not days:
-        days = worked_days.WORK100.number_of_days if 'WORK100' in worked_days.dict else 0.0
+        # § 152 ods. 2: a meal for a shift worked, not for a day of absence.
+        days = payslip.l10n_sk_meal_days()
     if contract.l10n_sk_meal_voucher_employee:
         per_day = contract.l10n_sk_meal_voucher_employee
     else:
@@ -723,8 +789,8 @@ else:
         <field name="condition_python">result = 'ATTACH_SALARY' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -inputs.ATTACH_SALARY.amount
-result_name = inputs.ATTACH_SALARY.name
+result = -payslip.l10n_sk_input_amount('ATTACH_SALARY')
+result_name = payslip.l10n_sk_input_name('ATTACH_SALARY')
         </field>
     </record>
 
@@ -738,8 +804,8 @@ result_name = inputs.ATTACH_SALARY.name
         <field name="condition_python">result = 'ASSIG_SALARY' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -inputs.ASSIG_SALARY.amount
-result_name = inputs.ASSIG_SALARY.name
+result = -payslip.l10n_sk_input_amount('ASSIG_SALARY')
+result_name = payslip.l10n_sk_input_name('ASSIG_SALARY')
         </field>
     </record>
 
@@ -753,8 +819,8 @@ result_name = inputs.ASSIG_SALARY.name
         <field name="condition_select">python</field>
         <field name="condition_python">result = 'CHILD_SUPPORT' in inputs.dict</field>
         <field name="amount_python_compute">
-result = -inputs.CHILD_SUPPORT.amount
-result_name = inputs.CHILD_SUPPORT.name
+result = -payslip.l10n_sk_input_amount('CHILD_SUPPORT')
+result_name = payslip.l10n_sk_input_name('CHILD_SUPPORT')
         </field>
     </record>
 
@@ -768,8 +834,8 @@ result_name = inputs.CHILD_SUPPORT.name
         <field name="condition_python">result = 'DEDUCTION' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -inputs.DEDUCTION.amount
-result_name = inputs.DEDUCTION.name
+result = -payslip.l10n_sk_input_amount('DEDUCTION')
+result_name = payslip.l10n_sk_input_name('DEDUCTION')
         </field>
     </record>
 
@@ -783,8 +849,8 @@ result_name = inputs.DEDUCTION.name
         <field name="condition_python">result = 'REIMBURSEMENT' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = inputs.REIMBURSEMENT.amount
-result_name = inputs.REIMBURSEMENT.name
+result = payslip.l10n_sk_input_amount('REIMBURSEMENT')
+result_name = payslip.l10n_sk_input_name('REIMBURSEMENT')
         </field>
     </record>
 
@@ -798,11 +864,13 @@ result_name = inputs.REIMBURSEMENT.name
          before NET) so NET subtracts it.
 
          2026 figures (životné minimum plnoletej FO = 284.13 €, valid
-         1.7.2025–30.6.2026):
+         1.7.2025–30.6.2026); every sum is rounded down to the cent (§ 4
+         nariadenia vlády 268/2006 Z. z.):
            * základná nepostihnuteľná suma na povinného = 140% ŽM = 397.78 €
-           * na každú vyživovanú osobu = 25% zo základnej sumy = 99.45 €
-           * zvyšok čistej mzdy sa zaokrúhli nadol na sumu deliteľnú tromi;
-             neprednostná pohľadávka zráža 1/3, prednostná 2/3
+           * na každú vyživovanú osobu = 25% zo základnej sumy = 99.44 €
+           * zvyšok čistej mzdy sa zaokrúhli nadol na sumu deliteľnú tromi
+             (§ 71 ods. 1 Exekučného poriadku); neprednostná pohľadávka
+             zráža 1/3, prednostná 2/3
            * suma zvyšku nad 3× základná suma (1 193,34 €) sa zráža bez obmedzenia
          Sources (2025/2026): danovy-poradca.sk "Exekúcie a zrážky zo mzdy 2026"
          <https://www.danovy-poradca.sk/blog/exekucie-zrazky-zo-mzdy-2026>,
@@ -817,18 +885,19 @@ result_name = inputs.REIMBURSEMENT.name
         <field name="category_id" ref="hr_payroll_garnishment"/>
         <field name="name">Wage Garnishment</field>
         <field name="code">GARNISHMENT</field>
-        <field name="sequence">176</field>
+        <!-- After SICK_COMP (178): the sick pay is part of the net wage. -->
+        <field name="sequence">179</field>
         <field name="condition_select">python</field>
         <field name="condition_python">result = ('GARNISHMENT' in inputs.dict or 'GARNISHMENT_PRIORITY' in inputs.dict
           or ('hr.wage.garnishment' in payslip.env
               and payslip.env['hr.wage.garnishment']._payslip_has_orders(payslip)))</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-# Net wage (čistá mzda) = gross − employee social − employee health − tax, plus
-# the child bonus. categories.SOCIALEMPLOYEE (negative) already holds both the
-# social and health employee premiums.
-net_wage = (result_rules.GROSS.total + categories.SOCIALEMPLOYEE
-            + result_rules.INCOMETAX.total + result_rules.CHILD_BONUS.total)
+# Net wage (čistá mzda, § 69 ods. 1 Exekučného poriadku): the wage and the
+# employer's sick pay (§ 89 ods. 1) less the employee's premiums and the tax
+# advance. The child tax bonus is not wage (§ 118 ods. 2 Zákonníka práce) and
+# is no part of it. The composition is one for both engines and both paths.
+net_wage = payslip.l10n_sk_garnishment_net_wage(categories)
 
 # Prefer the garnishment register, but ONLY for employees who actually
 # have an order on file. Installing the register must not silently
@@ -843,17 +912,20 @@ elif 'GARNISHMENT' in inputs.dict or 'GARNISHMENT_PRIORITY' in inputs.dict:
     # Legacy single-claim fallback (see the comment above the record).
     zm = payslip.rule_parameter('l10n_sk_zivotne_minimum')
     if 'GARNISHMENT_PRIORITY' in inputs.dict:
-        debt = inputs.GARNISHMENT_PRIORITY.amount
+        debt = payslip.l10n_sk_input_amount('GARNISHMENT_PRIORITY')
         thirds = 2
         # § 2 ods. 2 — a priority creditor reaches deeper: the base that must
         # be left to the debtor is 100 % ŽM, NOT the ordinary 140 %.
         coeff = payslip.rule_parameter('l10n_sk_garnishment_priority_coeff')
     else:
-        debt = inputs.GARNISHMENT.amount
+        debt = payslip.l10n_sk_input_amount('GARNISHMENT')
         thirds = 1
         coeff = payslip.rule_parameter('l10n_sk_garnishment_basic_coeff')
-    basic = round(zm * coeff, 2)
-    per_dep = round(basic * payslip.rule_parameter('l10n_sk_garnishment_dependent_coeff'), 2)
+    # § 4 nariadenia vlády 268/2006 Z. z.: the sums of § 1 to § 2b and of
+    # § 3 ods. 1 are rounded DOWN to the cent, as the garnishment register
+    # does. The cent arithmetic absorbs the float noise of the products.
+    basic = int(round(zm * coeff * 100.0, 6)) / 100.0
+    per_dep = int(round(basic * payslip.rule_parameter('l10n_sk_garnishment_dependent_coeff') * 100.0, 6)) / 100.0
     non_seizable = basic + contract.l10n_sk_garnishment_dependents * per_dep
 
     remainder = net_wage - non_seizable
@@ -862,15 +934,16 @@ elif 'GARNISHMENT' in inputs.dict or 'GARNISHMENT_PRIORITY' in inputs.dict:
     else:
         # § 3 — the unlimited-seizure threshold always keys off the § 1 ods. 1
         # basic sum, whichever kind of claim is being collected.
-        ordinary_basic = round(zm * payslip.rule_parameter('l10n_sk_garnishment_basic_coeff'), 2)
-        unlimited_threshold = ordinary_basic * payslip.rule_parameter('l10n_sk_garnishment_unlimited_mult')
+        ordinary_basic = int(round(zm * payslip.rule_parameter('l10n_sk_garnishment_basic_coeff') * 100.0, 6)) / 100.0
+        unlimited_threshold = int(round(ordinary_basic * payslip.rule_parameter('l10n_sk_garnishment_unlimited_mult') * 100.0, 6)) / 100.0
         over = max(0.0, remainder - unlimited_threshold)
         base = remainder - over  # min(remainder, unlimited_threshold)
-        # Round the base DOWN to a sum divisible by three (in eurocents).
-        base_cents = int(round(base * 100))
+        # § 71 ods. 1 Exekučného poriadku: the base is rounded DOWN to a sum
+        # divisible by three (in eurocents).
+        base_cents = int(round(base * 100.0, 6))
         base_cents -= base_cents % 3
         one_third = base_cents / 3.0 / 100.0
-        seizable = thirds * one_third + over
+        seizable = int(round((thirds * one_third + over) * 100.0, 6)) / 100.0
         result = -min(debt, seizable)
 else:
     result = 0.0
@@ -899,24 +972,27 @@ else:
         <field name="code">SICK_COMP</field>
         <field name="sequence">178</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = contract.l10n_sk_applies('SICKNESS_COMPENSATION') and ('PN' in worked_days.dict or 'PN_DAYS' in inputs.dict) and 'PN_DVZ' in inputs.dict</field>
+        <field name="condition_python">result = contract.l10n_sk_applies('SICKNESS_COMPENSATION') and ('PN' in worked_days.dict or 'PN_DAYS' in inputs.dict) and ('PN_DVZ' in inputs.dict or payslip.l10n_sk_pn_base_determinable())</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 # Sick days are driven from the PN leave (worked_days.PN); the manual PN_DAYS
 # input is the fallback when no leave is recorded. The denný vymeriavací základ
-# (DVZ) is a separate statutory base (not priemerný zárobok), still taken from
-# the PN_DVZ input. § 8 zákona 462/2003 counts CALENDAR days from the start of
-# the incapacity, which only the leave's own dates can give.
-dvz = min(inputs.PN_DVZ.amount, payslip.rule_parameter('l10n_sk_pn_max_dvz'))
+# (DVZ) is a separate statutory base (not priemerný zárobok): the PN_DVZ input
+# when it is given, otherwise the one the confirmed payslips of the decisive
+# period determine (hr.payslip.l10n_sk_pn_determined_daily_base). § 8 zákona
+# 462/2003 counts CALENDAR days from the start of the incapacity, which only
+# the leave's own dates can give.
+_manual_dvz = inputs.PN_DVZ.amount if 'PN_DVZ' in inputs.dict else 0.0
+dvz = min(_manual_dvz, payslip.rule_parameter('l10n_sk_pn_max_dvz'))
 tier1_days = payslip.rule_parameter('l10n_sk_pn_tier1_days')
 employer_days = payslip.rule_parameter('l10n_sk_pn_employer_days')
 rate1 = payslip.rule_parameter('l10n_sk_pn_rate_tier1') / 100.0
 rate2 = payslip.rule_parameter('l10n_sk_pn_rate_tier2') / 100.0
-_native_compensation = payslip.l10n_sk_pn_compensation(inputs.PN_DVZ.amount)
+_native_compensation = payslip.l10n_sk_pn_compensation(_manual_dvz)
 if _native_compensation is not False:
     result = _native_compensation
 else:
-    days = abs(worked_days.dict['PN'].number_of_days) if 'PN' in worked_days.dict else inputs.PN_DAYS.amount
+    days = abs(worked_days.dict['PN'].number_of_days) if 'PN' in worked_days.dict else payslip.l10n_sk_input_amount('PN_DAYS')
     paid = min(days, employer_days)
     d1 = min(paid, tier1_days)
     d2 = max(0.0, paid - tier1_days)
@@ -938,7 +1014,7 @@ else:
         <field name="code">OOP_PENSION</field>
         <field name="sequence">190</field>
         <field name="condition_select">python</field>
-        <field name="condition_python">result = contract.l10n_sk_agreement_type != 'none' and contract.l10n_sk_agreement_oop</field>
+        <field name="condition_python">result = contract.l10n_sk_agreement_oop_applies(payslip.date_from)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 # The OOP reduces the base for old-age (starobné), disability (invalidné) and
@@ -968,8 +1044,8 @@ result = min(base, payslip.rule_parameter('l10n_sk_dohoda_oop'))
         <field name="condition_python">result = 'ANNUAL_TAX_SETTLEMENT' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = inputs.ANNUAL_TAX_SETTLEMENT.amount
-result_name = inputs.ANNUAL_TAX_SETTLEMENT.name
+result = payslip.l10n_sk_input_amount('ANNUAL_TAX_SETTLEMENT')
+result_name = payslip.l10n_sk_input_name('ANNUAL_TAX_SETTLEMENT')
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -1083,7 +1159,7 @@ for _code, _param in _rates:
     if _code in worked_days.dict:
         _hours = abs(worked_days.dict[_code].number_of_hours)
         _total += _hours * _avg * payslip.rule_parameter(_param) / 100.0
-result = round(_total, 2)
+result = payslip.l10n_sk_round_wage_component(_total)
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>

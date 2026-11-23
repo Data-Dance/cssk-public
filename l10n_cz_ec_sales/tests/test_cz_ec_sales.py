@@ -65,6 +65,45 @@ class TestCzEcSales(AccountTestInvoicingCommon):
             tax = self.env.ref("account.%s_%s" % (self.company.id, template))
             self.assertEqual(tax.cssk_ec_summary_code, code, template)
 
+    def test_a_company_charted_after_the_install_has_the_triangular_taxes(self):
+        """Rows 30 / 31 and EC code 2 had no tax in the l10n_cz chart."""
+        expected = {"l10n_cz_triangular_acquisition": ("purchase", "VAT 30", False),
+                    "l10n_cz_triangular_supply": ("sale", "VAT 31", "2")}
+        for template, (use, tag, code) in expected.items():
+            tax = self.env.ref("account.%s_%s" % (self.company.id, template))
+            self.assertEqual(tax.type_tax_use, use, template)
+            self.assertEqual(tax.amount, 0.0, template)
+            for lines in (tax.invoice_repartition_line_ids,
+                          tax.refund_repartition_line_ids):
+                base = lines.filtered(lambda r: r.repartition_type == "base")
+                self.assertEqual(base.tag_ids.mapped("name"), [tag], template)
+            self.assertEqual(tax.cssk_ec_summary_code or False, code, template)
+
+    def test_the_hook_gives_an_earlier_company_the_triangular_taxes(self):
+        """A company charted before the version: the migration runs the hook."""
+        from odoo.addons.l10n_cz_ec_sales.hooks import post_init_hook
+
+        refs = ["account.%s_%s" % (self.company.id, t) for t in (
+            "l10n_cz_triangular_acquisition", "l10n_cz_triangular_supply")]
+        for ref in refs:
+            self.env.ref(ref).unlink()
+        self.env["res.lang"]._activate_lang("cs_CZ")
+        # As Odoo runs a hook: superuser. Run as the test user, the hook reads
+        # the taxes of every other company in the database and is refused.
+        post_init_hook(self.env(su=True))
+        for ref in refs:
+            self.assertTrue(self.env.ref(ref, raise_if_not_found=False), ref)
+        self.assertIn(
+            "0 % třístranný obchod – pořízení (prostřední osoba)",
+            str(self.env.ref(refs[0]).with_context(lang="cs_CZ").description),
+            "the Czech name must reach a company given the tax by the hook")
+        supply = self.env.ref(refs[1])
+        self.assertEqual(supply.cssk_ec_summary_code, "2")
+        # Run again: nothing is added twice.
+        post_init_hook(self.env(su=True))
+        self.assertEqual(self.env["account.tax"].search_count([
+            ("company_id", "=", self.company.id), ("name", "=", supply.name)]), 1)
+
     def test_a_nasledne_hlaseni_cancels_with_storno_rows(self):
         """DPHSHV k_storno: a následné hlášení withdraws a filed row with a
         storno row (matched on k_stat, c_vat, k_pln_eu) and reports the

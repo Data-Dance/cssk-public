@@ -1,7 +1,7 @@
 ---
 title: Czechia: Payroll Engine Parity Harness
 summary: Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Czech implementations and asserts they produce identical figures.
-verified: 19.0.1.2.4
+verified: 19.0.1.2.6
 ---
 
 ## What it is for

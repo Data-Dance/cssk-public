@@ -1,7 +1,7 @@
 ---
 title: SK Prehľad o zrazených a odvedených preddavkoch na daň
 summary: Mesačný prehľad o preddavkoch na daň zrazených zamestnancom a o vyplatenom daňovom bonuse, zostavený z výplatných pások mesiaca ako XML pre finančnú správu.
-verified: 19.0.2.1.2
+verified: 19.0.2.2.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -77,6 +77,25 @@ Zoznam zamestnancov na formulári ukazuje, kto do súčtov prispel, a jeho
 hrubú mzdu; samotný prehľad je len za zamestnávateľa a údaje o jednotlivých
 zamestnancoch neobsahuje.
 
+## Bez miezd v databáze {#manual}
+
+Spoločnosť, ktorej mzdy počíta niekto iný, napríklad externá mzdová účtovníčka,
+tu nemá žiadne výplatné pásky. Na prehľade zaškrtnite **Zadať sumy ručne** a
+vyplňte tri údaje z rekapitulácie miezd:
+
+| Pole | Čo zadať |
+|---|---|
+| Vyplatené zdaniteľné príjmy (r. 0) | úhrn zúčtovaných a vyplatených zdaniteľných príjmov všetkých zamestnancov za mesiac |
+| Zrazené preddavky na daň (r. 1) | úhrn zrazených preddavkov, **pred** odpočítaním daňového bonusu |
+| Vyplatený daňový bonus (§ 33) | bonus vyplatený zamestnancom spolu; ak žiadny nebol, nechajte 0 |
+
+Potom kliknite na **Generovať** ako obvykle. Riadky 4, 5 a 8 a II. časť sa z
+troch údajov odvodia rovnako ako z výplatných pások (pozri tabuľku nižšie) a
+zoznam zamestnancov zostane prázdny. Pole je zaškrtnuté samo, ak nie je
+nainštalovaná žiadna mzdová aplikácia. Po vygenerovaní sú sumy zamknuté;
+*Vrátiť do konceptu* ich opäť otvorí. Mesiac, v ktorom sa nič nevyplatilo, sa
+podáva so všetkými tromi sumami nulovými.
+
 ## Čo sa vyplní do tlačiva {#mapping}
 
 | Riadok prehľadu | Čím sa vyplní |
@@ -111,6 +130,12 @@ nezrušených výplatných pások daného mesiaca. Spoločnosť potrebuje bankov
 zaškrtnúť nedá. Ak ho nezaškrtnete, rozdiel si odpočítate neskôr a súbor sa
 nezmení.
 
+Pri ručne zadanom prehľade nie sú výplatné pásky, z ktorých by sa skoršie
+mesiace prepočítali, preto sa každý z nich berie z prehľadu, ktorý bol zaň
+**vygenerovaný**: z posledného za daný mesiac, teda z opravného, ak bol
+mesiac opravený. Koncepty sa nezapočítavajú. Ak za niektorý skorší mesiac
+štvrťroka vygenerovaný prehľad nie je, prehľad sa nevygeneruje.
+
 ## Opravy {#corrections}
 
 Prehľad pozná dva druhy: *riadny* a *opravný*. Na opravný prehľad nastavte
@@ -134,8 +159,8 @@ Dodatočný ani stornovací prehľad vytvoriť nemožno.
   poukázanie nežiadate, nič neprenesie r. C do nasledujúcich mesiacov; odvod
   preddavkov v nich znížte sami. R. 08 nikdy nie je záporný.
 - Zamestnanecká prémia, daňový bonus na zaplatené úroky (§ 33a) a opravy z
-  ročného zúčtovania (r. 02 a 03) nemajú v mzdách zdroj a treba ich doplniť
-  ručne.
+  ročného zúčtovania (r. 02 a 03) nemajú v mzdách zdroj ani pole na ručné
+  zadanie; do súboru ich doplňte sami.
 - Element **právnej formy** v hlavičke: *Právna forma* zapísaná na kontakte spoločnosti modulom `l10n_sk_trade_registry`; bez tohto modulu alebo pri prázdnom poli zostáva element prázdny.
 - Opravný prehľad nechá prázdny dátum zistenia dôvodov na podanie opravného
   prehľadu.

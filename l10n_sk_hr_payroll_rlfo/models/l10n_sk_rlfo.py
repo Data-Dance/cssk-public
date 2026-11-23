@@ -14,9 +14,12 @@ relationship code). It therefore reuses the base module only for the XML export
 / XSD-validate / filed-copy machinery; ``action_generate`` is overridden to
 render from registration *events* instead of aggregating payslips.
 
-Modelled events: ``PA`` (prihláška / registration) and ``OD`` (odhláška /
-de-registration). ``ZM`` (zmena), ``PE`` (prerušenie) and ``ZP`` (zrušenie
-prihlásenia) are not modelled yet.
+Modelled events: ``PA`` (prihláška / registration), ``OD`` (odhláška /
+de-registration) and ``ZM`` (zmena) for ONE kind of change only: the
+agreement's odvodová odpočítateľná položka (OOP) under § 227a zákona 461/2003
+Z. z., which the employer reports under § 231 ods. 1 písm. e). ``PE``
+(prerušenie), ``ZP`` (zrušenie prihlásenia) and every other change are not
+modelled.
 """
 from lxml import etree
 from odoo import _, api, fields, models
@@ -45,6 +48,10 @@ AGREEMENT_TYP_ZEC = {
     ("dobps", False): "ZECD3N",  # DoBPŠ - nepravidelný príjem
 }
 DOHODA_CODES = ("ZECD1", "ZECD1N", "ZECD2", "ZECD2N", "ZECD3", "ZECD3N")
+# § 227a ods. 1: the OOP on the ground of maternity, paternity or parental
+# leave exists on a DoVP and a DoPČ only. A DoBPŠ holder has the right without
+# any such ground.
+PARENTAL_OOP_CODES = ("ZECD1", "ZECD1N", "ZECD2", "ZECD2N")
 
 
 class L10nSkRlfo(models.Model):
@@ -169,9 +176,62 @@ class L10nSkRlfo(models.Model):
         etree.cleanup_namespaces(output)
         return etree.tostring(output, encoding="UTF-8", xml_declaration=True)
 
+    def _oop_values(self, ev, code, is_2027):
+        """The agreement-OOP elements of one event, checked.
+
+        ``datOznUplatnOop`` / ``datOznUkoncUplatnOop`` are accepted by the
+        Sociálna poisťovňa for the agreement codes only (its description of
+        the RLZEC 2023 changes). ``uplatnOopMdOdRd`` and
+        ``datSkonceniaMdOdRd`` exist from RLZEC 2027, with the OOP of a
+        parent on leave (§ 227a in the wording from 1 January 2027).
+        """
+        name = ev.employee_id.display_name
+        registering = ev.typ_rl == "PA"
+        changing = ev.typ_rl == "ZM"
+        claimed = (registering or changing) and ev.oop_notified_date
+        ended = changing and ev.oop_end_notified_date
+        parental = (registering or changing) and ev.oop_parental
+        leave_end = changing and ev.parental_leave_end
+        if changing and not (claimed or ended or leave_end):
+            raise UserError(_(
+                "The change for '%(name)s' reports nothing: fill in the date "
+                "the OOP claim or its end was notified, or the end of the "
+                "leave.", name=name))
+        if (claimed or ended or parental or leave_end) and code not in DOHODA_CODES:
+            raise UserError(_(
+                "The OOP of '%(name)s' can be reported on an agreement only "
+                "(relationship types ZECD1 to ZECD3N).", name=name))
+        if (parental or leave_end) and code not in PARENTAL_OOP_CODES:
+            raise UserError(_(
+                "The OOP on the ground of maternity, paternity or parental "
+                "leave exists on a DoVP or DoPČ only; '%(name)s' has another "
+                "relationship type.", name=name))
+        if (parental or leave_end) and not is_2027:
+            raise UserError(_(
+                "The OOP on the ground of maternity, paternity or parental "
+                "leave ('%(name)s') is reported on the RLZEC 2027 form: set "
+                "the batch to January 2027 or later.", name=name))
+        if parental and not claimed:
+            raise UserError(_(
+                "The event of '%(name)s' marks the OOP as claimed on the "
+                "ground of leave but has no date the claim was notified.",
+                name=name))
+        if claimed and ended and ended < claimed:
+            raise UserError(_(
+                "For '%(name)s' the end of the OOP claim is notified before "
+                "the claim itself.", name=name))
+        return {
+            "dat_ozn_uplatn_oop": self._fmt(claimed),
+            "dat_ozn_ukonc_uplatn_oop": self._fmt(ended),
+            "uplatn_oop_md_od_rd": bool(parental),
+            "dat_skoncenia_md_od_rd": self._fmt(leave_end),
+        }
+
     def _declaration_render_context(self, data):
         self.ensure_one()
         events = []
+        is_2027 = self.version_id == self.env.ref(
+            "l10n_sk_hr_payroll_rlfo.rlfo_version_2027")
         for ev in self.event_ids.sorted("sequence"):
             employee = ev.employee_id
             rc = self._digits(employee.identification_id)
@@ -200,6 +260,11 @@ class L10nSkRlfo(models.Model):
                     "De-registration for '%(name)s' needs both the "
                     "insurance start and end dates.",
                     name=employee.display_name))
+            if ev.typ_rl == "ZM" and not ev.date_change:
+                raise UserError(_(
+                    "The change for '%(name)s' needs the date it applies "
+                    "from.", name=employee.display_name))
+            oop = self._oop_values(ev, code, is_2027)
             # Last word = surname, the rest = first name(s); separate first /
             # last name fields win when hr_employee_firstname provides them.
             meno, priezvisko = self._split_person_name(employee)
@@ -217,6 +282,8 @@ class L10nSkRlfo(models.Model):
                 "dat_vznik_poist": self._fmt(ev.date_start),
                 "dat_vzniku": self._fmt(ev.date_start),
                 "dat_zaniku": self._fmt(ev.date_end),
+                "dat_uplatnenia": self._fmt(ev.date_change),
+                **oop,
             })
         return {
             "typ_doc": "RLZEC0001",
@@ -241,7 +308,8 @@ class L10nSkRlfoEvent(models.Model):
     employee_id = fields.Many2one("hr.employee", required=True)
     typ_rl = fields.Selection(
         [("PA", "Registration"),
-         ("OD", "De-registration")],
+         ("OD", "De-registration"),
+         ("ZM", "Change (agreement OOP)")],
         string="Event type", required=True, default="PA")
     typ_zec = fields.Selection(
         [("ZEC", "ZEC — employee, regular income"),
@@ -261,6 +329,30 @@ class L10nSkRlfoEvent(models.Model):
     date_end = fields.Date(
         string="Insurance end (datZaniku)",
         help="Date the social-insurance relationship ends (de-registration).")
+    date_change = fields.Date(
+        string="Change applies from (datUplatnenia)",
+        help="For a change: the day the reported change takes effect.")
+    oop_notified_date = fields.Date(
+        string="OOP claim notified (datOznUplatnOop)",
+        compute="_compute_oop_defaults", store=True, readonly=False,
+        help="The day the employee told the employer in writing that the "
+        "odvodová odpočítateľná položka is claimed on this agreement "
+        "(§ 227a ods. 2 písm. a) zákona 461/2003 Z. z.) and, for a parent on "
+        "leave, also proved the leave. Reported with a registration or a "
+        "change, no later than the next working day.")
+    oop_end_notified_date = fields.Date(
+        string="OOP end notified (datOznUkoncUplatnOop)",
+        help="For a change: the day the employee told the employer that the "
+        "OOP is no longer claimed on this agreement (§ 227a ods. 2 písm. b)).")
+    oop_parental = fields.Boolean(
+        string="OOP on the ground of leave (uplatnOopMdOdRd)",
+        compute="_compute_oop_defaults", store=True, readonly=False,
+        help="The OOP is claimed by a person on maternity, paternity or "
+        "parental leave. DoVP and DoPČ only, RLZEC 2027 and later.")
+    parental_leave_end = fields.Date(
+        string="Leave ends (datSkonceniaMdOdRd)",
+        help="For a change: the last day of the maternity, paternity or "
+        "parental leave the OOP was claimed on. RLZEC 2027 and later.")
     owner50_status = fields.Selection(
         [("unknown", "Not reviewed"),
          ("no", "Not a statutory member with at least 50% ownership"),
@@ -295,3 +387,22 @@ class L10nSkRlfoEvent(models.Model):
             elif version and "l10n_sk_income_regular" in version._fields:
                 regular = bool(version.l10n_sk_income_regular)
             ev.typ_zec = AGREEMENT_TYP_ZEC.get((agr, regular), "ZEC")
+
+    @api.depends("employee_id")
+    def _compute_oop_defaults(self):
+        """Propose the OOP facts recorded on the contract, where it has them.
+
+        The fields belong to the Slovak payroll modules, which this module
+        does not depend on, so they are probed.
+        """
+        for ev in self:
+            version = ev.employee_id.version_id if ev.employee_id else False
+            claimed = bool(
+                version
+                and "l10n_sk_agreement_oop_reason" in version._fields
+                and version.l10n_sk_agreement_oop
+                and (version.l10n_sk_agreement_type or "none") != "none")
+            ev.oop_notified_date = (
+                claimed and version.l10n_sk_agreement_oop_notified)
+            ev.oop_parental = bool(
+                claimed and version.l10n_sk_agreement_oop_reason == "parental")

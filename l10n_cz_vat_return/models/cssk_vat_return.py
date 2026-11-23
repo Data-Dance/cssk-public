@@ -333,7 +333,23 @@ class CsskVatReturn(models.Model):
         ctx = super()._cssk_render_context()
         if self.country_id.code == "CZ":
             ctx["cz_epo"] = self._cz_epo_values()
+            ctx["cz_trans"] = self._cz_trans()
         return ctx
+
+    def _cz_trans(self):
+        """``VetaD/@trans``: A when a tax liability arose in the period, N
+        when it did not ("Vznikla-li daňová povinnost, uveďte A. Nevznikla-li
+        daňová povinnost uveďte N.", popis struktury DPHDP3 03.01.04).
+
+        A payer files a return also for a period with nothing in it, and
+        that return says so here. It is N only when every row of the period
+        is zero — the period's own figures, not the differences a dodatečné
+        files, which are all zero whenever nothing changed.
+        """
+        self.ensure_one()
+        return "A" if any(
+            _cz_whole(line.value, line.code) for line in self.line_ids
+        ) else "N"
 
     def _kontroly_rules(self):
         rules = super()._kontroly_rules()

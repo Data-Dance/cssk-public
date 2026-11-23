@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 20:37+0000\n"
-"PO-Revision-Date: 2026-11-05 20:37+0000\n"
+"POT-Creation-Date: 2026-11-20 22:34+0000\n"
+"PO-Revision-Date: 2026-11-20 22:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -65,6 +65,16 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__message_attachment_count
 msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_rl__zm
+msgid "Change (agreement OOP)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_change
+msgid "Change applies from (datUplatnenia)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -211,6 +221,14 @@ msgid "Events"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_fallback_reason
+msgid ""
+"Explain the reviewed correction of older payroll without recorded fund "
+"bases. Confirm it before generating the correction; do not recalculate filed"
+" payroll to create historical evidence."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__submitted_attachment_id
 msgid "Filed XML"
 msgstr ""
@@ -233,6 +251,32 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"For '%(name)s' the end of the OOP claim is notified before the claim itself."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_end_notified_date
+msgid ""
+"For a change: the day the employee told the employer that the OOP is no "
+"longer claimed on this agreement (§ 227a ods. 2 písm. b))."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_change
+msgid "For a change: the day the reported change takes effect."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__parental_leave_end
+msgid ""
+"For a change: the last day of the maternity, paternity or parental leave the"
+" OOP was claimed on. RLZEC 2027 and later."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -313,6 +357,26 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__parental_leave_end
+msgid "Leave ends (datSkonceniaMdOdRd)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_confirmed_by
+msgid "Legacy calculation confirmed by"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_confirmed_at
+msgid "Legacy calculation confirmed on"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_confirmation_expired
+msgid "Legacy confirmation expired"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.view_l10n_sk_rlfo_form
 msgid "Mark Submitted"
 msgstr ""
@@ -340,6 +404,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__name
 msgid "Name"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -396,6 +465,21 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_notified_date
+msgid "OOP claim notified (datOznUplatnOop)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_end_notified_date
+msgid "OOP end notified (datOznUkoncUplatnOop)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_parental
+msgid "OOP on the ground of leave (uplatnOopMdOdRd)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__ownership_evidence
 msgid "Ownership evidence"
 msgstr ""
@@ -413,6 +497,13 @@ msgid "Payment Date"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_warning
+msgid ""
+"Payslips for which the declaration used the original gross-based calculation"
+" instead of recorded fund bases."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.actions.act_window,name:l10n_sk_hr_payroll_rlfo.action_l10n_sk_rlfo
 msgid "RLFO (registrations)"
 msgstr ""
@@ -421,6 +512,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
 msgid "RLFO generated and XSD-validated."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_fallback_reason
+msgid "Reason for using the original gross-based calculation"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -492,6 +588,11 @@ msgstr ""
 msgid ""
 "Review statutory membership and at least 50%% ownership for '%(name)s' "
 "before registering them."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_confirmation_digest
+msgid "Reviewed payroll sources"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -575,10 +676,73 @@ msgid "Technical: true for anything that amends an earlier filing."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_parental
+msgid ""
+"The OOP is claimed by a person on maternity, paternity or parental leave. "
+"DoVP and DoPČ only, RLZEC 2027 and later."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The OOP of '%(name)s' can be reported on an agreement only (relationship "
+"types ZECD1 to ZECD3N)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The OOP on the ground of maternity, paternity or parental leave ('%(name)s')"
+" is reported on the RLZEC 2027 form: set the batch to January 2027 or later."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The OOP on the ground of maternity, paternity or parental leave exists on a "
+"DoVP or DoPČ only; '%(name)s' has another relationship type."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__correction_reference
 msgid ""
 "The authority's reference for the filing being amended, where the receiving "
 "system needs it to match the two up."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "The change for '%(name)s' needs the date it applies from."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The change for '%(name)s' reports nothing: fill in the date the OOP claim or"
+" its end was notified, or the end of the leave."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_notified_date
+msgid ""
+"The day the employee told the employer in writing that the odvodová "
+"odpočítateľná položka is claimed on this agreement (§ 227a ods. 2 písm. a) "
+"zákona 461/2003 Z. z.) and, for a parent on leave, also proved the leave. "
+"Reported with a registration or a change, no later than the next working "
+"day."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The event of '%(name)s' marks the OOP as claimed on the ground of leave but "
+"has no date the claim was notified."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -590,6 +754,11 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
 msgid "Unexpected source namespace for RLZEC 2027."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_warning
+msgid "Unrecorded fund bases"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_rlfo
@@ -663,9 +832,4 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_rlfo
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_zec__zecn
 msgid "ZECN — employee, irregular income"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_rlfo
-#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.rlfo_xml
-msgid "false"
 msgstr ""

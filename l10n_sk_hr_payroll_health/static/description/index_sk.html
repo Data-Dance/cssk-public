@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_hr_payroll_health/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK dávka 514 — mesačný výkaz preddavkov na zdravotné poistenie</h1>
 <p class="cssk-summary">Mesačný výkaz preddavkov na poistné pre slovenskú zdravotnú poisťovňu (VšZP, Dôvera, Union) v spoločnom formáte dávky 514, zostavený z výplatných pások mesiaca a vyexportovaný do XML.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.4</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.1.2.6</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Zamestnávateľ každý mesiac vykazuje každej <strong>zdravotnej poisťovni</strong>
@@ -159,19 +159,52 @@ poisťovne, ktorej je výkaz určený.</p>
 </tr>
 <tr>
 <td><code>InsuranceBody</code></td>
-<td>úhrny za zamestnávateľa: počet zamestnancov, dni, príjem, vymeriavací základ, preddavky zamestnávateľa a zamestnancov, doplatok, spolu</td>
+<td>úhrny za zamestnávateľa v dvoch skupinách, zamestnanci bez zdravotného postihnutia a so zdravotným postihnutím: počet zamestnancov, za ktorých sa platí preddavok, dni, príjem, vymeriavací základ zamestnancov a preddavky zamestnávateľa a zamestnancov každej skupiny; potom preddavok spolu</td>
 </tr>
 <tr>
 <td><code>PersonData</code></td>
-<td>za zamestnanca: rodné číslo, dni, sadzba zamestnávateľa a zamestnanca, príjem, vymeriavací základ, preddavky, doplatok</td>
+<td>za zamestnanca: rodné číslo, dni, sadzba zamestnávateľa a zamestnanca, príjem, vymeriavací základ zamestnanca, preddavky, príjem na uplatnenie odpočítateľnej položky, ďalšie príjmy, odpočítateľná položka, údaj o neuplatnení minimálneho preddavku a dopočet do minimálneho preddavku</td>
 </tr>
 </tbody>
 </table>
 <p>Sumy sa berú z riadkov výplatných pások: <em>HEALTHEMPLOYER</em> (preddavok
-zamestnávateľa), <em>HEALTH</em> (preddavok zamestnanca) a doplatok do minimálneho
-základu (<em>HEALTHDOPLATOK</em> alebo <em>HEALTH_DOPLATOK</em> podľa jadra). Vymeriavací
-základ aj príjem sú <em>GROSS</em> zamestnanca. Sadzby sa neberú z tabuľky, spätne sa
-dopočítajú ako preddavok ÷ základ.</p>
+zamestnávateľa), <em>HEALTH</em> (preddavok zamestnanca) a dopočet do minimálneho
+preddavku (<em>HEALTHDOPLATOK</em> alebo <em>HEALTH_DOPLATOK</em> podľa jadra). Obsah
+jednotlivých údajov sa riadi § 1 ods. 3 vyhlášky č. 159/2018 Z. z. a opisom
+položiek v schéme:</p>
+<ul>
+<li><strong>Skupiny.</strong> Zamestnanec, ktorého zmluva má zaškrtnuté <em>ZŤP</em>, sa vykazuje
+  v druhej skupine, so zníženými sadzbami podľa
+  <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-12.odsek-1">§ 12</a>; ostatní v prvej. Preddavok
+  zamestnancov skupiny obsahuje aj dopočet do minimálneho preddavku, o ktorý
+  sa preddavok zamestnanca navyšuje
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-16a.odsek-4">§ 16a ods. 4</a>).</li>
+<li><strong>Dni.</strong> Kalendárne dni zamestnania v mesiaci bez dní
+  práceneschopnosti, ošetrovania, materskej a otcovskej dovolenky, za ktoré
+  je platiteľom štát
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-11.odsek-7.pismeno-m">§ 11 ods. 7 písm. m)</a>),
+  a bez dní rodičovskej dovolenky a neplateného voľna, v ktorých sa osoba bez
+  príjmu nepovažuje za zamestnanca
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-11.odsek-3">§ 11 ods. 3</a>). Berú sa zo
+  schválených neprítomností slovenských typov; deň, v ktorom neprítomnosť
+  trvala len jeho časť (pol dňa, niekoľko hodín), sa neodoberá. Ak má výplatná páska vstup <em>PN_DAYS</em>, dni
+  práceneschopnosti sa berú z neho, tak ako ich berie páska. Zamestnanec bez
+  takého dňa a bez preddavku je vo výkaze uvedený a nepočíta sa medzi
+  zamestnancov, za ktorých sa platí preddavok.</li>
+<li><strong>Príjem a základ.</strong> Príjem je <em>GROSS</em> z výplatnej pásky; je zároveň
+  vymeriavacím základom zamestnávateľa
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-13.odsek-4">§ 13 ods. 4</a>). Vymeriavací základ
+  zamestnanca je príjem znížený o odpočítateľnú položku
+  (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/#paragraf-16.odsek-16">§ 16 ods. 16 až 18</a>). Základ,
+  položka aj obe sadzby sú tie, ktoré páska zaznamenala pri výpočte. Príjem
+  z pracovného pomeru je príjmom na uplatnenie odpočítateľnej položky; príjem
+  z dohody (DoVP, DoPČ, DoBPŠ) patrí medzi ďalšie príjmy.</li>
+<li><strong>Bez minimálneho preddavku.</strong> <code>NotAppliedMinimum</code> sa uvedie tam, kde páska
+  minimálny preddavok za celý mesiac nepočíta — zamestnanec so zdravotným
+  postihnutím, zmluva oslobodená od zdravotného poistenia, DoBPŠ — alebo kde
+  mesiac nemá žiadny deň, za ktorý sa platí preddavok, a dopočet nebol
+  zrazený.</li>
+</ul>
 <p><strong>Kontrola súboru.</strong> Oficiálna schéma <code>514-2023.xsd</code> si protirečí (vzory,
 ktoré pripúšťajú len jednu číslicu v poliach s dĺžkou 8 až 12 znakov,
 nemožné číselné hranice), takže ňou neprejde žiadny skutočný súbor. Modul ju
@@ -182,16 +215,27 @@ element, tri bloky hlavičky a zhodu počtu viet.</p>
 <li><strong>Poisťovňa je údaj zamestnanca, nie mesiaca.</strong> Zmenu poisťovne počas roka
   (možnú raz ročne, od 1. januára) treba pred generovaním zapísať pri
   zamestnancovi; staršie výkazy sa neprepočítajú.</li>
-<li><strong>Vymeriavací základ je GROSS z výplatnej pásky</strong>, nie základ vypočítaný
-  podľa zákona o zdravotnom poistení; zobrazená sadzba sa odvodzuje z neho.</li>
-<li>Každý zamestnanec má plný počet kalendárnych dní mesiaca a všetci sa
-  vykazujú v prvej skupine (druhá skupina počtov a základov je vždy nulová).</li>
+<li><strong>Odpočítateľná položka potrebuje základy fondov, ktoré páska
+  zaznamenala.</strong> Páska vypočítaná skôr, ako ich slovenské mzdy zaznamenávali
+  (jadro OCA 19.0.1.25.0, jadro Enterprise 19.0.1.26.0), alebo páska, ktorej
+  riadky sa potom zmenili, sa vykáže z hrubej mzdy: bez položky a so sadzbami
+  dopočítanými ako preddavok ÷ hrubá mzda. Výkaz takto vykázané pásky
+  vymenuje; riadok zamestnanca, ktorý si položku uplatňuje, opravte ručne.</li>
+<li><strong>Dopočet do minimálneho preddavku je ten, ktorý zrazila páska.</strong> Páska
+  znižuje minimálny preddavok len za dni práceneschopnosti a dni mimo zmluvy,
+  takže v mesiaci s ošetrovaním, materskou, rodičovskou dovolenkou alebo
+  neplateným voľnom je dopočet vyšší, ako zodpovedá dňom vo výkaze.</li>
+<li><strong>Jeden riadok za záznam zamestnanca.</strong> Osoba vedená ako dvaja zamestnanci
+  (dve súbežné zmluvy) má dva riadky s rovnakým rodným číslom. Príjem
+  vyplatený po skončení zamestnania sa medzi ďalšie príjmy nevyčleňuje.</li>
+<li>Zdravotné postihnutie je zaškrtnutie na zmluve, podľa ktorej bola páska
+  vypočítaná; dátum rozhodnutia sa neeviduje.</li>
 <li>Len riadny výkaz (<em>N</em>) s poradovým číslom 1. Opravy po chybovom protokole
   treba urobiť cez elektronickú pobočku poisťovne.</li>
 <li>Keďže oficiálnu schému nemožno uplatniť, modul nezaručí, že poisťovňa súbor
   prijme. Prvý výkaz odsúhlaste s poisťovňou.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.2.4 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/580/">Zákon č. 580/2004 Z. z. o zdravotnom poistení a o zmene a doplnení zákona č. 95/2002 Z. z. o poisťovníctve a o zmene a doplnení niektorých zákonov</a></li></ul><p>Text overený voči verzii modulu: 19.0.1.2.6 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

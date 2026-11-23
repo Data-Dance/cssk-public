@@ -1,5 +1,80 @@
 {
  "guides": {
+  "cz_account_setup": {
+   "country": "cz",
+   "langs": [
+    "en",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Odkud Odoo bere účet pro každý řádek dokladu a jak nastavit kategorie produktů, produkty, fiskální pozice, daně, partnery a výchozí účty, aby se faktury účtovaly správně bez ručních zásahů.",
+    "en": "Where Odoo takes the account for every line of a document, and how to set up product categories, products, fiscal positions, taxes, partners and default accounts so that invoices are posted correctly without anyone touching them."
+   },
+   "title": {
+    "cs": "Nastavení předkontací",
+    "en": "Setting up account assignment"
+   }
+  },
+  "cz_bank": {
+   "country": "cz",
+   "langs": [
+    "en",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Bankovní účet v Odoo, import výpisu GPC nebo CAMT, párování podle variabilního symbolu, bankovní poplatky a platební příkazy ABO dodavatelům — a co který krok zaúčtuje.",
+    "en": "A bank account in Odoo, importing a GPC or CAMT statement, matching by variable symbol, bank fees and ABO payment orders to suppliers — and what each step posts."
+   },
+   "title": {
+    "cs": "Bankovní účty",
+    "en": "Bank accounts"
+   }
+  },
+  "cz_documents": {
+   "country": "cz",
+   "langs": [
+    "en",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Vystavené a přijaté faktury, opravné daňové doklady, zálohové faktury, platby a interní doklady — jak se každý z nich v Odoo vytvoří, jak se zaúčtuje a co k němu přidává česká lokalizace.",
+    "en": "Issued and received invoices, credit notes, advance invoices, payments and internal documents — how each is made in Odoo, how it is posted, and what the Czech localization adds to it."
+   },
+   "title": {
+    "cs": "Denní agenda",
+    "en": "Daily bookkeeping"
+   }
+  },
+  "cz_orientation": {
+   "country": "cz",
+   "langs": [
+    "en",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Kde v Odoo najdete to, co znáte z českého účetnictví — menu, role uživatelů a slovník od účetního dokladu po saldokonto.",
+    "en": "Where the things you know from Czech bookkeeping live in Odoo — the menus, the roles, and a glossary from účetní doklad to saldokonto."
+   },
+   "title": {
+    "cs": "Odoo pro českého účetního",
+    "en": "Odoo for a Czech accountant"
+   }
+  },
+  "cz_vat_close": {
+   "country": "cz",
+   "langs": [
+    "en",
+    "cs"
+   ],
+   "summary": {
+    "cs": "Měsíční přiznání k DPH, kontrolní hlášení a souhrnné hlášení — výpočet, kontrola proti účetnictví, export XML, podání, účetní zápis uzávěrky DPH a uzamčení období.",
+    "en": "The monthly VAT return, control statement and EC sales list — computing them, checking them against the books, exporting the XML, filing, the VAT closing entry and locking the period."
+   },
+   "title": {
+    "cs": "Měsíční uzávěrka DPH",
+    "en": "Month-end VAT close"
+   }
+  },
   "document_capture": {
    "country": "both",
    "langs": [
@@ -267,6 +342,9 @@
     "sk_orientation",
     "sk_account_setup",
     "sk_documents",
+    "cz_orientation",
+    "cz_account_setup",
+    "cz_documents",
     "document_capture"
    ],
    "intro": {
@@ -283,7 +361,8 @@
   },
   {
    "guides": [
-    "sk_vat_close"
+    "sk_vat_close",
+    "cz_vat_close"
    ],
    "intro": {
     "cs": "Přiznání k DPH, kontrolní hlášení, souhrnná hlášení, OSS, Intrastat a jejich podání finanční správě.",
@@ -330,6 +409,7 @@
   {
    "guides": [
     "sk_bank",
+    "cz_bank",
     "tatrabanka",
     "fio_bank"
    ],

@@ -53,6 +53,16 @@
                             <field name="typ_zec"/>
                             <field name="date_start"/>
                             <field name="date_end"/>
+                            <field name="date_change" optional="show"
+                                   readonly="typ_rl != 'ZM'"/>
+                            <field name="oop_notified_date" optional="show"
+                                   readonly="typ_rl == 'OD'"/>
+                            <field name="oop_parental" optional="show"
+                                   readonly="typ_rl == 'OD'"/>
+                            <field name="oop_end_notified_date" optional="show"
+                                   readonly="typ_rl != 'ZM'"/>
+                            <field name="parental_leave_end" optional="show"
+                                   readonly="typ_rl != 'ZM'"/>
                             <field name="owner50_status" readonly="parent.state != 'draft'"/>
                             <field name="ownership_evidence" readonly="parent.state != 'draft'"/>
                         </list>

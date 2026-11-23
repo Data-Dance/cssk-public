@@ -1,7 +1,7 @@
 ---
 title: CZ Přiznání k DPH (DPHDP3)
 summary: České přiznání k DPH vypočtené z daňových štítků české účtové osnovy Odoo a exportované jako XML DPHDP3 pro EPO, pro každé období ověřené proti aktuálnímu úřednímu XSD.
-verified: 19.0.1.17.0
+verified: 19.0.1.18.1
 ---
 
 ## K čemu slouží {#purpose}
@@ -72,7 +72,9 @@ zaokrouhlené **nahoru** na celé koruny, jak říká § 146 odst. 1 daňového 
 nikdy nezvýšilo; základ nebo
 hodnota na nejbližší celou korunu, polovina nahoru; koeficienty řádků 52 a
 53 nahoru na celé procento (§ 76 odst. 3 ZDPH). Datum podání v XML
-(*d_poddp*) je den exportu.
+(*d_poddp*) je den exportu. Přiznání za období, ve kterém je každý řádek
+nulový, se označí jako přiznání, u něhož daňová povinnost nevznikla
+(*trans* = N v XML); jakýkoli údaj z něj dělá A.
 
 ## Nastavení {#setup}
 
@@ -101,7 +103,7 @@ přílohy č. 1 vyhlášky č. 387/2025 Sb., od nejkonkrétnější části (slo
 sazba — řádek), např. *Základ daně — základní sazba — Dodání zboží nebo
 poskytnutí služby s místem plnění v tuzemsku*.
 
-**Počítají se ze štítků**: řádky 1–13 (základ i daň), 20–26, 30, 32, 33, 34,
+**Počítají se ze štítků**: řádky 1–13 (základ i daň), 20–26, 30, 31, 32, 33, 34,
 základ a odpočet v plné výši na řádcích 40–44 a 47, řádek 50, 51 a 61.
 
 **Počítají se z ostatních řádků**, jak je definuje struktura EPO, po řádcích
@@ -130,7 +132,6 @@ a převod nadměrného odpočtu).
 
 | Řádek | Obsah |
 |---|---|
-| 31 | třístranný obchod, prostřední osoba |
 | 40–44, 47 (*reduced_claim*) | odpočet v krácené výši |
 | 45 | korekce odpočtů |
 | 52, 53 | koeficienty a vypořádání odpočtu |
@@ -229,7 +230,7 @@ mezi nimi její data nevylučují.
 
 ## Omezení {#limitations}
 
-- Odpočty v krácené výši a řádky 31, 45, 52, 53 a 60 jsou ruční (viz
+- Odpočty v krácené výši a řádky 45, 52, 53 a 60 jsou ruční (viz
   [výše](#usage)), stejně jako část řádku 62 podle § 108 odst. 4 písm. g) a h).
 - Obsahové kontroly pokrývají jen řádky 64 a 65; schéma nepozná, zda jsou
   ostatní údaje navzájem konzistentní.

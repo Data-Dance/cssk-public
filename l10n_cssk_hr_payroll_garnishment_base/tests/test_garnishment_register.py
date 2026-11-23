@@ -201,6 +201,22 @@ class TestGarnishmentRegister(TransactionCase):
                             date_delivered="2026-03-10")
         self.assertEqual(str(order.date_start), "2026-03-10")
 
+    # --- NV 268/2006 Z. z.: the living minimum of the month deducted for --
+    def test_sk_rates_follow_the_living_minimum(self):
+        """One record per living minimum since 1 July 2023, and the sums
+        rounded down to the cent (§ 4): from 1 July 2026 140 % of 295.22 is
+        413.30 and a dependant adds 103.32."""
+        Rate = self.env["hr.wage.garnishment.rate"]
+        for day, minimum in (
+                ("2023-07-01", 268.88), ("2024-06-30", 268.88),
+                ("2024-07-01", 273.99), ("2025-07-01", 284.13),
+                ("2026-06-30", 284.13), ("2026-07-01", 295.22)):
+            self.assertEqual(
+                Rate._get_rate("SK", day).sk_zivotne_minimum, minimum, day)
+        rate = Rate._get_rate("SK", "2026-07-31")
+        self.assertEqual(rate._protected_amount(0), 413.30)
+        self.assertEqual(round(rate._protected_amount(2), 2), 619.94)
+
     # --- NV 595/2006 § 4: amounts as at 1 January of the PAYMENT year ----
     def test_cz_rates_follow_the_payment_year(self):
         Garnishment = self.env["hr.wage.garnishment"]
@@ -224,6 +240,34 @@ class TestGarnishmentRegister(TransactionCase):
             self.employee, 39270.0, "2025-12-01", "2025-12-31", self.company)
         self.assertTrue(orders)
         self.assertEqual(result.protected, 14102.0)
+
+    def test_cz_wage_of_a_year_without_amounts_is_refused(self):
+        """No 2027 record: a December 2026 wage paid in January 2027 must
+        not be computed on the 2026 amounts (the subsistence minimum rose on
+        1 October 2026 and counts from 1 January 2027)."""
+        self._order(date_delivered="2026-10-10")
+        Garnishment = self.env["hr.wage.garnishment"]
+        with self.assertRaises(UserError):
+            Garnishment._allocate(
+                self.employee, 39270.0, "2026-12-01", "2026-12-31",
+                self.company)
+        # paid within December, it is a 2026 wage
+        _orders, result = Garnishment._allocate(
+            self.employee, 39270.0, "2026-12-01", "2026-12-31", self.company,
+            payment_date="2026-12-20")
+        self.assertEqual(result.protected, 14102.0)
+        # with the year's record it computes: 85 % of 5 500 + 9 430 + 2 300
+        self.env["hr.wage.garnishment.rate"].create({
+            "country_id": self.env.ref("base.cz").id,
+            "date_from": "2027-01-01",
+            "cz_subsistence": 5500.0, "cz_normative_rent": 9430.0,
+            "cz_energy": 2300.0, "cz_base_pct": 85.0,
+            "cz_dependent_fraction": 0.25, "cz_unlimited_limit": 32737.0,
+            "cz_trustee_monthly": 1089.0,
+        })
+        _orders, result = Garnishment._allocate(
+            self.employee, 39270.0, "2026-12-01", "2026-12-31", self.company)
+        self.assertEqual(result.protected, 14646.0)  # 14 645,50 rounded up
 
     # --- dependants recorded on the payroll contract -----------------------
     def test_register_dependants_win(self):

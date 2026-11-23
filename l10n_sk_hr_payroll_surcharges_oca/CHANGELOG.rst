@@ -5,6 +5,27 @@ Changelog
 Unreleased
 ----------
 
+- **19.0.1.0.8 (2026-11-21): overtime hours are paid at the wage achieved.**
+  *Overtime Pay* is the monthly salary over the hours of the month, or the
+  exact hourly rate, times the overtime hours (§ 121 ods. 1 Zákonníka
+  práce); only *Overtime Surcharge* is on average earnings. See
+  ``l10n_sk_hr_payroll_surcharges`` 19.0.1.3.0. Tests with the figures of
+  the Enterprise bridge: after a raise from 1 600 to 2 100, eight hours in
+  April 2026 are 95.46 and 18.75; at an hourly rate raised from 6.125 to
+  7.333 they are 58.67 and 12.25; with an unpaid day in June 2026 on 2 000
+  they are 90.91 and 22.73. The rules themselves are unchanged.
+
+- **19.0.1.0.7 (2026-11-21): overtime hours are time worked for the average
+  earnings.** Overtime pay was in the wage of the decisive quarter while the
+  overtime hours were missing from the hours worked (§ 134 ods. 1 Zákonníka
+  práce). 2 000 a month with ten overtime hours each month of the second
+  quarter of 2026 gave 6 432.92 / 520 = 12.3710; it is 6 432.92 / 550 =
+  11.6962.
+
+- **19.0.1.0.7 (2026-11-21): no minimum wage top-up for a month of maternity,
+  parental or paternity leave or of a § 142 obstacle.** See
+  ``l10n_sk_hr_payroll_surcharges`` 19.0.1.2.9.
+
 - **The surcharge rules are shared by every company.** They took the
   company of whoever installed the module, so no other company saw them
   and its payslips paid no Slovak surcharges. Upgrading the module repairs an
@@ -21,6 +42,9 @@ Unreleased
   ``l10n_sk_hr_payroll_surcharges_oca`` there.
 
 Carry-over to 18.0:
+
+- **19.0.1.0.7 (2026-11-21), not yet on 18.0:** the overtime hours in the
+  divisor of the average earnings.
 
 - DISCHARGED 2026-09-30 by 6f9cc41 on branch 18.0-catch-up (reaches 18.0
   when that branch lands) — do not port this again.

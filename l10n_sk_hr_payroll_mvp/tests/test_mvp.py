@@ -98,8 +98,6 @@ class TestMvp(TransactionCase):
             "date_from": date(2026, 3, 1),
             "date_to": date(2026, 3, 31),
         })
-        if self.engine == "ee":
-            slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
         confirm_payslips(slip)
         return employee, slip
@@ -185,8 +183,6 @@ class TestMvp(TransactionCase):
         self.assertEqual(base64.b64decode(original.xml_attachment_id.datas), previous)
 
     def test_original_automatically_warns_for_inconsistent_stored_funds(self):
-        if self.engine != "oca":
-            self.skipTest("OCA owns this record writer")
         _employee, slip = self._employee_payslip()
         slip.line_ids.filtered(lambda line: line.code == "SICK").amount = -99
         original = self._mvp()

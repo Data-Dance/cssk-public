@@ -16,9 +16,56 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(employee)s already taxes the month for %(linked)s, so it cannot be taxed "
+"on another record. One record taxes the month for all the others."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(employee)s and %(other)s have different birth numbers, so they are not one"
+" taxpayer and cannot be taxed together."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_version.py:0
+msgid ""
+"%(employee)s and %(other)s have the same birth number, so they are one "
+"taxpayer at this employer. The taxpayer's declaration can be signed on one "
+"of them at a time (§ 36 ods. 6 zákona č. 595/2003 Z. z.), and it is ticked "
+"on both for a day they share: from %(start)s on %(employee)s and from "
+"%(other_start)s on %(other)s. Untick Tax Declaration Signed on one of the "
+"two."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(employee)s can be taxed together only with a record of the same company: "
+"the tax of the month is the tax of what one employer pays."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid "%(employee)s cannot be taxed together with itself."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_payslip_fund_mixin__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_employee
+msgid "Employee"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_base
@@ -50,6 +97,77 @@ msgid "Recorded payroll fund evidence"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_l10n_sk_payslip_joint_tax_mixin
+msgid "Slovak payslip: several records of one person taxed together"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_tax_principal_id
+msgid "Taxed Together With"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"Taxed Together With of %(employee)s cannot be changed now. The payslip "
+"%(payslip)s moved its tax base to the payslip of %(principal)s, and of the "
+"two payslips of that month one is confirmed and the other is not. Confirm "
+"both, or refund the confirmed one, and change the link then."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"Taxed Together With of %(employee)s, or the contract of the record named "
+"there, changed after this payslip was computed. Compute the payslip again "
+"before confirming it."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_tax_linked_ids
+msgid "Taxed on This Record"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_tax_linked_ids
+msgid ""
+"The employee records of the same person whose tax base is taxed on the "
+"payslip of this record."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The income tax of %(employee)s is computed together with %(linked)s (Taxed "
+"Together With). The payslip %(payslip)s of %(linked)s for this month is not "
+"computed yet, or was computed before the two records were linked. Compute it"
+" first."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The payslip %(payslip)s of %(principal)s for this month is confirmed, and "
+"its income tax includes a tax base of %(took).2f taken over from the records"
+" taxed together with it. With this payslip of %(employee)s that base would "
+"be %(now).2f. Refund or cancel the payslip of %(principal)s first, then "
+"compute this payslip and a new one for %(principal)s."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The payslip of %(employee)s was computed with a tax base of %(took).2f taken"
+" over from %(linked)s, and their payslips of this month now hold %(now).2f. "
+"Compute the payslip of %(employee)s again before confirming it."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_base/models/payslip_fund_mixin.py:0
 msgid "The recorded payroll fund bases are invalid."
@@ -62,6 +180,63 @@ msgid "The recorded payroll fund bases no longer match the payslip."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The tax base of this payslip of %(employee)s is taxed on the confirmed "
+"payslip %(payslip)s of %(principal)s. Refund or cancel that payslip first."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The wage garnishment of %(employee)s cannot be computed on this payslip. Its"
+" income tax is computed together with %(other)s, and a garnishment is "
+"deducted from the person's whole net wage from the employer (§ 69 Exekučného"
+" poriadku), which one payslip does not hold. Remove Taxed Together With to "
+"tax the records separately, or leave the garnishment out of this payslip and"
+" deduct it by hand."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
 #: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_version
 msgid "Employee Contract"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_fund_mixin.py:0
+msgid ""
+"%(employee)s: no sick pay is computed for the incapacity from %(onsets)s, "
+"because its daily assessment base cannot be determined from the confirmed "
+"payslips. Enter the base as the payslip input PN_DVZ."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(linked)s is taxed together with %(employee)s, so the two records have to "
+"stay in one company."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(principal)s is itself taxed together with %(other)s. Choose %(other)s for "
+"%(employee)s as well: one record taxes the month for all the others."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_tax_principal_id
+msgid ""
+"Another employee record of the same person in this company, for example the "
+"employment beside this agreement. The income tax of this record is then "
+"computed on the payslip of that record: it taxes the total of the month with"
+" one non-taxable amount and one child tax bonus (§ 35 ods. 1 zákona č. "
+"595/2003 Z. z.), and the payslip of this record shows its tax base and no "
+"tax. Compute the payslip of this record first. Leave empty to tax this "
+"record on its own."
 msgstr ""

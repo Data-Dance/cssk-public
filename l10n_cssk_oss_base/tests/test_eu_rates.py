@@ -77,6 +77,28 @@ class TestOssRateFacts(TransactionCase):
         self.assertEqual(rate_type("SK", 20.0, date(2025, 9, 30)), "reduced")
         self.assertIsNone(rate_type("XX", 20.0, date(2025, 9, 30)))
 
+    def test_reduced_rates_of_2026_are_typed_reduced(self):
+        """Austria 4.9 % (basic foodstuffs, from 1. 7. 2026), Finland 13.5 %
+        (14 % until 31. 12. 2025) and Lithuania 12 % (9 % abolished on
+        1. 1. 2026): none touched a standard rate, so the table stands."""
+        end = date(2026, 9, 30)
+        for country, reduced, standard in (
+                ("AT", 4.9, 20.0), ("FI", 13.5, 25.5), ("LT", 12.0, 21.0)):
+            self.assertEqual(rate_type(country, reduced, end), "reduced")
+            self.assertEqual(rate_type(country, standard, end), "standard")
+
+    def test_core_proposals_into_at_fi_lt_are_rates_in_force(self):
+        """What core proposes to a Czech or Slovak seller for Austria,
+        Finland and Lithuania must be a rate those states still have in
+        2026. Finland's 14 % and Lithuania's 9 % are gone; core must not
+        send our sellers there."""
+        in_force = {"AT": {4.9, 10.0, 13.0, 20.0},
+                    "FI": {10.0, 13.5, 25.5},
+                    "LT": {5.0, 12.0, 21.0}}
+        for (src, _rate, dest), value in EU_TAX_MAP.items():
+            if src in ("CZ", "SK") and dest in in_force:
+                self.assertIn(value, in_force[dest], (src, _rate, dest))
+
     def test_greece_is_el_on_the_forms(self):
         self.assertEqual(oss_country_code("GR"), "EL")
         self.assertEqual(oss_country_code("DE"), "DE")

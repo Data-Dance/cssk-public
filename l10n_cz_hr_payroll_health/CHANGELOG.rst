@@ -5,6 +5,13 @@ Changelog
 Unreleased
 ==========
 
+* **19.0.1.1.3 (2026-11-21):** the two bundled schemas are pinned in
+  ``data/SCHEMA_VERSION`` (digest, size, refresh procedure), with a test that
+  no schema sits unpinned. Checked that day against the packages the Česká
+  průmyslová zdravotní pojišťovna publishes: both are byte-identical.
+  ``2025_v8`` is the authority's file name for the structure in force from
+  1 January 2026; there is no separate 2026 file.
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules

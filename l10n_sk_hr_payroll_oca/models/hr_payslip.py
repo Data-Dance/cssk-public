@@ -5,17 +5,27 @@
 import calendar as _calendar
 from datetime import date, datetime, time, timedelta
 
+import pytz
 from dateutil.relativedelta import relativedelta
 
-from odoo import _, models
+from odoo import _, api, models
 from odoo.exceptions import UserError
+from odoo.tools import float_round
 
+from odoo.addons.l10n_sk_hr_payroll_base.meal_days import (
+    count_meal_days,
+    whole_days,
+)
+from odoo.addons.l10n_sk_hr_payroll_base.public_holiday import (
+    absence_keeps_public_holiday,
+)
 from odoo.addons.l10n_sk_hr_payroll_base.sick_pay import (
     merge_spans,
     round_sick_pay,
     sick_pay_amount,
     split_sick_days,
 )
+from odoo.addons.l10n_sk_hr_payroll_base.worked_days import worked_day_totals
 
 # § 142 obstacles on the EMPLOYER's side, each paid at its own statutory
 # percentage of average earnings (100 / 50 / 100 / 60). They cannot share one
@@ -79,6 +89,8 @@ class HrPayslip(models.Model):
         processing a dated wage segment can supply that segment's full-period
         calendar divisor; the default keeps the existing payslip calculation.
         Tax and insurance rules still run once on the resulting BASIC amount.
+        The amount is returned before rounding, hourly pay included; the
+        BASIC rule rounds it up to the cent once.
         """
         self.ensure_one()
         absence = sum(
@@ -91,7 +103,7 @@ class HrPayslip(models.Model):
                 return 0.0
             hours = worked_days.WORK100.number_of_hours
             # Never negative, even when inconsistent leave data exceeds WORK100.
-            return round(max(0.0, hours - absence) * contract.l10n_sk_hourly_wage, 2)
+            return max(0.0, hours - absence) * contract.l10n_sk_hourly_wage
         monthly_wage = self._l10n_sk_monthly_cash_wage(contract)
         result = monthly_wage
         if "WORK100" in worked_days.dict:
@@ -105,6 +117,15 @@ class HrPayslip(models.Model):
                 result = monthly_wage * paid_worked / scheduled
         return result
 
+    def l10n_sk_round_cent(self, amount):
+        """Round to the cent, a following five or more upward.
+
+        The rounding of § 47 zákona 595/2003 Z. z., and the one a payslip
+        line is stored with. For the tax advance and the child bonus; a wage
+        component is rounded by ``l10n_sk_round_wage_component``.
+        """
+        return float_round(amount, precision_digits=2)
+
     def l10n_sk_absence_codes(self):
         """The worked-day codes that count as an absence, for the BASIC rule.
 
@@ -114,6 +135,122 @@ class HrPayslip(models.Model):
         stopped prorating the wage for it.
         """
         return L10N_SK_ABSENCE_CODES
+
+    def l10n_sk_input_amount(self, code):
+        """Sum of every input line with ``code``.
+
+        The engine hands the rules one input line per code, so a rule that
+        reads ``inputs.CODE.amount`` sees only one of several lines.
+        """
+        self.ensure_one()
+        return sum(
+            line.amount for line in self.input_line_ids if line.code == code
+        )
+
+    def l10n_sk_input_name(self, code):
+        """The names of the input lines with ``code``, each once."""
+        self.ensure_one()
+        names = []
+        for line in self.input_line_ids:
+            if line.code == code and line.name and line.name not in names:
+                names.append(line.name)
+        return ", ".join(names)
+
+    def l10n_sk_meal_days(self):
+        """The days of the period that earn a meal.
+
+        § 152 ods. 2 Zákonníka práce gives the meal to an employee who works
+        more than four hours within the shift (``l10n_sk_meal_min_hours``).
+        Each scheduled day is decided alone: its scheduled hours less the
+        hours of absence and of a public holiday on that day. Overtime is an
+        input with hours and no day here, so it is not in the hours of a day.
+        With *Meal also for a Shift of Four Hours or Less* on the contract
+        (§ 152 ods. 9) a day with any work on it earns the meal.
+
+        Worked-day lines that do not hold what the calendar and the absences
+        give were typed by hand or are older than an absence. The days they
+        hold cannot be placed in the calendar: their whole days count.
+        """
+        self.ensure_one()
+        worked = self._l10n_sk_hours_worked_by_day()
+        if worked is None:
+            scheduled, not_worked = self._l10n_sk_worked_day_line_totals("number_of_days")
+            return whole_days(scheduled - not_worked)
+        return count_meal_days(
+            worked.values(),
+            self.rule_parameter("l10n_sk_meal_min_hours"),
+            # The employer gives the meal on a shorter shift too (§ 152 ods. 9).
+            any_work=bool(self._l10n_sk_version().l10n_sk_meal_short_shift),
+        )
+
+    def _l10n_sk_worked_day_line_totals(self, field):
+        """``(scheduled, not worked)`` of the worked-day lines, in ``field``.
+
+        WORK100 is the whole schedule of the period; the absences and the
+        public holidays (the engine's GLOBAL line) are the time not worked.
+        """
+        self.ensure_one()
+        scheduled = not_worked = 0.0
+        absence_codes = self.l10n_sk_absence_codes() + ("GLOBAL",)
+        for line in self.worked_days_line_ids:
+            if line.code == "WORK100":
+                scheduled += line[field]
+            elif line.code in absence_codes:
+                not_worked += abs(line[field])
+        return scheduled, not_worked
+
+    def _l10n_sk_hours_worked_by_day(self):
+        """Hours worked on each scheduled day of the payslip: ``{day: hours}``.
+
+        The schedule and the time off are read the way the worked-day lines
+        are built (``get_worked_day_lines``), day by day. ``None`` when the
+        payslip's lines hold other hours than that: the lines are what the
+        payslip pays, and they do not say which day.
+        """
+        self.ensure_one()
+        contract = self._l10n_sk_version()
+        if len(contract) != 1 or not contract.resource_calendar_id:
+            return None
+        first, last = self.date_from, self.date_to
+        # The contract dates are HR-manager fields.
+        start, end = contract.date_start, contract.sudo().date_end
+        if start and start > first:
+            first = start
+        if end and end < last:
+            last = end
+        scheduled = {}
+        time_off = {}
+        if first <= last:
+            contract = self._l10n_sk_whole_schedule(contract)
+            day_from = datetime.combine(first, time.min)
+            day_to = datetime.combine(last, time.max)
+            resource = contract.employee_id.resource_id
+            # As in _l10n_sk_leave_pieces: naive bounds are read as UTC.
+            attendances = contract.resource_calendar_id._attendance_intervals_batch(
+                day_from.replace(tzinfo=pytz.utc),
+                day_to.replace(tzinfo=pytz.utc),
+                resource,
+            )[resource.id]
+            for begin, stop, _records in attendances:
+                day = begin.date()
+                scheduled[day] = (
+                    scheduled.get(day, 0.0) + (stop - begin).total_seconds() / 3600
+                )
+            for day, hours, _leave_type in self._l10n_sk_leave_pieces(
+                contract, day_from, day_to
+            ):
+                time_off[day] = time_off.get(day, 0.0) + hours
+        line_scheduled, line_not_worked = self._l10n_sk_worked_day_line_totals(
+            "number_of_hours"
+        )
+        if (
+            abs(sum(scheduled.values()) - line_scheduled) > 0.01
+            or abs(sum(time_off.values()) - line_not_worked) > 0.01
+        ):
+            return None
+        return {
+            day: hours - time_off.get(day, 0.0) for day, hours in scheduled.items()
+        }
 
     def rule_parameter(self, code):
         """Accessor for dated statutory parameters.
@@ -179,6 +316,10 @@ class HrPayslip(models.Model):
         self.ensure_one()
         if version.employee_id != self.employee_id or version.company_id != self.company_id:
             raise UserError(_("Use the employee and company contract version for the monthly pension tax profile."))
+        if self._l10n_sk_tax_principal():
+            # Taxed on another record's payslip, where the one non-taxable
+            # amount of the month is applied (§ 35 ods. 1 písm. b)).
+            return 0.0
         if not self._l10n_sk_monthly_tax_facts(version)["signed"]:
             return 0.0
         historical = self._l10n_sk_monthly_tax_facts(version, include_january=True)["january"]
@@ -206,7 +347,10 @@ class HrPayslip(models.Model):
 
         Pass the full whole-cent monthly base in EUR unless an extension
         rounds the taxable wage to cents. The caller aggregates the base
-        before applying the allowance once and rounds the result once.
+        before applying the allowance once and rounds the result once: the
+        INCOMETAX rule passes ``_l10n_sk_monthly_tax_base``, which for a
+        record that taxes the month for others holds the bases taken over
+        and for a linked record is zero.
         """
         self.ensure_one()
         # The annual high-income taper remains an RZD matter. January pension
@@ -223,6 +367,12 @@ class HrPayslip(models.Model):
             prev = ceiling
         return -tax
 
+    def _l10n_sk_is_slovak(self):
+        """Whether the payslip is computed on a Slovak structure or company."""
+        self.ensure_one()
+        country = self.struct_id.country_id or self.company_id.country_id
+        return country.code == "SK"
+
     def compute_sheet(self):
         # A rule's safe_eval wraps UserError in a Python traceback. Validate
         # before evaluation so the payroll officer gets the business message.
@@ -231,6 +381,56 @@ class HrPayslip(models.Model):
             if len(version) == 1 and slip.struct_id.country_id.code == "SK":
                 slip.l10n_sk_monthly_nczd(version)
         return super().compute_sheet()
+
+    # ------------------------------------------------------------------
+    # Worked days
+    # ------------------------------------------------------------------
+    @api.model
+    def get_worked_day_lines(self, contracts, date_from, date_to):
+        """End the worked-day lines of a Slovak contract with the contract.
+
+        The engine starts them at the contract start and runs them to the end
+        of the period. BASIC is the wage for the scheduled hours inside the
+        contract, so the month it ends in needs them cut at its end too.
+        """
+        lines = []
+        for contract in contracts:
+            last = date_to
+            # The contract dates are HR-manager fields.
+            contract_end = contract.sudo().date_end
+            if (
+                self._l10n_sk_is_slovak_contract(contract)
+                and contract_end
+                and contract_end < last
+            ):
+                last = contract_end
+            lines.extend(super().get_worked_day_lines(contract, date_from, last))
+        return lines
+
+    @api.model
+    def _l10n_sk_is_slovak_contract(self, contract):
+        country = contract.struct_id.country_id or contract.company_id.country_id
+        return country.code == "SK"
+
+    @api.model
+    def _l10n_sk_whole_schedule(self, contract):
+        """The contract as the rules need it: with the whole schedule.
+
+        The engine asks the calendar to leave public holidays out
+        (``exclude_public_holidays``, honoured by ``hr_holidays_public``).
+        WORK100 is the whole schedule of the period here, the same hours
+        BASIC divides by, and a public holiday is inside a monthly wage
+        (§ 122 ods. 3 Zákonníka práce); it reaches the payslip as a public
+        holiday of the working calendar, on the ``GLOBAL`` line.
+        """
+        if self._l10n_sk_is_slovak_contract(contract):
+            return contract.with_context(exclude_public_holidays=False)
+        return contract
+
+    def _compute_worked_days(self, contract, day_from, day_to):
+        return super()._compute_worked_days(
+            self._l10n_sk_whole_schedule(contract), day_from, day_to
+        )
 
     # ------------------------------------------------------------------
     # Absence -> payroll code mapping
@@ -244,23 +444,21 @@ class HrPayslip(models.Model):
         We instead key it on ``hr.leave.type.l10n_sk_payroll_code`` so the
         Slovak rules can tell holiday / PN / OČR / unpaid / obstacle apart
         without depending on the work-entry stack. Reimplemented from
-        ``payroll/models/hr_payslip.py:_compute_leave_days`` (OCA 18.0); only
-        the ``code``/``sequence`` source is changed.
+        ``payroll/models/hr_payslip.py:_compute_leave_days`` (OCA 18.0); the
+        ``code``/``sequence`` source is changed, and each piece of absence is
+        given to the leave that covers it (``_l10n_sk_leave_pieces``).
         """
         from pytz import timezone
 
+        contract = self._l10n_sk_whole_schedule(contract)
         leaves_positive = (
             self.env["ir.config_parameter"].sudo().get_param("payroll.leaves_positive")
         )
         leaves = {}
         calendar = contract.resource_calendar_id
         tz = timezone(calendar.tz or contract.employee_id.tz or "UTC")
-        day_leave_intervals = contract.employee_id.list_leaves(
-            day_from, day_to, calendar=contract.resource_calendar_id
-        )
-        for day, hours, leave in day_leave_intervals:
-            holiday = leave[:1].holiday_id
-            leave_type = holiday.holiday_status_id
+        day_leave_intervals = self._l10n_sk_leave_pieces(contract, day_from, day_to)
+        for day, hours, leave_type in day_leave_intervals:
             # Cross-install: a CZ leave type carries its own code; key it
             # correctly even when this SK override wins the hr.payslip MRO.
             sk_code = leave_type.l10n_sk_payroll_code or getattr(
@@ -292,6 +490,79 @@ class HrPayslip(models.Model):
                 else:
                     current_leave_struct["number_of_days"] -= hours / work_hours
         return leaves.values()
+
+    def _l10n_sk_leave_pieces(self, contract, day_from, day_to):
+        """The scheduled time off work as ``(day, hours, leave type)`` pieces.
+
+        ``list_leaves`` merges the leaves that overlap into one interval that
+        carries all their records, so a public holiday at the start of a
+        sickness and the sickness arrive as one block. Each piece of the
+        schedule is cut here at the bounds of those records and given to the
+        leave that really covers it. Where a public holiday of the calendar
+        and an absence cover the same time, the absence keeps it only if it
+        is one of ``ABSENCES_OVER_A_PUBLIC_HOLIDAY``; otherwise the time is
+        the holiday (an empty leave type, the engine's ``GLOBAL`` line),
+        which is not a day of leave (§ 112 ods. 3 Zákonníka práce) and is
+        inside a monthly wage (§ 122 ods. 3).
+
+        A block with no Slovak absence in it is filed as the engine files
+        it, by its first record.
+        """
+        from pytz import utc
+
+        employee = contract.employee_id
+        resource = employee.resource_id
+        calendar = contract.resource_calendar_id
+        start = day_from if day_from.tzinfo else day_from.replace(tzinfo=utc)
+        end = day_to if day_to.tzinfo else day_to.replace(tzinfo=utc)
+        attendances = calendar._attendance_intervals_batch(start, end, resource)[
+            resource.id
+        ]
+        time_off = calendar._leave_intervals_batch(start, end, resource)[resource.id]
+        no_type = self.env["hr.leave.type"]
+        pieces = []
+        for piece_start, piece_stop, records in time_off & attendances:
+            first_type = records[:1].holiday_id.holiday_status_id
+            if not any(
+                record.holiday_id.holiday_status_id.l10n_sk_payroll_code
+                for record in records
+            ):
+                hours = (piece_stop - piece_start).total_seconds() / 3600
+                pieces.append((piece_start.date(), hours, first_type))
+                continue
+            bounds = [
+                (record, utc.localize(record.date_from), utc.localize(record.date_to))
+                for record in records
+            ]
+            cuts = {piece_start, piece_stop}
+            for _record, record_start, record_stop in bounds:
+                cuts.update(
+                    moment
+                    for moment in (record_start, record_stop)
+                    if piece_start < moment < piece_stop
+                )
+            cuts = sorted(cuts)
+            for cut_start, cut_stop in zip(cuts, cuts[1:], strict=False):
+                covering = [
+                    record
+                    for record, record_start, record_stop in bounds
+                    if record_start < cut_stop and record_stop > cut_start
+                ]
+                absences = [record for record in covering if record.holiday_id]
+                leave_type = absences[0].holiday_id.holiday_status_id if absences else no_type
+                public_holiday = any(
+                    not record.resource_id and not record.holiday_id
+                    for record in covering
+                )
+                if (
+                    absences
+                    and public_holiday
+                    and not absence_keeps_public_holiday(leave_type.l10n_sk_payroll_code)
+                ):
+                    leave_type = no_type
+                hours = (cut_stop - cut_start).total_seconds() / 3600
+                pieces.append((cut_start.date(), hours, leave_type))
+        return pieces
 
     # ------------------------------------------------------------------
     # Average earnings (priemerný zárobok, §134 Zákonníka práce)
@@ -389,15 +660,19 @@ class HrPayslip(models.Model):
         else:
             sched_hours = self.l10n_sk_scheduled_hours()
             contract = self._l10n_sk_version()
-            phz = round(self._l10n_sk_monthly_cash_wage(contract) / sched_hours, 4) if sched_hours else 0.0
+            if contract.l10n_sk_hourly_wage:
+                # What an hourly-paid employee would earn in an hour is the rate.
+                phz = round(contract.l10n_sk_hourly_wage, 4)
+            else:
+                phz = round(self._l10n_sk_monthly_cash_wage(contract) / sched_hours, 4) if sched_hours else 0.0
         return max(phz, min_hourly)
 
     def l10n_sk_scheduled_days(self):
         """Full scheduled working days in the payslip period.
 
         Denominator for the partial-month proration of the basic wage: unlike
-        ``worked_days.WORK100`` (which the engine clamps to the contract start
-        date), this counts the working days of the WHOLE payslip period per the
+        ``worked_days.WORK100`` (which is cut at the contract start and end),
+        this counts the working days of the WHOLE payslip period per the
         resource calendar, ignoring the contract start/end. For a full month the
         two are equal, so the basic wage is unchanged; for a mid-month hire or
         leaver the worked days are fewer and the wage is prorated.
@@ -486,11 +761,19 @@ class HrPayslip(models.Model):
             tier1, tier2, _calendar_days = split_sick_days(
                 [(start, end)], first, last, tier1_days, employer_days
             )
-            capped_base = min(daily_base, parameter("l10n_sk_pn_max_dvz"))
+            capped_base = min(
+                self._l10n_sk_pn_episode_base(daily_base, start),
+                parameter("l10n_sk_pn_max_dvz"))
             rate1 = parameter("l10n_sk_pn_rate_tier1") / 100.0
             rate2 = parameter("l10n_sk_pn_rate_tier2") / 100.0
             total += sick_pay_amount(capped_base, tier1, tier2, rate1, rate2)
         return round_sick_pay(total)
+
+    def _l10n_sk_dvz_confirmed_states(self):
+        return ("done",)
+
+    def _l10n_sk_leave_code_field(self):
+        return "holiday_status_id.l10n_sk_payroll_code"
 
     def l10n_sk_pn_manual_compensation(self, daily_base, tier1, tier2, rate1, rate2):
         """Keep the existing manual fallback on the same statutory rounding."""
@@ -520,4 +803,17 @@ class HrPayslip(models.Model):
         # so we also expose ``relativedelta``.
         localdict = super()._get_baselocaldict(contracts)
         localdict["relativedelta"] = relativedelta
+        if self._l10n_sk_is_slovak():
+            localdict["worked_days"].dict.update(self._l10n_sk_worked_day_totals())
         return localdict
+
+    def _l10n_sk_worked_day_totals(self):
+        """``{code: the lines as one}`` for each code with several lines.
+
+        The engine hands the rules one worked-day line per code. Each leave
+        type has a line of its own and several leave types share a payroll
+        code, and a line can be typed by hand, so a code can have several
+        lines: the rules then read their total.
+        """
+        self.ensure_one()
+        return worked_day_totals(self.worked_days_line_ids)

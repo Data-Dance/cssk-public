@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cssk_hr_payroll_garnishment_base/static/description/index_sk.html">Slovenčina</a> · <a href="/l10n_cssk_hr_payroll_garnishment_base/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ/SK Wage Garnishments</h1>
 <p class="cssk-summary">A register of Czech and Slovak wage-garnishment orders, the statutory waterfall across all of an employee&#x27;s orders on the payslip, the employer&#x27;s notices to the court or bailiff, and remitting the deductions to the payee.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <code>mail</code></td></tr><tr><th>Extended by</th><td><code>l10n_cssk_hr_payroll_garnishment_account</code>, <code>l10n_cssk_hr_payroll_garnishment_ee</code>, <code>l10n_cssk_hr_payroll_garnishment_oca</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.3.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>hr</code>, <code>mail</code></td></tr><tr><th>Extended by</th><td><code>l10n_cssk_hr_payroll_garnishment_account</code>, <code>l10n_cssk_hr_payroll_garnishment_ee</code>, <code>l10n_cssk_hr_payroll_garnishment_oca</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>When a court, a bailiff or an authority orders that part of an employee's
@@ -355,6 +355,11 @@ employee.</p>
 </tr>
 <tr>
 <td>SK</td>
+<td>1 Jul 2023</td>
+<td>subsistence minimum 268.88 €</td>
+</tr>
+<tr>
+<td>SK</td>
 <td>1 Jul 2024</td>
 <td>subsistence minimum 273.99 €</td>
 </tr>
@@ -378,7 +383,11 @@ For 2026/27 that is a protected base of 413.30 € (295.22 € × 140 % =
 <p>No Czech record before 2026 is shipped: the 2026 reform changed the formula
 itself. From 1 October 2026 the Czech subsistence minimum for an individual
 is 5 500 Kč, but § 4 of the regulation keeps the 1 January value for wages
-paid in 2026; add a 2027 record before computing wages paid in 2027.</p>
+paid in 2026; add a 2027 record before computing wages paid in 2027. A Czech
+wage paid in a year with no record of its own is refused, not computed on the
+previous year's amounts: that includes a December 2026 wage paid in January
+2027. The 2027 record ships once the government has published the normative
+rent and the energy allowance for 2027.</p>
 <h2 id="notices">Notices and the account of deductions</h2>
 <p><em>Employees → Garnishments → Statutory Notices</em> prints, for one employee and
 some or all of their orders:</p>
@@ -537,7 +546,7 @@ remittance.</p>
 <li>The statutory notices to the exekútor about long sick leave or maternity
   leave (SK § 67 ods. 4 and 5) are not produced.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1963/99">Zákon č. 99/1963 Sb., občanský soudní řád</a></li><li><a href="https://e-sbirka.gov.cz/sb/2006/595">Nařízení vlády č. 595/2006 Sb., o způsobu výpočtu základní částky, která nesmí být sražena povinnému z měsíční mzdy při výkonu rozhodnutí, a o stanovení částky, nad kterou je mzda postižitelná srážkami bez omezení (nařízení o nezabavitelných částkách)</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1995/233/">Zákon Národnej rady Slovenskej republiky č. 233/1995 Z. z. o súdnych exekútoroch a exekučnej činnosti (Exekučný poriadok) a o zmene a doplnení ďalších zákonov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2006/268/">Nariadenie vlády Slovenskej republiky č. 268/2006 Z. z. o rozsahu zrážok zo mzdy pri výkone rozhodnutia</a></li></ul><p>Text checked against module version: 19.0.1.3.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1963/99">Zákon č. 99/1963 Sb., občanský soudní řád</a></li><li><a href="https://e-sbirka.gov.cz/sb/2006/595">Nařízení vlády č. 595/2006 Sb., o způsobu výpočtu základní částky, která nesmí být sražena povinnému z měsíční mzdy při výkonu rozhodnutí, a o stanovení částky, nad kterou je mzda postižitelná srážkami bez omezení (nařízení o nezabavitelných částkách)</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/1995/233/">Zákon Národnej rady Slovenskej republiky č. 233/1995 Z. z. o súdnych exekútoroch a exekučnej činnosti (Exekučný poriadok) a o zmene a doplnení ďalších zákonov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2006/268/">Nariadenie vlády Slovenskej republiky č. 268/2006 Z. z. o rozsahu zrážok zo mzdy pri výkone rozhodnutia</a></li></ul><p>Text checked against module version: 19.0.1.3.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

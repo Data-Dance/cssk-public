@@ -130,7 +130,7 @@ For each code: hours × hourly base × percentage, rounded **up** to the haléř
 
 - **Overtime Wage** is the overtime hours × the employee's own hourly wage: the hourly wage of an hourly-paid employee, otherwise the monthly wage divided by the hours the contract schedules in the month. Record no overtime hours for an employee whose wage already includes overtime (§ 114 odst. 3).
 
-- **Minimum Wage Top-up** runs after the wage replacements and before gross pay, so it is insured and taxed. The wage compared is the basic wage plus the allowances computed before it, less the overtime wage, the surcharges and the wage replacements (holiday, obstacles); the hours are the ordinary hours worked, without absences and overtime. On the hourly basis the top-up is (hourly minimum wage − wage per hour) × hours; on the monthly basis it is the monthly minimum wage, reduced by the hours worked against a full-time month of the company's calendar, less the wage.
+- **Minimum Wage Top-up** runs after the wage replacements and before gross pay, so it is insured and taxed. The wage compared is the basic wage plus the allowances computed before it, less the overtime wage, the surcharges and the wage replacements (holiday, public holiday, obstacles); the hours are the ordinary hours worked, without absences and overtime. On the hourly basis the top-up is (hourly minimum wage − wage per hour) × hours; on the monthly basis it is the monthly minimum wage, reduced by the hours worked against a full-time month of the company's calendar, less the wage.
 
 - **Hourly base for overtime, holiday, night and weekend** is the employee's average hourly earnings as the Czech payroll module computes them (the previous quarter, or the override on the contract).
 
@@ -168,7 +168,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_surcharges``
-- **Version:** 19.0.1.2.0
+- **Version:** 19.0.1.2.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``hr``

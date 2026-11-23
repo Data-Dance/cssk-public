@@ -5,6 +5,60 @@ Changelog
 Unreleased
 ==========
 
+Fixed
+~~~~~
+
+- **19.0.1.3.0 (2026-11-21):** overtime hours are paid at the wage achieved,
+  on both engines.
+
+  * § 121 ods. 1 Zákonníka práce: „Za prácu nadčas patrí zamestnancovi
+    dosiahnutá mzda a mzdové zvýhodnenie najmenej v sume 25 % jeho
+    priemerného zárobku." Only the premium is on average earnings. *Overtime
+    Pay* (``NADCAS_MZDA``) paid the hours themselves at average earnings
+    too, the average of the quarter before, which underpays after a raise.
+  * A monthly salary pays an overtime hour the salary divided by the month's
+    own fund: the hours the employee's working schedule holds in the
+    calendar month of the payslip, public holidays included and absences
+    not taken off, also where the payslip covers a part of the month. It is
+    the month's fund, not the average month of the year; the statute names
+    no divisor. It is one method, ``_l10n_sk_overtime_fund_hours``, for an
+    employer who divides otherwise. A contract with no working schedule has
+    no fund: its overtime hours stay at average earnings, as before.
+  * An hourly wage pays the exact hourly rate (``l10n_sk_hourly_wage``, four
+    decimals) for each overtime hour.
+  * The wage achieved is the basic salary or hourly rate alone. Which other
+    components of the wage an overtime hour earns (a personal bonus, another
+    regular component entered as an input) the contract does not say; enter
+    them by hand.
+  * The amount is a wage component, rounded up to the cent once
+    (``round_wage_component``).
+  * 1 600 a month in the first quarter of 2026 (average earnings
+    4 800 / 512 = 9.375), 2 100 from April, eight overtime hours in April
+    (176 hours): 2 100 x 8 / 176 = 95.46 (was 8 x 9.375 = 75.00). An hourly
+    wage of 6.125 raised to 7.333: 8 x 7.333 = 58.67 (was 49.00). In a
+    month with an unpaid day the divisor stays the month's 176 hours: on
+    2 000, 90.91.
+  * *Overtime Surcharge* (``PRIPLATOK_NADCAS``) is unchanged: 25 % of average
+    earnings, 35 % for risky work; 18.75 and 12.25 in the two examples.
+  * Where the average earnings were the probable ones, the wage over the
+    month's hours, the two amounts are the same and nothing changes.
+  * The overtime pay is wage of the quarter for the next average, and its
+    hours are in the divisor, as before; the minimum wage top-up leaves it
+    out, as before.
+  * Not changed: compensatory time off instead of the premium (§ 121 ods. 3)
+    is not modelled, hours entered as ``NADCAS`` always get both lines; and
+    an agreement (dohoda) gets no surcharge lines on the OCA engine and all
+    of them, overtime included, on Enterprise.
+  * The update recomputes nothing. A draft payslip with overtime takes the
+    new amount when it is computed again; a confirmed payslip stays as it
+    is.
+
+- **19.0.1.2.9 (2026-11-21):** on the OCA engine the minimum wage top-up
+  takes every absence the country module cuts the wage for off the hours
+  worked (§ 120 ods. 6 Zákonníka práce). Maternity, parental and paternity
+  leave and the four § 142 obstacles were left in, so a whole month of
+  parental leave was topped up by the whole monthly claim, 915.00 in 2026.
+
 Changed
 ~~~~~~~
 
@@ -16,6 +70,13 @@ Changed
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.3.0 (2026-11-21), not yet on 18.0:** overtime hours at the wage
+  achieved. The contract is ``hr.contract`` there and the exact hourly rate
+  of Enterprise may be missing; port with both bridges' tests.
+
+- **19.0.1.2.9 (2026-11-21), not yet on 18.0:** the absence codes of the
+  minimum wage top-up come from the country module. OCA engine only.
 
 - **19.0.1.2.8 (2026-11-09), not yet on 18.0:** the six 2027 minimum wage
   claims (233/2026 Z. z.). Data only; the 18.0 model has the same fields.

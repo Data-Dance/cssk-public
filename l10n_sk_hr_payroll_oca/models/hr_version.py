@@ -62,6 +62,15 @@ class HrVersion(models.Model):
         groups="payroll.group_payroll_user",
         tracking=True,
     )
+    l10n_sk_children_over_18 = fields.Integer(
+        string="Children 18y+ (tax bonus to 2024)",
+        help="Number of dependent children aged 18 or over, for the child tax "
+        "bonus of 2023 and 2024 (€50 a child, § 52zzp ods. 4 zákona 595/2003). "
+        "It applies to December 2024 at the latest: from January 2025 a child "
+        "of 18 or over has no bonus, and a number left here is ignored.",
+        groups="payroll.group_payroll_user",
+        tracking=True,
+    )
 
     # --- Health insurance ---------------------------------------------------
     l10n_sk_ztp = fields.Boolean(
@@ -101,8 +110,11 @@ class HrVersion(models.Model):
         groups="payroll.group_payroll_user",
         tracking=True,
     )
-    l10n_sk_hourly_wage = fields.Monetary(
+    l10n_sk_hourly_wage = fields.Float(
         string="Hourly Wage (SK)",
+        # The minimum hourly wage and its degree claims have three decimals
+        # (§ 2 ods. 2 zákona 663/2007, § 120 ods. 7 Zákonníka práce).
+        digits=(16, 4),
         help="Gross hourly wage for an hourly-paid worker (e.g. a DoBPŠ student). "
         "When set (> 0), BASIC = actual worked hours (WORK100) × this rate, "
         "instead of the monthly wage with day-proration.",
@@ -130,8 +142,19 @@ class HrVersion(models.Model):
     )
     l10n_sk_meal_days = fields.Integer(
         string="Meal Days / Month",
-        help="Number of days the meal allowance is provided. Leave 0 to use the "
-        "worked days (WORK100) of the payslip.",
+        help="Number of days the meal allowance is provided. Leave 0 to count the "
+        "days of the payslip with more than four hours worked.",
+        groups="payroll.group_payroll_user",
+        tracking=True,
+    )
+    l10n_sk_meal_short_shift = fields.Boolean(
+        string="Meal also for a Shift of Four Hours or Less",
+        help="The employer provides the meal, or the financial contribution, also "
+        "for a shift in which the employee works four hours or less, as § 152 "
+        "ods. 9 of the Labour Code allows after consulting the employees' "
+        "representatives. A day then counts when any work was done on it; "
+        "without this a day counts only with more than four hours worked "
+        "(§ 152 ods. 2). Not used when Meal Days / Month is set.",
         groups="payroll.group_payroll_user",
         tracking=True,
     )
@@ -230,7 +253,8 @@ class HrVersion(models.Model):
                     "%(basis)s exceeds the statutory ceiling of %(ceiling).0f "
                     "for this agreement type.",
                     value=value,
-                    basis="per year" if basis == "annual" else "per week",
+                    basis=(_("per year") if basis == "annual"
+                           else _("per week")),
                     ceiling=ceiling,
                 )
 
@@ -306,7 +330,7 @@ class HrVersion(models.Model):
                     "l10n_sk_min_hourly_wage", on)
             except UserError:
                 continue
-            if rate + 0.0005 < minimum:
+            if rate + 0.00005 < minimum:
                 version.l10n_sk_agreement_wage_warning = _(
                     "The hourly rate of %(rate).3f is below the minimum hourly "
                     "wage of %(minimum).3f (§ 119 ods. 1 and § 223 ods. 2 "
@@ -314,14 +338,64 @@ class HrVersion(models.Model):
                     rate=rate, minimum=minimum)
 
     l10n_sk_agreement_oop = fields.Boolean(
-        string="OOP Agreement (student/pensioner)",
-        help="Claim the pension deductible allowance (OOP) on an agreement for "
-        "an eligible pensioner or student. It reduces the assessment base for "
-        "old-age, disability and the reserve fund by up to 200 €/month. Only "
-        "one such agreement per month may claim it.",
+        string="OOP Agreement",
+        help="Claim the pension deductible allowance (odvodová odpočítateľná "
+        "položka, § 227a and § 138a zákona 461/2003 Z. z.) on this agreement. "
+        "It reduces the assessment base for old-age, disability and the "
+        "reserve fund by up to 200 € a month (300 € from 2027). A person may "
+        "claim it on one agreement a month.",
         groups="payroll.group_payroll_user",
         tracking=True,
     )
+    l10n_sk_agreement_oop_reason = fields.Selection(
+        [("pension_student", "Pensioner or student"),
+         ("parental", "Maternity, paternity or parental leave")],
+        string="OOP Ground",
+        default="pension_student",
+        help="Why the worker may claim the OOP. A person on maternity, "
+        "paternity or parental leave may claim it on a DoVP or DoPČ from "
+        "1 January 2027; that claim starts and ends by the dates below.",
+        groups="payroll.group_payroll_user",
+        tracking=True,
+    )
+    l10n_sk_agreement_oop_notified = fields.Date(
+        string="OOP Notice Received",
+        help="The day the worker notified the claim in writing and, on the "
+        "ground of leave, also proved the leave (the confirmation of the "
+        "employer the leave is taken with). The OOP applies from the start "
+        "of the agreement if this is no later than that day, otherwise from "
+        "the following month (§ 227a ods. 3). Required on the ground of "
+        "leave; left empty on another ground, the OOP applies while the box "
+        "is ticked. Keep the notice and the proof in the worker's documents.",
+        groups="payroll.group_payroll_user",
+        tracking=True,
+    )
+    l10n_sk_agreement_oop_leave_end = fields.Date(
+        string="Leave Ends (OOP)",
+        help="Last day of the maternity, paternity or parental leave. The "
+        "worker reports it at least eight days ahead; the OOP stops with the "
+        "month of this day (§ 227a ods. 4).",
+        groups="payroll.group_payroll_user",
+        tracking=True,
+    )
+
+    @api.constrains("l10n_sk_agreement_oop", "l10n_sk_agreement_oop_reason",
+                    "l10n_sk_agreement_oop_notified", "l10n_sk_agreement_type")
+    def _check_l10n_sk_agreement_oop_parental(self):
+        for version in self:
+            if not (version.l10n_sk_agreement_oop
+                    and version.l10n_sk_agreement_oop_reason == "parental"):
+                continue
+            if version.l10n_sk_agreement_type not in ("dovp", "dopc"):
+                raise UserError(_(
+                    "The OOP on the ground of maternity, paternity or "
+                    "parental leave exists on a DoVP or DoPČ only "
+                    "(§ 227a ods. 1 zákona 461/2003 Z. z.)."))
+            if not version.l10n_sk_agreement_oop_notified:
+                raise UserError(_(
+                    "Enter the day the worker notified the OOP claim and "
+                    "proved the leave: on the ground of leave the OOP applies "
+                    "from that notice only (§ 227a ods. 3)."))
 
     # --- Wage garnishment (exekučné zrážky) --------------------------------
     l10n_sk_garnishment_dependents = fields.Integer(
@@ -334,6 +408,15 @@ class HrVersion(models.Model):
         groups="payroll.group_payroll_user",
         tracking=True,
     )
+
+    @api.constrains(
+        "l10n_sk_tax_declaration_signed", "identification_id", "date_version",
+        "contract_date_start", "contract_date_end", "employee_id",
+    )
+    def _check_l10n_sk_single_tax_declaration(self):
+        # One taxpayer's declaration at one employer; the rule and its reasons
+        # are in l10n_sk_hr_payroll_base (hr.version).
+        self._l10n_sk_check_single_tax_declaration()
 
     @api.constrains("l10n_sk_nczd_pension_annual", "l10n_sk_tax_pensioner")
     def _check_l10n_sk_nczd_pension_annual(self):
@@ -357,6 +440,7 @@ class HrVersion(models.Model):
             "l10n_sk_tax_pensioner",
             "l10n_sk_children_under_15",
             "l10n_sk_children_15_18",
+            "l10n_sk_children_over_18",
             "l10n_sk_ztp",
             "l10n_sk_health_oop_claim",
             "l10n_sk_health_exempt",
@@ -364,10 +448,14 @@ class HrVersion(models.Model):
             "l10n_sk_hourly_wage",
             "l10n_sk_meal_allowance_type",
             "l10n_sk_meal_days",
+            "l10n_sk_meal_short_shift",
             "l10n_sk_meal_voucher_employee",
             "l10n_sk_meal_voucher_employer",
             "l10n_sk_agreement_type",
             "l10n_sk_agreement_oop",
+            "l10n_sk_agreement_oop_reason",
+            "l10n_sk_agreement_oop_notified",
+            "l10n_sk_agreement_oop_leave_end",
             "l10n_sk_pension_type",
             "l10n_sk_garnishment_dependents",
         ]

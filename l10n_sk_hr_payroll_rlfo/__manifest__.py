@@ -2,13 +2,13 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia — RLFO (Registračný list FO)",
-    "version": "19.0.1.3.1",
+    "version": "19.0.1.4.1",
     "category": "Human Resources/Payroll",
     "countries": ["sk"],
     "summary": "Slovak social-insurance registration of employees (RLFO / "
                "RLZEC) filed to the Sociálna poisťovňa — prihláška / odhláška "
-               "events built from the employee + hr.version lifecycle, XML "
-               "validated against RLZEC-v2026.xsd.",
+               "events and the agreement OOP notice, XML validated against "
+               "the RLZEC 2026 / 2027 schema.",
     "author": "Data Dance s.r.o.",
     "website": "https://github.com/Data-Dance/l10n_cssk",
     "license": "AGPL-3",

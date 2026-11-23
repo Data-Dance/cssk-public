@@ -63,23 +63,23 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_currency_revaluation` | 19.0.1.4.0 | Pre-fills the OCA multicurrency-revaluation accounts with the Czech 563/663 (kurzové rozdiely) accounts. |
 | `l10n_cz_datadance` | 19.0.1.2.0 | One-click Czech statutory localization: installs the core statutory reporting + invoice modules, with optional workflow pieces selectable in Settings. |
 | `l10n_cz_dppo` | 19.0.1.6.0 | Czech corporate income-tax return on the income-tax framework: ř.10 from the P&L, manual adjustments, the II. oddíl tax spine, and EPO Pisemnost/DPPDP9 XML… |
-| `l10n_cz_ec_sales` | 19.0.1.4.1 | Czech EC sales list / souhrnné hlášení (DPHSHV) on the shared EC-summary framework + the EPO Pisemnost/DPHSHV XML export. |
+| `l10n_cz_ec_sales` | 19.0.1.5.0 | Czech EC sales list / souhrnné hlášení (DPHSHV) on the shared EC-summary framework + the EPO Pisemnost/DPHSHV XML export. |
 | `l10n_cz_eet2` | 19.0.1.3.1 | Send registered-sale data messages to the Czech EET 2.0 system (data interface v4.1, SOAP + WS-Security). |
 | `l10n_cz_eet2_pos` | 19.0.1.3.1 | Register Point-of-Sale contact payments with the Czech EET 2.0 system and print the POK on the receipt. |
 | `l10n_cz_eet2_pos_loyalty` | 19.0.1.0.2 | Report gift-card / eWallet top-ups and redemptions in the EET 2.0 drawdown fields (urceno_cerp_zuct / cerp_zuct). |
 | `l10n_cz_epo` | 19.0.1.0.2 | Signs Czech statutory filings with the company's qualified certificate and sends them to EPO — to check (test mode) or to file — and follows the filing to… |
 | `l10n_cz_fiscal_year_closing` | 19.0.1.0.0 | Make the Czech year-end closing postable: retype 701/702/710 from off_balance, which Odoo refuses to mix with any other account in one entry. |
 | `l10n_cz_fs` | 19.0.1.3.0 | Czech balance sheet (Rozvaha), P&L (Výkaz zisku a ztráty), cash flow and changes in equity on the shared FS framework — account-code line mappings + XML. |
-| `l10n_cz_hr_payroll_account_oca` | 19.0.1.1.2 | Post Czech payslips to the general ledger |
+| `l10n_cz_hr_payroll_account_oca` | 19.0.1.1.3 | Post Czech payslips to the general ledger |
 | `l10n_cz_hr_payroll_annual_tax_settlement` | 19.0.1.1.2 | Annual Czech income-tax reconciliation (annual tax settlement statement, DPZVD6) for the Finanční správa — advance income tax aggregated over the year, EPO XML… |
-| `l10n_cz_hr_payroll_base` | 19.0.1.5.0 | Engine-neutral base for the Czech payroll: the Czech employee data (agreement type, taxpayer declaration, children, insurance flags) and the statutory… |
+| `l10n_cz_hr_payroll_base` | 19.0.1.6.0 | Engine-neutral base for the Czech payroll: the Czech employee data (agreement type, taxpayer declaration, children, insurance flags) and the statutory… |
 | `l10n_cz_hr_payroll_eldp` | 19.0.1.0.6 | Annual Czech pension-insurance record (ELDP) for the ČSSZ — per-employee assessment base and days aggregated over the calendar year, XML validated against the… |
-| `l10n_cz_hr_payroll_health` | 19.0.1.1.2 | Czech health-insurance employer e-filings — monthly premium overview (PPPZ, payslip-aggregate) and bulk employee enrol/terminate notification (HOZ, employee… |
-| `l10n_cz_hr_payroll_oca` | 19.0.1.20.1 | Czech payroll rules for the payroll engine |
+| `l10n_cz_hr_payroll_health` | 19.0.1.1.3 | Czech health-insurance employer e-filings — monthly premium overview (PPPZ, payslip-aggregate) and bulk employee enrol/terminate notification (HOZ, employee… |
+| `l10n_cz_hr_payroll_oca` | 19.0.1.23.1 | Czech payroll rules for the payroll engine |
 | `l10n_cz_hr_payroll_onz` | 19.0.1.0.5 | Czech employment registration (ONZ) for the ČSSZ — per-employee start/end events built from the employee and hr.version lifecycle, XML validated against the… |
-| `l10n_cz_hr_payroll_parity` | 19.0.1.2.4 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Czech implementations and… |
+| `l10n_cz_hr_payroll_parity` | 19.0.1.2.6 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Czech implementations and… |
 | `l10n_cz_hr_payroll_pvpoj` | 19.0.1.2.0 | Monthly Czech social-insurance overview (PVPOJ) for the ČSSZ — employer-aggregate XML export validated against the official PVPOJ25.xsd. Engine-neutral… |
-| `l10n_cz_hr_payroll_surcharges` | 19.0.1.2.0 | Engine-neutral statutory wage surcharges for overtime, public holiday, night, weekend and difficult-environment work (§§ 114–118 zákoníku práce), plus the… |
+| `l10n_cz_hr_payroll_surcharges` | 19.0.1.2.1 | Engine-neutral statutory wage surcharges for overtime, public holiday, night, weekend and difficult-environment work (§§ 114–118 zákoníku práce), plus the… |
 | `l10n_cz_hr_payroll_surcharges_oca` | 19.0.1.1.3 | Statutory Czech wage surcharges (§§ 114–118 zákoníku práce) as salary rules for the OCA payroll engine. |
 | `l10n_cz_intrastat_oca` | 19.0.1.0.0 | INTRASTAT-CZ Celní správa InstatOnline CSV on the OCA intrastat_product engine (CE-clean). EE uses Odoo EE l10n_cz_intrastat instead. |
 | `l10n_cz_inventory_verification` | 19.0.1.0.0 | Czech inventory verification: inventurní soupisy with the particulars of § 30 odst. 7 zákona č. 563/1991 Sb. and an internal closing record of the… |
@@ -95,7 +95,7 @@ this repository. Add them to the addons path as well:
 | `l10n_cz_statutory` | 19.0.1.3.3 | Czech statutory reference registries: finanční úřady (seeded from the official l10n_cz.tax_office codelist) and person types. |
 | `l10n_cz_trade_registry` | 19.0.1.0.0 | Keep the veřejný rejstřík, rejstříkový soud and spisová značka as data and compose the § 435 občanského zákoníku statement from them, instead of typing it once… |
 | `l10n_cz_vat_registration` | 19.0.1.0.0 | Record whether a partner's DIČ belongs to a plátce, a skupina or an identifikovaná osoba, and warn when a § 92a reverse charge is aimed at a customer who is… |
-| `l10n_cz_vat_return` | 19.0.1.17.0 | Czech VAT return (přiznání k DPH / DPHDP3) on the shared VAT-return framework: line set mapped to the l10n_cz tax tags + the EPO Pisemnost/DPHDP3 XML export. |
+| `l10n_cz_vat_return` | 19.0.1.18.1 | Czech VAT return (přiznání k DPH / DPHDP3) on the shared VAT-return framework: line set mapped to the l10n_cz tax tags + the EPO Pisemnost/DPHDP3 XML export. |
 | `l10n_cz_vat_status` | 19.0.1.1.1 | The Czech company's own VAT registration status over time, and what it does to invoices, bills, DPHDP3 and the kontrolní hlášení. |
 | `l10n_cz_vat_status_purchase` | 19.0.1.0.0 | Purchase order lines propose the taxes the company's VAT status allows on the order date (l10n_cz_vat_status). |
 | `l10n_cz_vat_status_sale` | 19.0.1.0.0 | Sales order lines propose the taxes the company's VAT status allows on the order date (l10n_cz_vat_status). |
@@ -126,19 +126,19 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_fs` | 19.0.1.7.5 | Slovak balance sheet (Súvaha) on the shared l10n_cssk_fs_base framework — account-code line mapping + comparison period + XML export. |
 | `l10n_sk_hr_payroll_account_oca` | 19.0.1.0.5 | Post Slovak payslips to the general ledger |
 | `l10n_sk_hr_payroll_annual_tax_report` | 19.0.2.1.1 | Annual Slovak employer income-tax report (Hlásenie o vyúčtovaní dane a o úhrne príjmov zo závislej činnosti, § 39 ods. 9) for the Finančná správa — aggregate… |
-| `l10n_sk_hr_payroll_base` | 19.0.1.4.1 | Engine-neutral base for the Slovak payroll: the employment forms (pracovný pomer, DoVP, DoPČ, DoBPŠ) and one table saying which contributions and entitlements… |
-| `l10n_sk_hr_payroll_eldp` | 19.0.1.1.4 | Historical Slovak pension record (ELDP), for periods before 2026, filed to the Sociálna poisťovňa — aggregates each year's pension assessment base and insured… |
-| `l10n_sk_hr_payroll_health` | 19.0.1.2.4 | Monthly Slovak health-insurance advances statement (Mesačný výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / Union — employer header + per-employee… |
+| `l10n_sk_hr_payroll_base` | 19.0.1.7.0 | Engine-neutral base for the Slovak payroll: the employment forms (pracovný pomer, DoVP, DoPČ, DoBPŠ) and one table saying which contributions and entitlements… |
+| `l10n_sk_hr_payroll_eldp` | 19.0.1.1.5 | Historical Slovak pension record (ELDP), for periods before 2026, filed to the Sociálna poisťovňa — aggregates each year's pension assessment base and insured… |
+| `l10n_sk_hr_payroll_health` | 19.0.1.2.6 | Monthly Slovak health-insurance advances statement (Mesačný výkaz preddavkov na poistné, dávka 514) for VšZP / Dôvera / Union — employer header + per-employee… |
 | `l10n_sk_hr_payroll_income_allocation` | 19.0.1.2.0 | Reviewed historical social bases and dated premiums for additional income |
 | `l10n_sk_hr_payroll_income_settlement` | 19.0.1.0.2 | Reviewed monthly additional-income tax and health calculation |
-| `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.1.2 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
-| `l10n_sk_hr_payroll_mvp` | 19.0.1.1.3 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
-| `l10n_sk_hr_payroll_oca` | 19.0.1.26.6 | Slovak payroll rules for the payroll engine |
-| `l10n_sk_hr_payroll_parity` | 19.0.1.8.2 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and… |
-| `l10n_sk_hr_payroll_rlfo` | 19.0.1.3.1 | Slovak social-insurance registration of employees (RLFO / RLZEC) filed to the Sociálna poisťovňa — prihláška / odhláška events built from the employee +… |
-| `l10n_sk_hr_payroll_surcharges` | 19.0.1.2.8 | Engine-neutral statutory wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work (§§ 121–124 and § 96… |
-| `l10n_sk_hr_payroll_surcharges_oca` | 19.0.1.0.6 | Statutory Slovak wage surcharges and the minimum-wage top-up as salary rules for the OCA payroll engine. |
-| `l10n_sk_hr_payroll_vpp` | 19.0.1.2.1 | Slovak social-insurance statement for dohody / irregular income (VPP/VPP2026) filed to the Sociálna poisťovňa — aggregate summary + per-employee annex, XML… |
+| `l10n_sk_hr_payroll_monthly_tax_overview` | 19.0.2.2.0 | Monthly Slovak income-tax overview (Prehľad o zrazených a odvedených preddavkoch na daň) for the Finančná správa — withheld tax advances + daňový bonus recap… |
+| `l10n_sk_hr_payroll_mvp` | 19.0.1.1.4 | Monthly Slovak social-insurance statement (MVP/MVPP) for the Sociálna poisťovňa — aggregate summary + per-employee annex, XML validated against MVPP-v2026.xsd… |
+| `l10n_sk_hr_payroll_oca` | 19.0.1.29.1 | Slovak payroll rules for the payroll engine |
+| `l10n_sk_hr_payroll_parity` | 19.0.1.9.0 | Cross-engine parity harness: drives one shared set of payroll scenarios through both the OCA payroll and the Enterprise hr_payroll Slovak implementations and… |
+| `l10n_sk_hr_payroll_rlfo` | 19.0.1.4.1 | Slovak social-insurance registration of employees (RLFO / RLZEC) filed to the Sociálna poisťovňa — prihláška / odhláška events and the agreement OOP notice… |
+| `l10n_sk_hr_payroll_surcharges` | 19.0.1.3.0 | Engine-neutral statutory wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work (§§ 121–124 and § 96… |
+| `l10n_sk_hr_payroll_surcharges_oca` | 19.0.1.0.8 | Statutory Slovak wage surcharges and the minimum-wage top-up as salary rules for the OCA payroll engine. |
+| `l10n_sk_hr_payroll_vpp` | 19.0.1.2.2 | Slovak social-insurance statement for dohody / irregular income (VPP/VPP2026) filed to the Sociálna poisťovňa — aggregate summary + per-employee annex, XML… |
 | `l10n_sk_intrastat` | 19.0.1.1.2 | INTRASTAT-SK INSTAT XML on the OCA intrastat_product engine (CE-clean). EE variant: l10n_sk_intrastat_ee. |
 | `l10n_sk_inventory_verification` | 19.0.1.1.2 | Statutory Slovak inventory verification: inventúrne súpisy (§ 30 ods. 2) and the inventarizačný zápis (§ 30 ods. 3). |
 | `l10n_sk_invoice` | 19.0.1.1.0 | Slovak invoice layout: DIČ/IČO/IČ DPH party block, payment symbols, supply/issue/due dates and mandatory §74 statutory phrases (reverse charge, exemptions)… |
@@ -155,7 +155,7 @@ this repository. Add them to the addons path as well:
 | `l10n_sk_statutory` | 19.0.1.1.1 | Slovak statutory reference registries: daňové úrady and person types. |
 | `l10n_sk_trade_registry` | 19.0.2.0.2 | Keep the register, court and oddiel/vložka as data and compose the § 3a Obchodného zákonníka sentence from them, instead of typing it once into the company… |
 | `l10n_sk_transaction_tax` | 19.0.1.0.0 | Reviewed native-ledger DFT sources and OZNDFTv26 |
-| `l10n_sk_ubl_bis3` | 19.0.3.5.0 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
+| `l10n_sk_ubl_bis3` | 19.0.3.8.0 | Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export |
 | `l10n_sk_vat_registration` | 19.0.1.1.1 | Record which paragraph of the SK VAT Act a partner's IČ DPH was issued under, and warn when a § 69/12 reverse charge is aimed at a § 7 / § 7a registrant, who… |
 | `l10n_sk_vat_return` | 19.0.1.16.1 | Slovak VAT return (DPHv25) — output/input lines wired to the l10n_sk tax tags, with FS SR DPH XML export. Built on the shared l10n_cssk_vat_return_base… |
 | `l10n_sk_vehicle_expense` | 19.0.1.2.0 | 50 % VAT deduction on mixed-use vehicles and the 80 % fuel tax-expense paušál — two independent Slovak regimes. |
@@ -173,14 +173,14 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_accrual` | 19.0.1.1.1 | Estimated unbilled items — book an estimate to the accrual account (CZ 388/389, SK 326 or a receivable analytic), then link the actual invoice to true it up. |
 | `l10n_cssk_banks` | 19.0.2.0.0 | Czech and Slovak banks with their codes and BICs, generated from the ČNB and NBS registries |
 | `l10n_cssk_cash_journal_base` | 19.0.1.6.3 | Country-neutral single-entry cash journal derived from ordinary double-entry books: payments become dated, categorised denník rows, with the year-end balances… |
-| `l10n_cssk_core` | 19.0.1.20.2 | Country-neutral foundation for the Czech & Slovak statutory localization: tax-authority registry, person types, shared company/partner fields, settings and… |
+| `l10n_cssk_core` | 19.0.1.21.1 | Country-neutral foundation for the Czech & Slovak statutory localization: tax-authority registry, person types, shared company/partner fields, settings and… |
 | `l10n_cssk_ec_summary_base` | 19.0.1.7.2 | Country-neutral framework for the Slovak Súhrnný výkaz and Czech Souhrnné hlášení (EC sales list): single-line aggregation per (country, VAT, transaction… |
 | `l10n_cssk_ec_summary_vies` | 19.0.1.0.4 | Validate EC sales list partners against VIES at export and snapshot the consultation number onto each line. |
 | `l10n_cssk_fs_base` | 19.0.1.10.3 | Country-neutral framework for the Slovak and Czech financial statements (balance sheet + P&L): line trees computed from account-code balances + aggregates… |
 | `l10n_cssk_fs_xlsx` | 19.0.1.0.0 | Export a financial statement to Excel: every row with its brutto / korekcia / netto and the analytic accounts behind it. |
 | `l10n_cssk_guide` | 19.0.1.1.0 | One page to start from: the first steps and the guide of every Czech and Slovak localization module on this server, by topic. |
 | `l10n_cssk_hr_payroll_garnishment_account` | 19.0.1.1.2 | Turn each wage-garnishment deduction into a payable to the bailiff, stamped with the case number as variable symbol, ready for the payment order and the bank… |
-| `l10n_cssk_hr_payroll_garnishment_base` | 19.0.1.3.0 | Engine-neutral register of Czech and Slovak wage-garnishment orders (exekuční / exekučný príkaz) with the statutory multi-claim waterfall and the employer's… |
+| `l10n_cssk_hr_payroll_garnishment_base` | 19.0.1.3.2 | Engine-neutral register of Czech and Slovak wage-garnishment orders (exekuční / exekučný príkaz) with the statutory multi-claim waterfall and the employer's… |
 | `l10n_cssk_hr_payroll_garnishment_oca` | 19.0.1.0.2 | Apply the Czech/Slovak wage-garnishment waterfall on payslips computed by the OCA payroll engine. |
 | `l10n_cssk_income_tax_base` | 19.0.1.6.1 | Country-neutral framework for the corporate income-tax return (DPPO): versioned line definitions, accounting-result + aggregate evaluator, manual-override UI… |
 | `l10n_cssk_internal_document` | 19.0.1.0.1 | Print a journal entry as the interní / interný doklad the law requires |
@@ -196,16 +196,16 @@ this repository. Add them to the addons path as well:
 | `l10n_cssk_payment_symbols_oca` | 19.0.1.0.0 | Exact variable-symbol pass in OCA's bank auto-reconciliation. |
 | `l10n_cssk_payment_symbols_payment_order` | 19.0.1.0.1 | Copy invoice VS/KS/SS onto OCA payment order lines. |
 | `l10n_cssk_payment_symbols_sepa_oca` | 19.0.1.0.0 | Writes VS, KS and SS into the SEPA credit transfer file of OCA payment orders, in the form Slovak and Czech banks read. |
-| `l10n_cssk_payroll_declaration_base` | 19.0.1.6.1 | Engine-neutral base for Czech/Slovak payroll authority e-submissions: XSD-validated XML export, a submission state machine and an hr.payslip adapter that works… |
-| `l10n_cssk_public_holidays` | 19.0.1.0.0 | Generates the Slovak and Czech days of rest into the OCA public holiday calendar, year by year, with the statutory exceptions. |
+| `l10n_cssk_payroll_declaration_base` | 19.0.1.7.0 | Engine-neutral base for Czech/Slovak payroll authority e-submissions: XSD-validated XML export, a submission state machine and an hr.payslip adapter that works… |
+| `l10n_cssk_public_holidays` | 19.0.1.0.2 | Generates the Slovak and Czech days of rest into the OCA public holiday calendar, year by year, with the statutory exceptions, and keeps the Slovak ones as… |
 | `l10n_cssk_receipt_capture` | 19.0.1.1.1 | Country-neutral framework for capturing cash-register receipts (bločky / účtenky) into Odoo: a provider registry, the captured receipt with its lines and… |
-| `l10n_cssk_receipt_capture_expense` | 19.0.1.1.1 | Turn a captured fiscal receipt into employee expenses, and capture receipts from the expense attachment upload. |
+| `l10n_cssk_receipt_capture_expense` | 19.0.1.2.0 | Turn a captured fiscal receipt into employee expenses, and capture receipts from the expense attachment upload. |
 | `l10n_cssk_recycling_fee` | 19.0.1.0.1 | Dated CZ/SK recycling-fee rates on OCA ecotax classifications, the statutory per-line 'z toho recyklační příspěvek' on the invoice, and a per-category period… |
 | `l10n_cssk_recycling_fee_sale` | 19.0.1.0.1 | Price the CZ/SK recycling fee on sale order lines at the order date, carry it to the invoice, and optionally invoice it as its own line. |
 | `l10n_cssk_registry_verify` | 19.0.1.0.0 | Answer whether an IČO exists in the state register, and say so in a way a gate can act on |
 | `l10n_cssk_submission_base` | 19.0.1.1.2 | Channel-agnostic delivery framework for statutory filings: one record per delivery attempt-set, a pluggable channel contract, retry with backoff, and durable… |
 | `l10n_cssk_translation_override` | 19.0.1.3.1 | Slovak and Czech translations that complete or correct those shipped by Odoo and by OCA modules, without patching them. |
-| `l10n_cssk_vat_return_base` | 19.0.1.13.1 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
+| `l10n_cssk_vat_return_base` | 19.0.1.14.0 | Country-neutral framework for the Slovak and Czech VAT return: numbered report lines computed from tax tags + aggregate formulas, with an XSD-validated XML… |
 | `l10n_cssk_vies` | 19.0.2.1.1 | Validate EU VAT numbers directly against the European Commission VIES service (no Odoo IAP) and store the official consultation number as proof of check. |
 
 ### European Union (1)

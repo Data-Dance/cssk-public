@@ -59,6 +59,25 @@ Filing a month
 
 The list of employees on the form shows who contributed to the figures and their gross wage; the overview itself is employer-level only and carries no per-employee data.
 
+Without payroll in the database
+=================================
+
+A company whose wages are computed elsewhere, by an outside payroll office, has no payslips here. Tick **Enter the amounts by hand** on the overview and fill in three figures from the payroll office's recapitulation:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - What to enter
+   * - Taxable income paid (r. 0)
+     - the taxable employment income settled and paid out to all employees for the month
+   * - Tax advances withheld (r. 1)
+     - the tax advances withheld, **before** the child tax bonus is taken off
+   * - Child tax bonus paid (§ 33)
+     - the bonus paid to the employees in total; leave 0 when there is none
+
+Then **Generate** as usual. Rows 4, 5 and 8 and Part II are derived from the three figures exactly as they are from payslips (see the table below), and the list of employees stays empty. The box is ticked by itself when no payroll app is installed. Once the overview is generated the amounts are locked; *Reset to Draft* opens them again. A month in which nothing was paid is filed with all three at zero.
+
 What goes onto the form
 =========================
 
@@ -89,6 +108,8 @@ Row 05 may carry the child tax bonus only up to the withheld advances (row 04). 
 
 In the overview for **March, June, September or December**, tick **Request refund of the child tax bonus difference** before generating. Part III then carries the request with the sum of row C over the quarter's three months, each recomputed from that month's non-cancelled payslips. The company needs a bank account for the refund; generation stops without one. The tick cannot be set on any other month. Leave it off to deduct the difference later instead; the file is then unchanged.
 
+On an overview entered by hand there are no payslips to recompute the earlier months from, so each of them is taken from the overview **generated** for it: the latest one of the month, which is the corrective overview where the month was corrected. Drafts are not counted. Generation stops when an earlier month of the quarter has no generated overview.
+
 Corrections
 =============
 
@@ -107,7 +128,7 @@ Limitations
 
 - **Deducting the bonus difference later is not automated.** When you do not request a refund, nothing carries row C into the following months; reduce their payment of advances yourself. Row 08 never goes negative.
 
-- The *zamestnanecká prémia*, the bonus on mortgage interest (§ 33a) and the corrections from the annual reconciliation (rows 02 and 03) have no source in the payroll and must be added by hand.
+- The *zamestnanecká prémia*, the bonus on mortgage interest (§ 33a) and the corrections from the annual reconciliation (rows 02 and 03) have no source in the payroll and no field for entering them by hand either; add them to the file yourself.
 
 - The **legal form** element of the header is the *Právna forma* recorded on the company's contact by ``l10n_sk_trade_registry``; without that module, or with the field empty, the element stays empty.
 
@@ -121,7 +142,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_monthly_tax_overview``
-- **Version:** 19.0.2.1.2
+- **Version:** 19.0.2.2.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``, ``l10n_sk_base``

@@ -1,7 +1,7 @@
 ---
 title: Česká mzdová agenda
 summary: Česká mzdová agenda na jednom místě — měsíční výplatní páska pro pracovní poměr, DPP a DPČ v aplikaci OCA payroll nebo v Odoo Enterprise Payroll, s datovanými zákonnými sazbami, nepřítomnostmi, ročním zúčtováním daně a zaúčtováním do hlavní knihy.
-verified: 19.0.1.5.0
+verified: 19.0.1.6.0
 ---
 
 ## Na co slouží {#purpose}
@@ -98,7 +98,10 @@ paragrafy byly ověřeny proti úplným zněním účinným v říjnu 2026.
   [§ 38ch](law:cz/1992/586).
 - **Stravenkový paušál** je osvobozen do 70 % horní hranice stravného při
   pracovní cestě trvající 5 až 12 hodin
-  ([§ 6 odst. 9 písm. b)](law:cz/1992/586)).
+  ([§ 6 odst. 9 písm. b)](law:cz/1992/586)). Co zaměstnavatel vyplatí nad
+  tento limit, je zdanitelný příjem a jako příjem od daně neosvobozený
+  vstupuje do vyměřovacích základů sociálního i zdravotního pojištění
+  ([§ 5 odst. 1](law:cz/1992/589), [§ 3 odst. 1](law:cz/1992/592)).
 - **Minimální mzda a náhrady mzdy.** Minimální mzdu upravuje
   [§ 111 zákoníku práce](law:cz/2006/262) a vyhlašuje ji sdělení MPSV (pro
   rok 2026 č. 356/2025 Sb., pro rok 2027 č. 171/2026 Sb.). Nižší mzdu dorovnává doplatek, porovnávaný za
@@ -147,7 +150,7 @@ paragrafy byly ověřeny proti úplným zněním účinným v říjnu 2026.
 | Podepsané prohlášení poplatníka | Zaměstnanec podepsal u tohoto zaměstnavatele prohlášení poplatníka: uplatní se měsíční slevy na dani a daňové zvýhodnění a dohoda pod hranicí se zdaní zálohou místo srážkové daně. |
 | Zaměstnanec je držitelem ZTP/P, Stupeň invalidity | Přidá slevu na držitele ZTP/P, nebo základní (I./II. stupeň) či rozšířenou (III. stupeň) slevu na invaliditu. |
 | Osoba, za kterou platí pojistné stát | Neuplatní se minimální vyměřovací základ zdravotního pojištění. Zaškrtněte jen tehdy, trvá-li některá z výjimek podle § 3 odst. 8 po celý měsíc. |
-| Stravenkový paušál / směna | Stravenkový paušál za směnu, omezený osvobozeným limitem a vyplácený za každý odpracovaný den. |
+| Stravenkový paušál / směna | Peněžitý stravenkový paušál za směnu, vyplácený za každý odpracovaný den. Do limitu je osvobozen; část nad limit se vyplatí také, zdaní a pojistí. |
 | Průměrný hodinový výdělek | Nahradí vypočtený průměrný hodinový výdělek (nikdy ne pod hodinovou minimální mzdu). Ponechte prázdné, má-li ho páska spočítat sama. |
 | Vyživované osoby pro exekuci | Vyživované osoby zvyšující nezabavitelnou částku, zadává-li se srážka jako vstup výplatní pásky. |
 | Sleva pro pracujícího důchodce | Snižuje pojistné zaměstnance o 6,5 % vyměřovacího základu, zaokrouhleno na celé koruny nahoru. Zaškrtněte od měsíce, kdy zaměstnanec o slevu požádá a doloží nárok. |
@@ -184,7 +187,8 @@ jako druhé.
 V pořadí, v jakém pravidla běží:
 
 1. **Základní mzda.** Mzda ze smlouvy krácená o každou nepřítomnost v
-   období.
+   období a o část období mimo trvání smlouvy. Svátek v pracovním kalendáři
+   je u měsíční mzdy placená doba (viz [Nepřítomnosti](#leave)).
 2. **Příplatky ke mzdě** a **Mzda za práci přesčas** za hodiny přesčas, je-li
    nainstalována skupina příplatků.
 3. **Náhrady mzdy** ve výši průměrného hodinového výdělku: *Náhrada mzdy za
@@ -192,6 +196,8 @@ V pořadí, v jakém pravidla běží:
    krve, veřejná funkce a další důvody podle §§ 199–206) a *Employer Work
    Obstacle (§§ 207-209)* ve výši 80, 60 nebo 100 % (částečná
    nezaměstnanost: sazba sjednaná společností, ve výchozím stavu 100 %).
+   V Enterprise dostává hodinová mzda také *Náhradu mzdy za svátek*, který
+   připadl na obvyklý pracovní den ([§ 115 odst. 3](law:cz/2006/262)).
    Průměrný hodinový
    výdělek je základní mzda z potvrzených výplatních pásek předchozího
    kalendářního čtvrtletí dělená jejich odpracovanými hodinami; bez takového
@@ -223,13 +229,16 @@ V pořadí, v jakém pravidla běží:
    jej zaměstnavatel; u osoby, za kterou platí pojistné stát, a u držitele
    ZTP/P se nedoplácí.
 8. Dohody pod svou hranicí neplatí žádné pojistné.
-9. **Základ daně** = hrubá mzda a náhrada mzdy při nemoci. **Záloha na daň z příjmů**: základ
+9. **Základ daně** = hrubá mzda; náhrada mzdy při nemoci za prvních 14 dnů je osvobozena (§ 6 odst. 9 písm. p) ZDP) a do základu nevstupuje. **Záloha na daň z příjmů**: základ
    zaokrouhlený na celé stokoruny nahoru, 15 % do měsíční hranice a 23 % nad
    ni. U dohody pod hranicí bez prohlášení místo ní **Srážková daň**: 15 % z
    hrubé mzdy v celých korunách, bez slev. Od výplatní pásky za leden 2027
    se taková dohoda zdaní zálohou, stále bez slev (parametr pravidla
    `l10n_cz_wh_tax_dependent`).
 10. **Slevy na dani** při podepsaném prohlášení, nejvýše do výše zálohy.
+    Slevy na invaliditu a na držitele průkazu ZTP/P se řídí verzí smlouvy
+    platnou k prvnímu dni měsíce ([§ 35ba odst. 3](law:cz/1992/586)): sleva
+    zadaná na verzi datované uvnitř měsíce platí až od měsíce následujícího.
 11. **Daňové zvýhodnění na dítě** za děti daného měsíce (viz
     [Děti](#children)) do výše zbývající daně a **Daňový bonus na dítě** za
     zbytek, dosáhne-li základ daně poloviny minimální mzdy a činí-li bonus
@@ -237,7 +246,10 @@ V pořadí, v jakém pravidla běží:
 12. **Exekuční srážky ze mzdy** a další srážky (viz [Srážky ze
     mzdy](#garnishment)), **Proplacení výdajů** a případně **Roční zúčtování
     daně**.
-13. **Stravenkový paušál**, mimo hrubou mzdu.
+13. **Stravenkový paušál**, mimo hrubou mzdu: osvobozená část a na vlastním
+    řádku *Stravenkový paušál nad osvobozený limit*, který se přičítá k
+    vyměřovacím základům sociálního a zdravotního pojištění a k základu
+    daně.
 14. **Čistá mzda** a souhrny zaměstnavatele.
 
 ## Zákonné hodnoty {#rates}
@@ -289,6 +301,22 @@ typů, které modul nepřekládá, se zobrazují anglicky:
 
 Typy ošetřování a doprovodu s limitem vyžadují alokaci; doprovod zdravotně
 postiženého dítěte do zařízení má vlastní plán, který přiděluje 6 dnů ročně.
+
+**Svátky** se zadávají jako volno pracovního kalendáře, které nepatří žádnému
+zaměstnanci (*Volno → Konfigurace → Státní svátky*). U měsíční mzdy je svátek
+placená doba: mzda se kvůli němu nekrátí
+([§ 115 odst. 3](law:cz/2006/262)) a jeho hodiny zůstávají ve fondu měsíce,
+když se mzda krátí za nepřítomnost nebo za část měsíce, takže po týdnu nemoci
+vedle Nového roku zbývá 128 ze 176 hodin ledna 2026. Hodinová mzda
+(Enterprise) za svátek nenáleží a jeho hodiny se místo toho platí *Náhradou
+mzdy za svátek* ve výši průměrného výdělku. Nepřítomnost zadaná přes
+svátek ponechává svátek svátkem: do *dovolené* se nezapočítává
+([§ 219 odst. 2](law:cz/2006/262)). Výjimkou je nemoc a karanténa: svátek
+uvnitř nich je dnem nemoci, bez mzdy a v prvních 14 dnech s náhradou mzdy
+při nemoci za jeho hodiny ([§ 192 odst. 1](law:cz/2006/262)), takže po
+nemoci od 1. do 9. ledna 2026 zbývá 120 ze 176 hodin a náhrada náleží za 56.
+V Enterprise po doplnění svátku do období znovu vygenerujte jeho pracovní
+záznamy.
 
 **Plány nároků na dovolenou** dodává základní modul, takže jsou v obou jádrech
 stejné. *Zákonná dovolená – 4 týdny (160 h/rok)* a
@@ -426,6 +454,19 @@ ustanovení. Stránka každého hlášení uvádí za která.
 - **Sleva pro pracujícího důchodce.** Podmínky ověřujete vy: důchodový věk,
   důchod vyplácený v plné výši, celý kalendářní měsíc. Uplatňuje se jednou pro
   všechna zaměstnání u téhož zaměstnavatele, zaškrtněte ji tedy jen u jednoho.
+- **Svátky.** Svátek uvnitř neplaceného volna, ošetřování člena rodiny a
+  mateřské, rodičovské či otcovské dovolené se platí jako svátek měsíční
+  mzdy: žádné ustanovení to neřeší tak, jako
+  [§ 192 odst. 1](law:cz/2006/262) u nemoci. Jádro OCA nemá hodinovou mzdu,
+  a tedy ani náhradu mzdy za svátek. V Enterprise zůstává svátek uvnitř
+  nemoci u pracovních záznamů vytvořených před verzí 19.0.1.22.0 placenou
+  dobou, dokud je znovu nevygenerujete.
+- **Vstupy v Enterprise.** Ručně zadané vstupy *Attachment of Salary*,
+  *Assignment of Salary*, *Child Support* a vstupy exekučních srážek
+  Enterprise z pásky odstraní, když se u ní dodatečně změní zaměstnanec,
+  smlouva, struktura nebo období: tyto typy vstupů tam patří srážkám ze mzdy
+  (*salary attachments*). Zadejte srážku ze mzdy, nebo vstupy doplňte až
+  nakonec.
 - **Náhrada mzdy při nemoci.** 14 dnů se počítá od prvního dne nepřítomnosti;
   neschopnost vzniklá po odpracované směně (kdy lhůta začíná až následujícím
   dnem) a snížená či nepřiznaná náhrada (§ 192 odst. 4 a 5) vyžadují ruční
@@ -453,8 +494,10 @@ ustanovení. Stránka každého hlášení uvádí za která.
   100 %. Snižte ji jen tehdy, stanoví-li nižší sazbu dohoda s odborovou
   organizací nebo vnitřní předpis; pod zákonných 60 % páska nikdy nejde.
 - **Stravenkový paušál** se vyplácí za každý odpracovaný den; modul
-  nekontroluje tříhodinovou směnu ani pracovní cestu v týž den a částku nad
-  osvobozený limit zkrátí, místo aby ji vyplatil jako zdanitelný příjem.
+  nekontroluje tříhodinovou směnu ani pracovní cestu v týž den. Část nad
+  osvobozený limit se daní a pojistí, ale není mzdou: stojí mimo hrubou
+  mzdu, mimo porovnání s minimální mzdou a mimo čistou mzdu pro výpočet
+  srážek, kterou daň a pojistné z této části přesto snižují.
 - **Jádro OCA.** **Český mzdový kód** vlastních typů nepřítomností nastavíte
   na formuláři typu nepřítomnosti vedle pole *Count as*; typ bez kódu se
   bere jako běžná nepřítomnost.

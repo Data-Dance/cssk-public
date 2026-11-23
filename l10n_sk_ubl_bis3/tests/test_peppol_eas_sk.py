@@ -315,3 +315,48 @@ class TestSlovakPeppolEas(TransactionCase):
             self.env.ref('account.view_partner_property_form').id)['arch']
         self.assertIn('name="l10n_sk_peppol_address"', arch)
         self.assertRegex(arch, r'name="peppol_endpoint"[^>]*readonly="l10n_sk_peppol_endpoint_derived"')
+
+    # -------------------------------------------------------------------------
+    # § 74 address and a Company ID that is not an IČO
+    # -------------------------------------------------------------------------
+
+    def _constraints_for(self, partner):
+        invoice = self.env['account.move'].new({
+            'move_type': 'out_invoice',
+            'partner_id': partner.id,
+            'company_id': self.env.company.id,
+        })
+        return self.env['account.edi.xml.ubl_sk']._l10n_sk_peppol_constraints(invoice, {})
+
+    def test_export_refuses_a_slovak_party_with_an_incomplete_address(self):
+        partner = self._partner(l10n_sk_dic="2020317068")
+        partner.write({'street': "Hlavná 1", 'city': "Bratislava", 'zip': "81101"})
+        self.assertNotIn(
+            'l10n_sk_ubl_bis3_customer_address_required', self._constraints_for(partner))
+
+        partner.write({'street': False, 'zip': "  "})
+        constraints = self._constraints_for(partner)
+        message = constraints['l10n_sk_ubl_bis3_customer_address_required']
+        self.assertIn(partner.display_name, message)
+        # A foreign party is core's business (BR-09 / BR-11 ask for the country).
+        self.assertNotIn(
+            'l10n_sk_ubl_bis3_customer_address_required',
+            self._constraints_for(self._foreign_partner_without_address()))
+
+    def _foreign_partner_without_address(self):
+        return self.env['res.partner'].create({
+            'name': "CZ Odberatel s.r.o.", 'is_company': True,
+            'country_id': self.env.ref('base.cz').id,
+        })
+
+    def test_export_refuses_a_company_id_that_is_not_an_ico(self):
+        partner = self._partner(l10n_sk_dic="2020317068")
+        partner.write({'street': "Hlavná 1", 'city': "Bratislava", 'zip': "81101"})
+        for value, refused in (
+            ("36421928", False), ("36 421 928", False), ("123456", False), (False, False),
+            ("HRB 12345", True), ("123456789", True),
+        ):
+            partner.company_registry = value
+            self.assertEqual(
+                'l10n_sk_ubl_bis3_customer_ico_invalid' in self._constraints_for(partner),
+                refused, value)

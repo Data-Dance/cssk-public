@@ -5,15 +5,19 @@ import math
 from datetime import date, datetime, time
 
 from dateutil.relativedelta import relativedelta
-from pytz import timezone
+from pytz import timezone, utc
 
-from odoo import _, models
+from odoo import _, api, models
+from odoo.tools import float_round
 from odoo.addons.l10n_cz_hr_payroll_base.models.health_calc import (
     health_premiums,
 )
 from odoo.addons.l10n_cz_hr_payroll_base.models.insurance_month import (
     check_month,
     month_income,
+)
+from odoo.addons.l10n_cz_hr_payroll_base.public_holiday import (
+    absence_keeps_public_holiday,
 )
 
 # Stable Czech payroll worked-day codes for the absence taxonomy. Every one of
@@ -68,7 +72,146 @@ class HrPayslip(models.Model):
         self.ensure_one()
         return self.env["hr.rule.parameter"]._get_parameter_value(code, self.date_to)
 
+    # -- Typed inputs -------------------------------------------------------
+
+    def l10n_cz_input_amount(self, code):
+        """Sum of every input line with ``code``.
+
+        The engine hands the rules one input line per code, so a rule that
+        reads ``inputs.CODE.amount`` sees only one of several lines.
+        """
+        self.ensure_one()
+        return sum(
+            line.amount for line in self.input_line_ids if line.code == code
+        )
+
+    def l10n_cz_input_name(self, code):
+        """The names of the input lines with ``code``, each once."""
+        self.ensure_one()
+        names = []
+        for line in self.input_line_ids:
+            if line.code == code and line.name and line.name not in names:
+                names.append(line.name)
+        return ", ".join(names)
+
+    # -- Worked days ---------------------------------------------------------
+
+    @api.model
+    def _l10n_cz_is_czech_contract(self, contract):
+        country = contract.struct_id.country_id or contract.company_id.country_id
+        return country.code == "CZ"
+
+    @api.model
+    def get_worked_day_lines(self, contracts, date_from, date_to):
+        """End the worked-day lines of a Czech contract with the contract.
+
+        The engine starts them at the contract start and runs them to the end
+        of the period. BASIC is the wage for the scheduled hours inside the
+        contract, so the month it ends in needs them cut at its end too.
+        """
+        lines = []
+        for contract in contracts:
+            last = date_to
+            # The contract dates are HR-manager fields.
+            contract_end = contract.sudo().date_end
+            if (
+                self._l10n_cz_is_czech_contract(contract)
+                and contract_end
+                and contract_end < last
+            ):
+                last = contract_end
+            lines.extend(super().get_worked_day_lines(contract, date_from, last))
+        return lines
+
+    def l10n_cz_meal_days(self):
+        """Shifts worked in the period, for the meal allowance.
+
+        The allowance is exempt "za jednu směnu" (§ 6 odst. 9 písm. b) ZDP),
+        so a day not worked carries none. WORK100 is the whole schedule of
+        the period: the days of absence and the public holidays of the
+        calendar (the engine's GLOBAL line) come off it.
+        """
+        self.ensure_one()
+        scheduled = not_worked = 0.0
+        absence_codes = CZ_ABSENCE_CODES + ("GLOBAL",)
+        for line in self.worked_days_line_ids:
+            if line.code == "WORK100":
+                scheduled += line.number_of_days
+            elif line.code in absence_codes:
+                not_worked += abs(line.number_of_days)
+        return max(0.0, scheduled - not_worked)
+
     # -- Absence -> worked-day lines --------------------------------------
+
+    def _l10n_cz_leave_pieces(self, contract, day_from, day_to):
+        """The scheduled time off work as ``(day, hours, leave type)`` pieces.
+
+        ``list_leaves`` merges the leaves that overlap into one interval that
+        carries all their records, so a public holiday at the start of a
+        leave and the leave arrive as one block, and its first record named
+        the whole of it. Each piece of the schedule is cut here at the bounds
+        of those records and given to the leave that really covers it. Time
+        covered by a public holiday of the calendar is the holiday (an empty
+        leave type, the engine's ``GLOBAL`` line) under most absences: a
+        holiday on a usual working day is not counted into the leave
+        (§ 219 odst. 2 ZP) and a monthly wage is not reduced for it
+        (§ 115 odst. 3 ZP). Inside a sickness or a quarantine it is a day of
+        that absence, compensated like its working days (§ 192 odst. 1 ZP;
+        see ``l10n_cz_hr_payroll_base.public_holiday``). The Enterprise
+        engine files both the same way.
+        """
+        employee = contract.employee_id
+        resource = employee.resource_id
+        calendar = contract.resource_calendar_id
+        start = day_from if day_from.tzinfo else day_from.replace(tzinfo=utc)
+        end = day_to if day_to.tzinfo else day_to.replace(tzinfo=utc)
+        attendances = calendar._attendance_intervals_batch(start, end, resource)[
+            resource.id
+        ]
+        time_off = calendar._leave_intervals_batch(start, end, resource)[resource.id]
+        no_type = self.env["hr.leave.type"]
+        pieces = []
+        for piece_start, piece_stop, records in time_off & attendances:
+            bounds = [
+                (record, utc.localize(record.date_from), utc.localize(record.date_to))
+                for record in records
+            ]
+            cuts = {piece_start, piece_stop}
+            for _record, record_start, record_stop in bounds:
+                # In the calendar's time zone, as the piece is: the day of a
+                # cut is read off it below.
+                cuts.update(
+                    moment.astimezone(piece_start.tzinfo)
+                    for moment in (record_start, record_stop)
+                    if piece_start < moment < piece_stop
+                )
+            cuts = sorted(cuts)
+            for cut_start, cut_stop in zip(cuts, cuts[1:], strict=False):
+                covering = [
+                    record
+                    for record, record_start, record_stop in bounds
+                    if record_start < cut_stop and record_stop > cut_start
+                ]
+                absences = [record for record in covering if record.holiday_id]
+                public_holiday = any(
+                    not record.resource_id and not record.holiday_id
+                    for record in covering
+                )
+                leave_type = no_type
+                if absences and public_holiday:
+                    # The absences that keep the holiday, if any lies here.
+                    absences = [
+                        record
+                        for record in absences
+                        if absence_keeps_public_holiday(
+                            record.holiday_id.holiday_status_id.l10n_cz_payroll_code
+                        )
+                    ]
+                if absences:
+                    leave_type = absences[0].holiday_id.holiday_status_id
+                hours = (cut_stop - cut_start).total_seconds() / 3600
+                pieces.append((cut_start.date(), hours, leave_type))
+        return pieces
 
     def _compute_leave_days(self, contract, day_from, day_to):
         """Key each leave worked-day line by the leave type's Czech payroll code.
@@ -79,7 +222,8 @@ class HrPayslip(models.Model):
         ``l10n_cz_payroll_code`` on the leave type so the salary rules can read
         absence hours per code (CZHOLIDAY / CZSICK / …). These codes map 1:1 onto
         Odoo master's unified Time Type ``code``
-        (see docs/master_work_entry_analysis.md).
+        (see docs/master_work_entry_analysis.md). Each piece of absence is
+        given to the leave that covers it (``_l10n_cz_leave_pieces``).
         """
         leaves_positive = (
             self.env["ir.config_parameter"].sudo().get_param("payroll.leaves_positive")
@@ -87,12 +231,8 @@ class HrPayslip(models.Model):
         leaves = {}
         calendar = contract.resource_calendar_id
         tz = timezone(calendar.tz or contract.employee_id.tz or "UTC")
-        day_leave_intervals = contract.employee_id.list_leaves(
-            day_from, day_to, calendar=contract.resource_calendar_id
-        )
-        for day, hours, leave in day_leave_intervals:
-            holiday = leave[:1].holiday_id
-            leave_type = holiday.holiday_status_id
+        day_leave_intervals = self._l10n_cz_leave_pieces(contract, day_from, day_to)
+        for day, hours, leave_type in day_leave_intervals:
             code = (
                 leave_type.l10n_cz_payroll_code
                 # Cross-install: an SK leave type carries its own code; key it
@@ -170,6 +310,19 @@ class HrPayslip(models.Model):
         worked_hours = sum(worked.mapped("number_of_hours"))
         absence = self.l10n_cz_leave_hours(CZ_ABSENCE_CODES)
         return min(max(worked_hours - absence, 0.0) / scheduled, 1.0)
+
+    def l10n_cz_basic_wage(self):
+        """BASIC: the monthly wage for the paid part of the period, in hellers.
+
+        Rounded here because the engine adds the rule results up unrounded:
+        30 000 x 152/176 next to a náhrada of 24 x 30 000/176 made a gross a
+        fraction of a heller above 30 000, and the health premium and the tax
+        base, both rounded up, were those of 30 001 and 30 100. Enterprise
+        pays the amounts of its worked-day lines, which are in hellers.
+        """
+        self.ensure_one()
+        wage = self._l10n_cz_version().wage
+        return float_round(wage * self.l10n_cz_worked_ratio(), precision_digits=2)
 
     def l10n_cz_sick_compensated_hours(self):
         """CZSICK hours the employer compensates (§ 192 odst. 1 zákoníku práce).

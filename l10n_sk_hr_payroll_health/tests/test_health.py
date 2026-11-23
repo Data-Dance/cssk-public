@@ -83,9 +83,15 @@ class TestHealth514(TransactionCase):
 
     def _employee_payslip(self, wage=2000.0, agreement="none", pension=False):
         structure = self.structure
-        if agreement != "none":
-            module = "l10n_sk_hr_payroll_oca" if self.engine == "oca" else "l10n_sk_hr_payroll"
-            structure = self.env.ref(module + ".hr_payroll_structure_sk_" + agreement)
+        if agreement != "none" and self.engine == "oca":
+            structure = self.env.ref(
+                "l10n_sk_hr_payroll_oca.hr_payroll_structure_sk_" + agreement)
+        elif agreement != "none":
+            # Enterprise: one structure, a structure type per agreement.
+            structure_type = self.env.ref(
+                "l10n_sk_hr_payroll_ee.structure_type_%s_sk" % agreement)
+        elif self.engine == "ee":
+            structure_type = structure.type_id
         emp_vals = {
             "name": "Jozko Mrkvicka",
             "company_id": self.company.id,
@@ -98,7 +104,7 @@ class TestHealth514(TransactionCase):
         if self.engine == "oca":
             emp_vals["struct_id"] = structure.id
         else:
-            emp_vals["structure_type_id"] = structure.type_id.id
+            emp_vals["structure_type_id"] = structure_type.id
         employee = self.env["hr.employee"].with_company(
             self.company).create(emp_vals)
         if pension:
@@ -113,8 +119,6 @@ class TestHealth514(TransactionCase):
             "date_from": date(2026, 3, 1),
             "date_to": date(2026, 3, 31),
         })
-        if self.engine == "ee":
-            slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
         confirm_payslips(slip)
         return employee, slip
@@ -159,14 +163,15 @@ class TestHealth514(TransactionCase):
         for agreement in ("dopc", "dovp"):
             _, slip = self._employee_payslip(200, agreement)
             self._version(slip).l10n_sk_health_exempt = True
+            slip.state = "draft"
             slip.compute_sheet()
-            slip.action_payslip_done()
+            confirm_payslips(slip)
             declaration = self.env["l10n.sk.health"].with_company(self.company).create({
                 "company_id": self.company.id, "year": "2026", "month": "3"})
             declaration._preflight()
             self.assertNotIn(slip, declaration._get_period_payslips())
-            self.assertEqual(slip.get_salary_line_total("HEALTH"), 0)
-            self.assertEqual(slip.get_salary_line_total("HEALTHEMPLOYER"), 0)
+            self.assertEqual(self._line(slip, "HEALTH"), 0)
+            self.assertEqual(self._line(slip, "HEALTHEMPLOYER"), 0)
 
     def test_mismatch_at_another_insurer_does_not_block_this_insurer(self):
         _, broken = self._employee_payslip(200, "dopc", "disability")
@@ -337,6 +342,256 @@ class TestHealth514(TransactionCase):
         decl.payer_number = "1122334455"
         self.assertEqual(self.company.l10n_sk_health_payer_number,
                          "1122334455")
+
+    # ------------------------------------------------------------------
+    # The figures of the statement (vyhláška 159/2018 Z. z. § 1 ods. 3)
+    # ------------------------------------------------------------------
+    def _short_calendar(self):
+        """Five hours a week: the minimum wage stays below the test wages."""
+        return self.env["resource.calendar"].create({
+            "name": "SK 5h", "company_id": self.company.id,
+            "full_time_required_hours": 40.0, "hours_per_day": 1.0,
+            "attendance_ids": [(5, 0, 0)] + [(0, 0, {
+                "name": "d%d" % day, "dayofweek": str(day), "hour_from": 8.0,
+                "hour_to": 9.0, "day_period": "morning"}) for day in range(5)],
+        })
+
+    def _figures_payslip(self, rc, wage, agreement="none", leaves=(),
+                         inputs=None, **version_vals):
+        """A confirmed March 2026 payslip of a new employee on a 5-hour week."""
+        calendar = self._short_calendar()
+        start = date(2026, 1, 1)
+        oca = self.engine == "oca"
+        module = "l10n_sk_hr_payroll_oca." if oca else "l10n_sk_hr_payroll_ee."
+        values = {"name": "Zamestnanec %s" % rc, "company_id": self.company.id,
+                  "resource_calendar_id": calendar.id, "identification_id": rc}
+        version = dict(version_vals, l10n_sk_agreement_type=agreement)
+        if oca:
+            suffix = "employee_salary" if agreement == "none" else agreement
+            version.update({
+                "contract_date_start": start, "date_version": start,
+                "wage": wage, "resource_calendar_id": calendar.id,
+                "struct_id": self.env.ref(
+                    module + "hr_payroll_structure_sk_" + suffix).id})
+        else:
+            structure_type = (
+                self.structure.type_id if agreement == "none" else
+                self.env.ref(module + "structure_type_%s_sk" % agreement))
+            values.update({"date_version": start, "contract_date_start": start,
+                           "wage": wage, "structure_type_id": structure_type.id})
+        employee = self.env["hr.employee"].with_company(
+            self.company).create(values)
+        employee.version_id.write(version)
+        self.env.user.group_ids |= self.env.ref(
+            "hr_holidays.group_hr_holidays_manager")
+        for leave_type, first, last, *extra in leaves:
+            if isinstance(leave_type, str):
+                leave_type = self.env.ref(module + leave_type)
+            self.env["hr.leave"].with_company(self.company).create(dict({
+                "name": leave_type.name, "employee_id": employee.id,
+                "holiday_status_id": leave_type.id,
+                "request_date_from": first, "request_date_to": last,
+            }, **(extra[0] if extra else {}))).action_approve()
+        slip_vals = {"name": "Payslip %s" % rc, "employee_id": employee.id,
+                     "company_id": self.company.id,
+                     "date_from": date(2026, 3, 1), "date_to": date(2026, 3, 31)}
+        Payslip = self.env["hr.payslip"].with_company(self.company)
+        if oca:
+            slip_vals.update({"contract_id": employee.version_id.id,
+                              "struct_id": employee.version_id.struct_id.id})
+            slip = Payslip.create(slip_vals)
+            slip.worked_days_line_ids = [(0, 0, line) for line in (
+                slip.get_worked_day_lines(
+                    employee.version_id, slip.date_from, slip.date_to))]
+        else:
+            slip_vals.update({"version_id": employee.version_id.id,
+                              "struct_id": self.structure.id})
+            slip = Payslip.create(slip_vals)
+        for code, amount in (inputs or {}).items():
+            if oca:
+                self.env["hr.payslip.input"].create({
+                    "payslip_id": slip.id, "name": code, "code": code,
+                    "amount": amount, "contract_id": employee.version_id.id})
+            else:
+                self.env["hr.payslip.input"].create({
+                    "payslip_id": slip.id, "amount": amount,
+                    "input_type_id": self.env["hr.payslip.input.type"].search(
+                        [("code", "=", code)], limit=1).id})
+        slip.compute_sheet()
+        confirm_payslips(slip)
+        return slip
+
+    def _statement(self):
+        declaration = self.env["l10n.sk.health"].with_company(
+            self.company).create({
+                "company_id": self.company.id, "year": "2026", "month": "3",
+                "payment_date": date(2026, 4, 8)})
+        declaration.action_generate()
+        root = etree.fromstring(
+            base64.b64decode(declaration.xml_attachment_id.datas))
+        rows = {row.findtext("IdentificationNumberOfInsured"): row
+                for row in root.findall("PersonData")}
+        return root.find("InsuranceBody"), rows
+
+    def _line(self, slip, *codes):
+        return round(sum(abs(line.total) for line in slip.line_ids
+                         if line.code in codes), 2)
+
+    def _amounts(self, node, *names):
+        return [node.findtext(name) for name in names]
+
+    def test_disabled_employee_is_reported_in_the_disabled_group(self):
+        """§ 12 ods. 1 zákona 580/2004 Z. z.: 2.5 % and 5.5 % in 2026."""
+        plain = self._figures_payslip("8501011201", 1000.0)
+        disabled = self._figures_payslip("8501011202", 1000.0, l10n_sk_ztp=True)
+        self.assertEqual(self._line(plain, "HEALTH"), 50.0)
+        self.assertEqual(self._line(disabled, "HEALTH"), 25.0)
+        self.assertEqual(self._line(disabled, "HEALTHEMPLOYER"), 55.0)
+        body, rows = self._statement()
+        self.assertEqual(self._amounts(
+            body, "TotalNumberOfInsurancePersons",
+            "NumberOfInsurancePersons1", "NumberOfInsurancePersons2",
+            "NumberOfDays1", "NumberOfDays2"), ["2", "1", "1", "31", "31"])
+        self.assertEqual(self._amounts(
+            body, "TotalReceipt1", "TotalReceipt2", "BaseOfAssess1",
+            "BaseOfAssess2"), ["1000.00", "1000.00", "1000.00", "1000.00"])
+        self.assertEqual(self._amounts(
+            body, "DepositOfInsurance1", "DepositOfInsurance2",
+            "DepositOfInsurance3", "DepositOfInsurance4",
+            "TotalDepositOfInsurance"),
+            ["110.00", "50.00", "55.00", "25.00", "240.00"])
+        self.assertEqual(self._amounts(
+            rows["8501011202"], "TariffOfDeposit1", "TariffOfDeposit2",
+            "NotAppliedMinimum"), ["5.50", "2.50", "1"])
+        self.assertEqual(self._amounts(
+            rows["8501011201"], "TariffOfDeposit1", "TariffOfDeposit2",
+            "NotAppliedMinimum"), ["11.00", "5.00", "0"])
+
+    def test_minimum_top_up_is_part_of_the_employee_advance(self):
+        """§ 16a ods. 4: the top-up raises the employee's advance."""
+        slip = self._figures_payslip("8501011203", 200.0)
+        self.assertEqual(
+            self._line(slip, "HEALTHDOPLATOK", "HEALTH_DOPLATOK"), 13.45)
+        body, rows = self._statement()
+        self.assertEqual(self._amounts(
+            body, "DepositOfInsurance1", "DepositOfInsurance2",
+            "DepositOfInsurance3", "DepositOfInsurance4",
+            "TotalDepositOfInsurance"),
+            ["22.00", "23.45", "0.00", "0.00", "45.45"])
+        self.assertEqual(self._amounts(
+            rows["8501011203"], "DepositOfEmployer", "DepositOfEmployee",
+            "DepositOffEmployeeAdd", "DepositOfTotal"),
+            ["22.00", "10.00", "13.45", "45.45"])
+
+    def test_days_are_the_days_the_advance_is_paid_for(self):
+        """§ 11 ods. 3 and ods. 7 písm. m): not the days of sickness, of
+        maternity or of unpaid leave."""
+        sick = self._figures_payslip("8501011205", 300.0, leaves=[
+            ("l10n_sk_leave_type_pn", date(2026, 3, 2), date(2026, 3, 11))])
+        self._figures_payslip("8501011207", 300.0, leaves=[
+            ("l10n_sk_leave_type_neplatene", date(2026, 3, 16),
+             date(2026, 3, 20))])
+        self._figures_payslip("8501011208", 300.0, leaves=[
+            ("l10n_sk_leave_type_materska", date(2026, 3, 23),
+             date(2026, 3, 31))])
+        absent = self._figures_payslip("8501011212", 300.0, leaves=[
+            ("l10n_sk_leave_type_pn", date(2026, 3, 1), date(2026, 3, 31))])
+        self._figures_payslip("8501011209", 300.0)
+        self.assertEqual(self._line(sick, "GROSS"), 190.91)
+        self.assertEqual(self._line(
+            absent, "GROSS", "HEALTH", "HEALTHEMPLOYER", "HEALTHDOPLATOK",
+            "HEALTH_DOPLATOK"), 0.0)
+        body, rows = self._statement()
+        self.assertEqual(rows["8501011205"].findtext("NumberOfDays"), "21")
+        self.assertEqual(rows["8501011207"].findtext("NumberOfDays"), "26")
+        self.assertEqual(rows["8501011208"].findtext("NumberOfDays"), "22")
+        self.assertEqual(rows["8501011212"].findtext("NumberOfDays"), "0")
+        self.assertEqual(rows["8501011209"].findtext("NumberOfDays"), "31")
+        self.assertEqual(body.findtext("NumberOfDays1"), "100")
+        # The employee who was sick all month is listed, and is not one of
+        # those an advance is paid for.
+        self.assertEqual(self._amounts(
+            body, "TotalNumberOfInsurancePersons",
+            "NumberOfInsurancePersons1"), ["5", "4"])
+        self.assertEqual(
+            rows["8501011212"].findtext("NotAppliedMinimum"), "1")
+
+    def test_a_day_of_leave_taken_in_part_stays(self):
+        """A morning of unpaid leave leaves income for the day (§ 11 ods. 3);
+        the two whole days after it do not."""
+        module = ("l10n_sk_hr_payroll_oca." if self.engine == "oca"
+                  else "l10n_sk_hr_payroll_ee.")
+        half_days = self.env.ref(
+            module + "l10n_sk_leave_type_neplatene").copy(
+                {"name": "Unpaid, half days", "request_unit": "half_day"})
+        self._figures_payslip("8501011213", 300.0, leaves=[
+            (half_days, date(2026, 3, 17), date(2026, 3, 17),
+             {"request_date_from_period": "am",
+              "request_date_to_period": "am"}),
+            (half_days, date(2026, 3, 18), date(2026, 3, 19),
+             {"request_date_from_period": "am",
+              "request_date_to_period": "pm"})])
+        _body, rows = self._statement()
+        self.assertEqual(rows["8501011213"].findtext("NumberOfDays"), "29")
+
+    def test_sick_days_typed_on_the_payslip_reduce_the_days(self):
+        """The payslip takes the sick days from PN_DAYS when it is given."""
+        self._figures_payslip("8501011210", 300.0, inputs={"PN_DAYS": 10.0})
+        _body, rows = self._statement()
+        self.assertEqual(rows["8501011210"].findtext("NumberOfDays"), "21")
+
+    def test_deductible_item_is_reported_with_the_statutory_rate(self):
+        """§ 13 ods. 1 and 4, § 16 ods. 16 and 17: 380 - 2 x (400 - 380) =
+        340 off the employee's base only; 5 % of 60 is 3.00."""
+        slip = self._figures_payslip(
+            "8501011204", 400.0, l10n_sk_health_oop_claim=True)
+        self.assertEqual(self._line(slip, "HEALTH"), 3.0)
+        self.assertEqual(self._line(slip, "HEALTHEMPLOYER"), 44.0)
+        body, rows = self._statement()
+        self.assertEqual(self._amounts(
+            rows["8501011204"], "TotalReceiptOfEmployee",
+            "BaseOfAssessOfEmployee", "ReceiptOfEmployee",
+            "TotalReceiptOfOther", "OP", "TariffOfDeposit1",
+            "TariffOfDeposit2", "DepositOfEmployer", "DepositOfEmployee"),
+            ["400.00", "60.00", "400.00", "0.00", "340.00", "11.00", "5.00",
+             "44.00", "3.00"])
+        self.assertEqual(self._amounts(
+            body, "TotalReceipt1", "BaseOfAssess1"), ["400.00", "60.00"])
+
+    def test_month_without_recorded_bases_is_reported_on_gross_and_named(self):
+        """A payslip computed before the fund bases were recorded has no
+        base after the deductible item to read: the row is reported on its
+        gross and the statement names the payslip."""
+        slip = self._figures_payslip(
+            "8501011214", 400.0, l10n_sk_health_oop_claim=True)
+        if not callable(getattr(slip, "_cssk_recorded_fund_bases", None)):
+            self.skipTest("this payroll engine has no fund records to read")
+        slip._l10n_sk_store_fund_evidence(False)
+        declaration = self.env["l10n.sk.health"].with_company(
+            self.company).create({
+                "company_id": self.company.id, "year": "2026", "month": "3"})
+        declaration.action_generate()
+        self.assertIn(slip.display_name, declaration.fund_bases_warning)
+        row = etree.fromstring(base64.b64decode(
+            declaration.xml_attachment_id.datas)).find("PersonData")
+        self.assertEqual(self._amounts(
+            row, "TotalReceiptOfEmployee", "BaseOfAssessOfEmployee", "OP",
+            "DepositOfEmployee"), ["400.00", "400.00", "0.00", "3.00"])
+
+    def test_agreement_income_is_other_income(self):
+        """§ 13a ods. 1: the income for the deductible item is that of an
+        employment relationship, not of an agreement."""
+        self._figures_payslip("8501011206", 300.0, agreement="dovp")
+        self._figures_payslip("8501011211", 1000.0)
+        _body, rows = self._statement()
+        self.assertEqual(self._amounts(
+            rows["8501011206"], "TotalReceiptOfEmployee", "ReceiptOfEmployee",
+            "TotalReceiptOfOther", "OP", "BaseOfAssessOfEmployee"),
+            ["300.00", "0.00", "300.00", "0.00", "300.00"])
+        self.assertEqual(self._amounts(
+            rows["8501011211"], "TotalReceiptOfEmployee", "ReceiptOfEmployee",
+            "TotalReceiptOfOther"), ["1000.00", "1000.00", "0.00"])
+
 
 @tagged("post_install", "-at_install")
 class TestSchemaPins(TransactionCase):

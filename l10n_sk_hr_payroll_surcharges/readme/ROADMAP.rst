@@ -4,9 +4,11 @@
   Overtime is the exception and does get an explicit base-pay line, since
   overtime hours always fall outside the scheduled time a monthly salary pays
   for.
-* Overtime base pay is valued at average earnings. That is the usual Slovak
-  practice for a monthly-salaried employee, but an employer whose contracts
-  state an hourly rate should override the ``NADCAS_MZDA`` rule.
+* Overtime hours are paid at the wage achieved (§ 121 ods. 1): the exact
+  hourly rate, or the monthly salary divided by the hours the working
+  schedule holds in that month. The statute names no divisor; an employer
+  who divides by the average month of the year overrides
+  ``_l10n_sk_overtime_fund_hours``.
 * Hours are taken from payslip inputs, not from work-entry types, and no
   work-entry types are shipped. Night, Saturday, Sunday and
   difficult-conditions hours OVERLAY ordinary working time — they are the same

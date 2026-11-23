@@ -8,9 +8,101 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.3.8.0] — 2026-11-21
+-------------------------
+
+Added
+~~~~~
+
+- **A warning on a customer invoice with no bank account** (BT-84) and **on
+  a credit note that names no original invoice** (BT-25). Banners on the
+  invoice form, never a refusal: a cash invoice looks the same as one whose
+  account was forgotten, and a rebate credit note has no single original.
+- **Original invoice number(s)** on a credit note entered by hand; the
+  numbers go into ``cac:BillingReference``, with the issue date where the
+  number is one of the company's invoices to that customer.
+- **The reason of a credit or debit note in the invoice note** (BT-22),
+  taken from the reference the wizard writes, in the customer's language.
+- **Contacts filter "E-invoice would be refused"**: the Slovak companies
+  with no DIČ, an incomplete address or a Company ID that is not an IČO,
+  so they can be corrected before an invoice is stopped.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- All of the above.
+
+[19.0.3.7.0] — 2026-11-21
+-------------------------
+
+Read against Finančná správa's *Transpozície štandardu Peppol BIS v
+podmienkach Slovenskej legislatívy* v1.13 (29. 10. 2026); the version is
+pinned in ``data/TRANSPOSITION_VERSION`` and the guide lists, term by term,
+what the document asks for and what the module does.
+
+Added
+~~~~~
+
+- **The seller's legal form and register entry (BT-33,
+  ``cbc:CompanyLegalForm``)**, taken from ``l10n_sk_trade_registry`` when
+  that module is installed (§ 3a Obchodného zákonníka). Left out otherwise.
+
+Changed
+~~~~~~~
+
+- **The date of supply (BT-7) is written only when it differs from the
+  invoice date**, as § 74 ods. 1 písm. d) and the transposition say. It used
+  to go out on every invoice, because the field defaults to the invoice
+  date.
+
+Not covered
+~~~~~~~~~~~
+
+- No check that the invoice has a bank account (BT-84), that an exempt tax
+  carries its reason text (BT-120), or that a statutory wording is in the
+  note (BT-22). Postcodes are not normalised and prices not limited to four
+  decimals.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- Not ported.
+
+[19.0.3.6.0] — 2026-11-20
+-------------------------
+
+Added
+~~~~~
+
+- **The export refuses a Slovak party with an incomplete address.** Street,
+  city and postcode of a Slovak supplier and customer are required before
+  the file is created (§ 74 ods. 1 písm. a) and b) of the VAT Act). EN 16931
+  asks only for the country, so such a document used to go out.
+- **A Company ID that is not an IČO is reported.** A Slovak contact whose
+  *Company ID* is not up to 8 digits stops the export with a message, where
+  it would otherwise be left out of the file silently.
+
 Fixed
 ~~~~~
 
+- **The IČO was not in the file at all; the IČ DPH stood in its place.**
+  ``cac:PartyLegalEntity/cbc:CompanyID`` (BT-30 seller, BT-47 buyer) carried
+  the VAT number of a Slovak party, which is already in ``cac:PartyTaxScheme``.
+  It now carries the IČO from *Company ID* with ``schemeID="0158"``. A Slovak
+  party with no IČO on record gets no legal-entity identifier, not its
+  IČ DPH. Parties of other countries are unchanged.
+- **A credit note did not name the invoice it corrects, and a debit note
+  never could.** ``cac:BillingReference`` (BT-25) is now written from the
+  link the credit-note and debit-note wizards record, with the original's
+  issue date (BT-26). § 71 ods. 2 of the VAT Act requires the original's
+  number on a correcting document.
+- **A debit note went out as type 380, an ordinary invoice.** It is now
+  ``InvoiceTypeCode`` 383. Self-billed documents keep 389.
+- **The wizard's "Storno: FAK/2026/00001, reason" text was sent as the
+  buyer's order number.** ``cac:OrderReference/cbc:ID`` (BT-13) of a
+  correcting document whose reference only quotes the original now carries
+  the original's order reference, or the document number. A reference typed
+  by hand is kept.
 - **The "No DIČ is recorded for …" warning was English on a Slovak or Czech
   invoice.** It, and its ``nothing`` fallback, were missing from every
   catalogue including the ``.pot``. The Czech catalogue also had the
@@ -19,6 +111,9 @@ Fixed
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **IČO in BT-30 / BT-47, BillingReference, type code 383 and the address
+  and IČO checks (2026-11-20), not yet on 18.0.** 18.0's exporter has
+  different hooks; the changes need porting there, with their tests.
 - **The DIČ-warning catalogue entries (2026-11-11), not yet on 18.0.** 18.0
   raises the same "No DIČ is recorded for …" message, and its ``sk.po`` has
   no entry for it either. Port the entries for the message and ``nothing``.

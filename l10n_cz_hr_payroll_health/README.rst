@@ -119,7 +119,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_hr_payroll_health``
-- **Version:** 19.0.1.1.2
+- **Version:** 19.0.1.1.3
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_payroll_declaration_base``

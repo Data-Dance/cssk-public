@@ -2,6 +2,8 @@ import base64
 import unittest
 from unittest.mock import patch
 
+from dateutil.relativedelta import relativedelta
+
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests import Form, tagged
@@ -886,8 +888,15 @@ class TestLegacyFilings(AccountTestInvoicingCommon):
         # ⚠️ And the modifier must still hold where it belongs. A return we
         # actually file needs the date, and a fix that removed the requirement
         # outright would trade an unusable record for an unfilable one.
+        # Since 19.0.1.14.0 what asks for the date is the KIND of return,
+        # additional (dodatočné), and no longer the link to an original: a
+        # corrective return has an original too and states no such date.
         live = self._return()
         live.original_return_id = self._return()
+        Form(live).save()   # still "Riadny": nothing to ask for
+        live.statement_type_id = self.version.statement_type_ids.filtered(
+            lambda t: t.fa_xml_value == "D")
+        self.assertTrue(live.needs_discovery_date)
         with self.assertRaises(AssertionError, msg=(
                 "discovery_date must stay required on a return that will be "
                 "submitted — it is mandatory on a dodatočné DP")):
@@ -1871,3 +1880,172 @@ class TestArchivedVintages(AccountTestInvoicingCommon):
         self.assertEqual(
             sorted(ret.version_id.line_def_ids.mapped("code")), ["01", "02"],
             "the line definitions must survive the version being archived")
+
+
+@tagged("post_install", "-at_install")
+class TestVatReturnPeriodPicker(AccountTestInvoicingCommon):
+    """The period is picked as a month or a quarter, and the form version and
+    the kind of return follow from it.
+
+    The form used to ask for two free dates in its second column, with the
+    version and the kind of return above them offering nothing until both
+    were typed."""
+
+    @classmethod
+    @AccountTestInvoicingCommon.setup_country("sk")
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.company_data["company"]
+        country = cls.company.account_fiscal_country_id
+        # Out of the way of whatever vintages an installed country module
+        # ships: two vintages of a far-away decade.
+        cls.env["cssk.vat.return.version"].with_context(
+            active_test=False).search([
+                ("country_id", "=", country.id),
+                ("valid_from", "<=", "2069-12-31"),
+                "|", ("valid_to", "=", False),
+                ("valid_to", ">=", "2060-01-01"),
+            ]).write({"valid_to": "2059-12-31"})
+        types = lambda: [  # noqa: E731
+            (0, 0, {"code": "rdp", "name": "Riadny", "fa_xml_value": "R",
+                    "sequence": 10}),
+            (0, 0, {"code": "odp", "name": "Opravný", "fa_xml_value": "O",
+                    "sequence": 20}),
+            (0, 0, {"code": "ddp", "name": "Dodatočný", "fa_xml_value": "D",
+                    "sequence": 30}),
+        ]
+        Version = cls.env["cssk.vat.return.version"]
+        cls.v_old = Version.create({
+            "name": "Picker 2060", "country_id": country.id,
+            "valid_from": "2060-01-01", "valid_to": "2064-12-31",
+            "xml_template_ref_id": _xml_template(cls.env, "picker_2060").id,
+            "xml_root_element": "DPH",
+            "statement_type_ids": types(),
+        })
+        cls.v_new = Version.create({
+            "name": "Picker 2065", "country_id": country.id,
+            "valid_from": "2065-01-01", "valid_to": "2069-12-31",
+            "xml_template_ref_id": _xml_template(cls.env, "picker_2065").id,
+            "xml_root_element": "DPH",
+            "statement_type_ids": types(),
+        })
+        cls.Return = cls.env["cssk.vat.return"].with_company(cls.company)
+
+    def _type(self, version, value):
+        return version.statement_type_ids.filtered(
+            lambda t: t.fa_xml_value == value)
+
+    def test_a_month_sets_the_dates_the_version_and_the_kind(self):
+        form = Form(self.Return)
+        form.period_type = "month"
+        # The picker writes the first day; any day of the month must do.
+        form.date_from = "2062-02-17"
+        self.assertEqual(str(form.date_from), "2062-02-01")
+        self.assertEqual(str(form.date_to), "2062-02-28")
+        self.assertEqual(form.version_id, self.v_old)
+        self.assertEqual(form.statement_type_id, self._type(self.v_old, "R"))
+        ret = form.save()
+        self.assertEqual(
+            (str(ret.date_from), str(ret.date_to)),
+            ("2062-02-01", "2062-02-28"),
+            "date_to is shown read-only and must still be saved")
+
+    def test_a_leap_february_and_a_quarter(self):
+        form = Form(self.Return)
+        form.period_type = "month"
+        form.date_from = "2064-02-01"
+        self.assertEqual(str(form.date_to), "2064-02-29")
+        # Switching to quarters keeps the place in the year: February is in
+        # the first quarter.
+        form.period_type = "quarter"
+        self.assertEqual(
+            (str(form.date_from), str(form.date_to)),
+            ("2064-01-01", "2064-03-31"))
+        form.date_from = "2064-10-01"
+        self.assertEqual(
+            (str(form.date_from), str(form.date_to)),
+            ("2064-10-01", "2064-12-31"))
+        # And back to months: the quarter's first month.
+        form.period_type = "month"
+        self.assertEqual(
+            (str(form.date_from), str(form.date_to)),
+            ("2064-10-01", "2064-10-31"))
+
+    def test_moving_to_another_vintage_keeps_the_kind_of_return(self):
+        form = Form(self.Return)
+        form.period_type = "month"
+        form.date_from = "2062-05-01"
+        form.statement_type_id = self._type(self.v_old, "D")
+        form.date_from = "2066-05-01"
+        self.assertEqual(form.version_id, self.v_new)
+        self.assertEqual(
+            form.statement_type_id, self._type(self.v_new, "D"),
+            "an additional return stays additional on the new form")
+
+    def test_a_version_that_cannot_be_filed_quarterly_is_not_offered(self):
+        self.v_old.allow_quarterly = False
+        form = Form(self.Return)
+        form.period_type = "quarter"
+        form.date_from = "2062-04-01"
+        self.assertFalse(form.version_id)
+
+    def test_create_resolves_the_version_and_the_kind(self):
+        ret = self.Return.create({
+            "company_id": self.company.id, "period_type": "quarter",
+            "date_from": "2063-07-01", "date_to": "2063-09-30",
+        })
+        self.assertEqual(ret.version_id, self.v_old)
+        self.assertEqual(ret.statement_type_id, self._type(self.v_old, "R"))
+
+    def test_the_form_uses_the_period_picker(self):
+        from lxml import etree
+        arch = etree.fromstring(
+            self.env["cssk.vat.return"].get_view(view_type="form")["arch"])
+        picker = arch.xpath("//field[@name='date_from'][@widget='cssk_period']")
+        self.assertEqual(len(picker), 1)
+        fields_in_order = [
+            f.get("name") for f in arch.xpath("//sheet/group/group[1]//field")]
+        self.assertLess(fields_in_order.index("period_type"),
+                        fields_in_order.index("date_from"))
+        self.assertLess(fields_in_order.index("date_to"),
+                        fields_in_order.index("version_id"))
+        self.assertLess(fields_in_order.index("version_id"),
+                        fields_in_order.index("statement_type_id"))
+
+    def test_a_new_return_opens_on_the_last_closed_period(self):
+        today = self.env["cssk.vat.return"]._fields["date_from"].context_today(
+            self.Return)
+        form = Form(self.Return)
+        self.assertEqual(form.period_type, "month")
+        self.assertEqual(form.date_to, today.replace(day=1) - relativedelta(days=1))
+        self.assertEqual(form.date_from.day, 1)
+        self.Return.create({
+            "company_id": self.company.id, "period_type": "quarter",
+            "date_from": "2063-07-01", "date_to": "2063-09-30",
+        })
+        self.assertEqual(Form(self.Return).period_type, "quarter",
+                         "a company that files quarterly gets quarters")
+
+    def test_the_discovery_date_belongs_to_an_additional_return(self):
+        ret = self.Return.create({
+            "company_id": self.company.id, "period_type": "month",
+            "date_from": "2062-03-01", "date_to": "2062-03-31",
+        })
+        self.assertFalse(ret.needs_discovery_date)
+        ret.statement_type_id = self._type(self.v_old, "O")
+        self.assertFalse(ret.needs_discovery_date)
+        ret.statement_type_id = self._type(self.v_old, "D")
+        self.assertTrue(ret.needs_discovery_date)
+        # The form hides the field otherwise, and requires it here.
+        form = Form(ret)
+        self.assertFalse(form._get_modifier("discovery_date", "invisible"))
+        self.assertTrue(form._get_modifier("discovery_date", "required"))
+        ret.statement_type_id = self._type(self.v_old, "R")
+        self.assertTrue(
+            Form(ret)._get_modifier("discovery_date", "invisible"))
+
+    def test_the_lines_are_not_paged(self):
+        arch = self.env["cssk.vat.return"].get_view(view_type="form")["arch"]
+        from lxml import etree
+        lines = etree.fromstring(arch).xpath("//field[@name='line_ids']/list")[0]
+        self.assertGreaterEqual(int(lines.get("limit")), 200)

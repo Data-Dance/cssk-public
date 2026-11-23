@@ -45,9 +45,10 @@ before production use):
   from prior-quarter payslips rather than frozen for the whole quarter.
 * Sickness compensation (náhrada mzdy for the first 14 calendar days): 60 % of
   the reduced average hourly earnings with the redukční hranice as dated
-  parameters. It is added to the net take-home but is not run through income
-  tax: in reality náhrada mzdy is subject to income tax but not to
-  social/health insurance.
+  parameters. It is added to the net take-home and carries neither income tax
+  (exempt up to the statutory minimum, § 6 odst. 9 písm. p) ZDP) nor
+  social/health insurance. A compensation agreed above the statutory minimum
+  (§ 192 odst. 3 ZP), whose excess is taxable, is not modelled.
 * Wage garnishment: install ``l10n_cssk_hr_payroll_garnishment_base`` (plus the
   engine bridge) for the full multi-claim § 279/§ 280 waterfall, an order
   register, balance tracking, remittance to the bailiff and the statutory
@@ -79,5 +80,15 @@ before production use):
   not validated; and the single-employer rule plus the mandatory notification of
   intent to ČSSZ (oznámení úmyslu / OZUSPOJ) are organisational and out of
   scope — the rule assumes this employer is entitled to claim.
+
+* Whole-crown rounding (§ 5d and § 7 odst. 3 zák. 589/1992 Sb., § 38h odst. 1
+  and 3 ZDP) is applied per payslip. An employee with two payslips in one
+  calendar month has each one's assessment base, premium and advance rounded
+  on its own, where the law rounds the month. The employer's social premium
+  stays to the heller on the payslip: the law rounds it once on the sum of the
+  company's bases, which the monthly return does. The amount paid out is not
+  rounded up to whole crowns (§ 142 odst. 2 zákoníku práce), so a gross with
+  hellers leaves hellers in NET; the health assessment base is not rounded,
+  as zák. 592/1992 Sb. rounds the premium only.
 
 Verify the statutory figures against current law before production use.

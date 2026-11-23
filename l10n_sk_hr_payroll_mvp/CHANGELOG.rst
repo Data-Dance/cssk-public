@@ -5,6 +5,14 @@ Changelog
 Unreleased
 ~~~~~~~~~~
 
+* **19.0.1.1.4 (2026-11-21):** on the Enterprise engine the statement now
+  checks the recorded fund bases of its payslips, as it does on the OCA
+  engine (``l10n_sk_hr_payroll_ee`` 19.0.1.28.4). No figure changes: every
+  base is still the gross wage. A period with a payslip computed before
+  Enterprise recorded its bases (19.0.1.26.0), or changed afterwards, is
+  generated as before and shows a warning naming the payslip. The statement
+  has no corrective variant, so it never stops for missing records.
+
 * Show an expired legacy confirmation on the insurance declaration and hide obsolete confirmation labels.
 
 * **Fixed: irregular-income dohody are no longer reported on the MVP too.**

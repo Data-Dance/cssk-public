@@ -1,7 +1,7 @@
 ---
 title: Svátky: Slovensko a Česko
-summary: Doplňuje české a slovenské dny pracovního klidu do kalendáře svátků OCA, rok po roce, se zákonnými výjimkami.
-verified: 19.0.1.0.0
+summary: Doplňuje české a slovenské dny pracovního klidu do kalendáře svátků OCA, rok po roce, se zákonnými výjimkami, a slovenské udržuje i jako státní svátky pracovních kalendářů.
+verified: 19.0.1.0.2
 ---
 
 ## K čemu slouží {#purpose}
@@ -49,11 +49,60 @@ se za celostátní den nepovažuje. Chcete-li změnu vynutit, smažte řádek ne
 celý rok a naplánovanou akci spusťte znovu (*Nastavení → Technická nastavení →
 Opakované akce*, *Spustit ručně*).
 
+## Pracovní kalendáře {#calendars}
+
+Volno a mzdy kalendář svátků nečtou. Svátek znají jen jako *státní svátek*
+pracovních kalendářů (*Volno → Konfigurace → Státní svátky*). Modul proto
+slovenské svátky udržuje i tam:
+
+- každá společnost, jejíž zemí je Slovensko, dostane jeden státní svátek za
+  každý celostátní řádek, bez určeného pracovního kalendáře, takže platí pro
+  všechny kalendáře společnosti, nynější i budoucí;
+- řádek, který přejmenujete, přesunete, změníte na regionální nebo smažete,
+  vezme svůj státní svátek s sebou a opakované generování nic nezdvojí;
+- den, na který už společnost má ručně zadaný státní svátek, se ponechá
+  tomuto záznamu;
+- společnost vytvořenou později zachytí nejbližší běh naplánované akce, od
+  prvního dne měsíce před tímto během; chcete-li svátky hned, spusťte ji
+  ručně.
+
+Zápis provádí naplánovaná akce a zapisuje dny od prvního dne předchozího
+kalendářního měsíce. Mzdy za měsíc se počítají začátkem následujícího,
+takže právě skončený měsíc je ještě otevřený: při běhu 5. září akce zapíše
+i 29. srpen a 5. červenec nechá být. V lednu vygeneruje i předchozí rok,
+aby byl prosinec na místě.
+
+Státní svátek, který je pro společnost nový, způsobí, že Volno přepočítá
+žádosti o volno, které přes něj procházejí. Schválený týden dovolené přes
+pátek 29. srpna se změní z pěti dnů na čtyři, den se vrátí do nároku a
+Volno to zaměstnanci oznámí v historii žádosti. Pro otevřený měsíc je to
+správný počet; se starším obdobím to modul bez vyžádání nedělá. Svátek,
+který už v kalendářích je, se znovu nezapisuje, takže opakovaný běh nic
+nepřepočítá a nikomu nic neoznámí.
+
+Instalace nebo aktualizace modulu požádá naplánovanou akci o okamžitý běh,
+takže svátky přibudou za chvíli; kde naplánované akce neběží, spusťte ji
+ručně. Řádek, který přidáte nebo změníte ručně, se uplatní hned a bez ohledu
+na datum. Chcete-li do kalendářů dostat i starší
+svátky, zavolejte `cssk_sync_calendar_leaves(date_from=…)` na modelu
+`calendar.public.holiday`, například ze serverové akce.
+
+Systémový parametr `l10n_cssk_public_holidays.calendar_leave_countries`
+obsahuje seznam zemí oddělených čárkou. Výchozí hodnota je `SK`. České
+společnosti jsou vynechány, dokud se české mzdy neověří se svátkem uvnitř
+nepřítomnosti; `SK,CZ` je přidá a `none` funkci vypne. Změna se projeví při
+nejbližším běhu naplánované akce, která zároveň odstraní svátky země
+vyřazené ze seznamu, od předchozího měsíce.
+
 ## Omezení {#limitations}
 
 - Pravidla jsou tabulkou v kódu. Při změně zákona je třeba modul aktualizovat;
   již vygenerované roky se samy neopraví — smažte dotčený rok a vygenerujte ho
   znovu.
 - Jen Česko a Slovensko, jen celostátní dny.
+- Státní svátek zadaný ručně jen pro jeden pracovní kalendář nepustí na ten
+  den celopodnikový záznam modulu, takže ostatní kalendáře společnosti ho
+  nedostanou. Ručně zadaný záznam odstraňte, nebo den zadejte i pro ostatní
+  kalendáře.
 - Neděle se negenerují: kalendář eviduje svátky, pracovní dobu určuje pracovní
   kalendář zaměstnance.

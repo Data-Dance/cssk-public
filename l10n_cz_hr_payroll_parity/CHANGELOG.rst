@@ -13,6 +13,55 @@ Unreleased
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.2.6] — 2026-11-21
+=========================
+
+Added
+~~~~~
+
+- Four scenarios for a public holiday inside an absence: a sickness and a
+  quarantine of 1 to 9 January 2026 over New Year's Day (§ 192 odst. 1 ZP:
+  56 hours compensated, wage for 120 of 176 hours), a sickness whose first
+  14 days ended before the holiday (no wage and no compensation for it),
+  and unpaid leave over the holiday, which no provision settles and which
+  stays the paid holiday on both engines.
+- A scenario for a meal allowance of 150 Kč a shift against the exempt
+  129.50 (§ 6 odst. 9 písm. b) ZDP): the part above the limit is paid, taxed
+  and in both insurance bases. New concepts ``MEAL_TAXABLE`` and
+  ``TAX_BASE``.
+
+[19.0.1.2.5] — 2026-11-21
+=========================
+
+Added
+~~~~~
+
+- Thirteen scenarios on the seams where the two engines paid differently: a
+  contract ending inside the month, with and without a public holiday on
+  the calendar; a full month, a sickness and dovolená beside or over a
+  public holiday (New Year's Day, Easter 2026); the meal allowance per shift
+  worked; the bases of a wage made whole by a náhrada; the minimum wage
+  top-up in a month with a public holiday; two deductions and two
+  reimbursements; typed attachment, child support and assignment inputs;
+  the disability relief of a contract version dated inside the month.
+- Three scenarios for the statutory whole-crown rounding: the employee's
+  social premium (§ 7 odst. 3 zák. 589/1992 Sb.), the assessment base (§ 5d)
+  and the tax advance above the 23 % threshold (§ 38h odst. 3 ZDP).
+- Sickness compensation is exempt from income tax (§ 6 odst. 9 písm. p) ZDP):
+  the month-long sick leave scenario expects no tax and the whole 8 640 Kč
+  paid out, and a new scenario, a week of sickness in a worked month with a
+  declaration, expects the advance on the wage alone.
+- The driver puts public holidays on a scenario's own calendar, ends a
+  contract, adds a later contract version and types inputs on the saved
+  payslip (``holidays``, ``contract_end``, ``later_version``, ``inputs``;
+  ``seed: False`` skips the seeded March).
+
+Changed
+~~~~~~~
+
+- A payslip is computed on the contract version in force on its last day,
+  not on the employee's current one.
+
 [19.0.1.2.3] — 2026-10-27
 =========================
 

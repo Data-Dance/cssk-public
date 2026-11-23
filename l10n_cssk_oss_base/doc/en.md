@@ -198,7 +198,7 @@ changes a mapping already on a fiscal position.
 
 On installation the mapping is completed for every company that already has
 OSS taxes. Companies that never used OSS are left alone. These mappings are
-proposals, like Odoo's own: check them against the goods you sell.
+proposals, like Odoo's own: check them against the goods you sell. Odoo's table does not propose every reduced rate: Austria's 4.9 % on basic foodstuffs (from 1 July 2026), Finland's 13.5 % (food among others; 14 % until the end of 2025) and Lithuania's 12 % (from 2026) are never proposed to a Czech or Slovak seller, so create the tax and map it on the fiscal position by hand where you sell such goods. The return types any rate that is not the state's standard rate as reduced.
 
 **Export warnings.** Checks that do not stop the export are listed in a
 yellow banner at the top of the form, and in the chatter, until the next

@@ -17,10 +17,69 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(employee)s already taxes the month for %(linked)s, so it cannot be taxed "
+"on another record. One record taxes the month for all the others."
+msgstr ""
+"Na karte %(employee)s sa už zdaňuje mesiac za %(linked)s, preto ju nemožno "
+"zdaňovať na inej karte. Jedna karta zdaňuje mesiac za všetky ostatné."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(employee)s and %(other)s have different birth numbers, so they are not one"
+" taxpayer and cannot be taxed together."
+msgstr ""
+"%(employee)s a %(other)s majú rôzne rodné čísla, nie sú teda jeden daňovník "
+"a nemožno ich zdaňovať spolu."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_version.py:0
+msgid ""
+"%(employee)s and %(other)s have the same birth number, so they are one "
+"taxpayer at this employer. The taxpayer's declaration can be signed on one "
+"of them at a time (§ 36 ods. 6 zákona č. 595/2003 Z. z.), and it is ticked "
+"on both for a day they share: from %(start)s on %(employee)s and from "
+"%(other_start)s on %(other)s. Untick Tax Declaration Signed on one of the "
+"two."
+msgstr ""
+"%(employee)s a %(other)s majú rovnaké rodné číslo, u tohto zamestnávateľa "
+"sú teda jeden daňovník. Vyhlásenie na zdanenie príjmov môže byť naraz "
+"podpísané len na jednej z kariet (§ 36 ods. 6 zákona č. 595/2003 Z. z.) a "
+"je zaškrtnuté na oboch v deň, ktorý majú spoločný: od %(start)s na karte "
+"%(employee)s a od %(other_start)s na karte %(other)s. Na jednej z nich "
+"zrušte zaškrtnutie poľa Podpísané vyhlásenie na zdanenie príjmov."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(employee)s can be taxed together only with a record of the same company: "
+"the tax of the month is the tax of what one employer pays."
+msgstr ""
+"%(employee)s možno zdaňovať len spolu s kartou tej istej spoločnosti: daň "
+"za mesiac je daň z toho, čo vypláca jeden zamestnávateľ."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid "%(employee)s cannot be taxed together with itself."
+msgstr "%(employee)s nemožno zdaňovať spolu so sebou samou."
+
+#. module: l10n_sk_hr_payroll_base
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_version__display_name
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_l10n_sk_payslip_fund_mixin__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_employee
+msgid "Employee"
+msgstr "Zamestnanec"
 
 #. module: l10n_sk_hr_payroll_base
 #: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_version
@@ -53,6 +112,101 @@ msgid "Recorded payroll fund evidence"
 msgstr "Zaznamenané podklady mzdových fondov"
 
 #. module: l10n_sk_hr_payroll_base
+#: model:ir.model,name:l10n_sk_hr_payroll_base.model_l10n_sk_payslip_joint_tax_mixin
+msgid "Slovak payslip: several records of one person taxed together"
+msgstr "Slovenská výplatná páska: viac kariet jednej osoby zdaňovaných spolu"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_tax_principal_id
+msgid "Taxed Together With"
+msgstr "Zdaňované spolu s"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"Taxed Together With of %(employee)s cannot be changed now. The payslip "
+"%(payslip)s moved its tax base to the payslip of %(principal)s, and of the "
+"two payslips of that month one is confirmed and the other is not. Confirm "
+"both, or refund the confirmed one, and change the link then."
+msgstr ""
+"Pole Zdaňované spolu s na karte %(employee)s teraz nemožno zmeniť. Výplatná "
+"páska %(payslip)s presunula svoj základ dane na výplatnú pásku karty "
+"%(principal)s a z dvoch výplatných pások toho mesiaca je jedna potvrdená a "
+"druhá nie. Potvrďte obe alebo potvrdenú dobropisujte a prepojenie zmeňte až "
+"potom."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"Taxed Together With of %(employee)s, or the contract of the record named "
+"there, changed after this payslip was computed. Compute the payslip again "
+"before confirming it."
+msgstr ""
+"Pole Zdaňované spolu s na karte %(employee)s alebo zmluva karty, ktorá je v "
+"ňom uvedená, sa zmenili po výpočte tejto výplatnej pásky. Pred potvrdením "
+"ju vypočítajte znova."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_tax_linked_ids
+msgid "Taxed on This Record"
+msgstr "Zdaňované na tejto karte"
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_tax_linked_ids
+msgid ""
+"The employee records of the same person whose tax base is taxed on the "
+"payslip of this record."
+msgstr ""
+"Karty zamestnanca tej istej osoby, ktorých základ dane sa zdaňuje na "
+"výplatnej páske tejto karty."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The income tax of %(employee)s is computed together with %(linked)s (Taxed "
+"Together With). The payslip %(payslip)s of %(linked)s for this month is not "
+"computed yet, or was computed before the two records were linked. Compute it"
+" first."
+msgstr ""
+"Daň z príjmov karty %(employee)s sa počíta spolu s kartou %(linked)s "
+"(Zdaňované spolu s). Výplatná páska %(payslip)s karty %(linked)s za tento "
+"mesiac ešte nie je vypočítaná alebo bola vypočítaná pred prepojením oboch "
+"kariet. Najprv ju vypočítajte."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The payslip %(payslip)s of %(principal)s for this month is confirmed, and "
+"its income tax includes a tax base of %(took).2f taken over from the records"
+" taxed together with it. With this payslip of %(employee)s that base would "
+"be %(now).2f. Refund or cancel the payslip of %(principal)s first, then "
+"compute this payslip and a new one for %(principal)s."
+msgstr ""
+"Výplatná páska %(payslip)s karty %(principal)s za tento mesiac je potvrdená "
+"a jej daň z príjmov zahŕňa základ dane %(took).2f prevzatý z kariet "
+"zdaňovaných spolu s ňou. S touto výplatnou páskou karty %(employee)s by "
+"tento základ bol %(now).2f. Najprv dobropisujte alebo zrušte výplatnú pásku "
+"karty %(principal)s, potom vypočítajte túto výplatnú pásku a novú pre kartu "
+"%(principal)s."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The payslip of %(employee)s was computed with a tax base of %(took).2f taken"
+" over from %(linked)s, and their payslips of this month now hold %(now).2f. "
+"Compute the payslip of %(employee)s again before confirming it."
+msgstr ""
+"Výplatná páska karty %(employee)s bola vypočítaná so základom dane "
+"%(took).2f prevzatým z kariet %(linked)s a ich výplatné pásky za tento "
+"mesiac teraz obsahujú %(now).2f. Pred potvrdením vypočítajte výplatnú pásku "
+"karty %(employee)s znova."
+
+#. module: l10n_sk_hr_payroll_base
 #. odoo-python
 #: code:addons/l10n_sk_hr_payroll_base/models/payslip_fund_mixin.py:0
 msgid "The recorded payroll fund bases are invalid."
@@ -67,6 +221,86 @@ msgstr ""
 "páske."
 
 #. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The tax base of this payslip of %(employee)s is taxed on the confirmed "
+"payslip %(payslip)s of %(principal)s. Refund or cancel that payslip first."
+msgstr ""
+"Základ dane tejto výplatnej pásky karty %(employee)s je zdanený na "
+"potvrdenej výplatnej páske %(payslip)s karty %(principal)s. Najprv ju "
+"dobropisujte alebo zrušte."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_joint_tax_mixin.py:0
+msgid ""
+"The wage garnishment of %(employee)s cannot be computed on this payslip. Its"
+" income tax is computed together with %(other)s, and a garnishment is "
+"deducted from the person's whole net wage from the employer (§ 69 Exekučného"
+" poriadku), which one payslip does not hold. Remove Taxed Together With to "
+"tax the records separately, or leave the garnishment out of this payslip and"
+" deduct it by hand."
+msgstr ""
+"Zrážku zo mzdy karty %(employee)s nemožno na tejto výplatnej páske "
+"vypočítať. Jej daň z príjmov sa počíta spolu s kartou %(other)s a zrážky sa "
+"vykonávajú z celej čistej mzdy osoby od zamestnávateľa (§ 69 Exekučného "
+"poriadku), ktorú jedna výplatná páska neobsahuje. Zrušte pole Zdaňované "
+"spolu s, aby sa karty zdaňovali samostatne, alebo zrážku na tejto výplatnej "
+"páske vynechajte a vykonajte ju ručne."
+
+#. module: l10n_sk_hr_payroll_base
 #: model:ir.model,name:l10n_sk_hr_payroll_base.model_hr_version
 msgid "Employee Contract"
 msgstr "Pracovná zmluva zamestnanca"
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/payslip_fund_mixin.py:0
+msgid ""
+"%(employee)s: no sick pay is computed for the incapacity from %(onsets)s, "
+"because its daily assessment base cannot be determined from the confirmed "
+"payslips. Enter the base as the payslip input PN_DVZ."
+msgstr ""
+"%(employee)s: náhrada príjmu za pracovnú neschopnosť od %(onsets)s sa "
+"nevypočíta, lebo jej denný vymeriavací základ sa nedá určiť z potvrdených "
+"výplatných pások. Zadajte základ ako vstup výplatnej pásky PN_DVZ."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(linked)s is taxed together with %(employee)s, so the two records have to "
+"stay in one company."
+msgstr ""
+"%(linked)s sa zdaňuje spolu s kartou %(employee)s, preto musia obe karty "
+"zostať v jednej spoločnosti."
+
+#. module: l10n_sk_hr_payroll_base
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_base/models/hr_employee.py:0
+msgid ""
+"%(principal)s is itself taxed together with %(other)s. Choose %(other)s for "
+"%(employee)s as well: one record taxes the month for all the others."
+msgstr ""
+"%(principal)s sa sama zdaňuje spolu s kartou %(other)s. Aj pre %(employee)s "
+"vyberte %(other)s: jedna karta zdaňuje mesiac za všetky ostatné."
+
+#. module: l10n_sk_hr_payroll_base
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_base.field_hr_employee__l10n_sk_tax_principal_id
+msgid ""
+"Another employee record of the same person in this company, for example the "
+"employment beside this agreement. The income tax of this record is then "
+"computed on the payslip of that record: it taxes the total of the month with"
+" one non-taxable amount and one child tax bonus (§ 35 ods. 1 zákona č. "
+"595/2003 Z. z.), and the payslip of this record shows its tax base and no "
+"tax. Compute the payslip of this record first. Leave empty to tax this "
+"record on its own."
+msgstr ""
+"Iná karta zamestnanca tej istej osoby v tejto spoločnosti, napríklad "
+"pracovný pomer popri tejto dohode. Daň z príjmov tejto karty sa potom "
+"počíta na výplatnej páske tamtej karty: zdaní úhrn za mesiac s jednou "
+"nezdaniteľnou časťou základu dane a jedným daňovým bonusom na dieťa (§ 35 "
+"ods. 1 zákona č. 595/2003 Z. z.) a výplatná páska tejto karty ukáže svoj "
+"základ dane a žiadnu daň. Výplatnú pásku tejto karty vypočítajte ako prvú. "
+"Ak má byť karta zdaňovaná samostatne, pole nechajte prázdne."

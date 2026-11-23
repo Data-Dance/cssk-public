@@ -31,12 +31,17 @@
 # Prorate the monthly wage by worked/scheduled time so mid-month hires and
 # leavers are paid correctly. l10n_cz_worked_ratio() returns 1.0 for a full
 # month (BASIC == contract.wage, unchanged) and &lt; 1.0 for a partial month.
-result = contract.wage * payslip.l10n_cz_worked_ratio()
+# In hellers: the unrounded product would carry its fraction into GROSS and
+# from there into the premium and the tax base, which round up.
+result = payslip.l10n_cz_basic_wage()
         </field>
     </record>
 
-    <!-- 80. MEAL ALLOWANCE (stravenkový paušál) - exempt up to statutory limit.
-         Memo category MEALEE: kept OUT of taxable GROSS; added back at NET. -->
+    <!-- 80. MEAL ALLOWANCE in money (peněžitý příspěvek na stravování), the
+         part exempt from the tax: up to 70 % of the upper meal limit for a
+         shift (§ 6 odst. 9 písm. b) ZDP). Memo category MEALEE: kept OUT of
+         GROSS; paid out at NET. What the employer pays above the limit is
+         rule 81. -->
     <record id="cz_meal_allowance_rule" model="hr.salary.rule">
         <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_meal_employee"/>
@@ -46,9 +51,38 @@ result = contract.wage * payslip.l10n_cz_worked_ratio()
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result_qty = worked_days.WORK100.number_of_days if 'WORK100' in worked_days.dict else 0.0
+# Per shift worked: not for days of absence or public holidays.
+result_qty = payslip.l10n_cz_meal_days()
 allowance = contract.l10n_cz_meal_allowance
 result = min(allowance, payslip.rule_parameter('l10n_cz_meal_exempt')) if allowance else 0.0
+        </field>
+        <field name="appears_on_payslip" eval="True"/>
+    </record>
+
+    <!-- 81. MEAL ALLOWANCE ABOVE THE EXEMPT LIMIT. § 6 odst. 9 písm. b) ZDP
+         exempts the allowance "v úhrnu do výše 70 % horní hranice stravného"
+         for a shift; the rest is taxable income from employment, and income
+         that is not exempt from the tax is in both assessment bases (§ 5
+         odst. 1 zák. 589/1992 Sb., § 3 odst. 1 zák. 592/1992 Sb.). The whole
+         allowance is paid, so the excess is a line of its own: its memo
+         category MEALTAXABLE is added to the social and health bases and to
+         TAXBASE, and paid out at NET. It is no wage, so it stays outside
+         GROSS. The statute rounds neither part: hellers are kept. -->
+    <record id="cz_meal_allowance_taxable_rule" model="hr.salary.rule">
+        <field name="company_id" eval="False"/>
+        <field name="category_id" ref="hr_payroll_meal_taxable"/>
+        <field name="name">Meal Allowance above the Exempt Limit</field>
+        <field name="sequence">81</field>
+        <field name="code">MEALTAXABLE</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">
+allowance = contract.l10n_cz_meal_allowance
+result = bool(allowance) and allowance &gt; payslip.rule_parameter('l10n_cz_meal_exempt')
+        </field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+result_qty = payslip.l10n_cz_meal_days()
+result = contract.l10n_cz_meal_allowance - payslip.rule_parameter('l10n_cz_meal_exempt')
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -108,8 +142,12 @@ result_name = 'Paid Obstacle Compensation'
          driven from the CZSICK leave-derived worked-day line, falling back to
          the manual SICK_HOURS input. Memo category SICKNAHRADA: kept OUT of
          GROSS (náhrada mzdy při DPN is not in the vyměřovací základ of either
-         insurance) but added to TAXBASE (it is a příjem ze závislé činnosti
-         under § 6 ZDP and is taxed) and back at NET. Only the first 14
+         insurance) and out of TAXBASE: § 6 odst. 9 písm. p) ZDP exempts it
+         from income tax "do výše minimálního nároku" of the Labour Code, and
+         this rule pays exactly that minimum (60 % of the reduced average
+         earnings, § 192 odst. 2 ZP). A compensation agreed above the minimum
+         (§ 192 odst. 3 ZP) is not modelled; its excess would be taxable and
+         needs a line of its own. Added back at NET. Only the first 14
          calendar days of an uninterrupted DPN are the employer's (§ 192
          odst. 1 ZP); later days are nemocenské paid by ČSSZ, so their hours
          are cut here (l10n_cz_sick_compensated_hours). No waiting period
@@ -158,7 +196,9 @@ result = categories.BASIC + categories.ALW
         </field>
     </record>
 
-    <!-- 110. SOCIAL INSURANCE (Employee) 7.1 % with 48x annual cap (YTD) -->
+    <!-- 110. SOCIAL INSURANCE (Employee) 7.1 % with 48x annual cap (YTD).
+         Base and premium each rounded UP to whole crowns (§ 5d, § 7 odst. 3
+         zák. 589/1992 Sb.), so the line carries the premium itself. -->
     <record id="cz_social_ee_rule" model="hr.salary.rule">
         <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_employee"/>
@@ -181,11 +221,13 @@ elif agr == 'dpc':
 else:
     thr = 0.0
 # The limit counts all of the person's agreements of this kind (§ 7a odst. 3).
-result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS) &gt;= thr
+result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS + categories.MEALTAXABLE) &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-gross = categories.GROSS
+# The base is every income that is not exempt from the tax (§ 5 odst. 1): the
+# gross wage and the meal allowance paid above its exempt limit.
+gross = categories.GROSS + categories.MEALTAXABLE
 cap = payslip.rule_parameter('l10n_cz_social_max_base')
 prior = payslip.search([
     ('employee_id', '=', payslip.employee_id.id),
@@ -193,15 +235,22 @@ prior = payslip.search([
     ('date_from', '&gt;=', payslip.date_from + relativedelta(day=1, month=1)),
     ('date_to', '&lt;=', payslip.date_from + relativedelta(day=31, months=-1)),
 ])
-ytd = sum(p.get_salary_line_total('GROSS') for p in prior)
+# § 5d zák. 589/1992 Sb.: the assessment base is rounded up to whole crowns,
+# this month's and each earlier one counted against the maximum (§ 15a).
+ytd = sum(-(-round(p.get_salary_line_total('GROSS') + p.get_salary_line_total('MEALTAXABLE'), 2) // 1) for p in prior)
 remaining = max(cap - ytd, 0)
-result = min(gross, remaining)
-result_rate = -payslip.rule_parameter('l10n_cz_social_rate_ee')
+base = min(-(-round(gross, 2) // 1), remaining)
+# § 7 odst. 3: the premium is rounded up to whole crowns. The base itself is
+# the amount of the SOCIALER line.
+result = -(-(-round(base * payslip.rule_parameter('l10n_cz_social_rate_ee') / 100.0, 6) // 1))
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
 
-    <!-- 111. SOCIAL INSURANCE (Employer) 24.8 % with the same 48x annual cap -->
+    <!-- 111. SOCIAL INSURANCE (Employer) 24.8 % with the same 48x annual cap.
+         The line's amount is the assessment base, rounded UP to whole crowns
+         (§ 5d); its total is this payslip's share of the employer's premium,
+         which the law rounds on the company's sum of bases (the PVPOJ). -->
     <record id="cz_social_er_rule" model="hr.salary.rule">
         <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_social_employer"/>
@@ -219,11 +268,13 @@ elif agr == 'dpc':
 else:
     thr = 0.0
 # The limit counts all of the person's agreements of this kind (§ 7a odst. 3).
-result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS) &gt;= thr
+result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS + categories.MEALTAXABLE) &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-gross = categories.GROSS
+# The base is every income that is not exempt from the tax (§ 5 odst. 1): the
+# gross wage and the meal allowance paid above its exempt limit.
+gross = categories.GROSS + categories.MEALTAXABLE
 cap = payslip.rule_parameter('l10n_cz_social_max_base')
 prior = payslip.search([
     ('employee_id', '=', payslip.employee_id.id),
@@ -231,9 +282,12 @@ prior = payslip.search([
     ('date_from', '&gt;=', payslip.date_from + relativedelta(day=1, month=1)),
     ('date_to', '&lt;=', payslip.date_from + relativedelta(day=31, months=-1)),
 ])
-ytd = sum(p.get_salary_line_total('GROSS') for p in prior)
+# § 5d zák. 589/1992 Sb.: the assessment base is rounded up to whole crowns,
+# this month's and each earlier one counted against the maximum (§ 15a).
+ytd = sum(-(-round(p.get_salary_line_total('GROSS') + p.get_salary_line_total('MEALTAXABLE'), 2) // 1) for p in prior)
 remaining = max(cap - ytd, 0)
-result = min(gross, remaining)
+base = min(-(-round(gross, 2) // 1), remaining)
+result = base
 result_rate = payslip.rule_parameter('l10n_cz_social_rate_er')
         </field>
         <field name="appears_on_payslip" eval="False"/>
@@ -255,12 +309,14 @@ result_rate = payslip.rule_parameter('l10n_cz_social_rate_er')
         <field name="condition_select">python</field>
         <field name="condition_python">
 # All statutory tests live in hr.payslip.l10n_cz_social_discount_eligible.
-result = payslip.l10n_cz_social_discount_eligible(categories.GROSS)
+result = payslip.l10n_cz_social_discount_eligible(categories.GROSS + categories.MEALTAXABLE)
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-cap = payslip.rule_parameter('l10n_cz_avg_wage') * payslip.rule_parameter('l10n_cz_social_disc_base_mult')
-base = min(categories.GROSS, cap)
+# The assessment base (§ 5d) and the 1.5x average-wage limit (§ 7a odst. 3
+# písm. a)) are both rounded up to whole crowns.
+cap = -(-round(payslip.rule_parameter('l10n_cz_avg_wage') * payslip.rule_parameter('l10n_cz_social_disc_base_mult'), 6) // 1)
+base = min(-(-round(categories.GROSS + categories.MEALTAXABLE, 2) // 1), cap)
 result = -base
 result_rate = payslip.rule_parameter('l10n_cz_social_disc_rate')
         </field>
@@ -285,7 +341,7 @@ result = contract.l10n_cz_pensioner_discount and payslip.date_from.year &gt;= 20
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 premium = -categories.SOCIALEE
-base = result_rules.SOCIALEE.amount
+base = result_rules.SOCIALER.amount
 discount = -(-round(base * payslip.rule_parameter('l10n_cz_social_pensioner_rate') / 100.0, 6) // 1)
 result = min(discount, premium)
         </field>
@@ -315,14 +371,14 @@ elif agr == 'dpc':
 else:
     thr = 0.0
 # The limit counts all of the person's agreements of this kind (§ 7a odst. 3).
-result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS) &gt;= thr
+result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS + categories.MEALTAXABLE) &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 # 13.5 % rounded up per employee, the employee's third rounded up, plus the
 # minimum-base top-up (prorated by calendar days) where it applies. See
 # hr.payslip.l10n_cz_health_premiums.
-result = -payslip.l10n_cz_health_premiums(categories.GROSS)[0]
+result = -payslip.l10n_cz_health_premiums(categories.GROSS + categories.MEALTAXABLE)[0]
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -346,20 +402,20 @@ elif agr == 'dpc':
 else:
     thr = 0.0
 # The limit counts all of the person's agreements of this kind (§ 7a odst. 3).
-result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS) &gt;= thr
+result = agr == 'standard' or payslip.l10n_cz_insurance_income(categories.GROSS + categories.MEALTAXABLE) &gt;= thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 # Two thirds of the rounded premium (the rest after the employee's third),
 # plus the minimum-base top-up when an employer-side obstacle caused it.
-result = payslip.l10n_cz_health_premiums(categories.GROSS)[1]
+result = payslip.l10n_cz_health_premiums(categories.GROSS + categories.MEALTAXABLE)[1]
         </field>
         <field name="appears_on_payslip" eval="False"/>
     </record>
 
-    <!-- 130. TAX BASE (= gross; NO superhrubá) + sickness compensation, which
-         is taxable income (§ 6 odst. 1 ZDP) although outside the insurance
-         base. -->
+    <!-- 130. TAX BASE (= gross; NO superhrubá). The sickness compensation
+         stays out: it is exempt (§ 6 odst. 9 písm. p) ZDP), and § 38h odst. 1
+         keeps exempt income out of the base for the advance. -->
     <record id="cz_tax_base_rule" model="hr.salary.rule">
         <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_tax_base"/>
@@ -369,7 +425,7 @@ result = payslip.l10n_cz_health_premiums(categories.GROSS)[1]
         <field name="condition_select">none</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = categories.GROSS + categories.SICKNAHRADA
+result = categories.GROSS + categories.MEALTAXABLE
         </field>
         <field name="appears_on_payslip" eval="True"/>
     </record>
@@ -399,8 +455,10 @@ else:
         thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
     else:
         thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
-    # The limit counts the taxable income, sick pay included.
-    result = categories.TAXBASE &lt; thr
+    # The limit counts the employment income, the exempt sick pay
+    # included: § 6 odst. 4 speaks of "příjmy podle odstavce 1" and, unlike
+    # § 35d odst. 4, does not leave exempt income out.
+    result = categories.TAXBASE + categories.SICKNAHRADA &lt; thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
@@ -410,7 +468,9 @@ result = categories.TAXBASE
     </record>
 
     <!-- 170. INCOME TAX ADVANCE (15 % / 23 % two-band).
-         Monthly base rounded UP to whole 100 Kč (§38h ZDP). -->
+         Monthly base rounded UP to whole 100 Kč, up to 100 Kč to whole
+         crowns (§ 38h odst. 1 ZDP); the advance rounded UP to whole crowns
+         (§ 38h odst. 3). -->
     <record id="cz_income_tax_rule" model="hr.salary.rule">
         <field name="company_id" eval="False"/>
         <field name="category_id" ref="hr_payroll_income_tax"/>
@@ -429,14 +489,16 @@ result = categories.TAXBASE
 # here (l10n_cz_wh_tax_dependent); PAR6BASE marks the separate base.
 # § 6 odst. 4 písm. b) is not limited to dohody: any employment below the
 # rozhodný příjem (zaměstnání malého rozsahu) is withheld too. The limit
-# counts the taxable income (TAXBASE), sick pay included.
+# counts the employment income, the exempt sick pay included (§ 6 odst. 4
+# speaks of "příjmy podle odstavce 1" and, unlike § 35d odst. 4, does not
+# leave exempt income out).
 agr = contract.l10n_cz_agreement_type
 if agr == 'dpp':
     thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
 else:
     thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
 result = (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
-          or categories.TAXBASE &gt;= thr or contract.l10n_cz_tax_declaration)
+          or categories.TAXBASE + categories.SICKNAHRADA &gt;= thr or contract.l10n_cz_tax_declaration)
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
@@ -449,7 +511,8 @@ if contract.l10n_cz_agreement_type == 'dpp':
 else:
     limit = payslip.rule_parameter('l10n_cz_dpc_threshold')
 if (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
-        and not contract.l10n_cz_tax_declaration and raw &lt; limit):
+        and not contract.l10n_cz_tax_declaration
+        and raw + categories.SICKNAHRADA &lt; limit):
     # § 6 odst. 18: the separate base of § 6 odst. 4 and its advance are
     # rounded up to whole crowns, not to 100 Kč. Same test as PAR6BASE.
     base = -(-round(raw, 2) // 1)
@@ -457,7 +520,16 @@ if (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
 else:
     # round up to whole 100 (ceil): -(-x // 100) * 100
     base = int(-(-raw // 100.0)) * 100
+    if 0 &lt; round(raw, 2) &lt;= 100:
+        # § 38h odst. 1: a base up to 100 Kč is rounded up to whole crowns.
+        base = -(-round(raw, 2) // 1)
     tax = r1 / 100.0 * min(base, thr) + r2 / 100.0 * max(base - thr, 0)
+    # § 38h odst. 3: the advance is rounded up to whole crowns.
+    tax = -(-round(tax, 2) // 1)
+if round(raw, 2) &lt;= 0:
+    # A correction month can make the base negative; an advance is never a
+    # refund (the same floor as WHTAX).
+    tax = 0.0
 result = -tax
         </field>
         <field name="appears_on_payslip" eval="True"/>
@@ -494,13 +566,14 @@ if (not payslip.rule_parameter('l10n_cz_wh_tax_dependent')
 else:
     # A DPP below the DPP amount (písm. a)), any other employment below the
     # rozhodný příjem (písm. b)), a pracovní poměr included. The limit counts
-    # the taxable income, sick pay included (a month of sick leave is not a
-    # small-scale employment).
+    # the employment income, the exempt sick pay included (a month of sick
+    # leave is not a small-scale employment); the tax itself is computed on
+    # TAXBASE, which leaves the sick pay out.
     if agr == 'dpp':
         thr = payslip.rule_parameter('l10n_cz_dpp_threshold')
     else:
         thr = payslip.rule_parameter('l10n_cz_dpc_threshold')
-    result = categories.TAXBASE &lt; thr
+    result = categories.TAXBASE + categories.SICKNAHRADA &lt; thr
         </field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
@@ -526,11 +599,14 @@ result = -int(base * rate / 100.0)
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
 credits = payslip.rule_parameter('l10n_cz_credit_taxpayer')
-if contract.l10n_cz_claim_ztpp:
+# § 35ba odst. 3 ZDP: the disability and ZTP/P reliefs as they stood on the
+# first day of the month, not on a version dated inside it.
+relief = contract._l10n_cz_relief_version(payslip.date_from)
+if relief.l10n_cz_claim_ztpp:
     credits += payslip.rule_parameter('l10n_cz_credit_ztpp')
-if contract.l10n_cz_disability == '1_2':
+if relief.l10n_cz_disability == '1_2':
     credits += payslip.rule_parameter('l10n_cz_credit_disab_12')
-elif contract.l10n_cz_disability == '3':
+elif relief.l10n_cz_disability == '3':
     credits += payslip.rule_parameter('l10n_cz_credit_disab_3')
 tax = -result_rules.INCOMETAX.total
 result = min(credits, tax)
@@ -576,8 +652,9 @@ result = min(benefit, tax_after)
 benefit = contract._l10n_cz_child_benefit(payslip.date_from, payslip.rule_parameter)
 bonus = benefit - result_rules.CHILDBEN.total
 threshold = payslip.rule_parameter('l10n_cz_bonus_min_income_month')
-# The income test counts every příjem ze závislé činnosti, sick pay included.
-# § 35d odst. 4 ZDP: the monthly bonus is paid only from 50 Kč.
+# § 35d odst. 4 ZDP: the income test leaves out exempt income (the sick pay,
+# which TAXBASE does not hold) and income taxed by withholding, and the
+# monthly bonus is paid only from 50 Kč.
 if categories.TAXBASE &gt;= threshold and bonus &gt;= 50:
     result = bonus
 else:
@@ -597,8 +674,8 @@ else:
         <field name="condition_python">result = 'ATTACH_SALARY' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -inputs.ATTACH_SALARY.amount
-result_name = inputs.ATTACH_SALARY.name
+result = -payslip.l10n_cz_input_amount('ATTACH_SALARY')
+result_name = payslip.l10n_cz_input_name('ATTACH_SALARY')
         </field>
     </record>
 
@@ -612,8 +689,8 @@ result_name = inputs.ATTACH_SALARY.name
         <field name="condition_python">result = 'ASSIG_SALARY' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -inputs.ASSIG_SALARY.amount
-result_name = inputs.ASSIG_SALARY.name
+result = -payslip.l10n_cz_input_amount('ASSIG_SALARY')
+result_name = payslip.l10n_cz_input_name('ASSIG_SALARY')
         </field>
     </record>
 
@@ -627,8 +704,8 @@ result_name = inputs.ASSIG_SALARY.name
         <field name="condition_python">result = 'CHILD_SUPPORT' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -inputs.CHILD_SUPPORT.amount
-result_name = inputs.CHILD_SUPPORT.name
+result = -payslip.l10n_cz_input_amount('CHILD_SUPPORT')
+result_name = payslip.l10n_cz_input_name('CHILD_SUPPORT')
         </field>
     </record>
 
@@ -722,8 +799,8 @@ else:
         <field name="condition_python">result = 'DEDUCTION' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = -inputs.DEDUCTION.amount
-result_name = inputs.DEDUCTION.name
+result = -payslip.l10n_cz_input_amount('DEDUCTION')
+result_name = payslip.l10n_cz_input_name('DEDUCTION')
         </field>
     </record>
 
@@ -738,8 +815,8 @@ result_name = inputs.DEDUCTION.name
         <field name="condition_python">result = 'REIMBURSEMENT' in inputs.dict</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">
-result = inputs.REIMBURSEMENT.amount
-result_name = inputs.REIMBURSEMENT.name
+result = payslip.l10n_cz_input_amount('REIMBURSEMENT')
+result_name = payslip.l10n_cz_input_name('REIMBURSEMENT')
         </field>
     </record>
 
@@ -764,7 +841,8 @@ result_name = inputs.ANNUAL_TAX_SETTLEMENT.name or 'Annual Tax Reconciliation'
         <field name="appears_on_payslip" eval="True"/>
     </record>
 
-    <!-- 200. NET. MEAL is a memo category (exempt), added back on top of DED/ALW. -->
+    <!-- 200. NET. The meal allowance, its exempt part (MEAL) and what is paid
+         above the limit (MEALTAXABLE), is outside GROSS and paid out here. -->
     <record id="cz_net_salary_rule" model="hr.salary.rule">
         <field name="company_id" eval="False"/>
         <field name="category_id" ref="NET"/>
@@ -777,7 +855,7 @@ result_name = inputs.ANNUAL_TAX_SETTLEMENT.name or 'Annual Tax Reconciliation'
 result = max(
     0,
     BASIC + categories.ALW + categories.DED + result_rules.MEAL.total
-    + categories.SICKNAHRADA
+    + categories.MEALTAXABLE + categories.SICKNAHRADA
 )
         </field>
     </record>

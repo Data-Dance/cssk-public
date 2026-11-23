@@ -24,8 +24,12 @@ days win, because they are the auditable source.
 
 from datetime import datetime, time
 
+from dateutil.relativedelta import relativedelta
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+
+from odoo.addons.l10n_sk_hr_payroll_base.wage_rounding import round_wage_component
 
 from .surcharge_calc import (
     BASE_AVG_EARNINGS,
@@ -44,7 +48,9 @@ from .surcharge_calc import (
 ORDINARY_WORK_CODES = ("WORK100",)
 
 # Absence codes the Slovak country modules put on their leave types. Only the
-# OCA engine needs them subtracted — see ``_l10n_sk_work100_is_gross``.
+# OCA engine needs them subtracted — see ``_l10n_sk_work100_is_gross``. The
+# country module owns the list (``_l10n_sk_absence_work_codes``); this is the
+# fallback where it offers none.
 ABSENCE_WORK_CODES = ("DOVOLENKA", "PN", "OCR", "NEPLATENE", "OBSTACLE")
 
 
@@ -123,13 +129,25 @@ class SkSurchargePayslipMixin(models.AbstractModel):
         """
         return False
 
+    def _l10n_sk_absence_work_codes(self):
+        """Worked-day codes of the hours that were not worked.
+
+        The codes the country module cuts BASIC for: § 120 ods. 6 reduces the
+        monthly claim to the time worked, so an hour that carries no wage
+        must not count as time worked.
+        """
+        if hasattr(self, "l10n_sk_absence_codes"):
+            return self.l10n_sk_absence_codes()
+        return ABSENCE_WORK_CODES
+
     def _l10n_sk_absence_hours(self):
         """Absence hours recorded on this payslip, as a positive number."""
         self.ensure_one()
+        codes = self._l10n_sk_absence_work_codes()
         return sum(
             abs(line.number_of_hours)
             for line in self.worked_days_line_ids
-            if line.code in ABSENCE_WORK_CODES
+            if line.code in codes
         )
 
     def _l10n_sk_ordinary_hours(self):
@@ -237,9 +255,9 @@ class SkSurchargePayslipMixin(models.AbstractModel):
         This is the *mzdové zvýhodnenie* only — the uplift the law mandates on
         top of the wage for the hour. The wage for the hour itself is already
         in BASIC for night / Saturday / Sunday / difficult / holiday work.
-        Overtime is the exception and gets its own base-pay rule, because
-        overtime hours by definition fall outside the scheduled time a monthly
-        salary pays for.
+        Overtime is the exception and gets its own base-pay rule
+        (``_l10n_sk_overtime_base_amount``), because overtime hours by
+        definition fall outside the scheduled time a monthly salary pays for.
         """
         self.ensure_one()
         hours = self._l10n_sk_surcharge_hours(code)
@@ -252,19 +270,69 @@ class SkSurchargePayslipMixin(models.AbstractModel):
         return surcharge_amount(hours, hourly, self._l10n_sk_surcharge_pct(code))
 
     def _l10n_sk_overtime_base_amount(self):
-        """Wage for the overtime hours themselves, at average earnings.
+        """The wage achieved for the overtime hours themselves.
 
-        § 121 ods. 1 entitles the employee to ``mzda a mzdové zvýhodnenie``.
-        The uplift is ``_l10n_sk_surcharge_amount('NADCAS')``; this is the
-        wage part. Average earnings are used as the hourly rate, which is the
-        common Slovak practice for a monthly-salaried employee whose
-        contractual hourly rate is not stated.
+        § 121 ods. 1 Zákonníka práce: „Za prácu nadčas patrí zamestnancovi
+        dosiahnutá mzda a mzdové zvýhodnenie najmenej v sume 25 % jeho
+        priemerného zárobku." Only the premium is on average earnings; it is
+        ``_l10n_sk_surcharge_amount('NADCAS')``. The hours are paid at the
+        wage of the month they were worked in: the exact hourly rate, or the
+        monthly salary over ``_l10n_sk_overtime_fund_hours``.
+
+        The basic salary or rate only: what else of the wage an overtime
+        hour earns (a personal bonus, say) the contract does not tell.
         """
         self.ensure_one()
         hours = self._l10n_sk_surcharge_hours("NADCAS")
         if not hours:
             return 0.0
-        return surcharge_amount(hours, self._l10n_sk_avg_hourly(), 100.0)
+        if self._l10n_sk_is_hourly_paid():
+            amount = hours * self._l10n_sk_version().l10n_sk_hourly_wage
+        else:
+            fund = self._l10n_sk_overtime_fund_hours()
+            if fund:
+                amount = self._l10n_sk_overtime_monthly_wage() * hours / fund
+            else:
+                # No working schedule to divide the salary by.
+                amount = hours * self._l10n_sk_avg_hourly()
+        if amount <= 0.0:
+            return 0.0
+        return round_wage_component(amount)
+
+    def _l10n_sk_overtime_fund_hours(self):
+        """The hours a monthly salary is divided by to pay an overtime hour.
+
+        The fund of the month itself: the hours the employee's working
+        schedule holds in the calendar month of the payslip, public holidays
+        included and absences not taken off, also where the payslip covers a
+        part of the month. The statute names no divisor; another one, such
+        as the average month of the year, goes here.
+        """
+        self.ensure_one()
+        calendar = self._l10n_sk_version().resource_calendar_id
+        first, last = self.date_from, self.date_to
+        if not calendar or not first or not last:
+            return 0.0
+        if (first.year, first.month) != (last.year, last.month):
+            # Not a payslip of one month: its own period is all there is.
+            return self._l10n_sk_calendar_hours(calendar)
+        first = first.replace(day=1)
+        last = first + relativedelta(months=1, days=-1)
+        data = self.employee_id._get_work_days_data_batch(
+            datetime.combine(first, time.min),
+            datetime.combine(last, time.max),
+            calendar=calendar,
+            compute_leaves=False,
+        )
+        return data.get(self.employee_id.id, {}).get("hours", 0.0)
+
+    def _l10n_sk_overtime_monthly_wage(self):
+        """The monthly salary the overtime hours are paid from."""
+        self.ensure_one()
+        version = self._l10n_sk_version()
+        if hasattr(self, "_l10n_sk_monthly_cash_wage"):
+            return self._l10n_sk_monthly_cash_wage(version)
+        return version.wage
 
     # ------------------------------------------------------------------
     # minimum wage claim (stupeň náročnosti)
@@ -308,9 +376,9 @@ class SkSurchargePayslipMixin(models.AbstractModel):
     def _l10n_sk_is_hourly_paid(self):
         """Whether the contract states an hourly rate rather than a salary.
 
-        Only the OCA Slovak module models hourly workers today, so the field
-        is probed rather than assumed — the Enterprise side simply has no
-        hourly contracts to distinguish.
+        Both country modules hold the exact rate in ``l10n_sk_hourly_wage``;
+        the field is probed because this module can be installed without
+        either.
         """
         self.ensure_one()
         version = self._l10n_sk_version()

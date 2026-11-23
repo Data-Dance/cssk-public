@@ -56,6 +56,14 @@ from odoo.addons.l10n_cssk_payroll_declaration_base.rule_codes import (  # noqa:
 #               differs, so the driver resolves it against whichever is present.
 #   calendar_hours — dayofweek -> hours, to pin a week that is full-time
 #               WITHOUT being the same length every day.
+#   holidays  — public holidays (y, m, d) put on the scenario's working
+#               calendar as time off that belongs to no employee.
+#   contract_end — last day of the employment.
+#   later_version — {"date": (y, m, d), "values": {...}}: a second contract
+#               version inside the employment.
+#   inputs    — (input code, amount) lines typed on the saved payslip.
+#   seed      — False to skip the worked March 2026 that seeds the average
+#               earnings (a scenario outside it, or one that pins its own).
 #   expected  — canonical concept -> amount, in CZK, to 2 decimals.
 #
 # Every figure below is either asserted independently by both engine suites or
@@ -68,6 +76,16 @@ WAGE = 50000.0
 # is the real computed one rather than the probable-earnings fallback.
 SEED_PERIOD = ((2026, 3, 1), (2026, 3, 31))
 PERIOD = ((2026, 6, 1), (2026, 6, 30))
+# January 2026: 22 working days, 176 hours, New Year's Day on a Thursday.
+JANUARY = ((2026, 1, 1), (2026, 1, 31))
+NEW_YEAR = (2026, 1, 1)
+# April 2026: 22 working days, 176 hours, Good Friday on the 3rd and Easter
+# Monday on the 6th.
+APRIL = ((2026, 4, 1), (2026, 4, 30))
+EASTER = [(2026, 4, 3), (2026, 4, 6)]
+# May 2026: 21 working days, 168 hours, on a calendar without the holidays
+# of 1 and 8 May.
+MAY = ((2026, 5, 1), (2026, 5, 31))
 
 SCENARIOS = [
     {
@@ -82,6 +100,68 @@ SCENARIOS = [
         "expected": {
             "BASIC": 50000.00,
             "GROSS": 50000.00,
+        },
+    },
+    {
+        "key": "social_premium_whole_crowns",
+        "doc": "§ 7 odst. 3 zák. 589/1992 Sb.: the employee's premium is "
+        "rounded up to whole crowns, 51 263 x 7.1 % = 3 639.673 -> 3 640. The "
+        "employer's line keeps its heller share (12 713.22); the law rounds "
+        "that premium on the company's sum of bases. Health 6 921 of which a "
+        "third 2 307; advance 15 % of 51 300 = 7 695 less 2 570. NET is whole.",
+        "requires": [],
+        "wage": 51263.0,
+        "period": PERIOD,
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [],
+        "expected": {
+            "GROSS": 51263.00,
+            "SOCIAL_EE_TOTAL": -3640.00,
+            "SOCIAL_ER_TOTAL": 12713.22,
+            "INCOME_TAX": -7695.00,
+            "NET": 40191.00,
+        },
+    },
+    {
+        "key": "assessment_base_whole_crowns",
+        "doc": "§ 5d zák. 589/1992 Sb.: the assessment base is rounded up to "
+        "whole crowns, so a gross of 30 000.40 is insured on 30 001: employee "
+        "2 130.071 -> 2 131, employer 7 440.25. Health has no base rounding: "
+        "13.5 % of 30 000.40 = 4 050.054 -> 4 051, a third 1 351. Advance "
+        "15 % of 30 100 = 4 515 less 2 570. NET 30 000.40 - 2 131 - 1 351 - "
+        "1 945.",
+        "requires": [],
+        "wage": 30000.40,
+        "period": PERIOD,
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [],
+        "expected": {
+            "GROSS": 30000.40,
+            "SOCIAL_EE_TOTAL": -2131.00,
+            "SOCIAL_ER_TOTAL": 7440.25,
+            "HEALTH_EE": -1351.00,
+            "HEALTH_ER": 2700.00,
+            "INCOME_TAX": -4515.00,
+            "NET": 24573.40,
+        },
+    },
+    {
+        "key": "tax_advance_whole_crowns",
+        "doc": "§ 38h odst. 3 ZDP: the advance is rounded up to whole crowns, "
+        "which shows above the 23 % threshold (146 901 in 2026): 22 035.15 + "
+        "23 % of 3 099 = 22 747.92 -> 22 748. NET 150 000 - 10 650 - 6 750 - "
+        "(22 748 - 2 570).",
+        "requires": [],
+        "wage": 150000.0,
+        "period": PERIOD,
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [],
+        "expected": {
+            "GROSS": 150000.00,
+            "SOCIAL_EE_TOTAL": -10650.00,
+            "INCOME_TAX": -22748.00,
+            "INCOME_TAX_TOTAL": 22748.00,
+            "NET": 112422.00,
         },
     },
     {
@@ -190,10 +270,11 @@ SCENARIOS = [
         "key": "sick_beyond_fourteen_days",
         "doc": "A DPN lasting all June. § 192 odst. 1 ZP: the employer pays "
         "náhrada mzdy for the first 14 calendar days only (1-14 June, 80 h); "
-        "the rest is nemocenské from ČSSZ. The náhrada is taxed (§ 6 ZDP) but "
-        "not insured, and a whole month of DPN leaves no minimum health base "
-        "(§ 3 odst. 9 písm. b) zák. 592/1992). Both engines once paid all 176 "
-        "hours untaxed and charged a 3 024 Kč health top-up.",
+        "the rest is nemocenské from ČSSZ. The náhrada is exempt from income "
+        "tax (§ 6 odst. 9 písm. p) ZDP) and not insured, and a whole month of "
+        "DPN leaves no minimum health base (§ 3 odst. 9 písm. b) zák. "
+        "592/1992). Both engines once paid all 176 hours and charged a "
+        "3 024 Kč health top-up, and later taxed the náhrada.",
         "requires": [],
         "wage": WAGE,
         "period": PERIOD,
@@ -204,15 +285,39 @@ SCENARIOS = [
         "leaves": [
             ("leave_type_cz_sick", (2026, 6, 1), (2026, 6, 30)),
         ],
-        # PHV 200 -> reduced 180; 0.60 x 180 x 80 = 8640. Tax: 8640 -> 8700 x
-        # 15 % = 1305. NET = 8640 - 1305.
+        # PHV 200 -> reduced 180; 0.60 x 180 x 80 = 8640, all of it paid out.
         "expected": {
             "BASIC": 0.00,
             "GROSS": 0.00,
             "HEALTH_EE": 0.00,
             "HEALTH_ER": 0.00,
-            "INCOME_TAX": -1305.00,
-            "NET": 7335.00,
+            "INCOME_TAX": 0.00,
+            "NET": 8640.00,
+        },
+    },
+    {
+        "key": "sick_pay_outside_the_tax_base",
+        "doc": "A week of DPN in a worked month, declaration signed. § 6 odst. "
+        "9 písm. p) ZDP exempts the náhrada mzdy up to the statutory minimum, "
+        "which is all the engines pay, and § 38h odst. 1 keeps exempt income "
+        "out of the base for the advance: the tax is on the wage alone. Both "
+        "engines once taxed the náhrada too (43 000 x 15 % = 6 450).",
+        "requires": [],
+        "wage": WAGE,
+        "period": PERIOD,
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_avg_hourly_earnings": 200.0,
+        },
+        "leaves": [
+            ("leave_type_cz_sick", (2026, 6, 1), (2026, 6, 5)),
+        ],
+        # 176 scheduled June hours, 40 of sickness: BASIC 50000 x 136/176 =
+        # 38636.36. Advance base 38700 x 15 % = 5805.
+        "expected": {
+            "BASIC": 38636.36,
+            "GROSS": 38636.36,
+            "INCOME_TAX": -5805.00,
         },
     },
     {
@@ -230,6 +335,440 @@ SCENARIOS = [
             "GROSS": 30001.00,
             "HEALTH_EE": -1351.00,
             "HEALTH_ER": 2700.00,
+        },
+    },
+    # -----------------------------------------------------------------
+    # The seams of the working time: the end of the employment, public
+    # holidays, several inputs. Each of these gave two different payslips on
+    # the two engines before it was written down here.
+    # -----------------------------------------------------------------
+    {
+        "key": "leaver_mid_month",
+        "doc": "The employment ends on 15 January: the wage is due for the "
+        "time inside it only, 11 of the month's 22 working days. One engine "
+        "ran the worked days to the end of the period and paid the month.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "contract_end": (2026, 1, 15),
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [],
+        # 88 of 176 hours.
+        "expected": {
+            "BASIC": 25000.00,
+            "GROSS": 25000.00,
+        },
+    },
+    {
+        "key": "leaver_public_holiday",
+        "doc": "The same leaver with New Year's Day on the calendar. A "
+        "monthly wage is not reduced for a public holiday on a usual working "
+        "day (§ 115 odst. 3 ZP), so the holiday is paid time and stays in the "
+        "month's hours: 88 of 176 again, not 80 of 168.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "contract_end": (2026, 1, 15),
+        "holidays": [NEW_YEAR],
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [],
+        "expected": {
+            "BASIC": 25000.00,
+            "GROSS": 25000.00,
+        },
+    },
+    {
+        "key": "public_holiday_full_month",
+        "doc": "A whole worked January with New Year's Day on the calendar: "
+        "the full wage (§ 115 odst. 3 ZP), and the meal allowance for the 21 "
+        "shifts worked, not for the holiday (§ 6 odst. 9 písm. b) ZDP: 'za "
+        "jednu směnu').",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "holidays": [NEW_YEAR],
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_meal_allowance": 100.0,
+        },
+        "leaves": [],
+        "expected": {
+            "BASIC": 50000.00,
+            "GROSS": 50000.00,
+            "MEAL": 2100.00,
+        },
+    },
+    {
+        "key": "sick_beside_public_holiday",
+        "doc": "A sickness of 2-9 January beside New Year's Day on the "
+        "calendar. The 48 hours of sickness come off a month of 176 hours "
+        "that includes the paid holiday; one engine divided by 168.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "holidays": [NEW_YEAR],
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_avg_hourly_earnings": 300.0,
+        },
+        "leaves": [
+            ("leave_type_cz_sick", (2026, 1, 2), (2026, 1, 9)),
+        ],
+        # BASIC 50000 x 128/176 = 36363.64. Sick pay, § 192 odst. 2 ZP:
+        # reduced average 285.78 x 90 % + 14.22 x 60 % = 265.734;
+        # x 60 % x 48 h = 7653.14, up to 7654.
+        "expected": {
+            "BASIC": 36363.64,
+            "GROSS": 36363.64,
+            "SICK_NAHRADA": 7654.00,
+        },
+    },
+    {
+        "key": "sick_over_public_holiday",
+        "doc": "A sickness of 1-9 January with New Year's Day on the "
+        "calendar. § 192 odst. 1 ZP: the compensation is due for the working "
+        "days and for the public holidays whose wage is otherwise not "
+        "reduced, so the holiday inside the sickness is a day of sickness: "
+        "56 hours compensated, no wage for it. Both engines paid the holiday "
+        "as wage and compensated 48 hours.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "holidays": [NEW_YEAR],
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_avg_hourly_earnings": 300.0,
+        },
+        "leaves": [
+            ("leave_type_cz_sick", (2026, 1, 1), (2026, 1, 9)),
+        ],
+        # BASIC 50000 x 120/176 = 34090.91. Sick pay, § 192 odst. 2 ZP:
+        # reduced average 265.734 (see sick_beside_public_holiday);
+        # x 60 % x 56 h = 8928.66, up to 8929.
+        "expected": {
+            "BASIC": 34090.91,
+            "GROSS": 34090.91,
+            "SICK_NAHRADA": 8929.00,
+        },
+    },
+    {
+        "key": "quarantine_over_public_holiday",
+        "doc": "§ 192 odst. 1 ZP names quarantine beside the temporary "
+        "incapacity for work in the same sentence: the public holiday inside "
+        "an ordered quarantine is compensated the same way.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "holidays": [NEW_YEAR],
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_avg_hourly_earnings": 300.0,
+        },
+        "leaves": [
+            ("leave_type_cz_karantena", (2026, 1, 1), (2026, 1, 9)),
+        ],
+        "expected": {
+            "BASIC": 34090.91,
+            "GROSS": 34090.91,
+            "SICK_NAHRADA": 8929.00,
+        },
+    },
+    {
+        "key": "sick_public_holiday_after_fourteen_days",
+        "doc": "A sickness from 15 December 2025 to 9 January 2026. The "
+        "employer compensates the first 14 calendar days only (§ 192 odst. 1 "
+        "ZP), which ended on 28 December: New Year's Day lies inside the "
+        "sickness, earns no wage and no compensation either. January is "
+        "paid for 120 of 176 hours.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "holidays": [NEW_YEAR],
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_avg_hourly_earnings": 300.0,
+        },
+        "leaves": [
+            ("leave_type_cz_sick", (2025, 12, 15), (2026, 1, 9)),
+        ],
+        "expected": {
+            "BASIC": 34090.91,
+            "GROSS": 34090.91,
+            "SICK_NAHRADA": 0.00,
+        },
+    },
+    {
+        "key": "unpaid_leave_over_public_holiday",
+        "doc": "Unpaid leave of 1-9 January with New Year's Day on the "
+        "calendar. Unlike § 192 odst. 1 ZP for a sickness, no provision says "
+        "whose day the holiday inside an unpaid leave is, so it stays what "
+        "both engines have always made it: the holiday, paid with the wage "
+        "(§ 115 odst. 3 ZP), 48 hours unpaid. Pinned so that the two engines "
+        "cannot part on it; not a ruling on the question.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "holidays": [NEW_YEAR],
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [
+            ("leave_type_cz_unpaid", (2026, 1, 1), (2026, 1, 9)),
+        ],
+        "expected": {
+            "BASIC": 36363.64,
+            "GROSS": 36363.64,
+        },
+    },
+    {
+        "key": "leave_from_public_holiday",
+        "doc": "Dovolená entered 1-9 January, New Year's Day on the calendar. "
+        "A public holiday on a usual working day is not counted into the "
+        "leave (§ 219 odst. 2 ZP): 48 hours of leave, the holiday paid with "
+        "the wage. One engine filed all 56 hours under the public holiday "
+        "and paid the full wage with no leave at all.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "holidays": [NEW_YEAR],
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_avg_hourly_earnings": 300.0,
+        },
+        "leaves": [
+            ("leave_type_cz_holiday", (2026, 1, 1), (2026, 1, 9)),
+        ],
+        # BASIC 50000 x 128/176; náhrada 48 x 300.
+        "expected": {
+            "BASIC": 36363.64,
+            "HOLIDAY_NAHRADA": 14400.00,
+            "GROSS": 50763.64,
+        },
+    },
+    {
+        "key": "leave_over_easter",
+        "doc": "Dovolená 30 March - 10 April 2026 across Good Friday and "
+        "Easter Monday, on the April payslip: 6 days of leave (1, 2, 7-10 "
+        "April), the two holidays are not leave (§ 219 odst. 2 ZP). One "
+        "engine counted 64 hours of leave, the other divided by 160.",
+        "requires": [],
+        "wage": WAGE,
+        "period": APRIL,
+        "seed": False,
+        "holidays": EASTER,
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_avg_hourly_earnings": 300.0,
+        },
+        "leaves": [
+            ("leave_type_cz_holiday", (2026, 3, 30), (2026, 4, 10)),
+        ],
+        # BASIC 50000 x 128/176; náhrada 48 x 300.
+        "expected": {
+            "BASIC": 36363.64,
+            "HOLIDAY_NAHRADA": 14400.00,
+            "GROSS": 50763.64,
+        },
+    },
+    {
+        "key": "leave_makes_gross_whole",
+        "doc": "30 000 with three days of leave and no typed average: the "
+        "náhrada at the average of the seeded March puts back exactly what "
+        "the leave took, so the bases are those of 30 000. One engine "
+        "carried the unrounded basic wage into the bases, a fraction of a "
+        "heller above 30 000, and rounded the premium and the tax base up "
+        "from there: health 1 351, tax 4 515.",
+        "requires": [],
+        "wage": 30000.0,
+        "period": PERIOD,
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [
+            ("leave_type_cz_holiday", (2026, 6, 1), (2026, 6, 3)),
+        ],
+        # BASIC 30000 x 152/176 = 25909.09; náhrada 24 x 30000/176 = 4090.91.
+        # Health: 30000 x 13.5 % = 4050, a third 1350. Tax 15 % of 30000.
+        "expected": {
+            "BASIC": 25909.09,
+            "HOLIDAY_NAHRADA": 4090.91,
+            "GROSS": 30000.00,
+            "HEALTH_EE": -1350.00,
+            "INCOME_TAX": -4500.00,
+        },
+    },
+    {
+        "key": "meal_allowance_shifts_worked",
+        "doc": "A meal allowance of 129 Kč a shift in June with two days of "
+        "leave: 20 shifts worked of 22. The allowance is exempt 'za jednu "
+        "směnu' (§ 6 odst. 9 písm. b) ZDP), so a day of leave has none. One "
+        "engine paid all 22 scheduled days.",
+        "requires": [],
+        "wage": WAGE,
+        "period": PERIOD,
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_meal_allowance": 129.0,
+        },
+        "leaves": [
+            ("leave_type_cz_holiday", (2026, 6, 1), (2026, 6, 2)),
+        ],
+        "expected": {
+            "MEAL": 2580.00,
+        },
+    },
+    {
+        "key": "meal_allowance_above_the_limit",
+        "doc": "A meal allowance in money of 150 Kč a shift, 21 shifts in May "
+        "2026, against the exempt 129.50 (70 % of the upper meal limit of "
+        "185 Kč, § 6 odst. 9 písm. b) ZDP). All 3 150 is paid; 21 x 129.50 = "
+        "2 719.50 is exempt and 430.50 is taxable income that also enters "
+        "both insurance bases (§ 5 odst. 1 zák. 589/1992 Sb., § 3 odst. 1 "
+        "zák. 592/1992 Sb.: income that is not exempt from the tax). The "
+        "statute gives the exempt amount no rounding, so the hellers stay. "
+        "The allowance is no wage: GROSS stays 50 000. Social base 50 430.50 "
+        "up to 50 431 (§ 5d): employee 3 580.601 -> 3 581, employer "
+        "12 506.89. Health 13.5 % of 50 430.50 = 6 808.12 -> 6 809, a third "
+        "2 270. Advance 15 % of 50 500 = 7 575 less 2 570. NET 50 000 + "
+        "3 150 - 3 581 - 2 270 - 5 005. The rule used to pay the exempt part "
+        "only, 430.50 short.",
+        "requires": [],
+        "wage": WAGE,
+        "period": MAY,
+        "seed": False,
+        "version": {
+            "l10n_cz_tax_declaration": True,
+            "l10n_cz_meal_allowance": 150.0,
+        },
+        "leaves": [],
+        "expected": {
+            "GROSS": 50000.00,
+            "MEAL": 2719.50,
+            "MEAL_TAXABLE": 430.50,
+            "TAX_BASE": 50430.50,
+            "SOCIAL_EE_TOTAL": -3581.00,
+            "SOCIAL_ER_TOTAL": 12506.89,
+            "HEALTH_EE": -2270.00,
+            "HEALTH_ER": 4539.00,
+            "INCOME_TAX": -7575.00,
+            "NET": 42294.00,
+        },
+    },
+    {
+        "key": "min_wage_topup_public_holiday",
+        "doc": "The monthly minimum wage of 22 400 in January with New Year's "
+        "Day on the calendar, on the hourly basis that is the default of "
+        "§ 111 odst. 2 ZP. The wage is not reduced for the holiday, so it is "
+        "the wage for all 176 hours and is compared with 176 x 134.40. "
+        "Entering the holiday on the calendar must not change the top-up: "
+        "one engine dropped the holiday's hours and kept its wage.",
+        "requires": ["l10n_cz_hr_payroll_surcharges"],
+        "wage": 22400.0,
+        "period": JANUARY,
+        "seed": False,
+        "holidays": [NEW_YEAR],
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [],
+        # 176 x 134.40 = 23654.40, less 22400.
+        "expected": {
+            "BASIC": 22400.00,
+            "MIN_WAGE_TOPUP": 1254.40,
+            "GROSS": 23654.40,
+        },
+    },
+    {
+        "key": "two_deductions_two_reimbursements",
+        "doc": "Two deductions and two reimbursements typed on one payslip "
+        "are each added up. One engine handed its rule a single line per "
+        "code and deducted 300 of 800.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [],
+        "inputs": [
+            ("DEDUCTION", 500.0),
+            ("DEDUCTION", 300.0),
+            ("REIMBURSEMENT", 1000.0),
+            ("REIMBURSEMENT", 200.0),
+        ],
+        # NET of 50000 with the declaration is 39270 (social 3550, health
+        # 2250, tax 7500 - 2570); - 800 + 1200.
+        "expected": {
+            "GROSS": 50000.00,
+            "DEDUCTION": -800.00,
+            "REIMBURSEMENT": 1200.00,
+            "NET": 39670.00,
+        },
+    },
+    {
+        "key": "typed_attachment_inputs",
+        "doc": "An attachment of salary (twice), child support and an "
+        "assignment of salary typed on a saved payslip are deducted on both "
+        "engines, each code added up.",
+        "requires": [],
+        "wage": WAGE,
+        "period": JANUARY,
+        "seed": False,
+        "version": {"l10n_cz_tax_declaration": True},
+        "leaves": [],
+        "inputs": [
+            ("ATTACH_SALARY", 300.0),
+            ("ATTACH_SALARY", 150.0),
+            ("CHILD_SUPPORT", 200.0),
+            ("ASSIG_SALARY", 100.0),
+        ],
+        "expected": {
+            "ATTACH_SALARY": -450.00,
+            "CHILD_SUPPORT": -200.00,
+            "ASSIG_SALARY": -100.00,
+            "NET": 38520.00,
+        },
+    },
+    {
+        "key": "relief_from_mid_month_version",
+        "doc": "A third-degree disability entered on a contract version "
+        "dated 15 March. § 35ba odst. 3 ZDP gives the reliefs of odst. 1 "
+        "písm. b) to e) for each month 'na jehož počátku' the conditions were "
+        "met: on 1 March they were not, so the March payslip computed on the "
+        "new version has the taxpayer's relief alone, 2 570. Both engines "
+        "read the relief from whichever version the payslip was on.",
+        "requires": [],
+        "wage": WAGE,
+        "period": SEED_PERIOD,
+        "seed": False,
+        "version": {"l10n_cz_tax_declaration": True},
+        "later_version": {
+            "date": (2026, 3, 15),
+            "values": {"l10n_cz_disability": "3"},
+        },
+        "leaves": [],
+        "expected": {
+            "TAX_CREDIT": 2570.00,
+        },
+    },
+    {
+        "key": "relief_month_after_the_change",
+        "doc": "The same employee in April: the disability held on 1 April, "
+        "so the relief is 2 570 + 420.",
+        "requires": [],
+        "wage": WAGE,
+        "period": APRIL,
+        "seed": False,
+        "version": {"l10n_cz_tax_declaration": True},
+        "later_version": {
+            "date": (2026, 3, 15),
+            "values": {"l10n_cz_disability": "3"},
+        },
+        "leaves": [],
+        "expected": {
+            "TAX_CREDIT": 2990.00,
         },
     },
 ]

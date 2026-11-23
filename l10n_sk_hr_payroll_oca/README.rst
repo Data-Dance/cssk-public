@@ -24,6 +24,14 @@ Hourly wage and approved absence
 
 For hourly pay, BASIC covers the worked hours after approved absences have been removed. Paid leave receives its separate average-earnings compensation under `§116 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2001/311/#paragraf-116>`__, so those hours are not also paid as ordinary hourly work. Both supported signs of the absence lines give the same amount. For example, 176 scheduled hours at EUR 20/h with 8 hours of leave give BASIC 3360 and leave compensation 160 when the reviewed average is 20/h.
 
+Several time-off types can carry one *Slovak Payroll Code*: the starter types have two for unpaid leave, two for sickness and eight for a paid obstacle, and a type of your own takes the code of the absence it is. Each type keeps a worked-day line of its own on the payslip, and the rules pay a code for all its lines together, a line typed by hand included. June 2026 on 2 000 € with a day of unpaid leave and a day of unpaid leave for education: 2 000 × 160 / 176 = 1 818.19 €.
+
+The hourly rate holds four decimals, since the minimum hourly wage and its degree claims have three (`§ 2 ods. 2 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2007/663/#paragraf-2>`__): 176 hours at 5.259 € are 925.59 €. Without payslips of the previous quarter the probable earnings of an hourly wage are the rate itself.
+
+In the annual tax reconciliation an underpayment of tax of 5 € or less is not withheld: it is set off against child tax bonus still to be paid, and the rest is withheld only when *Assigns a Share of Tax* is ticked (`§ 38 ods. 7 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-38>`__). A child tax bonus granted during 2024 or earlier is kept when the reconciliation computes less; from the tax year 2025 the difference is taken back (`§ 33 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-33>`__).
+
+For January 2023 to December 2024 a dependent child of 18 or over has a child tax bonus of 50 € a month and counts for the percentage limit (`§ 52zzp ods. 4 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-52zzp>`__); enter such children as *Children 18y+ (tax bonus to 2024)*. From January 2025 the number is ignored.
+
 Annual reconciliation sources
 ===============================
 
@@ -55,7 +63,7 @@ Dated sickness compensation
 
 Employer compensation stops at the end of the insured relationship, even if the validated PN continues. Preserve the actual illness onset when clipping that payment window: the first-rate days do not restart with a new month. Each native PN episode uses the statutory employer-day limit, rates and maximum daily base at its onset. A PN beginning in 2025 retains the ten-day regime in 2026.
 
-The employer daily base is truncated to four decimals. The resulting monthly compensation is rounded upward to eurocents under section 10(2) of Act 462/2003; Decimal arithmetic avoids an extra cent from binary-float accumulation. The existing manual fallback uses the same monetary rounding. Its continuation facts and the determination of the supplied DVZ still require review; a manual day count alone does not reconstruct a medical episode.
+The employer daily base is truncated to four decimals. The resulting monthly compensation is rounded upward to eurocents under section 10(2) of Act 462/2003; Decimal arithmetic avoids an extra cent from binary-float accumulation. The existing manual fallback uses the same monetary rounding. Without the DVZ input the base of a PN leave is determined from the confirmed payslips of the decisive period, as the family guide describes, and only when they cover it completely. The continuation facts of a manual entry and a supplied DVZ still require review; a manual day count alone does not reconstruct a medical episode.
 
 References: `SP transition guidance <https://www.socpoist.sk/node/6844>`__, `MPSVR daily base <https://www.employment.gov.sk/sk/socialne-poistenie-dochodkovy-system/nahrada-prijmu-pri-pracovnej-neschopnosti/denny-vymeriavaci-zaklad.html>`__ and `Act 462/2003 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/462/>`__.
 
@@ -122,7 +130,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_hr_payroll_oca``
-- **Version:** 19.0.1.26.6
+- **Version:** 19.0.1.29.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``payroll``, ``l10n_sk_hr_payroll_base``

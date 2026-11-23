@@ -1,10 +1,14 @@
 # Copyright 2026 votrelec
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
+import re
+from collections import Counter
 from copy import deepcopy
 
 from odoo.exceptions import UserError
+from odoo.modules.module import Manifest
 from odoo.tests import TransactionCase, new_test_user, tagged
+from odoo.tools.misc import file_path
 
 
 @tagged("post_install", "-at_install")
@@ -167,3 +171,26 @@ class TestRuleParameterDates(TransactionCase):
         ):
             self.lookup()
         self.assertEqual(self.lookup("2026-12-31"), 4)
+
+
+@tagged("post_install", "-at_install")
+class TestParameterData(TransactionCase):
+    def test_an_xml_id_is_declared_once_in_a_data_file(self):
+        # A second record under the same id overwrites the first on load.
+        manifest = Manifest.for_addon("l10n_sk_hr_payroll_oca")
+        for name in manifest["data"]:
+            if not name.endswith(".xml"):
+                continue
+            with open(file_path(f"l10n_sk_hr_payroll_oca/{name}")) as handle:
+                ids = re.findall(r'<record\b[^>]*?\bid="([^"]+)"', handle.read())
+            twice = sorted(k for k, n in Counter(ids).items() if n > 1)
+            with self.subTest(file=name):
+                self.assertEqual(twice, [])
+
+    def test_living_minimum_changes_on_1_july_2024(self):
+        # The amount is set each 1 July (§ 5 zákona 601/2003 Z. z.).
+        lookup = self.env["hr.rule.parameter"]._get_parameter_value
+        self.assertEqual(lookup("l10n_sk_zivotne_minimum", "2024-06-30"), 268.88)
+        self.assertEqual(lookup("l10n_sk_zivotne_minimum", "2024-07-01"), 273.99)
+        self.assertEqual(lookup("l10n_sk_zivotne_minimum", "2025-06-30"), 273.99)
+        self.assertEqual(lookup("l10n_sk_zivotne_minimum", "2025-07-01"), 284.13)

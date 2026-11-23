@@ -5,6 +5,10 @@ Changelog
 Unreleased
 ----------
 
+* A test that the return's employee premium and assessment base equal what
+  the payslips carry, now that the payslip rounds both up to whole crowns
+  (§ 5d, § 7 odst. 3 zák. 589/1992 Sb.).
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules

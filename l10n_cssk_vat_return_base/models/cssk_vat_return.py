@@ -1,3 +1,8 @@
+import calendar
+from datetime import date
+
+from dateutil.relativedelta import relativedelta
+
 from odoo import _, api, fields, models
 from odoo.tools.translate import LazyTranslate
 from odoo.exceptions import UserError, ValidationError
@@ -53,6 +58,9 @@ class CSSKVatReturn(models.Model):
     period_type = fields.Selection(
         [("month", "Monthly"), ("quarter", "Quarterly")], required=True
     )
+    # A VAT period is a month or a quarter and nothing else. The form picks
+    # it in one control bound to ``date_from`` (widget ``cssk_period``) and
+    # ``_cssk_snap_period`` derives the two dates from the start picked.
     statement_type_id = fields.Many2one(
         "cssk.vat.return.type",
         domain="[('version_id', '=', version_id)]",
@@ -114,6 +122,11 @@ class CSSKVatReturn(models.Model):
         string="Difference identification date",
         help="Date the fact giving rise to the amended return was identified "
              "(datumZisteniaDdp); mandatory for an amended return.")
+    needs_discovery_date = fields.Boolean(
+        compute="_compute_needs_discovery_date",
+        help="Technical: the chosen kind of return is an additional one "
+             "(dodatočné), the only kind that states the date the "
+             "difference was identified.")
 
     # --- § 79 nadmerný odpočet carry-forward (settlement / UHRADIT) ----------
     # The official form lines (own tax liability / excess deduction — e.g. SK
@@ -217,6 +230,148 @@ class CSSKVatReturn(models.Model):
             ret.prior_return_id = prior
             ret.excess_carried_in = prior.excess_carried_out
         return True
+
+    # ------------------------------------------------------------------
+    # Period picker, and the version and kind of return that follow from it
+    # ------------------------------------------------------------------
+    # The XML value of an additional return: ``D`` on the Slovak form,
+    # ``D`` / ``E`` (dodatečné, dodatečné-opravné) on the Czech one.
+    _cssk_additional_type_values = ("D", "E")
+
+    @api.depends("statement_type_id.fa_xml_value")
+    def _compute_needs_discovery_date(self):
+        for ret in self:
+            ret.needs_discovery_date = (
+                ret.statement_type_id.fa_xml_value
+                in self._cssk_additional_type_values)
+
+    @api.model
+    def _cssk_period_dates(self, period_type, day):
+        """``(first day, last day)`` of the month or the quarter *day* lies
+        in."""
+        if period_type == "quarter":
+            first = 3 * ((day.month - 1) // 3) + 1
+            last = first + 2
+        else:
+            first = last = day.month
+        return (date(day.year, first, 1),
+                date(day.year, last, calendar.monthrange(day.year, last)[1]))
+
+    def _cssk_snap_period(self):
+        """Make the two dates the whole month or quarter ``date_from`` lies
+        in."""
+        for ret in self:
+            if not (ret.period_type and ret.date_from):
+                continue
+            dates = ret._cssk_period_dates(ret.period_type, ret.date_from)
+            if dates != (ret.date_from, ret.date_to):
+                ret.date_from, ret.date_to = dates
+
+    def _cssk_find_version(self):
+        """The form version for this return's country, period and period
+        type: a live one before an archived one, the newest first."""
+        self.ensure_one()
+        if not (self.country_id and self.date_from and self.date_to):
+            return self.env["cssk.vat.return.version"]
+        domain = [
+            ("country_id", "=", self.country_id.id),
+            ("valid_from", "<=", self.date_to),
+            "|", ("valid_to", "=", False), ("valid_to", ">=", self.date_from),
+        ]
+        if self.period_type == "month":
+            domain.append(("allow_monthly", "=", True))
+        elif self.period_type == "quarter":
+            domain.append(("allow_quarterly", "=", True))
+        return self.env["cssk.vat.return.version"].with_context(
+            active_test=False).search(
+                domain, order="active desc, valid_from desc, id desc", limit=1)
+
+    def _cssk_version_fits(self):
+        self.ensure_one()
+        version = self.version_id
+        return bool(
+            version and self.date_from and self.date_to
+            and version.country_id == self.country_id
+            and version.valid_from <= self.date_to
+            and (not version.valid_to or version.valid_to >= self.date_from)
+            and (self.period_type != "month" or version.allow_monthly)
+            and (self.period_type != "quarter" or version.allow_quarterly))
+
+    def _cssk_sync_version(self):
+        """Keep the version on the period, and the kind of return on the
+        version. A version that still fits is left alone, so a deliberate
+        choice between two overlapping vintages survives; the kind of return
+        moves to the same kind (regular, corrective, additional) of the new
+        version, or to its first one."""
+        for ret in self:
+            if not ret._cssk_version_fits():
+                ret.version_id = ret._cssk_find_version()
+            types = ret.version_id.statement_type_ids
+            if ret.statement_type_id not in types:
+                same = types.filtered(
+                    lambda t: t.fa_xml_value
+                    == ret.statement_type_id.fa_xml_value)
+                ret.statement_type_id = (same or types)[:1]
+
+    @api.onchange("period_type", "date_from")
+    def _onchange_period(self):
+        self._cssk_snap_period()
+        self._cssk_sync_version()
+
+    @api.onchange("company_id", "date_to", "version_id")
+    def _onchange_period_version(self):
+        self._cssk_sync_version()
+
+    @api.model
+    def default_get(self, fields_list):
+        """A new return opens on the period that is due: the last closed
+        month, or quarter where the company's previous return was
+        quarterly."""
+        vals = super().default_get(fields_list)
+        if "period_type" in fields_list and not vals.get("period_type"):
+            company_id = vals.get("company_id") or self.env.company.id
+            last = self.search(
+                [("company_id", "=", company_id), ("state", "!=", "legacy")],
+                order="date_from desc, id desc", limit=1)
+            vals["period_type"] = last.period_type or "month"
+        if ("date_from" in fields_list and not vals.get("date_from")
+                and not vals.get("date_to") and vals.get("period_type")):
+            today = fields.Date.context_today(self)
+            months = 3 if vals["period_type"] == "quarter" else 1
+            dates = self._cssk_period_dates(
+                vals["period_type"], today - relativedelta(months=months))
+            vals["date_from"], vals["date_to"] = dates
+        elif (vals.get("date_from") and vals.get("period_type")
+                and "date_to" in fields_list and not vals.get("date_to")):
+            # A start preset by the caller (``default_date_from``): the end
+            # follows from it, as it does when the start is picked.
+            vals["date_to"] = self._cssk_period_dates(
+                vals["period_type"],
+                fields.Date.to_date(vals["date_from"]))[1]
+        return vals
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """A return created without a version or a kind gets the ones its
+        period calls for, as the form does: a caller that knows the company
+        and the period knows enough."""
+        Type = self.env["cssk.vat.return.type"]
+        for vals in vals_list:
+            if vals.get("version_id") and vals.get("statement_type_id"):
+                continue
+            if not (vals.get("date_from") and vals.get("date_to")):
+                continue
+            probe = self.new({
+                "company_id": vals.get("company_id") or self.env.company.id,
+                **{key: vals[key]
+                   for key in ("date_from", "date_to", "period_type")
+                   if key in vals}})
+            if not vals.get("version_id"):
+                vals["version_id"] = probe._cssk_find_version().id
+            if not vals.get("statement_type_id") and vals.get("version_id"):
+                vals["statement_type_id"] = Type.search(
+                    [("version_id", "=", vals["version_id"])], limit=1).id
+        return super().create(vals_list)
 
     @api.constrains("period_type", "version_id")
     def _check_period_type_allowed(self):

@@ -48,7 +48,7 @@ The form and its structure
 
 The Czech Financial Administration publishes **one** DPHDP3 schema, ``dphdp3_epo2.xsd``, and replaces it in place; every return — for the current period or an old one — is filed in the structure current at the time of filing. The module therefore ships a single, open-ended version, **DPHDP3 (aktuální struktura)**, with that schema and the XML declared as ``verzePis="03.01.04"`` — structure 03.01.04 of 11. 8. 2026. Because nothing in the schema says which revision it is, the module pins the file's checksum and the structure version in ``data/SCHEMA_VERSION``, with the procedure for refreshing them; a test fails if the bundled file or the template's ``verzePis`` drifts from the pin. It is offered for periods from **1 January 2016**; that start date is a conservative bound chosen by the module, not a statutory one, and there is no version for earlier periods.
 
-Amounts are exported in whole crowns: output tax and rows 61, 62 and 64–66 rounded **up** to the next crown, as § 146 odst. 1 of the daňový řád says ("Daň se zaokrouhluje na celé koruny nahoru"); a deduction (rows 40–47, the amounts of rows 52 and 53, row 60 and the total on row 63) rounded **down**, so that rounding never adds to it; a base or a value to the nearest crown, a half up; the coefficients of rows 52 and 53 up to a whole percent (§ 76 odst. 3 ZDPH). The filing date in the XML (*d_poddp*) is the day of the export.
+Amounts are exported in whole crowns: output tax and rows 61, 62 and 64–66 rounded **up** to the next crown, as § 146 odst. 1 of the daňový řád says ("Daň se zaokrouhluje na celé koruny nahoru"); a deduction (rows 40–47, the amounts of rows 52 and 53, row 60 and the total on row 63) rounded **down**, so that rounding never adds to it; a base or a value to the nearest crown, a half up; the coefficients of rows 52 and 53 up to a whole percent (§ 76 odst. 3 ZDPH). The filing date in the XML (*d_poddp*) is the day of the export. A return for a period in which every row is zero is marked as one in which no tax liability arose (*trans* = N in the XML); any figure makes it A.
 
 Setting it up
 ===============
@@ -82,7 +82,7 @@ The Czech return
 
 The statement types are **Řádné** (B), **Opravné** (O), **Dodatečné** (D) and **Dodatečné/opravné** (E). Each row's code is the attribute name in the XML (``obrat23``, ``dan23``, ``odp_tuz23_nar`` …) and its name is the form's own caption, in Czech, as annex 1 of vyhláška č. 387/2025 Sb. states it, most specific part first (column — rate — row), e.g. *Základ daně — základní sazba — Dodání zboží nebo poskytnutí služby s místem plnění v tuzemsku*.
 
-**Computed from tags**: rows 1–13 (base and tax), 20–26, 30, 32, 33, 34, the base and the full deduction of rows 40–44 and 47, row 50, 51 and 61.
+**Computed from tags**: rows 1–13 (base and tax), 20–26, 30, 31, 32, 33, 34, the base and the full deduction of rows 40–44 and 47, row 50, 51 and 61.
 
 **Computed from the other rows**, as the EPO structure defines them, after the rows above (each summed in whole crowns, as exported, so the totals foot):
 
@@ -115,8 +115,6 @@ Rows 64 and 65 also drive the return's *Settlement* tab (amount to pay or refund
 
    * - Row
      - Content
-   * - 31
-     - triangular trade, middle person
    * - 40–44, 47 (*reduced_claim*)
      - the deduction in reduced amount (*v krácené výši*)
    * - 45
@@ -196,7 +194,7 @@ On install and whenever a company loads the Czech chart, the rates no longer in 
 Limitations
 =============
 
-- The reduced-amount deductions, rows 31, 45, 52, 53 and 60, are manual (see `above <#usage>`__), and so is the § 108 odst. 4 g)/h) part of row 62.
+- The reduced-amount deductions, rows 45, 52, 53 and 60, are manual (see `above <#usage>`__), and so is the § 108 odst. 4 g)/h) part of row 62.
 
 - The content checks cover rows 64 and 65 only; the schema cannot tell whether the other figures are consistent.
 
@@ -212,7 +210,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_vat_return``
-- **Version:** 19.0.1.17.0
+- **Version:** 19.0.1.18.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_vat_return_base``, ``l10n_cz``, ``l10n_cz_statutory``

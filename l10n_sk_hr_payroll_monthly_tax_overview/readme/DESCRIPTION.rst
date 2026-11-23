@@ -23,6 +23,11 @@ III. časť: in the overview for the last month of a calendar quarter, the
 opt-in *Request refund of the child tax bonus difference* files the žiadosť o
 poukázanie rozdielu daňového bonusu with Σ rC over the quarter's three months.
 
+Without payroll in the database: tick *Enter the amounts by hand* and enter
+the taxable income paid, the tax advances withheld and the child tax bonus
+paid; the rows are derived from them the same way and no payroll engine is
+needed.
+
 Engine-neutral: it reads payslips through the shared
 ``l10n_cssk_payroll_declaration_base`` adapter and works on both the
 ``payroll`` engine and the ``hr_payroll`` engine. Set the company **DIČ**

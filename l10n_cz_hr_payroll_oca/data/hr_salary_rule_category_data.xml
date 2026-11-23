@@ -120,6 +120,13 @@
         <field name="name">Meal Allowance (Employee)</field>
         <field name="code">MEALEE</field>
     </record>
+    <!-- The meal allowance paid above its exempt limit: memo category, added
+         to the insurance bases, to the tax base and to NET by the rules. -->
+    <record id="hr_payroll_meal_taxable" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
+        <field name="name">Meal Allowance above the Exempt Limit</field>
+        <field name="code">MEALTAXABLE</field>
+    </record>
 
     <!-- Reporting totals (memo only) -->
     <record id="hr_payroll_social_employee_total" model="hr.salary.rule.category">

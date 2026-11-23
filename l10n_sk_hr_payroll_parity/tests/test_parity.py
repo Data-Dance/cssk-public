@@ -12,13 +12,16 @@ payroll databases, and both runs must be green. One green run proves half of
 the property and is not evidence of parity.
 """
 
-from datetime import date
+from datetime import date, datetime, timedelta
 
 from odoo.addons.l10n_sk_hr_payroll_parity.parity import (
     AVG_EARNINGS_SCENARIOS,
     ENGINE_EE,
     ENGINE_OCA,
+    HOLIDAY_SCENARIOS,
     LEAVE_SCENARIOS,
+    OVERTIME_SCENARIOS,
+    PART_MONTH_SCENARIOS,
     SCENARIOS,
     codes_for,
 )
@@ -85,8 +88,15 @@ class TestPayrollEngineParity(TransactionCase):
             totals[line.code] = totals.get(line.code, 0.0) + line.total
         return totals
 
-    def _build_slip(self, scenario):
-        """Materialise *scenario* and return the computed payslip."""
+    def _build_slip(self, scenario, principal=None, birth_number=None):
+        """Materialise *scenario* and return the computed payslip.
+
+        ``linked`` lists further employee records of the same person that
+        are taxed together with the scenario's own (``hr.employee``
+        ``l10n_sk_tax_principal_id``): each has a key, a wage, a form, version
+        values and inputs, and its payslip of the same period is computed
+        first. Their payslips are kept in ``self.linked_slips``.
+        """
         (y1, m1, d1), (y2, m2, d2) = scenario["period"]
         date_from, date_to = date(y1, m1, d1), date(y2, m2, d2)
 
@@ -106,12 +116,31 @@ class TestPayrollEngineParity(TransactionCase):
                 if form
                 else structure.type_id
             )
+        contract_start = date(*scenario.get("contract_start", (2024, 1, 1)))
+        # Worked days of the real calendar, not a simulated full month.
+        real_run = bool(
+            scenario.get("leaves")
+            or scenario.get("contract_start")
+            or scenario.get("contract_end")
+            or scenario.get("public_holidays")
+            or scenario.get("calendar_closures")
+            or scenario.get("worked_days")
+            or scenario.get("hourly_rate")
+            or scenario.get("history")
+        )
+        if principal is None:
+            self.linked_slips = []
+        if scenario.get("linked") and not birth_number:
+            # One person, and a person of its own for every scenario.
+            self.__dict__["_persons"] = self.__dict__.get("_persons", 0) + 1
+            birth_number = "850101/%04d" % self.__dict__["_persons"]
         emp_vals = {
             "name": "Parity %s" % scenario["key"],
+            "identification_id": birth_number,
             "company_id": self.company.id,
             "resource_calendar_id": calendar.id,
-            "date_version": date(2024, 1, 1),
-            "contract_date_start": date(2024, 1, 1),
+            "date_version": contract_start,
+            "contract_date_start": contract_start,
             "wage": scenario["wage"],
         }
         if self.engine == ENGINE_OCA:
@@ -123,9 +152,30 @@ class TestPayrollEngineParity(TransactionCase):
         )
         version_vals = dict(scenario["version"])
         version_vals["resource_calendar_id"] = calendar.id
+        if scenario.get("contract_end"):
+            version_vals["contract_date_end"] = date(*scenario["contract_end"])
+        if scenario.get("hourly_rate"):
+            # The exact hourly rate has the same name on both engines;
+            # Enterprise also needs its hourly wage type.
+            version_vals["l10n_sk_hourly_wage"] = scenario["hourly_rate"]
+            if self.engine == ENGINE_EE:
+                version_vals["wage_type"] = "hourly"
         if self.engine == ENGINE_OCA:
             version_vals["struct_id"] = structure.id
         employee.version_id.write(version_vals)
+        if scenario.get("history"):
+            self._confirm_history(employee, structure, scenario["history"])
+        if principal:
+            employee.l10n_sk_tax_principal_id = principal
+        if scenario.get("linked"):
+            self.linked_slips = [
+                self._build_slip(
+                    dict(linked, period=scenario["period"]),
+                    principal=employee,
+                    birth_number=birth_number,
+                )
+                for linked in scenario["linked"]
+            ]
 
         slip_vals = {
             "name": "Parity %s" % scenario["key"],
@@ -156,10 +206,12 @@ class TestPayrollEngineParity(TransactionCase):
                 (0, 0, {"input_type_id": self._input_type(code).id, "amount": qty})
                 for code, qty in scenario["inputs"].items()
             ]
-        for name, d_from, d_to in scenario.get("leaves", ()):
-            self._book_leave(employee, name, date(*d_from), date(*d_to))
+        for name, d_from, d_to, *part in scenario.get("leaves", ()):
+            self._book_leave(
+                employee, name, date(*d_from), date(*d_to), **(part[0] if part else {})
+            )
         slip = self.env["hr.payslip"].with_company(self.company).create(slip_vals)
-        if self.engine == ENGINE_OCA and scenario.get("leaves"):
+        if self.engine == ENGINE_OCA and real_run:
             # The OCA engine fills worked-day lines from an onchange, which does
             # not fire on create() in a test. Without them there is no WORK100
             # and no leave line, so an absence scenario would silently compare
@@ -168,12 +220,52 @@ class TestPayrollEngineParity(TransactionCase):
                 employee.version_id, date_from, date_to
             )
             slip.worked_days_line_ids = [(0, 0, line) for line in worked]
-        if self.engine == ENGINE_EE and not scenario.get("leaves"):
+        if self.engine == ENGINE_EE and not real_run:
             # Enterprise only materialises worked-day lines on a real run, so a
             # leave-driven scenario must not be simulated.
             slip = slip.with_context(salary_simulation=True)
         slip.compute_sheet()
         return slip
+
+    def _confirm_history(self, employee, structure, history):
+        """Confirm a payslip for each earlier month at the earlier wage.
+
+        ``months`` lists ``(year, month)``; ``wage`` or ``hourly_rate`` is
+        what the contract paid then. The contract is put back afterwards.
+        """
+        version = employee.version_id
+        earlier = {}
+        if "wage" in history:
+            earlier["wage"] = history["wage"]
+        if "hourly_rate" in history:
+            earlier["l10n_sk_hourly_wage"] = history["hourly_rate"]
+        current = {name: version[name] for name in earlier}
+        version.write(earlier)
+        contract_field = "contract_id" if self.engine == ENGINE_OCA else "version_id"
+        for year, month in history["months"]:
+            first = date(year, month, 1)
+            last = date(year + month // 12, month % 12 + 1, 1) - timedelta(days=1)
+            slip = (
+                self.env["hr.payslip"]
+                .with_company(self.company)
+                .create(
+                    {
+                        "name": "Parity history %s-%02d" % (year, month),
+                        "employee_id": employee.id,
+                        "struct_id": structure.id,
+                        "company_id": self.company.id,
+                        "date_from": first,
+                        "date_to": last,
+                        contract_field: version.id,
+                    }
+                )
+            )
+            if self.engine == ENGINE_OCA:
+                worked = slip.get_worked_day_lines(version, first, last)
+                slip.worked_days_line_ids = [(0, 0, line) for line in worked]
+            slip.compute_sheet()
+            slip.action_payslip_done()
+        version.write(current)
 
     def _scenario_calendar(self, scenario):
         """The shared 40 h/week calendar, unless the scenario asks for its own.
@@ -182,8 +274,32 @@ class TestPayrollEngineParity(TransactionCase):
         week that is 40 hours WITHOUT being 8 hours every day. That shape is
         ordinary in Slovak practice (kratší piatok) and it is the one where
         proration by days and payment by hours stop agreeing.
+
+        ``public_holidays`` lists dates entered as plain public holidays of
+        the calendar, with no work entry type; they go into a calendar of
+        the scenario's own so that no other scenario sees them.
+        ``calendar_closures`` lists ``(date, hour from, hour to)`` entered
+        the same way for a part of the day.
         """
         hours = scenario.get("calendar_hours")
+        closed = [(day, 0, 21) for day in scenario.get("public_holidays", ())]
+        closed += scenario.get("calendar_closures", [])
+        if closed:
+            calendar = self.env["resource.calendar"].create(
+                {"name": "Parity %s" % scenario["key"], "company_id": self.company.id}
+            )
+            for day, hour_from, hour_to in closed:
+                day = date(*day)
+                self.env["resource.calendar.leaves"].create(
+                    {
+                        "name": "Public holiday %s" % day,
+                        "company_id": self.company.id,
+                        "calendar_id": calendar.id,
+                        "date_from": datetime(day.year, day.month, day.day, hour_from),
+                        "date_to": datetime(day.year, day.month, day.day, hour_to),
+                    }
+                )
+            return calendar
         if not hours:
             return self.calendar
         return self.env["resource.calendar"].create(
@@ -209,28 +325,40 @@ class TestPayrollEngineParity(TransactionCase):
             }
         )
 
-    def _book_leave(self, employee, record_name, d_from, d_to):
+    def _book_leave(self, employee, record_name, d_from, d_to, half=None, hours=None):
         """Resolve a leave type by RECORD NAME against whichever localisation
-        is installed, so one scenario drives both engines."""
+        is installed, so one scenario drives both engines.
+
+        ``half`` ("am" or "pm") or ``hours`` ((from, to)) book a part of the
+        day; the starter types take whole days, so a copy of the type that
+        takes half days or hours is used."""
         module = (
             "l10n_sk_hr_payroll_oca"
             if self.engine == ENGINE_OCA
             else "l10n_sk_hr_payroll_ee"
         )
         ltype = self.env.ref("%s.%s" % (module, record_name))
-        leave = (
-            self.env["hr.leave"]
-            .with_company(self.company)
-            .create(
-                {
-                    "name": ltype.name,
-                    "employee_id": employee.id,
-                    "holiday_status_id": ltype.id,
-                    "request_date_from": d_from,
-                    "request_date_to": d_to,
-                }
-            )
-        )
+        values = {
+            "name": ltype.name,
+            "employee_id": employee.id,
+            "holiday_status_id": ltype.id,
+            "request_date_from": d_from,
+            "request_date_to": d_to,
+        }
+        unit = "half_day" if half else "hour" if hours else None
+        if unit:
+            # A type of its own: changing the unit of the starter type would
+            # recompute the absences already approved on it.
+            copies = self.__dict__.setdefault("_part_day_types", {})
+            if (ltype.id, unit) not in copies:
+                copies[ltype.id, unit] = ltype.copy({"request_unit": unit})
+            ltype = copies[ltype.id, unit]
+            values["holiday_status_id"] = ltype.id
+        if half:
+            values.update(request_date_from_period=half, request_date_to_period=half)
+        elif hours:
+            values.update(request_hour_from=hours[0], request_hour_to=hours[1])
+        leave = self.env["hr.leave"].with_company(self.company).create(values)
         leave.action_approve()
         return leave
 
@@ -290,6 +418,34 @@ class TestPayrollEngineParity(TransactionCase):
                                expected, actual)
                         ),
                     )
+                # Lines whose rule code is the same on both engines.
+                for code, expected in scenario.get("expected_lines", {}).items():
+                    self.assertAlmostEqual(
+                        totals.get(code, 0.0), expected, places=2,
+                        msg="engine=%s scenario=%s line=%s"
+                        % (self.engine, scenario["key"], code))
+                # The payslips of the records taxed together with this one.
+                for linked, slip in zip(
+                    scenario.get("linked", ()), getattr(self, "linked_slips", ()),
+                    strict=True,
+                ):
+                    linked_totals = {}
+                    for line in slip.line_ids:
+                        linked_totals[line.code] = (
+                            linked_totals.get(line.code, 0.0) + line.total)
+                    for concept, expected in linked.get("expected", {}).items():
+                        actual = sum(
+                            linked_totals.get(code, 0.0)
+                            for code in codes_for(concept, self.engine))
+                        self.assertAlmostEqual(
+                            actual, expected, places=2,
+                            msg="engine=%s scenario=%s linked=%s concept=%s"
+                            % (self.engine, scenario["key"], linked["key"], concept))
+                    for code, expected in linked.get("expected_lines", {}).items():
+                        self.assertAlmostEqual(
+                            linked_totals.get(code, 0.0), expected, places=2,
+                            msg="engine=%s scenario=%s linked=%s line=%s"
+                            % (self.engine, scenario["key"], linked["key"], code))
                 ran.append(scenario["key"])
 
         self.assertTrue(ran, "No parity scenario ran at all")
@@ -358,7 +514,17 @@ class TestPayrollEngineParity(TransactionCase):
         """Absence is the seam where the engines differ most — worked-day codes
         on OCA, work-entry types on Enterprise — and until now no scenario
         booked a leave at all, so none of it was compared."""
-        for scenario in LEAVE_SCENARIOS:
+        self._assert_real_run_scenarios(
+            LEAVE_SCENARIOS + PART_MONTH_SCENARIOS + HOLIDAY_SCENARIOS
+        )
+
+    def test_overtime_scenarios_match_the_shared_expectations(self):
+        """The overtime hours at the wage achieved, the premium on the
+        average: a payslip of the month and confirmed payslips before it."""
+        self._assert_real_run_scenarios(OVERTIME_SCENARIOS)
+
+    def _assert_real_run_scenarios(self, scenarios):
+        for scenario in scenarios:
             missing = [
                 m for m in scenario["requires"] if not self._module_installed(m)
             ]
@@ -368,6 +534,26 @@ class TestPayrollEngineParity(TransactionCase):
                 totals = {}
                 for line in slip.line_ids:
                     totals[line.code] = totals.get(line.code, 0.0) + line.total
+                for code, expected in scenario.get("expected_lines", {}).items():
+                    self.assertAlmostEqual(
+                        totals.get(code, 0.0), expected, places=2,
+                        msg=("engine=%s scenario=%s line=%s: %.2f, expected "
+                             "%.2f. The other engine is held to the same "
+                             "number." % (self.engine, scenario["key"], code,
+                                          totals.get(code, 0.0), expected)),
+                    )
+                for concept, expected in scenario.get("expected_abs", {}).items():
+                    actual = sum(
+                        abs(totals.get(code, 0.0))
+                        for code in codes_for(concept, self.engine)
+                    )
+                    self.assertAlmostEqual(
+                        actual, expected, places=2,
+                        msg=("engine=%s scenario=%s concept=%s: magnitude "
+                             "%.2f, expected %.2f"
+                             % (self.engine, scenario["key"], concept,
+                                actual, expected)),
+                    )
                 for concept, expected in scenario["expected"].items():
                     actual = sum(
                         totals.get(code, 0.0)

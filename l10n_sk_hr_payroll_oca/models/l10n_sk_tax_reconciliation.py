@@ -37,7 +37,10 @@
 from datetime import date
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools import float_round
+
+from odoo.addons.l10n_sk_hr_payroll_base.models.hr_version import birth_number_key
 
 # Salary-rule codes read from the monthly payslips.
 L10N_SK_TAXBASE_CODE = "TAXBASE"
@@ -125,6 +128,13 @@ class L10nSkTaxReconciliation(models.Model):
         help="Employee premium (§32a ZDP), if the employee qualifies. Added to "
         "the settlement as a credit. Usually 0.",
     )
+    assigns_tax_share = fields.Boolean(
+        string="Assigns a Share of Tax (§ 50, § 50aa)",
+        help="The employee asked for the confirmation of tax paid in order to "
+        "assign a share of it (§ 50, § 50aa ZDP). The tax then has to be paid "
+        "in full, so an underpayment of 5 € or less is withheld as well "
+        "(§ 38 ods. 7 ZDP).",
+    )
     asignacia_note = fields.Char(
         string="Tax Assignation Note (2%/3%)",
         help="Informational note for the 2 %/3 % tax assignation (§50 ZDP) — "
@@ -157,6 +167,15 @@ class L10nSkTaxReconciliation(models.Model):
         string="Child Tax Bonus Entitlement",
         compute="_compute_reconciliation",
         store=True,
+    )
+    tax_underpayment_waived = fields.Monetary(
+        string="Tax Underpayment Not Withheld",
+        compute="_compute_reconciliation",
+        store=True,
+        help="An underpayment of tax of 5 € or less is not withheld (§ 38 "
+        "ods. 7 ZDP). It is first set off against the child tax bonus still "
+        "to be paid; what is left is withheld only when the employee assigns "
+        "a share of tax.",
     )
     result_amount = fields.Monetary(
         string="Overpayment (+) / Underpayment (−)",
@@ -191,6 +210,56 @@ class L10nSkTaxReconciliation(models.Model):
         "An annual tax reconciliation already exists for this employee and "
         "year.",
     )
+
+    # ------------------------------------------------------------------
+    # one reconciliation for one taxpayer
+    # ------------------------------------------------------------------
+    def _l10n_sk_person_records(self):
+        """The employee records this reconciliation covers.
+
+        Its own, and the records taxed together with it
+        (``hr.employee.l10n_sk_tax_principal_id``): the annual reconciliation
+        is the taxpayer's (§ 38 zákona č. 595/2003 Z. z.), so it takes the
+        income of all the person's relationships with the employer.
+        """
+        self.ensure_one()
+        employee = self.employee_id.sudo()
+        return employee | employee.l10n_sk_tax_linked_ids
+
+    @api.constrains("employee_id", "year", "company_id")
+    def _check_l10n_sk_one_reconciliation_per_person(self):
+        for rec in self:
+            employee = rec.employee_id.sudo()
+            principal = employee.l10n_sk_tax_principal_id
+            if principal:
+                raise ValidationError(_(
+                    "%(employee)s is taxed together with %(principal)s. Make "
+                    "the annual tax reconciliation for %(principal)s: it "
+                    "gathers the payslips of both records.",
+                    employee=employee.display_name,
+                    principal=principal.display_name,
+                ))
+            key = birth_number_key(employee.identification_id)
+            if not key:
+                continue
+            others = self.sudo().search([
+                ("id", "!=", rec.id),
+                ("year", "=", rec.year),
+                ("company_id", "=", rec.company_id.id),
+            ])
+            for other in others:
+                if birth_number_key(other.employee_id.sudo().identification_id) == key:
+                    raise ValidationError(_(
+                        "%(employee)s and %(other)s have the same birth "
+                        "number, and %(other)s already has an annual tax "
+                        "reconciliation for %(year)s. A taxpayer has one "
+                        "reconciliation a year (§ 38 zákona č. 595/2003 "
+                        "Z. z.). To gather the payslips of both records in "
+                        "it, choose Taxed Together With on one of them.",
+                        employee=employee.display_name,
+                        other=other.employee_id.display_name,
+                        year=rec.year,
+                    ))
 
     @api.depends("employee_id", "year")
     def _compute_name(self):
@@ -247,6 +316,7 @@ class L10nSkTaxReconciliation(models.Model):
         "dds_contributions",
         "pension_annual",
         "employee_premium",
+        "assigns_tax_share",
         "year",
         "employee_id",
     )
@@ -255,7 +325,7 @@ class L10nSkTaxReconciliation(models.Model):
             if not rec.employee_id or not rec.year:
                 rec.nczd_taxpayer = rec.nczd_total = rec.taxable_base = 0.0
                 rec.annual_tax = rec.child_bonus_entitlement = 0.0
-                rec.result_amount = 0.0
+                rec.tax_underpayment_waived = rec.result_amount = 0.0
                 rec.result_type = "none"
                 continue
             base = max(0.0, rec.annual_tax_base)
@@ -293,16 +363,26 @@ class L10nSkTaxReconciliation(models.Model):
                 if taxable > prev:
                     tax += (min(taxable, ceiling) - prev) * band_rate
                 prev = ceiling
-            annual_tax = round(tax, 2)
+            # § 47 zákona 595/2003 Z. z.: a following five rounds upward.
+            annual_tax = float_round(tax, precision_digits=2)
 
             # --- Annual child bonus entitlement (cap + taper) --------------
             entitlement = rec._l10n_sk_annual_child_bonus(base)
+            # § 33 ods. 11 as in force to 31. 12. 2024: a bonus the employer
+            # granted during the year is kept when the recomputation gives
+            # less. From January 2025 (§ 52zzzb ods. 6) the difference is
+            # taken back; the switch is the dated parameter.
+            if rec._l10n_sk_rule_parameter("l10n_sk_child_bonus_keep_granted"):
+                entitlement = max(entitlement, round(rec.annual_child_bonus_paid, 2))
 
             # --- Settlement ------------------------------------------------
             tax_settlement = round(rec.annual_advance_tax - annual_tax, 2)
             bonus_settlement = round(entitlement - rec.annual_child_bonus_paid, 2)
+            waived = rec._l10n_sk_underpayment_not_withheld(
+                -tax_settlement, bonus_settlement)
             result = round(
-                tax_settlement + bonus_settlement + max(0.0, rec.employee_premium), 2
+                tax_settlement + waived + bonus_settlement
+                + max(0.0, rec.employee_premium), 2
             )
 
             rec.nczd_taxpayer = nczd_tp
@@ -310,6 +390,7 @@ class L10nSkTaxReconciliation(models.Model):
             rec.taxable_base = taxable
             rec.annual_tax = annual_tax
             rec.child_bonus_entitlement = entitlement
+            rec.tax_underpayment_waived = waived
             rec.result_amount = result
             if result > 0.005:
                 rec.result_type = "preplatok"
@@ -317,6 +398,23 @@ class L10nSkTaxReconciliation(models.Model):
                 rec.result_type = "nedoplatok"
             else:
                 rec.result_type = "none"
+
+    def _l10n_sk_underpayment_not_withheld(self, underpayment, bonus_due):
+        """The part of a tax underpayment that § 38 ods. 7 ZDP leaves unpaid.
+
+        Only an underpayment over the limit (5 €) is withheld from the wage.
+        A smaller one is set off against the child bonus still to be paid in
+        the settlement; what the bonus does not cover is withheld only from
+        an employee who assigns a share of tax (§ 50, § 50aa). A bonus taken
+        back is not an underpayment of tax and is not touched. The bonus on
+        paid interest (§ 33a), which the statute sets off as well, is not
+        part of this settlement.
+        """
+        self.ensure_one()
+        limit = self._l10n_sk_rule_parameter("l10n_sk_tax_underpayment_not_withheld")
+        if underpayment <= 0.0 or underpayment > limit or self.assigns_tax_share:
+            return 0.0
+        return round(underpayment - min(underpayment, max(0.0, bonus_due)), 2)
 
     def _l10n_sk_annual_child_bonus(self, base):
         """Annual daňový bonus entitlement, with the per-child taper and cap.
@@ -327,8 +425,13 @@ class L10nSkTaxReconciliation(models.Model):
         § 33 ods. 6 %-of-base cap is applied.
         """
         self.ensure_one()
-        n_young, n_teen = self._l10n_sk_children_counts()
-        n = n_young + n_teen
+        n_young, n_teen, n_adult = self._l10n_sk_children_counts()
+        # A dependent child of 18 or over: 2023 and 2024 only (§ 52zzp ods. 4
+        # and 5); it counts for the percentage limit while it has a bonus.
+        adult = self._l10n_sk_rule_parameter("l10n_sk_child_bonus_over_18") * 12
+        if not adult:
+            n_adult = 0
+        n = n_young + n_teen + n_adult
         if n <= 0:
             return 0.0
         young = self._l10n_sk_rule_parameter("l10n_sk_child_bonus_under_15") * 12
@@ -340,8 +443,10 @@ class L10nSkTaxReconciliation(models.Model):
         if base > cb_threshold:
             coeff = self._l10n_sk_rule_parameter("l10n_sk_child_bonus_taper_coeff")
             reduction = coeff * (base - cb_threshold)
-        amount = n_young * max(0.0, young - reduction) + n_teen * max(
-            0.0, teen - reduction
+        amount = (
+            n_young * max(0.0, young - reduction)
+            + n_teen * max(0.0, teen - reduction)
+            + n_adult * max(0.0, adult - reduction)
         )
         caps = self._l10n_sk_rule_parameter("l10n_sk_child_bonus_pct_caps")
         cap_pct = caps[min(n, len(caps)) - 1]
@@ -349,14 +454,15 @@ class L10nSkTaxReconciliation(models.Model):
         return round(max(0.0, amount), 2)
 
     def _l10n_sk_children_counts(self):
-        """Children counts (< 15 / 15–17) from the employee's latest contract."""
+        """Children counts (< 15 / 15–17 / 18 and over) from the employee's latest contract."""
         self.ensure_one()
         contract = self._l10n_sk_reference_contract()
         if not contract:
-            return 0, 0
+            return 0, 0, 0
         return (
             contract.l10n_sk_children_under_15 or 0,
             contract.l10n_sk_children_15_18 or 0,
+            contract.l10n_sk_children_over_18 or 0,
         )
 
     def _l10n_sk_reference_contract(self):
@@ -367,7 +473,10 @@ class L10nSkTaxReconciliation(models.Model):
         ``getattr`` fallbacks keep this model identical across both builds.
         """
         self.ensure_one()
-        slips = self._l10n_sk_year_payslips()
+        # The record's own payslips: the children are entered on it, not on
+        # the records taxed together with it.
+        slips = self._l10n_sk_year_payslips().filtered(
+            lambda slip: slip.employee_id == self.employee_id)
         if slips:
             return slips.sorted("date_from")[-1].contract_id
         return getattr(self.employee_id, "version_id", False) or getattr(
@@ -395,7 +504,8 @@ class L10nSkTaxReconciliation(models.Model):
         return self.env["hr.payslip"].search(
             [
                 ("company_id", "=", self.company_id.id),
-                ("employee_id", "=", self.employee_id.id),
+                # The person's records: this one and those taxed with it.
+                ("employee_id", "in", self._l10n_sk_person_records().ids),
                 ("date_to", ">=", date(self.year, 1, 1)),
                 ("date_to", "<=", date(self.year, 12, 31)),
                 ("state", "=", "done"),

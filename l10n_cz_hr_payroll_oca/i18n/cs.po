@@ -93,6 +93,15 @@ msgid "Annual Tax Settlement"
 msgstr "Roční zúčtování daně"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_bonus_doplatek
+msgid ""
+"Annual child bonus not yet paid monthly, less a tax underpayment (§ 35d "
+"odst. 7 ZDP)."
+msgstr ""
+"Roční daňový bonus, který ještě nebyl vyplacen měsíčně, snížený o nedoplatek"
+" na dani (§ 35d odst. 7 ZDP)."
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_credit
 msgid ""
 "Annual spouse tax credit (24 840; 49 680 for a ZTP/P spouse). Enter the "
@@ -602,6 +611,11 @@ msgstr ""
 #: model:hr.rule.parameter,name:l10n_cz_hr_payroll_oca.rule_parameter_gift_max_pct
 msgid "Czechia: Gift deduction cap (% of the annual tax base)"
 msgstr "Česko: strop odpočtu darů (% ročního základu daně)"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_retro_declaration
+msgid "Declaration made after the year (§ 38k odst. 7)"
+msgstr "Prohlášení učiněno dodatečně (§ 38k odst. 7)"
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_deduction_rule
@@ -1159,11 +1173,13 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_employee__l10n_cz_meal_allowance
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_meal_allowance
 msgid ""
-"Per-shift meal allowance. Tax-exempt up to the statutory limit; the excess "
-"(taxable) is P2."
+"Meal allowance in money per shift worked. Exempt from tax and insurance up "
+"to the statutory limit (70 % of the upper meal limit); what is paid above "
+"it is taxed and insured."
 msgstr ""
-"Stravenkový paušál na směnu. Do zákonného limitu osvobozen od daně; "
-"zdanitelný přebytek je součástí fáze P2."
+"Peněžitý stravenkový paušál za odpracovanou směnu. Do zákonného limitu "
+"(70 % horní hranice stravného) je osvobozen od daně a pojistného; částka "
+"nad limit se zdaní a pojistí."
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_performed_date
@@ -1213,15 +1229,6 @@ msgstr "Výkon veřejné funkce (§ 201)"
 #: model:hr.leave.type,name:l10n_cz_hr_payroll_oca.leave_type_cz_karantena
 msgid "Quarantine / Isolation (karanténa)"
 msgstr "Karanténa / izolace (karanténa)"
-
-#. module: l10n_cz_hr_payroll_oca
-#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_overpayment
-msgid ""
-"Refund paid to the employee in the March payslip. An underpayment is not "
-"collected through the annual reconciliation."
-msgstr ""
-"Přeplatek vyplacený zaměstnanci v březnové výplatě. Nedoplatek se "
-"prostřednictvím ročního zúčtování nevybírá."
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_reimbursement_rule
@@ -1434,6 +1441,17 @@ msgid "Tax after Credits"
 msgstr "Daň po slevách"
 
 #. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_overpayment
+msgid ""
+"Tax overpayment left after monthly child bonuses paid in excess were set off"
+" against it (§ 35d odst. 7 ZDP), paid to the employee in the March payslip. "
+"An underpayment is not collected through the annual reconciliation."
+msgstr ""
+"Přeplatek na dani, který zbývá po započtení přeplacených měsíčních daňových "
+"bonusů (§ 35d odst. 7 ZDP), vyplacený zaměstnanci v březnové výplatě. "
+"Nedoplatek se prostřednictvím ročního zúčtování nevybírá."
+
+#. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__year
 msgid "Tax year that is being reconciled."
 msgstr "Zdaňovací období, které se zúčtovává."
@@ -1455,6 +1473,20 @@ msgstr ""
 "Děti, na které se uplatňuje daňové zvýhodnění, s měsíci uplatňování. Je-li "
 "zapsané alespoň jedno, výplatní páska i roční zúčtování daně je počítají "
 "měsíc po měsíci a počty dětí na smlouvě nepoužijí."
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_retro_declaration
+msgid ""
+"The employee made the taxpayer declaration for the year only afterwards, by "
+"15 February (§ 38k odst. 7 ZDP). The income taxed by the withholding tax "
+"then enters the reconciliation and the tax withheld counts with the "
+"advances. Otherwise that income is a separate tax base and stays out (§ 6 "
+"odst. 4)."
+msgstr ""
+"Zaměstnanec učinil prohlášení poplatníka za daný rok až dodatečně, do 15. "
+"února (§ 38k odst. 7 ZDP). Příjmy zdaněné srážkovou daní pak vstupují do "
+"ročního zúčtování a sražená daň se započte se zálohami. Jinak jsou tyto "
+"příjmy samostatným základem daně a do zúčtování nevstupují (§ 6 odst. 4)."
 
 #. module: l10n_cz_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_cz_hr_payroll_oca.field_hr_payroll_cz_annual_tax_recon__l10n_cz_spouse_ztpp
@@ -1580,3 +1612,9 @@ msgstr "Rok"
 #: model:ir.model.fields,field_description:l10n_cz_hr_payroll_oca.field_hr_version__l10n_cz_children_ztpp
 msgid "of which ZTP/P Children"
 msgstr "z toho dětí se ZTP/P"
+
+#. module: l10n_cz_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_cz_hr_payroll_oca.cz_meal_allowance_taxable_rule
+#: model:hr.salary.rule.category,name:l10n_cz_hr_payroll_oca.hr_payroll_meal_taxable
+msgid "Meal Allowance above the Exempt Limit"
+msgstr "Stravenkový paušál nad osvobozený limit"

@@ -1,7 +1,7 @@
 ---
 title: SK RLFO — prihlásenie a odhlásenie zamestnancov
-summary: Prihlášky a odhlášky zamestnancov do Sociálnej poisťovne zadané ako dávka udalostí a vyexportované do XML overeného voči oficiálnej schéme.
-verified: 19.0.1.3.1
+summary: Prihlášky a odhlášky zamestnancov do Sociálnej poisťovne a oznámenie OOP z dohody, zadané ako dávka udalostí a vyexportované do XML overeného voči oficiálnej schéme.
+verified: 19.0.1.4.1
 ---
 
 ## Na čo slúži {#purpose}
@@ -69,10 +69,15 @@ V časti *Registračné udalosti* pridajte riadok za každú udalosť:
 | Stĺpec | Čo zadať |
 |---|---|
 | *Zamestnanec* | zamestnanca |
-| *Typ udalosti* | *Prihláška* (`PA`) alebo *Odhláška* (`OD`) |
+| *Typ udalosti* | *Prihláška* (`PA`), *Odhláška* (`OD`) alebo *Zmena (OOP z dohody)* (`ZM`) |
 | *Typ vzťahu (typZec)* | navrhne sa zo zmluvy zamestnanca, dá sa zmeniť — pozri nižšie |
 | *Vznik poistenia (datVznikPoist)* | povinný pri oboch typoch udalosti |
 | *Zánik poistenia (datZaniku)* | povinný pri odhláške |
+| *Zmena platí od (datUplatnenia)* | povinný pri zmene |
+| *Oznámenie uplatnenia OOP (datOznUplatnOop)* | prihláška alebo zmena pri dohode: deň, keď pracovník oznámil uplatnenie OOP; navrhne sa zo zmluvy |
+| *OOP z dôvodu MD/OD/RD (uplatnOopMdOdRd)* | OOP si uplatňuje osoba na materskej, otcovskej alebo rodičovskej dovolenke; navrhne sa zo zmluvy |
+| *Oznámenie ukončenia OOP (datOznUkoncUplatnOop)* | zmena: deň, keď pracovník oznámil, že si OOP ďalej neuplatňuje (skrytý stĺpec) |
+| *Skončenie MD/OD/RD (datSkonceniaMdOdRd)* | zmena: posledný deň dovolenky (skrytý stĺpec) |
 | *Štatutár s účasťou 50 % a viac* | pri prihláške: *Neoverené* (predvolené), *Nie je štatutárnym orgánom ani jeho členom s najmenej 50 % účasťou* alebo *Štatutárny orgán alebo jeho člen s najmenej 50 % účasťou* |
 | *Doklad o účasti* | pri prihláške: odkiaľ odpoveď pochádza a k akému dátumu — výpis z obchodného registra, rozhodnutie spoločníkov alebo „bežný zamestnanec, bez štatutárnej funkcie“ |
 
@@ -94,6 +99,29 @@ Neberie sa z políčka zamestnanca *Oslobodený od garančného poistenia*, ktor
 sa neskôr môže zmeniť. Po vygenerovaní dávky sú obe polia zamknuté; na opravu
 vráťte dávku do konceptu.
 
+### Odvodová odpočítateľná položka z dohody {#oop}
+
+Zamestnávateľ oznamuje uplatnenie odvodovej odpočítateľnej položky na dohode
+a jeho ukončenie najneskôr v prvý pracovný deň po dni, keď mu to pracovník
+oznámil
+([§ 231 ods. 1 písm. e)](law:sk/2003/461#paragraf-231.odsek-1.pismeno-e)).
+
+- **Uplatnenie pri vzniku dohody:** vyplňte *Oznámenie uplatnenia OOP* na
+  prihláške.
+- **Uplatnenie alebo ukončenie neskôr:** pridajte riadok *Zmena (OOP z
+  dohody)* s dňom, od ktorého zmena platí, a s príslušným dátumom oznámenia —
+  uplatnenia alebo ukončenia.
+- **Rodič na materskej, otcovskej alebo rodičovskej dovolenke** (DoVP a
+  DoPČ, od roku 2027): zaškrtnite aj *OOP z dôvodu MD/OD/RD*. Keď sa
+  dovolenka skončí, podajte zmenu s poľom *Skončenie MD/OD/RD*. Obe polia má
+  až vzor RLZEC 2027, preto musí byť dávka za január 2027 alebo neskôr;
+  uplatnenie oznámené v decembri 2026 na január patrí do dávky za január
+  2027.
+
+Uplatnenie, dôvod a dátum oznámenia sa navrhnú z polí zmluvy *OOP z dohody*,
+*Dôvod OOP* a *Oznámenie o OOP doručené*; skontrolujte ich, neskôr sa znova
+nenačítajú. Polia OOP sa dajú použiť len pri typoch vzťahu pre dohody.
+
 Potom **Generovať**. XML sa overí voči schéme vzoru (`RLZEC-v2026.xsd` alebo
 `RLZEC-v2027.xsd`) a priloží; nahrajte
 ho na portál Sociálnej poisťovne a kliknite na **Označiť ako odoslané**.
@@ -101,13 +129,20 @@ Odhláška sa zapíše do vetvy podľa typu vzťahu (dohoda, nepravidelný príj
 alebo pracovný pomer s pravidelným príjmom).
 
 Generovanie sa zastaví, ak dávka nemá žiadnu udalosť, ak zamestnanec nemá
-platné rodné číslo, ak chýba dátum, ktorý udalosť vyžaduje, alebo ak má
-prihláška stav účasti *Neoverené* či žiadny doklad.
+platné rodné číslo, ak chýba dátum, ktorý udalosť vyžaduje, ak má prihláška
+stav účasti *Neoverené* či žiadny doklad, ak zmena nič neoznamuje, alebo ak
+je pole OOP vyplnené tam, kde ho tlačivo neprijíma (mimo dohody, dôvod
+dovolenky pri DoBPŠ alebo pred vzorom 2027).
 
 ## Obmedzenia {#limitations}
 
-- **Len dva typy udalostí:** prihláška a odhláška. Zmenu, prerušenie
-  a zrušenie prihlásenia treba podať cez portál.
+- **Prihláška, odhláška a jediný druh zmeny:** OOP z dohody. Inú zmenu,
+  prerušenie a zrušenie prihlásenia treba podať cez portál.
+- **Polia OOP vychádzajú zo schémy a zo zákona, nie zo zverejneného návodu
+  na vyplnenie.** V čase písania (november 2026) Sociálna poisťovňa zverejnila
+  schému RLZEC 2027 a popis zmien, ale nie pokyny k dvom novým poliam.
+  Kontroly portálu môžu vyžadovať kombináciu, ktorú modul nevytvára; prvé
+  podanie porovnajte s formulárom na portáli.
 - **Zo zmluvy sa doplní len typ vzťahu.** Dátumy sa zadávajú ručne
   a nekontrolujú sa voči zmluve ani dátumu nástupu či odchodu; pri nástupe
   alebo odchode zamestnanca sa udalosť sama nevytvorí — dodržanie lehôt je na
@@ -119,7 +154,5 @@ prihláška stav účasti *Neoverené* či žiadny doklad.
 - Kontaktné údaje v súbore sú telefón a e-mail spoločnosti a meno užívateľa,
   ktorý dávku generuje.
 - Zmena stavu účasti po prihlásení je *zmena*, ktorú modul nevytvára.
-- Dodávajú sa vzory RLZEC 2026 a 2027. Nové prvky schémy 2027 pre odvodovú
-  odpočítateľnú položku rodiča na materskej, otcovskej alebo rodičovskej
-  dovolenke sa nevytvárajú. Overenie voči schéme kontroluje tvar súboru, nie
-  údaje.
+- Dodávajú sa vzory RLZEC 2026 a 2027. Overenie voči schéme kontroluje tvar
+  súboru, nie údaje.

@@ -281,6 +281,8 @@ class TestSkPayrollAccount(TransactionCase):
     INFORMATIONAL = {
         "GROSS",
         "TAXBASE",
+        "TAXBASE_MOVED",
+        "TAXBASE_TAKEN",
         "OOP_PENSION",
         "SOCIALEMPLOYEETOTAL",
         "SOCIALEMPLOYERTOTAL",

@@ -137,8 +137,9 @@ class HrVersion(models.Model):
     l10n_cz_meal_allowance = fields.Monetary(
         "Meal allowance / shift",
         groups=CZ_PAYROLL_GROUP, tracking=True,
-        help="Per-shift meal allowance. Tax-exempt up to the statutory limit; "
-             "the excess (taxable) is P2.")
+        help="Meal allowance in money per shift worked. Exempt from tax and "
+             "insurance up to the statutory limit (70 % of the upper meal "
+             "limit); what is paid above it is taxed and insured.")
 
     # --- Wage garnishment (exekuční srážky) --------------------------------
     l10n_cz_garnishment_dependents = fields.Integer(
@@ -216,6 +217,35 @@ class HrVersion(models.Model):
                 days.discard(day)
                 day += timedelta(days=1)
         return len(days) / period_days
+
+    # --- The taxpayer's reliefs, month by month (§ 35ba ZDP) ---------------
+    def _l10n_cz_relief_version(self, day):
+        """The contract version whose reliefs hold for the month of *day*.
+
+        § 35ba odst. 3 ZDP gives the reliefs of odst. 1 písm. b) to e), the
+        disability and ZTP/P ones among them, for each calendar month "na
+        jehož počátku byly podmínky pro uplatnění nároku na snížení daně
+        splněny". A disability entered on a version dated inside the month
+        therefore counts from the next month, and one that ended inside the
+        month still counts for it: the version in force on the first day of
+        the month decides, whichever version the payslip is computed on.
+
+        Only versions of the same employment are looked at. With none in
+        force on the first day (hired during the month) this version stays:
+        it is the earliest statement of the employee's circumstances.
+        """
+        self.ensure_one()
+        first = day.replace(day=1)
+        if not self.date_version or self.date_version <= first:
+            return self
+        earlier = self.employee_id.version_ids.filtered(
+            lambda version: version.date_version
+            and version.date_version <= first
+            and version.contract_date_start == self.contract_date_start
+        )
+        if not earlier:
+            return self
+        return max(earlier, key=lambda version: version.date_version)
 
     # --- Child tax benefit, month by month (§ 35c ZDP) --------------------
     def _l10n_cz_child_counts(self, day):

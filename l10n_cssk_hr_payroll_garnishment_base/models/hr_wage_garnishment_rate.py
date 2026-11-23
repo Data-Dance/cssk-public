@@ -34,8 +34,10 @@ class HrWageGarnishmentRate(models.Model):
     country_code = fields.Char(related="country_id.code")
     date_from = fields.Date(
         required=True,
-        help="First day on which these figures apply. The Czech amounts change "
-        "on 1 January; the Slovak subsistence minimum changes on 1 July.",
+        help="First day on which these figures apply. A Czech record is the "
+        "amounts valid on 1 January and is needed for every year a wage is "
+        "paid in, also when a component changed during the year before; the "
+        "Slovak subsistence minimum changes on 1 July.",
     )
 
     # --- Czech Republic: NV 595/2006 Sb. ----------------------------------
@@ -91,8 +93,8 @@ class HrWageGarnishmentRate(models.Model):
     )
     sk_maintenance_outer_coeff = fields.Float(
         "Maintenance outer coefficient", digits=(16, 4), default=0.70,
-        help="§ 2 ods. 1 — the 70 % applied on top of the inner coefficient "
-        "for maintenance of a minor child.",
+        help="§ 70 ods. 2 Exekučného poriadku — the 70 % applied to the "
+        "§ 2 ods. 1 sum for maintenance of a minor child.",
     )
     sk_maintenance_inner_coeff = fields.Float(
         "Maintenance inner coefficient", digits=(16, 4), default=0.60,
@@ -100,7 +102,7 @@ class HrWageGarnishmentRate(models.Model):
     )
     sk_fine_coeff = fields.Float(
         "Fine coefficient", digits=(16, 4), default=0.50,
-        help="§ 2a — 50 % of the subsistence minimum for administrative fines.",
+        help="§ 2b — 50 % of the subsistence minimum for administrative fines.",
     )
     sk_dependent_coeff = fields.Float(
         "Per-dependant coefficient", digits=(16, 4), default=0.25,

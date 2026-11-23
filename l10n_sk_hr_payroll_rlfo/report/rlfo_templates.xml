@@ -5,7 +5,11 @@
       XML matching the official Sociálna poisťovňa schema RLZEC-v2026.xsd (root
       <spRegListZec>, ns http://socpoist.sk/xsd/rlzec2026,
       elementFormDefault="qualified", attributes unqualified). Registration
-      (prihláška, typRL=PA) and de-registration (odhláška, typRL=OD) events.
+      (prihláška, typRL=PA) and de-registration (odhláška, typRL=OD) events,
+      and a change (zmena, typRL=ZM) carrying the agreement OOP only. The
+      RLZEC 2027 vintage is this template with the namespace remapped; its two
+      new elements (uplatnOopMdOdRd, datSkonceniaMdOdRd) are refused for a
+      2026 batch before rendering.
     -->
     <template id="rlfo_xml">
         <spRegListZec xmlns="http://socpoist.sk/xsd/rlzec2026">
@@ -34,15 +38,38 @@
                                 <prihlaska t-if="ev['typ_rl'] == 'PA'">
                                     <identFODopl>
                                         <zamSUcastou t-out="ev['zam_s_ucastou']"/>
-                                        <par7ods2>false</par7ods2>
+                                        <par7ods2 t-out="'false'"/>
+                                        <uplatnOopMdOdRd t-if="ev['uplatn_oop_md_od_rd']" t-out="'true'"/>
                                     </identFODopl>
                                     <typPoistPrihl>
                                         <zecPrihl t-att-typZec="ev['typ_zec']">
                                             <datVznikPoist
                                                 t-out="ev['dat_vznik_poist']"/>
+                                            <datOznUplatnOop
+                                                t-if="ev['dat_ozn_uplatn_oop']"
+                                                t-out="ev['dat_ozn_uplatn_oop']"/>
                                         </zecPrihl>
                                     </typPoistPrihl>
                                 </prihlaska>
+                                <zmena t-if="ev['typ_rl'] == 'ZM'"
+                                       t-att-datUplatnenia="ev['dat_uplatnenia']">
+                                    <identFODoplZmena t-if="ev['uplatn_oop_md_od_rd']">
+                                        <uplatnOopMdOdRd t-out="'true'"/>
+                                    </identFODoplZmena>
+                                    <typPoistZmena>
+                                        <zecZmena t-att-typZec="ev['typ_zec']">
+                                            <datOznUplatnOop
+                                                t-if="ev['dat_ozn_uplatn_oop']"
+                                                t-out="ev['dat_ozn_uplatn_oop']"/>
+                                            <datOznUkoncUplatnOop
+                                                t-if="ev['dat_ozn_ukonc_uplatn_oop']"
+                                                t-out="ev['dat_ozn_ukonc_uplatn_oop']"/>
+                                            <datSkonceniaMdOdRd
+                                                t-if="ev['dat_skoncenia_md_od_rd']"
+                                                t-out="ev['dat_skoncenia_md_od_rd']"/>
+                                        </zecZmena>
+                                    </typPoistZmena>
+                                </zmena>
                                 <odhlaska t-if="ev['typ_rl'] == 'OD'">
                                     <typPoistOdhl>
                                         <zecDOdhl t-if="ev['is_dohoda']"

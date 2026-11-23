@@ -18,9 +18,13 @@ Verification status
 Not covered
 -----------
 
-* Two event kinds only: prihláška (PA) and odhláška (OD). Zmena (change) and
-  storno (cancellation) registrations are not modelled, and both are ordinary
-  in practice — a corrected registration has to be filed through the portal.
+* Prihláška (PA), odhláška (OD) and one kind of zmena (ZM): the agreement OOP
+  under § 227a zákona 461/2003 Z. z. Any other change and a storno
+  (cancellation) are not modelled, and both are ordinary in practice — a
+  corrected registration has to be filed through the portal.
+* The OOP elements follow the schema and the act. The Sociálna poisťovňa had
+  published no filling instructions for the two RLZEC 2027 elements when
+  they were built (2026-11-20), and no file has been through its validator.
 * ``typZec`` is defaulted from the employee's agreement type and income
   regularity when the employee is chosen, and not re-validated later. A
   pracovný pomer is always proposed as ``ZEC``; ``ZECN`` (irregular income in

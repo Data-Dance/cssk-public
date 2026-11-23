@@ -9,7 +9,7 @@ Public Holidays: Slovakia and Czech Republic
 .. image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
    :alt: License: AGPL-3
 
-**Generates the Slovak and Czech days of rest into the OCA public holiday calendar, year by year, with the statutory exceptions.**
+**Generates the Slovak and Czech days of rest into the OCA public holiday calendar, year by year, with the statutory exceptions, and keeps the Slovak ones as public holidays of the working schedules.**
 
 What it is for
 ================
@@ -40,6 +40,27 @@ How it runs
 
 Generation only adds what is missing. Lines already present for a date are kept, including your edits; a regional line (one with states) does not count as the nationwide day. To force a change, delete the line or the whole year and run the scheduled action again (*Settings → Technical → Scheduled Actions*, *Run Manually*).
 
+Working schedules
+===================
+
+Time Off and payroll do not read the public holiday calendar. They know a holiday only as a *public holiday* of the working schedules (*Time Off → Configuration → Public Holidays*). The module therefore keeps the Slovak holidays there as well:
+
+- every company whose country is Slovakia gets one public holiday per nationwide line, with no working schedule set, so that it holds for all the company's schedules, present and future;
+
+- a line that is renamed, moved, made regional or deleted takes its public holiday along, and generating again adds nothing twice;
+
+- a day on which the company already has a public holiday entered by hand is left to that record;
+
+- a company created later is reached by the next run of the scheduled action, from the first day of the month before that run; run it manually to have the holidays at once.
+
+The scheduled action does the writing, and it writes the days from the first day of the previous calendar month on. Payroll for a month is computed early in the next one, so the month just ended is still open: run on 5 September, the action writes 29 August as well and leaves 5 July alone. In January it also generates the year before, so that December is there.
+
+A public holiday that is new to a company makes Time Off recount the leave requests that span it. An approved week of leave over a Friday 29 August goes from five days to four, the day returns to the allocation, and Time Off tells the employee so in the request's history. For the open month that is the right count; the module does not do it to anything older unasked. A holiday that is already there is not written again, so a repeated run recounts nothing and tells nobody anything.
+
+Installing or upgrading the module asks the scheduled action to run at once, so the holidays appear a moment later; where scheduled actions do not run, run it manually. A line you add or change by hand is applied immediately, whatever its date. To put older holidays into the schedules as well, call ``cssk_sync_calendar_leaves(date_from=…)`` on ``calendar.public.holiday``, for example from a server action.
+
+The system parameter ``l10n_cssk_public_holidays.calendar_leave_countries`` lists the countries, comma separated. The default is ``SK``. Czech companies are left out until Czech payroll is verified with a holiday inside an absence; ``SK,CZ`` adds them, and ``none`` switches the feature off. A change takes effect at the next run of the scheduled action, which also removes, from the previous month on, the holidays of a country taken off the list.
+
 Limitations
 =============
 
@@ -47,16 +68,18 @@ Limitations
 
 - Only Slovakia and the Czech Republic, nationwide days only.
 
+- A public holiday entered by hand for one working schedule only keeps the module's company-wide record of that day away, so the other schedules of the company do not get it. Remove the record entered by hand, or enter the day for the other schedules too.
+
 - Sundays are not generated: the calendar lists holidays, and working time is defined by the employee's working schedule.
 
 Module facts
 ============
 
 - **Technical name:** ``l10n_cssk_public_holidays``
-- **Version:** 19.0.1.0.0
+- **Version:** 19.0.1.0.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
-- **Requires:** ``calendar_public_holiday``
+- **Requires:** ``calendar_public_holiday``, ``resource``
 
 Documentation
 =============

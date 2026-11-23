@@ -57,22 +57,25 @@ class TestSkDovolenkaAccrual(TransactionCase):
         """A full-year 4-week accrual allocation accrues ~20 days, capped at 20."""
         plan = self.env.ref(MOD + ".l10n_sk_accrual_plan_dovolenka_4w")
         employee = self.env["hr.employee"].create({"name": "Test Dovolenka"})
-        alloc = self.env["hr.leave.allocation"].create(
-            {
-                "name": "Test dovolenka 2026",
-                "holiday_status_id": self.leave_type.id,
-                "employee_id": employee.id,
-                "allocation_type": "accrual",
-                "accrual_plan_id": plan.id,
-                "date_from": date(2026, 1, 1),
-            }
-        )
-        alloc.action_approve()
-        alloc._process_accrual_plans(date(2026, 12, 31))
-        # Days-based accrual: several months accrued at 1/12 (1.66667 d/month),
-        # never above the 20-day statutory annual cap (maximum_leave_yearly).
-        # A full calendar year yields exactly 20 days (12 x 1.66667, capped).
-        self.assertGreater(alloc.number_of_days, 1.0)
+        # An approved allocation accrues from the period the approval falls
+        # in, so the year is approved on its first day.
+        with freeze_time("2026-01-01"):
+            alloc = self.env["hr.leave.allocation"].create(
+                {
+                    "name": "Test dovolenka 2026",
+                    "holiday_status_id": self.leave_type.id,
+                    "employee_id": employee.id,
+                    "allocation_type": "accrual",
+                    "accrual_plan_id": plan.id,
+                    "date_from": date(2026, 1, 1),
+                }
+            )
+            alloc.action_approve()
+            alloc._process_accrual_plans(date(2026, 12, 31))
+        # Days-based accrual: eleven months accrued at 1/12 (1.66667 d/month)
+        # on top of the first day, never above the 20-day statutory annual
+        # cap (maximum_leave_yearly).
+        self.assertGreater(alloc.number_of_days, 15.0)
         self.assertLessEqual(alloc.number_of_days, 20.0)
 
     def test_carried_over_leave_never_lapses(self):

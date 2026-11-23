@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': "Slovakia - Peppol BIS Billing 3.0 (eFaktúra)",
-    'version': '19.0.3.5.0',
+    'version': '19.0.3.8.0',
     'category': 'Accounting/Localizations/EDI',
     'summary': "Slovak e-invoicing: Peppol BIS Billing 3.0 / UBL 2.1 export",
     'description': """
@@ -12,9 +12,12 @@ Enables the Peppol BIS Billing 3.0 (UBL 2.1 / EN 16931) format for Slovak
 companies, as required by the mandatory Slovak e-invoicing regime
 (domestic B2B from 1 January 2027).
 
-Important: Slovakia has **no national billing CIUS**. The mandated invoice
-is unmodified Peppol BIS Billing 3.0, which Odoo's ``account.edi.xml.ubl_bis3``
-already produces. This module is therefore deliberately thin. It:
+Slovakia has **no national billing CIUS**: the file is unmodified Peppol BIS
+Billing 3.0, with no Slovak validation rule on top. Slovak law still asks for
+more than EN 16931 does, and Finančná správa lists it term by term in its
+"Transpozície štandardu Peppol BIS v podmienkach Slovenskej legislatívy"
+(the version followed is pinned in ``data/TRANSPOSITION_VERSION``). The
+module fills those terms and refuses a document that lacks them. It:
 
 * registers the format for Slovakia (``SK`` is missing from Odoo's
   ``PEPPOL_DEFAULT_COUNTRIES``, so the generic Peppol format is not
@@ -39,6 +42,7 @@ the Slovak Tax Data Document (TDD, ``urn:peppol:taxdata:sk-1``) and the
     ],
     'data': [
         'data/ir_actions_server.xml',
+        'views/account_move_views.xml',
         'views/res_partner_views.xml',
     ],
     'installable': True,

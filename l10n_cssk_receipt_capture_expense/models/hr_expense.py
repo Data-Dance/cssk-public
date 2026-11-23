@@ -68,9 +68,10 @@ class HrExpense(models.Model):
                 _logger.exception("Receipt capture failed for attachment %s",
                                   attachment.id)
                 receipt.write({"state": "error", "review_reason": str(error)})
-            if receipt.state == "captured":
-                expense._cssk_apply_captured_receipt(receipt)
-            expense._cssk_post_reading_result(receipt)
+            # A receipt that read cleanly has filled its expense already, and
+            # said so (cssk.receipt.write); the other outcomes are said here.
+            if receipt.state != "captured":
+                expense._cssk_post_reading_result(receipt)
             outcomes[receipt.state if receipt.state in outcomes else "error"] += 1
         self._cssk_notify_upload(outcomes)
         return expense_ids
@@ -119,6 +120,16 @@ class HrExpense(models.Model):
     # ------------------------------------------------------------------
     # filling an expense from a reading
     # ------------------------------------------------------------------
+    def _cssk_awaits_reading(self):
+        """Whether this expense is still the blank one the upload made.
+
+        A draft with no amount. Anything else has been filled, by a reading or
+        by hand, and a later reading must not overwrite it.
+        """
+        self.ensure_one()
+        return self.state == "draft" and self.currency_id.is_zero(
+            self.total_amount_currency)
+
     def _cssk_apply_captured_receipt(self, receipt):
         """Fill this expense from a receipt that read cleanly.
 

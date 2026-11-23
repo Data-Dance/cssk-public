@@ -100,6 +100,16 @@
         <field name="code">TAXBASE</field>
     </record>
 
+    <!-- Several employee records of one person taxed together (§ 35 ods. 1
+         zákona 595/2003): the base a linked payslip moves to the principal's
+         and the bases the principal's takes over. Informational, isolated (no
+         parent), so the lines feed no total and not NET. -->
+    <record id="hr_payroll_joint_tax_info" model="hr.salary.rule.category">
+        <field name="company_id" eval="False"/>
+        <field name="name">Tax Base Taxed Together</field>
+        <field name="code">TAXJOINTINFO</field>
+    </record>
+
     <!-- Child tax bonus is a credit added to net pay (can exceed the tax and be
          paid out). Isolated so NET adds it explicitly. -->
     <record id="hr_payroll_child_bonus" model="hr.salary.rule.category">

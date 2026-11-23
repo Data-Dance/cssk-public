@@ -133,8 +133,8 @@ SK_PAYROLL_ACCOUNT_MAPPING = {
         "credit": ACC_NET,
     },
     # Intentionally UNMAPPED (informational / totals / stub):
-    #   GROSS, TAXBASE, OOP_PENSION, SOCIALEMPLOYEETOTAL,
-    #   SOCIALEMPLOYERTOTAL, INCOMETAXTOTAL
+    #   GROSS, TAXBASE, TAXBASE_MOVED, TAXBASE_TAKEN, OOP_PENSION,
+    #   SOCIALEMPLOYEETOTAL, SOCIALEMPLOYERTOTAL, INCOMETAXTOTAL
 }
 
 # Rules of modules this bridge does NOT depend on, mapped when they are

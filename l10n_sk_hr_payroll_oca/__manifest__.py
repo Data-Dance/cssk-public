@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Slovakia - Payroll",
-    "version": "19.0.1.26.6",
+    "version": "19.0.1.29.1",
     "category": "Human Resources/Payroll",
     "summary": "Slovak payroll rules for the payroll engine",
     "countries": ["sk"],
@@ -25,6 +25,8 @@
         "data/hr_salary_rule_data.xml",
         "data/hr_payroll_structure_data.xml",
         "views/hr_contract_views.xml",
+        "views/hr_employee_struct_views.xml",
+        "views/hr_payslip_views.xml",
         "views/hr_rule_parameter_views.xml",
         "views/l10n_sk_tax_reconciliation_views.xml",
     ],

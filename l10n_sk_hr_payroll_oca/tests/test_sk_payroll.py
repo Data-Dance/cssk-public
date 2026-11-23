@@ -12,7 +12,7 @@
 #     (health rate 4% -> 5%, NČZD 479.48 -> 497.23).
 
 from copy import deepcopy
-from datetime import date
+from datetime import date, timedelta
 from types import SimpleNamespace
 from unittest.mock import patch
 
@@ -457,6 +457,110 @@ class TestSkPayroll(TransactionCase):
         # informational OOP line shows the €200 applied
         self.assertAlmostEqual(line("OOP_PENSION"), 200.0, places=2)
 
+    # ---- Agreement OOP on the ground of parental leave (from 2027) ---------
+    def _make_parent_dohodar(self, **vals):
+        values = dict(
+            l10n_sk_agreement_type="dopc", l10n_sk_income_regular=True,
+            l10n_sk_agreement_oop=True,
+            l10n_sk_agreement_oop_reason="parental",
+            l10n_sk_agreement_oop_notified=date(2026, 12, 15),
+        )
+        values.update(vals)
+        contract, employee = self._make_dohodar(**values)
+        contract.wage = 500.0
+        return contract, employee
+
+    def test_parental_oop_2027_matches_the_authority_example(self):
+        """§ 227a zákona 461/2003 from 1. 1. 2027: a parent on leave claims
+        the OOP on a DoPČ. Figures are the Sociálna poisťovňa's own example
+        (base 500, regular income): sickness and unemployment on 500,
+        old-age, disability and the reserve fund on 500 - 300 = 200."""
+        contract, employee = self._make_parent_dohodar()
+        p = self._make_payslip(
+            contract, employee, date(2027, 1, 1), date(2027, 1, 31))
+        for code, expected in (
+            ("SICK", -7.0), ("PENSION", -8.0), ("DISABILITY", -6.0),
+            ("UNEMPLOYMENT", -5.0), ("PENSIONEMPLOYER", 28.0),
+            ("DISABILITYEMPLOYER", 6.0), ("RESERVEFUNDEMPLOYER", 9.5),
+            ("OOP_PENSION", 300.0),
+        ):
+            with self.subTest(code=code):
+                self.assertAlmostEqual(
+                    p.get_salary_line_total(code), expected, places=2)
+
+    def test_parental_oop_does_not_exist_before_2027(self):
+        contract, employee = self._make_parent_dohodar()
+        p = self._make_payslip(
+            contract, employee, date(2026, 12, 1), date(2026, 12, 31))
+        self.assertAlmostEqual(p.get_salary_line_total("PENSION"), -20.0, places=2)
+        self.assertAlmostEqual(p.get_salary_line_total("OOP_PENSION"), 0.0, places=2)
+
+    def test_parental_oop_late_notice_starts_the_following_month(self):
+        """§ 227a ods. 3 písm. a): notified after the agreement began, the
+        claim takes effect on the first day of the next month."""
+        contract, employee = self._make_parent_dohodar(
+            l10n_sk_agreement_oop_notified=date(2027, 2, 10))
+        february = self._make_payslip(
+            contract, employee, date(2027, 2, 1), date(2027, 2, 28))
+        self.assertAlmostEqual(
+            february.get_salary_line_total("PENSION"), -20.0, places=2)
+        march = self._make_payslip(
+            contract, employee, date(2027, 3, 1), date(2027, 3, 31))
+        self.assertAlmostEqual(
+            march.get_salary_line_total("PENSION"), -8.0, places=2)
+
+    def test_parental_oop_notice_on_the_first_day_applies_at_once(self):
+        contract, employee = self._make_parent_dohodar(
+            l10n_sk_agreement_oop_notified=date(2027, 3, 15))
+        contract.write({"contract_date_start": date(2027, 3, 15),
+                        "date_version": date(2027, 3, 15)})
+        self.assertTrue(
+            contract.l10n_sk_agreement_oop_applies(date(2027, 3, 1)))
+
+    def test_parental_oop_ends_with_the_month_the_leave_ends(self):
+        """§ 227a ods. 4."""
+        contract, employee = self._make_parent_dohodar(
+            l10n_sk_agreement_oop_leave_end=date(2027, 4, 15))
+        april = self._make_payslip(
+            contract, employee, date(2027, 4, 1), date(2027, 4, 30))
+        self.assertAlmostEqual(
+            april.get_salary_line_total("PENSION"), -8.0, places=2)
+        may = self._make_payslip(
+            contract, employee, date(2027, 5, 1), date(2027, 5, 31))
+        self.assertAlmostEqual(
+            may.get_salary_line_total("PENSION"), -20.0, places=2)
+        self.assertAlmostEqual(
+            may.get_salary_line_total("OOP_PENSION"), 0.0, places=2)
+
+    def test_parental_oop_needs_a_dovp_or_dopc_and_a_notice(self):
+        with self.assertRaises(UserError):
+            self._make_parent_dohodar(l10n_sk_agreement_type="dobps")
+        with self.assertRaises(UserError):
+            self._make_parent_dohodar(l10n_sk_agreement_oop_notified=False)
+
+    def test_pensioner_oop_is_not_dated(self):
+        """The existing claim keeps working with no notice date."""
+        contract, _employee = self._make_dohodar(
+            l10n_sk_agreement_type="dovp", l10n_sk_agreement_oop=True)
+        self.assertEqual(
+            contract.l10n_sk_agreement_oop_reason, "pension_student")
+        self.assertTrue(
+            contract.l10n_sk_agreement_oop_applies(date(2025, 6, 1)))
+        contract.l10n_sk_agreement_oop = False
+        self.assertFalse(
+            contract.l10n_sk_agreement_oop_applies(date(2025, 6, 1)))
+
+    def test_dated_pensioner_claim_follows_the_notice(self):
+        """§ 227a ods. 3 písm. a) on any ground, once a notice date is kept;
+        the 2027 floor belongs to the ground of leave only."""
+        contract, _employee = self._make_dohodar(
+            l10n_sk_agreement_type="dovp", l10n_sk_agreement_oop=True,
+            l10n_sk_agreement_oop_notified=date(2025, 6, 10))
+        self.assertFalse(
+            contract.l10n_sk_agreement_oop_applies(date(2025, 6, 1)))
+        self.assertTrue(
+            contract.l10n_sk_agreement_oop_applies(date(2025, 7, 1)))
+
     def test_dopc_matches_standard_social(self):
         """DoPČ (regular income): full social set, unchanged from employment."""
         contract, employee = self._make_dohodar(l10n_sk_agreement_type="dopc")
@@ -807,14 +911,16 @@ class TestSkPayroll(TransactionCase):
         )
         source.action_payslip_done()
         self.assertEqual(source._l10n_sk_average_worked_time(), (21.0, 168.0))
+        # 2 000 x 168 / 176 = 1 909.0909, a wage component, rounded up.
         self.assertAlmostEqual(
-            source._l10n_sk_average_counted_wage(), 1909.09, places=2
+            source._l10n_sk_average_counted_wage(), 1909.10, places=2
         )
         target = self._worked_payslip(
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
+        # 1 909.10 / 168 = 11.36369
         self.assertAlmostEqual(
-            target.l10n_sk_average_hourly_earnings(), 11.3636, places=4
+            target.l10n_sk_average_hourly_earnings(), 11.3637, places=4
         )
 
     def test_average_source_excludes_approved_negative_leave(self):
@@ -944,12 +1050,13 @@ class TestSkPayroll(TransactionCase):
             if l.code == "DOVOLENKA"
         )
         self.assertAlmostEqual(dov_days, 5.0, places=2)
-        # BASIC prorated: 2000 * 17/22 = 1545.45
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
-        # náhrada = 40h * PHZ(11.3636, rounded to 4 dp per §134) = 454.54
-        self.assertAlmostEqual(line("DOVOLENKA_NAHRADA"), 454.54, places=2)
-        # GROSS made whole (no cut) up to the 4-dp PHZ rounding: ~2000.00
-        self.assertAlmostEqual(line("GROSS"), 2000.0, places=1)
+        # BASIC prorated: 2000 * 17/22 = 1545.4545, rounded up
+        self.assertAlmostEqual(line("BASIC"), 1545.46, places=2)
+        # náhrada = 40h * PHZ(11.3636, rounded to 4 dp per §134) = 454.544,
+        # rounded up
+        self.assertAlmostEqual(line("DOVOLENKA_NAHRADA"), 454.55, places=2)
+        # GROSS made whole (no cut); each of the two components is rounded up
+        self.assertAlmostEqual(line("GROSS"), 2000.01, places=2)
 
     def test_probable_holiday_earnings_use_reviewed_monthly_wage(self):
         contract, employee, _calendar = self._abs_setup()
@@ -976,9 +1083,10 @@ class TestSkPayroll(TransactionCase):
                 contract, employee, date(2026, 6, 1), date(2026, 6, 30))
             self.assertAlmostEqual(payslip.l10n_sk_average_hourly_earnings(), 11.3636)
         self.assertEqual(contract.wage, 2000)
+        # 2 500 x 17 / 22 = 1 931.8182 and 40 h x 11.3636 = 454.544, each up.
         self.assertAlmostEqual(payslip.get_salary_line_total("BASIC"), 1931.82, places=2)
-        self.assertAlmostEqual(payslip.get_salary_line_total("DOVOLENKA_NAHRADA"), 454.54, places=2)
-        self.assertAlmostEqual(payslip.get_salary_line_total("GROSS"), 2386.36, places=2)
+        self.assertAlmostEqual(payslip.get_salary_line_total("DOVOLENKA_NAHRADA"), 454.55, places=2)
+        self.assertAlmostEqual(payslip.get_salary_line_total("GROSS"), 2386.37, places=2)
 
     def test_unpaid_leave_prorates_basic(self):
         """5 unpaid-leave days: BASIC prorated, no náhrada, GROSS follows."""
@@ -993,10 +1101,11 @@ class TestSkPayroll(TransactionCase):
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
         line = p.get_salary_line_total
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
+        # 2 000 x 17 / 22 = 1 545.4545, rounded up
+        self.assertAlmostEqual(line("BASIC"), 1545.46, places=2)
         self.assertAlmostEqual(line("DOVOLENKA_NAHRADA"), 0.0, places=2)
         # GROSS = prorated BASIC only (no náhrada)
-        self.assertAlmostEqual(line("GROSS"), 2000.0 * 17 / 22, places=2)
+        self.assertAlmostEqual(line("GROSS"), 1545.46, places=2)
 
     def test_pn_leave_drives_sick_comp(self):
         """3 PN working days from the leave drive SICK_COMP (3 x 25% of DVZ)."""
@@ -1020,10 +1129,83 @@ class TestSkPayroll(TransactionCase):
         self.assertAlmostEqual(pn_days, 3.0, places=2)
         # days 1-3 at 25%: 20 * 3 * 0.25 = 15.00
         self.assertAlmostEqual(p.get_salary_line_total("SICK_COMP"), 15.0, places=2)
-        # BASIC prorated for the 3 absent days: 1500 * 19/22
+        # BASIC prorated for the 3 absent days: 1500 * 19/22 = 1295.4545,
+        # rounded up
+        self.assertAlmostEqual(p.get_salary_line_total("BASIC"), 1295.46, places=2)
+
+    # ---- Daily assessment base from the payslips (§ 8 zákona 462/2003) -----
+    def _dvz_worker(self, months=5):
+        """An employment from 1 January 2026 with confirmed monthly payslips."""
+        contract, employee = self._make_contract(
+            "DVZ Dana", 1500.0, date(2026, 1, 1), self._make_mon_fri_calendar())
+        for month in range(1, months + 1):
+            last = date(2026, month + 1, 1) - timedelta(days=1)
+            self._worked_payslip(
+                contract, employee, date(2026, month, 1), last,
+            ).action_payslip_done()
+        return contract, employee
+
+    def _june_pn_slip(self, contract, employee, inputs=None):
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 6, 8), date(2026, 6, 10))
+        return self._worked_payslip(
+            contract, employee, date(2026, 6, 1), date(2026, 6, 30), inputs=inputs)
+
+    def test_dvz_is_determined_from_the_decisive_period(self):
+        """Insured since 1 January, sick on 8 June: January to May, 151 days.
+        7500 / 151 = 49.6688 (cut); three days at 25 % = 37.2516 -> 37.26."""
+        contract, employee = self._dvz_worker()
+        slip = self._june_pn_slip(contract, employee)
+        self.assertEqual(
+            slip.l10n_sk_pn_determined_daily_base(date(2026, 6, 8)), 49.6688)
         self.assertAlmostEqual(
-            p.get_salary_line_total("BASIC"), 1500.0 * 19 / 22, places=2
-        )
+            slip.get_salary_line_total("SICK_COMP"), 37.26, places=2)
+
+    def test_dvz_input_overrides_the_determined_base(self):
+        contract, employee = self._dvz_worker()
+        slip = self._june_pn_slip(contract, employee, inputs=[("PN_DVZ", 20.0)])
+        self.assertAlmostEqual(
+            slip.get_salary_line_total("SICK_COMP"), 15.0, places=2)
+
+    def test_dvz_is_not_guessed_from_an_incomplete_history(self):
+        """A month without a confirmed payslip: no base, and no sick pay
+        without the typed-in one — as before."""
+        contract, employee = self._dvz_worker(months=4)
+        slip = self._june_pn_slip(contract, employee)
+        self.assertFalse(slip.l10n_sk_pn_determined_daily_base(date(2026, 6, 8)))
+        self.assertFalse(slip.l10n_sk_pn_base_determinable())
+        self.assertAlmostEqual(
+            slip.get_salary_line_total("SICK_COMP"), 0.0, places=2)
+
+    def test_dvz_needs_one_whole_payslip_a_month(self):
+        contract, employee = self._dvz_worker(months=4)
+        self._worked_payslip(
+            contract, employee, date(2026, 5, 1), date(2026, 5, 15),
+        ).action_payslip_done()
+        slip = self._june_pn_slip(contract, employee)
+        self.assertFalse(slip.l10n_sk_pn_determined_daily_base(date(2026, 6, 8)))
+
+    def test_dvz_excludes_an_earlier_incapacity(self):
+        """§ 54 ods. 10 písm. a): the days of an earlier PN leave the period,
+        and its month still counts with the base it had."""
+        contract, employee = self._make_contract(
+            "DVZ Eva", 1500.0, date(2026, 1, 1), self._make_mon_fri_calendar())
+        self._make_leave(
+            employee, "l10n_sk_leave_type_pn", date(2026, 2, 2), date(2026, 2, 6))
+        total = 0.0
+        for month in range(1, 6):
+            last = date(2026, month + 1, 1) - timedelta(days=1)
+            done = self._worked_payslip(
+                contract, employee, date(2026, month, 1), last,
+                inputs=[("PN_DVZ", 20.0)] if month == 2 else None)
+            done.action_payslip_done()
+            total += done.get_salary_line_total("GROSS")
+        self.assertLess(total, 7500.0)
+        slip = self._june_pn_slip(contract, employee)
+        expected = int(total / (151 - 5) * 10000) / 10000.0
+        self.assertAlmostEqual(
+            slip.l10n_sk_pn_determined_daily_base(date(2026, 6, 8)),
+            expected, places=4)
 
     def test_full_worked_month_unchanged_with_calendar(self):
         """Full Mon-Fri month, no leave: BASIC and GROSS stay the full wage."""
@@ -1337,11 +1519,12 @@ class TestSkPayroll(TransactionCase):
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
         line = p.get_salary_line_total
-        # BASIC prorated for the 5 absent days exactly as for any other absence
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
-        # 40 h x PHZ 11.3636 x 50 % = 227.27, NOT the 454.54 a full-rate
-        # obstacle would have paid.
-        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), 227.27, places=2)
+        # BASIC prorated for the 5 absent days exactly as for any other
+        # absence: 1 545.4545, rounded up
+        self.assertAlmostEqual(line("BASIC"), 1545.46, places=2)
+        # 40 h x PHZ 11.3636 x 50 % = 227.272, rounded up, NOT the 454.55 a
+        # full-rate obstacle would have paid.
+        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), 227.28, places=2)
 
     def test_employer_obstacle_each_reason_has_its_own_rate(self):
         """All four § 142 reasons in one month, each at its own statutory
@@ -1359,17 +1542,13 @@ class TestSkPayroll(TransactionCase):
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
         line = p.get_salary_line_total
-        phz = 11.3636
-        expected = round(
-            8 * phz * 1.0        # prestoj      § 142 ods. 1 — 100 %
-            + 8 * phz * 0.5      # weather      § 142 ods. 2 —  50 %
-            + 8 * phz * 1.0      # other        § 142 ods. 3 — 100 %
-            + 8 * phz * 0.6,     # serious ops  § 142 ods. 4 —  60 %
-            2,
-        )
-        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), expected, places=2)
-        # 4 absent days out of 22
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 18 / 22, places=2)
+        # 8 h x 11.3636 x (100 % prestoj + 50 % weather + 100 % other
+        # + 60 % serious operational reasons) = 281.81728. The four parts
+        # are summed and rounded up once; rounded one by one (90.91 + 45.46
+        # + 90.91 + 54.55) they would give 281.83.
+        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), 281.82, places=2)
+        # 4 absent days out of 22: 1 636.3636, rounded up
+        self.assertAlmostEqual(line("BASIC"), 1636.37, places=2)
 
     def test_employer_obstacle_is_insurable_and_taxable(self):
         """Náhrada mzdy is regular wage income: it must reach GROSS, so it is
@@ -1386,9 +1565,11 @@ class TestSkPayroll(TransactionCase):
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
         line = p.get_salary_line_total
-        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), 454.54, places=2)
-        # prestoj is the 100 % reason, so GROSS is made whole like a holiday
-        self.assertAlmostEqual(line("GROSS"), 2000.0, places=1)
+        # 40 h x 11.3636 = 454.544, rounded up
+        self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), 454.55, places=2)
+        # prestoj is the 100 % reason, so GROSS is made whole like a holiday:
+        # 1 545.46 + 454.55
+        self.assertAlmostEqual(line("GROSS"), 2000.01, places=2)
 
     def test_employer_obstacle_rates_are_data_not_code(self):
         """The percentages come from dated rule parameters: change one and the
@@ -1445,13 +1626,14 @@ class TestSkPayroll(TransactionCase):
                 )
                 self.assertEqual(hours, 40.0, "%s must keep its own line" % code)
                 line = p.get_salary_line_total
-                # BASIC prorated exactly like any other absence
-                self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
+                # BASIC prorated exactly like any other absence: 1 545.4545,
+                # rounded up
+                self.assertAlmostEqual(line("BASIC"), 1545.46, places=2)
                 # ... and nothing paid back
                 self.assertAlmostEqual(line("DOVOLENKA_NAHRADA"), 0.0, places=2)
                 self.assertAlmostEqual(line("OBSTACLE_NAHRADA"), 0.0, places=2)
                 self.assertAlmostEqual(line("PREKAZKA_NAHRADA"), 0.0, places=2)
-                self.assertAlmostEqual(line("GROSS"), 2000.0 * 17 / 22, places=2)
+                self.assertAlmostEqual(line("GROSS"), 1545.46, places=2)
 
     def test_family_leave_is_not_folded_into_ocr(self):
         """The SP filings must tell them apart — rodičovská drives a prerušenie
@@ -1495,9 +1677,10 @@ class TestSkPayroll(TransactionCase):
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
         line = p.get_salary_line_total
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
-        # 40 h x PHZ 13.6364 (the seed runs at 2400) = 545.46
-        self.assertGreater(line("OBSTACLE_NAHRADA"), 0.0)
+        # 2 000 x 17 / 22 = 1 545.4545, rounded up
+        self.assertAlmostEqual(line("BASIC"), 1545.46, places=2)
+        # 40 h x PHZ 11.3636 = 454.544, rounded up
+        self.assertAlmostEqual(line("OBSTACLE_NAHRADA"), 454.55, places=2)
         self.assertAlmostEqual(
             line("GROSS"), line("BASIC") + line("OBSTACLE_NAHRADA"), places=2)
 
@@ -1513,7 +1696,8 @@ class TestSkPayroll(TransactionCase):
             contract, employee, date(2026, 6, 1), date(2026, 6, 30)
         )
         line = p.get_salary_line_total
-        self.assertAlmostEqual(line("BASIC"), 2000.0 * 17 / 22, places=2)
+        # 2 000 x 17 / 22 = 1 545.4545, rounded up
+        self.assertAlmostEqual(line("BASIC"), 1545.46, places=2)
         self.assertAlmostEqual(line("OBSTACLE_NAHRADA"), 0.0, places=2)
         self.assertAlmostEqual(line("GROSS"), line("BASIC"), places=2)
 

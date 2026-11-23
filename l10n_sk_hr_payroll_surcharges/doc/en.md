@@ -1,7 +1,7 @@
 ---
 title: SK Wage Surcharges and Minimum Wage Claims
 summary: Statutory Slovak wage surcharges for night, Saturday, Sunday, public-holiday, overtime, difficult-conditions and standby work, and the top-up to the minimum wage claim of the job's stupeň náročnosti, on either payroll engine.
-verified: 19.0.1.2.8
+verified: 19.0.1.3.0
 ---
 
 ## What it is for {#purpose}
@@ -29,7 +29,7 @@ otherwise.
 
 | Surcharge | Paragraph | Minimum | Of |
 |---|---|---|---|
-| Overtime | [§ 121 ods. 1](law:sk/2001/311#paragraf-121.odsek-1) | wage for the hour + 25 % (35 % for risky work) | average earnings |
+| Overtime | [§ 121 ods. 1](law:sk/2001/311#paragraf-121.odsek-1) | the wage achieved for the hour + 25 % (35 % for risky work) | average earnings (the premium only) |
 | Public holiday | [§ 122 ods. 1](law:sk/2001/311#paragraf-122.odsek-1) | 100 % | average earnings |
 | Saturday | [§ 122a](law:sk/2001/311#paragraf-122a) | 50 % (45 % by agreement where Saturday work is regular) | minimum hourly wage |
 | Sunday | [§ 122b](law:sk/2001/311#paragraf-122b) | 100 % (90 % by agreement where Sunday work is regular) | minimum hourly wage |
@@ -120,9 +120,24 @@ alongside ordinary work, or use the inputs.
   conditions and standby — whatever the employee's own level — and the
   employee's **average hourly earnings** for public holidays and overtime.
 - **Overtime pay.** Overtime hours fall outside the time a monthly wage pays
-  for, so *Overtime Pay* adds the wage for those hours at average earnings
-  next to the surcharge. Public-holiday hours get only the surcharge; their
-  basic pay is assumed to be in the basic wage.
+  for, so *Overtime Pay* adds the wage achieved for those hours next to the
+  surcharge ([§ 121 ods. 1](law:sk/2001/311#paragraf-121.odsek-1): „dosiahnutá
+  mzda a mzdové zvýhodnenie najmenej v sume 25 % jeho priemerného zárobku").
+  Only the surcharge is on average earnings. The amount is rounded up to the
+  cent once. The wage achieved is taken from the basic salary or rate alone;
+  a personal bonus or another regular component that the overtime hours
+  should also earn is not known to the contract and has to be entered by
+  hand. Public-holiday hours get only the surcharge; their basic pay is
+  assumed to be in the basic wage. The overtime hours are paid from the wage
+  of the month they were worked in:
+  - for a monthly wage, the salary divided by the hours the employee's
+    working schedule holds in that month — public holidays included, absences
+    not taken off — times the overtime hours. The divisor is the month's own
+    fund, not an average month of the year: in April 2026 (176 hours) eight
+    overtime hours on 2 100 € are 2 100 × 8 / 176 = 95.46 €, whatever the
+    average earnings of the quarter before;
+  - for an hourly wage, the exact hourly rate times the overtime hours:
+    8 × 7.333 = 58.67 €.
 - **Minimum Wage Top-up.** Compares the **basic wage** — without surcharges,
   overtime and wage replacements — with the claim for the contract's level:
   - for a monthly wage, against the monthly claim reduced by the ordinary
@@ -184,8 +199,20 @@ arithmetic and the same data from this module.
   does not apply to them) nor the minimum hourly wage.
 - **Hours are entered, not derived.** No work entry types are shipped, and
   hours are not taken from attendance or the calendar.
-- **Overtime** is valued at average earnings; an employer whose contracts
-  state an hourly rate has to adjust the *Overtime Pay* rule.
+- **Overtime** hours are paid from the basic salary or hourly rate only, and
+  a monthly salary is divided by the month's own hours; an employer who
+  divides by the average month of the year has to adjust
+  `_l10n_sk_overtime_fund_hours`. A contract with no working schedule has no
+  hours to divide by, and its overtime hours are paid at average earnings.
+  Compensatory time off instead of the
+  surcharge ([§ 121 ods. 3](law:sk/2001/311#paragraf-121.odsek-3)) is not
+  modelled: hours entered as `NADCAS` always get both lines, so hours to be
+  taken as time off must not be entered, or their surcharge has to be taken
+  back by hand. On the OCA engine the surcharge rules belong to the
+  employment structure only, so an agreement gets none of them; on Enterprise
+  an agreement gets all of them, overtime included, although overtime cannot
+  be agreed with a dohodár
+  ([§ 223 ods. 2](law:sk/2001/311#paragraf-223.odsek-2)).
 - **Standby** covers only the inactive part away from the workplace; inactive
   standby at the workplace is working time and is not detected.
 - **Difficult conditions** use one rate; the hazard-specific rates of some

@@ -1,7 +1,7 @@
 ---
 title: CZ Wage Surcharges (příplatky)
 summary: Statutory Czech wage surcharges for overtime, public-holiday, night, weekend and difficult-environment work, the wage for overtime hours and the minimum wage top-up, from dated rates, on either payroll engine.
-verified: 19.0.1.2.0
+verified: 19.0.1.2.1
 ---
 
 ## What it is for {#purpose}
@@ -118,7 +118,7 @@ haléř, so that rounding never takes the payment below the minimum.
 - **Minimum Wage Top-up** runs after the wage replacements and before gross
   pay, so it is insured and taxed. The wage compared is the basic wage plus
   the allowances computed before it, less the overtime wage, the surcharges
-  and the wage replacements (holiday, obstacles); the hours are the ordinary
+  and the wage replacements (holiday, public holiday, obstacles); the hours are the ordinary
   hours worked, without absences and overtime. On the hourly basis the top-up
   is (hourly minimum wage − wage per hour) × hours; on the monthly basis it is
   the monthly minimum wage, reduced by the hours worked against a full-time

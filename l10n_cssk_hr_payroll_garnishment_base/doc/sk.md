@@ -1,7 +1,7 @@
 ---
 title: Zrážky zo mzdy CZ/SK
 summary: Evidencia českých a slovenských exekučných príkazov na zrážky zo mzdy, zákonné poradie uspokojovania všetkých príkazov zamestnanca na výplatnej páske, oznámenia platiteľa mzdy exekútorovi či súdu a poukázanie zrážok príjemcovi.
-verified: 19.0.1.3.0
+verified: 19.0.1.3.2
 ---
 
 ## Na čo slúži {#purpose}
@@ -233,6 +233,7 @@ monthly amount* (§ 279 odst. 5).
 
 | Krajina | Platí od | Sumy |
 |---|---|---|
+| SK | 1. 7. 2023 | životné minimum 268,88 € |
 | SK | 1. 7. 2024 | životné minimum 273,99 € |
 | SK | 1. 7. 2025 | životné minimum 284,13 € |
 | SK | 1. 7. 2026 | životné minimum 295,22 € |
@@ -247,7 +248,10 @@ trojnásobkom základnej sumy podľa § 1 ods. 1.
 vzorec. Od 1. 10. 2026 je české životné minimum jednotlivca 5 500 Kč, no
 podľa § 4 nariadenia sa na mzdy vyplácané v roku 2026 použije suma
 k 1. januáru; pred výpočtom miezd vyplácaných v roku 2027 pridajte záznam
-na rok 2027.
+na rok 2027. Česká mzda vyplácaná v roku, ktorý vlastný záznam nemá, sa
+odmietne a nepočíta sa zo súm predchádzajúceho roka: platí to aj pre mzdu za
+december 2026 vyplácanú v januári 2027. Záznam na rok 2027 bude dodaný, keď
+vláda vyhlási normatívne nájomné a energetický paušál na rok 2027.
 
 ## Oznámenia a vyúčtovanie zrážok {#notices}
 

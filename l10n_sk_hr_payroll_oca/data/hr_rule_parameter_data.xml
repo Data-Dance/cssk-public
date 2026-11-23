@@ -539,6 +539,62 @@
         <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
     </record>
 
+    <!-- A dependent child of 18 or over: 50 eur a month from January 2023 to
+         December 2024 (§ 52zzp ods. 4 písm. a) and ods. 5 zákona 595/2003).
+         From January 2025 the bonus ends with the month of the 18th birthday
+         (§ 33 ods. 1 písm. a) as in force from 1. 1. 2025). -->
+    <record id="rule_parameter_child_bonus_over_18" model="hr.rule.parameter">
+        <field name="name">Slovakia: Child tax bonus per child 18y+ (to 2024)</field>
+        <field name="code">l10n_sk_child_bonus_over_18</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_child_bonus_over_18_2023" model="hr.rule.parameter.value">
+        <field name="parameter_value">50</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_over_18"/>
+        <field name="date_from" eval="datetime(2023, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_bonus_over_18_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">0</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_over_18"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- A child bonus the employer granted during the year is kept when the
+         recomputation after the year gives less: § 33 ods. 11 zákona 595/2003
+         as in force from 1. 1. 2023 to 31. 12. 2024 ("nestráca nárok na už
+         priznaný daňový bonus"). Zákon 278/2024 replaced the paragraph; its
+         § 52zzzb ods. 6 applies the new wording first for January 2025, so
+         from the tax year 2025 the difference is taken back. -->
+    <record id="rule_parameter_child_bonus_keep_granted" model="hr.rule.parameter">
+        <field name="name">Slovakia: Child bonus granted during the year is kept in the annual settlement</field>
+        <field name="code">l10n_sk_child_bonus_keep_granted</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_child_bonus_keep_granted_2023" model="hr.rule.parameter.value">
+        <field name="parameter_value">True</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_keep_granted"/>
+        <field name="date_from" eval="datetime(2023, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_child_bonus_keep_granted_2025" model="hr.rule.parameter.value">
+        <field name="parameter_value">False</field>
+        <field name="rule_parameter_id" ref="rule_parameter_child_bonus_keep_granted"/>
+        <field name="date_from" eval="datetime(2025, 1, 1).date()"/>
+    </record>
+
+    <!-- § 38 ods. 7 zákona 595/2003: only a tax underpayment from the annual
+         settlement that exceeds 5 eur is withheld from the wage (the same
+         wording in the versions of 1. 1. 2023 to 1. 1. 2026). -->
+    <record id="rule_parameter_tax_underpayment_not_withheld" model="hr.rule.parameter">
+        <field name="name">Slovakia: Annual tax underpayment not withheld (up to)</field>
+        <field name="code">l10n_sk_tax_underpayment_not_withheld</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_tax_underpayment_not_withheld_2023" model="hr.rule.parameter.value">
+        <field name="parameter_value">5.0</field>
+        <field name="rule_parameter_id" ref="rule_parameter_tax_underpayment_not_withheld"/>
+        <field name="date_from" eval="datetime(2023, 1, 1).date()"/>
+    </record>
+
     <!-- ===================================================================
          Meal allowance (stravné)
          =================================================================== -->
@@ -994,10 +1050,17 @@
         <field name="rule_parameter_id" ref="rule_parameter_meal_voucher_min_pct"/>
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
     </record>
+    <!-- Opatrenie MPSVR SR č. 368/2023 Z. z. (7,80 from 1. 10. 2023, in force
+         on 1. 1. 2024) and č. 211/2024 Z. z. (8,30 from 1. 9. 2024). -->
     <record id="rule_parameter_stravne_5_12h_2024" model="hr.rule.parameter.value">
-        <field name="parameter_value">7.30</field>
+        <field name="parameter_value">7.80</field>
         <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+    <record id="rule_parameter_stravne_5_12h_2024_sep" model="hr.rule.parameter.value">
+        <field name="parameter_value">8.30</field>
+        <field name="rule_parameter_id" ref="rule_parameter_stravne_5_12h"/>
+        <field name="date_from" eval="datetime(2024, 9, 1).date()"/>
     </record>
     <record id="rule_parameter_child_bonus_under_15_2024" model="hr.rule.parameter.value">
         <field name="parameter_value">140</field>
@@ -1051,7 +1114,7 @@
         <field name="rule_parameter_id" ref="rule_parameter_pn_max_dvz"/>
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
     </record>
-    <record id="rule_parameter_zivotne_minimum_2024" model="hr.rule.parameter.value">
+    <record id="rule_parameter_zivotne_minimum_2024h1" model="hr.rule.parameter.value">
         <field name="parameter_value">268.88</field>
         <field name="rule_parameter_id" ref="rule_parameter_zivotne_minimum"/>
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
@@ -1073,6 +1136,25 @@
     <record id="rule_parameter_avg_earnings_min_hours_v" model="hr.rule.parameter.value">
         <field name="parameter_value">168</field>
         <field name="rule_parameter_id" ref="rule_parameter_avg_earnings_min_hours"/>
+        <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
+    </record>
+
+    <!-- ===================================================================
+         § 152 ods. 2 Zákonníka práce — the meal belongs to a shift in which
+         the employee works MORE than this many hours: „Nárok na zabezpečenie
+         stravovania alebo poskytnutie finančného príspevku na stravovanie má
+         zamestnanec, ktorý v rámci pracovnej zmeny vykonáva prácu viac ako
+         štyri hodiny.“ A meal day of the payslip is a day with more hours
+         worked than this (l10n_sk_hr_payroll_base.meal_days).
+         =================================================================== -->
+    <record id="rule_parameter_meal_min_hours" model="hr.rule.parameter">
+        <field name="name">Slovakia: Meal — hours of work in a shift that must be exceeded</field>
+        <field name="code">l10n_sk_meal_min_hours</field>
+        <field name="country_id" ref="base.sk"/>
+    </record>
+    <record id="rule_parameter_meal_min_hours_v" model="hr.rule.parameter.value">
+        <field name="parameter_value">4</field>
+        <field name="rule_parameter_id" ref="rule_parameter_meal_min_hours"/>
         <field name="date_from" eval="datetime(2024, 1, 1).date()"/>
     </record>
 

@@ -1,7 +1,7 @@
 ---
 title: SK Monthly Tax Overview (Prehľad)
 summary: The monthly overview of income-tax advances withheld from employees and the child tax bonus paid, generated from the month's payslips as XML for the Slovak financial administration.
-verified: 19.0.2.1.2
+verified: 19.0.2.2.0
 ---
 
 ## What it is for {#purpose}
@@ -81,6 +81,25 @@ The list of employees on the form shows who contributed to the figures and
 their gross wage; the overview itself is employer-level only and carries no
 per-employee data.
 
+## Without payroll in the database {#manual}
+
+A company whose wages are computed elsewhere, by an outside payroll office,
+has no payslips here. Tick **Enter the amounts by hand** on the overview and
+fill in three figures from the payroll office's recapitulation:
+
+| Field | What to enter |
+|---|---|
+| Taxable income paid (r. 0) | the taxable employment income settled and paid out to all employees for the month |
+| Tax advances withheld (r. 1) | the tax advances withheld, **before** the child tax bonus is taken off |
+| Child tax bonus paid (§ 33) | the bonus paid to the employees in total; leave 0 when there is none |
+
+Then **Generate** as usual. Rows 4, 5 and 8 and Part II are derived from the
+three figures exactly as they are from payslips (see the table below), and
+the list of employees stays empty. The box is ticked by itself when no
+payroll app is installed. Once the overview is generated the amounts are
+locked; *Reset to Draft* opens them again. A month in which nothing was paid
+is filed with all three at zero.
+
 ## What goes onto the form {#mapping}
 
 | Row of the overview | Filled with |
@@ -115,6 +134,12 @@ bank account for the refund; generation stops without one. The tick cannot be
 set on any other month. Leave it off to deduct the difference later instead;
 the file is then unchanged.
 
+On an overview entered by hand there are no payslips to recompute the earlier
+months from, so each of them is taken from the overview **generated** for it:
+the latest one of the month, which is the corrective overview where the month
+was corrected. Drafts are not counted. Generation stops when an earlier month
+of the quarter has no generated overview.
+
 ## Corrections {#corrections}
 
 The overview accepts two kinds of filing: *riadny* and *opravný*. Set
@@ -141,7 +166,8 @@ cancelling overview cannot be produced.
   their payment of advances yourself. Row 08 never goes negative.
 - The *zamestnanecká prémia*, the bonus on mortgage interest (§ 33a) and the
   corrections from the annual reconciliation (rows 02 and 03) have no source
-  in the payroll and must be added by hand.
+  in the payroll and no field for entering them by hand either; add them to
+  the file yourself.
 - The **legal form** element of the header is the *Právna forma* recorded on the company's contact by `l10n_sk_trade_registry`; without that module, or with the field empty, the element stays empty.
 - The *opravný* overview leaves the date the correction was discovered
   (*dátum zistenia*) empty.

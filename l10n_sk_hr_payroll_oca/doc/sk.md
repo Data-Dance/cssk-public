@@ -1,7 +1,7 @@
 ---
 title: Slovenské mzdy (OCA)
 summary: Slovenská mesačná výplatná páska pre aplikáciu OCA payroll v Odoo Community — úplná mzdová štruktúra pre pracovný pomer a tri dohody.
-verified: 19.0.1.26.6
+verified: 19.0.1.29.1
 family: l10n_sk_hr_payroll_base#engines
 ---
 
@@ -21,6 +21,14 @@ podľa [§116](law:sk/2001/311#paragraf-116); tie isté hodiny sa preto nezaplat
 aj ako bežná práca. Obe podporované znamienka absencií dávajú rovnakú sumu.
 Napríklad 176 plánovaných hodín pri 20 EUR/h a 8 h dovolenky znamená BASIC 3360
 a náhradu 160, ak overený priemer je 20 EUR/h.
+
+Viac typov voľna môže mať ten istý *Slovenský mzdový kód*: dodané typy majú dva pre neplatené voľno, dva pre práceneschopnosť a osem pre platenú prekážku v práci a vlastný typ dostane kód absencie, ktorou je. Každý typ má na výplatnej páske vlastný riadok odpracovaných dní a pravidlá počítajú kód zo všetkých jeho riadkov spolu, vrátane riadku zadaného ručne. Jún 2026 pri 2 000 € s jedným dňom neplateného voľna a jedným dňom neplateného študijného voľna: 2 000 × 160 / 176 = 1 818,19 €.
+
+Hodinová sadzba má štyri desatinné miesta, keďže minimálna hodinová mzda a minimálne mzdové nároky majú tri ([§ 2 ods. 2](law:sk/2007/663#paragraf-2)): 176 hodín pri 5,259 € je 925,59 €. Bez výplatných pások z predchádzajúceho štvrťroka je pravdepodobným zárobkom pri hodinovej mzde samotná sadzba.
+
+V ročnom zúčtovaní dane sa daňový nedoplatok 5 € alebo nižší nezráža: započíta sa s daňovým bonusom na dieťa, ktorý sa má ešte vyplatiť, a zvyšok sa zrazí len vtedy, keď je zaškrtnuté *Poukazuje podiel zaplatenej dane* ([§ 38 ods. 7](law:sk/2003/595#paragraf-38)). Daňový bonus na dieťa priznaný počas roka 2024 alebo skôr zamestnancovi zostáva, aj keď ročné zúčtovanie vypočíta menej; od zdaňovacieho obdobia 2025 sa rozdiel vyberie späť ([§ 33](law:sk/2003/595#paragraf-33)).
+
+Za január 2023 až december 2024 patrí na vyživované dieťa od 18 rokov daňový bonus 50 € mesačne a dieťa sa počíta do percentuálneho limitu ([§ 52zzp ods. 4](law:sk/2003/595#paragraf-52zzp)); takéto deti zadajte do poľa *Deti od 18 rokov (daňový bonus do roku 2024)*. Od januára 2025 sa tento počet neberie do úvahy.
 
 ## Podklady ročného zúčtovania
 
@@ -76,8 +84,11 @@ zostáva v desaťdňovom režime aj v roku 2026.
 DVZ zamestnávateľa sa zaokrúhli na štyri desatinné miesta nadol. Výsledná mesačná
 náhrada sa podľa § 10 ods. 2 zákona 462/2003 zaokrúhli na eurocenty nahor.
 Desiatková aritmetika nepridáva cent spôsobený binárnou nepresnosťou. Rovnaké
-peňažné zaokrúhlenie používa pôvodný manuálny vstup. Jeho pokračovanie a určenie
-zadaného DVZ naďalej vyžadujú overenie; samotný počet dní nenahrádza dátumy PN.
+peňažné zaokrúhlenie používa pôvodný manuálny vstup. Bez vstupu DVZ sa základ
+pri voľne PN určí z potvrdených pások rozhodujúceho obdobia, ako opisuje
+[spoločná príručka](module:l10n_sk_hr_payroll_base), a len vtedy, keď ho
+pokrývajú úplne. Pokračovanie ručného zadania a zadaný DVZ naďalej vyžadujú
+overenie; samotný počet dní nenahrádza dátumy PN.
 
 Podklady: [prechodové pravidlá SP](https://www.socpoist.sk/node/6844),
 [DVZ podľa MPSVR](https://www.employment.gov.sk/sk/socialne-poistenie-dochodkovy-system/nahrada-prijmu-pri-pracovnej-neschopnosti/denny-vymeriavaci-zaklad.html)

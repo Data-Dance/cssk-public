@@ -1,7 +1,7 @@
 ---
 title: Daňové priznanie k DPH CZ/SK — spoločný základ
 summary: Obrazovky a postup, na ktorých stojí slovenské aj české daňové priznanie k DPH — výpočet riadkov z daňových značiek, kontrola voči účtovným zápisom, export úradného XML a uchovanie podanej verzie.
-verified: 19.0.1.13.1
+verified: 19.0.1.14.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -43,10 +43,14 @@ všetko, čo majú obe krajiny spoločné:
 | Pole | Čo vyplniť |
 |---|---|
 | Spoločnosť | Spoločnosť, za ktorú sa podáva (predvolená je aktuálna). |
-| Dátum od / Dátum do | Prvý a posledný deň zdaňovacieho obdobia. |
-| Typ obdobia | *Mesačne* alebo *Štvrťročne* — do XML sa zapíše mesiac alebo štvrťrok podľa *Dátumu od*. |
-| Verzia | Vzor tlačiva. Ponúkajú sa len verzie krajiny spoločnosti platné v danom období, pozri [Verzie tlačiva](#versions). |
-| Typ výkazu | Riadne, opravné alebo dodatočné — možnosti určuje verzia. |
+| Typ obdobia | *Mesačne* alebo *Štvrťročne*. Nové priznanie začína typom predchádzajúceho priznania spoločnosti. |
+| Obdobie | Mesiac alebo štvrťrok, vyberá sa v jednom poli: kliknite naň, šípkami prejdite na iný rok a zvoľte mesiac alebo štvrťrok. Nové priznanie sa otvorí na poslednom uzavretom období. *Dátumy* pod ním ukazujú prvý a posledný deň, ktoré z toho vyplývajú. |
+| Verzia | Vzor tlačiva. Vyberie sa sám podľa obdobia; ponúkajú sa len verzie krajiny spoločnosti platné v danom období, pozri [Verzie tlačiva](#versions). |
+| Typ výkazu | Riadne, opravné alebo dodatočné — možnosti určuje verzia, predvolené je riadne. |
+
+Po exporte alebo podaní sa obdobie už zmeniť nedá; priznanie najprv vráťte
+do návrhu. *Referencia podania*, potvrdenie z portálu, sa zobrazí až po
+exporte XML.
 
 Potom kliknite na **Vypočítať**. Priznanie prejde do stavu *Náhľad* a karta
 **Riadky** sa naplní riadkami tlačiva.
@@ -177,8 +181,9 @@ prepojený s pôvodným (*Opravuje*) a prenesie doň ručné prepisy. Na novom
 priznaní:
 
 1. zvoľte správny **Typ výkazu** — kópia začína typom pôvodného priznania;
-2. vyplňte **Deň zistenia rozdielu**, ktorý tlačivo pri priznaní opravujúcom
-   iné vyžaduje (predvolený je dnešný deň);
+2. pri dodatočnom priznaní vyplňte **Deň zistenia rozdielu** (predvolený je
+   dnešný deň). Pole sa zobrazí len pri tomto type: opravné priznanie taký
+   dátum neuvádza;
 3. opravte účtovníctvo, **Vypočítajte**, skontrolujte, exportujte a podajte
    ako zvyčajne.
 

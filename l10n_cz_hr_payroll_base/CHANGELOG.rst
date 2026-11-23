@@ -26,6 +26,41 @@ children's counts on ``hr.contract``; the month helpers go on the contract,
 and the reconciliation reads the contract in force on each month's first day
 instead of ``_get_version``.
 
+[19.0.1.6.0] — 2026-11-21
+-------------------------
+
+Added
+~~~~~
+
+- ``public_holiday.ABSENCES_OVER_A_PUBLIC_HOLIDAY``: the Czech payroll codes
+  of the absences inside which a public holiday is a day of the absence.
+  One code, ``CZSICK`` (sickness and quarantine): § 192 odst. 1 of the Labour
+  Code compensates them on the public holidays whose wage is otherwise not
+  reduced or compensated. Both engines read the list. Not yet on 18.0.
+
+Fixed
+~~~~~
+
+- **The income tested against the insurance limit of a DPP or DPČ counts
+  the meal allowance paid above its exempt limit** (the ``MEALTAXABLE`` line
+  of the engines), on this payslip, on the person's other payslips of the
+  month and in the check at confirmation: income that is not exempt from the
+  tax is in the assessment base (§ 5 odst. 1 zák. 589/1992 Sb.).
+- The help of *Meal allowance / shift* says what happens above the exempt
+  limit: it is paid, taxed and insured.
+
+[19.0.1.5.1] — 2026-11-21
+-------------------------
+
+Added
+~~~~~
+
+- ``hr.version._l10n_cz_relief_version(day)``: the contract version whose
+  disability and ZTP/P reliefs hold for the month of *day*, the one in force
+  on the month's first day (§ 35ba odst. 3 ZDP). Both engines' ``TAXCREDIT``
+  rules read it, so a relief entered on a version dated inside a month counts
+  from the next month on either engine. Not yet on 18.0.
+
 [19.0.1.5.0] — 2026-11-09
 -------------------------
 

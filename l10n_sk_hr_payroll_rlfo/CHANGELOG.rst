@@ -5,6 +5,12 @@ Changelog
 Unreleased
 ==========
 
+- **19.0.1.4.1 (2026-11-22):** the columns for the notified end of an OOP claim and for the end of the
+  leave are shown on the events list by default; they were hidden, so a
+  change reporting the end had no visible place for its date. A batch for
+  2027 shows *RLZEC 2027* before it is generated (declaration base
+  19.0.1.6.2).
+
 * Relicensed to **AGPL-3**. Part of a repository-wide move to a single licence:
   everything Data Dance authors is AGPL-3 except the modules that depend on Odoo
   Enterprise, which OEEL forbids from carrying it. What differs between modules
@@ -12,6 +18,11 @@ Unreleased
 
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
+
+- **19.0.1.4.0 (2026-11-20), not yet on 18.0:** the *Change (agreement OOP)*
+  event, the OOP fields on events, the ``zmena`` branch of the template and
+  the two RLZEC 2027 elements. 18.0 resolves the period's version in the RLFO
+  model, so the 2027 test of the new elements reads it from there.
 
 - **19.0.1.2.3 and 19.0.1.3.0 (2026-11-05), not yet on 18.0:** the reviewed
   ownership status and evidence on registration events (``zamSUcastou``), and
@@ -22,6 +33,32 @@ Carry-over to 18.0
   and 18.0.1.2.0 (merge 3d2a6d07), with the Slovak catalogue; 18.0 resolves
   the period's version in the RLFO model, its declaration base having no
   period vintages.
+
+[19.0.1.4.0] — 2026-11-20
+=========================
+
+**Added**
+
+- **The agreement OOP is reported.** A registration of an agreement carries
+  ``datOznUplatnOop`` when the worker claimed the odvodová odpočítateľná
+  položka by its start, and a new event type *Change (agreement OOP)*
+  (``zmena``, ``ZM``) reports a claim or its end made later
+  (§ 231 ods. 1 písm. e) zákona 461/2003 Z. z.). Until now the module
+  reported neither, for any ground.
+- **The two RLZEC 2027 elements:** ``uplatnOopMdOdRd`` (the claim is made by
+  a person on maternity, paternity or parental leave, § 227a from 1 January
+  2027) on a registration and a change, and ``datSkonceniaMdOdRd`` on a
+  change. Refused on the 2026 form, outside a DoVP or DoPČ, and without a
+  notice date.
+- The claim, its ground and the notice date are proposed from the contract
+  where the Slovak payroll module is installed (19.0.1.27.0 of either
+  engine).
+
+**Not verified**
+
+- No filling instructions for the two new elements were published by
+  2026-11-20; the combinations follow the schema, the authority's list of
+  changes and the act. No file has been through the authority's validator.
 
 [19.0.1.3.1] — 2026-11-05
 =========================

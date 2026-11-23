@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 {
     "name": "Czech Republic — Health Insurance (PPPZ + HOZ)",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.1.3",
     "category": "Human Resources/Payroll",
     "countries": ["cz"],
     "summary": "Czech health-insurance employer e-filings — monthly premium "

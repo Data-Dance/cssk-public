@@ -14,17 +14,25 @@ class ResCompany(models.Model):
         "date, so the VAT accounts (343) agree with the return of every "
         "period. Leave empty to keep the tax where it was booked.",
     )
+    # The code of the fiscal country as a plain value, for the two domains
+    # below. A domain string is evaluated in the browser, where a many2one is
+    # only its id: ``account_fiscal_country_id.code`` evaluates to nothing
+    # there and the picker raises "Invalid domain representation" when opened.
+    l10n_cssk_fiscal_country_code = fields.Char(
+        related="account_fiscal_country_id.code",
+        string="Fiscal Country Code",
+    )
     l10n_cssk_tax_authority_id = fields.Many2one(
         "cssk.tax.authority",
         string="Tax Authority",
-        domain="[('country_code', '=', account_fiscal_country_id.code)]",
+        domain="[('country_code', '=', l10n_cssk_fiscal_country_code)]",
         help="Tax office this company files its statutory returns to. Used as "
         "the addressee in DPH / KV·KH / FS XML exports.",
     )
     l10n_cssk_person_type_id = fields.Many2one(
         "cssk.person.type",
         string="Entity Type",
-        domain="[('country_code', '=', account_fiscal_country_id.code)]",
+        domain="[('country_code', '=', l10n_cssk_fiscal_country_code)]",
         help="Legal form of the company (legal entity / natural person), used "
         "by statutory reports.",
     )

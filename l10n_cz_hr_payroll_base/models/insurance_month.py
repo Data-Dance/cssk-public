@@ -57,12 +57,25 @@ def _line_total(slip, code):
     return sum(slip.line_ids.filtered(lambda l: l.code == code).mapped("total"))
 
 
+def _insurable_income(slip):
+    """The income of a computed payslip that counts for the insurance.
+
+    Every income that is not exempt from the income tax (§ 5 odst. 1 zák.
+    589/1992 Sb.): the gross wage and the meal allowance paid above its
+    exempt limit, which the rules keep outside ``GROSS``.
+    """
+    return _line_total(slip, "GROSS") + _line_total(slip, "MEALTAXABLE")
+
+
 def month_income(slip, gross, contract_field):
-    """``gross`` plus the same person's other income under this kind."""
+    """``gross`` plus the same person's other income under this kind.
+
+    *gross* is this payslip's insurable income, as its rules hand it over.
+    """
     if slip[contract_field].l10n_cz_agreement_type not in AGGREGATED_AGREEMENTS:
         return gross
     return gross + sum(
-        _line_total(other, "GROSS")
+        _insurable_income(other)
         for other in month_slips(slip, contract_field))
 
 
@@ -83,10 +96,10 @@ def check_month(slips, contract_field, threshold):
         # confirmed; there is nothing to recompute.
         if any(group.mapped("credit_note")):
             continue
-        total = sum(_line_total(member, "GROSS") for member in group)
+        total = sum(_insurable_income(member) for member in group)
         insured = total >= threshold(slip, kind)
         wrong = group.filtered(
-            lambda member: _line_total(member, "GROSS")
+            lambda member: _insurable_income(member)
             and bool(_line_total(member, "SOCIALEE")) != insured)
         if wrong:
             raise UserError(_(

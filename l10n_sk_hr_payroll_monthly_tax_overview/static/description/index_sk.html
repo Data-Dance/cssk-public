@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_hr_payroll_monthly_tax_overview/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>SK Prehľad o zrazených a odvedených preddavkoch na daň</h1>
 <p class="cssk-summary">Mesačný prehľad o preddavkoch na daň zrazených zamestnancom a o vyplatenom daňovom bonuse, zostavený z výplatných pások mesiaca ako XML pre finančnú správu.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.1.2</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.2.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_payroll_declaration_base/static/description/index_sk.html"><code>l10n_cssk_payroll_declaration_base</code></a>, <a href="/l10n_sk_base/static/description/index_sk.html"><code>l10n_sk_base</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Každý zamestnávateľ, ktorý zráža zamestnancom preddavky na daň zo mzdy,
@@ -101,6 +101,38 @@ prostredníctvom
 <p>Zoznam zamestnancov na formulári ukazuje, kto do súčtov prispel, a jeho
 hrubú mzdu; samotný prehľad je len za zamestnávateľa a údaje o jednotlivých
 zamestnancoch neobsahuje.</p>
+<h2 id="manual">Bez miezd v databáze</h2>
+<p>Spoločnosť, ktorej mzdy počíta niekto iný, napríklad externá mzdová účtovníčka,
+tu nemá žiadne výplatné pásky. Na prehľade zaškrtnite <strong>Zadať sumy ručne</strong> a
+vyplňte tri údaje z rekapitulácie miezd:</p>
+<table>
+<thead>
+<tr>
+<th>Pole</th>
+<th>Čo zadať</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vyplatené zdaniteľné príjmy (r. 0)</td>
+<td>úhrn zúčtovaných a vyplatených zdaniteľných príjmov všetkých zamestnancov za mesiac</td>
+</tr>
+<tr>
+<td>Zrazené preddavky na daň (r. 1)</td>
+<td>úhrn zrazených preddavkov, <strong>pred</strong> odpočítaním daňového bonusu</td>
+</tr>
+<tr>
+<td>Vyplatený daňový bonus (§ 33)</td>
+<td>bonus vyplatený zamestnancom spolu; ak žiadny nebol, nechajte 0</td>
+</tr>
+</tbody>
+</table>
+<p>Potom kliknite na <strong>Generovať</strong> ako obvykle. Riadky 4, 5 a 8 a II. časť sa z
+troch údajov odvodia rovnako ako z výplatných pások (pozri tabuľku nižšie) a
+zoznam zamestnancov zostane prázdny. Pole je zaškrtnuté samo, ak nie je
+nainštalovaná žiadna mzdová aplikácia. Po vygenerovaní sú sumy zamknuté;
+<em>Vrátiť do konceptu</em> ich opäť otvorí. Mesiac, v ktorom sa nič nevyplatilo, sa
+podáva so všetkými tromi sumami nulovými.</p>
 <h2 id="mapping">Čo sa vyplní do tlačiva</h2>
 <table>
 <thead>
@@ -155,6 +187,11 @@ nezrušených výplatných pások daného mesiaca. Spoločnosť potrebuje bankov
 účet na vrátenie; bez neho sa prehľad nevygeneruje. V iných mesiacoch sa pole
 zaškrtnúť nedá. Ak ho nezaškrtnete, rozdiel si odpočítate neskôr a súbor sa
 nezmení.</p>
+<p>Pri ručne zadanom prehľade nie sú výplatné pásky, z ktorých by sa skoršie
+mesiace prepočítali, preto sa každý z nich berie z prehľadu, ktorý bol zaň
+<strong>vygenerovaný</strong>: z posledného za daný mesiac, teda z opravného, ak bol
+mesiac opravený. Koncepty sa nezapočítavajú. Ak za niektorý skorší mesiac
+štvrťroka vygenerovaný prehľad nie je, prehľad sa nevygeneruje.</p>
 <h2 id="corrections">Opravy</h2>
 <p>Prehľad pozná dva druhy: <em>riadny</em> a <em>opravný</em>. Na opravný prehľad nastavte
 <strong>Typ opravy</strong> na <em>Corrective</em>. Modul opravný prehľad nevygeneruje, kým nie je
@@ -176,8 +213,8 @@ Dodatočný ani stornovací prehľad vytvoriť nemožno.</p>
   poukázanie nežiadate, nič neprenesie r. C do nasledujúcich mesiacov; odvod
   preddavkov v nich znížte sami. R. 08 nikdy nie je záporný.</li>
 <li>Zamestnanecká prémia, daňový bonus na zaplatené úroky (§ 33a) a opravy z
-  ročného zúčtovania (r. 02 a 03) nemajú v mzdách zdroj a treba ich doplniť
-  ručne.</li>
+  ročného zúčtovania (r. 02 a 03) nemajú v mzdách zdroj ani pole na ručné
+  zadanie; do súboru ich doplňte sami.</li>
 <li>Element <strong>právnej formy</strong> v hlavičke: <em>Právna forma</em> zapísaná na kontakte spoločnosti modulom <code>l10n_sk_trade_registry</code>; bez tohto modulu alebo pri prázdnom poli zostáva element prázdny.</li>
 <li>Opravný prehľad nechá prázdny dátum zistenia dôvodov na podanie opravného
   prehľadu.</li>
@@ -186,7 +223,7 @@ Dodatočný ani stornovací prehľad vytvoriť nemožno.</p>
 <li>Úradu sa nič neposiela: <em>Označiť ako odoslané</em> len zaznamená, že ste
   prehľad podali.</li>
 </ul>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

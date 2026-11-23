@@ -267,6 +267,65 @@ class TestReceiptExpense(AccountTestInvoicingCommon):
         self.assertAlmostEqual(expense.total_amount_currency, 181.90, places=2)
         self.assertAlmostEqual(expense.tax_amount_currency, 15.82, places=2)
 
+    # -- a reading that arrives after its expense -----------------------
+    _FUEL_READING = {
+        "seller_name": "Vzorová čerpacia stanica, a. s.",
+        "seller_vat": "SK7199000006",
+        "issue_date": "2026-03-20 09:36:36",
+        "amount_total": 57.85,
+    }
+
+    def _uploaded_unread(self):
+        """An uploaded photograph nothing could read: a blank expense."""
+        expense = self.env["hr.expense"].browse(
+            self.env["hr.expense"].create_expense_from_attachments(
+                attachment_ids=self._attachment().ids))
+        self.assertEqual(expense.cssk_receipt_id.state, "error")
+        self.assertFalse(expense.total_amount_currency)
+        return expense
+
+    def _read_later(self, receipt):
+        receipt.write(dict(
+            self._FUEL_READING,
+            line_ids=[fields.Command.create({
+                "name": "Benzín 95", "quantity": 31.17, "uom_label": "l",
+                "vat_rate": 23.0, "amount_total": 57.85})],
+            tax_summary_ids=[fields.Command.create({
+                "vat_rate": 23.0, "amount_untaxed": 47.03, "amount_tax": 10.82})]))
+        receipt._post_capture()
+        self.assertEqual(receipt.state, "captured")
+
+    def test_a_later_reading_fills_the_waiting_expense(self):
+        """The first reading failed; the retry's result reaches the expense.
+
+        It used to stay an untitled 0.00 that could not be submitted.
+        """
+        expense = self._uploaded_unread()
+        self._read_later(expense.cssk_receipt_id)
+        self.assertAlmostEqual(expense.total_amount_currency, 57.85, places=2)
+        self.assertAlmostEqual(expense.tax_amount_currency, 10.82, places=2)
+        self.assertEqual(expense.date, fields.Date.to_date("2026-03-20"))
+        self.assertEqual(expense.name, "Vzorová čerpacia stanica, a. s.")
+        self.assertTrue(expense.message_ids.filtered(
+            lambda m: "Receipt read" in (m.body or "")))
+
+    def test_an_overridden_review_fills_the_waiting_expense(self):
+        expense = self._uploaded_unread()
+        receipt = expense.cssk_receipt_id
+        receipt.write(dict(
+            self._FUEL_READING, state="review", review_reason="Checked by hand.",
+            tax_summary_ids=[fields.Command.create({
+                "vat_rate": 23.0, "amount_untaxed": 47.03, "amount_tax": 10.82})]))
+        self.assertFalse(expense.total_amount_currency)
+        receipt.action_force_captured()
+        self.assertAlmostEqual(expense.total_amount_currency, 57.85, places=2)
+
+    def test_a_later_reading_leaves_a_filled_expense_alone(self):
+        expense = self._uploaded_unread()
+        expense.write({"name": "Entered by hand", "total_amount_currency": 60.0})
+        self._read_later(expense.cssk_receipt_id)
+        self.assertEqual(expense.name, "Entered by hand")
+        self.assertAlmostEqual(expense.total_amount_currency, 60.0, places=2)
 
     # -- one purchase, booked once (cssk-public#10) ---------------------
     # A stock chart's purchase taxes are tax-excluded, which both paths take

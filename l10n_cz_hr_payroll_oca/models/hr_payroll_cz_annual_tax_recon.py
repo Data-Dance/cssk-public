@@ -7,7 +7,11 @@
 # who had income only from this employer (or bring a Potvrzení from others).
 #
 # Procedure (§38ch odst. 1-5, computed per §16 / §35ba / §35c):
-#   1. Annual tax base = Σ the year's monthly tax bases (gross).
+#   1. Annual tax base = Σ the year's monthly tax bases (gross). Payslips
+#      taxed by the withholding tax stay out, income and tax alike: that
+#      income is a separate tax base (§ 6 odst. 4) and row 1 of the form
+#      "Výpočet daně a daňového zvýhodnění" (25 5460/1) leaves it out, unless
+#      the employee made the declaration after the year (§ 38k odst. 7).
 #   2. minus nezdanitelné části základu daně (§15): state-supported old-age
 #      products (penzijní/DPS/DIP + životní pojištění, joint cap 48 000),
 #      mortgage interest (cap 150 000), gifts/dary (cap 30 % of the base).
@@ -22,8 +26,12 @@
 #      sleva; the surplus is the roční daňový bonus (if annual income reaches
 #      6x minimum wage).
 #   6. Compared with Σ advances actually withheld after the monthly slevy and
-#      child sleva -> přeplatek (refund, the common case; a nedoplatek is NOT
-#      collected through RZ) and the doplatek na daňovém bonusu.
+#      child sleva -> rozdíl na dani; the annual bonus compared with the
+#      monthly bonuses already paid -> rozdíl na daňovém bonusu. The two are
+#      set off against each other (§ 35d odst. 7; rows 28, 30 and 31 of the
+#      form): bonuses paid in excess reduce the tax overpayment. The positive
+#      sum is the doplatek ze zúčtování; a negative one is NOT collected
+#      (§ 35d odst. 8).
 #   7. Previous employers in the year (§ 38ch odst. 4): their income,
 #      advances and bonuses come from the employee's Potvrzení o zdanitelných
 #      příjmech and are entered here; they count as if paid by this employer.
@@ -134,6 +142,14 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
              "computed. A reconciliation paid out on a payslip is reported "
              "in the monthly employer report of that payslip's month; one "
              "with nothing to pay out, in the month of this date.")
+    l10n_cz_retro_declaration = fields.Boolean(
+        "Declaration made after the year (§ 38k odst. 7)",
+        help="The employee made the taxpayer declaration for the year only "
+             "afterwards, by 15 February (§ 38k odst. 7 ZDP). The income "
+             "taxed by the withholding tax then enters the reconciliation "
+             "and the tax withheld counts with the advances. Otherwise "
+             "that income is a separate tax base and stays out "
+             "(§ 6 odst. 4).")
     l10n_cz_spouse_credit = fields.Monetary(
         "Spouse credit",
         help="Annual spouse tax credit (24 840; 49 680 for a ZTP/P "
@@ -165,10 +181,14 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         "Monthly Bonus Already Paid", readonly=True)
     l10n_cz_overpayment = fields.Monetary(
         "Overpayment", readonly=True,
-        help="Refund paid to the employee in the March payslip. An underpayment "
-             "is not collected through the annual reconciliation.")
+        help="Tax overpayment left after monthly child bonuses paid in "
+             "excess were set off against it (§ 35d odst. 7 ZDP), paid to "
+             "the employee in the March payslip. An underpayment is not "
+             "collected through the annual reconciliation.")
     l10n_cz_bonus_doplatek = fields.Monetary(
-        "Bonus top-up", readonly=True)
+        "Bonus top-up", readonly=True,
+        help="Annual child bonus not yet paid monthly, less a tax "
+             "underpayment (§ 35d odst. 7 ZDP).")
     l10n_cz_settlement_total = fields.Monetary(
         "Settlement Total", readonly=True,
         help="Overpayment + bonus top-up actually paid; posted onto a "
@@ -249,6 +269,19 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
     # when together more than 50 Kč.
     _L10N_CZ_SETTLEMENT_MIN = 50.0
 
+    @staticmethod
+    def _l10n_cz_set_off(tax_diff, bonus_diff):
+        """§ 35d odst. 7 ZDP, rows 28 and 30-32 of the form 25 5460/1: the
+        difference on tax (advances less the tax) and the difference on the
+        bonus (annual bonus less the monthly bonuses paid) are set off
+        against each other. Returns the tax overpayment and the bonus
+        top-up that remain; nothing when the sum is negative, because an
+        underpayment is not collected (§ 35d odst. 8)."""
+        total = tax_diff + bonus_diff
+        if total <= 0:
+            return 0.0, 0.0
+        overpayment = min(max(tax_diff, 0.0), total)
+        return overpayment, total - overpayment
 
     def action_compute(self):
         for rec in self:
@@ -261,16 +294,24 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         self.ensure_one()
         version = self._l10n_cz_recon_version()
         payslips = self._l10n_cz_year_payslips()
+        # § 6 odst. 4 ZDP: income taxed by the withholding tax is a separate
+        # tax base, settled by that tax. It enters only when the employee
+        # made the declaration afterwards (§ 38k odst. 7), and then the tax
+        # withheld counts with the advances.
+        if not self.l10n_cz_retro_declaration:
+            payslips = payslips.filtered(lambda slip: not any(
+                line.code == "WHTAX" for line in slip.line_ids))
         sums = self._l10n_cz_sum_lines(
             payslips,
-            ["TAXBASE", "INCOMETAX", "TAXCREDIT", "CHILDBEN", "CHILDBONUS"])
+            ["TAXBASE", "INCOMETAX", "TAXCREDIT", "CHILDBEN", "CHILDBONUS",
+             "WHTAX"])
 
         # § 38ch odst. 4: income, advances and bonuses from previous
         # employers (their Potvrzení) count as if paid here.
         gross_base = sums["TAXBASE"] + self.l10n_cz_prev_income
-        # INCOMETAX line totals are stored negative (a deduction); TAXCREDIT and
-        # CHILDBEN are positive lines that offset the advance.
-        advances_gross = -sums["INCOMETAX"]
+        # INCOMETAX and WHTAX line totals are stored negative (a deduction);
+        # TAXCREDIT and CHILDBEN are positive lines that offset the advance.
+        advances_gross = -sums["INCOMETAX"] - sums["WHTAX"]
         advances_net = (advances_gross - sums["TAXCREDIT"] - sums["CHILDBEN"]
                         + self.l10n_cz_prev_advances)
         bonus_paid = sums["CHILDBONUS"] + self.l10n_cz_prev_bonus_paid
@@ -297,6 +338,8 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         r2 = self._l10n_cz_rule_parameter("l10n_cz_tax_rate_2")
         annual_tax = (r1 / 100.0 * min(tax_base, thr)
                       + r2 / 100.0 * max(tax_base - thr, 0))
+        # § 146 odst. 1 daňového řádu: the tax is rounded up to whole crowns.
+        annual_tax = -(-round(annual_tax, 2) // 1)
 
         # -- §35ba personal credits (poplatník always in full) --
         slevy = self._l10n_cz_rule_parameter("l10n_cz_credit_taxpayer_year")
@@ -314,7 +357,8 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
         child_benefit = min(entitlement, tax_after_slevy)
         final_tax = tax_after_slevy - child_benefit
         bonus_min = self._l10n_cz_rule_parameter("l10n_cz_bonus_min_income_year")
-        if gross_base >= bonus_min:
+        bonus_claimable = gross_base >= bonus_min
+        if bonus_claimable:
             annual_bonus = max(entitlement - tax_after_slevy, 0.0)
         else:
             annual_bonus = 0.0
@@ -324,8 +368,16 @@ class HrPayrollCzAnnualTaxRecon(models.Model):
             annual_bonus = 0.0
 
         # -- Settlement (přeplatek + doplatek na bonusu; nedoplatek not taken) --
-        overpayment = max(advances_net - final_tax, 0.0)
-        bonus_doplatek = max(annual_bonus - bonus_paid, 0.0)
+        # § 35d odst. 7: the difference on tax and the difference on the
+        # bonus are set off against each other, so monthly bonuses paid above
+        # the annual bonus reduce the tax overpayment. Below six times the
+        # minimum wage there is no annual bonus, but the monthly bonuses paid
+        # are kept (§ 35d odst. 6): the difference on the bonus is 0 (row 30
+        # of the form).
+        tax_diff = advances_net - final_tax
+        bonus_diff = annual_bonus - bonus_paid if bonus_claimable else 0.0
+        overpayment, bonus_doplatek = self._l10n_cz_set_off(
+            tax_diff, bonus_diff)
         # § 35d odst. 8 / § 38ch odst. 5: paid only when "více než 50 Kč".
         settlement = overpayment + bonus_doplatek
         if settlement <= self._L10N_CZ_SETTLEMENT_MIN:

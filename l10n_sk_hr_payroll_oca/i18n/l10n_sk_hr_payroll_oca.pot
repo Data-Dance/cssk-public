@@ -4,16 +4,34 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 19.0-20261102\n"
+"Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-11 14:40+0000\n"
-"PO-Revision-Date: 2026-11-11 14:40+0000\n"
+"POT-Creation-Date: 2026-11-20 22:32+0000\n"
+"PO-Revision-Date: 2026-11-20 22:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid ""
+"%(employee)s and %(other)s have the same birth number, and %(other)s already"
+" has an annual tax reconciliation for %(year)s. A taxpayer has one "
+"reconciliation a year (§ 38 zákona č. 595/2003 Z. z.). To gather the "
+"payslips of both records in it, choose Taxed Together With on one of them."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/l10n_sk_tax_reconciliation.py:0
+msgid ""
+"%(employee)s is taxed together with %(principal)s. Make the annual tax "
+"reconciliation for %(principal)s: it gathers the payslips of both records."
+msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_rule_parameter_value__parameter_value
@@ -82,6 +100,14 @@ msgstr ""
 #: model:ir.model.constraint,message:l10n_sk_hr_payroll_oca.constraint_l10n_sk_tax_reconciliation_employee_year_uniq
 msgid ""
 "An annual tax reconciliation already exists for this employee and year."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__tax_underpayment_waived
+msgid ""
+"An underpayment of tax of 5 € or less is not withheld (§ 38 ods. 7 ZDP). It "
+"is first set off against the child tax bonus still to be paid; what is left "
+"is withheld only when the employee assigns a share of tax."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -163,6 +189,11 @@ msgid "Assignment of Salary"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__assigns_tax_share
+msgid "Assigns a Share of Tax (§ 50, § 50aa)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_hr_payroll_structure_sk_employee_salary_attachment_of_salary_rule
 msgid "Attachment of Salary"
 msgstr ""
@@ -210,6 +241,12 @@ msgid "Children 15–17y (tax bonus)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_children_over_18
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_children_over_18
+msgid "Children 18y+ (tax bonus to 2024)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_children_under_15
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_children_under_15
 msgid "Children < 15y (tax bonus)"
@@ -241,10 +278,10 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_oop
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_oop
 msgid ""
-"Claim the pension deductible allowance (OOP) on an agreement for an eligible"
-" pensioner or student. It reduces the assessment base for old-age, "
-"disability and the reserve fund by up to 200 €/month. Only one such "
-"agreement per month may claim it."
+"Claim the pension deductible allowance (odvodová odpočítateľná položka, § "
+"227a and § 138a zákona 461/2003 Z. z.) on this agreement. It reduces the "
+"assessment base for old-age, disability and the reserve fund by up to 200 € "
+"a month (300 € from 2027). A person may claim it on one agreement a month."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -283,6 +320,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_oca.l10n_sk_tax_reconciliation_view_form
 msgid "Computed reconciliation"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_rule_parameter.py:0
+msgid ""
+"Conflicting salary rule parameter values for '%(code)s' on %(date)s. Keep "
+"one definition or matching values for that effective date."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -462,6 +507,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_payroll_structure__l10n_sk_agreement_type__none
 msgid "Employment (pracovný pomer)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid ""
+"Enter the day the worker notified the OOP claim and proved the leave: on the"
+" ground of leave the OOP applies from that notice only (§ 227a ods. 3)."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -670,6 +723,21 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_oop_leave_end
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_oop_leave_end
+msgid ""
+"Last day of the maternity, paternity or parental leave. The worker reports "
+"it at least eight days ahead; the OOP stops with the month of this day (§ "
+"227a ods. 4)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_oop_leave_end
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_oop_leave_end
+msgid "Leave Ends (OOP)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.leave.type,name:l10n_sk_hr_payroll_oca.l10n_sk_leave_type_materska
 msgid "Maternity Leave (materská, § 166 ods. 1)"
 msgstr ""
@@ -677,6 +745,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_leave_type__l10n_sk_payroll_code__materska
 msgid "Maternity leave (§ 166/1)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_agreement_oop_reason__parental
+msgid "Maternity, paternity or parental leave"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -735,6 +808,12 @@ msgid "Meal Vouchers (Employer)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_meal_short_shift
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_meal_short_shift
+msgid "Meal also for a Shift of Four Hours or Less"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_meal_allowance_type
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_meal_allowance_type
 msgid ""
@@ -788,8 +867,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_meal_days
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_meal_days
 msgid ""
-"Number of days the meal allowance is provided. Leave 0 to use the worked "
-"days (WORK100) of the payslip."
+"Number of days the meal allowance is provided. Leave 0 to count the days of "
+"the payslip with more than four hours worked."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -811,6 +890,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_children_over_18
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_children_over_18
+msgid ""
+"Number of dependent children aged 18 or over, for the child tax bonus of "
+"2023 and 2024 (€50 a child, § 52zzp ods. 4 zákona 595/2003). It applies to "
+"December 2024 at the latest: from January 2025 a child of 18 or over has no "
+"bonus, and a number left here is ignored."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_children_under_15
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_children_under_15
 msgid ""
@@ -821,7 +910,19 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_oop
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_oop
-msgid "OOP Agreement (student/pensioner)"
+msgid "OOP Agreement"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_oop_reason
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_oop_reason
+msgid "OOP Ground"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_oop_notified
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_oop_notified
+msgid "OOP Notice Received"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -917,6 +1018,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_pension_type
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_pension_type
 msgid "Pension granted (SK)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_oca.selection__hr_version__l10n_sk_agreement_oop_reason__pension_student
+msgid "Pensioner or student"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1150,8 +1256,20 @@ msgid "Slovakia: Annual non-taxable part per taxpayer (NČZD)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_tax_underpayment_not_withheld
+msgid "Slovakia: Annual tax underpayment not withheld (up to)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_avg_earnings_min_hours
 msgid "Slovakia: Average earnings — minimum hours in the determining period"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_child_bonus_keep_granted
+msgid ""
+"Slovakia: Child bonus granted during the year is kept in the annual "
+"settlement"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1172,6 +1290,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_child_bonus_15_18
 msgid "Slovakia: Child tax bonus per child 15–17y"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_child_bonus_over_18
+msgid "Slovakia: Child tax bonus per child 18y+ (to 2024)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1310,6 +1433,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_oca
 #: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_stravne_5_12h
 msgid "Slovakia: Meal allowance, 5–12 h"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.rule.parameter,name:l10n_sk_hr_payroll_oca.rule_parameter_meal_min_hours
+msgid "Slovakia: Meal — hours of work in a shift that must be exceeded"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1517,9 +1645,29 @@ msgid "Tax Assignation Note (2%/3%)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_tax_base_taken
+msgid "Tax Base Taken Over from Records Taxed Together"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.salary.rule.category,name:l10n_sk_hr_payroll_oca.hr_payroll_joint_tax_info
+msgid "Tax Base Taxed Together"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:hr.salary.rule,name:l10n_sk_hr_payroll_oca.l10n_sk_tax_base_moved
+msgid "Tax Base Taxed on the Other Record's Payslip"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_tax_declaration_signed
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_tax_declaration_signed
 msgid "Tax Declaration Signed"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__tax_underpayment_waived
+msgid "Tax Underpayment Not Withheld"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1551,6 +1699,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid ""
+"The OOP on the ground of maternity, paternity or parental leave exists on a "
+"DoVP or DoPČ only (§ 227a ods. 1 zákona 461/2003 Z. z.)."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_payroll_structure__l10n_sk_agreement_type
 msgid ""
 "The Slovak employment form this structure represents. Choosing the structure"
@@ -1564,6 +1720,27 @@ msgstr ""
 msgid ""
 "The contracted working time of %(value).1f hours %(basis)s exceeds the "
 "statutory ceiling of %(ceiling).0f for this agreement type."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_oop_notified
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_oop_notified
+msgid ""
+"The day the worker notified the claim in writing and, on the ground of "
+"leave, also proved the leave (the confirmation of the employer the leave is "
+"taken with). The OOP applies from the start of the agreement if this is no "
+"later than that day, otherwise from the following month (§ 227a ods. 3). "
+"Required on the ground of leave; left empty on another ground, the OOP "
+"applies while the box is ticked. Keep the notice and the proof in the "
+"worker's documents."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_l10n_sk_tax_reconciliation__assigns_tax_share
+msgid ""
+"The employee asked for the confirmation of tax paid in order to assign a "
+"share of it (§ 50, § 50aa ZDP). The tax then has to be paid in full, so an "
+"underpayment of 5 € or less is withheld as well (§ 38 ods. 7 ZDP)."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1585,6 +1762,18 @@ msgid ""
 "The employee signed the taxpayer's declaration with this employer, so the "
 "monthly non-taxable part (NČZD) and the child tax bonus are applied here. "
 "Only one employer at a time may apply them."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_meal_short_shift
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_meal_short_shift
+msgid ""
+"The employer provides the meal, or the financial contribution, also for a "
+"shift in which the employee works four hours or less, as § 152 ods. 9 of the"
+" Labour Code allows after consulting the employees' representatives. A day "
+"then counts when any work was done on it; without this a day counts only "
+"with more than four hours worked (§ 152 ods. 2). Not used when Meal Days / "
+"Month is set."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
@@ -1745,6 +1934,15 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_employee__l10n_sk_agreement_oop_reason
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_oca.field_hr_version__l10n_sk_agreement_oop_reason
+msgid ""
+"Why the worker may claim the OOP. A person on maternity, paternity or "
+"parental leave may claim it on a DoVP or DoPČ from 1 January 2027; that "
+"claim starts and ends by the dates below."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #: model:hr.leave.accrual.plan,name:l10n_sk_hr_payroll_oca.l10n_sk_accrual_plan_obstacle_accompany_disabled_10d
 msgid "Work obstacle — accompanying a disabled child (ZŤP), 10 days/year"
 msgstr ""
@@ -1786,9 +1984,18 @@ msgid "ZŤP / Disabled"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_oca
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_oca.field_hr_payslip__l10n_sk_sick_pay_warning
+msgid "Sick Pay Warning"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
 #. odoo-python
-#: code:addons/l10n_sk_hr_payroll_oca/models/hr_rule_parameter.py:0
-msgid ""
-"Conflicting salary rule parameter values for '%(code)s' on %(date)s. Keep "
-"one definition or matching values for that effective date."
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid "per week"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_oca
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_oca/models/hr_version.py:0
+msgid "per year"
 msgstr ""

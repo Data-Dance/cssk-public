@@ -5,6 +5,42 @@ Changelog
 All notable changes to **l10n_cz_vat_return** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[19.0.1.18.1] — 2026-11-22
+--------------------------
+
+Changed
+~~~~~~~
+
+- The base form's *Difference identification date* stays hidden on a return
+  that is not an additional one, also where this module's view takes over
+  its visibility (``l10n_cssk_vat_return_base`` 19.0.1.14.0). *Důvody
+  zjištěny dne* is unchanged.
+
+[19.0.1.18.0] — 2026-11-21
+--------------------------
+
+Changed
+~~~~~~~
+
+- **ř. 31 (třístranný obchod, dodání prostřední osobou) is computed**, from
+  ``-VAT 31``, the tag of the middle party's supply tax ``l10n_cz_ec_sales``
+  now adds; ř. 30 already read ``VAT 30``. It was a manual line because no
+  tax in the l10n_cz chart carried the tag. Existing databases get the change
+  by migration; a value typed into ř. 31 of an existing return survives as an
+  override.
+
+[19.0.1.17.1] — 2026-11-21
+--------------------------
+
+Fixed
+~~~~~
+
+- **A return for a period with nothing in it is marked as such in the XML.**
+  ``VetaD/@trans`` was never written. It is now ``A`` when the period has any
+  figure and ``N`` when every row is zero ("Vznikla-li daňová povinnost,
+  uveďte A. Nevznikla-li daňová povinnost uveďte N.", DPHDP3 03.01.04). On a
+  dodatečné it follows the period's own figures, not the differences filed.
+
 [Unreleased]
 ------------
 

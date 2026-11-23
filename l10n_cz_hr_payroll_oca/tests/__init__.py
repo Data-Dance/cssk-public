@@ -4,3 +4,5 @@ from . import test_engine_access
 from . import test_annual_recon_rules
 from . import test_payslip_company_rules
 from . import test_rules_shared
+from . import test_statutory_rounding
+from . import test_meal_allowance

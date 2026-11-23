@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-27 22:27+0000\n"
-"PO-Revision-Date: 2026-10-27 22:27+0000\n"
+"POT-Creation-Date: 2026-11-22 20:17+0000\n"
+"PO-Revision-Date: 2026-11-22 20:17+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -41,8 +41,18 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_monthly_tax_overview.view_l10n_sk_prehlad_form
+msgid "Amounts"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__message_attachment_count
 msgid "Attachment Count"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_child_bonus
+msgid "Child tax bonus paid (§ 33)"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
@@ -112,6 +122,13 @@ msgid "Date To"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_child_bonus
+msgid ""
+"Daňový bonus podľa § 33 paid to the employees in total (Part II, row A). Row"
+" 5 takes it up to the withheld advances; the rest is row C of Part II."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__submission_state
 msgid "Delivery"
 msgstr ""
@@ -129,6 +146,19 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__lines_count
 msgid "Employees"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_entry
+msgid "Enter the amounts by hand"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_fallback_reason
+msgid ""
+"Explain the reviewed correction of older payroll without recorded fund "
+"bases. Confirm it before generating the correction; do not recalculate filed"
+" payroll to create historical evidence."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
@@ -150,6 +180,14 @@ msgid ""
 "the quarter. Only possible in the overview for the last month of a calendar "
 "quarter (March, June, September, December). Leave it off to deduct the "
 "difference from the tax advances of the following months instead."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_entry
+msgid ""
+"Fill the overview from the amounts entered below instead of summing the "
+"month's payslips. For a company whose wages are computed outside this "
+"database. Ticked by default when no payroll app is installed."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
@@ -224,6 +262,21 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_confirmed_by
+msgid "Legacy calculation confirmed by"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_confirmed_at
+msgid "Legacy calculation confirmed on"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_confirmation_expired
+msgid "Legacy confirmation expired"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_monthly_tax_overview.view_l10n_sk_prehlad_form
 msgid "Mark Submitted"
 msgstr ""
@@ -259,11 +312,6 @@ msgid "Name"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
-#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_calendar_event_id
-msgid "Next Activity Calendar Event"
-msgstr ""
-
-#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -276,6 +324,14 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_type_id
 msgid "Next Activity Type"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"No payroll engine is installed (hr.payslip is unavailable), so there are no "
+"payslips to aggregate."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
@@ -311,6 +367,18 @@ msgid "Payment Date"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_warning
+msgid ""
+"Payslips for which the declaration used the original gross-based calculation"
+" instead of recorded fund bases."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_fallback_reason
+msgid "Reason for using the original gross-based calculation"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__report_code
 msgid "Report Code"
 msgstr ""
@@ -321,6 +389,12 @@ msgid "Request refund of the child tax bonus difference"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid "Reset the overview to draft before changing its amounts."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_monthly_tax_overview.view_l10n_sk_prehlad_form
 msgid "Reset to Draft"
 msgstr ""
@@ -328,6 +402,11 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_confirmation_digest
+msgid "Reviewed payroll sources"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
@@ -375,8 +454,24 @@ msgid "Submitted Date"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_tax_advance
+msgid "Tax advances withheld (r. 1)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_taxable_income
+msgid "Taxable income paid (r. 0)"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__is_correction
 msgid "Technical: true for anything that amends an earlier filing."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid "The amounts of the overview are entered as positive numbers."
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
@@ -395,8 +490,31 @@ msgid ""
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"The overview for %(month)02d/%(year)s was generated from payslips and no "
+"payroll app is installed any more, so its child tax bonus cannot be added to"
+" the refund. Enter that month by hand in a new overview."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_monthly_tax_overview/models/l10n_sk_prehlad.py:0
+msgid ""
+"The refund of the child tax bonus difference adds up the three months of the"
+" quarter, and no overview was generated for %(month)02d/%(year)s. Enter and "
+"generate that month's overview first."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__activity_exception_decoration
 msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__fund_bases_warning
+msgid "Unrecorded fund bases"
 msgstr ""
 
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
@@ -430,4 +548,19 @@ msgstr ""
 #. module: l10n_sk_hr_payroll_monthly_tax_overview
 #: model:ir.model.fields,field_description:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__year
 msgid "Year"
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_tax_advance
+msgid ""
+"Úhrn zrazených preddavkov na daň: the income-tax advances withheld from the "
+"employees, BEFORE the child tax bonus is taken off. Rows 4 and 8 are "
+"computed from it."
+msgstr ""
+
+#. module: l10n_sk_hr_payroll_monthly_tax_overview
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_monthly_tax_overview.field_l10n_sk_prehlad__manual_taxable_income
+msgid ""
+"Úhrn zúčtovaných a vyplatených zdaniteľných príjmov: the taxable employment "
+"income settled and paid out to all employees for the month."
 msgstr ""

@@ -697,17 +697,197 @@ msgid "ZECN — employee, irregular income"
 msgstr "ZECN — zamestnanec, nepravidelný príjem"
 
 #. module: l10n_sk_hr_payroll_rlfo
-#: model_terms:ir.ui.view,arch_db:l10n_sk_hr_payroll_rlfo.rlfo_xml
-msgid "false"
-msgstr "false"
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "Kalendár ďalších aktivít eventu"
 
-#~ msgid ""
-#~ "10-digit identification number assigned to the employer by the Sociálna "
-#~ "poisťovňa — the <variabilnySymbol> element of the SP overviews (MVP / "
-#~ "VPP)."
-#~ msgstr ""
-#~ "10-miestne identifikačné číslo pridelené zamestnávateľovi Sociálnou "
-#~ "poisťovňou — element <variabilnySymbol> výkazov SP (MVP / VPP)."
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields.selection,name:l10n_sk_hr_payroll_rlfo.selection__l10n_sk_rlfo_event__typ_rl__zm
+msgid "Change (agreement OOP)"
+msgstr "Zmena (OOP z dohody)"
 
-#~ msgid "Next Activity Calendar Event"
-#~ msgstr "Kalendár ďalších aktivít eventu"
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_change
+msgid "Change applies from (datUplatnenia)"
+msgstr "Zmena platí od (datUplatnenia)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_fallback_reason
+msgid ""
+"Explain the reviewed correction of older payroll without recorded fund "
+"bases. Confirm it before generating the correction; do not recalculate filed"
+" payroll to create historical evidence."
+msgstr ""
+"Zdôvodnite overenú opravu starších miezd bez uchovaných poistných základov. "
+"Pred vytvorením opravy ju výslovne potvrďte; podané mzdy neprepočítavajte "
+"kvôli doplneniu historických údajov."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"For '%(name)s' the end of the OOP claim is notified before the claim itself."
+msgstr ""
+"Pri zamestnancovi '%(name)s' je ukončenie uplatňovania OOP oznámené skôr než"
+" samotné uplatnenie."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_end_notified_date
+msgid ""
+"For a change: the day the employee told the employer that the OOP is no "
+"longer claimed on this agreement (§ 227a ods. 2 písm. b))."
+msgstr ""
+"Pri zmene: deň, keď zamestnanec oznámil zamestnávateľovi, že si na tejto "
+"dohode OOP ďalej neuplatňuje (§ 227a ods. 2 písm. b))."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__date_change
+msgid "For a change: the day the reported change takes effect."
+msgstr "Pri zmene: deň, od ktorého oznamovaná zmena platí."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__parental_leave_end
+msgid ""
+"For a change: the last day of the maternity, paternity or parental leave the"
+" OOP was claimed on. RLZEC 2027 and later."
+msgstr ""
+"Pri zmene: posledný deň materskej, otcovskej alebo rodičovskej dovolenky, z "
+"dôvodu ktorej sa OOP uplatňovala. Od vzoru RLZEC 2027."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__parental_leave_end
+msgid "Leave ends (datSkonceniaMdOdRd)"
+msgstr "Skončenie MD/OD/RD (datSkonceniaMdOdRd)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_confirmed_by
+msgid "Legacy calculation confirmed by"
+msgstr "Pôvodný výpočet potvrdil"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_confirmed_at
+msgid "Legacy calculation confirmed on"
+msgstr "Pôvodný výpočet potvrdený dňa"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_confirmation_expired
+msgid "Legacy confirmation expired"
+msgstr "Platnosť pôvodného potvrdenia uplynula"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_notified_date
+msgid "OOP claim notified (datOznUplatnOop)"
+msgstr "Oznámenie uplatnenia OOP (datOznUplatnOop)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_end_notified_date
+msgid "OOP end notified (datOznUkoncUplatnOop)"
+msgstr "Oznámenie ukončenia OOP (datOznUkoncUplatnOop)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_parental
+msgid "OOP on the ground of leave (uplatnOopMdOdRd)"
+msgstr "OOP z dôvodu MD/OD/RD (uplatnOopMdOdRd)"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_warning
+msgid ""
+"Payslips for which the declaration used the original gross-based calculation"
+" instead of recorded fund bases."
+msgstr ""
+"Pásky, pri ktorých výkaz použil pôvodný výpočet z hrubej odmeny namiesto "
+"uchovaných poistných základov."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_fallback_reason
+msgid "Reason for using the original gross-based calculation"
+msgstr "Dôvod použitia pôvodného výpočtu z hrubej odmeny"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_confirmation_digest
+msgid "Reviewed payroll sources"
+msgstr "Overené mzdové podklady"
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_parental
+msgid ""
+"The OOP is claimed by a person on maternity, paternity or parental leave. "
+"DoVP and DoPČ only, RLZEC 2027 and later."
+msgstr ""
+"OOP si uplatňuje osoba na materskej, otcovskej alebo rodičovskej dovolenke. "
+"Len pri DoVP a DoPČ, od vzoru RLZEC 2027."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The OOP of '%(name)s' can be reported on an agreement only (relationship "
+"types ZECD1 to ZECD3N)."
+msgstr ""
+"OOP zamestnanca '%(name)s' možno oznámiť len pri dohode (typy vzťahu ZECD1 "
+"až ZECD3N)."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The OOP on the ground of maternity, paternity or parental leave ('%(name)s')"
+" is reported on the RLZEC 2027 form: set the batch to January 2027 or later."
+msgstr ""
+"OOP z dôvodu materskej, otcovskej alebo rodičovskej dovolenky ('%(name)s') "
+"sa oznamuje na vzore RLZEC 2027: nastavte dávku na január 2027 alebo neskôr."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The OOP on the ground of maternity, paternity or parental leave exists on a "
+"DoVP or DoPČ only; '%(name)s' has another relationship type."
+msgstr ""
+"OOP z dôvodu materskej, otcovskej alebo rodičovskej dovolenky existuje len "
+"pri DoVP alebo DoPČ; '%(name)s' má iný typ vzťahu."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid "The change for '%(name)s' needs the date it applies from."
+msgstr "Zmena pre zamestnanca '%(name)s' potrebuje dátum, od ktorého platí."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The change for '%(name)s' reports nothing: fill in the date the OOP claim or"
+" its end was notified, or the end of the leave."
+msgstr ""
+"Zmena pre zamestnanca '%(name)s' nič neoznamuje: vyplňte dátum oznámenia "
+"uplatnenia OOP alebo jeho ukončenia, alebo skončenie dovolenky."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,help:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo_event__oop_notified_date
+msgid ""
+"The day the employee told the employer in writing that the odvodová "
+"odpočítateľná položka is claimed on this agreement (§ 227a ods. 2 písm. a) "
+"zákona 461/2003 Z. z.) and, for a parent on leave, also proved the leave. "
+"Reported with a registration or a change, no later than the next working "
+"day."
+msgstr ""
+"Deň, keď zamestnanec písomne oznámil zamestnávateľovi, že si na tejto dohode"
+" uplatňuje odvodovú odpočítateľnú položku (§ 227a ods. 2 písm. a) zákona "
+"461/2003 Z. z.), a pri rodičovi na dovolenke ju aj preukázal. Oznamuje sa "
+"prihláškou alebo zmenou najneskôr v nasledujúci pracovný deň."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#. odoo-python
+#: code:addons/l10n_sk_hr_payroll_rlfo/models/l10n_sk_rlfo.py:0
+msgid ""
+"The event of '%(name)s' marks the OOP as claimed on the ground of leave but "
+"has no date the claim was notified."
+msgstr ""
+"Udalosť zamestnanca '%(name)s' označuje OOP ako uplatnenú z dôvodu "
+"dovolenky, ale chýba dátum oznámenia uplatnenia."
+
+#. module: l10n_sk_hr_payroll_rlfo
+#: model:ir.model.fields,field_description:l10n_sk_hr_payroll_rlfo.field_l10n_sk_rlfo__fund_bases_warning
+msgid "Unrecorded fund bases"
+msgstr "Chýbajúce zaznamenané základy fondov"
