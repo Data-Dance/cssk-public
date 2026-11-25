@@ -13,12 +13,15 @@ because a period can hold a draft, a filed one and an opravná závěrka at once
 and which of them goes to the finanční úřad is the accountant's decision.
 """
 
+import base64
+import re
 from decimal import ROUND_HALF_UP, Decimal
 
 from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import single_email_re
 from odoo.tools.safe_eval import safe_eval
 
 from . import dppdp9_vykazy as vykazy
@@ -141,6 +144,46 @@ class CSSKIncomeTaxReturn(models.Model):
         help="The computed Výkaz zisku a ztráty (druhové členění) filed "
              "with this return as DPPDP9 VetaUB.")
 
+    # --- Žádost o předání účetní závěrky do sbírky listin (věta UZ) -------
+    l10n_cz_registry_request = fields.Boolean(
+        string="Předat účetní závěrku do sbírky listin",
+        help="§ 21b zákona o účetnictví: an obchodní korporace may hand its "
+             "účetní závěrka to the sbírka listin through the income tax "
+             "return. The return then carries the request (věta UZ, tiskopis "
+             "25 5404/I) with the scope ticked below. The duty to publish is "
+             "met when the return is filed (§ 21b odst. 6 písm. b)).")
+    l10n_cz_registry_balance_sheet = fields.Boolean(
+        string="Předat Rozvahu", default=True,
+        help="pr11_rozv. The Rozvaha linked to the return.")
+    l10n_cz_registry_profit_loss = fields.Boolean(
+        string="Předat Výkaz zisku a ztráty", default=True,
+        help="pr11_vzz. Untick where the unit does not publish it (§ 21a "
+             "odst. 9: a small or micro unit with no audit duty).")
+    l10n_cz_registry_email = fields.Char(
+        string="E-mail pro potvrzení",
+        help="pr11_email: where the tax office confirms the handover. Not "
+             "the address of the rejstříkový soud.")
+    l10n_cz_uz_not_approved = fields.Boolean(
+        string="Účetní závěrka nebyla schválena",
+        help="VetaD/neschval_uz: the figures come from a závěrka the "
+             "competent body has not approved yet.")
+    l10n_cz_uz_not_audited = fields.Boolean(
+        string="Účetní závěrka nebyla ověřena auditorem",
+        help="VetaD/neaudit_uz: the figures come from a závěrka the auditor "
+             "has not verified yet.")
+    l10n_cz_notes_attachment_ids = fields.Many2many(
+        "ir.attachment", "l10n_cz_dppdp9_notes_att_rel", "return_id",
+        "attachment_id", string="Příloha účetní závěrky", copy=False,
+        help="Filed as the prescribed e-příloha PP_OPISPUV.")
+    l10n_cz_cash_flow_attachment_ids = fields.Many2many(
+        "ir.attachment", "l10n_cz_dppdp9_cash_flow_att_rel", "return_id",
+        "attachment_id", string="Přehled o peněžních tocích", copy=False,
+        help="Filed as the prescribed e-příloha PP_PTOK.")
+    l10n_cz_equity_attachment_ids = fields.Many2many(
+        "ir.attachment", "l10n_cz_dppdp9_equity_att_rel", "return_id",
+        "attachment_id", string="Přehled o změnách vlastního kapitálu",
+        copy=False, help="Filed as the prescribed e-příloha PP_ZVKAP.")
+
     #: For the form: the výkaz fields mean nothing on a Slovak DPPO.
     l10n_cz_country_code = fields.Char(related="version_id.country_id.code")
 
@@ -163,6 +206,236 @@ class CSSKIncomeTaxReturn(models.Model):
         if self._l10n_cz_is_dppdp9() and self.date_from:
             computed = dict(computed, period_start_year=self.date_from.year)
         return super()._eval_aggregate(formula, computed)
+
+    def _eval_asset_diff(self, which):
+        """ř. 50 / ř. 150 from the tax asset register, calendar years only.
+
+        The pokyny (25 5404/1) put on ř. 50 "celkový rozdíl, o který souhrn
+        odpisů hmotného a nehmotného majetku (§ 26 zákona) uplatněných v
+        účetnictví převyšuje souhrn odpisů tohoto majetku stanovených podle
+        § 26 až 33 zákona", and the opposite case on ř. 150: one of the two,
+        never both. That is ``addback`` / ``deduction`` of the register.
+
+        The tax depreciation board is kept by calendar year, so for a period
+        that crosses a year end (a hospodářský rok, a period longer than
+        twelve months) the register would add the tax depreciation of both
+        calendar years to the accounting depreciation of one period. Such a
+        return gets 0 on both rows and says so; the accountant enters the
+        difference by override.
+        """
+        if (self._l10n_cz_is_dppdp9() and self.date_from and self.date_to
+                and self.date_from.year != self.date_to.year):
+            return 0.0
+        value = super()._eval_asset_diff(which)
+        if self._l10n_cz_is_dppdp9():
+            # The form is in whole crowns and each row is filed rounded on
+            # its own; a row carrying haléře would let the filed ř. 70 differ
+            # by a crown from the filed rows it adds up.
+            value = float(Decimal(repr(round(value or 0.0, 2))).quantize(
+                Decimal(1), rounding=ROUND_HALF_UP))
+        return value
+
+    #: subtotal → (the typed row of the other items, the register row)
+    _L10N_CZ_SUBTOTALS = {"r70": ("r70_other", "r50"),
+                          "r170": ("r170_other", "r150")}
+
+    def _l10n_cz_check_subtotals(self):
+        """Refuse a typed ř. 70 / ř. 170 that is not the sum of its rows.
+
+        The subtotals were typed rows before 19.0.1.7.0 and an override still
+        wins over the formula, which is what keeps the base of an older
+        return where it was. But the file now carries ř. 50 / ř. 150 next to
+        the subtotal, and a subtotal that does not contain them is an
+        inconsistent return the XSD cannot see.
+        """
+        self.ensure_one()
+        values = {line.code: line for line in self.line_ids}
+        for total, (other, register) in self._L10N_CZ_SUBTOTALS.items():
+            line = values.get(total)
+            if not line or not line.is_overridden or other not in values \
+                    or register not in values:
+                continue
+            parts = values[other].value + values[register].value
+            if abs(line.value - parts) > 0.5:
+                raise UserError(_(
+                    "%(total)s is typed as %(typed).2f, but its rows add up "
+                    "to %(parts).2f (%(register)s %(reg).2f + other items "
+                    "%(oth).2f). Clear the override on %(total)s, enter the "
+                    "items other than the depreciation difference on the "
+                    "\"ostatní položky\" row and compute again.",
+                    total=line.name, typed=line.value, parts=parts,
+                    register=values[register].code, reg=values[register].value,
+                    oth=values[other].value))
+
+    def action_compute_lines(self):
+        res = super().action_compute_lines()
+        for rec in self:
+            if (rec._l10n_cz_is_dppdp9() and rec.date_from and rec.date_to
+                    and rec.date_from.year != rec.date_to.year
+                    and hasattr(rec.company_id,
+                                "_cssk_asset_book_tax_difference")
+                    and not rec.line_ids.filtered(
+                        lambda l: l.code in ("r50", "r150")
+                        and l.is_overridden)):
+                rec.message_post(body=_(
+                    "ř. 50 and ř. 150 were not computed: the period crosses "
+                    "a calendar year end and the tax depreciation plan is "
+                    "kept by calendar year. Enter the difference between "
+                    "accounting and tax depreciation on one of the two rows "
+                    "by override."))
+        return res
+
+    # ------------------------------------------------------------------
+    # Sbírka listin (§ 21b zákona o účetnictví)
+    # ------------------------------------------------------------------
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._l10n_cz_bind_attachments()
+        return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        if any(field in vals for field, *_rest in self._L10N_CZ_E_PRILOHY):
+            self._l10n_cz_bind_attachments()
+        return res
+
+    def _l10n_cz_bind_attachments(self):
+        """Attach the uploaded files to their return.
+
+        The upload widget creates them with no record (``res_id`` 0), and
+        such an attachment is readable by its uploader only: the colleague
+        who exports the return would file it without them, or not at all.
+        """
+        for rec in self:
+            for field, *_rest in self._L10N_CZ_E_PRILOHY:
+                # Only what this user uploaded: binding with ``sudo`` any
+                # loose attachment whose id was written into the field would
+                # hand its content to whoever can read the return.
+                loose = rec[field].sudo().filtered(
+                    lambda att: not att.res_id
+                    and att.res_model in (False, rec._name)
+                    and att.create_uid == self.env.user)
+                if loose:
+                    loose.write({"res_model": rec._name, "res_id": rec.id})
+
+    #: (field, PredepsanaPriloha/@kod, VetaD count attribute, VetaUZ flag)
+    _L10N_CZ_E_PRILOHY = (
+        ("l10n_cz_notes_attachment_ids", "PP_OPISPUV", "pril_uz", "pr11_puz"),
+        ("l10n_cz_cash_flow_attachment_ids", "PP_PTOK", "p_ptok", "pr11_ppt"),
+        ("l10n_cz_equity_attachment_ids", "PP_ZVKAP", "p_zvkap", "pr11_pzvk"),
+    )
+    #: DPPDP9 popis struktury, e-přílohy: the accepted file types, and a
+    #: signed (PKCS#7) or zipped file of one of them.
+    _L10N_CZ_E_PRILOHA_TYPES = (
+        "doc", "docx", "rtf", "xls", "xlsx", "pdf", "jpg", "jpeg", "txt",
+        "csv", "p7s", "zip")
+    #: "Součet velikostí všech souborů … může být nejvýše 10 240 kilobajtů."
+    _L10N_CZ_E_PRILOHA_LIMIT = 10240 * 1024
+
+    def _l10n_cz_e_prilohy(self):
+        """``[{cislo, nazev, jm_souboru, kod, data}]`` in the filing order."""
+        self.ensure_one()
+        out = []
+        for field, kod, _count, _flag in self._L10N_CZ_E_PRILOHY:
+            label = self._fields[field].string
+            for att in self[field].sorted("id"):
+                # ``raw``, not ``datas``: under a ``bin_size`` context
+                # ``datas`` is the size as text, and would be filed.
+                raw = att.raw or b""
+                # A bare file name: no folders, no control characters.
+                name = re.split(r"[\\/]", att.name or "")[-1]
+                name = "".join(ch for ch in name if ch.isprintable())
+                out.append({
+                    "cislo": str(len(out) + 1),
+                    "nazev": label,
+                    "jm_souboru": name.strip()[:255],
+                    "kod": kod,
+                    "data": base64.b64encode(raw).decode(),
+                    "size": len(raw),
+                })
+        return out
+
+    def _l10n_cz_check_registry_request(self):
+        """Refuse a request the tax office would not hand over.
+
+        § 21b odst. 5: where the request is not made in the prescribed way
+        the závěrka is NOT passed on, and the unit learns of it late. None
+        of this is in the XSD: a request with no Rozvaha behind it, a file
+        of a type EPO does not take and a malformed e-mail all validate.
+        """
+        self.ensure_one()
+        prilohy = self._l10n_cz_e_prilohy()
+        for item in prilohy:
+            ext = item["jm_souboru"].rpartition(".")[2].lower()
+            if "." not in item["jm_souboru"] \
+                    or ext not in self._L10N_CZ_E_PRILOHA_TYPES:
+                raise UserError(_(
+                    "%(file)s cannot be filed as an e-příloha. EPO accepts "
+                    "DOC, DOCX, RTF, XLS, XLSX, PDF, JPG, JPEG, TXT and CSV "
+                    "files, or one of them signed (P7S) or zipped (ZIP).",
+                    file=item["jm_souboru"] or item["nazev"]))
+            if not item["data"]:
+                raise UserError(_(
+                    "%(file)s is empty.", file=item["jm_souboru"]))
+        total = sum(item["size"] for item in prilohy)
+        if total > self._L10N_CZ_E_PRILOHA_LIMIT:
+            raise UserError(_(
+                "The attached files have %(size)s kB together; EPO accepts "
+                "at most 10 240 kB of e-přílohy in one filing.",
+                size=round(total / 1024)))
+        if not self.l10n_cz_registry_request:
+            return
+        statements = self._l10n_cz_vykaz_statements()
+        wanted = (self.l10n_cz_registry_balance_sheet
+                  or self.l10n_cz_registry_profit_loss)
+        if wanted and len(statements) != 2:
+            raise UserError(_(
+                "The request to hand the účetní závěrka to the sbírka listin "
+                "names the Rozvaha or the Výkaz zisku a ztráty, but no "
+                "statements are linked to the return. Link both; the "
+                "registry receives what the return carries."))
+        if not (wanted or prilohy):
+            raise UserError(_(
+                "The request to hand the účetní závěrka to the sbírka listin "
+                "names nothing to hand over (§ 21b odst. 3 zákona o "
+                "účetnictví asks for its scope). Tick the Rozvaha or the "
+                "Výkaz zisku a ztráty, or attach the příloha."))
+        email = (self.l10n_cz_registry_email or "").strip()
+        if email and not single_email_re.fullmatch(email):
+            raise UserError(_(
+                "%(email)s is not a valid e-mail address for the "
+                "confirmation of the handover.", email=email))
+
+    def _l10n_cz_registry_context(self):
+        """``(VetaD attributes, VetaUZ attributes or None, e-přílohy)``."""
+        self.ensure_one()
+        prilohy = self._l10n_cz_e_prilohy()
+        header = {}
+        for _field, kod, count, _flag in self._L10N_CZ_E_PRILOHY:
+            number = len([item for item in prilohy if item["kod"] == kod])
+            if number:
+                header[count] = str(number)
+        if self.l10n_cz_uz_not_approved:
+            header["neschval_uz"] = "A"
+        if self.l10n_cz_uz_not_audited:
+            header["neaudit_uz"] = "A"
+        request = None
+        if self.l10n_cz_registry_request:
+            def flag(value):
+                return "A" if value else "N"
+            request = {
+                "pr11_rozv": flag(self.l10n_cz_registry_balance_sheet),
+                "pr11_vzz": flag(self.l10n_cz_registry_profit_loss),
+                "pr11_uzmus": "N",
+            }
+            for _field, kod, _count, name in self._L10N_CZ_E_PRILOHY:
+                request[name] = flag(
+                    any(item["kod"] == kod for item in prilohy))
+            email = (self.l10n_cz_registry_email or "").strip()
+            if email:
+                request["pr11_email"] = email
+        return header, request, prilohy
 
     def _l10n_cz_vykaz_statements(self):
         """``{kind: statement}`` for the linked výkazy, or ``{}``."""
@@ -280,6 +553,8 @@ class CSSKIncomeTaxReturn(models.Model):
         for rec in self:
             if rec._l10n_cz_is_dppdp9():
                 rec._l10n_cz_check_vykazy()
+                rec._l10n_cz_check_subtotals()
+                rec._l10n_cz_check_registry_request()
                 if rec.l10n_cz_filing_code in ("D", "E") \
                         and not rec.l10n_cz_discovery_date:
                     raise UserError(_(
@@ -454,6 +729,11 @@ class CSSKIncomeTaxReturn(models.Model):
         linked = (self._l10n_cz_is_dppdp9()
                   and len(self._l10n_cz_vykaz_statements()) == 2)
         rows = self._l10n_cz_vykaz_rows() if linked else {}
+        header, request, prilohy = (
+            self._l10n_cz_registry_context() if self._l10n_cz_is_dppdp9()
+            else ({}, None, []))
+        ctx["registry_request"] = request
+        ctx["e_prilohy"] = prilohy
         ctx["vykazy"] = rows
         # Keyed on the LINK, not on the rows: a linked závěrka that rounds to
         # nothing is still a filed závěrka, and must not read as "none".
@@ -464,11 +744,20 @@ class CSSKIncomeTaxReturn(models.Model):
             "uz_rad": "T",
             "d_uv": self.date_to.strftime("%d.%m.%Y"),
         } if linked else {}
+        ctx["vykazy_header"] = dict(ctx["vykazy_header"], **header)
         return ctx
 
     def action_export_xml(self):
         res = super().action_export_xml()
         for rec in self:
+            if rec._l10n_cz_is_dppdp9() and rec.l10n_cz_registry_request \
+                    and not rec.l10n_cz_notes_attachment_ids:
+                rec.message_post(body=_(
+                    "The request to hand the účetní závěrka to the sbírka "
+                    "listin was exported without a příloha účetní závěrky. "
+                    "The příloha is part of every závěrka (§ 18 odst. 1 "
+                    "zákona o účetnictví); attach it and export again, or "
+                    "file it with the rejstříkový soud yourself."))
             if rec._l10n_cz_is_dppdp9() and not rec._l10n_cz_vykaz_statements():
                 # Legal, and worth saying: a return without its výkazy is
                 # complete only if the závěrka goes as an E-příloha.

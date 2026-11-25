@@ -58,9 +58,38 @@ class AccountMove(models.Model):
         modules in 18.0, so its presence is checked rather than assumed.
         """
         self.ensure_one()
-        if "taxable_supply_date" in self._fields:
-            return self.taxable_supply_date or self.date
-        return self.date
+        return self._cssk_supply_date() or self.date
+
+    def _cssk_supply_date(self):
+        """The date the supply was made, or nothing where none is recorded.
+
+        Ordinarily the tax point. The exception is a received document of a
+        company that keeps the VAT PERIOD of its bills in the taxable supply
+        date (``res.company.cssk_vat_claim_period_basis``): there that field
+        says which return claims the deduction, which may be a period the
+        supply was not made in, and the supply itself is recorded in the
+        delivery date. So the delivery date is what a control statement prints
+        as dátum dodania / DUZP and what a rate lookup reads.
+
+        An advance tax document is left on its tax point: that is the day the
+        advance was paid, which is the date the statement wants, and its
+        delivery date — where anything fills one in — is the later delivery of
+        the goods. The flag belongs to ``purchase_order_advance_invoice``,
+        which this module does not depend on, hence the ``getattr``.
+
+        ``taxable_supply_date`` is core in Odoo 19 but came from the country
+        modules in 18.0, so its presence is checked rather than assumed.
+        """
+        self.ensure_one()
+        tax_point = (self.taxable_supply_date
+                     if "taxable_supply_date" in self._fields else False)
+        if (self.company_id.cssk_vat_claim_period_basis == "tax_point"
+                and self.is_purchase_document(include_receipts=True)
+                and "delivery_date" in self._fields
+                and self.delivery_date
+                and not getattr(self, "is_advance_purchase_tax_document", False)):
+            return self.delivery_date
+        return tax_point
 
     #: Slack around the dates the period rule can possibly key on, for the
     #: candidate search only. One statutory period either side is enough once
@@ -86,7 +115,9 @@ class AccountMove(models.Model):
         stretched to a year, so it takes all three and spans them.
         """
         self.ensure_one()
-        dates = {d for d in (self._cssk_rate_date(), self.date,
+        tax_point = (self.taxable_supply_date
+                     if "taxable_supply_date" in self._fields else False)
+        dates = {d for d in (tax_point, self.date,
                              self.cssk_vat_deduction_date) if d}
         return (min(dates), max(dates)) if dates else (None, None)
 

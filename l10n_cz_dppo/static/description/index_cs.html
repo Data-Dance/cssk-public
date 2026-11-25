@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cz_dppo/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>CZ přiznání k dani z příjmů PO (DPPDP9)</h1>
 <p class="cssk-summary">České přiznání k dani z příjmů právnických osob — ř. 10 z účetnictví, úpravy účetní, výpočet daně ve II. oddílu a soubor pro EPO ověřený proti schématu Finanční správy, včetně rozvahy a výkazu zisku a ztráty podaných uvnitř přiznání.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.6.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_income_tax_base/static/description/index_cs.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a>, <a href="/l10n_cz_fs/static/description/index_cs.html"><code>l10n_cz_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.8.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_income_tax_base/static/description/index_cs.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a>, <a href="/l10n_cz_fs/static/description/index_cs.html"><code>l10n_cz_fs</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>Česká obchodní korporace podává jednou ročně přiznání k dani z příjmů
@@ -163,14 +163,34 @@ struktuře, která přijímá období od roku 2021. <strong>Typ výkazu</strong>
 <td>třída 6 minus třída 5, bez účtů 591, 592, 593, 595, 599 (daně z příjmů) a 596 (převod podílu společníkům)</td>
 </tr>
 <tr>
-<td>ř. 70 Mezisoučet — zvýšení VH</td>
+<td>ř. 50 Rozdíl, o který účetní odpisy převyšují daňové</td>
+<td>z evidence majetku</td>
+<td>účetní odpisy minus daňové odpisy roku, je-li rozdíl kladný; viz <a href="#depreciation">níže</a></td>
+</tr>
+<tr>
+<td>ř. 20–63 bez ř. 50 (ostatní položky)</td>
 <td>zadáváte</td>
-<td>úhrn ř. 20 – 63, položky zvyšující výsledek hospodaření</td>
+<td>ostatní položky zvyšující výsledek hospodaření jednou částkou</td>
+</tr>
+<tr>
+<td>ř. 70 Mezisoučet — zvýšení VH</td>
+<td>výpočet</td>
+<td>předchozí řádek + ř. 50</td>
+</tr>
+<tr>
+<td>ř. 150 Rozdíl, o který daňové odpisy převyšují účetní</td>
+<td>z evidence majetku</td>
+<td>daňové odpisy minus účetní odpisy roku, je-li rozdíl kladný</td>
+</tr>
+<tr>
+<td>ř. 100–162 bez ř. 150 (ostatní položky)</td>
+<td>zadáváte</td>
+<td>ostatní položky snižující výsledek hospodaření jednou částkou</td>
 </tr>
 <tr>
 <td>ř. 170 Mezisoučet — snížení VH</td>
-<td>zadáváte</td>
-<td>úhrn ř. 100 – 162, položky snižující výsledek hospodaření</td>
+<td>výpočet</td>
+<td>předchozí řádek + ř. 150</td>
 </tr>
 <tr>
 <td>ř. 200 Základ daně</td>
@@ -239,8 +259,8 @@ struktuře, která přijímá období od roku 2021. <strong>Typ výkazu</strong>
 </tr>
 </tbody>
 </table>
-<p>Zadáváte jen mezisoučty ř. 20 – 63 a ř. 100 – 162; jednotlivé položky za
-nimi na obrazovce nejsou a nepodávají se. Zaúčtování daně popsané v
+<p>Kromě ř. 50 a ř. 150 zadáváte položky ř. 20 – 63 a ř. 100 – 162 vždy jednou
+částkou; jednotlivé položky za nimi na obrazovce nejsou a nepodávají se. Zaúčtování daně popsané v
 <a href="/l10n_cssk_income_tax_base/static/description/index_cs.html#provision">návodu ke společnému modulu</a>
 účtuje ř. 340.</p>
 <h2 id="statements">Rozvaha a výkaz zisku a ztráty</h2>
@@ -279,6 +299,54 @@ se vyplní z řádku výkazu se stejným označením; přiřazení účtů je to
 <p>Bez propojených výkazů se přiznání exportuje bez nich a poznámka v
 chatteru připomene, že účetní závěrku je pak třeba přiložit k podání jako
 E-přílohu.</p>
+<h2 id="registry">Předání účetní závěrky do sbírky listin</h2>
+<p>Obchodní korporace může účetní závěrku předat do sbírky listin veřejného
+rejstříku prostřednictvím přiznání k dani z příjmů, místo podání
+u rejstříkového soudu: <a href="https://e-sbirka.gov.cz/sb/1991/563">§ 21b zákona o účetnictví</a>. Správce
+daně ji předá soudu a povinnost zveřejnění je splněna okamžikem podání
+přiznání (§ 21b odst. 6). Žádostí je tiskopis <em>Žádost o předání účetní
+závěrky do sbírky listin veřejného rejstříku</em> (25 5404/I), v souboru věta
+<code>VetaUZ</code>.</p>
+<p>Na přiznání, skupina <strong>Sbírka listin (§ 21b zákona o účetnictví)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Pole</th>
+<th>Co dělá</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Účetní závěrka nebyla schválena / nebyla ověřena auditorem</td>
+<td>Zaškrtněte, pokud údaje vycházejí ze závěrky, kterou valná hromada ještě neschválila nebo auditor ještě neověřil. Podává se v záhlaví bez ohledu na žádost.</td>
+</tr>
+<tr>
+<td>Předat účetní závěrku do sbírky listin</td>
+<td>Přidá do souboru žádost.</td>
+</tr>
+<tr>
+<td>Předat Rozvahu, Předat Výkaz zisku a ztráty</td>
+<td>Rozsah žádosti (§ 21b odst. 3). Obojí je ve výchozím stavu zaškrtnuto; Výkaz zisku a ztráty odškrtněte, pokud ho společnost nezveřejňuje (malá nebo mikro účetní jednotka bez povinnosti auditu, § 21a odst. 9). Předávají se výkazy <a href="#statements">připojené k přiznání</a>.</td>
+</tr>
+<tr>
+<td>E-mail pro potvrzení</td>
+<td>Kam správce daně potvrdí předání. Nepovinné.</td>
+</tr>
+<tr>
+<td>Příloha účetní závěrky, Přehled o peněžních tocích, Přehled o změnách vlastního kapitálu</td>
+<td>Soubory, které nahrajete; každý jde do přiznání jako předepsaná e-příloha a je součástí žádosti.</td>
+</tr>
+</tbody>
+</table>
+<p>Nahrané soubory se podají s přiznáním i bez žádosti: příloha je součástí
+účetní závěrky přikládané ke každému přiznání.</p>
+<p>Export odmítne žádost, kterou by správce daně nepředal: žádost jmenující
+Rozvahu nebo Výkaz zisku a ztráty, když k přiznání nejsou připojeny výkazy,
+žádost bez jakéhokoli rozsahu, chybný e-mail, soubor typu, který EPO
+nepřijímá (DOC, DOCX, RTF, XLS, XLSX, PDF, JPG, JPEG, TXT, CSV nebo jeden
+z nich podepsaný či zabalený do ZIP), a soubory o celkové velikosti nad
+10 240 kB. Žádost bez přílohy účetní závěrky se exportuje a v historii
+přiznání zůstane upozornění.</p>
 <h2 id="compare">Porovnání s účetní závěrkou</h2>
 <p>Přiznání vychází z účetního výsledku: ř. 10 (výsledek hospodaření před
 zdaněním) je stejné číslo jako řádek <em>** Výsledek hospodaření před
@@ -291,10 +359,61 @@ z výkazu a rozdíl. Rozdíl znamená, že se obě podání neshodují na účet
 výsledku. Obvyklé příčiny: ř. 10 zadaný ručně, zápis zaúčtovaný až po
 výpočtu výkazu (přepočtěte ho), nebo řádek výkazu s upravenými účty.</p>
 <p>Tlačítko pouze hlásí; export nezastaví.</p>
+<h2 id="depreciation">Účetní a daňové odpisy: ř. 50 a ř. 150</h2>
+<p>Přiznání uvádí rozdíl mezi odpisy hmotného a nehmotného majetku uplatněnými
+v účetnictví a odpisy podle § 26 až 33 zákona o daních z příjmů na jednom ze
+dvou řádků: na ř. 50, jsou-li účetní odpisy vyšší (rozdíl zvyšuje výsledek
+hospodaření), na ř. 150, jsou-li vyšší daňové odpisy (rozdíl ho snižuje).
+Nikdy na obou. Tak zní pokyn k oběma řádkům v <em>Pokynech</em> Finanční správy
+25 5404/1 i ve schématu EPO.</p>
+<p>Je-li nainstalována evidence daňových odpisů
+(<a href="/account_asset_tax/static/description/index_cs.html"><code>account_asset_tax</code></a> s
+<a href="/l10n_cz_account_asset_tax/static/description/index_cs.html"><code>l10n_cz_account_asset_tax</code></a>),
+vyplní se oba řádky při výpočtu přiznání:</p>
+<ul>
+<li><strong>daňové odpisy</strong> jsou částky daňového odpisového plánu za kalendářní rok
+  u každého majetku společnosti, který plán má;</li>
+<li><strong>účetní odpisy</strong> jsou odpisy téhož majetku zaúčtované v období.
+  Nezaúčtované odpisové doklady se nepočítají, proto nejdřív zaúčtujte
+  odpisy roku.</li>
+</ul>
+<p>Oba řádky se podávají (<code>kc_ii60_50</code>, <code>kc_ii170_150</code>) a jsou součástí
+mezisoučtů ř. 70 a ř. 170. Chcete-li podat jinou částku, zaškrtněte na řádku
+<em>Override</em> a částku zadejte. Bez evidence jsou oba řádky nulové a rozdíl
+zadáte stejným způsobem.</p>
+<p>Přiznání vypočtená před verzí 19.0.1.7.0 si ponechávají mezisoučet, který
+jste na ř. 70 nebo ř. 170 zadali ručně: aktualizací modulu se základ daně
+nezmění. Takové přiznání má v historii poznámku. Zkontrolujte, zda ručně
+zadaný mezisoučet rozdíl odpisů už obsahuje; chcete-li mezisoučet nechat
+počítat, zrušte na ř. 70 / ř. 170 <em>Override</em>, zbývající položky zadejte na
+řádek <em>ostatní položky</em> a přiznání přepočítejte.</p>
 <h2 id="limitations">Omezení</h2>
 <ul>
-<li><strong>Limit darů se nehlídá.</strong> Na ř. 260 zadejte skutečně uplatněnou částku:
-  nejvýše 10 % z ř. 250, za zdaňovací období skončená od 1. 3. 2022 do</li>
+<li><strong>Žádost o předání do sbírky listin odtud portál EPO nekontroluje.</strong>
+  Soubor odpovídá schématu; vlastní kontroly portálu proběhnou až při
+  načtení. Žádost je určena společnostem účtujícím podle vyhlášky
+  č. 500/2002 Sb., které nezveřejňují prostřednictvím České národní banky;
+  závěrka podle mezinárodních účetních standardů (<code>pr11_uzmus</code>) se nepodává.
+  Přílohu, přehled o peněžních tocích a přehled o změnách vlastního kapitálu
+  připravujete mimo Odoo.</li>
+<li><strong>ř. 50 a ř. 150 se počítají jen za období shodné s kalendářním rokem.</strong>
+  Daňový odpisový plán se vede po kalendářních letech, proto u hospodářského
+  roku a u každého období přecházejícího přes konec roku zůstávají oba řádky
+  nulové, přiznání to uvede v historii a rozdíl zadáte ručně.</li>
+<li><strong>Počítá se jen majetek s daňovým plánem.</strong> Účetní odpisy majetku bez
+  daňového plánu (například odpisovaného jen účetně) v ř. 50 nejsou;
+  přidejte je na řádek <em>ostatní položky</em>, nebo ř. 50 přepište.</li>
+<li>Mezisoučet zadaný ručně na ř. 70 nebo ř. 170 se musí rovnat součtu svých
+  řádků (řádek <em>ostatní položky</em> plus ř. 50 nebo ř. 150); export jiný
+  mezisoučet odmítne, protože by soubor nesl řádky, které nedávají součet.</li>
+<li>
+<p>Rozdíl daňové a účetní zůstatkové ceny prodaného nebo vyřazeného majetku
+  (ř. 40 / ř. 160) se nepočítá.</p>
+</li>
+<li>
+<p><strong>Limit darů se nehlídá.</strong> Na ř. 260 zadejte skutečně uplatněnou částku:
+  nejvýše 10 % z ř. 250, za zdaňovací období skončená od 1. 3. 2022 do</p>
+</li>
 <li>
 <ol>
 <li>2027 nejvýše 30 % (jak uvádí pokyn k řádku ve schématu EPO Finanční správy). Modul odečte,
@@ -305,7 +424,8 @@ výpočtu výkazu (přepočtěte ho), nebo řádek výkazu s upravenými účty.
   dříve zahrnoval výzkum a vývoj, odborné vzdělávání i dary dohromady;
   takovou částku rozdělte na ř. 242, ř. 243 nebo ř. 260 a přepočítejte.</li>
 <li>Vytváří se jen II. oddíl, a jen řádky výše. Jeho další řádky (například
-  201, 210, 220, 241 a 251) ani žádná příloha tiskopisu (odpisy, daňová ztráta,
+  201, 210, 220, 241 a 251) ani žádná příloha tiskopisu (odpisy po skupinách
+  v tabulce B přílohy č. 1, daňová ztráta,
   slevy, daň zaplacená v zahraničí atd.) se nevytvářejí; schéma soubor bez
   nich přijme.</li>
 <li>Období započatá před rokem 2021 zadat nelze; struktura je nepřijímá. Za
@@ -320,7 +440,7 @@ výpočtu výkazu (přepočtěte ho), nebo řádek výkazu s upravenými účty.
 <li>Kódy záhlaví (typ přiznání, typ poplatníka) a úplnou sadu úprav je třeba
   před prvním podáním potvrdit s vaší účetní.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.6.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.8.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

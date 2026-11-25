@@ -1,7 +1,7 @@
 ---
 title: SK Invoice (statutory PDF)
 summary: Adds the customer's DIČ, the payment symbols and the statutory VAT phrases — exemption and reverse charge — to the printed Slovak invoice.
-verified: 19.0.1.1.0
+verified: 19.0.1.1.1
 ---
 
 ## What it is for {#purpose}

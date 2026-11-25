@@ -217,7 +217,7 @@ Module facts
 ============
 
 - **Technical name:** ``sale_order_advance_invoice``
-- **Version:** 19.0.2.8.5
+- **Version:** 19.0.2.8.6
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``sale``, ``sale_management``, ``account_payment``

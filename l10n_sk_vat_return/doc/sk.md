@@ -1,7 +1,7 @@
 ---
 title: SK Daňové priznanie k DPH
 summary: Slovenské daňové priznanie k DPH vypočítané z daňových značiek slovenskej účtovej osnovy Odoo, vo vzore platnom pre dané obdobie, exportované ako XML finančnej správy a overené voči jej XSD.
-verified: 19.0.1.16.1
+verified: 19.0.1.16.2
 ---
 
 ## Na čo slúži {#purpose}
@@ -247,8 +247,10 @@ podielom, v prospech účtu dane na vstupe so značkou riadku 29 a na ťarchu
 zvoleného účtu. Riadok `r29` priznania ju prevezme.
 
 Keď je opravená faktúra zaplatená (celá alebo sčasti), zobrazí tlačidlo
-**Znovu uplatniť odpočet (§ 53b ods. 4)**: zaúčtuje zrkadlový zápis za
-zaplatený podiel s dnešným dátumom, nikdy viac, než sa opravilo. Záložka
+**Znovu uplatniť odpočet (§ 53b ods. 4)**: zaúčtuje zrkadlový zápis na daň
+z toho, čo sa zaplatilo od opravy, s dnešným dátumom, nikdy viac, než sa
+opravilo. Do verzie 19.0.1.16.2 sa pri faktúre čiastočne zaplatenej pred
+opravou vrátilo priveľa; také faktúry skontrolujte. Záložka
 *Ďalšie informácie* faktúry ukazuje jej *Stav § 53b* a zápisy opráv.
 
 ## Historické sadzby {#historic-rates}

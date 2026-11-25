@@ -33,7 +33,7 @@ def migrate(cr, version):
             SELECT t.id, t.name FROM cssk_person_type t
               JOIN ir_model_data d
                 ON d.model = 'cssk.person.type' AND d.res_id = t.id
-             WHERE d.module = 'l10n_cz_statutory' AND d.name = %s
+             WHERE d.module IN ('l10n_cz_statutory', 'l10n_cssk_core') AND d.name = %s
             """,
             (xmlid,),
         )

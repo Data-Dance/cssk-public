@@ -52,6 +52,8 @@ Settings
      - The tax office (*daňový úrad* / *finanční úřad*) your filings are addressed to. Only offices of the company's fiscal country are offered.
    * - VAT declared in a later period
      - An account for VAT deferral entries — see `VAT deferral <#vat-deferral>`__. Empty: off.
+   * - VAT period of received documents
+     - The date that puts a vendor bill, refund or receipt into a VAT period: its *accounting date* (the default) or its *taxable supply date* — see `VAT period declared <#vat-period-declared>`__.
    * - Year-end closing journals
      - The journals holding the year-end closing and reopening entries (e.g. *UZAVIERKA*, *OTVORENIE*). Their entries are left out of the financial statements, the income-tax return and the financial reports, so that closing the year does not wipe out the balance sheet and the profit and loss. Leave empty if the year is never closed in this database.
 
@@ -122,6 +124,18 @@ The statutory returns choose the period of each document like this:
      - *VAT period declared* if filled; otherwise the accounting date
 
 Fill it on a bill whose deduction you claim later than the period it is booked in, on a correction declared in a later period, or on a document entered late. The legal background is in `Legal background <#legal>`__.
+
+**Books locked early.** If you lock a period before all its bills have arrived, a late bill is booked in the open period while its deduction still belongs on the return of the locked one. Set **VAT period of received documents** to *Taxable supply date* and the second row of the table changes:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Document
+     - Period
+   * - Vendor bill, refund, receipt
+     - *VAT period declared* if filled; otherwise the taxable supply date; otherwise the accounting date
+
+The *Taxable Supply Date* of a bill then names its VAT period on the VAT return and the control statement, and its *Delivery Date*, where filled in, is the date of supply the control statement prints and the date that decides the VAT rate. An advance tax document keeps its taxable supply date (the day the advance was paid) for both. Customer documents are not affected. The VAT deferral entries below still follow *VAT period declared* only.
 
 VAT deferral entries
 ----------------------
@@ -269,7 +283,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cssk_core``
-- **Version:** 19.0.1.21.1
+- **Version:** 19.0.1.23.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``account``, ``mail``

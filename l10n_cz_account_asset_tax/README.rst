@@ -115,7 +115,7 @@ Limitations
 
 - Extraordinary depreciation is enabled on group 2 only, as the group of road vehicles; whether a vehicle is emission-free and qualifies is yours to confirm.
 
-- The board rounds to the haléř, not up to whole crowns as the act requires; this and the other deviations are listed in the tax depreciation guide.
+- Charges are rounded up to whole crowns, as § 31 odst. 9, § 32 odst. 5 and § 30a odst. 2 require. Years filed by a version of ``account_asset_tax`` before 19.0.1.10.0 keep their filed haléř figures; the remaining deviations are listed in the tax depreciation guide.
 
 Module facts
 ============

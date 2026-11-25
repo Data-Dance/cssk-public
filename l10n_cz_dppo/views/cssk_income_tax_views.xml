@@ -33,6 +33,38 @@
                     <field name="l10n_cz_fs_profit_loss_id"
                            readonly="state not in ('draft', 'preview')"/>
                 </group>
+                <group string="Sbírka listin (§ 21b zákona o účetnictví)"
+                       name="l10n_cz_registry"
+                       invisible="l10n_cz_country_code != 'CZ'">
+                    <group>
+                        <field name="l10n_cz_uz_not_approved"
+                               readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_cz_uz_not_audited"
+                               readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_cz_registry_request"
+                               readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_cz_registry_balance_sheet"
+                               invisible="not l10n_cz_registry_request"
+                               readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_cz_registry_profit_loss"
+                               invisible="not l10n_cz_registry_request"
+                               readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_cz_registry_email" widget="email"
+                               invisible="not l10n_cz_registry_request"
+                               readonly="state not in ('draft', 'preview')"/>
+                    </group>
+                    <group>
+                        <field name="l10n_cz_notes_attachment_ids"
+                               widget="many2many_binary"
+                               readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_cz_cash_flow_attachment_ids"
+                               widget="many2many_binary"
+                               readonly="state not in ('draft', 'preview')"/>
+                        <field name="l10n_cz_equity_attachment_ids"
+                               widget="many2many_binary"
+                               readonly="state not in ('draft', 'preview')"/>
+                    </group>
+                </group>
             </xpath>
         </field>
     </record>

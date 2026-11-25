@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_sk_kv_dph/static/description/index.html">English</a> · <b>Slovenčina</b></nav>
 <h1>Kontrolný výkaz DPH (KV DPH)</h1>
 <p class="cssk-summary">Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.</p>
-<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.11.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index_sk.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a>, <a href="/l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verzia</th><td>19.0.2.12.0</td></tr><tr><th>Edícia</th><td>Community aj Enterprise</td></tr><tr><th>Licencia</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_kv_kh_base/static/description/index_sk.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_sk</code></td></tr><tr><th>Rozširujú ho</th><td><a href="/l10n_sk_datadance/static/description/index_sk.html"><code>l10n_sk_datadance</code></a>, <a href="/l10n_sk_kv_dph_pos/static/description/index_sk.html"><code>l10n_sk_kv_dph_pos</code></a></td></tr></table>
 
 <h2 id="purpose">Na čo slúži</h2>
 <p>Platiteľ DPH podáva <strong>kontrolný výkaz DPH</strong> za každé zdaňovacie obdobie, za
@@ -239,7 +239,10 @@ jeden riadok za každú sadzbu.</p>
 DPH. Dodanie odberateľovi z EÚ, pri ktorom sa účtuje slovenská DPH —
 typicky súkromnej osobe —, je tuzemské plnenie a uvedie sa v A.1 alebo D.2.</p>
 <p><strong>Dátumy a sumy.</strong> Deň dodania (<em>Den</em>) je <em>Dátum zdaniteľného plnenia</em>, inak
-dátum faktúry; pri dani splatnej až platbou dátum platby. Odpočítaná daň v
+dátum faktúry; pri dani splatnej až platbou dátum platby. Pri prijatom doklade
+spoločnosti, ktorá má nastavenie <em>Obdobie DPH prijatých dokladov</em> na <em>Dátum
+zdaniteľného plnenia</em>, je to <em>Dátum dodania</em>, ak je vyplnený, lebo dátum
+zdaniteľného plnenia vtedy určuje obdobie. Odpočítaná daň v
 B.1, B.2, C.2 a B.3 je tá časť dane, ktorú jej rozúčtovanie posiela na účet
 DPH: daň pri vozidle s odpočtom 50 % vykáže polovicu. Koeficient podľa § 50
 sa zohľadní rovnako, ale len ak je nastavený v rozúčtovaní dane.</p>
@@ -341,7 +344,7 @@ mesiac alebo rok a štvrťrok).</p>
 <p>Daň pre § 69 ods. 12 písm. a) až e) použite pri šrote, emisných kvótach,
 nehnuteľnostiach a tovare ako predmete záruky. Tieto dodania uvádza len príjemca
 v B.1, vo výkaze dodávateľa sa preto neobjavia.</p>
-<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.11.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Predpisy citované na tejto stránke</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text overený voči verzii modulu: 19.0.2.12.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

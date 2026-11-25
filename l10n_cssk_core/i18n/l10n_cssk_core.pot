@@ -173,6 +173,11 @@ msgid "Account Receivable"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__res_company__cssk_vat_claim_period_basis__accounting_date
+msgid "Accounting date"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_needaction
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_needaction
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_needaction
@@ -1486,6 +1491,12 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:cssk.person.type,name:l10n_cssk_core.cz_person_type_po
+#: model:cssk.person.type,name:l10n_cssk_core.sk_person_type_po
+msgid "Legal entity"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__code
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_wizard__line_ids
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statutory_footprint_wizard_form
@@ -1562,6 +1573,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_person_type__name
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__name
 msgid "Name"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:cssk.person.type,name:l10n_cssk_core.cz_person_type_fo
+#: model:cssk.person.type,name:l10n_cssk_core.sk_person_type_fo
+msgid "Natural person"
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -2327,6 +2344,11 @@ msgid "Taxable Supply Date"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__res_company__cssk_vat_claim_period_basis__tax_point
+msgid "Taxable supply date"
+msgstr ""
+
+#. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid ""
@@ -2355,6 +2377,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_form
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
 msgid "The comparison"
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_config_settings_view_form_cssk
+msgid ""
+"The date that puts a vendor bill into a VAT period on the VAT return and the"
+" control statement. Taxable supply date: for books locked early, where a "
+"bill booked in the open period still belongs to the closed one."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -2714,6 +2744,13 @@ msgid "VAT period declared"
 msgstr ""
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_company__cssk_vat_claim_period_basis
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_config_settings__cssk_vat_claim_period_basis
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_config_settings_view_form_cssk
+msgid "VAT period of received documents"
+msgstr ""
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__property_stock_supplier
 msgid "Vendor Location"
 msgstr ""
@@ -2807,6 +2844,19 @@ msgstr ""
 msgid ""
 "Where the filing came from, e.g. 'PREMIER', 'Money S4', 'i6', 'MRP' — or how"
 " it was captured if by hand."
+msgstr ""
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_company__cssk_vat_claim_period_basis
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_config_settings__cssk_vat_claim_period_basis
+msgid ""
+"Which date puts a vendor bill, refund or receipt into a VAT period on the VAT return and the control statement.\n"
+"\n"
+"Accounting date: the deduction is reported in the period the document is booked.\n"
+"\n"
+"Taxable supply date: the document's Taxable Supply Date names the period, whatever its accounting date. For books that are locked early, where a bill arriving after the lock is booked in the open period and its VAT still belongs to the closed one. The Delivery Date, where filled in, is then the date of supply printed on the control statement and the date that decides the VAT rate.\n"
+"\n"
+"A 'VAT period declared' date on the document wins over both. Customer invoices always follow their taxable supply date."
 msgstr ""
 
 #. module: l10n_cssk_core
@@ -2922,8 +2972,8 @@ msgstr ""
 #: model:ir.model.fields,help:l10n_cssk_core.field_res_users__l10n_cssk_registry_by_country_view
 msgid ""
 "Technical: the country module of this partner's country (l10n_cz, l10n_sk) "
-"is installed and already shows the IČO next to the VAT number, so the copy "
-"in the Misc group stays hidden."
+"is installed and already shows the IČO next to the VAT number, so this "
+"module does not show it there a second time."
 msgstr ""
 
 #. module: l10n_cssk_core

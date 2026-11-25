@@ -1,7 +1,7 @@
 ---
 title: CZ/SK Localization — Shared Core
 summary: The common foundation of the Czech and Slovak statutory modules — settings, tax offices, IČO checking, the VAT period of a document, the life cycle of a statutory filing and the filed-versus-computed comparison.
-verified: 19.0.1.21.0
+verified: 19.0.1.22.0
 ---
 
 ## What it is for {#purpose}
@@ -40,6 +40,7 @@ Localization**:
 | Financial reports (Community) | Installs OCA `account_financial_report`: general ledger, trial balance, partner ledger, aged balance, journal ledger. Shown on Community only. |
 | Default tax authority | The tax office (*daňový úrad* / *finanční úřad*) your filings are addressed to. Only offices of the company's fiscal country are offered. |
 | VAT declared in a later period | An account for VAT deferral entries — see [VAT deferral](#vat-deferral). Empty: off. |
+| VAT period of received documents | The date that puts a vendor bill, refund or receipt into a VAT period: its *accounting date* (the default) or its *taxable supply date* — see [VAT period declared](#vat-period-declared). |
 | Year-end closing journals | The journals holding the year-end closing and reopening entries (e.g. *UZAVIERKA*, *OTVORENIE*). Their entries are left out of the financial statements, the income-tax return and the financial reports, so that closing the year does not wipe out the balance sheet and the profit and loss. Leave empty if the year is never closed in this database. |
 
 The full suites add their own switches to this block, one per optional module.
@@ -124,6 +125,22 @@ The statutory returns choose the period of each document like this:
 Fill it on a bill whose deduction you claim later than the period it is booked
 in, on a correction declared in a later period, or on a document entered late.
 The legal background is in [Legal background](#legal).
+
+**Books locked early.** If you lock a period before all its bills have
+arrived, a late bill is booked in the open period while its deduction still
+belongs on the return of the locked one. Set **VAT period of received
+documents** to *Taxable supply date* and the second row of the table changes:
+
+| Document | Period |
+|---|---|
+| Vendor bill, refund, receipt | *VAT period declared* if filled; otherwise the taxable supply date; otherwise the accounting date |
+
+The *Taxable Supply Date* of a bill then names its VAT period on the VAT
+return and the control statement, and its *Delivery Date*, where filled in, is
+the date of supply the control statement prints and the date that decides the
+VAT rate. An advance tax document keeps its taxable supply date (the day the
+advance was paid) for both. Customer documents are not affected. The VAT
+deferral entries below still follow *VAT period declared* only.
 
 ### VAT deferral entries {#vat-deferral}
 

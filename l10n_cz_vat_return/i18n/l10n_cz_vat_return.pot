@@ -6,14 +6,44 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-29 14:46+0000\n"
-"PO-Revision-Date: 2026-10-29 14:46+0000\n"
+"POT-Creation-Date: 2026-11-24 10:14+0000\n"
+"PO-Revision-Date: 2026-11-24 10:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid ""
+"%(bill)s was last paid on %(paid)s; the deduction could be given back until "
+"%(limit)s (§ 74b odst. 9: the end of the second calendar year after the "
+"period of the payment)."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid "%s claimed no deduction that § 74b could correct."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid "%s has no posted correction under § 74b odst. 3."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid ""
+"%s has nothing to give back under § 74b odst. 4: it was not paid any further"
+" since the correction, or the deduction was already given back for what was "
+"paid (a draft counts)."
+msgstr ""
 
 #. module: l10n_cz_vat_return
 #. odoo-python
@@ -33,6 +63,14 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__period_type
+msgid ""
+"A quarterly payer owes no correction for a bill paid in full by the end of "
+"the quarter in which the six months ran out (§ 74b odst. 3, second "
+"sentence)."
+msgstr ""
+
+#. module: l10n_cz_vat_return
 #: model:ir.model,name:l10n_cz_vat_return.model_account_chart_template
 msgid "Account Chart Template"
 msgstr ""
@@ -43,8 +81,28 @@ msgid "Asset Twin Of"
 msgstr ""
 
 #. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__bill_ids
+msgid "Bill"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__bill_count
+msgid "Bill Count"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__date
+msgid "Bills whose six months ran out by this day are offered."
+msgstr ""
+
+#. module: l10n_cz_vat_return
 #: model:ir.model,name:l10n_cz_vat_return.model_res_company
 msgid "Companies"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__company_id
+msgid "Company"
 msgstr ""
 
 #. module: l10n_cz_vat_return
@@ -53,9 +111,31 @@ msgid "Country Code"
 msgstr ""
 
 #. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__book_on
+msgid "Datum opravy"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields.selection,name:l10n_cz_vat_return.selection__l10n_cz_par74b_wizard__book_on__date
+msgid "Den uvedený výše"
+msgstr ""
+
+#. module: l10n_cz_vat_return
 #: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_move__display_name
 #: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_tax__display_name
 #: model:ir.model.fields,field_description:l10n_cz_vat_return.field_cssk_vat_return__display_name
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__display_name
 #: model:ir.model.fields,field_description:l10n_cz_vat_return.field_res_company__display_name
 msgid "Display Name"
 msgstr ""
@@ -71,11 +151,140 @@ msgid "Fa Xml Value"
 msgstr ""
 
 #. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__instalment_bill_ids
+msgid "Faktury se splátkami"
+msgstr ""
+
+#. module: l10n_cz_vat_return
 #: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_chart_template__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_move__id
 #: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_tax__id
 #: model:ir.model.fields,field_description:l10n_cz_vat_return.field_cssk_vat_return__id
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__id
 #: model:ir.model.fields,field_description:l10n_cz_vat_return.field_res_company__id
 msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model,name:l10n_cz_vat_return.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__date
+msgid "Ke dni"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_bank_statement_line__l10n_cz_par74b_deadline
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_move__l10n_cz_par74b_deadline
+msgid "Lhůta § 74b odst. 3"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields.selection,name:l10n_cz_vat_return.selection__l10n_cz_par74b_wizard__period_type__month
+msgid "Měsíc"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid "No bill meets the conditions of § 74b odst. 3 on %s."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields.selection,name:l10n_cz_vat_return.selection__account_move__l10n_cz_par74b_state__corrected
+msgid "Odpočet snížen (§ 74b odst. 3)"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields.selection,name:l10n_cz_vat_return.selection__account_move__l10n_cz_par74b_state__reclaimed
+msgid "Odpočet zčásti nebo zcela vrácen (§ 74b odst. 4)"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.actions.act_window,name:l10n_cz_vat_return.action_l10n_cz_par74b_wizard
+#: model:ir.ui.menu,name:l10n_cz_vat_return.menu_l10n_cz_par74b
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_return.view_l10n_cz_par74b_wizard_form
+msgid "Oprava odpočtu daně (§ 74b)"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model,name:l10n_cz_vat_return.model_l10n_cz_par74b_wizard
+msgid "Oprava odpočtu daně u pohledávky po splatnosti (§ 74b)"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields.selection,name:l10n_cz_vat_return.selection__account_move__l10n_cz_par74b_state__draft
+msgid "Oprava odpočtu připravena"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_bank_statement_line__l10n_cz_par74b_origin_id
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_move__l10n_cz_par74b_origin_id
+msgid "Opravovaný doklad (§ 74b)"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid "Opravy odpočtu (§ 74b)"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_bank_statement_line__l10n_cz_par74b_correction_ids
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_move__l10n_cz_par74b_correction_ids
+msgid "Opravy § 74b"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__instalment_bill_ids
+msgid ""
+"Overdue bills payable in instalments. Each instalment is a debt with its own"
+" six months (§ 74b odst. 3), so these are left out; correct them by hand."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields.selection,name:l10n_cz_vat_return.selection__l10n_cz_par74b_wizard__book_on__deadline
+msgid "Poslední den lhůty (§ 74b odst. 3)"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_return.view_move_form_l10n_cz_par74b
+msgid ""
+"Připravit doklad, který vrátí odpočet v poměru toho, co bylo od opravy "
+"uhrazeno?"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_return.view_l10n_cz_par74b_wizard_form
+msgid "Připravit opravy"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_return.view_l10n_cz_par74b_wizard_form
+msgid ""
+"Připraví snížení uplatněného odpočtu daně u přijatých\n"
+"                    faktur, které nebyly zcela uhrazeny do posledního dne\n"
+"                    šestého kalendářního měsíce po měsíci splatnosti\n"
+"                    (§ 74b odst. 3 zákona o DPH). Oprava je v poměru\n"
+"                    neuhrazené části. Doklady vzniknou jako koncepty."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_bank_statement_line__l10n_cz_par74b_state
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_move__l10n_cz_par74b_state
+msgid "Stav § 74b"
 msgstr ""
 
 #. module: l10n_cz_vat_return
@@ -91,10 +300,65 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid ""
+"The correction belongs to a closed period for: %(bills)s. Reopen the period "
+"and file a dodatečné přiznání, or choose to date the corrections on the day "
+"entered above."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_account_bank_statement_line__l10n_cz_par74b_deadline
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_account_move__l10n_cz_par74b_deadline
+msgid ""
+"The last day of the sixth calendar month after the month in which the bill "
+"fell due."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__book_on
+msgid ""
+"The law puts the correction in the tax period the last day of the six months"
+" belongs to. Use the other choice only where that period is closed and you "
+"decide to report the correction now instead of in a dodatečné přiznání."
+msgstr ""
+
+#. module: l10n_cz_vat_return
 #: model:ir.model.fields,help:l10n_cz_vat_return.field_account_tax__cz_asset_source_tax_id
 msgid ""
 "The ordinary purchase tax this one duplicates in order to report the "
 "acquisition on ř. 47 as well. Set only on taxes generated for that purpose."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_account_bank_statement_line__l10n_cz_par74b_origin_id
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_account_move__l10n_cz_par74b_origin_id
+msgid ""
+"The vendor bill whose deduction this document corrects under § 74b odst. 3 "
+"or gives back under odst. 4."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid ""
+"The § 74b document for %(bill)s does not come to zero (%(total)s). Check the"
+" taxes of the bill."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_account_bank_statement_line__l10n_cz_par74b_is_reclaim
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_account_move__l10n_cz_par74b_is_reclaim
+msgid "This document gives a corrected deduction back after payment."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_return.view_l10n_cz_par74b_wizard_form
+msgid ""
+"Tyto faktury jsou splatné ve splátkách. Každá splátka má\n"
+"                    vlastní šestiměsíční lhůtu (§ 74b odst. 3), proto se pro\n"
+"                    ně oprava nepřipravuje; opravte odpočet ručně."
 msgstr ""
 
 #. module: l10n_cz_vat_return
@@ -108,8 +372,56 @@ msgid "Value emitted in the statutory XML for this type."
 msgstr ""
 
 #. module: l10n_cz_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_return.view_move_form_l10n_cz_par74b
+msgid "Vrátit odpočet (§ 74b odst. 4)"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,help:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__correction_account_id
+msgid "Where the tax that is no longer deductible is booked, for example 538."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__period_type
+msgid "Zdaňovací období"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model_terms:ir.ui.view,arch_db:l10n_cz_vat_return.view_l10n_cz_par74b_wizard_form
+msgid "Zrušit"
+msgstr ""
+
+#. module: l10n_cz_vat_return
 #: model:ir.model.fields,help:l10n_cz_vat_return.field_cssk_vat_return__cz_discovery_date
 msgid ""
 "d_zjist — the day the reasons for a dodatečné přiznání were found. Required "
 "for a dodatečné (D) or dodatečné/opravné (E) return."
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid "§ 74b odst. 3: snížení odpočtu, doklad %s"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_bank_statement_line__l10n_cz_par74b_is_reclaim
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_account_move__l10n_cz_par74b_is_reclaim
+msgid "§ 74b odst. 4"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#. odoo-python
+#: code:addons/l10n_cz_vat_return/models/l10n_cz_par74b.py:0
+msgid "§ 74b odst. 4: oprava odpočtu po úhradě, doklad %s"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields,field_description:l10n_cz_vat_return.field_l10n_cz_par74b_wizard__correction_account_id
+msgid "Účet nákladu"
+msgstr ""
+
+#. module: l10n_cz_vat_return
+#: model:ir.model.fields.selection,name:l10n_cz_vat_return.selection__l10n_cz_par74b_wizard__period_type__quarter
+msgid "Čtvrtletí"
 msgstr ""

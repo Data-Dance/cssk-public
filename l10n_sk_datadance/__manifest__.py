@@ -20,7 +20,7 @@ localization** — tick to install.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.4.4",
+    "version": "19.0.1.4.5",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": [

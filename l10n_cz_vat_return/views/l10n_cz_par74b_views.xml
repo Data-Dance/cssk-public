@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_l10n_cz_par74b_wizard_form" model="ir.ui.view">
+        <field name="name">l10n.cz.par74b.wizard.form</field>
+        <field name="model">l10n.cz.par74b.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Oprava odpočtu daně (§ 74b)">
+                <p class="text-muted">
+                    Připraví snížení uplatněného odpočtu daně u přijatých
+                    faktur, které nebyly zcela uhrazeny do posledního dne
+                    šestého kalendářního měsíce po měsíci splatnosti
+                    (§ 74b odst. 3 zákona o DPH). Oprava je v poměru
+                    neuhrazené části. Doklady vzniknou jako koncepty.
+                </p>
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="date"/>
+                        <field name="period_type"/>
+                    </group>
+                    <group>
+                        <field name="book_on"/>
+                        <field name="correction_account_id"/>
+                        <field name="bill_count"/>
+                    </group>
+                </group>
+                <field name="bill_ids" readonly="1">
+                    <list>
+                        <field name="name"/>
+                        <field name="ref"/>
+                        <field name="partner_id"/>
+                        <field name="invoice_date_due"/>
+                        <field name="l10n_cz_par74b_deadline"/>
+                        <field name="amount_total_signed"/>
+                        <field name="amount_residual_signed"/>
+                        <field name="company_id" column_invisible="1"/>
+                        <field name="company_currency_id" column_invisible="1"/>
+                    </list>
+                </field>
+                <div class="alert alert-warning" role="alert"
+                     invisible="not instalment_bill_ids">
+                    Tyto faktury jsou splatné ve splátkách. Každá splátka má
+                    vlastní šestiměsíční lhůtu (§ 74b odst. 3), proto se pro
+                    ně oprava nepřipravuje; opravte odpočet ručně.
+                    <field name="instalment_bill_ids" widget="many2many_tags"
+                           readonly="1"/>
+                </div>
+                <footer>
+                    <button name="action_generate" type="object"
+                            string="Připravit opravy" class="btn-primary"
+                            data-hotkey="q"/>
+                    <button string="Zrušit" class="btn-secondary"
+                            special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_cz_par74b_wizard" model="ir.actions.act_window">
+        <field name="name">Oprava odpočtu daně (§ 74b)</field>
+        <field name="res_model">l10n.cz.par74b.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_l10n_cz_par74b"
+              name="Oprava odpočtu daně (§ 74b)"
+              parent="account.menu_finance_entries"
+              action="action_l10n_cz_par74b_wizard"
+              sequence="91"/>
+
+    <!-- § 74b on the bill: where it stands, and the deduction back once it
+         is paid. -->
+    <record id="view_move_form_l10n_cz_par74b" model="ir.ui.view">
+        <field name="name">account.move.form.l10n_cz_par74b</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="l10n_cz_par74b_state" invisible="1"/>
+                <button name="action_l10n_cz_par74b_reclaim" type="object"
+                        string="Vrátit odpočet (§ 74b odst. 4)"
+                        invisible="state != 'posted' or move_type != 'in_invoice' or l10n_cz_par74b_state not in ('corrected', 'reclaimed')"
+                        groups="account.group_account_invoice"
+                        confirm="Připravit doklad, který vrátí odpočet v poměru toho, co bylo od opravy uhrazeno?"/>
+            </xpath>
+            <xpath expr="//page[@id='other_tab']//group[@name='accounting_info_group']"
+                   position="inside">
+                <field name="l10n_cz_par74b_state"
+                       invisible="move_type != 'in_invoice' or l10n_cz_par74b_state == 'none'"/>
+                <field name="l10n_cz_par74b_correction_ids"
+                       widget="many2many_tags" readonly="1"
+                       invisible="not l10n_cz_par74b_correction_ids"/>
+                <field name="l10n_cz_par74b_origin_id" readonly="1"
+                       invisible="not l10n_cz_par74b_origin_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

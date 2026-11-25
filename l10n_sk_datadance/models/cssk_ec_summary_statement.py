@@ -8,6 +8,16 @@ from odoo.exceptions import UserError
 class CSSKEcSummaryStatement(models.Model):
     _inherit = "cssk.ec.summary.statement"
 
+    def _l10n_sk_check_slovak_filing(self):
+        """The comparison reads Slovak rows; on another country's filing it
+        would compare figures that mean something else."""
+        if self.country_id.code != "SK":
+            raise UserError(_(
+                "This comparison is for Slovak filings. %(name)s belongs to "
+                "a company filing in %(country)s.",
+                name=self.display_name,
+                country=self.country_id.name or "?"))
+
     def _find_vat_return(self):
         self.ensure_one()
         returns = self.env["cssk.vat.return"].search([
@@ -23,6 +33,7 @@ class CSSKEcSummaryStatement(models.Model):
     def action_reconcile_dph(self):
         """Porovnanie súhrnného výkazu ↔ DPH priznanie (r14) — on screen."""
         self.ensure_one()
+        self._l10n_sk_check_slovak_filing()
         vat_return = self._find_vat_return()
         if not vat_return:
             raise UserError(_(

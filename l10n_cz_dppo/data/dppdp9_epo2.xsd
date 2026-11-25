@@ -502,7 +502,7 @@ Pro popis číselníku Územní finanční orgány klikněte &lt;a href="https:/
                   </xs:attribute>
                   <xs:attribute name="dic" use="optional">
                     <xs:annotation>
-                      <xs:documentation>Za předtištěným kódem CZ se uvede kmenová část přiděleného DIČ (§ 130 odst. 1 DŘ).</xs:documentation>
+                      <xs:documentation>Za předtištěným kódem CZ se uvede kmenová část přiděleného DIČ (§ 130 odst. 1 DŘ). U daňového subjektu typu právnická osoba musí být kmenová část DIČ tvořena IČ nebo vlastním číslem plátce.</xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
                       <xs:restriction base="xs:string">
@@ -6208,7 +6208,7 @@ Pro popis číselníku Země klikněte &lt;a href="https://mojedane.gov.cz/pmd/d
                             </xs:attribute>
                             <xs:attribute name="jm_souboru" use="optional" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                               <xs:annotation>
-                                <xs:documentation>&lt;strong&gt;Název přiloženého souboru.&lt;/strong&gt;&lt;br/&gt;Povolené typy souborů jsou: DOC, DOCX, RTF, XLS, XLSX, PDF, JPG, TXT a TXT/CSV. Dále je možné přiložit podepsané (formát PKCS#7) a komprimované (formát ZIP) soubory, vždy však jde o jeden podepsaný nebo jeden komprimovaný soubor některého z podporovaných formátů. Součet velikostí všech souborů přiložených v elektronické podobě (tzv. e-příloh) může být nejvýše 10 240 kilobajtů.</xs:documentation>
+                                <xs:documentation>&lt;strong&gt;Název přiloženého souboru.&lt;/strong&gt;&lt;br/&gt;Povolené typy souborů jsou: DOC, DOCX, RTF, XLS, XLSX, PDF, JPG, JPEG, TXT a TXT/CSV. Dále je možné přiložit podepsané (formát PKCS#7) a komprimované (formát ZIP) soubory, vždy však jde o jeden podepsaný nebo jeden komprimovaný soubor některého z podporovaných formátů. Součet velikostí všech souborů přiložených v elektronické podobě (tzv. e-příloh) může být nejvýše 10 240 kilobajtů.</xs:documentation>
                               </xs:annotation>
                               <xs:simpleType>
                                 <xs:restriction base="xs:string">
@@ -6259,7 +6259,7 @@ Pro popis číselníku Země klikněte &lt;a href="https://mojedane.gov.cz/pmd/d
                             </xs:attribute>
                             <xs:attribute name="jm_souboru" use="optional" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                               <xs:annotation>
-                                <xs:documentation>&lt;strong&gt;Název přiloženého souboru.&lt;/strong&gt;&lt;br/&gt;Povolené typy souborů jsou: DOC, DOCX, RTF, XLS, XLSX, PDF, JPG, TXT a TXT/CSV. Dále je možné přiložit podepsané (formát PKCS#7) a komprimované (formát ZIP) soubory, vždy však jde o jeden podepsaný nebo jeden komprimovaný soubor některého z podporovaných formátů. Součet velikostí všech souborů přiložených v elektronické podobě (tzv. e-příloh) může být nejvýše 10 240 kilobajtů.</xs:documentation>
+                                <xs:documentation>&lt;strong&gt;Název přiloženého souboru.&lt;/strong&gt;&lt;br/&gt;Povolené typy souborů jsou: DOC, DOCX, RTF, XLS, XLSX, PDF, JPG, JPEG, TXT a TXT/CSV. Dále je možné přiložit podepsané (formát PKCS#7) a komprimované (formát ZIP) soubory, vždy však jde o jeden podepsaný nebo jeden komprimovaný soubor některého z podporovaných formátů. Součet velikostí všech souborů přiložených v elektronické podobě (tzv. e-příloh) může být nejvýše 10 240 kilobajtů.</xs:documentation>
                               </xs:annotation>
                               <xs:simpleType>
                                 <xs:restriction base="xs:string">
@@ -6284,7 +6284,7 @@ Pro popis číselníku Země klikněte &lt;a href="https://mojedane.gov.cz/pmd/d
                               </xs:annotation>
                               <xs:simpleType>
                                 <xs:restriction base="xs:string">
-                                  <xs:pattern value="(PP_OPISPUV|PP_UZMUS|PP_ZVKAP|PP_PTOK){1}"/>
+                                  <xs:pattern value="(PP_UZMUS|PP_PTOK|PP_ZVKAP|PP_OPISPUV){1}"/>
                                 </xs:restriction>
                               </xs:simpleType>
                             </xs:attribute>

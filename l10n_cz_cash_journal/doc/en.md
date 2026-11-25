@@ -1,7 +1,7 @@
 ---
 title: Czechia — Peněžní deník (cash journal for daňová evidence)
 summary: The Czech cash journal for daňová evidence — the categories Czech practice uses, the Czech chart mapped onto them, the peněžní deník PDF, the Příloha č. 1 figures including oddíl D, and the § 7b odst. 4 record.
-verified: 19.0.1.0.6
+verified: 19.0.1.1.0
 ---
 
 ## What it is for {#purpose}
@@ -111,8 +111,9 @@ company prints the book with:
 
 A category of your own falls into *Ostatní zdanitelný příjem* / *Ostatní
 daňový výdaj* or the matching non-taxable column; depreciation appears in
-*Ostatní daňový výdaj*. The **Spreadsheet** output gives the flat row list and
-the totals per category (no Czech grid sheet).
+*Ostatní daňový výdaj*. The **Spreadsheet** output opens with the same grid as
+its first sheet, *Peněžní deník*, with the same figures as the PDF; the flat
+row list and the totals per category follow it.
 
 ## Příloha č. 1 figures {#priloha}
 
@@ -146,5 +147,4 @@ and debts — and record any differences; use the printout as the form for that.
 - The menu entry is visible in every company, Slovak ones included.
 - Row numbers follow Příloha č. 1 as the module knows it; check them against
   the current year's form.
-- The spreadsheet has no Czech grid sheet; use the PDF for the book layout.
 - Oddíl D row 9 *Mzdy* is read as unpaid wages (331). The form's instructions do not say whether it means the liability or the year's wage cost, and the two differ: confirm it with your accountant before filing.

@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_invoice/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ Invoice (statutory PDF)</h1>
 <p class="cssk-summary">Adds the payment symbols and the statutory VAT phrases — exemption and &quot;daň odvede zákazník&quot; — to the printed Czech invoice.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_cz</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_payment_symbols/static/description/index.html"><code>l10n_cssk_payment_symbols</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_invoice_payment_mode/static/description/index.html"><code>l10n_cz_invoice_payment_mode</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_cz</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cssk_payment_symbols/static/description/index.html"><code>l10n_cssk_payment_symbols</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_invoice_payment_mode/static/description/index.html"><code>l10n_cz_invoice_payment_mode</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Odoo's invoice PDF, together with the Czech chart of accounts (<code>l10n_cz</code>),
@@ -165,8 +165,25 @@ installs itself and prints the invoice's <strong>Payment Mode</strong> under the
 only when the invoice has a payment mode, and only for a Czech company.
 <code>account_payment_mode</code> itself prints only the mode's note, at the foot of
 the invoice.</p>
+<h2 id="cash-limit">Cash payment limit</h2>
+<p>A payment or the payment wizard on a cash journal shows a warning when the
+cash paid between the company and one partner <strong>on one calendar day</strong>, in
+one direction, exceeds <strong>270 000 Kč</strong>: <a href="https://e-sbirka.gov.cz/sb/2004/254">§ 4 of Act No. 254/2004 Sb.</a>.
+The payer must then pay by transfer and the payee must not accept cash.
+All cash payments of that day between the two are added together, whatever
+documents they settle (§ 4 odst. 4); a payment in another currency counts at
+the rate of its day (§ 4 odst. 3). Contacts of one company are one partner.</p>
+<p>A cash statement line with a partner other than the company itself is
+counted and carries the same warning, and leaves it as a note on the entry.
+A line with the company itself as partner, such as a deposit to the bank, is
+no payment (§ 2 odst. 2) and is left alone.</p>
+<p>The warning does not block: the payments outside the duty (§ 3 odst. 2:
+taxes, obligatory payments under employment law, pensions) cannot be told
+apart.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
+<li>The cash limit counts payments and cash statement lines recorded in Odoo,
+  by the partner on them. Cash taken at the Point of Sale is not counted.</li>
 <li>A domestic exempt supply with a 0 % tax sold to a foreign customer gets the
   § 64 or § 66 phrase too, and a domestic exempt supply to a Czech customer
   gets none.</li>
@@ -176,7 +193,7 @@ the invoice.</p>
 <li>The phrases are in Czech with an English gloss; the symbol labels are
   always Czech.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.1.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/254">Zákon č. 254/2004 Sb., o omezení plateb v hotovosti</a></li></ul><p>Text checked against module version: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

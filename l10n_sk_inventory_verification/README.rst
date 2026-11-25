@@ -18,7 +18,7 @@ Before the financial statements are drawn up, a Slovak accounting entity must ve
 
 The module keeps those records in Odoo: one inventarizácia document per exercise, any number of súpisy under it, and the zápis fields on the inventarizácia itself. For an account verified from documents, the book balance is read from the general ledger. Both records print as PDF.
 
-It records and evidences the exercise. It does **not** post inventory differences: manká, prebytky, impairment and the like follow from the zápis and are entered by the accountant.
+It also books the inventory differences — manká, schodky and prebytky — as a draft journal entry dated in the period verified, linked to the inventarizácia. Impairment and other valuation adjustments are not inventory differences (`§ 30 ods. 6 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/#paragraf-30.odsek-6>`__) and stay with the accountant.
 
 The screens, fields and printouts are in Slovak, because the field names are the statute's own terms. This page quotes them as they appear.
 
@@ -55,7 +55,7 @@ Carrying out an inventarizácia
 
 3. *Názov* (*Name*) and *Druh inventarizácie*: **Fyzická inventúra** or **Dokladová inventúra**;
 
-4. *Účet* — for a dokladová inventúra, the account whose balance is verified;
+4. *Účet* — for a dokladová inventúra, the account whose balance is verified; for a fyzická inventúra, the account the assets are kept on (used when the difference is booked);
 
 5. *Miesto uloženia majetku*, *Hmotne zodpovedná osoba* (a contact) and *Skutočný stav zistil* (a user — the person who established the actual state).
 
@@ -73,6 +73,83 @@ Signs on accounts verified from documents
 -------------------------------------------
 
 The book balance is debit minus credit, so liability and equity accounts come out **negative**: a supplier balance of 500 on account 321 reads −500. Enter the confirmed amounts of such an account with a negative unit price (for example, quantity 1, price −500) so that *Rozdiel* compares like with like.
+
+Booking the differences
+=========================
+
+The tab **Inventarizačné rozdiely (§ 30 ods. 5 až 7)** turns the differences of the súpisy into a journal entry.
+
+1. **Give each súpis its account.** *Účet* on a súpis is the account the counted assets are kept on (211 for a cash desk, 132 for goods). On a dokladová inventúra it is already there; on a fyzická inventúra fill it in, because the proposal starts from it.
+
+2. Click **Navrhnúť vyúčtovanie rozdielov**. For every súpis whose difference is not explained yet, one line appears: *Manko / schodok* when the actual state is lower than the books, *Prebytok* when it is higher, for the whole amount, with the accounts proposed (see the table below).
+
+3. **Adjust the lines.** Split a manko into the part within your norm of natural loss (*Úbytok do normy*) and the part above it. Add a line *Náhrada od zodpovednej osoby* for what the liable person is asked to pay, and fill *Partner*. Change either account where your chart or your case differs. The amounts are always positive: the kind carries the direction. *Zostáva vyúčtovať* on each súpis shows what the lines do not explain yet.
+
+4. **A difference that is not booked from here** (a fixed asset retired in the asset register, stock adjusted in Odoo Inventory, a difference explained by a document of its own): tick *Rozdiel sa tu neúčtuje* on the súpis and state the reason. The reason is printed in the zápis.
+
+5. Click **Zaúčtovať rozdiely**. It is offered once every difference is either explained in full or marked as not booked here. One journal entry is created **in draft**, in the *Denník pre rozdiely* (the first miscellaneous journal unless you choose another), dated the *deň, ku ktorému bola inventúra vykonaná*, with the number of the inventarizácia as its reference. The accountant reviews and posts it in Accounting; the button *Účtovné zápisy* at the top opens it.
+
+The status *Rozdiely* in the summary reads *Na vyúčtovanie*, *Pripravené na zaúčtovanie*, *Zápis v návrhu* or *Zaúčtované*.
+
+Proposed accounts
+-------------------
+
+The proposals follow the accounting procedures for double-entry bookkeeping (`opatrenie MF SR č. 23054/2002-92 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/740/>`__). They are proposals: both accounts stay editable.
+
+.. list-table::
+   :header-rows: 1
+
+   * - Súpis kept on
+     - Manko / schodok
+     - Úbytok do normy
+     - Prebytok
+   * - 211, 213 (cash, ceniny)
+     - 335 / 21x — § 11 ods. 1 písm. b): the schodok is booked as a receivable from the hmotne zodpovedná osoba, not as an expense
+     - —
+     - 21x / 668
+   * - 112, 132 and the other accounts of groups 11 and 13
+     - 549 / 1xx (§ 43 ods. 2 písm. d), § 68 ods. 8)
+     - 501 / 11x, 504 / 13x
+     - 1xx / 648
+   * - 121–124 (own production)
+     - 549 / 12x (§ 43 ods. 3 písm. b))
+     - 61x / 12x
+     - 12x / 61x
+   * - 01x, 02x (depreciated fixed assets)
+     - none proposed
+     - —
+     - 0xx / 384 (§ 21 ods. 2)
+   * - 03x (fixed assets not depreciated)
+     - 549 / 03x
+     - —
+     - 03x / 648 (§ 11 ods. 4)
+   * - anything else (receivables, payables, equity)
+     - none proposed
+     - —
+     - none proposed
+
+*Náhrada od zodpovednej osoby* proposes 378 / 648 (§ 55 ods. 9 písm. a)).
+
+Where nothing is proposed, the entry is refused until you choose the counterpart yourself. Three cases need more than this entry:
+
+- **Fixed assets.** A manko of a depreciated asset takes the residual value through the accumulated depreciation (§ 36 ods. 4 písm. e)), and a newly found asset must be registered at its fair value. Do both in the asset register and mark the súpis as not booked here; a line on a class 0 account carries a warning.
+
+- **Stock valued by Odoo Inventory.** If Odoo keeps the stock account by itself, correct the quantity in Inventory, which books the difference. A line on such an account carries a warning, because the difference would otherwise be booked twice.
+
+- **Way B of stock accounting.** The year-end stock is booked from the inventarizácia (112 / 501, 132 / 504), so a manko is a reclassification: put 501 or 504 as *Účet* and 549 as the counterpart.
+
+A prebytok of purchased stock caused by a provably wrong issue is credited to group 50 instead of 648 (§ 11 ods. 2); change the counterpart.
+
+The entry carries no VAT and no income-tax adjustment. A manko above the compensation received is not a tax expense (`§ 21 ods. 2 písm. e) <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-21.odsek-2.pismeno-e>`__ of the Income Tax Act), and VAT deducted on stolen goods is paid back under `§ 53 ods. 5 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/#paragraf-53.odsek-5>`__ of the VAT Act (549 / 343); both remain with the accountant.
+
+Taking the booking back
+-------------------------
+
+**Zrušiť zaúčtovanie rozdielov** deletes the entry while it is still a draft and reverses it once posted. The reversal is dated the same day as the entry, so it stays in the period verified. **Späť na návrh** on the inventarizácia does the same before it reopens the document, because the súpisy are about to change. The settlement lines stay and can be booked again.
+
+Lines from which an entry was created cannot be changed or deleted until the booking is taken back, and neither can their súpis or the inventarizácia. If a súpis changes after the booking, a warning at the top says the booked amounts no longer match.
+
+**Locked periods.** Differences belong to the period verified (`§ 30 ods. 7 <https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/#paragraf-30.odsek-7>`__). Odoo by itself moves an entry dated in a locked period to the first open day when it is posted. For these entries the module refuses instead: creating, posting and reversing all stop with a message until the period is unlocked.
 
 Printouts
 ===========
@@ -98,7 +175,11 @@ Limitations
 
 - Nothing checks the § 29 ods. 3 or § 30 ods. 4 time windows, and a closed inventarizácia stays editable — *Ukončená* locks nothing.
 
-- No differences are posted; the manká, prebytky and adjustments to valuation are entered by the accountant from the zápis.
+- Adjustments to valuation (opravné položky, § 26 and 27) are not booked; the accountant enters them from the zápis.
+
+- The booking of differences does not retire or register fixed assets, does not adjust quantities in Odoo Inventory, and books no VAT; see `Booking the differences <#differences>`__.
+
+- The entry of differences is in the company currency only, and closing the inventarizácia does not require the differences to be booked.
 
 - The asset protocols (*zaraďovací* / *vyraďovací*) are not part of this module: they are in ``l10n_sk_asset_protocol_base``, which needs the asset register.
 
@@ -106,10 +187,10 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_inventory_verification``
-- **Version:** 19.0.1.1.2
+- **Version:** 19.0.1.2.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
-- **Requires:** ``l10n_sk``
+- **Requires:** ``l10n_sk``, ``l10n_cssk_inventory_verification_base``
 
 Documentation
 =============

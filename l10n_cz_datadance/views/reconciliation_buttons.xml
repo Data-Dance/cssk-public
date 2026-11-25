@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Kontrolní hlášení → the kontrolní řádky against the přiznání -->
+    <record id="cssk_control_statement_view_form_cz_reconcile" model="ir.ui.view">
+        <field name="name">cssk.control.statement.form.cz.reconcile</field>
+        <field name="model">cssk.control.statement</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_kv_kh_base.cssk_control_statement_view_form"/>
+        <field name="arch" type="xml">
+            <button name="action_export_xml" position="after">
+                <field name="country_code" invisible="1"/>
+                <button name="action_l10n_cz_reconcile_dph" type="object"
+                        string="Porovnat s přiznáním"
+                        invisible="state == 'draft' or country_code != 'CZ'"/>
+            </button>
+        </field>
+    </record>
+
+    <!-- Souhrnné hlášení → ř. 20, 21 and 31 of the přiznání -->
+    <record id="cssk_ec_summary_statement_view_form_cz_reconcile" model="ir.ui.view">
+        <field name="name">cssk.ec.summary.statement.form.cz.reconcile</field>
+        <field name="model">cssk.ec.summary.statement</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form"/>
+        <field name="arch" type="xml">
+            <button name="action_export_xml" position="after">
+                <field name="l10n_cz_country_code" invisible="1"/>
+                <button name="action_l10n_cz_reconcile_dph" type="object"
+                        string="Porovnat s přiznáním"
+                        invisible="state == 'draft' or l10n_cz_country_code != 'CZ'"/>
+            </button>
+        </field>
+    </record>
+
+    <!-- Přiznání k DPH → account 343 -->
+    <record id="cssk_vat_return_view_form_cz_reconcile" model="ir.ui.view">
+        <field name="name">cssk.vat.return.form.cz.reconcile</field>
+        <field name="model">cssk.vat.return</field>
+        <field name="inherit_id"
+               ref="l10n_cssk_vat_return_base.cssk_vat_return_view_form"/>
+        <field name="arch" type="xml">
+            <button name="action_export_xml" position="after">
+                <field name="cz_country_code" invisible="1"/>
+                <button name="action_l10n_cz_reconcile_books" type="object"
+                        string="Porovnat s účetnictvím"
+                        invisible="state == 'draft' or cz_country_code != 'CZ'"/>
+            </button>
+        </field>
+    </record>
+
+</odoo>

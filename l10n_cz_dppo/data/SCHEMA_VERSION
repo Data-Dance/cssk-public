@@ -1,6 +1,6 @@
 DPPDP9  05.01.01  ze dne 21. 10. 2025
 
-dppdp9_epo2.xsd   451406  2a1df2ce989d6fa7c4475d5132330f1a
+dppdp9_epo2.xsd   451541  0fdaf51fef6f5ab296b6b8e7f7081f68
 uv_radky_500.csv   10180  2367b4054819acf261bf036d978cfb37
 
 Structure version of the bundled dppdp9_epo2.xsd, and the row číselník of the
@@ -23,7 +23,9 @@ published only as HTML. data/uv_radky_500.csv is that číselník for vyhláška
   https://adisspr.mfcr.cz/dpr/adis/idpr_pub/hlib/uv_info/info_detail.faces?tabulka=24810&platnost=2025
   https://adisspr.mfcr.cz/dpr/adis/idpr_pub/hlib/uv_info/info_detail.faces?tabulka=25810&platnost=2025
 (index: .../hlib/uv_info/uv_info.faces?rok=2025). Platnost 2024, 2025 and 2026
-are identical row for row, verified 2026-09-28.
+are identical row for row, verified 2026-09-28; platnost 2026 compared again
+with the CSV on 2026-11-24 (number, označení, rozsah and text of all 205
+rows): no difference.
 
 REFRESH PROCEDURE
   1. Fetch  https://adisspr.mfcr.cz/adis/jepo/schema/dppdp9_epo2.xsd  (plain
@@ -44,3 +46,11 @@ Prilohy/@kod pattern (PP_ZVKAP|PP_UZMUS|PP_PTOK|PP_OPISPUV), which accepts the
 same values. Replaced by the published file anyway, so the digest is the
 authority's. The template's `verzePis` said 05.01; the published structure is
 05.01.01.
+
+VERIFIED 2026-11-24: the published file had been changed in place since
+2026-09-28 (451 406 → 451 541 bytes) while the structure page still says
+05.01.01 ze dne 21. 10. 2025. The differences are three annotations (the note
+on the DIČ of a právnická osoba, and JPEG added to the file types of both
+e-příloha elements) and the order of the alternatives in the Prilohy/@kod
+pattern once more. Nothing a document is validated against changed. Replaced
+by the published file so the digest is the authority's again.

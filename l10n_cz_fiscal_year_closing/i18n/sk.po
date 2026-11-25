@@ -1,0 +1,170 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cz_fiscal_year_closing
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-24 09:45+0000\n"
+"PO-Revision-Date: 2026-11-24 09:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cz_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_cz_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "%(count)s depreciation lines not posted."
+msgstr "Nezaúčtované riadky odpisov: %(count)s."
+
+#. module: l10n_cz_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_cz_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "%(count)s draft journal entries."
+msgstr "Nezaúčtované doklady: %(count)s."
+
+#. module: l10n_cz_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_cz_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "%(count)s draft payslips."
+msgstr "Koncepty výplatných listín: %(count)s."
+
+#. module: l10n_cz_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_cz_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "%(count)s gaps in document numbering."
+msgstr "Medzery v číslovaní dokladov: %(count)s."
+
+#. module: l10n_cz_fiscal_year_closing
+#: model_terms:ir.ui.view,arch_db:l10n_cz_fiscal_year_closing.view_account_fiscalyear_closing_form_pre_close
+msgid "<strong>Before closing the year</strong>"
+msgstr "<strong>Pred uzavretím roka</strong>"
+
+#. module: l10n_cz_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_cz_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "Account %(prefix)s (%(label)s) has a balance of %(balance).2f."
+msgstr "Účet %(prefix)s (%(label)s) má zostatok %(balance).2f."
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:ir.model,name:l10n_cz_fiscal_year_closing.model_account_chart_template
+msgid "Account Chart Template"
+msgstr "Účtovná osnova"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:ir.model.fields,field_description:l10n_cz_fiscal_year_closing.field_account_fiscalyear_closing__l10n_cz_pre_close_warning
+msgid "Before closing the year"
+msgstr "Pred uzavretím roka"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:ir.model.fields,field_description:l10n_cz_fiscal_year_closing.field_account_chart_template__display_name
+#: model:ir.model.fields,field_description:l10n_cz_fiscal_year_closing.field_account_fiscalyear_closing__display_name
+#: model:ir.model.fields,field_description:l10n_cz_fiscal_year_closing.field_account_fiscalyear_closing_config__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.mapping.template,name:l10n_cz_fiscal_year_closing.fyc_map_cz_cl_0
+msgid "Dlouhodobý majetek (třída 0) → 702"
+msgstr "Dlhodobý majetok (trieda 0) → 702"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:ir.model,name:l10n_cz_fiscal_year_closing.model_account_fiscalyear_closing
+msgid "Fiscal year closing"
+msgstr "Účtovná závierka"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:ir.model,name:l10n_cz_fiscal_year_closing.model_account_fiscalyear_closing_config
+msgid "Fiscal year closing configuration"
+msgstr "Nastavenie uzávierky účtovného roka"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:ir.model.fields,field_description:l10n_cz_fiscal_year_closing.field_account_chart_template__id
+#: model:ir.model.fields,field_description:l10n_cz_fiscal_year_closing.field_account_fiscalyear_closing__id
+#: model:ir.model.fields,field_description:l10n_cz_fiscal_year_closing.field_account_fiscalyear_closing_config__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.mapping.template,name:l10n_cz_fiscal_year_closing.fyc_map_cz_cl_4
+msgid "Kapitálové účty a dlouhodobé závazky (třída 4) → 702"
+msgstr "Kapitálové účty a dlhodobé záväzky (trieda 4) → 702"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.mapping.template,name:l10n_cz_fiscal_year_closing.fyc_map_cz_cl_2
+msgid "Krátkodobý finanční majetek a peněžní prostředky (třída 2) → 702"
+msgstr "Krátkodobý finančný majetok a peňažné prostriedky (trieda 2) → 702"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.mapping.template,name:l10n_cz_fiscal_year_closing.fyc_map_cz_pl_5
+msgid "Náklady (třída 5) → 710"
+msgstr "Náklady (trieda 5) → 710"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.config.template,name:l10n_cz_fiscal_year_closing.fyc_config_cz_opening
+msgid "Otevření rozvahových účtů (701)"
+msgstr "Otvorenie súvahových účtov (701)"
+
+#. module: l10n_cz_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_cz_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "The VAT return for the last period is not filed."
+msgstr "Priznanie k DPH za posledné obdobie nie je podané."
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.config.template,name:l10n_cz_fiscal_year_closing.fyc_config_cz_pl
+msgid "Uzavření nákladů a výnosů (710)"
+msgstr "Uzavretie nákladov a výnosov (710)"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.config.template,name:l10n_cz_fiscal_year_closing.fyc_config_cz_closing
+msgid "Uzavření rozvahových účtů (702)"
+msgstr "Uzavretie súvahových účtov (702)"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.mapping.template,name:l10n_cz_fiscal_year_closing.fyc_map_cz_pl_6
+msgid "Výnosy (třída 6) → 710"
+msgstr "Výnosy (trieda 6) → 710"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.mapping.template,name:l10n_cz_fiscal_year_closing.fyc_map_cz_cl_710
+msgid "Výsledek hospodaření (710) → 702"
+msgstr "Výsledok hospodárenia (710) → 702"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.mapping.template,name:l10n_cz_fiscal_year_closing.fyc_map_cz_cl_1
+msgid "Zásoby (třída 1) → 702"
+msgstr "Zásoby (trieda 1) → 702"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.mapping.template,name:l10n_cz_fiscal_year_closing.fyc_map_cz_cl_3
+msgid "Zúčtovací vztahy (třída 3) → 702"
+msgstr "Zúčtovacie vzťahy (trieda 3) → 702"
+
+#. module: l10n_cz_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_cz_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "cash in transit"
+msgstr "peniaze na ceste"
+
+#. module: l10n_cz_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_cz_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "internal settlement"
+msgstr "vnútorné zúčtovanie"
+
+#. module: l10n_cz_fiscal_year_closing
+#. odoo-python
+#: code:addons/l10n_cz_fiscal_year_closing/models/account_fiscalyear_closing.py:0
+msgid "profit or loss awaiting approval"
+msgstr "výsledok hospodárenia v schvaľovaní"
+
+#. module: l10n_cz_fiscal_year_closing
+#: model:account.fiscalyear.closing.template,name:l10n_cz_fiscal_year_closing.fyc_template_cz
+msgid "Účetní závěrka (CZ) — 701 / 702 / 710"
+msgstr "Účtovná závierka (CZ) — 701 / 702 / 710"

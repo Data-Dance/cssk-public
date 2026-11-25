@@ -9,9 +9,10 @@
                ref="l10n_cssk_ec_summary_base.cssk_ec_summary_statement_view_form"/>
         <field name="arch" type="xml">
             <button name="action_export_xml" position="after">
+                <field name="l10n_sk_country_code" invisible="1"/>
                 <button name="action_reconcile_dph" type="object"
                         string="Porovnať s priznaním"
-                        invisible="state == 'draft'"/>
+                        invisible="state == 'draft' or l10n_sk_country_code != 'SK'"/>
             </button>
         </field>
     </record>
@@ -24,9 +25,10 @@
                ref="l10n_cssk_vat_return_base.cssk_vat_return_view_form"/>
         <field name="arch" type="xml">
             <button name="action_export_xml" position="after">
+                <field name="l10n_sk_country_code" invisible="1"/>
                 <button name="action_reconcile_books" type="object"
                         string="Porovnať s účtovníctvom"
-                        invisible="state == 'draft'"/>
+                        invisible="state == 'draft' or l10n_sk_country_code != 'SK'"/>
             </button>
         </field>
     </record>

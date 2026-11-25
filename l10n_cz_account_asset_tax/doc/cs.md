@@ -77,6 +77,8 @@ aktualizaci modulu nahrají znovu, takže ruční změny aktualizaci nepřežij�
   nekontroluje.
 - Mimořádné odpisy jsou povoleny jen ve skupině 2 jako skupině silničních
   vozidel; zda je vozidlo bezemisní a podmínky splňuje, musíte ověřit sami.
-- Plán zaokrouhluje na haléře, nikoli na celé koruny nahoru, jak vyžaduje
-  zákon; tuto a další odchylky uvádí
+- Odpisy se zaokrouhlují na celé koruny nahoru, jak vyžadují § 31 odst. 9,
+  § 32 odst. 5 a § 30a odst. 2. Roky uzavřené verzí modulu `account_asset_tax`
+  starší než 19.0.1.10.0 si ponechávají své částky v haléřích;
+  zbývající odchylky uvádí
   [návod k daňovým odpisům](module:account_asset_tax#limitations).

@@ -8,6 +8,75 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Changed
+~~~~~~~
+
+- **``dppdp9_epo2.xsd`` refreshed** to the file the Finanční správa
+  publishes now. It was changed in place without a new version (still
+  05.01.01 of 21. 10. 2025): three annotations and the order of one
+  pattern's alternatives, nothing a return is validated against. The pin in
+  ``data/SCHEMA_VERSION`` follows; the row list of the statements was
+  compared again for platnost 2026 and is unchanged.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **ř. 50 / ř. 150 of 19.0.1.7.0 are not on 18.0.** Port the row
+  definitions, the two XML attributes, the calendar-year guard, the
+  migration and the tests together.
+- **The sbírka listin request of 19.0.1.8.0 is not on 18.0.** Port the
+  fields, the checks, the template records and the tests together.
+
+[19.0.1.8.0] — 2026-11-24
+-------------------------
+
+Added
+~~~~~
+
+- **Handing the účetní závěrka to the sbírka listin through the return**
+  (§ 21b zákona o účetnictví). A group on the return adds the request
+  (``VetaUZ``, tiskopis 25 5404/I) with its scope: the Rozvaha and the Výkaz
+  zisku a ztráty linked to the return, and the příloha, the přehled o
+  peněžních tocích and the přehled o změnách vlastního kapitálu as uploaded
+  files (``PredepsanaPriloha`` PP_OPISPUV / PP_PTOK / PP_ZVKAP, counted on
+  ``VetaD``). An e-mail for the confirmation is optional.
+- ``VetaD/neschval_uz`` and ``neaudit_uz``: two ticks for statements not yet
+  approved or not yet audited.
+- The export refuses what the XSD cannot see and the tax office would not
+  pass on (§ 21b odst. 5): a request naming statements that are not linked,
+  a request for nothing, a malformed e-mail, a file type EPO does not take,
+  more than 10 240 kB of files.
+
+[19.0.1.7.0] — 2026-11-24
+-------------------------
+
+Added
+~~~~~
+
+- **ř. 50 and ř. 150 from the tax depreciation register.** The difference
+  between accounting and tax depreciation of the year is computed where
+  ``account_asset_tax`` is installed, on ř. 50 where the accounting
+  depreciation is higher and on ř. 150 where the tax depreciation is
+  (*Pokyny* 25 5404/1, K ř. 50 and K ř. 150). Both rows are filed as
+  ``kc_ii60_50`` / ``kc_ii170_150``. They were not on the return at all;
+  the difference had to be worked out elsewhere and typed into the
+  subtotal.
+
+Changed
+~~~~~~~
+
+- **ř. 70 and ř. 170 are sums.** Each is the new typed row of the other
+  items (ř. 20–63 without ř. 50, ř. 100–162 without ř. 150) plus ř. 50 or
+  ř. 150. A migration adds the rows to an installed version and switches the
+  two subtotals where they are still as shipped. A return computed before
+  the upgrade keeps the subtotal typed on it, so its tax base does not move;
+  open returns get a note asking whether that subtotal already contains the
+  depreciation difference.
+- **The export refuses a typed ř. 70 / ř. 170 that is not the sum of its
+  rows**, since the file now carries ř. 50 / ř. 150 beside the subtotal.
+- A period that crosses a calendar year end gets no computed ř. 50 / ř. 150
+  (the tax plan is kept by calendar year) and says so in its history.
+
 [19.0.1.6.0] — 2026-11-15
 -------------------------
 

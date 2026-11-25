@@ -47,22 +47,33 @@ of the actual state with the books per soupis, the assessment of valuation
 the stav v účetnictví is read from the ledger, so the comparison is computed
 rather than typed.
 
+Inventarizační rozdíly — § 30 odst. 10 a 11
+-------------------------------------------
+
+Manka, schodky and přebytky are settled per soupis (above the norm, within
+the norm, claim against the liable person) and booked as **draft** journal
+entries dated the day of valuation of each soupis — the period being
+verified, as § 30 odst. 11 requires. Accounts are proposed from ČÚS 007 and
+vyhláška č. 500/2002 Sb. Reopening the inventarizace deletes the draft or
+reverses the posted entry on the same day; a locked period refuses all of it
+rather than letting Odoo move the entry into the next period.
+
 Scope note
 ----------
 
-This produces and evidences the inventarizace. It does **not** post the
-inventarizační rozdíly — manka, schodky, přebytky, opravné položky and the
-like are accounting decisions that follow from it, and belong to the
-accountant.
+Opravné položky and other adjustments of valuation (§ 25 odst. 3) stay with
+the accountant. So do the asset register, quantities in Odoo Inventory and
+VAT.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
-    "depends": ["l10n_cz"],
+    "depends": ["l10n_cz", "l10n_cssk_inventory_verification_base"],
     "data": [
         "security/ir.model.access.csv",
+        "security/inventory_rules.xml",
         "data/ir_sequence.xml",
         "report/inventarizace_reports.xml",
         "report/inventurni_soupis_template.xml",

@@ -1,7 +1,7 @@
 ---
 title: Česko — peněžní deník (daňová evidence)
 summary: Peněžní deník pro daňovou evidenci — členění podle zavedené praxe, přiřazení české účtové osnovy, peněžní deník v PDF, údaje pro Přílohu č. 1 včetně oddílu D a zápis podle § 7b odst. 4.
-verified: 19.0.1.0.6
+verified: 19.0.1.1.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -108,8 +108,9 @@ přiřaďte je tam, kde je potřebujete.
 
 Vlastní kategorie spadne do *Ostatního zdanitelného příjmu* / *Ostatního
 daňového výdaje* nebo do odpovídajícího nedaňového sloupce; odpisy se objeví v
-*Ostatním daňovém výdaji*. Výstup **Tabulka** obsahuje seznam řádků a součty za
-kategorie (bez listu s českým uspořádáním).
+*Ostatním daňovém výdaji*. Výstup **Tabulka** začíná stejným uspořádáním jako
+první list, *Peněžní deník*, se stejnými částkami jako PDF; za ním následuje
+seznam řádků a součty za kategorie.
 
 ## Údaje pro Přílohu č. 1 {#priloha}
 
@@ -143,6 +144,4 @@ případné rozdíly; výtisk slouží jako formulář k tomu.
 - Položka nabídky je viditelná v každé společnosti včetně slovenských.
 - Čísla řádků odpovídají Příloze č. 1, jak ji modul zná; ověřte je proti
   tiskopisu pro příslušný rok.
-- Tabulka XLSX nemá list s českým uspořádáním; uspořádání deníku poskytuje
-  PDF.
 - Oddíl D, řádek 9 *Mzdy* se čte jako nevyplacené mzdy (331). Pokyny k tiskopisu neříkají, zda jde o závazek, nebo o mzdové náklady roku, a to se liší: před podáním to ověřte s účetním.

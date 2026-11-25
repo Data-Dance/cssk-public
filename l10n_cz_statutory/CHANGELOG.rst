@@ -8,6 +8,17 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.3.4] — 2026-11-24
+-------------------------
+
+Changed
+~~~~~~~
+
+- The Czech person types (CZ-FO, CZ-PO) moved to
+  ``l10n_cssk_core`` (19.0.1.23.0), which re-homes the existing records.
+  ``l10n_cz_statutory.cz_person_type_fo`` / ``_po`` are now
+  ``l10n_cssk_core.cz_person_type_fo`` / ``_po``.
+
 [19.0.1.3.3] — 2026-11-09
 -------------------------
 

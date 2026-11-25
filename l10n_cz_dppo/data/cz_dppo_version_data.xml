@@ -8,13 +8,16 @@
       validated against data/dppdp9_epo2.xsd.
 
       Derivable lines are computed: ř.10 (účetní výsledek před zdaněním) from the
-      P&L (class 6 − class 5, excluding income-tax accounts 591–599); the tax
-      spine ř.200 → ř.340 is arithmetic. The připočitatelné / odčitatelné
-      adjustments (ř.20–170), the § 34 deductions (ř.230 ztráta, ř.240 pre-2005
+      P&L (class 6 − class 5, excluding income-tax accounts 591–599); ř.50 and
+      ř.150 (the difference between accounting and tax depreciation) from the
+      tax asset register where account_asset_tax is installed; the tax
+      spine ř.200 → ř.340 is arithmetic. The other připočitatelné /
+      odčitatelné adjustments (ř.20–162, entered as one figure each on
+      r70_other / r170_other; ř.70 and ř.170 add ř.50 / ř.150 to them), the § 34 deductions (ř.230 ztráta, ř.240 pre-2005
       odečty, ř.242 VaV, ř.243 odborné vzdělávání), the § 20 odst. 8 dary
       (ř.260) and slevy (ř.300) are MANUAL — entered by the accountant; they aggregate into the spine.
 
-      Out of scope (appendix tables — special regimes): odpisy (příloha 1B),
+      Out of scope (appendix tables — special regimes): odpisy po skupinách (příloha 1B),
       §23e výpůjční náklady (příloha 3), zápočet daně ze zahraničí (příloha 1N),
       investiční fondy. (The účetní závěrka — VetaUA / VetaUB / VetaUD — is
       filed from the linked l10n_cz_fs statements; see
@@ -52,10 +55,18 @@
             (0,0,{'code':'r10','name':'ř.10 Výsledek hospodaření před zdaněním',
                   'kind':'account',
                   'account_formula':'5,6,-591,-592,-593,-595,-596,-599','sequence':10}),
+            (0,0,{'code':'r50','name':'ř.50 Rozdíl, o který odpisy hmotného a nehmotného majetku uplatněné v účetnictví převyšují odpisy podle § 26 až 33',
+                  'kind':'asset_diff','account_formula':'addback','sequence':14}),
+            (0,0,{'code':'r70_other','name':'ř.20–63 bez ř.50: ostatní položky zvyšující výsledek hospodaření (zadává se ručně)',
+                  'kind':'manual','sequence':16}),
             (0,0,{'code':'r70','name':'ř.70 Mezisoučet — zvýšení VH (ř.20–63), připočitatelné položky',
-                  'kind':'manual','sequence':20}),
+                  'kind':'aggregate','aggregate_formula':'r70_other + r50','sequence':20}),
+            (0,0,{'code':'r150','name':'ř.150 Rozdíl, o který odpisy hmotného a nehmotného majetku podle § 26 až 33 převyšují odpisy uplatněné v účetnictví',
+                  'kind':'asset_diff','account_formula':'deduction','sequence':24}),
+            (0,0,{'code':'r170_other','name':'ř.100–162 bez ř.150: ostatní položky snižující výsledek hospodaření (zadává se ručně)',
+                  'kind':'manual','sequence':26}),
             (0,0,{'code':'r170','name':'ř.170 Mezisoučet — snížení VH (ř.100–162), odčitatelné položky',
-                  'kind':'manual','sequence':30}),
+                  'kind':'aggregate','aggregate_formula':'r170_other + r150','sequence':30}),
             (0,0,{'code':'r200','name':'ř.200 Základ daně',
                   'kind':'aggregate','aggregate_formula':'r10 + r70 - r170','sequence':40}),
             (0,0,{'code':'r230','name':'ř.230 Odečet daňové ztráty (§ 34 odst. 1)',

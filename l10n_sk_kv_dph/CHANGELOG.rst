@@ -16,6 +16,19 @@ Carry-over to 18.0: internal credit notes left out of the statement (19.0.2.10.0
 
 Carry-over to 18.0: the full IČ DPH column and the column totals of 19.0.2.11.0. DISCHARGED (18.0.2.9.0).
 
+[19.0.2.12.0] — 2026-11-24
+--------------------------
+
+Changed
+~~~~~~~
+
+- **Dátum dodania of a received document is its delivery date** where the
+  company keeps the VAT period of its bills in the taxable supply date
+  (``l10n_cssk_core`` 19.0.1.22.0, *VAT period of received documents*). The
+  taxable supply date then names the period B.1 / B.2 report the document
+  in, and may not be the day of the supply. Without that setting, and on
+  every issued document, nothing changes.
+
 [19.0.2.11.0] — 2026-11-17
 --------------------------
 

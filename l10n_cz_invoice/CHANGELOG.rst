@@ -8,6 +8,27 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **The cash payment limit of 19.0.1.2.0 is not on 18.0.** Port
+  ``models/account_payment.py``, its view and tests; check the payment
+  states and ``origin_payment_id`` there.
+
+[19.0.1.2.0] — 2026-11-24
+-------------------------
+
+Added
+~~~~~
+
+- **Cash payment limit** (zákon č. 254/2004 Sb., § 4). A cash payment, the
+  payment wizard and a cash statement line warn when the cash paid between
+  the company and one partner on one calendar day, in one direction, exceeds
+  270 000 Kč. The sum runs over the day, not over the document (§ 4
+  odst. 4), with foreign currency at the rate of the day (odst. 3). It warns
+  and does not block, since § 3 odst. 2 exempts payments the system cannot
+  recognise.
+
 [19.0.1.1.1] — 2026-11-05
 -------------------------
 

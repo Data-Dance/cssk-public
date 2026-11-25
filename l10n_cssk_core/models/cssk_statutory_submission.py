@@ -934,6 +934,19 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
         apply to some documents (``l10n_cz_vat_status``: a non-payer has no
         deduction to defer); it takes the answer for those documents from
         this pass, so the fallback rule stays written down once, here.
+
+        **The company may choose the tax point for the claim side as well**
+        (``res.company.cssk_vat_claim_period_basis`` = ``tax_point``). A bill
+        then follows its ``taxable_supply_date`` exactly as an entry does, and
+        its accounting date only where it records none. That is not the rule
+        above done wrong: it is a different way of keeping the books, where
+        the period is closed and locked early and a bill that arrives after
+        the lock is booked in the open period while its deduction still goes
+        on the return of the closed one. The accountant states that period on
+        the document, in the one date field core already offers, and the
+        return has to read it there. SK § 51 ods. 2 allows exactly this — the
+        deduction in the period the right arose, provided the invoice is held
+        before the return is due. ``cssk_vat_deduction_date`` still wins.
         """
         Move = self.env["account.move"]
         honour_declared = (
@@ -1037,11 +1050,16 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
             claim_side = (Move.search(claim_base + declared)
                           if honour_declared else Move.browse())
             # No declaration: an entry falls back to its tax point, everything
-            # else to its accounting date.
+            # else to its accounting date — unless the company keeps the
+            # period of its bills in the tax point too (see the docstring),
+            # and then the one rule covers both populations.
+            by_tax_point = [] if (
+                company.cssk_vat_claim_period_basis == "tax_point"
+            ) else [("move_type", "not in", invoice_like)]
             claim_side |= Move.search(
                 claim_base
                 + undeclared
-                + [("move_type", "not in", invoice_like)]
+                + by_tax_point
                 + [
                     "|",
                     "&", "&",
@@ -1054,12 +1072,13 @@ class CSSKStatutorySubmissionMixin(models.AbstractModel):
                     ("date", "<=", date_to),
                 ]
             )
-            claim_side |= Move.search(
-                claim_base
-                + undeclared
-                + [("move_type", "in", invoice_like)]
-                + [("date", ">=", date_from), ("date", "<=", date_to)]
-            )
+            if by_tax_point:
+                claim_side |= Move.search(
+                    claim_base
+                    + undeclared
+                    + [("move_type", "in", invoice_like)]
+                    + [("date", ">=", date_from), ("date", "<=", date_to)]
+                )
         else:
             claim_side = Move.search(
                 claim_base + [("date", ">=", date_from), ("date", "<=", date_to)]

@@ -87,6 +87,50 @@
                         </table>
                         <p t-if="doc.comparison_note"><span t-field="doc.comparison_note"/></p>
 
+                        <t t-set="skipped" t-value="doc.soupis_ids.filtered('difference_skip')"/>
+                        <t t-if="doc.difference_line_ids or skipped">
+                            <h4>Vyúčtování inventarizačních rozdílů (§ 30 odst. 10 a 11)</h4>
+                            <table class="table table-sm" t-if="doc.difference_line_ids">
+                                <thead>
+                                    <tr>
+                                        <th>Inventurní soupis</th>
+                                        <th>Druh rozdílu</th>
+                                        <th>MD</th>
+                                        <th>D</th>
+                                        <th class="text-end">Částka</th>
+                                        <th>Účetní zápis</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.difference_line_ids" t-as="rozdiel">
+                                        <t t-set="lowers" t-value="rozdiel.kind in ('shortage', 'natural_loss')"/>
+                                        <td><span t-field="rozdiel.sheet_id.name"/></td>
+                                        <td><span t-field="rozdiel.kind"/></td>
+                                        <td><span t-out="(rozdiel.counterpart_account_id if lowers else rozdiel.account_id).with_company(doc.company_id).code"/></td>
+                                        <td><span t-out="(rozdiel.account_id if lowers else rozdiel.counterpart_account_id).with_company(doc.company_id).code"/></td>
+                                        <td class="text-end">
+                                            <span t-field="rozdiel.amount"
+                                                  t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+                                        </td>
+                                        <td>
+                                            <t t-if="rozdiel.move_id and rozdiel.move_id.state == 'posted'">
+                                                <span t-field="rozdiel.move_id.name"/>,
+                                                <span t-field="rozdiel.move_id.date"/>
+                                            </t>
+                                            <t t-elif="rozdiel.move_id and rozdiel.move_id.state == 'draft'">v návrhu</t>
+                                            <t t-else="">nezaúčtováno</t>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p t-foreach="skipped" t-as="sheet">
+                                <strong><span t-field="sheet.name"/></strong>
+                                (<span t-field="sheet.difference"
+                                       t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>):
+                                rozdíl se tímto zápisem neúčtuje — <span t-field="sheet.difference_skip_reason"/>
+                            </p>
+                        </t>
+
                         <h4>Posouzení ocenění majetku a závazků (§ 25 odst. 3)</h4>
                         <p>
                             <span t-field="doc.valuation_note"/>

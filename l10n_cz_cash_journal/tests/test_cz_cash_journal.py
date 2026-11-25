@@ -274,3 +274,53 @@ class TestCzCashJournal(AccountTestInvoicingCommon):
             report.report_name, wizard.ids)[0]
         self.assertIn(b"7b odst. 4", html)
         self.assertIn("Pohledávky".encode(), html)
+
+    # -- the grid sheet of the spreadsheet -----------------------------
+    def test_the_spreadsheet_opens_with_the_czech_grid(self):
+        """The layout of the PDF as the first sheet, with its figures."""
+        import io
+
+        from openpyxl import load_workbook
+
+        self._pay(self._invoice(amount=1000.0))
+        self._generate()
+        wizard = self.env["cssk.cash.journal.print"].create({
+            "company_id": self.company.id, "output": "xlsx",
+            "date_from": "2026-01-01", "date_to": "2026-12-31"})
+        content, _ext = self.env["ir.actions.report"]._render_xlsx(
+            "l10n_cssk_cash_journal_base.dennik_xlsx", wizard.ids, data=None)
+        book = load_workbook(io.BytesIO(content), data_only=True)
+        self.assertEqual(book.sheetnames[0], "Peněžní deník")
+        self.assertGreater(len(book.sheetnames), 1,
+                           "the flat sheet for pivoting stays")
+        sheet = book.worksheets[0]
+        header = [c.value for c in sheet[1]]
+        sub = [c.value for c in sheet[2]]
+        for group in ("Pokladna", "Banka", "Průběžné položky", "DPH"):
+            col = header.index(group)
+            self.assertEqual(sub[col:col + 2], ["příjem", "výdej"], group)
+        self.assertIn("Prodej zboží", header)
+        values = self.env["report.l10n_cz_cash_journal.report_penezni_denik"] \
+            ._cz_denik_values(self.company, fields.Date.to_date("2026-01-01"),
+                              fields.Date.to_date("2026-12-31"))
+        total_row = [c.value for c in list(sheet.rows)[-1]]
+        self.assertEqual(total_row[3], "Celkem")
+        self.assertAlmostEqual(total_row[header.index("Banka")],
+                               values["totals"]["banka_prijem"], 2)
+        self.assertAlmostEqual(values["totals"]["banka_prijem"], 1000.0, 2)
+        self.assertAlmostEqual(total_row[-1], values["closing_bank"], 2)
+        self.assertEqual(sheet.max_row, 2 + 1 + len(values["lines"]) + 1)
+
+    def test_a_company_elsewhere_gets_no_czech_sheet(self):
+        import io
+
+        from openpyxl import load_workbook
+
+        self.company.country_id = self.env.ref("base.at")
+        wizard = self.env["cssk.cash.journal.print"].create({
+            "company_id": self.company.id, "output": "xlsx",
+            "date_from": "2026-01-01", "date_to": "2026-12-31"})
+        content, _ext = self.env["ir.actions.report"]._render_xlsx(
+            "l10n_cssk_cash_journal_base.dennik_xlsx", wizard.ids, data=None)
+        book = load_workbook(io.BytesIO(content), data_only=True)
+        self.assertNotIn("Peněžní deník", book.sheetnames)

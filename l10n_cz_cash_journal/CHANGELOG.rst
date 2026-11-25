@@ -8,6 +8,24 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **The grid sheet of 19.0.1.1.0 is not on 18.0.** Port
+  ``models/l10n_cz_cash_denik_xlsx.py`` and its two tests.
+
+[19.0.1.1.0] — 2026-11-24
+-------------------------
+
+Added
+~~~~~
+
+- **The spreadsheet opens with the peněžní deník in the layout of the PDF**:
+  pokladna, banka, průběžné položky and DPH each split into příjem and
+  výdej, the income and expense columns and the running balances, with the
+  same figures as the PDF. The flat row list and the totals per category
+  follow, as before. The Slovak book has had this sheet.
+
 [19.0.1.0.6] — 2026-11-05
 -------------------------
 

@@ -48,6 +48,16 @@ class SaleOrderLine(models.Model):
             vals['discount'] = 0.0
         return super().write(vals)
 
+    def _get_protected_fields(self):
+        # Tracking lines mirror the state of an advance (its name, amount, paid
+        # date). They are bookkeeping kept in sync by this module, not something
+        # the customer ordered, so a locked order must still let them change:
+        # otherwise confirming, sending or paying an advance fails once the
+        # order it advances has been confirmed with "Lock Confirmed Sales".
+        if self and all(self.mapped('is_advance_tracking')):
+            return []
+        return super()._get_protected_fields()
+
     is_advance_tracking = fields.Boolean(
         string="Advance Tracking Line",
         default=False,

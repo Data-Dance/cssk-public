@@ -5,6 +5,40 @@ Changelog
 All notable changes to **l10n_cz_vat_return** are documented here.
 Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Changelog.
 
+[Unreleased]
+------------
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **The § 74b wizard of 19.0.1.19.0 is not on 18.0.** Port ``models/l10n_cz_par74b.py``, its views, access row
+  and tests; check ``account.partial.reconcile`` field names and the lock
+  date helper there.
+
+[19.0.1.19.0] — 2026-11-24
+--------------------------
+
+Added
+~~~~~
+
+- **Oprava odpočtu daně (§ 74b odst. 3).** A wizard finds the vendor bills
+  not paid in full by the last day of the sixth calendar month after the
+  month they fell due and prepares, as drafts, the document that reduces the
+  deduction in proportion to the unpaid part. It is a vendor credit note for
+  zero carrying the bill's own tax and the bad-debt flag P, so it lowers
+  ř. 40 / 41, shows on ř. 34 and is a B.2 row of the kontrolní hlášení, and
+  the supplier's balance does not move. The second sentence of odst. 3 for
+  quarterly payers and the transitional rule of zákon č. 461/2024 Sb. (no
+  correction of a deduction that arose before 2025) are applied.
+- **Vrátit odpočet (§ 74b odst. 4)** on a corrected bill prepares the mirror
+  document for the tax of what was paid since, counting what was already
+  given back (odst. 6), until the end of the second calendar year after the
+  last payment (odst. 9).
+- The correction is dated on the day the law names; where that period is
+  locked the wizard refuses instead of letting Odoo move the date, and
+  offers to date the corrections on the day entered.
+- Bills payable in instalments are listed and left to the accountant.
+
 [19.0.1.18.1] — 2026-11-22
 --------------------------
 

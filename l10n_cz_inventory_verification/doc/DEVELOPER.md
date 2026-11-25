@@ -39,3 +39,25 @@ translated in `i18n/cs.po` and `i18n/sk.po`. The Slovak catalogue leaves the
 Czech statutory terms alone. Regenerate the `.pot` with `odoo-bin i18n export`
 before touching the `.po` files — Odoo merges a `.po` with the module's `.pot`
 first, and a stale `.pot` discards entries.
+
+## Booking of differences
+
+The logic is in `l10n_cssk_inventory_verification_base` (three abstract
+models) and shared with the Slovak twin. This module adds the concrete
+`l10n.cz.inventarizacni.rozdil`, the day the entry is dated
+(`_cssk_difference_date` → `comparison_date`, per soupis) and the proposed
+accounts (`_cssk_counterpart_code`, `_cssk_claim_account_code`).
+
+Where the two countries differ, on purpose:
+
+| | SK (postupy účtovania) | CZ (ČÚS 007, vyhláška 500/2002) |
+|---|---|---|
+| cash schodok / schodek | 335 / 211, a receivable, no expense (§ 11 ods. 1 písm. b)) | 569 / 211 (bod 3.1, § 34) |
+| own-production stock | group 61 | group 58 |
+| přebytek of a depreciated asset | 384, at reálna hodnota (§ 21 ods. 2) | against the oprávky 07x / 08x (bod 3.5 písm. b)) |
+| přebytek of a non-depreciated asset | 648 | group 41 (413) |
+| claim on a financial asset | none: the schodok is the receivable | 378 / 668 (§ 33) |
+| entry date | one day per inventarizácia | per soupis, so several entries for a průběžná |
+
+ČÚS and the vyhláška name account groups only; the three-digit accounts are
+convention. Do not "align" the tables above with each other.

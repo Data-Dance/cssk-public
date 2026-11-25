@@ -156,9 +156,12 @@ class L10nSKKvDphDetailMixin(models.AbstractModel):
             # (advances: the payment date), else the invoice date. A tax that
             # became due on payment is dated by the payment — the cash-basis
             # entry's own date — and never by the invoice it settled.
+            # ``_cssk_supply_date`` rather than the field: where the company
+            # keeps the VAT period of its bills in the taxable supply date,
+            # the supply of a received document is its delivery date.
             "supply_date": group["entry"].date
             if group["entry"] != move
-            else (move.taxable_supply_date or move.invoice_date or move.date),
+            else (move._cssk_supply_date() or move.invoice_date or move.date),
             "tax_base_amount": group["base"],
             "tax_amount": group["tax"],
             "tax_rate": group["rate"],

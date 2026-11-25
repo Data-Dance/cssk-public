@@ -42,21 +42,34 @@ signatures. For dokladová inventúra of an account, the účtovný stav is read
 the ledger as at the deň ku ktorému, so the comparison is computed rather than
 typed.
 
+Inventarizačné rozdiely — § 30 ods. 5 až 7
+------------------------------------------
+
+Manká, schodky and prebytky are settled per súpis (above the norm, within
+the norm, claim against the hmotne zodpovedná osoba) and booked as a **draft**
+journal entry dated the deň, ku ktorému bola inventúra vykonaná — the period
+being verified, as § 30 ods. 7 requires. Accounts are proposed from the
+postupy účtovania (opatrenie MF SR č. 23054/2002-92). Reopening the
+inventarizácia deletes the draft or reverses the posted entry on the same
+day; a locked period refuses all of it rather than letting Odoo move the
+entry into the next period.
+
 Scope note
 ----------
 
-This produces and evidences the inventarizácia. It does **not** post the
-inventory differences — manká a škody, opravné položky and the like are
-accounting decisions that follow from the zápis, and belong to the accountant.
+Opravné položky and other adjustments of valuation (§ 26, § 27) are not
+inventory differences (§ 30 ods. 6) and stay with the accountant. So do the
+asset register, quantities in Odoo Inventory and VAT.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.1.2",
+    "version": "19.0.1.2.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
-    "depends": ["l10n_sk"],
+    "depends": ["l10n_sk", "l10n_cssk_inventory_verification_base"],
     "data": [
         "security/ir.model.access.csv",
+        "security/inventory_rules.xml",
         "data/ir_sequence.xml",
         "report/inventarizacia_reports.xml",
         "report/inventurny_supis_template.xml",

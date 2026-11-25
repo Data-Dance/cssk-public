@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class CSSKPersonType(models.Model):
@@ -6,7 +6,7 @@ class CSSKPersonType(models.Model):
 
     Used by statutory reports that classify the counterparty (e.g. control
     statement section selection, financial-statement entity-size variants).
-    Seeded per country by the country data modules.
+    Seeded here, one natural-person / legal-entity pair per country.
     """
 
     _name = "cssk.person.type"
@@ -35,3 +35,20 @@ class CSSKPersonType(models.Model):
         "UNIQUE(country_code, code)",
         "The person-type code must be unique per country.",
     )
+
+    @api.model
+    def _cssk_for_subject(self, country_code, natural_person):
+        """The type of a natural person, or of a legal entity, in a country.
+
+        For a caller that knows the fact but not the catalogue: a register
+        lookup learns "this IČO is a person in business", and what it has to
+        write on the partner is one of these records. Empty outside CZ/SK or
+        where the type was archived, and the caller then writes nothing.
+        """
+        return self.search(
+            [
+                ("country_code", "=", (country_code or "").upper()),
+                ("is_legal_entity", "=", not natural_person),
+            ],
+            limit=1,
+        )

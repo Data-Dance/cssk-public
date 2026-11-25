@@ -1,11 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * l10n_cz_dppo
+# 	* l10n_cz_dppo
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-24 10:32+0000\n"
+"PO-Revision-Date: 2026-11-24 10:32+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
@@ -13,6 +15,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"%(email)s is not a valid e-mail address for the confirmation of the "
+"handover."
+msgstr "%(email)s není platná e-mailová adresa pro potvrzení o předání."
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"%(file)s cannot be filed as an e-příloha. EPO accepts DOC, DOCX, RTF, XLS, "
+"XLSX, PDF, JPG, JPEG, TXT and CSV files, or one of them signed (P7S) or "
+"zipped (ZIP)."
+msgstr ""
+"%(file)s nelze podat jako e-přílohu. EPO přijímá soubory DOC, DOCX, RTF, "
+"XLS, XLSX, PDF, JPG, JPEG, TXT a CSV, případně jeden z nich podepsaný (P7S) "
+"nebo zabalený (ZIP)."
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid "%(file)s is empty."
+msgstr "Soubor %(file)s je prázdný."
 
 #. module: l10n_cz_dppo
 #. odoo-python
@@ -28,6 +56,17 @@ msgid ""
 "%(rto)s. The výkazy filed with a return are those of its own zdaňovací "
 "období."
 msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"%(statement)s has no row \"** Výsledek hospodaření před zdaněním\" to "
+"compare with. Compute it on the l10n_cz_fs Výkaz zisku a ztráty."
+msgstr ""
+"%(statement)s nemá řádek „** Výsledek hospodaření před zdaněním“, se kterým "
+"by se dalo porovnávat. Vypočtěte jej podle Výkazu zisku a ztráty z "
+"l10n_cz_fs."
 
 #. module: l10n_cz_dppo
 #. odoo-python
@@ -65,14 +104,136 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"%(total)s is typed as %(typed).2f, but its rows add up to %(parts).2f "
+"(%(register)s %(reg).2f + other items %(oth).2f). Clear the override on "
+"%(total)s, enter the items other than the depreciation difference on the "
+"\"ostatní položky\" row and compute again."
+msgstr ""
+"%(total)s je zadán ručně jako %(typed).2f, ale jeho řádky dávají %(parts).2f"
+" (%(register)s %(reg).2f + ostatní položky %(oth).2f). Zrušte na řádku "
+"%(total)s ruční hodnotu, položky kromě rozdílu odpisů zadejte na řádek "
+"„ostatní položky“ a přiznání přepočítejte."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__0
+msgid "0 – investiční pobídka, sleva dle § 35b"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__1
+msgid "1 – ostatní"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__2
+msgid "2 – daňový nerezident (§ 17 odst. 4)"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__3
+msgid "3 – veřejně prospěšný poplatník (§ 17a)"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__4
+msgid "4 – investiční fond"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__5
+msgid "5 – investiční společnost"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__6
+msgid "6 – instituce penzijního pojištění / penzijní společnost"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__7
+msgid "7 – základní investiční fond po část období (§ 20a)"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__8
+msgid "8 – investiční pobídka dle usnesení vlády"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_taxpayer_kind__9
+msgid "9 – investiční pobídka, sleva dle § 35a"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"A dodatečné přiznání needs the date its reasons were found (Důvody zjištěny "
+"dne, d_zjist)."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__a
+msgid "A – za zdaňovací období"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__b
+msgid "B – při vstupu do likvidace"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__c
+msgid "C – v průběhu likvidace"
+msgstr ""
+
+#. module: l10n_cz_dppo
 #: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_country_code
 msgid "Country Code"
 msgstr "Kód země"
 
 #. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__d
+msgid "D – před zánikem bez likvidace"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"DPPO ř. 10 %(r10).2f ≠ VZZ ** %(vzz).2f (rozdíl %(diff).2f). Zkontrolujte "
+"období, ruční úpravu ř. 10 a zda byl výkaz přepočten po posledním "
+"zaúčtování."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid "DPPO ↔ účetní závěrka — %s"
+msgstr ""
+
+#. module: l10n_cz_dppo
 #: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný název"
+
+#. module: l10n_cz_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_dppo.cssk_income_tax_return_view_form_cz_vykazy
+msgid "Druh přiznání"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_discovery_date
+msgid "Důvody zjištěny dne"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_registry_email
+msgid "E-mail pro potvrzení"
+msgstr ""
 
 #. module: l10n_cz_dppo
 #. odoo-python
@@ -84,9 +245,39 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_filing_code
+msgid "Fa Xml Value"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_notes_attachment_ids
+msgid "Filed as the prescribed e-příloha PP_OPISPUV."
+msgstr "Podává se jako předepsaná e-příloha PP_OPISPUV."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_cash_flow_attachment_ids
+msgid "Filed as the prescribed e-příloha PP_PTOK."
+msgstr "Podává se jako předepsaná e-příloha PP_PTOK."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_equity_attachment_ids
+msgid "Filed as the prescribed e-příloha PP_ZVKAP."
+msgstr "Podává se jako předepsaná e-příloha PP_ZVKAP."
+
+#. module: l10n_cz_dppo
 #: model_terms:ir.ui.view,arch_db:l10n_cz_dppo.cssk_income_tax_return_view_form_cz_vykazy
 msgid "Financial statements filed with the return"
 msgstr "Účetní závěrka podaná s přiznáním"
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__g
+msgid "G – ukončení činnosti v rámci privatizace"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__h
+msgid "H – před návrhem na použití likvidačního zůstatku"
+msgstr ""
 
 #. module: l10n_cz_dppo
 #: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__id
@@ -99,12 +290,93 @@ msgid "Income Tax Return"
 msgstr "Přiznání k dani z příjmů"
 
 #. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__j
+msgid "J – před rozhodným dnem fúze / rozdělení"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__k
+msgid "K – před změnou právní formy"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__l
+msgid "L – před změnou zdaňovacího období"
+msgstr ""
+
+#. module: l10n_cz_dppo
 #. odoo-python
 #: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
 msgid ""
 "Link both the Rozvaha and the Výkaz zisku a ztráty, or neither. The DPPDP9 "
 "files the účetní závěrka as a whole (uv_rozsah covers both výkazy); one "
 "without the other is an incomplete závěrka."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__m
+msgid "M – od vzniku poplatníka"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"No computed Výkaz zisku a ztráty found for this period. Compute the profit "
+"and loss statement for %(df)s – %(dt)s first, or link it to the return."
+msgstr ""
+"Pro toto období nebyl nalezen vypočtený Výkaz zisku a ztráty. Nejprve "
+"vypočtěte výkaz zisku a ztráty za období %(df)s – %(dt)s, nebo jej připojte "
+"k přiznání."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__o
+msgid "O – před změnou daňového rezidentství"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__p
+msgid "P – k účinnosti rozhodnutí o úpadku"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_dppo.cssk_income_tax_return_view_form_cz_vykazy
+msgid "Porovnat s účetní závěrkou"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_registry_balance_sheet
+msgid "Předat Rozvahu"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_registry_profit_loss
+msgid "Předat Výkaz zisku a ztráty"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_registry_request
+msgid "Předat účetní závěrku do sbírky listin"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_cash_flow_attachment_ids
+msgid "Přehled o peněžních tocích"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_equity_attachment_ids
+msgid "Přehled o změnách vlastního kapitálu"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_notes_attachment_ids
+msgid "Příloha účetní závěrky"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__r
+msgid "R – v průběhu insolvenčního řízení"
 msgstr ""
 
 #. module: l10n_cz_dppo
@@ -122,6 +394,16 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_dppo
+#: model_terms:ir.ui.view,arch_db:l10n_cz_dppo.cssk_income_tax_return_view_form_cz_vykazy
+msgid "Sbírka listin (§ 21b zákona o účetnictví)"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__t
+msgid "T – ke dni konečné zprávy"
+msgstr ""
+
+#. module: l10n_cz_dppo
 #: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_country_code
 msgid ""
 "The ISO country code in two chars. \n"
@@ -129,6 +411,16 @@ msgid ""
 msgstr ""
 "Dvoupísmenný ISO kód země. \n"
 "Toto pole můžete použít pro rychlé vyhledávání."
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The attached files have %(size)s kB together; EPO accepts at most 10 240 kB "
+"of e-přílohy in one filing."
+msgstr ""
+"Přiložené soubory mají dohromady %(size)s kB; EPO přijme v jednom podání "
+"nejvýše 10 240 kB e-příloh."
 
 #. module: l10n_cz_dppo
 #: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_fs_balance_sheet_id
@@ -161,8 +453,107 @@ msgstr ""
 #. odoo-python
 #: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
 msgid ""
+"The request to hand the účetní závěrka to the sbírka listin names nothing to"
+" hand over (§ 21b odst. 3 zákona o účetnictví asks for its scope). Tick the "
+"Rozvaha or the Výkaz zisku a ztráty, or attach the příloha."
+msgstr ""
+"Žádost o předání účetní závěrky do sbírky listin nejmenuje nic, co se má "
+"předat (§ 21b odst. 3 zákona o účetnictví vyžaduje údaj o rozsahu). "
+"Zaškrtněte Rozvahu nebo Výkaz zisku a ztráty, nebo přiložte přílohu."
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The request to hand the účetní závěrka to the sbírka listin names the "
+"Rozvaha or the Výkaz zisku a ztráty, but no statements are linked to the "
+"return. Link both; the registry receives what the return carries."
+msgstr ""
+"Žádost o předání účetní závěrky do sbírky listin jmenuje Rozvahu nebo Výkaz "
+"zisku a ztráty, ale k přiznání nejsou připojeny žádné výkazy. Připojte oba; "
+"rejstřík dostane to, co přiznání nese."
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"The request to hand the účetní závěrka to the sbírka listin was exported "
+"without a příloha účetní závěrky. The příloha is part of every závěrka (§ 18"
+" odst. 1 zákona o účetnictví); attach it and export again, or file it with "
+"the rejstříkový soud yourself."
+msgstr ""
+"Žádost o předání účetní závěrky do sbírky listin byla exportována bez "
+"přílohy účetní závěrky. Příloha je součástí každé závěrky (§ 18 odst. 1 "
+"zákona o účetnictví); přiložte ji a exportujte znovu, nebo ji podejte "
+"rejstříkovému soudu sami."
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
 "The výkazy are kept in %(currency)s, but DPPDP9 accepts only CZK, EUR, USD "
 "or GBP as the accounting currency (uv_mena, § 24a zákona o účetnictví)."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_return_kind
+msgid "Typ daňového přiznání"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_taxpayer_kind
+msgid "Typ poplatníka"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__v
+msgid "V – při ukončení svěřenského fondu"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_filing_code
+msgid "Value emitted in the statutory XML for this type."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_discovery_date
+msgid "VetaD/d_zjist — required for a dodatečné přiznání."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_uz_not_audited
+msgid ""
+"VetaD/neaudit_uz: the figures come from a závěrka the auditor has not "
+"verified yet."
+msgstr ""
+"VetaD/neaudit_uz: údaje vycházejí z účetní závěrky, kterou auditor dosud "
+"neověřil."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_uz_not_approved
+msgid ""
+"VetaD/neschval_uz: the figures come from a závěrka the competent body has "
+"not approved yet."
+msgstr ""
+"VetaD/neschval_uz: údaje vycházejí z účetní závěrky, kterou příslušný orgán "
+"dosud neschválil."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_return_kind
+msgid "VetaD/typ_dapdpp. A for the ordinary return for the tax period."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_taxpayer_kind
+msgid "VetaD/typ_popldpp."
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_period_kind
+msgid ""
+"VetaD/typ_zo, derived from the period: a calendar year is a), another "
+"twelve-month year b), anything longer d). Set c) by hand for the period from"
+" a merger's decisive day."
 msgstr ""
 
 #. module: l10n_cz_dppo
@@ -173,49 +564,88 @@ msgstr ""
 #. module: l10n_cz_dppo
 #. odoo-python
 #: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
-msgid ""
-"%(statement)s has no row \"** Výsledek hospodaření před zdaněním\" to "
-"compare with. Compute it on the l10n_cz_fs Výkaz zisku a ztráty."
-msgstr ""
-"%(statement)s nemá řádek „** Výsledek hospodaření před zdaněním“, se kterým "
-"by se dalo porovnávat. Vypočtěte jej podle Výkazu zisku a ztráty z "
-"l10n_cz_fs."
-
-#. module: l10n_cz_dppo
-#. odoo-python
-#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
-msgid ""
-"DPPO ř. 10 %(r10).2f ≠ VZZ ** %(vzz).2f (rozdíl %(diff).2f). Zkontrolujte "
-"období, ruční úpravu ř. 10 a zda byl výkaz přepočten po posledním "
-"zaúčtování."
-msgstr ""
-
-#. module: l10n_cz_dppo
-#. odoo-python
-#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
-msgid "DPPO ↔ účetní závěrka — %s"
-msgstr ""
-
-#. module: l10n_cz_dppo
-#. odoo-python
-#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
-msgid ""
-"No computed Výkaz zisku a ztráty found for this period. Compute the profit "
-"and loss statement for %(df)s – %(dt)s first, or link it to the return."
-msgstr ""
-"Pro toto období nebyl nalezen vypočtený Výkaz zisku a ztráty. Nejprve "
-"vypočtěte výkaz zisku a ztráty za období %(df)s – %(dt)s, nebo jej připojte "
-"k přiznání."
-
-#. module: l10n_cz_dppo
-#: model_terms:ir.ui.view,arch_db:l10n_cz_dppo.cssk_income_tax_return_view_form_cz_vykazy
-msgid "Porovnat s účetní závěrkou"
-msgstr ""
-
-#. module: l10n_cz_dppo
-#. odoo-python
-#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
 msgid "Výsledek hospodaření před zdaněním (VZZ ** = DPPO ř. 10)"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__y
+msgid "Y – vypořádání majetku svěřenského fondu"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_return_kind__z
+msgid "Z – před zánikem svěřenského fondu"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_period_kind
+msgid "Zdaňovací období (§ 21a)"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_period_kind__a
+msgid "a) kalendářní rok"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_period_kind__b
+msgid "b) hospodářský rok"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_period_kind__c
+msgid "c) období od rozhodného dne fúze / rozdělení"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields.selection,name:l10n_cz_dppo.selection__cssk_income_tax_return__l10n_cz_period_kind__d
+msgid "d) účetní období delší než 12 měsíců"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_registry_email
+msgid ""
+"pr11_email: where the tax office confirms the handover. Not the address of "
+"the rejstříkový soud."
+msgstr ""
+"pr11_email: kam správce daně potvrdí předání. Neuvádějte adresu "
+"rejstříkového soudu."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_registry_balance_sheet
+msgid "pr11_rozv. The Rozvaha linked to the return."
+msgstr "pr11_rozv. Rozvaha připojená k přiznání."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_registry_profit_loss
+msgid ""
+"pr11_vzz. Untick where the unit does not publish it (§ 21a odst. 9: a small "
+"or micro unit with no audit duty)."
+msgstr ""
+"pr11_vzz. Odškrtněte, pokud ji účetní jednotka nezveřejňuje (§ 21a odst. 9: "
+"malá nebo mikro účetní jednotka bez povinnosti auditu)."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,help:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_registry_request
+msgid ""
+"§ 21b zákona o účetnictví: an obchodní korporace may hand its účetní závěrka"
+" to the sbírka listin through the income tax return. The return then carries"
+" the request (věta UZ, tiskopis 25 5404/I) with the scope ticked below. The "
+"duty to publish is met when the return is filed (§ 21b odst. 6 písm. b))."
+msgstr ""
+"§ 21b zákona o účetnictví: obchodní korporace může účetní závěrku předat do "
+"sbírky listin prostřednictvím přiznání k dani z příjmů. Přiznání pak nese "
+"žádost (věta UZ, tiskopis 25 5404/I) v rozsahu zaškrtnutém níže. Povinnost "
+"zveřejnění je splněna podáním přiznání (§ 21b odst. 6 písm. b))."
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_uz_not_audited
+msgid "Účetní závěrka nebyla ověřena auditorem"
+msgstr ""
+
+#. module: l10n_cz_dppo
+#: model:ir.model.fields,field_description:l10n_cz_dppo.field_cssk_income_tax_return__l10n_cz_uz_not_approved
+msgid "Účetní závěrka nebyla schválena"
 msgstr ""
 
 #. module: l10n_cz_dppo
@@ -223,3 +653,15 @@ msgstr ""
 #: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
 msgid "účetní závěrka %s"
 msgstr ""
+
+#. module: l10n_cz_dppo
+#. odoo-python
+#: code:addons/l10n_cz_dppo/models/cssk_income_tax.py:0
+msgid ""
+"ř. 50 and ř. 150 were not computed: the period crosses a calendar year end "
+"and the tax depreciation plan is kept by calendar year. Enter the difference"
+" between accounting and tax depreciation on one of the two rows by override."
+msgstr ""
+"ř. 50 a ř. 150 nebyly vypočteny: období přechází přes konec kalendářního "
+"roku a daňový odpisový plán se vede po kalendářních letech. Rozdíl účetních "
+"a daňových odpisů zadejte na jeden z těchto řádků ručně (Override)."

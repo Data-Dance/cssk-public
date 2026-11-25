@@ -125,7 +125,7 @@ How the module fills each section. A document with several VAT rates gives one r
 
 Outside the statement altogether: intra-EU supplies (they belong in the EC sales list), and supplies to an EU customer **without** Slovak VAT on them. A supply to an EU customer on which Slovak VAT is charged — a private person, typically — is a domestic supply and is reported in A.1 or D.2.
 
-**Dates and amounts.** The supply date (*Den*) is the *Taxable Supply Date*, else the invoice date; for a tax due on payment, the payment date. The deducted tax (*Odpočítaná daň*) on B.1, B.2, C.2 and B.3 is the part of the tax its repartition sends to the VAT account: a vehicle tax that deducts 50 % reports half. A § 50 coefficient is honoured the same way only if it is set in the tax's repartition.
+**Dates and amounts.** The supply date (*Den*) is the *Taxable Supply Date*, else the invoice date; for a tax due on payment, the payment date. On a received document of a company whose setting *VAT period of received documents* is *Taxable supply date*, it is the *Delivery Date* where one is filled in, because the taxable supply date then names the period. The deducted tax (*Odpočítaná daň*) on B.1, B.2, C.2 and B.3 is the part of the tax its repartition sends to the VAT account: a vehicle tax that deducts 50 % reports half. A § 50 coefficient is honoured the same way only if it is set in the tax's repartition.
 
 A debit note counts as a correction when it is raised with Odoo's **Debit Note** button (module ``account_debit_note``), which links it to the invoice it corrects.
 
@@ -186,7 +186,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_kv_dph``
-- **Version:** 19.0.2.11.0
+- **Version:** 19.0.2.12.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_kv_kh_base``, ``l10n_sk``

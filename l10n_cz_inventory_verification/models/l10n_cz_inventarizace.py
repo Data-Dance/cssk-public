@@ -10,14 +10,26 @@ from odoo.exceptions import UserError, ValidationError
 class L10nCzInventarizace(models.Model):
     _name = "l10n.cz.inventarizace"
     _description = "Inventarizace (§ 29 zákona č. 563/1991 Sb.)"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = [
+        "mail.thread",
+        "mail.activity.mixin",
+        "l10n_cssk.inventory.difference.mixin",
+    ]
     _order = "date_as_of desc, id desc"
+    _cssk_sheets_field = "soupis_ids"
 
     name = fields.Char(default="New", readonly=True, copy=False, index="trigram")
     company_id = fields.Many2one(
         "res.company", required=True, default=lambda self: self.env.company
     )
     currency_id = fields.Many2one(related="company_id.currency_id")
+
+    # § 30 odst. 10 and 11: the inventarizační rozdíly and their vyúčtování.
+    difference_line_ids = fields.One2many(
+        "l10n.cz.inventarizacni.rozdil",
+        "inventory_id",
+        string="Vyúčtování inventarizačních rozdílů",
+    )
 
     # § 29 odst. 1: periodická (to the moment the účetní závěrka is drawn up)
     # or, for the assets named in § 29 odst. 2, průběžná.
@@ -189,6 +201,9 @@ class L10nCzInventarizace(models.Model):
         self.write({"state": "done"})
 
     def action_draft(self):
+        # Reopening takes the booked differences back: the soupisy are about
+        # to change, and an entry built from the old ones would stay behind.
+        self._cssk_cancel_difference_entries()
         self.write({"state": "draft"})
 
     def action_refresh_book_amounts(self):
@@ -219,6 +234,7 @@ class L10nCzInventarizace(models.Model):
 class L10nCzInventurniSoupis(models.Model):
     _name = "l10n.cz.inventurni.soupis"
     _description = "Inventurní soupis (§ 30 odst. 7 zákona č. 563/1991 Sb.)"
+    _inherit = ["l10n_cssk.inventory.sheet.mixin"]
     _order = "inventarizace_id, sequence, id"
 
     # The particulars § 30 odst. 7 says a soupis "musí obsahovat" and that a
@@ -282,7 +298,14 @@ class L10nCzInventurniSoupis(models.Model):
         "account.account",
         string="Account",
         domain="[('company_ids', 'in', company_id)]",
-        help="For a dokladová inventura: the account whose balance is verified.",
+        help="For a dokladová inventura: the account whose balance is "
+             "verified. For a fyzická inventura: the account the assets are "
+             "kept on; the booking of the difference is proposed from it.",
+    )
+    difference_line_ids = fields.One2many(
+        "l10n.cz.inventarizacni.rozdil",
+        "sheet_id",
+        string="Vyúčtování rozdílu",
     )
     location = fields.Char(
         string="Místo uložení majetku",
@@ -400,6 +423,13 @@ class L10nCzInventurniSoupis(models.Model):
                     )
                 )
 
+    def _cssk_difference_date(self):
+        """§ 30 odst. 11: the period for which the state is verified — the
+        rozvahový den of a periodická inventarizace, the day the inventura
+        ended for a průběžná one. The same day the ocenění is as at."""
+        self.ensure_one()
+        return self.comparison_date
+
     def _missing_particulars(self):
         """Labels of the prescribed particulars this soupis still lacks."""
         self.ensure_one()
@@ -460,3 +490,77 @@ class L10nCzInventurniSoupisLine(models.Model):
     def _compute_amount(self):
         for line in self:
             line.amount = (line.quantity or 0.0) * (line.unit_price or 0.0)
+
+
+class L10nCzInventarizacniRozdil(models.Model):
+    _name = "l10n.cz.inventarizacni.rozdil"
+    _description = "Vyúčtování inventarizačního rozdílu (§ 30 odst. 10 a 11)"
+    _inherit = ["l10n_cssk.inventory.difference.line"]
+
+    inventory_id = fields.Many2one(
+        "l10n.cz.inventarizace",
+        string="Inventarizace",
+        required=True,
+        ondelete="cascade",
+        index=True,
+    )
+    sheet_id = fields.Many2one(
+        "l10n.cz.inventurni.soupis",
+        string="Inventurní soupis",
+        required=True,
+        ondelete="cascade",
+        index=True,
+        domain="[('inventarizace_id', '=', inventory_id)]",
+    )
+    company_id = fields.Many2one(related="inventory_id.company_id", store=True)
+    currency_id = fields.Many2one(related="company_id.currency_id")
+
+    @api.constrains("inventory_id", "sheet_id")
+    def _check_sheet(self):
+        self._cssk_check_sheet("inventarizace_id")
+
+    # ČÚS 007 and vyhláška č. 500/2002 Sb. Both prescribe account GROUPS
+    # only; the three-digit accounts are the customary ones of the směrná
+    # účtová osnova. Proposals only: the user may overwrite both accounts,
+    # and where the standard gives no single answer, none is proposed.
+    def _cssk_claim_account_code(self):
+        # ČÚS 017 bod 3.10.4 písm. a): "pohledávka na náhradu škody či
+        # manka za odpovědnou osobou", účtová skupina 37
+        return "378"
+
+    def _cssk_counterpart_code(self, kind, account):
+        code = account.code or ""
+        if kind == "claim":
+            # ČÚS 007 bod 3.7: skupina 64; § 33 vyhlášky puts "nároky na
+            # náhrady mank a schodků na finančním majetku" into the
+            # financial income
+            cash = self._cssk_code(self.sheet_id.account_id)[:2] == "21"
+            return "668" if cash else "648"
+        if not code:
+            return False
+        group = code[:2]
+        if group == "21":
+            # ČÚS 007 bod 3.1 with § 33 and § 34 vyhlášky: financial
+            return {"shortage": "569", "surplus": "668"}.get(kind, False)
+        if group in ("11", "13"):
+            # ČÚS 007 bod 3.2.1
+            return {
+                "shortage": "549",
+                "natural_loss": "501" if group == "11" else "504",
+                "surplus": "648",
+            }[kind]
+        if group == "12":
+            # ČÚS 007 bod 3.2.2: 121 → 581 … 124 → 584
+            return "549" if kind == "shortage" else "58" + code[2:3]
+        if group in ("01", "02"):
+            # ČÚS 007 bod 3.5 písm. b): a přebytek against the oprávky
+            # (013 → 073, 022 → 082). A manko takes the zůstatková cena
+            # through the oprávky (písm. a)), which is the asset register's
+            # entry, not one line here.
+            if kind == "surplus":
+                return "0" + ("7" if group == "01" else "8") + code[2:3]
+            return False
+        if group == "03":
+            # ČÚS 007 bod 3.6: skupina 54, and skupina 41 for a přebytek
+            return {"shortage": "549", "surplus": "413"}.get(kind, False)
+        return False

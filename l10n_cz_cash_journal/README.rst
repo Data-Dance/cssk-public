@@ -129,7 +129,7 @@ The peněžní deník
 
 - **Zůstatek pokladna** and **Zůstatek banka** after every row, starting from the ledger balance on the day before the period.
 
-A category of your own falls into *Ostatní zdanitelný příjem* / *Ostatní daňový výdaj* or the matching non-taxable column; depreciation appears in *Ostatní daňový výdaj*. The **Spreadsheet** output gives the flat row list and the totals per category (no Czech grid sheet).
+A category of your own falls into *Ostatní zdanitelný příjem* / *Ostatní daňový výdaj* or the matching non-taxable column; depreciation appears in *Ostatní daňový výdaj*. The **Spreadsheet** output opens with the same grid as its first sheet, *Peněžní deník*, with the same figures as the PDF; the flat row list and the totals per category follow it.
 
 Příloha č. 1 figures
 ======================
@@ -166,15 +166,13 @@ Limitations
 
 - Row numbers follow Příloha č. 1 as the module knows it; check them against the current year's form.
 
-- The spreadsheet has no Czech grid sheet; use the PDF for the book layout.
-
 - Oddíl D row 9 *Mzdy* is read as unpaid wages (331). The form's instructions do not say whether it means the liability or the year's wage cost, and the two differ: confirm it with your accountant before filing.
 
 Module facts
 ============
 
 - **Technical name:** ``l10n_cz_cash_journal``
-- **Version:** 19.0.1.0.6
+- **Version:** 19.0.1.1.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_cash_journal_base``, ``l10n_cz``

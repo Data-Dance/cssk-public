@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.1] — 2026-11-24
+-------------------------
+
+Fixed
+~~~~~
+
+- **The cash payment limit warning was English for everybody.** Its text was
+  built in a function where Odoo cannot read the user's language, so the
+  translation in the catalogue was never used.
+
 Added
 ~~~~~
 

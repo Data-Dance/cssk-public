@@ -1,7 +1,7 @@
 ---
 title: CZ VAT Control Statement (Kontrolní hlášení)
 summary: The Czech kontrolní hlášení (DPHKH1) — sections A.1 to B.3 computed from the books with the 10 000 CZK split, checked against the form's requirements and exported as the EPO XML in the current structure for any period.
-verified: 19.0.1.10.2
+verified: 19.0.1.12.0
 ---
 
 ## What it is for {#purpose}
@@ -142,7 +142,10 @@ The 10 000 CZK limit is measured on the **whole** document including VAT;
 lines without VAT are not reported but still count towards it. A line with no
 VAT is never reported in A.4/A.5 or B.2/B.3.
 
-The date reported is the document's *DUZP*, else its invoice date. The
+The date reported is the document's *DUZP*, else its invoice date. Where
+the company keeps the VAT period of its bills in the taxable supply date
+(*VAT period of received documents* in [module:l10n_cssk_core](module:l10n_cssk_core)),
+the date of a received document is its delivery date. The
 uncollectible-receivable flag (`zdph_44`) is taken from the document's field
 *Oprava u nedobytné pohledávky* (`P`, or `A` for the § 44 wording valid to
 31. 3. 2019).
@@ -195,10 +198,15 @@ To send the file to EPO from Odoo, see [module:l10n_cz_epo](module:l10n_cz_epo).
   supplier charged Czech VAT. If the supplier is registered here, invoice it
   through a contact whose Tax ID is its CZ number, and the document is reported
   in B.2.
-- **Fixed values.** The special schemes for travel services and used goods
-  (`kod_rezim_pl`) are never indicated — every A.4 row is written as an
-  ordinary supply — and the proportional deduction under § 75 (`pomer`) is
-  always written as *N*.
+- **Fixed value.** The special schemes for travel services and used goods
+  (`kod_rezim_pl`) are never indicated: every A.4 row is written as an
+  ordinary supply.
+- **Proportional deduction (§ 75).** A B.2 row is written with *Použit
+  poměr* = A when a tax on the bill has *Poměrný odpočet (§ 75)* ticked
+  (*Accounting → Configuration → Taxes*, on a purchase tax), otherwise N;
+  the flag can be corrected on an overridden row. One document is one row,
+  so a bill mixing a proportional and a full deduction is flagged as a
+  whole. The tick only sets the flag: the amounts are what the tax books.
 - The section rules are a best effort; the § 92a code list and the
   uncollectible-receivable corrections in particular still need confirmation
   by a Czech accountant. Review each statement before filing.

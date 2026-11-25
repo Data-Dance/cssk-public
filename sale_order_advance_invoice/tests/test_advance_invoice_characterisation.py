@@ -9,6 +9,7 @@ logic and had no tests at all.
 Written before adding itemised advance invoices (a customer request, ticket 39/87).
 """
 
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 
 from .common import AdvanceInvoiceCommon
@@ -176,3 +177,26 @@ class TestAdvanceInvoiceCharacterisation(AdvanceInvoiceCommon):
         self.assertAlmostEqual(
             invoice.amount_total_signed, order.amount_tax - tax_doc.amount_tax,
             places=2)
+
+    def test_an_advance_can_be_confirmed_when_its_order_is_locked(self):
+        """Confirming the advance updates the tracking line on a locked order.
+
+        With "Lock Confirmed Sales" the order is locked on confirmation, and the
+        tracking line's name, quantity and price are protected fields there.
+        """
+        order = self._order()
+        advance = self._advance(order, method="percentage", amount=30.0)
+        order.action_lock()
+        advance.action_confirm()
+        self.assertEqual(advance.state, "sale")
+        entry = order.order_line.filtered(
+            lambda line: line.is_advance_tracking and not line.display_type
+        )
+        self.assertIn(advance.name, entry.name)
+
+    def test_a_locked_order_still_protects_its_own_lines(self):
+        order = self._order()
+        self._advance(order, method="percentage", amount=30.0)
+        order.action_lock()
+        with self.assertRaises(UserError):
+            self._product_lines(order)[0].price_unit = 1.0

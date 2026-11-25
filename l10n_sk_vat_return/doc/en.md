@@ -1,7 +1,7 @@
 ---
 title: SK VAT Return (Daňové priznanie k DPH)
 summary: The Slovak VAT return computed from the tax tags of Odoo's Slovak chart, in the form vintage of each period, exported as the Finančná správa XML and validated against its XSD.
-verified: 19.0.1.16.1
+verified: 19.0.1.16.2
 ---
 
 ## What it is for {#purpose}
@@ -245,7 +245,9 @@ debited to the chosen account. Row `r29` of the return picks it up.
 
 Once a corrected bill is paid (fully or in part), the bill shows the button
 **Znovu uplatniť odpočet (§ 53b ods. 4)**: it posts the mirror entry for the
-paid share, dated today, never more than was corrected. The bill's *Other
+tax of what was paid since the correction, dated today, never more than was
+corrected. Until version 19.0.1.16.2 a bill partly paid before its
+correction was given back too much; check such bills. The bill's *Other
 Info* tab shows its *Stav § 53b* and the correction entries.
 
 ## Historical rates {#historic-rates}

@@ -1,7 +1,7 @@
 ---
 title: Slovak Accounting Localization — full suite
 summary: Installs the Slovak statutory localization in one step, offers the optional pieces as switches in the settings, and cross-checks the VAT filings with each other and with the ledger.
-verified: 19.0.1.4.4
+verified: 19.0.1.4.5
 ---
 
 ## What it is for {#purpose}
@@ -74,6 +74,8 @@ room for the accountant's answer.
 | Control statement (KV DPH) | *Porovnať s priznaním* | the KV with the VAT return of the same period |
 | EC sales list | *Porovnať s priznaním* | the EC sales list with the VAT return of the same period |
 | VAT return | *Porovnať s účtovníctvom* | the VAT return with account 343 and account class 60 |
+
+The buttons are shown on the filings of a Slovak company only.
 
 The VAT return used is a computed or exported one of the same company whose
 period overlaps — an exact period match first. If there is none, the button

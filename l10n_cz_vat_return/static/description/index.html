@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_vat_return/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ VAT Return (DPHDP3)</h1>
 <p class="cssk-summary">The Czech VAT return computed from the tax tags of Odoo&#x27;s Czech chart and exported as the EPO DPHDP3 XML, validated against the current official XSD for every period.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.18.1</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.19.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="/l10n_cssk_vat_return_base/static/description/index.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Czech layer of the <a href="/l10n_cssk_vat_return_base/static/description/index.html">shared VAT-return engine</a>.
@@ -288,6 +288,69 @@ for the creditor and ř. 40/41 for the debtor, where it lowers the tax due. Its
 tax is also shown on <strong>ř. 33</strong> when it is a sales document or <strong>ř. 34</strong> when it
 is a purchase document, in addition to any entry tagged <em>VAT 33</em> / <em>VAT 34</em> by
 hand. ř. 62 and ř. 63 do not add ř. 33 and ř. 34.</p>
+<h2 id="par74b">Overdue bills: the deduction under § 74b</h2>
+<p>From 1 January 2025 a VAT payer who has not paid a supplier's bill in full
+by the <strong>last day of the sixth calendar month after the month in which it
+fell due</strong> must reduce the deduction claimed, in proportion to the unpaid
+part, in the tax period that day belongs to:
+<a href="https://e-sbirka.gov.cz/sb/2004/235">§ 74b odst. 3</a>. When the bill is paid later, the
+deduction comes back in proportion to what was paid (odst. 4). The rule
+does not apply to a deduction that arose before 2025 (Act No. 461/2024 Sb.,
+čl. II bod 17).</p>
+<p><strong>Preparing the corrections.</strong> <em>Accounting → Accounting → Oprava odpočtu
+daně (§ 74b)</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ke dni</td>
+<td>Bills whose six months ran out by this day are offered.</td>
+</tr>
+<tr>
+<td>Zdaňovací období</td>
+<td>Month or quarter. A quarterly payer owes no correction for a bill paid in full by the end of the quarter in which the six months ran out; a bill paid in part by then is corrected for what was still unpaid at the end of the quarter.</td>
+</tr>
+<tr>
+<td>Datum opravy</td>
+<td><em>Poslední den lhůty</em> dates each correction on the day the law names. If that period is locked the wizard refuses and names the bills: reopen the period and file a dodatečné přiznání, or choose <em>Den uvedený výše</em> to report the corrections on the day entered.</td>
+</tr>
+<tr>
+<td>Účet nákladu</td>
+<td>Where the tax that is no longer deductible is booked; 538 is proposed.</td>
+</tr>
+</tbody>
+</table>
+<p>The list shows the bills found: posted vendor bills of the company with a
+deduction, a taxable supply date from 1 January 2025, the time limit run
+out, not fully paid on the deciding day and not corrected yet. Payments made
+after the deciding day do not remove a bill from the list; they give the
+deduction back afterwards.</p>
+<p><strong>Připravit opravy</strong> creates one draft document per bill and opens them.
+Check and post them. Each is a vendor credit note for <strong>zero</strong>:</p>
+<ul>
+<li>a line with the bill's own tax, for the unpaid share of the base, which
+  lowers ř. 40 / 41 by base and tax;</li>
+<li>a line taking the base back and a line booking the tax to the cost
+  account, so the supplier's balance does not change (the debt remains).</li>
+</ul>
+<p>It carries the supplier's number of the bill and the flag <em>Oprava u
+nedobytné pohledávky</em> = P, so its tax is also on <strong>ř. 34</strong> and it is a row
+of <strong>B.2</strong> in the kontrolní hlášení whatever its amount
+(<a href="#bad-debt">Bad-debt corrections</a>). The entry is cost account debit / 343
+credit.</p>
+<p><strong>Giving the deduction back.</strong> On the corrected bill, after a payment, the
+button <strong>Vrátit odpočet (§ 74b odst. 4)</strong> prepares the mirror document, a
+vendor bill for zero dated today, for the tax of what was paid since the
+correction and not yet given back. It can be used after each part payment.
+It is refused after the end of the second calendar year following the last
+payment (odst. 9).</p>
+<p>The bill shows where it stands under <em>Other Info</em>: <em>Stav § 74b</em> and the
+documents made for it.</p>
 <h2 id="historic-rates">Historical rates</h2>
 <p>On install and whenever a company loads the Czech chart, the rates no longer
 in force are created as archived taxes (see the
@@ -344,6 +407,15 @@ rate (rows 1/2, deduction row 40) apart from the reduced one (rows 3/4, row 41):
 three years between are not excluded by its dates.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
+<li><strong>§ 74b covers the overdue bill (odst. 3 and 4) only</strong>, not the
+  corrections that follow a creditor's correction of an unrecoverable
+  receivable (odst. 1 and 2); flag those documents by hand. Bills under
+  reverse charge are left out: no VAT is owed to the supplier there. Bills
+  payable in instalments are listed in the wizard but not corrected, because
+  each instalment has its own time limit. "Paid" means reconciled in Odoo,
+  dated by the later of the two entries reconciled; a supplier's credit note
+  set against the bill counts as payment. Whether the bill is unpaid is read
+  from the books, so reconcile payments before running the wizard.</li>
 <li>The reduced-amount deductions, rows 45, 52, 53 and 60, are manual (see
   <a href="#usage">above</a>), and so is the § 108 odst. 4 g)/h) part of row 62.</li>
 <li>The content checks cover rows 64 and 65 only; the schema cannot tell
@@ -358,7 +430,7 @@ three years between are not excluded by its dates.</p>
 <li>The rows follow <code>l10n_cz</code>'s tags. A tax created by hand without the right
   tags reaches the wrong row or none.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.18.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text checked against module version: 19.0.1.19.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

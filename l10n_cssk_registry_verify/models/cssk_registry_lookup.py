@@ -56,6 +56,12 @@ class CsskRegistryLookup(models.Model):
     active_subject = fields.Boolean(
         help="The register still shows the subject as active (not dissolved)."
     )
+    legal_form = fields.Char(
+        help="As the register states it: a statistical code or the form's name."
+    )
+    natural_person = fields.Boolean(
+        help="A person in business (a sole trader), not a company."
+    )
 
     _registry_country_uniq = models.Constraint(
         "UNIQUE (registry, country_code)",
@@ -108,6 +114,8 @@ class CsskRegistryLookup(models.Model):
             "tax_id": result.get("tax_id") or "",
             "vat": result.get("vat") or "",
             "active_subject": bool(result.get("active")),
+            "legal_form": result.get("legal_form") or "",
+            "natural_person": bool(result.get("natural_person")),
         }
         existing = self.sudo().search(
             [("registry", "=", registry), ("country_code", "=", country_code)],
@@ -135,5 +143,7 @@ class CsskRegistryLookup(models.Model):
             "tax_id": self.tax_id or "",
             "vat": self.vat or "",
             "active": self.active_subject,
+            "legal_form": self.legal_form or "",
+            "natural_person": self.natural_person,
             "cached": True,
         }

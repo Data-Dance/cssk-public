@@ -1,18 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_cz_invoice
+# 	* l10n_cz_invoice
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-24 10:23+0000\n"
+"PO-Revision-Date: 2026-11-24 10:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: sk_SK\n"
 
 #. module: l10n_cz_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_cz_invoice.report_invoice_document_cz
@@ -35,36 +37,9 @@ msgid "Additional statutory note printed on the CZ invoice…"
 msgstr "Dodatočná zákonná poznámka vytlačená na českej faktúre…"
 
 #. module: l10n_cz_invoice
-#: model_terms:ir.ui.view,arch_db:l10n_cz_invoice.report_invoice_document_cz
-msgid "DIČ:"
+#: model:ir.model,name:l10n_cz_invoice.model_account_bank_statement_line
+msgid "Bank Statement Line"
 msgstr ""
-
-#. module: l10n_cz_invoice
-#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_move__display_name
-#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_tax__display_name
-msgid "Display Name"
-msgstr "Zobrazovaný názov"
-
-#. module: l10n_cz_invoice
-#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_move__id
-#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_tax__id
-msgid "ID"
-msgstr ""
-
-#. module: l10n_cz_invoice
-#: model:ir.model,name:l10n_cz_invoice.model_account_move
-msgid "Journal Entry"
-msgstr "Účtovný záznam"
-
-#. module: l10n_cz_invoice
-#: model:ir.model,name:l10n_cz_invoice.model_account_tax
-msgid "Tax"
-msgstr "Daň"
-
-#. module: l10n_cz_invoice
-#: model:ir.module.module,shortdesc:base.module_l10n_cz_invoice
-msgid "CZ Invoice (statutory PDF)"
-msgstr "CZ faktúra (zákonné PDF)"
 
 #. module: l10n_cz_invoice
 #: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_tax__l10n_cz_invoice_reverse_charge
@@ -72,18 +47,59 @@ msgid "CZ Reverse Charge phrase (§92a)"
 msgstr "CZ formulácia pre prenesenie daňovej povinnosti (§92a)"
 
 #. module: l10n_cz_invoice
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_bank_statement_line__l10n_cz_legal_notes
 #: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_move__l10n_cz_legal_notes
 msgid "CZ Statutory Phrases"
 msgstr "CZ zákonné formulácie"
 
 #. module: l10n_cz_invoice
-#: model:ir.module.module,summary:base.module_l10n_cz_invoice
-msgid ""
-"Czech invoice layout: customer DIČ, payment symbols and the mandatory "
-"statutory phrases (reverse charge §92a, exemptions §64/§66)."
-msgstr ""
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_tax__l10n_cz_invoice_triangular
+msgid "CZ Triangular trade phrase (§17)"
+msgstr "CZ formulácia pre trojstranný obchod (§17)"
 
 #. module: l10n_cz_invoice
+#. odoo-python
+#: code:addons/l10n_cz_invoice/models/account_payment.py:0
+msgid ""
+"Cash paid to %(partner)s on %(day)s totals %(total).2f Kč, above the 270 000"
+" Kč limit of § 4 zákona č. 254/2004 Sb. All cash payments between the same "
+"payer and payee in one calendar day are added together (§ 4 odst. 4). Check "
+"that the payment is outside the duty under § 3 odst. 2, or pay by bank "
+"transfer."
+msgstr ""
+"Hotovosť zaplatená partnerovi %(partner)s dňa %(day)s je spolu %(total).2f "
+"Kč, čo je nad limitom 270 000 Kč podľa § 4 zákona č. 254/2004 Sb. Sčítavajú "
+"sa všetky hotovostné platby medzi tým istým poskytovateľom a tým istým "
+"príjemcom v jednom kalendárnom dni (§ 4 odst. 4). Overte, či ide o platbu "
+"mimo povinnosti podľa § 3 odst. 2, alebo plaťte prevodom."
+
+#. module: l10n_cz_invoice
+#. odoo-python
+#: code:addons/l10n_cz_invoice/models/account_payment.py:0
+msgid ""
+"Cash received from %(partner)s on %(day)s totals %(total).2f Kč, above the "
+"270 000 Kč limit of § 4 zákona č. 254/2004 Sb. All cash payments between the"
+" same payer and payee in one calendar day are added together (§ 4 odst. 4). "
+"Check that the payment is outside the duty under § 3 odst. 2, or have it "
+"paid by bank transfer."
+msgstr ""
+"Hotovosť prijatá od partnera %(partner)s dňa %(day)s je spolu %(total).2f "
+"Kč, čo je nad limitom 270 000 Kč podľa § 4 zákona č. 254/2004 Sb. Sčítavajú "
+"sa všetky hotovostné platby medzi tým istým poskytovateľom a tým istým "
+"príjemcom v jednom kalendárnom dni (§ 4 odst. 4). Overte, či ide o platbu "
+"mimo povinnosti podľa § 3 odst. 2, alebo žiadajte úhradu prevodom."
+
+#. module: l10n_cz_invoice
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_payment__display_name
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_payment_register__display_name
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_tax__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_cz_invoice
+#: model:ir.model.fields,help:l10n_cz_invoice.field_account_bank_statement_line__l10n_cz_legal_note_manual
 #: model:ir.model.fields,help:l10n_cz_invoice.field_account_move__l10n_cz_legal_note_manual
 msgid ""
 "Free-text statutory note printed on the CZ invoice in addition to any auto-"
@@ -93,11 +109,34 @@ msgstr ""
 "zistených formuláciách."
 
 #. module: l10n_cz_invoice
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_payment__id
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_payment_register__id
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_tax__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_invoice
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_bank_statement_line__l10n_cz_legal_note_manual
 #: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_move__l10n_cz_legal_note_manual
 msgid "Invoice Legal Note (manual)"
 msgstr "Zákonná poznámka faktúry (ručne)"
 
 #. module: l10n_cz_invoice
+#: model:ir.model,name:l10n_cz_invoice.model_account_move
+msgid "Journal Entry"
+msgstr "Účtovný záznam"
+
+#. module: l10n_cz_invoice
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_bank_statement_line__l10n_cz_cash_limit_warning
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_payment__l10n_cz_cash_limit_warning
+#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_payment_register__l10n_cz_cash_limit_warning
+msgid "L10N Cz Cash Limit Warning"
+msgstr ""
+
+#. module: l10n_cz_invoice
+#: model:ir.model.fields,help:l10n_cz_invoice.field_account_bank_statement_line__l10n_cz_legal_notes
 #: model:ir.model.fields,help:l10n_cz_invoice.field_account_move__l10n_cz_legal_notes
 msgid ""
 "Mandatory invoice phrases auto-detected from the taxes and the customer's "
@@ -107,6 +146,15 @@ msgstr ""
 "zákazníka, doplnené o ručne zadanú poznámku."
 
 #. module: l10n_cz_invoice
+#: model:ir.model.fields,help:l10n_cz_invoice.field_account_tax__l10n_cz_invoice_triangular
+msgid ""
+"Mark the zero-rated tax used when this company is the middle person of a "
+"triangular trade, so the CZ invoice states that it is a triangular trade and"
+" that the customer pays the tax (§ 29 odst. 2 písm. c) and e) of the Czech "
+"VAT Act)."
+msgstr ""
+
+#. module: l10n_cz_invoice
 #: model:ir.model.fields,help:l10n_cz_invoice.field_account_tax__l10n_cz_invoice_reverse_charge
 msgid ""
 "Mark this tax as a domestic reverse-charge supply (přenesení daňové "
@@ -114,15 +162,33 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_invoice
-#: model:ir.model.fields,field_description:l10n_cz_invoice.field_account_tax__l10n_cz_invoice_triangular
-msgid "CZ Triangular trade phrase (§17)"
-msgstr "CZ formulácia pre trojstranný obchod (§17)"
+#: model:ir.model,name:l10n_cz_invoice.model_account_payment_register
+msgid "Pay"
+msgstr ""
 
 #. module: l10n_cz_invoice
-#: model:ir.model.fields,help:l10n_cz_invoice.field_account_tax__l10n_cz_invoice_triangular
+#: model:ir.model,name:l10n_cz_invoice.model_account_payment
+msgid "Payments"
+msgstr ""
+
+#. module: l10n_cz_invoice
+#: model:ir.model,name:l10n_cz_invoice.model_account_tax
+msgid "Tax"
+msgstr "Daň"
+
+#. module: l10n_cz_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_cz_invoice.report_invoice_document_cz
+msgid "DIČ:"
+msgstr ""
+
+#. module: l10n_cz_invoice
+#: model:ir.module.module,shortdesc:base.module_l10n_cz_invoice
+msgid "CZ Invoice (statutory PDF)"
+msgstr "CZ faktúra (zákonné PDF)"
+
+#. module: l10n_cz_invoice
+#: model:ir.module.module,summary:base.module_l10n_cz_invoice
 msgid ""
-"Mark the zero-rated tax used when this company is the middle person of a "
-"triangular trade, so the CZ invoice states that it is a triangular trade and"
-" that the customer pays the tax (§ 29 odst. 2 písm. c) and e) of the Czech "
-"VAT Act)."
+"Czech invoice layout: customer DIČ, payment symbols and the mandatory "
+"statutory phrases (reverse charge §92a, exemptions §64/§66)."
 msgstr ""

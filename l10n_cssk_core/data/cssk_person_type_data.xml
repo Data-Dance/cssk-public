@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Taxpayer / entity types (typ daňového subjektu): FO = fyzická osoba
+     (natural person), PO = právnická osoba (legal entity), one pair per
+     country.
+
+     Here and not in l10n_sk_statutory / l10n_cz_statutory, where they were
+     until 19.0.1.23.0: a database with Slovak accounting still has Czech
+     customers, and without l10n_cz_statutory there was no Czech type to give
+     them. The pre-migration of that version re-homes the existing records.
+
+     English source; the native names come from the sk/cs catalogues. -->
+<odoo>
+  <data noupdate="1">
+    <record id="sk_person_type_fo" model="cssk.person.type">
+      <field name="name">Natural person</field>
+      <field name="code">SK-FO</field>
+      <field name="country_code">SK</field>
+      <field name="is_legal_entity" eval="False"/>
+      <field name="sequence">10</field>
+    </record>
+    <record id="sk_person_type_po" model="cssk.person.type">
+      <field name="name">Legal entity</field>
+      <field name="code">SK-PO</field>
+      <field name="country_code">SK</field>
+      <field name="is_legal_entity" eval="True"/>
+      <field name="sequence">20</field>
+    </record>
+    <record id="cz_person_type_fo" model="cssk.person.type">
+      <field name="name">Natural person</field>
+      <field name="code">CZ-FO</field>
+      <field name="country_code">CZ</field>
+      <field name="is_legal_entity" eval="False"/>
+      <field name="sequence">10</field>
+    </record>
+    <record id="cz_person_type_po" model="cssk.person.type">
+      <field name="name">Legal entity</field>
+      <field name="code">CZ-PO</field>
+      <field name="country_code">CZ</field>
+      <field name="is_legal_entity" eval="True"/>
+      <field name="sequence">20</field>
+    </record>
+  </data>
+</odoo>

@@ -149,6 +149,33 @@ class TestSkPar53b(AccountTestInvoicingCommon):
         with self.assertRaises(UserError):
             bill.action_par53b_reclaim()
 
+    def test_par53b_reclaim_after_a_part_paid_before_the_correction(self):
+        """§ 53b ods. 4 písm. a): "vo výške zodpovedajúcej sume protihodnoty,
+        ktorá bola zaplatená". Half paid before the correction, a quarter
+        after it: the quarter's tax comes back, not three quarters of the
+        correction."""
+        bill = self._unpaid_bill()
+        vat = sum(bill.line_ids.filtered("tax_line_id").mapped("balance"))
+        self._pay(bill, bill.amount_total / 2.0, date="2026-02-01")
+        self._wizard().action_generate()            # corrects vat / 2
+        self._pay(bill, bill.amount_total / 4.0)
+        bill.action_par53b_reclaim()
+        reclaims = bill.l10n_sk_par53b_correction_ids.filtered(
+            "l10n_sk_par53b_is_reclaim")
+        self.assertAlmostEqual(
+            sum(reclaims.line_ids.filtered("tax_tag_ids").mapped("debit")),
+            vat / 4.0, places=2)
+        with self.assertRaises(UserError):
+            bill.action_par53b_reclaim()
+        # the rest paid: everything corrected is back, and no more
+        self._pay(bill, bill.amount_total / 4.0, date="2026-07-15")
+        bill.action_par53b_reclaim()
+        reclaims = bill.l10n_sk_par53b_correction_ids.filtered(
+            "l10n_sk_par53b_is_reclaim")
+        self.assertAlmostEqual(
+            sum(reclaims.line_ids.filtered("tax_tag_ids").mapped("debit")),
+            vat / 2.0, places=2)
+
     def test_par53b_proportional_on_partial(self):
         """A partially-paid bill reverses only the unpaid share of the VAT."""
         bill = self._unpaid_bill()

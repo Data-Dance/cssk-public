@@ -696,6 +696,60 @@ class TestVatReturnPeriodSelection(AccountTestInvoicingCommon):
         lines = self.ret._period_move_lines()
         self.assertTrue(lines & move.line_ids)
 
+    # -- the company keeps the period of its bills in the tax point ---------
+    def test_by_tax_point_a_bill_booked_later_goes_to_the_period_it_names(self):
+        """Books locked early: a June bill arrives after the lock, is booked
+        in July, and its deduction still goes on the June return.
+
+        SK § 51 ods. 2 — the deduction in the period the right arose, with
+        the invoice held before that return is due. The accountant says so in
+        the taxable supply date, and the company setting makes the return
+        read it there.
+        """
+        self.company.cssk_vat_claim_period_basis = "tax_point"
+        move = self._bill("2026-07-02", "2026-06-27")
+        lines = self.ret._period_move_lines()
+        self.assertTrue(lines & move.line_ids,
+                        "a bill naming June was left out of the June return")
+
+    def test_by_tax_point_a_bill_booked_inside_but_naming_another_is_out(self):
+        self.company.cssk_vat_claim_period_basis = "tax_point"
+        move = self._bill("2026-06-04", "2026-05-28")
+        lines = self.ret._period_move_lines()
+        self.assertFalse(lines & move.line_ids,
+                         "a bill naming May was reported in June")
+
+    def test_by_tax_point_a_bill_is_reported_in_one_period_only(self):
+        """Not in the period it names AND the period it is booked in."""
+        self.company.cssk_vat_claim_period_basis = "tax_point"
+        move = self._bill("2026-07-02", "2026-06-27")
+        july = self.env["cssk.vat.return"]._cssk_period_move_ids(
+            self.company, "2026-07-01", "2026-07-31")
+        self.assertNotIn(move.id, july)
+
+    def test_by_tax_point_the_declared_period_still_wins(self):
+        self.company.cssk_vat_claim_period_basis = "tax_point"
+        move = self._bill("2026-07-02", "2026-06-27")
+        move.cssk_vat_deduction_date = "2026-08-05"
+        lines = self.ret._period_move_lines()
+        self.assertFalse(lines & move.line_ids,
+                         "a deduction declared for August was reported in June")
+
+    def test_by_tax_point_a_customer_invoice_is_where_it_was(self):
+        self.company.cssk_vat_claim_period_basis = "tax_point"
+        move = self._invoice("2026-07-05", "2026-06-28")
+        lines = self.ret._period_move_lines()
+        self.assertTrue(lines & move.line_ids)
+
+    def test_the_setting_is_per_company(self):
+        """The default is the accounting date, and nothing moves without the
+        setting — the rule every other agenda was measured against."""
+        self.assertEqual(self.company.cssk_vat_claim_period_basis,
+                         "accounting_date")
+        move = self._bill("2026-07-02", "2026-06-27")
+        lines = self.ret._period_move_lines()
+        self.assertFalse(lines & move.line_ids)
+
 
 @tagged("post_install", "-at_install")
 class TestMultiTagFormula(AccountTestInvoicingCommon):

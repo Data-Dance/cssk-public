@@ -8,6 +8,23 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.16.2] — 2026-11-24
+--------------------------
+
+Fixed
+~~~~~
+
+- **§ 53b ods. 4: the re-claim counted what was paid before the correction.**
+  It took the corrected tax times the paid share of the whole bill. A bill
+  half paid before the correction and a further quarter after it gave back
+  three quarters of the correction (86.25 of 115) where the tax of the later
+  payment is a quarter of the bill's tax (57.50): "vo výške zodpovedajúcej
+  sume protihodnoty, ktorá bola zaplatená". The re-claim is now the corrected
+  tax less the tax of what is still unpaid, less what was already given
+  back. A bill wholly unpaid at the correction was computed right before and
+  is unchanged. Re-claims already posted are not touched: check corrected
+  bills that were partly paid before their correction.
+
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 

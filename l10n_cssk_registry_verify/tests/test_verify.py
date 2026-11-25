@@ -25,6 +25,7 @@ COMPANY = {
     "dic": "2121576435",
     "icDph": "SK2121576435",
     "name": "Data Dance s.r.o.",
+    "legalForm": "spoločnosť s ručením obmedzeným",
     "status": "aktívna",
     "dissolvedOn": None,
     "address": {"street": "Nová 1184/38", "city": "Veľký Biel",
@@ -38,6 +39,9 @@ SOLE_TRADER = {
     "dic": "1020000000",
     "icDph": None,
     "name": "Jana Vzorová-VZOR",
+    # ORSF gives a trade licence holder's form as the bare statistical code,
+    # where a company gets the form's name. Seen on 2026-11-24.
+    "legalForm": "101",
     "status": "aktívna",
     "dissolvedOn": None,
     "address": {"street": None, "city": "Bratislava - mestská časť Ružinov",
@@ -189,6 +193,56 @@ class TestVerifyRegistry(TransactionCase):
         self.assertFalse(res["vat"])
         self.assertEqual(res["tax_id"], "1020000000")
 
+    # -- company or person ----------------------------------------------------
+
+    def test_a_sole_trader_is_told_from_a_company(self):
+        """Both hold an IČO and both verify. Which of the two it is, is a
+        fact the register states and a caller may need: a sole trader's
+        registered name is a person's own."""
+        with self._probe("ok", SOLE_TRADER):
+            person = self.Partner._cssk_verify_registry("32000057", "SK")
+        self.assertTrue(person["natural_person"])
+        self.assertEqual(person["legal_form"], "101")
+        self.Lookup.search([]).unlink()
+        with self._probe("ok", COMPANY):
+            company = self.Partner._cssk_verify_registry("54093431", "SK")
+        self.assertFalse(company["natural_person"])
+        self.assertEqual(company["legal_form"], "spoločnosť s ručením obmedzeným")
+
+    def test_a_locked_address_alone_marks_a_person(self):
+        """ORSF locks an address only for GDPR, which protects people. A legal
+        form worded in a way nobody has seen yet must not make a company of
+        one."""
+        unknown = dict(SOLE_TRADER, legalForm=None)
+        self.assertTrue(self.Partner._cssk_registry_parse(unknown)["natural_person"])
+        worded = dict(SOLE_TRADER, addressLocked=False,
+                      legalForm="Podnikateľ-fyzická osoba-nezapísaný v obchodnom registri")
+        self.assertTrue(self.Partner._cssk_registry_parse(worded)["natural_person"])
+
+    def test_the_cache_remembers_company_or_person(self):
+        with self._probe("ok", SOLE_TRADER):
+            self.Partner._cssk_verify_registry("32000057", "SK")
+        with self._forbid_register():
+            res = self.Partner._cssk_verify_registry("32000057", "SK")
+        self.assertTrue(res["cached"])
+        self.assertTrue(res["natural_person"])
+        self.assertEqual(res["legal_form"], "101")
+
+    def test_the_partner_keeps_what_the_register_said_about_it(self):
+        partner = self.Partner.create({"name": "Jana Vzorová-VZOR"})
+        with self._probe("ok", SOLE_TRADER):
+            partner._cssk_store_verification(
+                self.Partner._cssk_verify_company("32000057", "SK"))
+        self.assertTrue(partner.cssk_registry_natural_person)
+        self.assertEqual(partner.cssk_registry_legal_form, "101")
+        self.assertFalse(partner.cssk_registry_vat_registered)
+        self.Lookup.search([]).unlink()
+        with self._probe("ok", COMPANY):
+            partner._cssk_store_verification(
+                self.Partner._cssk_verify_company("54093431", "SK"))
+        self.assertFalse(partner.cssk_registry_natural_person)
+        self.assertTrue(partner.cssk_registry_vat_registered)
+
     # -- caching ------------------------------------------------------------
 
     def test_a_verified_answer_is_cached(self):
@@ -314,6 +368,7 @@ class TestNameVerdict(TransactionCase):
 ARES_VAT_PAYER = {
     "ico": "25000063",
     "obchodniJmeno": "Vzorová, s.r.o.",
+    "pravniForma": "112",
     "dic": "CZ25000063",
     "sidlo": {"textovaAdresa": "Vzorová 1/1, 70300 Ostrava",
               "nazevObce": "Ostrava", "psc": 70300},
@@ -322,6 +377,7 @@ ARES_VAT_PAYER = {
 ARES_NOT_REGISTERED = {
     "ico": "21900001",
     "obchodniJmeno": "Jana Příkladová",
+    "pravniForma": "101",
     "dic": None,
     "sidlo": {"textovaAdresa": "Příkladová 1/1, 74101 Nový Jičín",
               "nazevObce": "Nový Jičín", "psc": 74101},
@@ -384,3 +440,35 @@ class TestVatIsNeverABareNumber(TransactionCase):
         parsed = self.Partner._cssk_registry_parse(SOLE_TRADER)
         self.assertEqual(parsed["tax_id"], "1020000000")
         self.assertFalse(parsed["vat"])
+
+
+class TestCzechLegalForm(TransactionCase):
+    """ARES states the legal form as the ČSÚ code; 100 to 110 are people."""
+
+    def setUp(self):
+        super().setUp()
+        self.Partner = self.env["res.partner"]
+
+    def test_a_trade_licence_holder_is_a_person(self):
+        parsed = self.Partner._cssk_registry_parse_ares(ARES_NOT_REGISTERED)
+        self.assertTrue(parsed["natural_person"])
+        self.assertEqual(parsed["legal_form"], "101")
+
+    def test_an_sro_is_not(self):
+        parsed = self.Partner._cssk_registry_parse_ares(ARES_VAT_PAYER)
+        self.assertFalse(parsed["natural_person"])
+        self.assertEqual(parsed["legal_form"], "112")
+
+    def test_the_block_ends_before_the_partnerships(self):
+        """110 is still a person; 111 is a v.o.s."""
+        for code, person in (("100", True), ("105", True), ("110", True),
+                             ("111", False), ("121", False), ("", False)):
+            parsed = self.Partner._cssk_registry_parse_ares(
+                dict(ARES_VAT_PAYER, pravniForma=code))
+            self.assertEqual(parsed["natural_person"], person, code)
+
+    def test_a_missing_or_numeric_code_does_not_raise(self):
+        self.assertFalse(self.Partner._cssk_registry_parse_ares(
+            {"obchodniJmeno": "X"})["natural_person"])
+        self.assertTrue(self.Partner._cssk_registry_parse_ares(
+            dict(ARES_NOT_REGISTERED, pravniForma=101))["natural_person"])

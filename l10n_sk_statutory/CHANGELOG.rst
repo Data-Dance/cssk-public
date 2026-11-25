@@ -20,6 +20,17 @@ Changed
   Enterprise, which OEEL forbids from carrying it. What differs between modules
   is now whether they are published, not how they are licensed.
 
+[19.0.1.1.2] — 2026-11-24
+-------------------------
+
+Changed
+~~~~~~~
+
+- The Slovak person types (SK-FO, SK-PO) moved to
+  ``l10n_cssk_core`` (19.0.1.23.0), which re-homes the existing records.
+  ``l10n_sk_statutory.sk_person_type_fo`` / ``_po`` are now
+  ``l10n_cssk_core.sk_person_type_fo`` / ``_po``.
+
 [19.0.1.1.1] — 2026-11-18
 -------------------------
 

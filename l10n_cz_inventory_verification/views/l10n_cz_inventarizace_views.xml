@@ -39,6 +39,18 @@
                     <button name="action_print_soupisy" type="object"
                             string="Print inventurní soupisy"
                             invisible="not soupis_ids"/>
+                    <button name="action_propose_differences" type="object"
+                            string="Propose the settlement of differences"
+                            invisible="state == 'draft' or difference_state != 'to_settle'"/>
+                    <button name="action_create_difference_entries" type="object"
+                            string="Book the differences" class="oe_highlight"
+                            invisible="state == 'draft' or difference_state != 'ready'"
+                            groups="account.group_account_invoice"/>
+                    <button name="action_cancel_difference_entries" type="object"
+                            string="Cancel the booking of differences"
+                            invisible="difference_state not in ('draft', 'posted')"
+                            confirm="A draft journal entry is deleted, a posted one is reversed on the same day. Continue?"
+                            groups="account.group_account_invoice"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <!-- § 30 odst. 6: the four-months-before / two-months-after window -->
@@ -46,7 +58,23 @@
                      invisible="not timing_warning">
                     <field name="timing_warning" nolabel="1"/>
                 </div>
+                <div class="alert alert-warning mb-0" role="alert"
+                     invisible="not difference_stale">
+                    The inventurní soupisy have changed since the differences were booked: the booked amounts no longer match them. Cancel the booking of differences and book them again.
+                </div>
+                <div class="alert alert-danger mb-0" role="alert"
+                     invisible="not difference_misdated">
+                    The journal entry of the differences is dated another day than the day of valuation: the differences are not booked in the period being verified (§ 30 odst. 11). This happens when the period is locked — on posting, Odoo moves the date past the lock.
+                </div>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_difference_moves" type="object"
+                                class="oe_stat_button" icon="fa-book"
+                                invisible="difference_move_count == 0">
+                            <field name="difference_move_count" widget="statinfo"
+                                   string="Journal entries"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1><field name="name" readonly="1"/></h1>
                     </div>
@@ -63,6 +91,12 @@
                             <field name="book_amount"/>
                             <field name="actual_amount"/>
                             <field name="difference"/>
+                            <field name="difference_state" widget="badge"
+                                   decoration-warning="difference_state == 'to_settle'"
+                                   decoration-info="difference_state in ('ready', 'draft')"
+                                   decoration-success="difference_state == 'posted'"/>
+                            <field name="difference_stale" invisible="1"/>
+                            <field name="difference_misdated" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -84,6 +118,10 @@
                                     <field name="book_amount"/>
                                     <field name="actual_amount"/>
                                     <field name="difference"/>
+                                    <field name="difference_residual"
+                                           decoration-danger="difference_residual != 0"
+                                           optional="show"/>
+                                    <field name="difference_skip" optional="hide"/>
                                     <field name="currency_id" column_invisible="1"/>
                                 </list>
                                 <form>
@@ -99,12 +137,16 @@
                                             <field name="inventory_responsible_id"/>
                                         </group>
                                         <group string="Comparison">
-                                            <field name="account_id"
-                                                   invisible="inventory_type != 'dokladova'"/>
+                                            <field name="account_id"/>
                                             <field name="comparison_date"/>
                                             <field name="book_amount"/>
                                             <field name="actual_amount"/>
                                             <field name="difference"/>
+                                            <field name="difference_residual"/>
+                                            <field name="difference_skip"/>
+                                            <field name="difference_skip_reason"
+                                                   invisible="not difference_skip"
+                                                   required="difference_skip"/>
                                             <field name="location"/>
                                             <field name="responsible_person_id"/>
                                             <field name="currency_id" invisible="1"/>
@@ -131,6 +173,39 @@
                                     </group>
                                 </form>
                             </field>
+                        </page>
+                        <page string="Inventarizační rozdíly (§ 30 odst. 10 a 11)" name="differences">
+                            <group>
+                                <field name="difference_journal_id"
+                                       readonly="difference_state in ('draft', 'posted')"/>
+                            </group>
+                            <field name="difference_line_ids"
+                                   context="{'default_inventory_id': id}">
+                                <list editable="bottom"
+                                      decoration-muted="move_state == 'posted'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="sheet_id" options="{'no_create': True}"
+                                           domain="[('inventarizace_id', '=', parent.id)]"
+                                           readonly="move_state in ('draft', 'posted')"/>
+                                    <field name="kind"
+                                           readonly="move_state in ('draft', 'posted')"/>
+                                    <field name="amount"
+                                           readonly="move_state in ('draft', 'posted')"/>
+                                    <field name="account_id"
+                                           readonly="move_state in ('draft', 'posted')"/>
+                                    <field name="counterpart_account_id"
+                                           readonly="move_state in ('draft', 'posted')"/>
+                                    <field name="partner_id" optional="show"
+                                           readonly="move_state in ('draft', 'posted')"/>
+                                    <field name="name" optional="hide"/>
+                                    <field name="move_id" widget="many2one" optional="show"/>
+                                    <field name="move_state" widget="badge" optional="show"/>
+                                    <field name="warning" optional="show"/>
+                                    <field name="company_id" column_invisible="1"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <p class="text-muted">Manko (schodek u peněžních hotovostí a cenin) and a loss within the norm lower the actual state below the books, a přebytek raises it; together they must explain the whole difference of the soupis. A claim books the receivable from the liable person. The journal entry is created in draft on the day of valuation of the soupis (§ 30 odst. 11); the accountant posts it.</p>
                         </page>
                         <page string="Inventarizační zápis">
                             <group>

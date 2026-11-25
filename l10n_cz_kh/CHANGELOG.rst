@@ -8,6 +8,29 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **``pomer`` from the taxes (below) is not on 18.0.** Port the tax field,
+  the row field with its override, the template attribute and the tests.
+
+Added
+~~~~~
+
+- **``VetaB2/pomer`` follows the bill.** It was always written N. A purchase
+  tax can be ticked *Poměrný odpočet (§ 75)*, and a B.2 row whose bill
+  carries such a tax is filed with ``pomer="A"``. The flag is shown on the
+  row and a value set on an overridden row survives a recompute.
+
+
+Changed
+~~~~~~~
+
+- **The date of supply of a received document is its delivery date** where the
+  company keeps the VAT period of its bills in the taxable supply date
+  (``l10n_cssk_core`` 19.0.1.22.0, *VAT period of received documents*).
+  Without that setting, and on every issued document, nothing changes.
+
 Fixed
 ~~~~~
 

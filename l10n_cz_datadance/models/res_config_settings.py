@@ -26,6 +26,26 @@ class ResConfigSettings(models.TransientModel):
         string="Advance invoices (zálohové faktury)"
     )
 
+    # Published modules a company may or may not want. Toggles, not
+    # dependencies: each brings its own engine (OCA account_move_template,
+    # account_fiscal_year_closing, account_asset_management, mis_builder)
+    # that not every company should get with the statutory core.
+    module_l10n_cz_account_move_template = fields.Boolean(
+        string="Účetní vzory pro interní doklady"
+    )
+    module_l10n_cz_fiscal_year_closing = fields.Boolean(
+        string="Účetní závěrka (701/702/710)"
+    )
+    module_l10n_cz_asset_protocol_oca = fields.Boolean(
+        string="Protokoly o zařazení a vyřazení majetku"
+    )
+    module_l10n_cz_mis_reports = fields.Boolean(
+        string="Manažerské výkazy (MIS Builder)"
+    )
+    module_account_invoice_ai_extract = fields.Boolean(
+        string="Vytěžování přijatých faktur (AI)"
+    )
+
     # The annual filings. Moved out of `depends` on 2026-08-27: both are
     # delivered to subscribers rather than published, so a hard dependency
     # would have made this whole bundle uninstallable from the public

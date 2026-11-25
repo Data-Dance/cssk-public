@@ -37,6 +37,26 @@
                          help="Zálohové faktury + tax documents.">
                     <field name="module_l10n_cz_sale_order_advance_invoice" />
                 </setting>
+                <setting id="cz_dd_vzory" string="Účetní vzory (interní doklady)"
+                         help="Pojmenované vzory MD/D pro interní doklady: účetní vybere vzor, zadá jednu částku a zaúčtuje.">
+                    <field name="module_l10n_cz_account_move_template" />
+                </setting>
+                <setting id="cz_dd_zaverka" string="Účetní závěrka"
+                         help="Uzavření roku přes závěrkové účty 710 / 702, otevření přes 701 a výsledek hospodaření na účtu 431.">
+                    <field name="module_l10n_cz_fiscal_year_closing" />
+                </setting>
+                <setting id="cz_dd_protokoly" string="Protokoly k majetku"
+                         help="Protokol o zařazení a o vyřazení dlouhodobého majetku.">
+                    <field name="module_l10n_cz_asset_protocol_oca" />
+                </setting>
+                <setting id="cz_dd_mis" string="Manažerské výkazy"
+                         help="Manažerská výsledovka na MIS Builderu pro Community. Není to zákonný výkaz.">
+                    <field name="module_l10n_cz_mis_reports" />
+                </setting>
+                <setting id="cz_dd_ai_invoice" string="Vytěžování faktur (AI)"
+                         help="Načtení přijatých faktur z PDF a vytvoření návrhu dodavatelské faktury. Součást předplatného Data Dance.">
+                    <field name="module_account_invoice_ai_extract" />
+                </setting>
                 <!-- Roční podání. Nejsou součástí veřejného repozitáře; přepínač
                      zůstává neaktivní, dokud modul není v addons path. -->
                 <setting id="cz_dd_fs" string="Účetní závěrka (Rozvaha, VZZ)"

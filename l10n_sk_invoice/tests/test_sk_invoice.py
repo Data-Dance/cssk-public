@@ -196,6 +196,21 @@ class TestSkCashLimit(AccountTestInvoicingCommon):
         wizard = self._wizard(self._invoice(5000.01), 5000.01)
         self.assertIn("394/2012", wizard.l10n_sk_cash_limit_warning)
 
+    def test_the_warning_is_in_the_user_s_language(self):
+        """It was built where Odoo could not read the language and came
+        out English for everybody."""
+        if not self.env["res.lang"].search([("code", "=", "sk_SK")]):
+            self.skipTest("Slovak is not loaded")
+        invoice = self._invoice(5000.01)
+        english = self._wizard(invoice, 5000.01).with_context(
+            lang="en_US").l10n_sk_cash_limit_warning
+        wizard = self._wizard(invoice, 5000.01).with_context(lang="sk_SK")
+        wizard.invalidate_recordset(["l10n_sk_cash_limit_warning"])
+        slovak = wizard.l10n_sk_cash_limit_warning
+        self.assertIn("394/2012", slovak)
+        self.assertIn("Platby v hotovosti", slovak)
+        self.assertNotEqual(slovak, english)
+
     def test_split_payments_are_added_together(self):
         invoice = self._invoice(6000.0)
         self._wizard(invoice, 3000.0)._create_payments()

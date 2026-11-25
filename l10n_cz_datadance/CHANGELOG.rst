@@ -8,6 +8,43 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- **The cross-checks of 19.0.1.3.0 are not on 18.0.** Port the engine, the
+  three actions, the buttons and the tests together.
+
+[19.0.1.4.0] — 2026-11-24
+-------------------------
+
+Added
+~~~~~
+
+- **Five more switches** in the settings, for Czech modules that existed but
+  could only be installed from the Apps list: *Účetní vzory*
+  (``l10n_cz_account_move_template``), *Účetní závěrka*
+  (``l10n_cz_fiscal_year_closing``), *Protokoly k majetku*
+  (``l10n_cz_asset_protocol_oca``), *Manažerské výkazy*
+  (``l10n_cz_mis_reports``) and *Vytěžování faktur (AI)*
+  (``account_invoice_ai_extract``, delivered to subscribers).
+
+[19.0.1.3.0] — 2026-11-24
+-------------------------
+
+Added
+~~~~~
+
+- **Cross-checks before filing**, as the Slovak suite has them, with the
+  Czech links taken from the forms themselves. *Porovnat s přiznáním* on a
+  kontrolní hlášení compares its eight control rows (věta C) with ř. 1, 2,
+  40, 41, 25, 10, 11 and 3 + 4 + 5 + 6 + 9 + 12 + 13 of the přiznání, within
+  the 1 000 Kč the structure allows; on a souhrnné hlášení it compares codes
+  0 + 1, 3 and 2 with ř. 20, 21 and 31. *Porovnat s účetnictvím* on a
+  přiznání compares ř. 62 and ř. 46 with the tax lines booked on account 343
+  and shows what moved on 343 with no tax behind it.
+- For a quarterly přiznání the three monthly hlášení are added; if one is
+  not computed the rows are informational, not differences.
+
 [19.0.1.2.0] — 2026-11-15
 -------------------------
 

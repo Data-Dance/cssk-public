@@ -1,7 +1,7 @@
 ---
 title: SK VAT Control Statement (KV DPH)
 summary: The Slovak kontrolný výkaz DPH — sections A.1 to D.2 computed from the books, checked against the form's requirements and exported as the Finančná správa XML in the form version in force for the period.
-verified: 19.0.2.11.0
+verified: 19.0.2.12.0
 ---
 
 ## What it is for {#purpose}
@@ -155,7 +155,10 @@ supply to an EU customer on which Slovak VAT is charged — a private person,
 typically — is a domestic supply and is reported in A.1 or D.2.
 
 **Dates and amounts.** The supply date (*Den*) is the *Taxable Supply Date*,
-else the invoice date; for a tax due on payment, the payment date. The
+else the invoice date; for a tax due on payment, the payment date. On a
+received document of a company whose setting *VAT period of received
+documents* is *Taxable supply date*, it is the *Delivery Date* where one is
+filled in, because the taxable supply date then names the period. The
 deducted tax (*Odpočítaná daň*) on B.1, B.2, C.2 and B.3 is the part of the
 tax its repartition sends to the VAT account: a vehicle tax that deducts 50 %
 reports half. A § 50 coefficient is honoured the same way only if it is set

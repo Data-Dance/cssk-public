@@ -1,6 +1,6 @@
 {
     "name": "Sale Order Advance Invoice",
-    "version": "19.0.2.8.5",
+    "version": "19.0.2.8.6",
     "summary": "Advance invoices (proforma) with tax documents on received payments",
     "description": """
 Advance Invoices

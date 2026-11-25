@@ -315,8 +315,11 @@ class L10nCzKhRowMixin(models.AbstractModel):
             "partner_country_code": self._cz_kh_vies_country(line, move),
             "entry_ref": entry_ref,
             # DUZP/DPPD: the move's taxable supply date when set (advances:
-            # the payment date), else the invoice date.
-            "supply_date": move.taxable_supply_date
+            # the payment date), else the invoice date. Read through
+            # ``_cssk_supply_date``: where the company keeps the VAT period
+            # of its bills in the taxable supply date, the supply of a
+            # received document is its delivery date.
+            "supply_date": move._cssk_supply_date()
             or move.invoice_date
             or move.date,
             "base_std": b["base_std"], "tax_std": b["tax_std"],
@@ -447,6 +450,26 @@ class L10nCzKhB2(models.Model):
     _inherit = "l10n.cz.kh.detail.above"
     _description = "KH B2 — received supplies over 10 000 CZK"
     _cz_code = "B2"
+
+    # A flag set by hand on an overridden row survives the recompute.
+    _KV_OVERRIDE_FIELDS = (
+        "base_std", "tax_std", "base_red", "tax_red", "base_red3", "tax_red3",
+        "proportional")
+
+    proportional = fields.Boolean(
+        string="Použit poměr (§ 75)",
+        help="VetaB2/pomer: the deduction on this document is claimed in "
+             "proportion to its use for the payer's own supplies (§ 75 "
+             "ZDPH). Set from the taxes of the bill; a tax says so in "
+             "'Poměrný odpočet (§ 75)'.")
+
+    @api.model
+    def _cz_row_vals(self, statement, move, b):
+        vals = super()._cz_row_vals(statement, move, b)
+        taxes = b["lines"].tax_ids | b["lines"].tax_line_id
+        vals["proportional"] = any(
+            taxes.mapped("l10n_cz_proportional_deduction"))
+        return vals
 
 
 class L10nCzKhB3(models.Model):

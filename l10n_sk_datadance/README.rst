@@ -132,6 +132,8 @@ Three buttons appear on the filing forms once a filing has been computed (state 
      - *Porovnať s účtovníctvom*
      - the VAT return with account 343 and account class 60
 
+The buttons are shown on the filings of a Slovak company only.
+
 The VAT return used is a computed or exported one of the same company whose period overlaps — an exact period match first. If there is none, the button says so; compute the return first.
 
 **KV and VAT return.** The control statement never contains all of the return — sales to non-taxable persons, simplified invoices and similar supplies are on the return only — so the KV must be **contained in** the return, not equal to it:
@@ -197,7 +199,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_datadance``
-- **Version:** 19.0.1.4.4
+- **Version:** 19.0.1.4.5
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_sk``, ``l10n_cssk_core``, ``l10n_sk_statutory``, ``l10n_sk_kv_dph``, ``l10n_sk_ec_sales``, ``l10n_sk_vat_return``, ``l10n_sk_invoice``, ``l10n_cssk_partner_balances``, ``l10n_cssk_vies``, ``l10n_cssk_accrual``, ``l10n_sk_inventory_verification``

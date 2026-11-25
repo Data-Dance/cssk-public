@@ -17,6 +17,10 @@ class ResConfigSettings(models.TransientModel):
     cssk_vat_deferral_account_id = fields.Many2one(
         related="company_id.cssk_vat_deferral_account_id", readonly=False)
 
+    cssk_vat_claim_period_basis = fields.Selection(
+        related="company_id.cssk_vat_claim_period_basis", readonly=False,
+        required=True)
+
     # Read by every statutory statement, the income-tax return and the OCA
     # financial reports, and reachable from no screen until it was put here.
     # Domain repeated for the same reason as above; the company field's

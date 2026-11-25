@@ -1,7 +1,7 @@
 ---
 title: CZ/SK lokalizácia — spoločné jadro
 summary: Spoločný základ českých a slovenských štatutárnych modulov — nastavenia, daňové úrady, kontrola IČO, obdobie DPH dokladu, životný cyklus podania a porovnanie podaného s vypočítaným.
-verified: 19.0.1.21.0
+verified: 19.0.1.22.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -40,6 +40,7 @@ lokalizácia**:
 | Finančné výkazy (Community) | Nainštaluje modul OCA `account_financial_report`: hlavná kniha, obratová súvaha, partnerská kniha, saldá po splatnosti, denník. Len v Community. |
 | Predvolený správca dane | Daňový úrad, ktorému sú podania adresované. Ponúkajú sa len úrady krajiny daňovej príslušnosti spoločnosti. |
 | DPH priznaná v neskoršom období | Účet na preúčtovanie DPH — pozri [Preúčtovanie DPH](#vat-deferral). Prázdne = vypnuté. |
+| Obdobie DPH prijatých dokladov | Dátum, podľa ktorého sa dodávateľská faktúra, dobropis alebo príjmový doklad zaradí do obdobia DPH: *dátum účtovania* (predvolené) alebo *dátum zdaniteľného plnenia* — pozri [Deklarované obdobie DPH](#vat-period-declared). |
 | Denníky koncoročnej uzávierky | Denníky so zápismi uzavretia a otvorenia účtovného roka (napr. *UZAVIERKA*, *OTVORENIE*). Ich doklady sa nezapočítavajú do účtovnej závierky, daňového priznania k dani z príjmov ani do finančných výkazov, aby uzavretie roka nevynulovalo súvahu a výsledovku. Prázdne, ak sa rok v tejto databáze neuzatvára. |
 
 Kompletné sady pridávajú do tohto bloku vlastné prepínače, jeden na každý
@@ -124,6 +125,24 @@ ako obvykle. V bežnom prípade ho nechajte prázdne.
 Vyplňte ho pri faktúre, z ktorej odpočítavate daň neskôr, než je zaúčtovaná,
 pri oprave priznávanej v neskoršom období alebo pri doklade zadanom
 oneskorene. Právny základ je v časti [Právny rámec](#legal).
+
+**Skoro zamykané účtovníctvo.** Ak obdobie zamykáte skôr, než prídu všetky
+jeho faktúry, oneskorená faktúra sa zaúčtuje do otvoreného obdobia, ale
+odpočítanie dane patrí do priznania za zamknuté obdobie (§ 51 ods. 2 zákona
+o DPH). Nastavte **Obdobie DPH prijatých dokladov** na *Dátum zdaniteľného
+plnenia* a druhý riadok tabuľky sa zmení:
+
+| Doklad | Obdobie |
+|---|---|
+| Dodávateľská faktúra, dobropis od dodávateľa, príjmový doklad | *Deklarované obdobie DPH*, ak je vyplnené; inak dátum zdaniteľného plnenia; inak dátum účtovania |
+
+*Dátum zdaniteľného plnenia* na dodávateľskej faktúre potom určuje obdobie DPH
+v daňovom priznaní aj v kontrolnom výkaze a *Dátum dodania*, ak je vyplnený,
+je dátum dodania uvedený v kontrolnom výkaze a dátum, podľa ktorého sa určí
+sadzba dane. Daňový doklad k prijatej platbe si pre oboje ponecháva dátum
+zdaniteľného plnenia (deň zaplatenia preddavku). Odberateľských dokladov sa
+nastavenie netýka. Preúčtovanie DPH nižšie sa naďalej riadi len poľom
+*Deklarované obdobie DPH*.
 
 ### Preúčtovanie DPH {#vat-deferral}
 

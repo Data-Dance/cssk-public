@@ -1,0 +1,392 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_cssk_inventory_verification_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-23 23:48+0000\n"
+"PO-Revision-Date: 2026-11-23 23:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%(entry)s books inventory differences of %(date)s, which lies in a locked period (%(locks)s). Posted now it would be moved into another accounting period. Unlock the period first."
+msgstr "%(entry)s účtuje inventarizačné rozdiely k %(date)s, čo je v uzamknutom období (%(locks)s). Pri zaúčtovaní by sa teraz presunul do iného účtovného obdobia. Najprv obdobie odomknite."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid ""
+"%(name)s: choose both accounts on:\n"
+"%(lines)s"
+msgstr ""
+"%(name)s: zvoľte oba účty na riadkoch:\n"
+"%(lines)s"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid ""
+"%(name)s: the account and its counterpart are the same on:\n"
+"%(lines)s"
+msgstr ""
+"%(name)s: účet a súvzťažný účet sú rovnaké na riadkoch:\n"
+"%(lines)s"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%(name)s: the differences belong to %(date)s, which lies in a locked period (%(locks)s). Unlock the period first: booked later, they would fall into another accounting period."
+msgstr "%(name)s: rozdiely patria k %(date)s, čo je v uzamknutom období (%(locks)s). Najprv obdobie odomknite: zaúčtované neskôr by pripadli do iného účtovného obdobia."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid ""
+"%(name)s: these count sheets have a difference that is neither settled in full nor marked as not booked here:\n"
+"%(sheets)s"
+msgstr ""
+"%(name)s: tieto súpisy majú rozdiel, ktorý nie je celý vyúčtovaný ani označený ako neúčtovaný:\n"
+"%(sheets)s"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%s: choose the journal the differences are booked in."
+msgstr "%s: zvoľte denník, v ktorom sa rozdiely účtujú."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%s: differences are booked once the inventory verification has started."
+msgstr "%s: rozdiely sa účtujú až po začatí inventarizácie."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%s: say why the difference is not booked here."
+msgstr "%s: uveďte, prečo sa rozdiel tu neúčtuje."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%s: the amount of a difference must be positive; the kind says whether it is a shortage or a surplus."
+msgstr "%s: suma rozdielu musí byť kladná; či ide o manko alebo prebytok, určuje druh."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%s: the day the state was verified as at is missing."
+msgstr "%s: chýba deň, ku ktorému sa stav overuje."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%s: the difference is marked as not booked here, so it takes no settlement lines."
+msgstr "%s: rozdiel je označený ako neúčtovaný, preto nemôže mať riadky vyúčtovania."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%s: the difference is marked as not booked here, yet it has settlement lines. Remove one or the other."
+msgstr "%s: rozdiel je označený ako neúčtovaný, a predsa má riadky vyúčtovania. Jedno alebo druhé odstráňte."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "%s: there is no difference left to book."
+msgstr "%s: nezostáva žiadny rozdiel na zaúčtovanie."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "A journal entry was already created from this difference. Cancel the booking of the differences first."
+msgstr "Z tohto rozdielu už vznikol účtovný zápis. Najprv zrušte zaúčtovanie rozdielov."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__account_id
+msgid "Account"
+msgstr "Účet"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__amount
+msgid "Amount"
+msgstr "Suma"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "Booking of differences reversed: %s"
+msgstr "Zaúčtovanie rozdielov stornované: %s"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cssk_inventory_difference_line__kind__claim model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cz_inventarizacni_rozdil__kind__claim model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_sk_inventarizacny_rozdiel__kind__claim
+msgid "Claim against the liable person"
+msgstr "Náhrada od zodpovednej osoby"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__company_id model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__company_id
+msgid "Company"
+msgstr "Spoločnosť"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model,name:l10n_cssk_inventory_verification_base.model_l10n_cssk_inventory_sheet_mixin
+msgid "Count sheet whose difference is settled (abstract)"
+msgstr "Súpis s vyúčtovaním rozdielu (abstraktný)"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__counterpart_account_id
+msgid "Counterpart account"
+msgstr "Súvzťažný účet"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "Created from the differences of %s."
+msgstr "Vytvorené z rozdielov dokladu %s."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,help:l10n_cssk_inventory_verification_base.field_account_bank_statement_line__l10n_cssk_inventory_difference model:ir.model.fields,help:l10n_cssk_inventory_verification_base.field_account_move__l10n_cssk_inventory_difference
+msgid "Created from the differences of an inventory verification; it must stay in the accounting period that was verified."
+msgstr "Vytvorené z rozdielov inventarizácie; musí zostať v účtovnom období, za ktoré sa stav overoval."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__currency_id model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__currency_id model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_sheet_mixin__currency_id
+msgid "Currency"
+msgstr "Mena"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__difference_misdated
+msgid "Difference Misdated"
+msgstr "Rozdiel zaúčtovaný k inému dňu"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__difference_move_count
+msgid "Difference Move Count"
+msgstr "Počet účtovných zápisov rozdielov"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__difference_stale
+msgid "Difference Stale"
+msgstr "Zaúčtovanie nezodpovedá súpisom"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_sheet_mixin__difference_skip
+msgid "Difference not booked here"
+msgstr "Rozdiel sa tu neúčtuje"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__difference_state
+msgid "Differences"
+msgstr "Rozdiely"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "Differences booked in draft: %s"
+msgstr "Rozdiely zaúčtované v návrhu: %s"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_account_move__display_name model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__display_name model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__display_name model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_sheet_mixin__display_name
+msgid "Display Name"
+msgstr "Zobrazovaný názov"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cssk_inventory_difference_mixin__difference_state__draft model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cz_inventarizace__difference_state__draft model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_sk_inventarizacia__difference_state__draft
+msgid "Entry in draft"
+msgstr "Zápis v návrhu"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__move_state
+msgid "Entry status"
+msgstr "Stav zápisu"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,help:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__difference_move_ids
+msgid "Every entry created from the differences, including the ones taken back since and their reversals."
+msgstr "Všetky zápisy vytvorené z rozdielov vrátane tých, ktoré boli medzičasom zrušené, a ich storien."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "Fixed asset: retire or register it in the asset register as well, or the register and the ledger part."
+msgstr "Dlhodobý majetok: vyraďte alebo zaraďte ho aj v evidencii majetku, inak sa evidencia a hlavná kniha rozídu."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_account_move__id model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__id model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__id model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_sheet_mixin__id
+msgid "ID"
+msgstr "ID"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_account_bank_statement_line__l10n_cssk_inventory_difference model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_account_move__l10n_cssk_inventory_difference
+msgid "Inventory difference"
+msgstr "Inventarizačný rozdiel"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model,name:l10n_cssk_inventory_verification_base.model_l10n_cssk_inventory_difference_mixin
+msgid "Inventory verification whose differences are booked (abstract)"
+msgstr "Inventarizácia s účtovaním rozdielov (abstraktná)"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model,name:l10n_cssk_inventory_verification_base.model_account_move
+msgid "Journal Entry"
+msgstr "Účtovný zápis"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0 model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__difference_move_ids
+msgid "Journal entries of differences"
+msgstr "Účtovné zápisy rozdielov"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__move_id
+msgid "Journal entry"
+msgstr "Účtovný zápis"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_mixin__difference_journal_id
+msgid "Journal for differences"
+msgstr "Denník pre rozdiely"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__kind
+msgid "Kind"
+msgstr "Druh"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__name
+msgid "Label"
+msgstr "Popis"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cssk_inventory_difference_line__kind__natural_loss model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cz_inventarizacni_rozdil__kind__natural_loss model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_sk_inventarizacny_rozdiel__kind__natural_loss
+msgid "Loss within the norm"
+msgstr "Úbytok do normy"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cssk_inventory_difference_mixin__difference_state__none model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cz_inventarizace__difference_state__none model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_sk_inventarizacia__difference_state__none
+msgid "No differences"
+msgstr "Bez rozdielov"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "Odoo Inventory values stock on this account: adjust the quantity there instead, or the difference is booked twice."
+msgstr "Na tomto účte oceňuje zásoby modul Sklad: množstvo upravte tam, inak sa rozdiel zaúčtuje dvakrát."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__partner_id
+msgid "Partner"
+msgstr "Partner"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cssk_inventory_difference_mixin__difference_state__posted model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cz_inventarizace__difference_state__posted model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_sk_inventarizacia__difference_state__posted
+msgid "Posted"
+msgstr "Zaúčtované"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cssk_inventory_difference_mixin__difference_state__ready model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cz_inventarizace__difference_state__ready model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_sk_inventarizacia__difference_state__ready
+msgid "Ready to book"
+msgstr "Pripravené na zaúčtovanie"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_sheet_mixin__difference_skip_reason
+msgid "Reason"
+msgstr "Dôvod"
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "Reversal of %(entry)s (%(inventory)s reopened)"
+msgstr "Storno zápisu %(entry)s (%(inventory)s znova otvorená)"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__sequence
+msgid "Sequence"
+msgstr "Poradie"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_sheet_mixin__difference_settled
+msgid "Settled"
+msgstr "Vyúčtované"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model,name:l10n_cssk_inventory_verification_base.model_l10n_cssk_inventory_difference_line
+msgid "Settlement of an inventory difference (abstract)"
+msgstr "Vyúčtovanie inventarizačného rozdielu (abstraktné)"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cssk_inventory_difference_line__kind__shortage model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cz_inventarizacni_rozdil__kind__shortage model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_sk_inventarizacny_rozdiel__kind__shortage
+msgid "Shortage"
+msgstr "Manko / schodok"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,help:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__kind
+msgid "Shortage and loss within the norm lower the actual state below the books; a surplus raises it. The three together must explain the whole difference of the count sheet. A claim explains none of it: it books what the liable person is asked to pay."
+msgstr "Manko a úbytok do normy znižujú skutočný stav pod účtovný; prebytok ho zvyšuje. Spolu musia vysvetliť celý rozdiel súpisu. Náhrada z neho nevysvetľuje nič: účtuje, čo sa požaduje od zodpovednej osoby."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_sheet_mixin__difference_residual
+msgid "Still to settle"
+msgstr "Zostáva vyúčtovať"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cssk_inventory_difference_line__kind__surplus model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cz_inventarizacni_rozdil__kind__surplus model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_sk_inventarizacny_rozdiel__kind__surplus
+msgid "Surplus"
+msgstr "Prebytok"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,help:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__account_id
+msgid "The account the difference sits on: the asset or liability counted on the sheet, or, for a claim, the receivable from the liable person."
+msgstr "Účet, na ktorom rozdiel vznikol: majetok alebo záväzok zo súpisu, pri náhrade pohľadávka voči zodpovednej osobe."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "The count sheet %s belongs to another inventory verification."
+msgstr "Súpis %s patrí k inej inventarizácii."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,help:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_sheet_mixin__difference_skip
+msgid "The difference of this sheet is settled elsewhere — in the asset register, by an adjustment in Odoo Inventory, by a document of its own — or needs no entry. State the reason; it is printed in the closing record."
+msgstr "Rozdiel tohto súpisu sa vysporiada inde — v evidencii majetku, úpravou v module Sklad, vlastným dokladom — alebo zápis nepotrebuje. Uveďte dôvod; vytlačí sa v inventarizačnom zápise."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,help:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__counterpart_account_id
+msgid "The expense or income account the difference is booked against. Proposed from the kind and the account; change it where your chart or your case differs."
+msgstr "Nákladový alebo výnosový účet, oproti ktorému sa rozdiel účtuje. Navrhne sa podľa druhu a účtu; zmeňte ho, ak sa vaša osnova alebo váš prípad líši."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,help:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_sheet_mixin__difference_residual
+msgid "The part of the difference no settlement line explains yet."
+msgstr "Časť rozdielu, ktorú zatiaľ nevysvetľuje žiadny riadok vyúčtovania."
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cssk_inventory_difference_mixin__difference_state__to_settle model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_cz_inventarizace__difference_state__to_settle model:ir.model.fields.selection,name:l10n_cssk_inventory_verification_base.selection__l10n_sk_inventarizacia__difference_state__to_settle
+msgid "To settle"
+msgstr "Na vyúčtovanie"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,field_description:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__warning
+msgid "Warning"
+msgstr "Upozornenie"
+
+#. module: l10n_cssk_inventory_verification_base
+#: model:ir.model.fields,help:l10n_cssk_inventory_verification_base.field_l10n_cssk_inventory_difference_line__partner_id
+msgid "Written on both items of the entry: the liable person of a claim or of a cash shortage, or the partner of a receivable or payable."
+msgstr "Zapíše sa na obe položky zápisu: zodpovedná osoba pri náhrade alebo schodku, alebo partner pohľadávky či záväzku."
+
+#. module: l10n_cssk_inventory_verification_base
+#. odoo-python
+#: code:addons/l10n_cssk_inventory_verification_base/models/inventory_difference.py:0
+msgid "id"
+msgstr ""

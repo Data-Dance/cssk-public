@@ -1,7 +1,7 @@
 ---
 title: Kontrolný výkaz DPH (KV DPH)
 summary: Slovenský kontrolný výkaz DPH — oddiely A.1 až D.2 vypočítané z účtovníctva, skontrolované podľa požiadaviek tlačiva a exportované ako XML Finančnej správy vo vzore platnom pre dané obdobie.
-verified: 19.0.2.11.0
+verified: 19.0.2.12.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -153,7 +153,10 @@ DPH. Dodanie odberateľovi z EÚ, pri ktorom sa účtuje slovenská DPH —
 typicky súkromnej osobe —, je tuzemské plnenie a uvedie sa v A.1 alebo D.2.
 
 **Dátumy a sumy.** Deň dodania (*Den*) je *Dátum zdaniteľného plnenia*, inak
-dátum faktúry; pri dani splatnej až platbou dátum platby. Odpočítaná daň v
+dátum faktúry; pri dani splatnej až platbou dátum platby. Pri prijatom doklade
+spoločnosti, ktorá má nastavenie *Obdobie DPH prijatých dokladov* na *Dátum
+zdaniteľného plnenia*, je to *Dátum dodania*, ak je vyplnený, lebo dátum
+zdaniteľného plnenia vtedy určuje obdobie. Odpočítaná daň v
 B.1, B.2, C.2 a B.3 je tá časť dane, ktorú jej rozúčtovanie posiela na účet
 DPH: daň pri vozidle s odpočtom 50 % vykáže polovicu. Koeficient podľa § 50
 sa zohľadní rovnako, ale len ak je nastavený v rozúčtovaní dane.

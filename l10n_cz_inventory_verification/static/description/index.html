@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_inventory_verification/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ Inventory Verification (inventarizace)</h1>
 <p class="cssk-summary">The Czech inventory verification as records — the inventarizace, its inventurní soupisy with every particular § 30 odst. 7 of the Accounting Act prescribes, and an internal closing record comparing them with the books.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_cz</code></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_cz</code>, <a href="/l10n_cssk_inventory_verification_base/static/description/index.html"><code>l10n_cssk_inventory_verification_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Czech accounting entity must establish the actual state of all its assets
@@ -46,9 +46,10 @@ exercise, any number of inventurní soupisy under it, and a closing record —
 the <strong>inventarizační zápis</strong> — on the inventarizace itself. For an account
 verified from documents, the book balance is read from the general ledger.
 Both records print as PDF.</p>
-<p>It records and evidences the exercise. It does <strong>not</strong> post inventory
-differences: manka, schodky, přebytky, opravné položky and the like follow
-from it and are entered by the accountant.</p>
+<p>It also books the inventarizační rozdíly — manka, schodky and přebytky — as
+draft journal entries dated in the period verified, linked to the
+inventarizace. Opravné položky and other valuation adjustments stay with the
+accountant.</p>
 <p>The statutory field names and the printouts are in Czech, because they are the
 statute's own terms. This page quotes them as they appear.</p>
 <h2 id="legal">Legal background</h2>
@@ -180,6 +181,79 @@ the records of those movements with the soupis.</p>
 out <strong>negative</strong>: a supplier balance of 500 on account 321 reads −500. Enter
 the confirmed amounts of such an account with a negative unit price (for
 example, quantity 1, price −500) so that <em>Difference</em> compares like with like.</p>
+<h2 id="differences">Booking the differences</h2>
+<p>The tab <strong>Inventarizační rozdíly (§ 30 odst. 10 a 11)</strong> turns the differences of the soupisy into journal entries.</p>
+<ol>
+<li><strong>Give each soupis its account.</strong> <em>Account</em> on a soupis is the account the counted assets are kept on (211 for a cash desk, 132 for goods). On a dokladová inventura it is already there; on a fyzická inventura fill it in, because the proposal starts from it.</li>
+<li>Click <strong>Propose the settlement of differences</strong>. For every soupis whose difference is not explained yet, one line appears: <em>Shortage</em> (manko, schodek) when the actual state is lower than the books, <em>Surplus</em> (přebytek) when it is higher, for the whole amount, with the accounts proposed (see the table below). A difference you can prove from accounting records is not an inventarizační rozdíl at all (§ 30 odst. 10): correct it by its own document and mark the soupis as in step 4.</li>
+<li><strong>Adjust the lines.</strong> Split a manko into the part within your norm of natural loss (<em>Loss within the norm</em>) and the part above it. Add a <em>Claim against the liable person</em> for what that person is asked to pay, and fill <em>Partner</em>. Change either account where your chart or your case differs. The amounts are always positive: the kind carries the direction. <em>Still to settle</em> on each soupis shows what the lines do not explain yet.</li>
+<li><strong>A difference that is not booked from here</strong> (a fixed asset retired in the asset register, stock adjusted in Odoo Inventory, a difference proven by a document): tick <em>Difference not booked here</em> on the soupis and state the reason. The reason is printed in the inventarizační zápis.</li>
+<li>Click <strong>Book the differences</strong>. It is offered once every difference is either explained in full or marked as not booked here. The journal entry is created <strong>in draft</strong>, in the <em>Journal for differences</em> (the first miscellaneous journal unless you choose another), with the number of the inventarizace as its reference. Its date is the <em>Ocenění ke dni</em> of the soupis: the rozvahový den of a periodická inventarizace, the day the inventura ended for a průběžná one — so a průběžná inventarizace with soupisy ended on different days gets one entry per day. The accountant reviews and posts the entries in Accounting; the button <em>Journal entries</em> at the top opens them.</li>
+</ol>
+<p>The status <em>Differences</em> in the summary reads <em>To settle</em>, <em>Ready to book</em>, <em>Entry in draft</em> or <em>Posted</em>.</p>
+<h3 id="difference-accounts">Proposed accounts</h3>
+<p>The proposals follow Český účetní standard pro podnikatele č. 007 and <a href="https://e-sbirka.gov.cz/sb/2002/500">vyhláška č. 500/2002 Sb.</a> Both prescribe account groups only; the three-digit accounts are the customary ones of the chart. They are proposals: both accounts stay editable.</p>
+<table>
+<thead>
+<tr>
+<th>Soupis kept on</th>
+<th>Manko / schodek</th>
+<th>Loss within the norm</th>
+<th>Přebytek</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>211, 213 (cash, ceniny)</td>
+<td>569 / 21x (ČÚS 007 bod 3.1, § 34 of the vyhláška)</td>
+<td>—</td>
+<td>21x / 668</td>
+</tr>
+<tr>
+<td>112, 132 and the other accounts of groups 11 and 13</td>
+<td>549 / 1xx (bod 3.2.1)</td>
+<td>501 / 11x, 504 / 13x</td>
+<td>1xx / 648</td>
+</tr>
+<tr>
+<td>121–124 (zásoby vlastní činnosti)</td>
+<td>549 / 12x (bod 3.2.2)</td>
+<td>58x / 12x</td>
+<td>12x / 58x</td>
+</tr>
+<tr>
+<td>01x, 02x (depreciated fixed assets)</td>
+<td>none proposed</td>
+<td>—</td>
+<td>0xx / 07x, 08x — against the oprávky (bod 3.5 písm. b))</td>
+</tr>
+<tr>
+<td>03x (fixed assets not depreciated)</td>
+<td>549 / 03x (bod 3.6)</td>
+<td>—</td>
+<td>03x / 413</td>
+</tr>
+<tr>
+<td>anything else (receivables, payables, equity)</td>
+<td>none proposed</td>
+<td>—</td>
+<td>none proposed</td>
+</tr>
+</tbody>
+</table>
+<p>A <em>Claim against the liable person</em> proposes 378 / 648 (ČÚS 007 bod 3.7, ČÚS 017 bod 3.10.4), and 378 / 668 when the soupis is cash or ceniny (§ 33 of the vyhláška). For an employee, group 33 (335) is equally common; change the account if that is your practice.</p>
+<p>Where nothing is proposed, the entry is refused until you choose the counterpart yourself. Three cases need more than this entry:</p>
+<ul>
+<li><strong>Fixed assets.</strong> A manko of a depreciated asset takes the zůstatková cena through the oprávky and the asset is retired (bod 3.5 písm. a)); a přebytek is valued at reprodukční pořizovací cena and must be registered. Do both in the asset register and mark the soupis as not booked here; a line on a class 0 account carries a warning.</li>
+<li><strong>Stock valued by Odoo Inventory.</strong> If Odoo keeps the stock account by itself, correct the quantity in Inventory, which books the difference. A line on such an account carries a warning, because the difference would otherwise be booked twice.</li>
+<li><strong>Mutual set-off.</strong> Manka and přebytky caused by a provably unintentional mix-up of kinds may be set off (bod 3.4); enter the net amounts on the soupis.</li>
+</ul>
+<p>A přebytek of purchased stock that is reasonably put down to a wrongly booked issue is credited to group 50 instead of 648 (bod 3.1 písm. c)); change the counterpart.</p>
+<p>The entry carries no VAT and no income-tax adjustment. A manko above the compensation is not a tax expense (<a href="https://e-sbirka.gov.cz/sb/1992/586">§ 25 odst. 1 písm. n)</a> of the Income Tax Act), and the VAT deduction on lost or stolen assets that is not properly documented is adjusted under <a href="https://e-sbirka.gov.cz/sb/2004/235">§ 77 and § 78e</a> of the VAT Act; both remain with the accountant.</p>
+<h3 id="difference-reversal">Taking the booking back</h3>
+<p><strong>Cancel the booking of differences</strong> deletes an entry while it is still a draft and reverses it once posted. The reversal is dated the same day as the entry, so it stays in the period verified. <strong>Back to draft</strong> on the inventarizace does the same before it reopens the document, because the soupisy are about to change. The settlement lines stay and can be booked again.</p>
+<p>Lines from which an entry was created cannot be changed or deleted until the booking is taken back, and neither can their soupis or the inventarizace. If a soupis changes after the booking, a warning at the top says the booked amounts no longer match.</p>
+<p><strong>Locked periods.</strong> Differences belong to the period verified (<a href="https://e-sbirka.gov.cz/sb/1991/563">§ 30 odst. 11</a>). Odoo by itself moves an entry dated in a locked period to the first open day when it is posted. For these entries the module refuses instead: creating, posting and reversing all stop with a message until the period is unlocked.</p>
 <h2 id="reports">Printouts</h2>
 <p><strong>Print inventurní soupisy</strong> at the top of the inventarizace prints its
 soupisy, one per page: the entity's name, seat and IČO, the kind of
@@ -218,18 +292,21 @@ podpisový záznam that meets § 33a of the Act yourself.</p>
   recalculation or refresh replaces it.</li>
 <li>On a fyzická inventura nothing is read from Odoo Inventory or the asset
   register; the book state is typed.</li>
-<li>A difference is shown as a number. Whether it is a manko, a schodek or a
-  přebytek — or no inventarizační rozdíl at all, because it can be proven —
-  is for the accountant to state in the closing record.</li>
+<li>Whether a difference is an inventarizační rozdíl at all, or one that can
+  be proven from the records, is for the accountant to decide; the proposal
+  treats every difference as one.</li>
 <li>A closed inventarizace stays editable — <em>Done</em> locks nothing.</li>
-<li>No differences are posted; manka, přebytky and valuation adjustments are
-  entered by the accountant. For stock, the Czech accounting standard for
-  businesses No. 007 deals with inventory differences and losses within the
-  norms of natural loss.</li>
+<li>Valuation adjustments (opravné položky, § 25 odst. 3) are not booked; the
+  accountant enters them.</li>
+<li>The booking of differences does not retire or register fixed assets, does
+  not adjust quantities in Odoo Inventory, and books no VAT; see
+  <a href="#differences">Booking the differences</a>.</li>
+<li>The entries of differences are in the company currency only, and closing
+  the inventarizace does not require the differences to be booked.</li>
 <li>The rules of vyhláška č. 270/2010 Sb. for vybrané účetní jednotky (plán
   inventur, inventarizační komise, inventarizační zpráva) are not implemented.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

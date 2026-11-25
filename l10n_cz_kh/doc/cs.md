@@ -1,7 +1,7 @@
 ---
 title: Kontrolní hlášení DPH (DPHKH1)
 summary: České kontrolní hlášení (DPHKH1) — oddíly A.1 až B.3 vypočtené z účetnictví s hranicí 10 000 Kč, zkontrolované podle požadavků formuláře a exportované jako XML pro EPO v aktuální struktuře pro jakékoli období.
-verified: 19.0.1.10.2
+verified: 19.0.1.12.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -136,7 +136,10 @@ Hranice 10 000 Kč se měří na **celém** dokladu včetně daně; řádky bez 
 neuvádějí, ale do hranice se započítají. Řádek bez DPH se do A.4/A.5 ani
 B.2/B.3 nikdy neuvede.
 
-Uvádí se *DUZP* dokladu, jinak datum faktury. Příznak opravy u nedobytné
+Uvádí se *DUZP* dokladu, jinak datum faktury. Vede-li společnost období DPH
+přijatých dokladů podle data uskutečnění plnění (*Období DPH přijatých
+dokladů* v modulu [module:l10n_cssk_core](module:l10n_cssk_core)), je datem
+přijatého dokladu datum jeho dodání. Příznak opravy u nedobytné
 pohledávky (`zdph_44`) se bere z pole dokladu *Oprava u nedobytné
 pohledávky* (`P`, nebo `A` pro § 44 ve znění do 31. 3. 2019).
 
@@ -184,10 +187,15 @@ Odeslání souboru na EPO přímo z Odoo popisuje [module:l10n_cz_epo](module:l1
   z jiného členského státu se uvede v A.2, i když dodavatel účtoval českou
   DPH. Je-li dodavatel registrován v tuzemsku, zaúčtujte doklad na kontakt,
   jehož DIČ je jeho české DIČ, a doklad se uvede v B.2.
-- **Pevné hodnoty.** Zvláštní režimy pro cestovní službu a použité zboží
-  (`kod_rezim_pl`) se nikdy neuvádějí — každý řádek A.4 se zapíše jako běžné
-  plnění — a poměrný nárok na odpočet podle § 75 (`pomer`) se vždy zapíše
-  jako *N*.
+- **Pevná hodnota.** Zvláštní režimy pro cestovní službu a použité zboží
+  (`kod_rezim_pl`) se nikdy neuvádějí: každý řádek A.4 se zapíše jako běžné
+  plnění.
+- **Poměrný odpočet (§ 75).** Řádek B.2 se zapíše s údajem *Použit poměr*
+  = A, pokud má některá daň na faktuře zaškrtnuto *Poměrný odpočet (§ 75)*
+  (*Účetnictví → Konfigurace → Daně*, u nákupní daně), jinak N; příznak lze
+  opravit na ručně upraveném řádku. Jeden doklad je jeden řádek, takže
+  faktura s poměrným i plným odpočtem se označí celá. Zaškrtnutí nastavuje
+  jen příznak: částky jsou ty, které daň účtuje.
 - Pravidla zařazení jsou nejlepším možným odhadem; zejména číselník kódů
   podle § 92a a opravy u nedobytných pohledávek ještě musí potvrdit český
   účetní. Každé hlášení před podáním zkontrolujte.

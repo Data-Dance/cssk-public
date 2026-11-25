@@ -73,10 +73,10 @@ class AccountMove(models.Model):
         The VAT-account line carries the r29 tag so the DPH return picks it up.
         Correction: credit input-VAT account, debit the cost account → r29 +,
         scaled by the *unpaid* fraction (only the unpaid share is corrected).
-        Re-claim (§ 53b ods. 4, after payment): the mirror → r29 −, based on
-        the posted corrections' VAT × the bill's *paid* fraction, minus what
-        was already re-claimed — cumulative re-claims can never exceed what
-        the corrections un-deducted.
+        Re-claim (§ 53b ods. 4, after payment): the mirror → r29 −, the
+        posted corrections' VAT less the VAT of what is still unpaid, minus
+        what was already re-claimed — cumulative re-claims can never exceed
+        what the corrections un-deducted.
         """
         self.ensure_one()
         currency = self.company_id.currency_id
@@ -84,7 +84,13 @@ class AccountMove(models.Model):
         if reclaim:
             corrected = self._par53b_posted_53b_vat(reclaim=False)
             reclaimed = self._par53b_posted_53b_vat(reclaim=True)
-            target = min(corrected, corrected * self._par53b_paid_fraction())
+            # ods. 4 písm. a): "vo výške zodpovedajúcej sume protihodnoty,
+            # ktorá bola zaplatená". What may be back is the corrected tax
+            # less the tax of what is still unpaid. Scaling the correction
+            # by the paid share of the whole bill counted the part paid
+            # BEFORE the correction, which the correction never touched.
+            still_owed = vat * self._par53b_unpaid_fraction()
+            target = corrected - min(still_owed, corrected)
             vat = currency.round(target - reclaimed)
             if vat <= 0:
                 raise UserError(_(

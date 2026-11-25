@@ -860,6 +860,71 @@ class TestSkKvDphCompute(AccountTestInvoicingCommon):
         self.assertAlmostEqual(b2.tax_amount, 500.0 * self.rate_p / 100.0, 2)
 
     # ------------------------------------------------------------------
+    # Books locked early: the bill's period is its taxable supply date
+    # ------------------------------------------------------------------
+    def _late_bill(self):
+        """Delivered 15 June, booked 3 July after the June books were locked,
+        its deduction pointed at June through the taxable supply date."""
+        bill = self.env["account.move"].create({
+            "move_type": "in_invoice", "partner_id": self.partner_a.id,
+            "invoice_date": "2026-07-03", "date": "2026-07-03",
+            "ref": "LATE-1",
+            "taxable_supply_date": "2026-06-30",
+            "delivery_date": "2026-06-15",
+            "invoice_line_ids": [(0, 0, {
+                "name": "x", "quantity": 1, "price_unit": 500.0,
+                "tax_ids": [(6, 0, self.tax_purchase.ids)]})],
+        })
+        bill.action_post()
+        return bill
+
+    def test_by_tax_point_a_late_bill_is_in_b2_of_the_period_it_names(self):
+        self.company.cssk_vat_claim_period_basis = "tax_point"
+        bill = self._late_bill()
+        st = self._make_statement()
+        st.action_compute_lines()
+        b2 = st.sk_section_b2_ids
+        self.assertEqual(b2.move_line_id.move_id, bill)
+        # Dátum dodania is the delivery, not the date that names the period.
+        self.assertEqual(str(b2.supply_date), "2026-06-15")
+
+    def test_by_tax_point_without_a_delivery_date_the_tax_point_is_printed(self):
+        self.company.cssk_vat_claim_period_basis = "tax_point"
+        bill = self._late_bill()
+        bill.delivery_date = False
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertEqual(str(st.sk_section_b2_ids.supply_date), "2026-06-30")
+
+    def test_by_accounting_date_the_late_bill_waits_for_july(self):
+        """The default: nothing about the bill reaches June, and where it is
+        reported its date of supply is the tax point as it always was."""
+        bill = self._late_bill()
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertFalse(st.sk_section_b2_ids)
+        self.assertEqual(str(bill._cssk_supply_date()), "2026-06-30")
+
+    def test_by_tax_point_a_customer_invoice_keeps_its_tax_point(self):
+        """Only received documents read the delivery date: on an issued one
+        the taxable supply date is the supply, and on an advance it is the
+        day the advance was paid."""
+        self.company.cssk_vat_claim_period_basis = "tax_point"
+        out = self.env["account.move"].create({
+            "move_type": "out_invoice", "partner_id": self.partner_a.id,
+            "invoice_date": "2026-06-20",
+            "taxable_supply_date": "2026-06-18",
+            "delivery_date": "2026-06-25",
+            "invoice_line_ids": [(0, 0, {
+                "name": "x", "quantity": 1, "price_unit": 1000.0,
+                "tax_ids": [(6, 0, self.tax_sale.ids)]})],
+        })
+        out.action_post()
+        st = self._make_statement()
+        st.action_compute_lines()
+        self.assertEqual(str(st.sk_section_a1_ids.supply_date), "2026-06-18")
+
+    # ------------------------------------------------------------------
     # Odpočítaná daň (O / OR) — the field the XML files
     # ------------------------------------------------------------------
     def test_a_received_row_states_the_deduction_it_files(self):

@@ -8,6 +8,20 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.4.5] — 2026-11-24
+-------------------------
+
+Fixed
+~~~~~
+
+- **The cross-check buttons are shown on Slovak filings only**, and their
+  actions refuse another country's filing. The three forms are shared with
+  the Czech suite; in a database with a Slovak and a Czech company the
+  buttons were on the Czech filings too and compared them with the Slovak
+  row map.
+- A test of the KV ↔ priznanie comparison read the statement types from the
+  form version, where they no longer are, and could not run.
+
 Changed
 ~~~~~~~
 

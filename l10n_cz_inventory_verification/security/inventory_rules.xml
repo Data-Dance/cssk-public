@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 Data Dance s.r.o. -->
+<odoo noupdate="1">
+    <!-- The records carry a company and book into its ledger; a user sees
+         those of the companies they are working in, like the entries. -->
+    <record id="rule_inventarizace_company" model="ir.rule">
+        <field name="name">Inventarizace: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_inventarizace"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_soupis_company" model="ir.rule">
+        <field name="name">Inventurní soupis: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_inventurni_soupis"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <record id="rule_rozdil_company" model="ir.rule">
+        <field name="name">Vyúčtování inventarizačního rozdílu: multi-company</field>
+        <field name="model_id" ref="model_l10n_cz_inventarizacni_rozdil"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+</odoo>

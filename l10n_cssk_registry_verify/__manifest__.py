@@ -6,7 +6,7 @@
     "license": "AGPL-3",
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "summary": """
 Answer whether an IČO exists in the state register, and say so in a way a gate can act on
     """,
@@ -33,7 +33,9 @@ It returns a dict whose ``outcome`` is one of:
     The register answered, and holds no such subject.
 ``verified``
     The register answered with the company. ``name``, address, ``tax_id``,
-    ``vat`` and ``active`` carry what it said.
+    ``vat`` and ``active`` carry what it said; ``legal_form`` and
+    ``natural_person`` say whether it is a company at all, since a sole
+    trader holds an IČO too.
 ``unavailable``
     We could not ask. Outage, timeout or rate limit.
 

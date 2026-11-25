@@ -14,6 +14,24 @@ class ResCompany(models.Model):
         "date, so the VAT accounts (343) agree with the return of every "
         "period. Leave empty to keep the tax where it was booked.",
     )
+    cssk_vat_claim_period_basis = fields.Selection(
+        [("accounting_date", "Accounting date"),
+         ("tax_point", "Taxable supply date")],
+        string="VAT period of received documents",
+        default="accounting_date", required=True,
+        help="Which date puts a vendor bill, refund or receipt into a VAT "
+        "period on the VAT return and the control statement.\n\n"
+        "Accounting date: the deduction is reported in the period the "
+        "document is booked.\n\n"
+        "Taxable supply date: the document's Taxable Supply Date names the "
+        "period, whatever its accounting date. For books that are locked "
+        "early, where a bill arriving after the lock is booked in the open "
+        "period and its VAT still belongs to the closed one. The Delivery "
+        "Date, where filled in, is then the date of supply printed on the "
+        "control statement and the date that decides the VAT rate.\n\n"
+        "A 'VAT period declared' date on the document wins over both. "
+        "Customer invoices always follow their taxable supply date.",
+    )
     # The code of the fiscal country as a plain value, for the two domains
     # below. A domain string is evaluated in the browser, where a many2one is
     # only its id: ``account_fiscal_country_id.code`` evaluates to nothing

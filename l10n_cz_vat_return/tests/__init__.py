@@ -7,3 +7,4 @@ from . import test_cz_bad_debt
 from . import test_cz_asset_acquisition
 from . import test_row_names
 from . import test_cz_triangular
+from . import test_cz_par74b

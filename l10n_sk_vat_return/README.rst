@@ -199,7 +199,7 @@ A debit note from a supplier corrects a deduction you have already claimed, so i
 
 It lists posted vendor bills, unpaid or partly paid, whose due date is at least that many days before the date, that deducted tax and have not been corrected yet. **Vygenerovať opravy** posts one entry per bill: the deducted tax times the unpaid share, credited to the input-VAT account with the row 29 tag and debited to the chosen account. Row ``r29`` of the return picks it up.
 
-Once a corrected bill is paid (fully or in part), the bill shows the button **Znovu uplatniť odpočet (§ 53b ods. 4)**: it posts the mirror entry for the paid share, dated today, never more than was corrected. The bill's *Other Info* tab shows its *Stav § 53b* and the correction entries.
+Once a corrected bill is paid (fully or in part), the bill shows the button **Znovu uplatniť odpočet (§ 53b ods. 4)**: it posts the mirror entry for the tax of what was paid since the correction, dated today, never more than was corrected. Until version 19.0.1.16.2 a bill partly paid before its correction was given back too much; check such bills. The bill's *Other Info* tab shows its *Stav § 53b* and the correction entries.
 
 Historical rates
 ==================
@@ -240,7 +240,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_vat_return``
-- **Version:** 19.0.1.16.1
+- **Version:** 19.0.1.16.2
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_vat_return_base``, ``l10n_sk``, ``l10n_sk_statutory``

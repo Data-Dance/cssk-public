@@ -20,7 +20,7 @@ taken out of a point-of-sale drawer is left alone.
 
 from datetime import timedelta
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 CASH_PAYMENT_LIMIT = 5000.0
 PAID_STATES = ("in_process", "paid")
@@ -39,7 +39,9 @@ def _limit_warning(env, company, currency, amount, day, earlier_total):
     total = value + earlier_total
     if company.currency_id.compare_amounts(total, CASH_PAYMENT_LIMIT) <= 0:
         return False
-    return _(
+    # ``env._``: a module-level function has no ``self`` for ``_`` to read
+    # the language from, so the warning was English for everybody.
+    return env._(
         "Cash payments for this document total %(total).2f €, above the "
         "5 000 € limit of § 4 zákona č. 394/2012 Z. z. Parts of one payment "
         "are added together (§ 6 ods. 2). Check that an exemption under § 8 "

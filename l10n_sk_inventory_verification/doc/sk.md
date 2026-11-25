@@ -1,7 +1,7 @@
 ---
 title: SK Inventarizácia — inventúrny súpis a inventarizačný zápis
 summary: Inventarizácia podľa zákona o účtovníctve ako záznamy v Odoo — tri dni inventúry, inventúrne súpisy s množstvom a cenou a inventarizačný zápis s porovnaním so stavom v účtovníctve.
-verified: 19.0.1.1.2
+verified: 19.0.1.2.0
 ---
 
 ## Na čo slúži {#purpose}
@@ -17,9 +17,11 @@ Modul tieto záznamy vedie v Odoo: jeden doklad inventarizácie, pod ním
 inventarizačného zápisu. Pri dokladovej inventúre účtu načíta účtovný stav z
 hlavnej knihy. Oba záznamy sa tlačia do PDF.
 
-Inventarizáciu eviduje a preukazuje, inventarizačné rozdiely však
-**nezaúčtuje**: manká, prebytky, opravné položky a podobne vyplývajú zo zápisu
-a zaúčtuje ich účtovník.
+Zaúčtuje aj inventarizačné rozdiely — manká, schodky a prebytky — ako účtovný
+zápis v návrhu s dátumom v overovanom období, prepojený s inventarizáciou.
+Opravné položky a iné úpravy ocenenia nie sú inventarizačnými rozdielmi
+([§ 30 ods. 6](law:sk/2002/431#paragraf-30.odsek-6)) a zostávajú na
+účtovníkovi.
 
 ## Právny rámec {#legal}
 
@@ -86,6 +88,8 @@ môžu inventarizácie vytvárať a upravovať, mazať ich môže len správca
    - *Názov* a *Druh inventarizácie*: **Fyzická inventúra** alebo
      **Dokladová inventúra**;
    - *Účet* — pri dokladovej inventúre účet, ktorého zostatok sa overuje;
+     pri fyzickej inventúre účet, na ktorom sa majetok vedie (použije sa pri
+     zaúčtovaní rozdielu);
    - *Miesto uloženia majetku*, *Hmotne zodpovedná osoba* (kontakt) a
      *Skutočný stav zistil* (používateľ).
 3. **Zadajte položky** v tom istom okne: *Popis*, prípadne *Produkt*,
@@ -118,6 +122,51 @@ môžu inventarizácie vytvárať a upravovať, mazať ich môže len správca
 imania vychádzajú **záporne**: záväzok voči dodávateľovi 500 na účte 321 sa
 zobrazí ako −500. Potvrdené sumy takého účtu zadávajte so zápornou cenou
 (napríklad množstvo 1, cena −500), aby *Rozdiel* porovnával porovnateľné.
+
+## Zaúčtovanie inventarizačných rozdielov {#differences}
+
+Záložka **Inventarizačné rozdiely (§ 30 ods. 5 až 7)** premení rozdiely súpisov na účtovný zápis.
+
+1. **Každému súpisu dajte účet.** *Účet* na súpise je účet, na ktorom sa inventarizovaný majetok vedie (211 pri pokladnici, 132 pri tovare). Pri dokladovej inventúre tam už je; pri fyzickej inventúre ho doplňte, lebo návrh z neho vychádza.
+2. Kliknite na **Navrhnúť vyúčtovanie rozdielov**. Za každý súpis, ktorého rozdiel ešte nie je vysvetlený, pribudne jeden riadok: *Manko / schodok*, ak je skutočný stav nižší ako účtovný, *Prebytok*, ak je vyšší — na celú sumu a s navrhnutými účtami (pozri tabuľku nižšie).
+3. **Upravte riadky.** Manko rozdeľte na časť do vašej normy prirodzených úbytkov (*Úbytok do normy*) a časť nad ňu. Pridajte riadok *Náhrada od zodpovednej osoby* na sumu, ktorú od nej požadujete, a vyplňte *Partner*. Ktorýkoľvek účet zmeňte, ak sa vaša osnova alebo váš prípad líši. Sumy sú vždy kladné: smer určuje druh. *Zostáva vyúčtovať* na súpise ukazuje, čo riadky ešte nevysvetľujú.
+4. **Rozdiel, ktorý sa odtiaľto neúčtuje** (majetok vyradený v evidencii majetku, zásoby upravené v module Sklad, rozdiel doložený vlastným dokladom): na súpise zaškrtnite *Rozdiel sa tu neúčtuje* a uveďte dôvod. Dôvod sa vytlačí v zápise.
+5. Kliknite na **Zaúčtovať rozdiely**. Tlačidlo sa ponúkne, keď je každý rozdiel buď celý vysvetlený, alebo označený ako neúčtovaný. Vznikne jeden účtovný zápis **v návrhu**, v *Denníku pre rozdiely* (prvý interný denník, ak nezvolíte iný), s dátumom *dňa, ku ktorému bola inventúra vykonaná*, a s číslom inventarizácie ako referenciou. Účtovník ho skontroluje a zaúčtuje v Účtovníctve; otvorí ho tlačidlo *Účtovné zápisy* hore.
+
+Stav *Rozdiely* v súhrne má hodnoty *Na vyúčtovanie*, *Pripravené na zaúčtovanie*, *Zápis v návrhu* alebo *Zaúčtované*.
+
+### Navrhované účty {#difference-accounts}
+
+Návrhy vychádzajú z postupov účtovania v podvojnom účtovníctve ([opatrenie MF SR č. 23054/2002-92](law:sk/2002/740)). Sú to návrhy: oba účty zostávajú upraviteľné.
+
+| Súpis vedený na účte | Manko / schodok | Úbytok do normy | Prebytok |
+|---|---|---|---|
+| 211, 213 (peniaze, ceniny) | 335 / 21x — § 11 ods. 1 písm. b): schodok sa účtuje ako pohľadávka voči hmotne zodpovednej osobe, nie do nákladov | — | 21x / 668 |
+| 112, 132 a ostatné účty skupín 11 a 13 | 549 / 1xx (§ 43 ods. 2 písm. d), § 68 ods. 8) | 501 / 11x, 504 / 13x | 1xx / 648 |
+| 121 až 124 (zásoby vlastnej výroby) | 549 / 12x (§ 43 ods. 3 písm. b)) | 61x / 12x | 12x / 61x |
+| 01x, 02x (odpisovaný dlhodobý majetok) | bez návrhu | — | 0xx / 384 (§ 21 ods. 2) |
+| 03x (neodpisovaný dlhodobý majetok) | 549 / 03x | — | 03x / 648 (§ 11 ods. 4) |
+| ostatné (pohľadávky, záväzky, vlastné imanie) | bez návrhu | — | bez návrhu |
+
+*Náhrada od zodpovednej osoby* navrhuje 378 / 648 (§ 55 ods. 9 písm. a)).
+
+Kde sa nič nenavrhne, zápis sa nevytvorí, kým súvzťažný účet nezvolíte sami. Tri prípady potrebujú viac než tento zápis:
+
+- **Dlhodobý majetok.** Pri manku odpisovaného majetku sa zostatková cena účtuje cez oprávky (§ 36 ods. 4 písm. e)) a novo zistený majetok treba zaradiť v reálnej hodnote. Oboje urobte v evidencii majetku a súpis označte ako neúčtovaný; riadok na účte triedy 0 má upozornenie.
+- **Zásoby oceňované modulom Sklad.** Ak účet zásob vedie Odoo samo, opravte množstvo v Sklade, ktorý rozdiel zaúčtuje. Riadok na takom účte má upozornenie, lebo rozdiel by sa inak zaúčtoval dvakrát.
+- **Spôsob B účtovania zásob.** Stav zásob sa ku koncu roka účtuje podľa inventarizácie (112 / 501, 132 / 504), takže manko je preúčtovanie: ako *Účet* dajte 501 alebo 504 a ako súvzťažný účet 549.
+
+Prebytok nakupovaných zásob spôsobený preukázateľne chybným účtovaním výdaja sa účtuje v prospech skupiny 50 namiesto 648 (§ 11 ods. 2); zmeňte súvzťažný účet.
+
+Zápis neobsahuje DPH ani úpravu základu dane z príjmov. Manko presahujúce prijaté náhrady nie je daňovým výdavkom ([§ 21 ods. 2 písm. e)](law:sk/2003/595#paragraf-21.odsek-2.pismeno-e) zákona o dani z príjmov) a DPH odpočítaná z odcudzeného tovaru sa odvádza podľa [§ 53 ods. 5](law:sk/2004/222#paragraf-53.odsek-5) zákona o DPH (549 / 343); oboje zostáva na účtovníkovi.
+
+### Zrušenie zaúčtovania {#difference-reversal}
+
+**Zrušiť zaúčtovanie rozdielov** zápis v návrhu vymaže a zaúčtovaný zápis stornuje. Storno má rovnaký dátum ako zápis, takže zostáva v overovanom období. **Späť na návrh** na inventarizácii urobí to isté skôr, než doklad znova otvorí, lebo súpisy sa budú meniť. Riadky vyúčtovania zostávajú a možno ich zaúčtovať znova.
+
+Riadky, z ktorých vznikol zápis, nemožno meniť ani mazať, kým sa zaúčtovanie nezruší; rovnako ich súpis ani inventarizáciu. Ak sa súpis po zaúčtovaní zmení, upozornenie hore oznámi, že zaúčtované sumy už nesedia.
+
+**Uzamknuté obdobia.** Rozdiely patria do obdobia, za ktoré sa stav overuje ([§ 30 ods. 7](law:sk/2002/431#paragraf-30.odsek-7)). Odoo samo pri zaúčtovaní posunie zápis s dátumom v uzamknutom období na prvý otvorený deň. Pri týchto zápisoch to modul namiesto toho odmietne: vytvorenie, zaúčtovanie aj storno sa zastavia s hlásením, kým obdobie neodomknete.
 
 ## Tlačové výstupy {#reports}
 
@@ -153,6 +202,11 @@ elektronicky.
   účtovný stav sa zadáva ručne.
 - Lehoty podľa § 29 ods. 3 a § 30 ods. 4 sa nekontrolujú a ukončená
   inventarizácia zostáva upraviteľná — stav *Ukončená* nič nezamyká.
-- Rozdiely sa nezaúčtujú; manká, prebytky a úpravy ocenenia zaúčtuje
+- Úpravy ocenenia (opravné položky, § 26 a 27) sa neúčtujú; zaúčtuje ich
   účtovník podľa zápisu.
+- Zaúčtovanie rozdielov nevyraďuje ani nezaraďuje dlhodobý majetok, neupravuje
+  množstvá v module Sklad a neúčtuje DPH; pozri
+  [Zaúčtovanie inventarizačných rozdielov](#differences).
+- Zápis rozdielov je len v mene spoločnosti a ukončenie inventarizácie
+  zaúčtovanie rozdielov nevyžaduje.
 - Protokoly o zaradení a vyradení majetku nie sú súčasťou tohto modulu: sú v module [module:l10n_sk_asset_protocol_base](module:l10n_sk_asset_protocol_base), ktorý potrebuje register majetku.

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-05 23:02+0000\n"
+"POT-Creation-Date: 2026-11-23 23:48+0000\n"
 "PO-Revision-Date: 2026-08-05 23:02+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -15,6 +15,13 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid ""
+"):\n"
+"                                rozdiel sa týmto zápisom neúčtuje —"
+msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
@@ -83,8 +90,7 @@ msgid "<strong>Spolu</strong>"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "<strong>Sídlo:</strong>"
 msgstr ""
 
@@ -99,10 +105,14 @@ msgid "<strong>Účet:</strong>"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "<strong>Účtovná jednotka:</strong>"
 msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__account_id
+msgid "Account"
+msgstr "Účet"
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__message_needaction
@@ -130,13 +140,17 @@ msgid "Activity Type Icon"
 msgstr "Ikona typu aktivity"
 
 #. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__amount
+msgid "Amount"
+msgstr "Suma"
+
+#. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__message_attachment_count
 msgid "Attachment Count"
 msgstr "Počet príloh"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__unit_price
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__unit_price model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "Cena za jednotku"
 msgstr ""
 
@@ -147,31 +161,34 @@ msgid "Chýba osoba zodpovedná za zistenie skutočného stavu na súpisoch: %s"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__company_id
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__company_id
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__company_id model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__company_id model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__company_id
 msgid "Company"
 msgstr "Spoločnosť"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__create_uid
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__create_uid
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__create_uid
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__counterpart_account_id
+msgid "Counterpart account"
+msgstr "Súvzťažný účet"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__create_uid model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__create_uid model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__create_uid model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__create_uid
 msgid "Created by"
 msgstr "Vytvoril"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__create_date
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__create_date
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__create_date
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__create_date model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__create_date model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__create_date model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__create_date
 msgid "Created on"
 msgstr "Vytvorené dňa"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__currency_id
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__currency_id
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__currency_id
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__currency_id model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__currency_id model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__currency_id model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__currency_id
 msgid "Currency"
 msgstr "Mena"
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid "D"
+msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__date_end
@@ -190,8 +207,7 @@ msgid "Deň začatia inventúry"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__date_as_of
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__date_as_of
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__date_as_of model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__date_as_of
 msgid "Deň, ku ktorému bola inventúra vykonaná"
 msgstr ""
 
@@ -201,9 +217,32 @@ msgid "Difference"
 msgstr "Rozdiel"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__display_name
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__display_name
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__display_name
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference_misdated
+msgid "Difference Misdated"
+msgstr "Rozdiel zaúčtovaný k inému dňu"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference_move_count
+msgid "Difference Move Count"
+msgstr "Počet účtovných zápisov rozdielov"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference_stale
+msgid "Difference Stale"
+msgstr "Zaúčtovanie nezodpovedá súpisom"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__difference_skip
+msgid "Difference not booked here"
+msgstr "Rozdiel sa tu neúčtuje"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference_state
+msgid "Differences"
+msgstr "Rozdiely"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__display_name model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__display_name model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__display_name model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
 
@@ -216,6 +255,21 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
 msgid "Druh"
 msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid "Druh rozdielu"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__move_state
+msgid "Entry status"
+msgstr "Stav zápisu"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference_move_ids
+msgid "Every entry created from the differences, including the ones taken back since and their reversals."
+msgstr "Všetky zápisy vytvorené z rozdielov vrátane tých, ktoré boli medzičasom zrušené, a ich storien."
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__message_follower_ids
@@ -253,15 +307,12 @@ msgid "Hmotne zodpovedná osoba:"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__amount
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__amount model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "Hodnota"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__id
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__id
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__id
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__id model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__id model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__id model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__id
 msgid "ID"
 msgstr "ID"
 
@@ -281,8 +332,7 @@ msgid "If checked, new messages require your attention."
 msgstr "Ak je zaškrtnuté, nové správy vyžadujú vašu pozornosť."
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__message_has_error
-#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__message_has_sms_error
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__message_has_error model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Ak je zaškrtnuté, niektoré správy majú chybu doručenia."
 
@@ -292,8 +342,12 @@ msgid "Inventarizacia"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.actions.report,name:l10n_sk_inventory_verification.action_report_inventarizacny_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Inventarizačné rozdiely (§ 30 ods. 5 až 7)"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.actions.report,name:l10n_sk_inventory_verification.action_report_inventarizacny_zapis model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
 msgid "Inventarizačný zápis"
 msgstr ""
 
@@ -303,8 +357,7 @@ msgid "Inventarizačný zápis (§ 30 ods. 3)"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.actions.act_window,name:l10n_sk_inventory_verification.action_inventarizacia
-#: model:ir.ui.menu,name:l10n_sk_inventory_verification.menu_inventarizacia
+#: model:ir.actions.act_window,name:l10n_sk_inventory_verification.action_inventarizacia model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__inventory_id model:ir.ui.menu,name:l10n_sk_inventory_verification.menu_inventarizacia
 msgid "Inventarizácia"
 msgstr ""
 
@@ -331,15 +384,17 @@ msgid "Inventory Type"
 msgstr "Druh inventarizácie"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__supis_ids
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__supis_ids model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
 msgid "Inventúrne súpisy"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.actions.report,name:l10n_sk_inventory_verification.action_report_inventurny_supis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Inventúrne súpisy sa od zaúčtovania rozdielov zmenili: zaúčtované sumy už rozdielom nezodpovedajú. Zrušte zaúčtovanie rozdielov a zaúčtujte ich znova."
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.actions.report,name:l10n_sk_inventory_verification.action_report_inventurny_supis model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__sheet_id model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "Inventúrny súpis"
 msgstr ""
 
@@ -354,24 +409,54 @@ msgid "Is Follower"
 msgstr "Je odberateľ"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__uom_name
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__uom_name model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "Jednotka"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__write_uid
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__write_uid
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__write_uid
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference_move_ids
+msgid "Journal entries of differences"
+msgstr "Účtovné zápisy rozdielov"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__move_id
+msgid "Journal entry"
+msgstr "Účtovný zápis"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference_journal_id
+msgid "Journal for differences"
+msgstr "Denník pre rozdiely"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__kind
+msgid "Kind"
+msgstr "Druh"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__name
+msgid "Label"
+msgstr "Popis"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__write_uid model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__write_uid model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__write_uid model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__write_uid
 msgid "Last Updated by"
 msgstr "Naposledy upravil"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__write_date
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__write_date
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__write_date
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__write_date model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__write_date model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__write_date model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__write_date
 msgid "Last Updated on"
 msgstr "Naposledy upravené dňa"
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid "MD"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Manko (pri peňažných prostriedkoch a ceninách schodok) a úbytok do normy znižujú skutočný stav pod účtovný, prebytok ho zvyšuje; spolu musia vysvetliť celý rozdiel súpisu. Náhrada je predpis pohľadávky voči hmotne zodpovednej osobe. Účtovný zápis vzniká v návrhu ku dňu, ku ktorému bola inventúra vykonaná (§ 30 ods. 7); zaúčtuje ho účtovník."
+msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__message_has_error
@@ -389,8 +474,7 @@ msgid "Miesto uloženia majetku"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__quantity
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__quantity model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "Množstvo"
 msgstr ""
 
@@ -400,10 +484,14 @@ msgid "My Activity Deadline"
 msgstr "Termín mojej aktivity"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__name
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__name
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__name model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__name
 msgid "Name"
 msgstr "Názov"
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Navrhnúť vyúčtovanie rozdielov"
+msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
@@ -461,6 +549,11 @@ msgid "Návrh"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__partner_id
+msgid "Partner"
+msgstr "Partner"
+
+#. module: l10n_sk_inventory_verification
 #: model:ir.model,name:l10n_sk_inventory_verification.model_l10n_sk_inventurny_supis_line
 msgid "Položka inventúrneho súpisu"
 msgstr ""
@@ -471,8 +564,7 @@ msgid "Položky"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__name
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__name model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "Popis"
 msgstr ""
 
@@ -487,14 +579,12 @@ msgid "Posúdenie reálnosti ocenenia (§ 26)"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__note
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__note model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "Poznámka"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__note
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__note model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
 msgid "Poznámky"
 msgstr ""
 
@@ -505,14 +595,12 @@ msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__book_amount
-msgid ""
-"Pri dokladovej inventúre sa načíta zo zostatku účtu ku dňu, ku ktorému bola "
-"inventúra vykonaná."
+msgid "Pri dokladovej inventúre sa načíta zo zostatku účtu ku dňu, ku ktorému bola inventúra vykonaná."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__account_id
-msgid "Pri dokladovej inventúre — účet, ktorého zostatok sa overuje."
+msgid "Pri dokladovej inventúre — účet, ktorého zostatok sa overuje. Pri fyzickej inventúre účet, na ktorom sa majetok vedie; navrhne sa z neho zaúčtovanie inventarizačného rozdielu."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
@@ -521,14 +609,17 @@ msgid "Produkt"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__difference_skip_reason
+msgid "Reason"
+msgstr "Dôvod"
+
+#. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__activity_user_id
 msgid "Responsible User"
 msgstr "Zodpovedný používateľ"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_list
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_list
 msgid "Rozdiel"
 msgstr ""
 
@@ -538,16 +629,22 @@ msgid "SMS Delivery error"
 msgstr "Chyba doručenia SMS"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__sequence
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__sequence
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__sequence model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__sequence model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__sequence
 msgid "Sequence"
 msgstr "Poradie"
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__actual_amount
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__actual_amount
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_list
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__difference_settled
+msgid "Settled"
+msgstr "Vyúčtované"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__kind
+msgid "Shortage and loss within the norm lower the actual state below the books; a surplus raises it. The three together must explain the whole difference of the count sheet. A claim explains none of it: it books what the liable person is asked to pay."
+msgstr "Manko a úbytok do normy znižujú skutočný stav pod účtovný; prebytok ho zvyšuje. Spolu musia vysvetliť celý rozdiel súpisu. Náhrada z neho nevysvetľuje nič: účtuje, čo sa požaduje od zodpovednej osoby."
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__actual_amount model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__actual_amount model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_list
 msgid "Skutočný stav"
 msgstr ""
 
@@ -562,8 +659,7 @@ msgid "Skutočný stav zistil:"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__date_as_of
-#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__date_as_of
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__date_as_of model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__date_as_of
 msgid "Spravidla deň, ku ktorému sa zostavuje účtovná závierka (§ 29 ods. 2)."
 msgstr ""
 
@@ -591,6 +687,16 @@ msgstr ""
 "Naplánované: budúce aktivity."
 
 #. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__difference_residual
+msgid "Still to settle"
+msgstr "Zostáva vyúčtovať"
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid "Suma"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis_line__supis_id
 msgid "Supis"
 msgstr ""
@@ -609,6 +715,26 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
 msgid "Termíny (§ 30 ods. 2)"
 msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__account_id
+msgid "The account the difference sits on: the asset or liability counted on the sheet, or, for a claim, the receivable from the liable person."
+msgstr "Účet, na ktorom rozdiel vznikol: majetok alebo záväzok zo súpisu, pri náhrade pohľadávka voči zodpovednej osobe."
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__difference_skip
+msgid "The difference of this sheet is settled elsewhere — in the asset register, by an adjustment in Odoo Inventory, by a document of its own — or needs no entry. State the reason; it is printed in the closing record."
+msgstr "Rozdiel tohto súpisu sa vysporiada inde — v evidencii majetku, úpravou v module Sklad, vlastným dokladom — alebo zápis nepotrebuje. Uveďte dôvod; vytlačí sa v inventarizačnom zápise."
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__counterpart_account_id
+msgid "The expense or income account the difference is booked against. Proposed from the kind and the account; change it where your chart or your case differs."
+msgstr "Nákladový alebo výnosový účet, oproti ktorému sa rozdiel účtuje. Navrhne sa podľa druhu a účtu; zmeňte ho, ak sa vaša osnova alebo váš prípad líši."
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__difference_residual
+msgid "The part of the difference no settlement line explains yet."
+msgstr "Časť rozdielu, ktorú zatiaľ nevysvetľuje žiadny riadok vyúčtovania."
 
 #. module: l10n_sk_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
@@ -631,10 +757,34 @@ msgid "Ukončiť"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__comparison_note
+#: model:ir.model,name:l10n_sk_inventory_verification.model_l10n_sk_inventarizacny_rozdiel
+msgid "Vyúčtovanie inventarizačného rozdielu (§ 30 ods. 5 až 7)"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__difference_line_ids
+msgid "Vyúčtovanie inventarizačných rozdielov"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid "Vyúčtovanie inventarizačných rozdielov (§ 30 ods. 5 až 7)"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__difference_line_ids
+msgid "Vyúčtovanie rozdielu"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__comparison_note model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
 msgid "Výsledky porovnania skutočného a účtovného stavu"
 msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__warning
+msgid "Warning"
+msgstr "Upozornenie"
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__website_message_ids
@@ -645,6 +795,11 @@ msgstr "Správy z webu"
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__website_message_ids
 msgid "Website communication history"
 msgstr "História komunikácie cez web"
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacny_rozdiel__partner_id
+msgid "Written on both items of the entry: the liable person of a claim or of a cash shortage, or the partner of a receivable or payable."
+msgstr "Zapíše sa na obe položky zápisu: zodpovedná osoba pri náhrade alebo schodku, alebo partner pohľadávky či záväzku."
 
 #. module: l10n_sk_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
@@ -658,6 +813,11 @@ msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Zaúčtovať rozdiely"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
 msgid "Začať"
 msgstr ""
 
@@ -667,8 +827,17 @@ msgid "Zodpovedný za vykonanie inventarizácie"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Zrušiť zaúčtovanie rozdielov"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
+msgid "nezaúčtované"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
 msgid "podpisový záznam"
 msgstr ""
 
@@ -683,11 +852,13 @@ msgid "podľa § 30 ods. 3 zákona č. 431/2002 Z. z. o účtovníctve"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid "v návrhu"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__inventory_type
-msgid ""
-"§ 30 ods. 1: fyzická pri majetku hmotnej a nehmotnej povahy, dokladová pri "
-"záväzkoch, rozdiele majetku a záväzkov a majetku, pri ktorom nemožno vykonať"
-" fyzickú inventúru."
+msgid "§ 30 ods. 1: fyzická pri majetku hmotnej a nehmotnej povahy, dokladová pri záväzkoch, rozdiele majetku a záväzkov a majetku, pri ktorom nemožno vykonať fyzickú inventúru."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
@@ -702,9 +873,7 @@ msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__counted_by_id
-msgid ""
-"§ 30 ods. 2 písm. i) — podpisový záznam osoby zodpovednej za zistenie "
-"skutočného stavu."
+msgid "§ 30 ods. 2 písm. i) — podpisový záznam osoby zodpovednej za zistenie skutočného stavu."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
@@ -719,34 +888,40 @@ msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__valuation_note
-msgid ""
-"§ 30 ods. 3 písm. c) — v nadväznosti na § 26 (opravné položky, zníženie "
-"hodnoty)."
+msgid "§ 30 ods. 3 písm. c) — v nadväznosti na § 26 (opravné položky, zníženie hodnoty)."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
 #: model:ir.model.fields,help:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__approved_by_id
-msgid ""
-"§ 30 ods. 3 písm. d) — meno, priezvisko a podpisový záznam osoby zodpovednej"
-" za vykonanie inventarizácie v účtovnej jednotke."
+msgid "§ 30 ods. 3 písm. d) — meno, priezvisko a podpisový záznam osoby zodpovednej za vykonanie inventarizácie v účtovnej jednotke."
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__account_id
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__account_id model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
 msgid "Účet"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__book_amount
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__book_amount
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis
-#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_list
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Účtovné zápisy"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__book_amount model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventurny_supis__book_amount model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventurny_supis model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_list
 msgid "Účtovný stav"
 msgstr ""
 
 #. module: l10n_sk_inventory_verification
-#: model:ir.model.fields,field_description:l10n_sk_inventory_verification.field_l10n_sk_inventarizacia__activity_calendar_event_id
-msgid "Next Activity Calendar Event"
-msgstr "Kalendárna udalosť ďalšej aktivity"
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.report_inventarizacny_zapis
+msgid "Účtovný zápis"
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Účtovný zápis rozdielov má iný dátum ako deň, ku ktorému bola inventúra vykonaná: rozdiely tak nie sú zaúčtované v období, za ktoré sa stav overuje (§ 30 ods. 7). Stáva sa to, keď je obdobie uzamknuté — Odoo pri zaúčtovaní posunie dátum za uzamknutie."
+msgstr ""
+
+#. module: l10n_sk_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_sk_inventory_verification.view_inventarizacia_form
+msgid "Účtovný zápis v návrhu sa vymaže, zaúčtovaný sa stornuje k rovnakému dňu. Pokračovať?"
+msgstr ""

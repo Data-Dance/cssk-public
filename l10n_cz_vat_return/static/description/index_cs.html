@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><a href="/l10n_cz_vat_return/static/description/index.html">English</a> · <b>Čeština</b></nav>
 <h1>CZ Přiznání k DPH (DPHDP3)</h1>
 <p class="cssk-summary">České přiznání k DPH vypočtené z daňových štítků české účtové osnovy Odoo a exportované jako XML DPHDP3 pro EPO, pro každé období ověřené proti aktuálnímu úřednímu XSD.</p>
-<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.18.1</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_vat_return_base/static/description/index_cs.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_datadance/static/description/index_cs.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index_cs.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Verze</th><td>19.0.1.19.0</td></tr><tr><th>Edice</th><td>Community i Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Vyžaduje</th><td><a href="/l10n_cssk_vat_return_base/static/description/index_cs.html"><code>l10n_cssk_vat_return_base</code></a>, <code>l10n_cz</code>, <a href="/l10n_cz_statutory/static/description/index_cs.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Rozšiřují jej</th><td><a href="/l10n_cz_datadance/static/description/index_cs.html"><code>l10n_cz_datadance</code></a>, <a href="/l10n_cz_vat_status/static/description/index_cs.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">K čemu slouží</h2>
 <p>Česká vrstva <a href="/l10n_cssk_vat_return_base/static/description/index_cs.html">společného základu přiznání k DPH</a>.
@@ -287,6 +287,66 @@ u dlužníka, kde snižuje daňovou povinnost. Jeho daň se navíc uvede na <str
 je-li to prodejní doklad, nebo na <strong>ř. 34</strong>, je-li to nákupní doklad, vedle
 případných záznamů ručně označených štítkem <em>VAT 33</em> / <em>VAT 34</em>. Řádky 62 a 63
 ř. 33 a ř. 34 nesčítají.</p>
+<h2 id="par74b">Faktury po splatnosti: odpočet podle § 74b</h2>
+<p>Od 1. ledna 2025 musí plátce, který dodavatelskou fakturu zcela neuhradil
+do <strong>posledního dne šestého kalendářního měsíce následujícího po měsíci
+splatnosti</strong>, snížit uplatněný odpočet daně v poměru neuhrazené části, a to
+za zdaňovací období, do kterého tento den náleží:
+<a href="https://e-sbirka.gov.cz/sb/2004/235">§ 74b odst. 3</a>. Po pozdější úhradě se odpočet vrací
+v poměru toho, co bylo uhrazeno (odst. 4). Pravidlo se nepoužije na nárok
+na odpočet vzniklý před rokem 2025 (zákon č. 461/2024 Sb., čl. II bod 17).</p>
+<p><strong>Příprava oprav.</strong> <em>Účetnictví → Účetnictví → Oprava odpočtu daně
+(§ 74b)</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Pole</th>
+<th>Význam</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ke dni</td>
+<td>Nabídnou se faktury, jimž lhůta šesti měsíců uplynula do tohoto dne.</td>
+</tr>
+<tr>
+<td>Zdaňovací období</td>
+<td>Měsíc nebo čtvrtletí. Čtvrtletnímu plátci povinnost nevzniká u faktury zcela uhrazené do konce čtvrtletí, v němž lhůta uplynula; faktura do té doby uhrazená zčásti se opraví o to, co zůstalo neuhrazeno ke konci čtvrtletí.</td>
+</tr>
+<tr>
+<td>Datum opravy</td>
+<td><em>Poslední den lhůty</em> datuje každou opravu dnem, který určuje zákon. Je-li toto období uzamčeno, průvodce opravy odmítne a faktury vyjmenuje: období otevřete a podejte dodatečné přiznání, nebo zvolte <em>Den uvedený výše</em> a opravy vykažte k zadanému dni.</td>
+</tr>
+<tr>
+<td>Účet nákladu</td>
+<td>Kam se zaúčtuje daň, kterou už nelze odpočíst; navrhuje se 538.</td>
+</tr>
+</tbody>
+</table>
+<p>Seznam ukazuje nalezené faktury: zaúčtované přijaté faktury společnosti
+s odpočtem, s datem uskutečnění plnění od 1. ledna 2025, s uplynulou lhůtou,
+k rozhodnému dni ne zcela uhrazené a dosud neopravené. Úhrada po rozhodném
+dni fakturu ze seznamu neodstraní; odpočet se díky ní vrátí až následně.</p>
+<p><strong>Připravit opravy</strong> vytvoří ke každé faktuře jeden koncept dokladu a otevře
+je. Zkontrolujte je a zaúčtujte. Každý je přijatý dobropis na <strong>nulu</strong>:</p>
+<ul>
+<li>řádek s daní původní faktury na neuhrazenou část základu, který sníží
+  ř. 40 / 41 o základ i daň;</li>
+<li>řádek, který základ vrací, a řádek, který daň účtuje na nákladový účet,
+  takže se saldo dodavatele nemění (dluh trvá).</li>
+</ul>
+<p>Doklad nese číslo dodavatelské faktury a příznak <em>Oprava u nedobytné
+pohledávky</em> = P, takže je jeho daň i na <strong>ř. 34</strong> a v kontrolním hlášení je
+řádkem oddílu <strong>B.2</strong> bez ohledu na částku
+(<a href="#bad-debt">Opravy u nedobytných pohledávek</a>). Účtuje se MD nákladový účet
+/ D 343.</p>
+<p><strong>Vrácení odpočtu.</strong> Na opravené faktuře po úhradě tlačítko <strong>Vrátit
+odpočet (§ 74b odst. 4)</strong> připraví zrcadlový doklad, přijatou fakturu na
+nulu s dnešním datem, na daň z toho, co bylo od opravy uhrazeno a dosud
+nevráceno. Lze ho použít po každé částečné úhradě. Po konci druhého
+kalendářního roku následujícího po poslední úhradě je odmítnut (odst. 9).</p>
+<p>Fakturu najdete se stavem na záložce <em>Další informace</em>: <em>Stav § 74b</em>
+a doklady, které k ní vznikly.</p>
 <h2 id="historic-rates">Historické sazby</h2>
 <p>Při instalaci a vždy, když společnost načte českou osnovu, se sazby, které už
 neplatí, vytvoří jako archivované daně (viz
@@ -343,6 +403,15 @@ základní sazbu (ř. 1/2, odpočet ř. 40) od snížené (ř. 3/4, ř. 41):</p>
 mezi nimi její data nevylučují.</p>
 <h2 id="limitations">Omezení</h2>
 <ul>
+<li><strong>§ 74b řeší jen fakturu po splatnosti (odst. 3 a 4)</strong>, nikoli opravy
+  navazující na opravu základu daně věřitelem u nedobytné pohledávky
+  (odst. 1 a 2); takové doklady označte ručně. Faktury v režimu přenesení
+  daňové povinnosti se vynechávají: dodavateli se z nich žádná daň nedluží.
+  Faktury splatné ve splátkách průvodce vypíše, ale neopraví, protože každá
+  splátka má vlastní lhůtu. „Uhrazeno“ znamená spárováno v Odoo, s datem
+  pozdějšího ze dvou spárovaných zápisů; dodavatelský dobropis započtený
+  proti faktuře se počítá jako úhrada. Zda je faktura neuhrazená, se čte
+  z účetnictví, proto před spuštěním průvodce spárujte platby.</li>
 <li>Odpočty v krácené výši a řádky 45, 52, 53 a 60 jsou ruční (viz
   <a href="#usage">výše</a>), stejně jako část řádku 62 podle § 108 odst. 4 písm. g) a h).</li>
 <li>Obsahové kontroly pokrývají jen řádky 64 a 65; schéma nepozná, zda jsou
@@ -357,7 +426,7 @@ mezi nimi její data nevylučují.</p>
 <li>Řádky se řídí štítky <code>l10n_cz</code>. Daň založená ručně bez správných štítků
   skončí ve špatném řádku nebo v žádném.</li>
 </ul>
-<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.18.1 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Předpisy citované na této stránce</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li><li><a href="https://e-sbirka.gov.cz/sb/2009/280">Zákon č. 280/2009 Sb., daňový řád</a></li></ul><p>Text ověřen vůči verzi modulu: 19.0.1.19.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

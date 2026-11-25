@@ -32,7 +32,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_sk_inventory_verification/static/description/index_sk.html">Slovenčina</a></nav>
 <h1>SK Inventory Verification (inventarizácia)</h1>
 <p class="cssk-summary">The Slovak statutory inventory verification as records — the inventarizácia with its three dates, the inventúrne súpisy with quantities and prices, and the inventarizačný zápis comparing them with the books.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.2</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_sk</code></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_sk</code>, <a href="/l10n_cssk_inventory_verification_base/static/description/index.html"><code>l10n_cssk_inventory_verification_base</code></a></td></tr><tr><th>Extended by</th><td><a href="/l10n_sk_datadance/static/description/index.html"><code>l10n_sk_datadance</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Before the financial statements are drawn up, a Slovak accounting entity must
@@ -45,9 +45,11 @@ books).</p>
 exercise, any number of súpisy under it, and the zápis fields on the
 inventarizácia itself. For an account verified from documents, the book
 balance is read from the general ledger. Both records print as PDF.</p>
-<p>It records and evidences the exercise. It does <strong>not</strong> post inventory
-differences: manká, prebytky, impairment and the like follow from the zápis
-and are entered by the accountant.</p>
+<p>It also books the inventory differences — manká, schodky and prebytky — as a
+draft journal entry dated in the period verified, linked to the
+inventarizácia. Impairment and other valuation adjustments are not inventory
+differences (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/#paragraf-30.odsek-6">§ 30 ods. 6</a>) and stay with
+the accountant.</p>
 <p>The screens, fields and printouts are in Slovak, because the field names are
 the statute's own terms. This page quotes them as they appear.</p>
 <h2 id="legal">Legal background</h2>
@@ -110,7 +112,8 @@ inventarizácie; only accounting managers may delete them.</p>
 <li><em>Názov</em> (<em>Name</em>) and <em>Druh inventarizácie</em>: <strong>Fyzická inventúra</strong> or
      <strong>Dokladová inventúra</strong>;</li>
 <li><em>Účet</em> — for a dokladová inventúra, the account whose balance is
-     verified;</li>
+     verified; for a fyzická inventúra, the account the assets are kept on
+     (used when the difference is booked);</li>
 <li><em>Miesto uloženia majetku</em>, <em>Hmotne zodpovedná osoba</em> (a contact) and
      <em>Skutočný stav zistil</em> (a user — the person who established the actual
      state).</li>
@@ -142,6 +145,79 @@ inventarizácie; only accounting managers may delete them.</p>
 out <strong>negative</strong>: a supplier balance of 500 on account 321 reads −500. Enter
 the confirmed amounts of such an account with a negative unit price (for
 example, quantity 1, price −500) so that <em>Rozdiel</em> compares like with like.</p>
+<h2 id="differences">Booking the differences</h2>
+<p>The tab <strong>Inventarizačné rozdiely (§ 30 ods. 5 až 7)</strong> turns the differences of the súpisy into a journal entry.</p>
+<ol>
+<li><strong>Give each súpis its account.</strong> <em>Účet</em> on a súpis is the account the counted assets are kept on (211 for a cash desk, 132 for goods). On a dokladová inventúra it is already there; on a fyzická inventúra fill it in, because the proposal starts from it.</li>
+<li>Click <strong>Navrhnúť vyúčtovanie rozdielov</strong>. For every súpis whose difference is not explained yet, one line appears: <em>Manko / schodok</em> when the actual state is lower than the books, <em>Prebytok</em> when it is higher, for the whole amount, with the accounts proposed (see the table below).</li>
+<li><strong>Adjust the lines.</strong> Split a manko into the part within your norm of natural loss (<em>Úbytok do normy</em>) and the part above it. Add a line <em>Náhrada od zodpovednej osoby</em> for what the liable person is asked to pay, and fill <em>Partner</em>. Change either account where your chart or your case differs. The amounts are always positive: the kind carries the direction. <em>Zostáva vyúčtovať</em> on each súpis shows what the lines do not explain yet.</li>
+<li><strong>A difference that is not booked from here</strong> (a fixed asset retired in the asset register, stock adjusted in Odoo Inventory, a difference explained by a document of its own): tick <em>Rozdiel sa tu neúčtuje</em> on the súpis and state the reason. The reason is printed in the zápis.</li>
+<li>Click <strong>Zaúčtovať rozdiely</strong>. It is offered once every difference is either explained in full or marked as not booked here. One journal entry is created <strong>in draft</strong>, in the <em>Denník pre rozdiely</em> (the first miscellaneous journal unless you choose another), dated the <em>deň, ku ktorému bola inventúra vykonaná</em>, with the number of the inventarizácia as its reference. The accountant reviews and posts it in Accounting; the button <em>Účtovné zápisy</em> at the top opens it.</li>
+</ol>
+<p>The status <em>Rozdiely</em> in the summary reads <em>Na vyúčtovanie</em>, <em>Pripravené na zaúčtovanie</em>, <em>Zápis v návrhu</em> or <em>Zaúčtované</em>.</p>
+<h3 id="difference-accounts">Proposed accounts</h3>
+<p>The proposals follow the accounting procedures for double-entry bookkeeping (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/740/">opatrenie MF SR č. 23054/2002-92</a>). They are proposals: both accounts stay editable.</p>
+<table>
+<thead>
+<tr>
+<th>Súpis kept on</th>
+<th>Manko / schodok</th>
+<th>Úbytok do normy</th>
+<th>Prebytok</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>211, 213 (cash, ceniny)</td>
+<td>335 / 21x — § 11 ods. 1 písm. b): the schodok is booked as a receivable from the hmotne zodpovedná osoba, not as an expense</td>
+<td>—</td>
+<td>21x / 668</td>
+</tr>
+<tr>
+<td>112, 132 and the other accounts of groups 11 and 13</td>
+<td>549 / 1xx (§ 43 ods. 2 písm. d), § 68 ods. 8)</td>
+<td>501 / 11x, 504 / 13x</td>
+<td>1xx / 648</td>
+</tr>
+<tr>
+<td>121–124 (own production)</td>
+<td>549 / 12x (§ 43 ods. 3 písm. b))</td>
+<td>61x / 12x</td>
+<td>12x / 61x</td>
+</tr>
+<tr>
+<td>01x, 02x (depreciated fixed assets)</td>
+<td>none proposed</td>
+<td>—</td>
+<td>0xx / 384 (§ 21 ods. 2)</td>
+</tr>
+<tr>
+<td>03x (fixed assets not depreciated)</td>
+<td>549 / 03x</td>
+<td>—</td>
+<td>03x / 648 (§ 11 ods. 4)</td>
+</tr>
+<tr>
+<td>anything else (receivables, payables, equity)</td>
+<td>none proposed</td>
+<td>—</td>
+<td>none proposed</td>
+</tr>
+</tbody>
+</table>
+<p><em>Náhrada od zodpovednej osoby</em> proposes 378 / 648 (§ 55 ods. 9 písm. a)).</p>
+<p>Where nothing is proposed, the entry is refused until you choose the counterpart yourself. Three cases need more than this entry:</p>
+<ul>
+<li><strong>Fixed assets.</strong> A manko of a depreciated asset takes the residual value through the accumulated depreciation (§ 36 ods. 4 písm. e)), and a newly found asset must be registered at its fair value. Do both in the asset register and mark the súpis as not booked here; a line on a class 0 account carries a warning.</li>
+<li><strong>Stock valued by Odoo Inventory.</strong> If Odoo keeps the stock account by itself, correct the quantity in Inventory, which books the difference. A line on such an account carries a warning, because the difference would otherwise be booked twice.</li>
+<li><strong>Way B of stock accounting.</strong> The year-end stock is booked from the inventarizácia (112 / 501, 132 / 504), so a manko is a reclassification: put 501 or 504 as <em>Účet</em> and 549 as the counterpart.</li>
+</ul>
+<p>A prebytok of purchased stock caused by a provably wrong issue is credited to group 50 instead of 648 (§ 11 ods. 2); change the counterpart.</p>
+<p>The entry carries no VAT and no income-tax adjustment. A manko above the compensation received is not a tax expense (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/#paragraf-21.odsek-2.pismeno-e">§ 21 ods. 2 písm. e)</a> of the Income Tax Act), and VAT deducted on stolen goods is paid back under <a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/#paragraf-53.odsek-5">§ 53 ods. 5</a> of the VAT Act (549 / 343); both remain with the accountant.</p>
+<h3 id="difference-reversal">Taking the booking back</h3>
+<p><strong>Zrušiť zaúčtovanie rozdielov</strong> deletes the entry while it is still a draft and reverses it once posted. The reversal is dated the same day as the entry, so it stays in the period verified. <strong>Späť na návrh</strong> on the inventarizácia does the same before it reopens the document, because the súpisy are about to change. The settlement lines stay and can be booked again.</p>
+<p>Lines from which an entry was created cannot be changed or deleted until the booking is taken back, and neither can their súpis or the inventarizácia. If a súpis changes after the booking, a warning at the top says the booked amounts no longer match.</p>
+<p><strong>Locked periods.</strong> Differences belong to the period verified (<a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/#paragraf-30.odsek-7">§ 30 ods. 7</a>). Odoo by itself moves an entry dated in a locked period to the first open day when it is posted. For these entries the module refuses instead: creating, posting and reversing all stop with a message until the period is unlocked.</p>
 <h2 id="reports">Printouts</h2>
 <p>From an inventarizácia, <em>Print → Inventarizačný zápis</em> produces the zápis: the
 entity's name and seat, the as-of date, a table of every súpis with book state, actual
@@ -171,11 +247,16 @@ electronically.</p>
   register; the book state is typed.</li>
 <li>Nothing checks the § 29 ods. 3 or § 30 ods. 4 time windows, and a closed
   inventarizácia stays editable — <em>Ukončená</em> locks nothing.</li>
-<li>No differences are posted; the manká, prebytky and adjustments to valuation
-  are entered by the accountant from the zápis.</li>
+<li>Adjustments to valuation (opravné položky, § 26 and 27) are not booked; the
+  accountant enters them from the zápis.</li>
+<li>The booking of differences does not retire or register fixed assets, does
+  not adjust quantities in Odoo Inventory, and books no VAT; see
+  <a href="#differences">Booking the differences</a>.</li>
+<li>The entry of differences is in the company currency only, and closing the
+  inventarizácia does not require the differences to be booked.</li>
 <li>The asset protocols (<em>zaraďovací</em> / <em>vyraďovací</em>) are not part of this module: they are in <a href="/l10n_sk_asset_protocol_base/static/description/index.html"><code>l10n_sk_asset_protocol_base</code></a>, which needs the asset register.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li></ul><p>Text checked against module version: 19.0.1.1.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/431/">Zákon č. 431/2002 Z. z. o účtovníctve</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2002/740/">Oznámenie Ministerstva financií Slovenskej republiky č. 740/2002 Z. z. o vydaní opatrenia, ktorým sa ustanovujú podrobnosti o postupoch účtovania a rámcovej účtovej osnove pre podnikateľov účtujúcich v sústave podvojného účtovníctva</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2003/595/">Zákon č. 595/2003 Z. z. o dani z príjmov</a></li><li><a href="https://www.slov-lex.sk/ezbierky/pravne-predpisy/SK/ZZ/2004/222/">Zákon č. 222/2004 Z. z. o dani z pridanej hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

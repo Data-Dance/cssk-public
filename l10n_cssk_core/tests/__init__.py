@@ -8,3 +8,4 @@ from . import test_invoice_views
 from . import test_vat_deferral
 from . import test_round2_fixes
 from . import test_field_domains
+from . import test_partner_form

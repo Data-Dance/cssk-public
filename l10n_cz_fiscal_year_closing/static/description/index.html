@@ -31,8 +31,8 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <main class="cssk-doc">
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_fiscal_year_closing/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ Year-End Closing (accounts 701 / 702 / 710)</h1>
-<p class="cssk-summary">Makes the Czech closing accounts 701, 702 and 710 postable, so that the year-end closing and the opening balance can be booked at all.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_cz</code></td></tr></table>
+<p class="cssk-summary">Closes the Czech books at year end through the closing accounts 710, 702 and 701, opens the next year with the result on 431, and makes those accounts postable in the first place.</p>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.2.0.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Installs itself when these are installed</th><td><code>l10n_cz</code>, <a href="/account_fiscal_year_closing/static/description/index.html"><code>account_fiscal_year_closing</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>Czech double-entry bookkeeping closes and opens the books through the
@@ -69,7 +69,16 @@ with an ordinary one. Closing class 5 or 6 against 710, closing balance-sheet
 accounts against 702, and posting an opening balance against 701 are all such
 mixes, so as shipped <strong>none of them can be posted</strong> — not only at year end,
 but also when a company enters its opening balances on going live.</p>
-<p>This module fixes exactly that, and nothing more.</p>
+<p>The module does two things:</p>
+<ol>
+<li><strong>It makes 701, 702 and 710 postable</strong> (see <a href="#retype">What changes</a>).</li>
+<li><strong>It ships a closing template</strong> for the OCA <em>Fiscal year closing</em> engine
+   (<code>account_fiscal_year_closing</code>), which produces the closing and opening
+   entries from the ledger, and a list of what to look at before the year is
+   closed.</li>
+</ol>
+<p>It installs itself when the Czech chart of accounts (<code>l10n_cz</code>) and
+<code>account_fiscal_year_closing</code> are both installed.</p>
 <h2 id="legal">Legal background</h2>
 <ul>
 <li>An accounting unit closes its books on the last day of the accounting
@@ -78,12 +87,35 @@ but also when a company enters its opening balances on going live.</p>
 <li>The opening balances of the balance-sheet accounts must follow on from the
   closing balances with which the previous period was closed —
   <a href="https://e-sbirka.gov.cz/sb/1991/563">§ 19 odst. 4 of the Accounting Act</a>.</li>
-<li>The chart of accounts for entrepreneurs places the closing accounts in
+<li>
+<p>The chart of accounts for entrepreneurs places the closing accounts in
   class 7 <em>Závěrkové a podrozvahové účty</em>: group 70 <em>Účty rozvažné</em> and group
   71 <em>Účet zisků a ztrát</em> —
   <a href="https://e-sbirka.gov.cz/sb/2002/500">annex 4 to Decree No. 500/2002 Sb.</a> (<em>směrná účtová
   osnova</em>). They are closing accounts, not off-balance ones (those are groups
-  75–79).</li>
+  75–79).</p>
+</li>
+<li>
+<p><strong>How the books are closed.</strong> Czech Accounting Standard No. 002
+  <em>Otevírání a uzavírání účetních knih</em> (for units keeping accounts under
+  Decree No. 500/2002 Sb.): the final balances of the cost and revenue
+  accounts are transferred to the account of group 71 <em>Účet zisků a ztrát</em>
+  (bod 2.2.2), and the final balances of the asset and liability accounts
+  and the balance of the profit and loss account to the <em>konečný účet
+  rozvažný</em> of group 70 (bod 2.2.3).</p>
+</li>
+<li><strong>How the books are opened.</strong> The opening balances are posted against the
+  <em>počáteční účet rozvažný</em> (bod 2.1.2). The profit or loss that was posted
+  to the closing account is opened on an account of <strong>group 43</strong> <em>Výsledek
+  hospodaření</em>, against the opening account (bod 2.1.3), and leaves it when
+  the competent body approves the distribution of the profit or the
+  settlement of the loss (bod 2.1.5).</li>
+<li>The standard names account <strong>groups</strong> only. 701, 702, 710 and 431 are the
+  accounts of the Czech chart shipped with Odoo and of common practice.</li>
+<li><strong>General and limited partnerships.</strong> In a <em>veřejná obchodní společnost</em>,
+  and for the general partners of a <em>komanditní společnost</em>, the result is
+  divided among the partners when the books are closed (body 2.2.4 and
+  2.2.5). The template does not cover this case.</li>
 </ul>
 <h2 id="retype">What changes</h2>
 <p>The module changes the account type of 701000, 702000 and 710000 from
@@ -94,7 +126,7 @@ but also when a company enters its opening balances on going live.</p>
   yourself is left alone;</li>
 <li>for companies that load the Czech chart later, through the chart template.</li>
 </ul>
-<p>There are no settings and no new screens. What this means for you:</p>
+<p>What this means for you:</p>
 <ul>
 <li>Closing entries, opening entries and opening balances against 701 can be
   posted.</li>
@@ -104,24 +136,125 @@ but also when a company enters its opening balances on going live.</p>
   After a matched closing and opening they net to zero, but a period with a
   closing and no opening yet (or the reverse) shows a balance on them.</li>
 </ul>
+<h2 id="template">The closing template</h2>
+<p>The template <em>Účetní závěrka (CZ) — 701 / 702 / 710</em> is offered for
+companies using the Czech chart. It has three steps:</p>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Code</th>
+<th>What it does</th>
+<th>Date</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Uzavření nákladů a výnosů (710)</td>
+<td>CZ_PL</td>
+<td>class 5 and class 6 → 710000</td>
+<td>last day of the year</td>
+</tr>
+<tr>
+<td>Uzavření rozvahových účtů (702)</td>
+<td>CZ_CLOSING</td>
+<td>classes 0–4 and 710 → 702000</td>
+<td>last day of the year</td>
+</tr>
+<tr>
+<td>Otevření rozvahových účtů (701)</td>
+<td>CZ_OPENING</td>
+<td>reverse of CZ_CLOSING, against 701000; the result on 431000</td>
+<td>opening date</td>
+</tr>
+</tbody>
+</table>
+<p>Receivable and payable accounts are closed <strong>per partner</strong> (<em>Un-reconciled</em>),
+so every partner's balance is carried into the new year; all other accounts
+are closed by their balance.</p>
+<p>Before the first closing:</p>
+<ul>
+<li><strong>Create a journal for the closing</strong>, for example <em>Uzávěrka roku</em> of type
+  <em>Miscellaneous</em>, and set it as the <em>Journal</em> of each step, on the template
+  or on the closing itself. Without one, the engine uses the journal with
+  code <code>MISC</code>, or the first miscellaneous journal.</li>
+<li><strong>Name that journal in the company's <em>Year-end closing journals</em></strong>
+  (<em>Accounting → Configuration → Settings</em>, block <em>Czech / Slovak
+  Localization</em>, provided by <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>).
+  The statutory statements, the income tax return and the ledgers then leave
+  its entries out; otherwise every closed account shows zero on the last day
+  of the year.</li>
+<li><strong>Review the template with your accountant.</strong> It is copied into each
+  closing, so changes made there apply to that closing only.</li>
+</ul>
+<h2 id="usage">Closing a year</h2>
+<ol>
+<li>Book everything for the year, including the income tax (591 / 341).</li>
+<li><em>Accounting → Accounting → Fiscal year closings</em>, then <em>New</em>. Enter the
+   year (for a fiscal year spanning two calendar years, the later one) and
+   check <em>From date</em>, <em>To date</em> and <em>Opening date</em>. Choose the closing
+   template; its steps are copied into <em>Moves configuration</em>, where you can
+   still change journals, dates and mappings.</li>
+<li>Read the box <strong>Before closing the year</strong> at the top of the form (see
+   <a href="#pre-close">below</a>).</li>
+<li><em>Check draft moves</em> is on by default: the calculation stops if any draft
+   entry is dated within the year.</li>
+<li>Click <strong>Calculate</strong>. The three entries are created as drafts. Review them
+   with <strong>Show moves</strong> / <strong>Show move lines</strong>.</li>
+<li>Click <strong>Confirm and post moves</strong>. <em>Cancel</em> removes the closing entries
+   again; <em>Recalculate</em> deletes and recreates them.</li>
+</ol>
+<p>What the module changes in the engine for Czech companies:</p>
+<ul>
+<li><strong>702 carries a counter-entry for every account.</strong> The generic engine
+  would post a single line with the net of all sources, which on a complete
+  balance sheet is zero, so 702 would not appear at all. Here each closed
+  account has its mirror line on 702 (or on 710 in the first step).</li>
+<li><strong>The opening runs through 701.</strong> The engine opens the year by reversing
+  the closing entry, which would leave 702 on both sides. The module moves
+  the counterpart of the opening entry to 701000.</li>
+<li><strong>The result is opened on 431.</strong> The reversal would also put the result
+  back on 710; the module moves that line to 431000 <em>Výsledek hospodaření ve
+  schvalovacím řízení</em>: a profit as 701 debit / 431 credit, a loss as 431
+  debit / 701 credit. If the company has no account 431000, the line stays
+  on 710 and the server log says so; change it to your account of group 43
+  before posting.</li>
+</ul>
+<p>The decision on the result (431 to 428, 429, the funds or the partners) is a
+separate entry, posted when the general meeting or other competent body
+decides.</p>
+<h2 id="pre-close">Before closing the year</h2>
+<p>The closing form lists what needs a look first: draft entries, gaps in
+document numbering, balances on 431 (last year's result not yet decided on),
+395 and 261, draft payslips, unposted depreciation and a VAT return for the
+last period that is not filed. The list is advisory and is shown for
+companies whose fiscal country is the Czech Republic.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li>The module does <strong>not</strong> produce the closing entries. Post them yourself,
-  or with a tool such as the OCA module <code>account_fiscal_year_closing</code>, for
-  which no Czech closing template is provided (the Slovak module
-  <a href="/l10n_sk_fiscal_year_closing/static/description/index.html"><code>l10n_sk_fiscal_year_closing</code></a>
-  ships one for the Slovak chart).</li>
-<li>Only companies using the Czech chart (<code>cz</code>) are changed. Off-balance
-  accounts you add yourself in groups 75–79 keep their type, as they should.</li>
-<li>If you post closing and opening entries, keep them in a dedicated journal
-  and register it in the company's <em>Year-end closing journals</em>
-  (<a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>), so that the statutory
-  statements and the income tax return leave them out; otherwise every closed
-  account shows zero on the last day of the year. In this version that field
-  is not shown on any form; an administrator sets it, for example by
-  importing it into the list of companies.</li>
+<li>Income tax is not computed or booked by the closing.</li>
+<li>General and limited partnerships (ČÚS 002 body 2.2.4 and 2.2.5) and sole
+  traders who keep accounts (the result goes to group 49, bod 2.1.5 b)) are
+  not covered by the template.</li>
+<li>Differences from changed valuation methods, which are booked to group 42
+  in the first month of the new period (bod 2.1.4), are not generated.</li>
+<li>Balances are taken from entries dated between <em>From date</em> and <em>To date</em>. A
+  balance-sheet account whose opening balance was posted before the start of
+  the year (for example by a data migration dated earlier) is closed only for
+  the movement of the year. Open each year with an entry dated on its first
+  day.</li>
+<li>Closing and opening lines on receivable and payable accounts are not
+  reconciled with the invoices they carry forward. They net to zero per
+  partner, but appear in open-item lists and ageing reports.</li>
+<li>Only companies using the Czech chart (<code>cz</code>) get the retyped accounts, the
+  per-account mirroring, the 701 opening and the result on 431. Off-balance
+  accounts you add yourself in groups 75–79 keep their type.</li>
+<li>Installing or upgrading to this version installs the OCA module
+  <code>account_fiscal_year_closing</code>, which the template needs.</li>
+<li>Closing conventions differ between accountants. The template is a starting
+  point and should be signed off by your accountant before the first live
+  closing.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li><li><a href="https://e-sbirka.gov.cz/sb/2002/500">Vyhláška č. 500/2002 Sb., kterou se provádějí některá ustanovení zákona č. 563/1991 Sb., o účetnictví, ve znění pozdějších předpisů, pro účetní jednotky, které jsou podnikateli účtujícími v soustavě podvojného účetnictví</a></li></ul><p>Text checked against module version: 19.0.2.0.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

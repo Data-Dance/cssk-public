@@ -3,3 +3,4 @@
 
 from . import cssk_registry_lookup
 from . import res_partner
+from . import res_partner_person_type

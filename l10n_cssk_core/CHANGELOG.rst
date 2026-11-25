@@ -21,6 +21,68 @@ Carry-over to 18.0
   ``_cssk_filer_needs_company_vat()``. Nothing on 18.0 would call it until the
   Slovak DPH return's *Postavenie osoby* is ported; port the two together.
 
+[19.0.1.23.0] — 2026-11-24
+--------------------------
+
+Changed
+~~~~~~~
+
+- **The IČO of a Czech or Slovak partner is beside the VAT number**, on every
+  database. It used to be there only for the country whose Odoo module
+  (``l10n_sk`` / ``l10n_cz``) was installed; a Czech customer on a Slovak
+  database had it in Sales & Purchase → Misc, which read as missing. Shown on
+  a person and on a contact of a company too (read-only on the contact). The
+  copy in Misc is hidden for CZ/SK and unchanged for other countries.
+- **The person types (SK-FO, SK-PO, CZ-FO, CZ-PO) are data of this module**,
+  no longer of ``l10n_sk_statutory`` / ``l10n_cz_statutory``, so a database
+  without one country's statutory module still has that country's types for
+  its partners. External ids change module:
+  ``l10n_cz_statutory.cz_person_type_fo`` is now
+  ``l10n_cssk_core.cz_person_type_fo``, and likewise the other three. The
+  pre-migration re-homes existing records; nothing is recreated.
+- *Entity Type* on the partner offers only the types of the partner's country
+  and is hidden outside CZ/SK, where there is none to choose.
+
+Added
+~~~~~
+
+- ``cssk.person.type._cssk_for_subject(country_code, natural_person)``: the
+  type to write for a subject known to be a person or a company.
+
+Carry-over to 18.0
+~~~~~~~~~~~~~~~~~~
+
+- Not ported. The move of the person types needs the same pre-migration
+  there, and the 18.0 partner form must be checked against 18.0's
+  ``l10n_sk`` / ``l10n_cz`` views first.
+
+[19.0.1.22.0] — 2026-11-24
+--------------------------
+
+Added
+~~~~~
+
+- **VAT period of received documents**, a company setting (Accounting →
+  Configuration → Settings, Czech / Slovak Localization). *Accounting date*
+  is the default and what the returns have always done. *Taxable supply date*
+  makes a vendor bill, refund or receipt follow its taxable supply date on the
+  VAT return and the control statement, for books that are locked early: a
+  bill arriving after the lock is booked in the open period and deducted in
+  the locked one (SK § 51 ods. 2). *VAT period declared* still wins, and
+  customer documents are not affected. With it, the delivery date of a
+  received document, where filled in, is its date of supply — on the control
+  statement row and for the VAT rate (``account.move._cssk_supply_date``);
+  an advance tax document keeps the day the advance was paid.
+
+Fixed
+~~~~~
+
+- **"VAT period declared" had no label on the invoice form.** It was placed
+  after the due date field, which core keeps inside the due-date row together
+  with the payment terms, and a field there renders without its label: an
+  unnamed date box next to the payment terms. It now follows that row, under
+  its own label. The VAT deferral link beside it moved with it.
+
 [19.0.1.21.1] — 2026-11-23
 --------------------------
 

@@ -100,7 +100,7 @@ A supplier from another member state registered for Czech VAT and invoicing unde
 
 The 10 000 CZK limit is measured on the **whole** document including VAT; lines without VAT are not reported but still count towards it. A line with no VAT is never reported in A.4/A.5 or B.2/B.3.
 
-The date reported is the document's *DUZP*, else its invoice date. The uncollectible-receivable flag (``zdph_44``) is taken from the document's field *Oprava u nedobytné pohledávky* (``P``, or ``A`` for the § 44 wording valid to 31. 3. 2019).
+The date reported is the document's *DUZP*, else its invoice date. Where the company keeps the VAT period of its bills in the taxable supply date (*VAT period of received documents* in ``l10n_cssk_core``), the date of a received document is its delivery date. The uncollectible-receivable flag (``zdph_44``) is taken from the document's field *Oprava u nedobytné pohledávky* (``P``, or ``A`` for the § 44 wording valid to 31. 3. 2019).
 
 The control totals (*VetaC*) are computed from the sections as the form defines them: A.1 in ``pln_rez_pren``, B.1 in ``rez_pren23`` / ``rez_pren5``, all of A.2 in ``celk_zd_a2``, and the reduced-rate totals including the second reduced rate.
 
@@ -134,7 +134,9 @@ Limitations
 
 - **EU suppliers charging Czech VAT.** A received invoice from a partner whose VAT number is from another member state goes to A.2 even when the supplier charged Czech VAT. If the supplier is registered here, invoice it through a contact whose Tax ID is its CZ number, and the document is reported in B.2.
 
-- **Fixed values.** The special schemes for travel services and used goods (``kod_rezim_pl``) are never indicated — every A.4 row is written as an ordinary supply — and the proportional deduction under § 75 (``pomer``) is always written as *N*.
+- **Fixed value.** The special schemes for travel services and used goods (``kod_rezim_pl``) are never indicated: every A.4 row is written as an ordinary supply.
+
+- **Proportional deduction (§ 75).** A B.2 row is written with *Použit poměr* = A when a tax on the bill has *Poměrný odpočet (§ 75)* ticked (*Accounting → Configuration → Taxes*, on a purchase tax), otherwise N; the flag can be corrected on an overridden row. One document is one row, so a bill mixing a proportional and a full deduction is flagged as a whole. The tick only sets the flag: the amounts are what the tax books.
 
 - The section rules are a best effort; the § 92a code list and the uncollectible-receivable corrections in particular still need confirmation by a Czech accountant. Review each statement before filing.
 
@@ -142,7 +144,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_kh``
-- **Version:** 19.0.1.11.0
+- **Version:** 19.0.1.12.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_kv_kh_base``, ``l10n_cz``, ``l10n_cz_statutory``

@@ -8,6 +8,29 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+[19.0.1.1.0] — 2026-11-24
+-------------------------
+
+Added
+~~~~~
+
+- The register's legal form. A result carries ``legal_form`` (as the register
+  states it) and ``natural_person``: a sole trader holds an IČO and verifies
+  like a company, and until now nothing told the two apart. Stored on the
+  partner as *Legal form in the register* and *Natural person in the
+  register*, together with *VAT payer in the register*, which records that
+  the register itself showed a live VAT registration.
+- The partner's *Entity Type* is set from that answer when a verification is
+  stored: natural person or legal entity, of the partner's country. An answer
+  without a legal form (one cached before this version) sets nothing, and a
+  type that already agrees with the register is kept.
+
+Changed
+~~~~~~~
+
+- Upgrading forgets the cached ``verified`` answers, which predate the legal
+  form; the next question asks the register again.
+
 [19.0.1.0.0] — 2026-09-07
 -------------------------
 

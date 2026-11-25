@@ -12,6 +12,10 @@
       the výkaz header on VetaD (uv_vyhl / uv_rozsah / uv_mena / uz_rad / d_uv).
       Rows and values come from models/dppdp9_vykazy.py via the render context;
       all of it is absent when no statements are linked to the return.
+      VetaUZ is the request to hand the závěrka to the sbírka listin (§ 21b
+      zákona o účetnictví, tiskopis 25 5404/I); the příloha, the cash-flow
+      and the equity statements go as PredepsanaPriloha files, counted on
+      VetaD (pril_uz / p_ptok / p_zvkap).
       verzePis is pinned in data/SCHEMA_VERSION.
     -->
     <template id="dppdp9_2025">
@@ -39,7 +43,9 @@
                      accountant confirms the taxpayer-type value). -->
                 <VetaO
                     t-att-kc_ii10_10="('%.0f' % values['r10']) if values.get('r10') else None"
+                    t-att-kc_ii60_50="('%.0f' % values['r50']) if values.get('r50') else None"
                     t-att-kc_ii80_70="('%.0f' % values['r70']) if values.get('r70') else None"
+                    t-att-kc_ii170_150="('%.0f' % values['r150']) if values.get('r150') else None"
                     t-att-kc_ii190_170="('%.0f' % values['r170']) if values.get('r170') else None"
                     t-att-kc_ii200_200="('%.0f' % values['r200']) if values.get('r200') else None"
                     t-att-kc_ii210_230="('%.0f' % values['r230']) if values.get('r230') else None"
@@ -57,6 +63,15 @@
                 <t t-foreach="vykazy.get('UA', [])" t-as="row"><VetaUA t-att="row"/></t>
                 <t t-foreach="vykazy.get('UB', [])" t-as="row"><VetaUB t-att="row"/></t>
                 <t t-foreach="vykazy.get('UD', [])" t-as="row"><VetaUD t-att="row"/></t>
+                <VetaUZ t-if="registry_request" t-att="registry_request"/>
+                <Prilohy t-if="e_prilohy">
+                    <t t-foreach="e_prilohy" t-as="priloha"><PredepsanaPriloha
+                        t-att-cislo="priloha['cislo']"
+                        t-att-nazev="priloha['nazev']"
+                        t-att-jm_souboru="priloha['jm_souboru']"
+                        kodovani="base64"
+                        t-att-kod="priloha['kod']"><t t-out="priloha['data']"/></PredepsanaPriloha></t>
+                </Prilohy>
             </DPPDP9>
         </Pisemnost>
     </template>

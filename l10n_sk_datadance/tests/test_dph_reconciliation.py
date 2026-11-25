@@ -33,7 +33,9 @@ class TestSkDphReconciliation(AccountTestInvoicingCommon):
             "company_id": self.company.id, "version_id": self.kv_version.id,
             "date_from": "2026-06-01", "date_to": "2026-06-30",
             "period_type": "month",
-            "statement_type_id": self.kv_version.statement_type_ids[0].id,
+            # The types belong to the country since they left the version.
+            "statement_type_id": self.env["cssk.control.statement.type"].search(
+                [("country_id", "=", self.env.ref("base.sk").id)], limit=1).id,
         })
 
     def _make_dp(self):

@@ -31,14 +31,15 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <main class="cssk-doc">
 <nav class="cssk-lang"><b>English</b> · <a href="/l10n_cz_datadance/static/description/index_cs.html">Čeština</a></nav>
 <h1>Czech Accounting Localization — full suite</h1>
-<p class="cssk-summary">Installs the Czech statutory localization in one step and offers the optional pieces as switches in the settings.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.2.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_cz</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a>, <a href="/l10n_cz_kh/static/description/index.html"><code>l10n_cz_kh</code></a>, <a href="/l10n_cz_ec_sales/static/description/index.html"><code>l10n_cz_ec_sales</code></a>, <a href="/l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="/l10n_cz_invoice/static/description/index.html"><code>l10n_cz_invoice</code></a>, <a href="/l10n_cssk_partner_balances/static/description/index.html"><code>l10n_cssk_partner_balances</code></a>, <a href="/l10n_cssk_vies/static/description/index.html"><code>l10n_cssk_vies</code></a>, <a href="/l10n_cssk_accrual/static/description/index.html"><code>l10n_cssk_accrual</code></a>, <a href="/l10n_cz_inventory_verification/static/description/index.html"><code>l10n_cz_inventory_verification</code></a></td></tr></table>
+<p class="cssk-summary">Installs the Czech statutory localization in one step and offers the optional pieces as switches in the settings, and cross-checks the VAT filings with each other and with the ledger.</p>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.4.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><code>l10n_cz</code>, <a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, <a href="/l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a>, <a href="/l10n_cz_kh/static/description/index.html"><code>l10n_cz_kh</code></a>, <a href="/l10n_cz_ec_sales/static/description/index.html"><code>l10n_cz_ec_sales</code></a>, <a href="/l10n_cz_vat_return/static/description/index.html"><code>l10n_cz_vat_return</code></a>, <a href="/l10n_cz_invoice/static/description/index.html"><code>l10n_cz_invoice</code></a>, <a href="/l10n_cssk_partner_balances/static/description/index.html"><code>l10n_cssk_partner_balances</code></a>, <a href="/l10n_cssk_vies/static/description/index.html"><code>l10n_cssk_vies</code></a>, <a href="/l10n_cssk_accrual/static/description/index.html"><code>l10n_cssk_accrual</code></a>, <a href="/l10n_cz_inventory_verification/static/description/index.html"><code>l10n_cz_inventory_verification</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Czech localization is split into many modules so that each company
 installs only what it needs. This module is the one-click way in: installing
 it brings the statutory core for a Czech company, and adds switches for the
-optional parts. It has no screens or data of its own.</p>
+optional parts. It also adds three <strong>cross-checks</strong> between the VAT filings
+and the ledger (see <a href="#reconciliation">below</a>).</p>
 <h2 id="contents">What it installs</h2>
 <table>
 <thead>
@@ -135,6 +136,31 @@ it uninstalls the module again.</p>
 <td><em>zálohové faktury</em> and tax documents for received payments</td>
 </tr>
 <tr>
+<td>Účetní vzory (interní doklady)</td>
+<td><a href="/l10n_cz_account_move_template/static/description/index.html"><code>l10n_cz_account_move_template</code></a></td>
+<td>named debit / credit templates for internal documents</td>
+</tr>
+<tr>
+<td>Účetní závěrka</td>
+<td><a href="/l10n_cz_fiscal_year_closing/static/description/index.html"><code>l10n_cz_fiscal_year_closing</code></a></td>
+<td>year-end closing through 710 / 702, opening through 701 with the result on 431</td>
+</tr>
+<tr>
+<td>Protokoly k majetku</td>
+<td><a href="/l10n_cz_asset_protocol_oca/static/description/index.html"><code>l10n_cz_asset_protocol_oca</code></a></td>
+<td>commissioning and disposal protocols for fixed assets</td>
+</tr>
+<tr>
+<td>Manažerské výkazy</td>
+<td><a href="/l10n_cz_mis_reports/static/description/index.html"><code>l10n_cz_mis_reports</code></a></td>
+<td>management profit and loss on MIS Builder; not a statutory statement</td>
+</tr>
+<tr>
+<td>Vytěžování faktur (AI)</td>
+<td><code>account_invoice_ai_extract</code></td>
+<td>reads vendor bills from PDF; delivered to subscribers</td>
+</tr>
+<tr>
 <td>Účetní závěrka (Rozvaha, VZZ)</td>
 <td><a href="/l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a></td>
 <td>balance sheet and profit and loss account</td>
@@ -149,8 +175,129 @@ it uninstalls the module again.</p>
 <p>On Odoo Enterprise the exchange-rate and deferral switches are hidden, because
 Enterprise has its own automatic exchange rates and deferred revenue and
 expense.</p>
+<h2 id="reconciliation">Cross-checks between filings</h2>
+<p>Before filing, three buttons compare the VAT filings of a Czech company with
+each other and with the ledger. Each opens the comparison screen of
+<a href="/l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>, where every row keeps its
+figures, its state and your note across later runs.</p>
+<table>
+<thead>
+<tr>
+<th>Where</th>
+<th>Button</th>
+<th>What is compared</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kontrolní hlášení</td>
+<td><em>Porovnat s přiznáním</em></td>
+<td>the eight control rows of the hlášení with the rows of the přiznání</td>
+</tr>
+<tr>
+<td>Souhrnné hlášení</td>
+<td><em>Porovnat s přiznáním</em></td>
+<td>the hlášení by code with ř. 20, 21 and 31</td>
+</tr>
+<tr>
+<td>Přiznání k DPH</td>
+<td><em>Porovnat s účetnictvím</em></td>
+<td>the tax of the přiznání with account 343</td>
+</tr>
+</tbody>
+</table>
+<p>The buttons appear once the filing is computed. The first two need a
+computed přiznání covering the same period.</p>
+<p><strong>Kontrolní hlášení ↔ přiznání.</strong> The hlášení ends with control rows, and
+the Financial Administration's structure states which row of the přiznání
+each must agree with, within 1 000 Kč:</p>
+<table>
+<thead>
+<tr>
+<th>Control row</th>
+<th>Kontrolní hlášení</th>
+<th>Přiznání</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>obrat23 / obrat5</td>
+<td>bases of A.4 + A.5, standard / reduced rate</td>
+<td>ř. 1 / ř. 2</td>
+</tr>
+<tr>
+<td>pln23 / pln5</td>
+<td>bases of B.2 + B.3, standard / reduced rate</td>
+<td>ř. 40 / ř. 41</td>
+</tr>
+<tr>
+<td>pln_rez_pren</td>
+<td>base of A.1</td>
+<td>ř. 25</td>
+</tr>
+<tr>
+<td>rez_pren23 / rez_pren5</td>
+<td>bases of B.1, standard / reduced rate</td>
+<td>ř. 10 / ř. 11</td>
+</tr>
+<tr>
+<td>celk_zd_a2</td>
+<td>bases of A.2</td>
+<td>ř. 3 + 4 + 5 + 6 + 9 + 12 + 13</td>
+</tr>
+</tbody>
+</table>
+<p>A difference above 1 000 Kč is reported as a difference.</p>
+<p><strong>Souhrnné hlášení ↔ přiznání.</strong> The instructions of the přiznání send three
+rows to the souhrnné hlášení: ř. 20 with codes 0 and 1 (goods and transfers
+of own goods), ř. 21 with code 3 (services under § 9 odst. 1) and ř. 31 with
+code 2 (the middle party of a triangular trade).</p>
+<p><strong>Quarterly payers.</strong> Where the přiznání covers a quarter and the hlášení a
+month, the hlášení of all three months are added before comparing. If one of
+them is not computed, the rows are shown as <em>informational</em> with a note, not
+as differences.</p>
+<p><strong>Přiznání ↔ ledger.</strong></p>
+<table>
+<thead>
+<tr>
+<th>Row</th>
+<th>Přiznání</th>
+<th>Ledger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daň na výstupu</td>
+<td>ř. 62</td>
+<td>output tax booked on 343 by tax lines, including the self-assessed tax of reverse charge and acquisitions</td>
+</tr>
+<tr>
+<td>Odpočet daně</td>
+<td>ř. 46, both columns</td>
+<td>deduction booked on 343 by tax lines</td>
+</tr>
+<tr>
+<td>Pohyby na účtu 343 mimo daňové řádky</td>
+<td>—</td>
+<td>what moved on 343 with no tax behind it: payments to and from the tax office, and anything booked by hand</td>
+</tr>
+<tr>
+<td>Uskutečněná plnění ↔ tržby</td>
+<td>ř. 1, 2, 20–26</td>
+<td>credit turnover of account group 60; for orientation only</td>
+</tr>
+</tbody>
+</table>
+<p>The first two must agree within 20 Kč (each row of the přiznání is rounded
+to whole crowns on its own). The last two are informational: look at the
+third when it is not explained by payments of the tax.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
+<li>The cross-checks are advisory. They do not block exporting or filing.</li>
+<li>The cross-checks read what is computed in Odoo. They cannot see a filing
+  made elsewhere, and the ledger check reads account 343 by its code.</li>
+<li>The coefficient rows of the přiznání (52, 53, 60) are not compared with
+  the ledger; no tax line books them.</li>
 <li>A switch for a module that is not on the server (Method A, the financial
   statements and the income-tax return are delivered separately) does
   nothing.</li>
@@ -158,7 +305,7 @@ expense.</p>
 <li>The setting help for <em>Method A inventory</em> says perpetual inventory is
   required for audited companies; this guide does not confirm that statement.</li>
 </ul>
-<footer><p>Text checked against module version: 19.0.1.2.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p>Text checked against module version: 19.0.1.4.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

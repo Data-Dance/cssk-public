@@ -50,11 +50,11 @@
                             t-att-dup="r.supply_date.strftime('%d.%m.%Y') if r.supply_date else ''"
                             t-att-osv_plneni="'%.0f' % r.base_std"/>
                 </t>
-                <!-- kod_rezim_pl is always 0 (běžné plnění) and VetaB2 pomer
-                     always N: the module has no data for the § 89 / § 90
-                     special schemes or for a § 75 poměrný odpočet. A company
+                <!-- kod_rezim_pl is always 0 (běžné plnění): the module has no
+                     data for the § 89 / § 90 special schemes, and a company
                      using either must correct those rows before filing (see
-                     the module guide, Limitations). -->
+                     the module guide, Limitations). VetaB2 pomer follows the
+                     taxes of the bill (l10n_cz_proportional_deduction). -->
                 <t t-foreach="sections_by_code['A4']" t-as="r">
                     <VetaA4 t-att-dic_odb="r.partner_vat_stripped"
                             t-att-c_evid_dd="r.entry_ref"
@@ -86,7 +86,7 @@
                             t-att-zakl_dane1="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_std" t-att-dan1="'%.0f' % r.tax_std"
                             t-att-zakl_dane2="None if r.move_id.l10n_cz_bad_debt == 'A' else '%.0f' % r.base_red" t-att-dan2="'%.0f' % r.tax_red"
                             t-att-zakl_dane3="('%.0f' % r.base_red3) if r.base_red3 and r.move_id.l10n_cz_bad_debt != 'A' else None" t-att-dan3="('%.0f' % r.tax_red3) if r.tax_red3 else None"
-                            pomer="N"
+                            t-att-pomer="'A' if r.proportional else 'N'"
                             t-att-zdph_44="r.move_id.l10n_cz_bad_debt or 'N'"/>
                 </t>
                 <t t-foreach="sections_by_code['B3']" t-as="r">

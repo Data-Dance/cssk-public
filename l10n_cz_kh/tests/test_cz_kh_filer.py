@@ -23,6 +23,9 @@ class TestCzKhFiler(AccountTestInvoicingCommon):
     @AccountTestInvoicingCommon.setup_country("cz")
     def setUpClass(cls):
         super().setUpClass()
+        # The tests match message text, so they read English whatever
+        # languages the database has loaded.
+        cls.env = cls.env(context=dict(cls.env.context, lang="en_US"))
         cls.company = cls.company_data["company"]
         cls.company.write({
             "vat": "CZ25663585",
@@ -98,7 +101,7 @@ class TestCzKhFiler(AccountTestInvoicingCommon):
     def test_a_natural_person_files_as_f(self):
         self.company.write({
             "l10n_cssk_person_type_id": self.env.ref(
-                "l10n_cz_statutory.cz_person_type_fo").id,
+                "l10n_cssk_core.cz_person_type_fo").id,
             "l10n_cz_epo_title": "Ing.",
             "l10n_cz_epo_first_name": "Jan",
             "l10n_cz_epo_last_name": "Dvořák",
@@ -221,6 +224,46 @@ class TestCzKhFiler(AccountTestInvoicingCommon):
         self.assertEqual(row.get("vatid_odb"), "46342958")
         self.assertEqual(row.get("k_stat"), "CZ")
         self.assertIsNone(row.get("jm_prijm_obch"))
+
+    def _bill(self, tax, amount=20000.0, ref="FP-1"):
+        bill = self.env["account.move"].create({
+            "move_type": "in_invoice", "partner_id": self.partner.id,
+            "ref": ref,
+            "invoice_date": fields.Date.context_today(self.env.user),
+            "invoice_line_ids": [Command.create({
+                "name": "x", "quantity": 1, "price_unit": amount,
+                "tax_ids": [Command.set(tax.ids)]})],
+        })
+        bill.action_post()
+        return bill
+
+    def test_b2_states_a_proportional_deduction(self):
+        """VetaB2/pomer: "Specifikace poměrného nároku na odpočet daně,
+        pokud je takto vykazován podle § 75". It was always N."""
+        full = self.env["account.chart.template"].ref(
+            "l10n_cz_21_receipt_domestic_supplies")
+        partial = full.copy({"name": "21 % poměrný odpočet"})
+        partial.l10n_cz_proportional_deduction = True
+        self._bill(full, ref="FP-PLNY")
+        self._bill(partial, ref="FP-POMER")
+        st = self._statement()
+        rows = {r.entry_ref: r for r in st.cz_b2_ids}
+        self.assertFalse(rows["FP-PLNY"].proportional)
+        self.assertTrue(rows["FP-POMER"].proportional)
+        flags = {r.get("c_evid_dd"): r.get("pomer")
+                 for r in self._export(st).findall(".//VetaB2")}
+        self.assertEqual(flags, {"FP-PLNY": "N", "FP-POMER": "A"})
+
+    def test_a_flag_set_by_hand_survives_the_recompute(self):
+        full = self.env["account.chart.template"].ref(
+            "l10n_cz_21_receipt_domestic_supplies")
+        self._bill(full)
+        st = self._statement()
+        st.cz_b2_ids.write({"is_overridden": True, "proportional": True})
+        st.action_compute_lines()
+        self.assertTrue(st.cz_b2_ids.proportional)
+        self.assertEqual(
+            self._export(st).find(".//VetaB2").get("pomer"), "A")
 
     def test_a_bad_debt_correction_is_a4_whatever_its_amount(self):
         """A small correction would otherwise vanish into the A.5 aggregate,

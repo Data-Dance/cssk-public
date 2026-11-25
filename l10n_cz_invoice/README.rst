@@ -91,8 +91,19 @@ Payment method on the invoice
 
 With OCA's ``account_payment_mode`` installed, ``l10n_cz_invoice_payment_mode`` installs itself and prints the invoice's **Payment Mode** under the heading *Forma úhrady*, in the same row as the payment symbols — for example *Převodem* or *Hotově*, whatever you named your payment modes. It is printed only when the invoice has a payment mode, and only for a Czech company. ``account_payment_mode`` itself prints only the mode's note, at the foot of the invoice.
 
+Cash payment limit
+====================
+
+A payment or the payment wizard on a cash journal shows a warning when the cash paid between the company and one partner **on one calendar day**, in one direction, exceeds **270 000 Kč**: `§ 4 of Act No. 254/2004 Sb. <https://e-sbirka.gov.cz/sb/2004/254>`__. The payer must then pay by transfer and the payee must not accept cash. All cash payments of that day between the two are added together, whatever documents they settle (§ 4 odst. 4); a payment in another currency counts at the rate of its day (§ 4 odst. 3). Contacts of one company are one partner.
+
+A cash statement line with a partner other than the company itself is counted and carries the same warning, and leaves it as a note on the entry. A line with the company itself as partner, such as a deposit to the bank, is no payment (§ 2 odst. 2) and is left alone.
+
+The warning does not block: the payments outside the duty (§ 3 odst. 2: taxes, obligatory payments under employment law, pensions) cannot be told apart.
+
 Limitations
 =============
+
+- The cash limit counts payments and cash statement lines recorded in Odoo, by the partner on them. Cash taken at the Point of Sale is not counted.
 
 - A domestic exempt supply with a 0 % tax sold to a foreign customer gets the § 64 or § 66 phrase too, and a domestic exempt supply to a Czech customer gets none.
 
@@ -104,7 +115,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_invoice``
-- **Version:** 19.0.1.1.1
+- **Version:** 19.0.1.2.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cz``, ``l10n_cssk_core``, ``l10n_cssk_payment_symbols``

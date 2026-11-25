@@ -18,7 +18,7 @@ filings — Rozvaha + Výsledovka and DPPDP9) are selectable in
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.2.0",
+    "version": "19.0.1.4.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": [
@@ -36,6 +36,7 @@ filings — Rozvaha + Výsledovka and DPPDP9) are selectable in
     ],
     "data": [
         "views/res_config_settings_views.xml",
+        "views/reconciliation_buttons.xml",
     ],
     "installable": True,
 }

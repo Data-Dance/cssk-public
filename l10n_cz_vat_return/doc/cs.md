@@ -1,7 +1,7 @@
 ---
 title: CZ Přiznání k DPH (DPHDP3)
 summary: České přiznání k DPH vypočtené z daňových štítků české účtové osnovy Odoo a exportované jako XML DPHDP3 pro EPO, pro každé období ověřené proti aktuálnímu úřednímu XSD.
-verified: 19.0.1.18.1
+verified: 19.0.1.19.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -207,6 +207,54 @@ je-li to prodejní doklad, nebo na **ř. 34**, je-li to nákupní doklad, vedle
 případných záznamů ručně označených štítkem *VAT 33* / *VAT 34*. Řádky 62 a 63
 ř. 33 a ř. 34 nesčítají.
 
+## Faktury po splatnosti: odpočet podle § 74b {#par74b}
+
+Od 1. ledna 2025 musí plátce, který dodavatelskou fakturu zcela neuhradil
+do **posledního dne šestého kalendářního měsíce následujícího po měsíci
+splatnosti**, snížit uplatněný odpočet daně v poměru neuhrazené části, a to
+za zdaňovací období, do kterého tento den náleží:
+[§ 74b odst. 3](law:cz/2004/235). Po pozdější úhradě se odpočet vrací
+v poměru toho, co bylo uhrazeno (odst. 4). Pravidlo se nepoužije na nárok
+na odpočet vzniklý před rokem 2025 (zákon č. 461/2024 Sb., čl. II bod 17).
+
+**Příprava oprav.** *Účetnictví → Účetnictví → Oprava odpočtu daně
+(§ 74b)*:
+
+| Pole | Význam |
+|---|---|
+| Ke dni | Nabídnou se faktury, jimž lhůta šesti měsíců uplynula do tohoto dne. |
+| Zdaňovací období | Měsíc nebo čtvrtletí. Čtvrtletnímu plátci povinnost nevzniká u faktury zcela uhrazené do konce čtvrtletí, v němž lhůta uplynula; faktura do té doby uhrazená zčásti se opraví o to, co zůstalo neuhrazeno ke konci čtvrtletí. |
+| Datum opravy | *Poslední den lhůty* datuje každou opravu dnem, který určuje zákon. Je-li toto období uzamčeno, průvodce opravy odmítne a faktury vyjmenuje: období otevřete a podejte dodatečné přiznání, nebo zvolte *Den uvedený výše* a opravy vykažte k zadanému dni. |
+| Účet nákladu | Kam se zaúčtuje daň, kterou už nelze odpočíst; navrhuje se 538. |
+
+Seznam ukazuje nalezené faktury: zaúčtované přijaté faktury společnosti
+s odpočtem, s datem uskutečnění plnění od 1. ledna 2025, s uplynulou lhůtou,
+k rozhodnému dni ne zcela uhrazené a dosud neopravené. Úhrada po rozhodném
+dni fakturu ze seznamu neodstraní; odpočet se díky ní vrátí až následně.
+
+**Připravit opravy** vytvoří ke každé faktuře jeden koncept dokladu a otevře
+je. Zkontrolujte je a zaúčtujte. Každý je přijatý dobropis na **nulu**:
+
+- řádek s daní původní faktury na neuhrazenou část základu, který sníží
+  ř. 40 / 41 o základ i daň;
+- řádek, který základ vrací, a řádek, který daň účtuje na nákladový účet,
+  takže se saldo dodavatele nemění (dluh trvá).
+
+Doklad nese číslo dodavatelské faktury a příznak *Oprava u nedobytné
+pohledávky* = P, takže je jeho daň i na **ř. 34** a v kontrolním hlášení je
+řádkem oddílu **B.2** bez ohledu na částku
+([Opravy u nedobytných pohledávek](#bad-debt)). Účtuje se MD nákladový účet
+/ D 343.
+
+**Vrácení odpočtu.** Na opravené faktuře po úhradě tlačítko **Vrátit
+odpočet (§ 74b odst. 4)** připraví zrcadlový doklad, přijatou fakturu na
+nulu s dnešním datem, na daň z toho, co bylo od opravy uhrazeno a dosud
+nevráceno. Lze ho použít po každé částečné úhradě. Po konci druhého
+kalendářního roku následujícího po poslední úhradě je odmítnut (odst. 9).
+
+Fakturu najdete se stavem na záložce *Další informace*: *Stav § 74b*
+a doklady, které k ní vznikly.
+
 ## Historické sazby {#historic-rates}
 
 Při instalaci a vždy, když společnost načte českou osnovu, se sazby, které už
@@ -230,6 +278,15 @@ mezi nimi její data nevylučují.
 
 ## Omezení {#limitations}
 
+- **§ 74b řeší jen fakturu po splatnosti (odst. 3 a 4)**, nikoli opravy
+  navazující na opravu základu daně věřitelem u nedobytné pohledávky
+  (odst. 1 a 2); takové doklady označte ručně. Faktury v režimu přenesení
+  daňové povinnosti se vynechávají: dodavateli se z nich žádná daň nedluží.
+  Faktury splatné ve splátkách průvodce vypíše, ale neopraví, protože každá
+  splátka má vlastní lhůtu. „Uhrazeno“ znamená spárováno v Odoo, s datem
+  pozdějšího ze dvou spárovaných zápisů; dodavatelský dobropis započtený
+  proti faktuře se počítá jako úhrada. Zda je faktura neuhrazená, se čte
+  z účetnictví, proto před spuštěním průvodce spárujte platby.
 - Odpočty v krácené výši a řádky 45, 52, 53 a 60 jsou ruční (viz
   [výše](#usage)), stejně jako část řádku 62 podle § 108 odst. 4 písm. g) a h).
 - Obsahové kontroly pokrývají jen řádky 64 a 65; schéma nepozná, zda jsou

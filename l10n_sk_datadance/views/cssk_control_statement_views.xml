@@ -2,7 +2,9 @@
 <odoo>
 
     <!-- Add the KV ↔ priznanie reconciliation button (umbrella: both the KV and
-         the VAT-return modules are installed together here). -->
+         the VAT-return modules are installed together here). On Slovak
+         filings only: the forms are shared with the Czech suite, whose
+         filings have their own buttons and their own row map. -->
     <record id="cssk_control_statement_view_form_reconcile" model="ir.ui.view">
         <field name="name">cssk.control.statement.form.reconcile</field>
         <field name="model">cssk.control.statement</field>
@@ -10,9 +12,10 @@
                ref="l10n_cssk_kv_kh_base.cssk_control_statement_view_form"/>
         <field name="arch" type="xml">
             <button name="action_export_xml" position="after">
+                <field name="country_code" invisible="1"/>
                 <button name="action_reconcile_dph" type="object"
                         string="Porovnať s priznaním"
-                        invisible="state == 'draft'"/>
+                        invisible="state == 'draft' or country_code != 'SK'"/>
             </button>
         </field>
     </record>

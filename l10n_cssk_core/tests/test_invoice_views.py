@@ -46,3 +46,23 @@ class TestInvoiceListTaxableSupplyDate(TransactionCase):
                 self.assertTrue(arch.xpath(
                     "//filter[contains(@context, \"'group_by': 'taxable_supply_date'\")]"
                 ))
+
+
+class TestInvoiceFormDeclaredPeriod(TransactionCase):
+    def test_the_declared_period_has_a_label(self):
+        """'VAT period declared' sits in the form's group, where a field gets
+        its label.
+
+        It was anchored on ``invoice_date_due``, which core keeps inside
+        ``<div name="due_date">`` next to the payment terms. A field inside a
+        div renders without a label, so the one date that overrides a
+        document's VAT period showed as a nameless box in the due-date row,
+        and an accountant told to fill it in could not find it.
+        """
+        view = self.env.ref("account.view_move_form")
+        arch = etree.fromstring(self.env["account.move"].get_views(
+            [(view.id, "form")])["views"]["form"]["arch"])
+        fields = arch.xpath("//field[@name='cssk_vat_deduction_date']")
+        self.assertEqual(len(fields), 1)
+        self.assertEqual(fields[0].getparent().tag, "group")
+        self.assertFalse(fields[0].get("nolabel"))

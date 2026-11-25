@@ -123,7 +123,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_sk_invoice``
-- **Version:** 19.0.1.1.0
+- **Version:** 19.0.1.1.1
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_sk``, ``l10n_cssk_core``, ``l10n_sk_base``, ``l10n_cssk_payment_symbols``

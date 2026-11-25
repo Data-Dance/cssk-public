@@ -1,7 +1,7 @@
 ---
 title: CZ/SK lokalizace — společné jádro
 summary: Společný základ českých a slovenských zákonných modulů — nastavení, finanční úřady, kontrola IČO, období DPH dokladu, životní cyklus podání a porovnání podaného s vypočteným.
-verified: 19.0.1.21.0
+verified: 19.0.1.22.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -40,6 +40,7 @@ lokalizace**:
 | Finanční výkazy (Community) | Nainstaluje modul OCA `account_financial_report`: hlavní kniha, obratová předvaha, kniha partnerů, saldokonto po splatnosti, deník. Jen v Community. |
 | Výchozí správce daně | Finanční úřad, kterému jsou podání adresována. Nabízejí se jen úřady země daňové příslušnosti společnosti. |
 | DPH přiznaná v pozdějším období | Účet pro přeúčtování DPH — viz [Přeúčtování DPH](#vat-deferral). Prázdné = vypnuto. |
+| Období DPH přijatých dokladů | Datum, podle kterého se přijatá faktura, opravný doklad nebo příjmový doklad zařadí do období DPH: *datum zaúčtování* (výchozí) nebo *DUZP* — viz [Deklarované období DPH](#vat-period-declared). |
 | Deníky závěrky roku | Deníky se zápisy uzavření a otevření účetního roku. Jejich doklady se nezapočítávají do účetní závěrky, daňového přiznání k dani z příjmů ani do finančních výkazů, aby uzavření roku nevynulovalo rozvahu a výsledovku. Prázdné, pokud se rok v této databázi neuzavírá. |
 
 Kompletní sady přidávají do tohoto bloku vlastní přepínače, jeden pro každý
@@ -123,6 +124,22 @@ Zákonné výkazy zařadí doklad do období takto:
 Vyplňte ho u přijaté faktury, z níž uplatňujete odpočet později, než je
 zaúčtována, u opravy přiznávané v pozdějším období nebo u dokladu zadaného
 opožděně. Právní základ je v části [Právní rámec](#legal).
+
+**Brzy zamykané účetnictví.** Zamykáte-li období dříve, než přijdou všechny
+jeho faktury, opožděná faktura se zaúčtuje do otevřeného období, ale odpočet
+patří do přiznání za zamčené období. Nastavte **Období DPH přijatých dokladů**
+na *DUZP* a druhý řádek tabulky se změní:
+
+| Doklad | Období |
+|---|---|
+| Přijatá faktura, opravný doklad od dodavatele, příjmový doklad | *Deklarované období DPH*, je-li vyplněno; jinak DUZP; jinak datum zaúčtování |
+
+*DUZP* na přijaté faktuře pak určuje období DPH v daňovém přiznání
+i v kontrolním hlášení a *Datum dodání*, je-li vyplněno, je datum plnění
+uvedené v kontrolním hlášení a datum, podle kterého se určí sazba daně. Daňový
+doklad k přijaté platbě si pro obojí ponechává DUZP (den zaplacení zálohy).
+Vydaných dokladů se nastavení netýká. Přeúčtování DPH níže se nadále řídí jen
+polem *Deklarované období DPH*.
 
 ### Přeúčtování DPH {#vat-deferral}
 

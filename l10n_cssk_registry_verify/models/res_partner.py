@@ -48,6 +48,28 @@ NAME_MATCH_ACCEPT = 0.90
 #: omitted, which is exactly what review is for.
 NAME_MATCH_REVIEW = 0.60
 
+#: Statistical legal-form codes of a natural person in business. The Czech
+#: (ČSÚ) and Slovak (ŠÚ SR) code lists share the block: 101 is the trade
+#: licence holder not entered in the commercial register, 102 the one who is,
+#: and the rest up to 110 are farmers and the liberal professions. 111 is
+#: already a v.o.s. in both.
+NATURAL_PERSON_FORMS = range(100, 111)
+
+
+def _is_natural_person_form(legal_form):
+    """Whether a register's legal form names a person rather than a company.
+
+    ARES answers with the code. ORSF answers with the form's name for a
+    company and the bare code for a trade licence holder (``"101"``, seen
+    2026-11-24), so both spellings are read: a code in the block, or wording
+    that says "fyzická osoba".
+    """
+    text = str(legal_form or "").strip().lower()
+    if text.isdigit():
+        return int(text) in NATURAL_PERSON_FORMS
+    return "fyzick" in text and "osob" in text
+
+
 PARAM_ACCEPT = "l10n_cssk_registry_verify.name_match_accept"
 PARAM_REVIEW = "l10n_cssk_registry_verify.name_match_review"
 
@@ -123,6 +145,8 @@ class ResPartner(models.Model):
             "tax_id": "",
             "vat": "",
             "active": False,
+            "legal_form": "",
+            "natural_person": False,
             "cached": False,
         }
 
@@ -243,11 +267,16 @@ class ResPartner(models.Model):
         ``stavZdrojeDph: NEEXISTUJICI``. The registration state is checked as
         well because "never registered" and "no longer registered" are
         different facts and only the first is visible in ``dic``.
+
+        ``pravniForma`` is the ČSÚ code, and it is what tells a sole trader
+        from a company: the register holds both under an IČO, and a sole
+        trader's registered name is simply the person's own.
         """
         seat = body.get("sidlo") or {}
         street = (seat.get("textovaAdresa") or "").split(",")[0].strip()
         dic = body.get("dic") or ""
         vat_live = (body.get("seznamRegistraci") or {}).get("stavZdrojeDph") == "AKTIVNI"
+        legal_form = str(body.get("pravniForma") or "").strip()
         return {
             "name": body.get("obchodniJmeno") or "",
             "street": street,
@@ -259,6 +288,8 @@ class ResPartner(models.Model):
             # the VAT registration is live.
             "vat": _prefixed_vat(dic) if vat_live else "",
             "active": not body.get("datumZaniku"),
+            "legal_form": legal_form,
+            "natural_person": _is_natural_person_form(legal_form),
         }
 
     @api.model
@@ -270,6 +301,11 @@ class ResPartner(models.Model):
         city alone. That is not an error and must not read as one -- the
         identity fields, which are what a gate actually needs, all come back.
         The caller collects the missing lines from the person instead.
+
+        The same lock is the second sign of a natural person, beside the legal
+        form: ORSF withholds an address only where GDPR applies, which is to a
+        person. Either sign is enough, so a legal form ORSF words in a way
+        nobody has seen yet does not turn a person into a company.
         """
         address = body.get("address") or {}
         # The register says "aktívna"/"active"; a dissolved subject also
@@ -277,6 +313,7 @@ class ResPartner(models.Model):
         # side cannot silently mark a dead company alive.
         status = (body.get("status") or body.get("statusCode") or "").strip().lower()
         active = status in ("aktívna", "aktivna", "active") and not body.get("dissolvedOn")
+        legal_form = str(body.get("legalForm") or "").strip()
         return {
             "name": body.get("name") or "",
             "street": address.get("street") or "",
@@ -287,6 +324,10 @@ class ResPartner(models.Model):
             # is preferred over deriving one from the DIČ.
             "vat": _prefixed_vat(body.get("icDph")),
             "active": active,
+            "legal_form": legal_form,
+            "natural_person": bool(
+                _is_natural_person_form(legal_form) or body.get("addressLocked")
+            ),
         }
 
     # ------------------------------------------------------------------
@@ -317,6 +358,20 @@ class ResPartner(models.Model):
     cssk_registry_active = fields.Boolean(
         string="Active in the register", readonly=True, copy=False,
         help="The register showed the company as active, not dissolved.",
+    )
+    cssk_registry_legal_form = fields.Char(
+        string="Legal form in the register", readonly=True, copy=False,
+        help="As the register states it: a statistical code or the form's name.",
+    )
+    cssk_registry_natural_person = fields.Boolean(
+        string="Natural person in the register", readonly=True, copy=False,
+        help="The register holds this subject as a person in business (a sole "
+        "trader, a farmer, a liberal profession), not as a company.",
+    )
+    cssk_registry_vat_registered = fields.Boolean(
+        string="VAT payer in the register", readonly=True, copy=False,
+        help="The register showed a live VAT registration when it was asked. "
+        "Unlike the VAT number on the contact, nobody can type this.",
     )
     cssk_name_verdict = fields.Selection(
         [
@@ -378,6 +433,9 @@ class ResPartner(models.Model):
             "cssk_registry_outcome": result.get("outcome") or False,
             "cssk_registry_name": result.get("name") or False,
             "cssk_registry_active": bool(result.get("active")),
+            "cssk_registry_legal_form": result.get("legal_form") or False,
+            "cssk_registry_natural_person": bool(result.get("natural_person")),
+            "cssk_registry_vat_registered": bool(result.get("vat")),
             "cssk_name_verdict": result.get("name_verdict") or "unknown",
             "cssk_name_score": result.get("name_score") or 0.0,
             "cssk_registry_checked_on": fields.Datetime.now(),

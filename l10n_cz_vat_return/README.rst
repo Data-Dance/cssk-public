@@ -156,6 +156,41 @@ Bad-debt corrections
 
 A document flagged with **Oprava u nedobytné pohledávky** (a field added by ``l10n_cz_statutory``) is reported twice, as the Financial Administration's information of 4 December 2019 requires. It stays on its ordinary row, ř. 1/2 for the creditor and ř. 40/41 for the debtor, where it lowers the tax due. Its tax is also shown on **ř. 33** when it is a sales document or **ř. 34** when it is a purchase document, in addition to any entry tagged *VAT 33* / *VAT 34* by hand. ř. 62 and ř. 63 do not add ř. 33 and ř. 34.
 
+Overdue bills: the deduction under § 74b
+==========================================
+
+From 1 January 2025 a VAT payer who has not paid a supplier's bill in full by the **last day of the sixth calendar month after the month in which it fell due** must reduce the deduction claimed, in proportion to the unpaid part, in the tax period that day belongs to: `§ 74b odst. 3 <https://e-sbirka.gov.cz/sb/2004/235>`__. When the bill is paid later, the deduction comes back in proportion to what was paid (odst. 4). The rule does not apply to a deduction that arose before 2025 (Act No. 461/2024 Sb., čl. II bod 17).
+
+**Preparing the corrections.** *Accounting → Accounting → Oprava odpočtu daně (§ 74b)*:
+
+.. list-table::
+   :header-rows: 1
+
+   * - Field
+     - Meaning
+   * - Ke dni
+     - Bills whose six months ran out by this day are offered.
+   * - Zdaňovací období
+     - Month or quarter. A quarterly payer owes no correction for a bill paid in full by the end of the quarter in which the six months ran out; a bill paid in part by then is corrected for what was still unpaid at the end of the quarter.
+   * - Datum opravy
+     - *Poslední den lhůty* dates each correction on the day the law names. If that period is locked the wizard refuses and names the bills: reopen the period and file a dodatečné přiznání, or choose *Den uvedený výše* to report the corrections on the day entered.
+   * - Účet nákladu
+     - Where the tax that is no longer deductible is booked; 538 is proposed.
+
+The list shows the bills found: posted vendor bills of the company with a deduction, a taxable supply date from 1 January 2025, the time limit run out, not fully paid on the deciding day and not corrected yet. Payments made after the deciding day do not remove a bill from the list; they give the deduction back afterwards.
+
+**Připravit opravy** creates one draft document per bill and opens them. Check and post them. Each is a vendor credit note for **zero**:
+
+- a line with the bill's own tax, for the unpaid share of the base, which lowers ř. 40 / 41 by base and tax;
+
+- a line taking the base back and a line booking the tax to the cost account, so the supplier's balance does not change (the debt remains).
+
+It carries the supplier's number of the bill and the flag *Oprava u nedobytné pohledávky* = P, so its tax is also on **ř. 34** and it is a row of **B.2** in the kontrolní hlášení whatever its amount (`Bad-debt corrections <#bad-debt>`__). The entry is cost account debit / 343 credit.
+
+**Giving the deduction back.** On the corrected bill, after a payment, the button **Vrátit odpočet (§ 74b odst. 4)** prepares the mirror document, a vendor bill for zero dated today, for the tax of what was paid since the correction and not yet given back. It can be used after each part payment. It is refused after the end of the second calendar year following the last payment (odst. 9).
+
+The bill shows where it stands under *Other Info*: *Stav § 74b* and the documents made for it.
+
 Historical rates
 ==================
 
@@ -194,6 +229,8 @@ On install and whenever a company loads the Czech chart, the rates no longer in 
 Limitations
 =============
 
+- **§ 74b covers the overdue bill (odst. 3 and 4) only**, not the corrections that follow a creditor's correction of an unrecoverable receivable (odst. 1 and 2); flag those documents by hand. Bills under reverse charge are left out: no VAT is owed to the supplier there. Bills payable in instalments are listed in the wizard but not corrected, because each instalment has its own time limit. "Paid" means reconciled in Odoo, dated by the later of the two entries reconciled; a supplier's credit note set against the bill counts as payment. Whether the bill is unpaid is read from the books, so reconcile payments before running the wizard.
+
 - The reduced-amount deductions, rows 45, 52, 53 and 60, are manual (see `above <#usage>`__), and so is the § 108 odst. 4 g)/h) part of row 62.
 
 - The content checks cover rows 64 and 65 only; the schema cannot tell whether the other figures are consistent.
@@ -210,7 +247,7 @@ Module facts
 ============
 
 - **Technical name:** ``l10n_cz_vat_return``
-- **Version:** 19.0.1.18.1
+- **Version:** 19.0.1.19.0
 - **Edition:** Community and Enterprise
 - **Licence:** AGPL-3
 - **Requires:** ``l10n_cssk_vat_return_base``, ``l10n_cz``, ``l10n_cz_statutory``

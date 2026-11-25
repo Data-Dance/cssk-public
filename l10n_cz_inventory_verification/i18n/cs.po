@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-15 18:41+0000\n"
+"POT-Creation-Date: 2026-11-23 23:48+0000\n"
 "PO-Revision-Date: 2026-11-15 18:41+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -31,6 +31,13 @@ msgstr "%s: rozhodný den musí předcházet rozvahovému dni (§ 30 odst. 4)."
 #. module: l10n_cz_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
 msgid "(ocenění ke dni"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+msgid ""
+"):\n"
+"                                rozdíl se tímto zápisem neúčtuje —"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
@@ -62,8 +69,7 @@ msgid ""
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
 msgid ""
 "<br/>\n"
 "                                <strong>Sídlo:</strong>"
@@ -85,8 +91,7 @@ msgid "<strong>Inventury provedeny:</strong>"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
 msgid "<strong>IČO:</strong>"
 msgstr ""
 
@@ -146,13 +151,17 @@ msgid "<strong>Účet:</strong>"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
 msgid "<strong>Účetní jednotka:</strong>"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__account_id
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+msgid "A draft journal entry is deleted, a posted one is reversed on the same day. Continue?"
+msgstr "Účetní zápis v návrhu se smaže, zaúčtovaný se stornuje ke stejnému dni. Pokračovat?"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__account_id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__account_id
 msgid "Account"
 msgstr "Účet"
 
@@ -182,6 +191,11 @@ msgid "Activity Type Icon"
 msgstr "Ikona typu aktivity"
 
 #. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__amount
+msgid "Amount"
+msgstr "Částka"
+
+#. module: l10n_cz_inventory_verification
 #. odoo-python
 #: code:addons/l10n_cz_inventory_verification/models/l10n_cz_inventarizace.py:0
 msgid "An inventarizace without an inventurní soupis is not complete."
@@ -190,22 +204,14 @@ msgstr "Inventarizace bez inventurního soupisu není úplná."
 #. module: l10n_cz_inventory_verification
 #. odoo-python
 #: code:addons/l10n_cz_inventory_verification/models/l10n_cz_inventarizace.py:0
-msgid ""
-"An inventura ends more than two months after the rozvahový den (§ 30 odst. 6"
-" písm. b))."
-msgstr ""
-"Některá inventura končí později než dva měsíce po rozvahovém dni (§ 30 odst."
-" 6 písm. b))."
+msgid "An inventura ends more than two months after the rozvahový den (§ 30 odst. 6 písm. b))."
+msgstr "Některá inventura končí později než dva měsíce po rozvahovém dni (§ 30 odst. 6 písm. b))."
 
 #. module: l10n_cz_inventory_verification
 #. odoo-python
 #: code:addons/l10n_cz_inventory_verification/models/l10n_cz_inventarizace.py:0
-msgid ""
-"An inventura starts more than four months before the rozvahový den (§ 30 "
-"odst. 6 písm. a))."
-msgstr ""
-"Některá inventura začíná dříve než čtyři měsíce před rozvahovým dnem (§ 30 "
-"odst. 6 písm. a))."
+msgid "An inventura starts more than four months before the rozvahový den (§ 30 odst. 6 písm. a))."
+msgstr "Některá inventura začíná dříve než čtyři měsíce před rozvahovým dnem (§ 30 odst. 6 písm. a))."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__message_attachment_count
@@ -218,6 +224,16 @@ msgid "Back to draft"
 msgstr "Zpět na návrh"
 
 #. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+msgid "Book the differences"
+msgstr "Zaúčtovat rozdíly"
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+msgid "Cancel the booking of differences"
+msgstr "Zrušit zaúčtování rozdílů"
+
+#. module: l10n_cz_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
 msgid "Cena za jednotku"
 msgstr ""
@@ -228,8 +244,7 @@ msgid "Close"
 msgstr "Ukončit"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__company_id
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__company_id
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__company_id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__company_id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__company_id
 msgid "Company"
 msgstr "Společnost"
 
@@ -239,25 +254,29 @@ msgid "Comparison"
 msgstr "Porovnání"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__create_uid
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__create_uid
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__create_uid
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__counterpart_account_id
+msgid "Counterpart account"
+msgstr "Souvztažný účet"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__create_uid model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__create_uid model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__create_uid model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__create_uid
 msgid "Created by"
 msgstr "Vytvořeno uživatelem"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__create_date
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__create_date
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__create_date
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__create_date model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__create_date model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__create_date model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__create_date
 msgid "Created on"
 msgstr "Vytvořeno dne"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__currency_id
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__currency_id
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__currency_id
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__currency_id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__currency_id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__currency_id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__currency_id
 msgid "Currency"
 msgstr "Měna"
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+msgid "D"
+msgstr ""
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__name
@@ -265,16 +284,37 @@ msgid "Description"
 msgstr "Popis"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__difference
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_list
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__difference model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_list
 msgid "Difference"
 msgstr "Rozdíl"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__display_name
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__display_name
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__display_name
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference_misdated
+msgid "Difference Misdated"
+msgstr "Rozdíl zaúčtován k jinému dni"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference_move_count
+msgid "Difference Move Count"
+msgstr "Počet účetních zápisů rozdílů"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference_stale
+msgid "Difference Stale"
+msgstr "Zaúčtování neodpovídá soupisům"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__difference_skip
+msgid "Difference not booked here"
+msgstr "Rozdíl se zde neúčtuje"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference_state
+msgid "Differences"
+msgstr "Rozdíly"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__display_name model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__display_name model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__display_name model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný název"
 
@@ -299,10 +339,24 @@ msgid "Druh inventarizace"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__inventory_type
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__inventory_type model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
 msgid "Druh inventury"
 msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+msgid "Druh rozdílu"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__move_state
+msgid "Entry status"
+msgstr "Stav zápisu"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference_move_ids
+msgid "Every entry created from the differences, including the ones taken back since and their reversals."
+msgstr "Všechny zápisy vytvořené z rozdílů včetně těch, které byly mezitím zrušeny, a jejich storen."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__message_follower_ids
@@ -321,15 +375,13 @@ msgstr "Ikona Font Awesome, např. fa-tasks"
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__book_amount
-msgid ""
-"For a dokladová inventura with an account: the balance of the account as at "
-"the day of valuation."
+msgid "For a dokladová inventura with an account: the balance of the account as at the day of valuation."
 msgstr "U dokladové inventury s účtem: zůstatek účtu ke dni ocenění."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__account_id
-msgid "For a dokladová inventura: the account whose balance is verified."
-msgstr "U dokladové inventury: účet, jehož zůstatek se ověřuje."
+msgid "For a dokladová inventura: the account whose balance is verified. For a fyzická inventura: the account the assets are kept on; the booking of the difference is proposed from it."
+msgstr "U dokladové inventury: účet, jehož zůstatek se ověřuje. U fyzické inventury: účet, na kterém se majetek vede; navrhne se z něj zaúčtování rozdílu."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields.selection,name:l10n_cz_inventory_verification.selection__l10n_cz_inventurni_soupis__inventory_type__fyzicka
@@ -352,9 +404,7 @@ msgid "Hmotně odpovědná osoba:"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__id
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__id
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__id
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__id
 msgid "ID"
 msgstr "ID"
 
@@ -374,8 +424,7 @@ msgid "If checked, new messages require your attention."
 msgstr "Pokud je zaškrtnuto, nové zprávy vyžadují vaši pozornost."
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__message_has_error
-#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__message_has_sms_error
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__message_has_error model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr "Pokud je zaškrtnuto, některé zprávy mají chybu při doručení."
 
@@ -385,9 +434,7 @@ msgid "In progress"
 msgstr "Probíhá"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.actions.act_window,name:l10n_cz_inventory_verification.action_inventarizace
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__inventarizace_id
-#: model:ir.ui.menu,name:l10n_cz_inventory_verification.menu_inventarizace
+#: model:ir.actions.act_window,name:l10n_cz_inventory_verification.action_inventarizace model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__inventory_id model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__inventarizace_id model:ir.ui.menu,name:l10n_cz_inventory_verification.menu_inventarizace
 msgid "Inventarizace"
 msgstr ""
 
@@ -402,9 +449,12 @@ msgid "Inventarizace (§ 29)"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.actions.report,name:l10n_cz_inventory_verification.action_report_inventarizacni_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
 #: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+msgid "Inventarizační rozdíly (§ 30 odst. 10 a 11)"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.actions.report,name:l10n_cz_inventory_verification.action_report_inventarizacni_zapis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
 msgid "Inventarizační zápis"
 msgstr ""
 
@@ -414,9 +464,7 @@ msgid "Inventura (§ 30 odst. 7)"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.actions.report,name:l10n_cz_inventory_verification.action_report_inventurni_soupis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
+#: model:ir.actions.report,name:l10n_cz_inventory_verification.action_report_inventurni_soupis model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__sheet_id model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
 msgid "Inventurní soupis"
 msgstr ""
 
@@ -426,8 +474,7 @@ msgid "Inventurní soupis (§ 30 odst. 7 zákona č. 563/1991 Sb.)"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__soupis_ids
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__soupis_ids model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
 msgid "Inventurní soupisy"
 msgstr ""
 
@@ -447,18 +494,54 @@ msgid "Jednotka"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__write_uid
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__write_uid
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__write_uid
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+msgid "Journal entries"
+msgstr "Účetní zápisy"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference_move_ids
+msgid "Journal entries of differences"
+msgstr "Účetní zápisy rozdílů"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__move_id
+msgid "Journal entry"
+msgstr "Účetní zápis"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference_journal_id
+msgid "Journal for differences"
+msgstr "Deník pro rozdíly"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__kind
+msgid "Kind"
+msgstr "Druh"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__name
+msgid "Label"
+msgstr "Popis"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__write_uid model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__write_uid model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__write_uid model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__write_uid
 msgid "Last Updated by"
 msgstr "Naposledy upraveno uživatelem"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__write_date
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__write_date
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__write_date
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__write_date model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__write_date model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__write_date model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__write_date
 msgid "Last Updated on"
 msgstr "Naposledy upraveno dne"
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+msgid "MD"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+msgid "Manko (schodek u peněžních hotovostí a cenin) and a loss within the norm lower the actual state below the books, a přebytek raises it; together they must explain the whole difference of the soupis. A claim books the receivable from the liable person. The journal entry is created in draft on the day of valuation of the soupis (§ 30 odst. 11); the accountant posts it."
+msgstr "Manko (schodek u peněžních hotovostí a cenin) a úbytek do normy snižují skutečný stav pod stav v účetnictví, přebytek jej zvyšuje; společně musí vysvětlit celý rozdíl soupisu. Náhrada účtuje pohledávku za odpovědnou osobou. Účetní zápis vzniká v návrhu ke dni ocenění soupisu (§ 30 odst. 11); zaúčtuje jej účetní."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__message_has_error
@@ -486,8 +569,7 @@ msgid "Místo uložení majetku"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__name
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__name
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__name model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__name
 msgid "Name"
 msgstr "Název"
 
@@ -513,30 +595,18 @@ msgstr "Typ další aktivity"
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__approved_by_id
-msgid ""
-"Not a statutory particular: the person who answers for the exercise as a "
-"whole and signs the internal closing record."
-msgstr ""
-"Zákon tento údaj nepředepisuje: osoba, která odpovídá za inventarizaci jako "
-"celek a podepisuje interní inventarizační zápis."
+msgid "Not a statutory particular: the person who answers for the exercise as a whole and signs the internal closing record."
+msgstr "Zákon tento údaj nepředepisuje: osoba, která odpovídá za inventarizaci jako celek a podepisuje interní inventarizační zápis."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__responsible_person_id
-msgid ""
-"Not prescribed by § 30 odst. 7. Printed with a signature line when filled "
-"in."
-msgstr ""
-"§ 30 odst. 7 tento údaj nepředepisuje. Je-li vyplněn, vytiskne se s řádkem "
-"pro podpis."
+msgid "Not prescribed by § 30 odst. 7. Printed with a signature line when filled in."
+msgstr "§ 30 odst. 7 tento údaj nepředepisuje. Je-li vyplněn, vytiskne se s řádkem pro podpis."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__location
-msgid ""
-"Not prescribed by § 30 odst. 7; it helps to identify the assets "
-"unambiguously, as písm. a) requires."
-msgstr ""
-"§ 30 odst. 7 tento údaj nepředepisuje; pomáhá majetek jednoznačně určit, jak"
-" požaduje písm. a)."
+msgid "Not prescribed by § 30 odst. 7; it helps to identify the assets unambiguously, as písm. a) requires."
+msgstr "§ 30 odst. 7 tento údaj nepředepisuje; pomáhá majetek jednoznačně určit, jak požaduje písm. a)."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__note
@@ -544,8 +614,7 @@ msgid "Note"
 msgstr "Poznámka"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__note
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__note model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
 msgid "Notes"
 msgstr "Poznámky"
 
@@ -570,8 +639,7 @@ msgid "Number of messages with delivery error"
 msgstr "Počet zpráv s chybou při doručení"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__amount
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__amount model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
 msgid "Ocenění"
 msgstr ""
 
@@ -591,8 +659,7 @@ msgid "Okamžik zahájení inventury"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__date_as_of
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__date_as_of
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__date_as_of model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__date_as_of
 msgid "Okamžik, ke kterému se sestavuje účetní závěrka"
 msgstr ""
 
@@ -630,6 +697,11 @@ msgid ""
 msgstr ""
 "Chybí náležitosti předepsané v § 30 odst. 7:\n"
 "%s"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__partner_id
+msgid "Partner"
+msgstr "Partner"
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields.selection,name:l10n_cz_inventory_verification.selection__l10n_cz_inventarizace__inventarizace_type__periodicka
@@ -677,6 +749,11 @@ msgid "Product"
 msgstr "Produkt"
 
 #. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+msgid "Propose the settlement of differences"
+msgstr "Navrhnout vyúčtování rozdílů"
+
+#. module: l10n_cz_inventory_verification
 #: model:ir.model.fields.selection,name:l10n_cz_inventory_verification.selection__l10n_cz_inventarizace__inventarizace_type__prubezna
 msgid "Průběžná inventarizace"
 msgstr ""
@@ -695,6 +772,11 @@ msgstr "Načíst zůstatek účtu"
 #: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
 msgid "Read book balances"
 msgstr "Načíst stavy v účetnictví"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__difference_skip_reason
+msgid "Reason"
+msgstr "Důvod"
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__activity_user_id
@@ -717,16 +799,22 @@ msgid "SMS Delivery error"
 msgstr "Chyba doručení SMS"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__sequence
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__sequence
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__sequence model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__sequence model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis_line__sequence
 msgid "Sequence"
 msgstr "Pořadí"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__actual_amount
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__actual_amount
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_list
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__difference_settled
+msgid "Settled"
+msgstr "Vyúčtováno"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__kind
+msgid "Shortage and loss within the norm lower the actual state below the books; a surplus raises it. The three together must explain the whole difference of the count sheet. A claim explains none of it: it books what the liable person is asked to pay."
+msgstr "Manko a úbytek do normy snižují skutečný stav pod stav v účetnictví; přebytek jej zvyšuje. Společně musí vysvětlit celý rozdíl soupisu. Náhrada z něj nevysvětluje nic: účtuje, co se požaduje po odpovědné osobě."
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__actual_amount model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__actual_amount model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_list
 msgid "Skutečný stav"
 msgstr ""
 
@@ -759,13 +847,14 @@ msgstr ""
 "Naplánováno: Budoucí aktivity."
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__book_amount
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__book_amount
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_list
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__book_amount model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__book_amount model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_list
 msgid "Stav v účetnictví"
 msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__difference_residual
+msgid "Still to settle"
+msgstr "Zbývá vyúčtovat"
 
 #. module: l10n_cz_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
@@ -773,10 +862,40 @@ msgid "Summary"
 msgstr "Souhrn"
 
 #. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__account_id
+msgid "The account the difference sits on: the asset or liability counted on the sheet, or, for a claim, the receivable from the liable person."
+msgstr "Účet, na kterém rozdíl vznikl: majetek nebo závazek ze soupisu, u náhrady pohledávka za odpovědnou osobou."
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__difference_skip
+msgid "The difference of this sheet is settled elsewhere — in the asset register, by an adjustment in Odoo Inventory, by a document of its own — or needs no entry. State the reason; it is printed in the closing record."
+msgstr "Rozdíl tohoto soupisu se vypořádá jinde — v evidenci majetku, úpravou v modulu Sklad, vlastním dokladem — nebo zápis nepotřebuje. Uveďte důvod; vytiskne se v inventarizačním zápisu."
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__counterpart_account_id
+msgid "The expense or income account the difference is booked against. Proposed from the kind and the account; change it where your chart or your case differs."
+msgstr "Nákladový nebo výnosový účet, proti kterému se rozdíl účtuje. Navrhne se podle druhu a účtu; změňte jej, pokud se vaše osnova nebo váš případ liší."
+
+#. module: l10n_cz_inventory_verification
 #. odoo-python
 #: code:addons/l10n_cz_inventory_verification/models/l10n_cz_inventarizace.py:0
 msgid "The inventarizace has no inventurní soupis yet."
 msgstr "Inventarizace zatím nemá žádný inventurní soupis."
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+msgid "The inventurní soupisy have changed since the differences were booked: the booked amounts no longer match them. Cancel the booking of differences and book them again."
+msgstr "Inventurní soupisy se od zaúčtování rozdílů změnily: zaúčtované částky jim již neodpovídají. Zrušte zaúčtování rozdílů a zaúčtujte je znovu."
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.view_inventarizace_form
+msgid "The journal entry of the differences is dated another day than the day of valuation: the differences are not booked in the period being verified (§ 30 odst. 11). This happens when the period is locked — on posting, Odoo moves the date past the lock."
+msgstr "Účetní zápis rozdílů má jiné datum než den ocenění: rozdíly tak nejsou zaúčtovány v období, za které se stav ověřuje (§ 30 odst. 11). Stává se to, když je období uzamčeno — Odoo při zaúčtování posune datum za uzamčení."
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__difference_residual
+msgid "The part of the difference no settlement line explains yet."
+msgstr "Část rozdílu, kterou zatím nevysvětluje žádný řádek vyúčtování."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__timing_warning
@@ -804,10 +923,34 @@ msgid "Unit price"
 msgstr "Cena za jednotku"
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__comparison_note
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__difference_line_ids
+msgid "Vyúčtování inventarizačních rozdílů"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+msgid "Vyúčtování inventarizačních rozdílů (§ 30 odst. 10 a 11)"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model,name:l10n_cz_inventory_verification.model_l10n_cz_inventarizacni_rozdil
+msgid "Vyúčtování inventarizačního rozdílu (§ 30 odst. 10 a 11)"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__difference_line_ids
+msgid "Vyúčtování rozdílu"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__comparison_note model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
 msgid "Výsledky porovnání skutečného stavu se stavem v účetnictví"
 msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__warning
+msgid "Warning"
+msgstr "Upozornění"
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,field_description:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__website_message_ids
@@ -818,6 +961,11 @@ msgstr "Zprávy webu"
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__website_message_ids
 msgid "Website communication history"
 msgstr "Historie komunikace na webu"
+
+#. module: l10n_cz_inventory_verification
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizacni_rozdil__partner_id
+msgid "Written on both items of the entry: the liable person of a claim or of a cash shortage, or the partner of a receivable or payable."
+msgstr "Zapíše se na obě položky zápisu: odpovědná osoba u náhrady nebo schodku, nebo partner pohledávky či závazku."
 
 #. module: l10n_cz_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
@@ -852,6 +1000,11 @@ msgid "nestanoven"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+msgid "nezaúčtováno"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
 msgid "podle § 30 odst. 7 zákona č. 563/1991 Sb., o účetnictví"
 msgstr ""
@@ -862,97 +1015,81 @@ msgid "podpis"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
-#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventurni_soupis
 msgid "podpisový záznam"
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+msgid "v návrhu"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__valuation_note
-msgid ""
-"§ 29 odst. 1 — zda nejsou dány důvody pro účtování o položkách podle § 25 "
-"odst. 3 (předvídatelná rizika, možné ztráty, snížení hodnoty); u podnikatelů"
-" opravné položky a rezervy podle § 55 odst. 1 a § 57 odst. 5 vyhlášky č. "
-"500/2002 Sb."
+msgid "§ 29 odst. 1 — zda nejsou dány důvody pro účtování o položkách podle § 25 odst. 3 (předvídatelná rizika, možné ztráty, snížení hodnoty); u podnikatelů opravné položky a rezervy podle § 55 odst. 1 a § 57 odst. 5 vyhlášky č. 500/2002 Sb."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__inventarizace_type
-msgid ""
-"§ 29 odst. 1: periodická inventarizace se provádí k okamžiku, ke kterému se "
-"sestavuje účetní závěrka. Průběžnou inventarizaci lze podle § 29 odst. 2 "
-"provádět pouze u zásob účtovaných podle druhů, míst uložení nebo hmotně "
-"odpovědných osob a u dlouhodobého hmotného movitého majetku v soustavném "
-"pohybu."
+msgid "§ 29 odst. 1: periodická inventarizace se provádí k okamžiku, ke kterému se sestavuje účetní závěrka. Průběžnou inventarizaci lze podle § 29 odst. 2 provádět pouze u zásob účtovaných podle druhů, míst uložení nebo hmotně odpovědných osob a u dlouhodobého hmotného movitého majetku v soustavném pohybu."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__inventory_type
-msgid ""
-"§ 30 odst. 1: fyzická inventura u majetku, u kterého lze vizuálně zjistit "
-"jeho existenci; dokladová inventura u závazků a majetku, u kterého to nelze,"
-" včetně jiných aktiv, jiných pasiv a skutečností účtovaných v knize "
-"podrozvahových účtů."
+msgid "§ 30 odst. 1: fyzická inventura u majetku, u kterého lze vizuálně zjistit jeho existenci; dokladová inventura u závazků a majetku, u kterého to nelze, včetně jiných aktiv, jiných pasiv a skutečností účtovaných v knize podrozvahových účtů."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__comparison_note
-msgid ""
-"§ 30 odst. 2; inventarizační rozdíly (manko, schodek, přebytek) podle § 30 "
-"odst. 10 a jejich vyúčtování podle § 30 odst. 11."
+msgid "§ 30 odst. 2; inventarizační rozdíly (manko, schodek, přebytek) podle § 30 odst. 10 a jejich vyúčtování podle § 30 odst. 11."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__inventory_responsible_id
-msgid ""
-"§ 30 odst. 7 písm. b) — podpisový záznam osoby odpovědné za provedení "
-"inventury."
+msgid "§ 30 odst. 7 písm. b) — podpisový záznam osoby odpovědné za provedení inventury."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__counted_by_id
-msgid ""
-"§ 30 odst. 7 písm. b) — podpisový záznam osoby odpovědné za zjištění "
-"skutečností."
+msgid "§ 30 odst. 7 písm. b) — podpisový záznam osoby odpovědné za zjištění skutečností."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__method
-msgid ""
-"§ 30 odst. 7 písm. c) — např. počítáním, měřením, vážením (§ 30 odst. 3), "
-"odsouhlasením zůstatků, podle smluv a výpisů."
+msgid "§ 30 odst. 7 písm. c) — např. počítáním, měřením, vážením (§ 30 odst. 3), odsouhlasením zůstatků, podle smluv a výpisů."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__comparison_date
-msgid ""
-"§ 30 odst. 7 písm. d): při periodické inventarizaci rozvahový den; písm. e):"
-" při průběžné inventarizaci den ukončení inventury."
+msgid "§ 30 odst. 7 písm. d): při periodické inventarizaci rozvahový den; písm. e): při průběžné inventarizaci den ukončení inventury."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__date_as_of
-#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__date_as_of
-msgid ""
-"§ 30 odst. 7 písm. f) — rozvahový den (§ 19 odst. 1); the balance-sheet "
-"date."
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventarizace__date_as_of model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__date_as_of
+msgid "§ 30 odst. 7 písm. f) — rozvahový den (§ 19 odst. 1); the balance-sheet date."
 msgstr "§ 30 odst. 7 písm. f) — rozvahový den (§ 19 odst. 1)."
 
 #. module: l10n_cz_inventory_verification
 #: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__rozhodny_den
-msgid ""
-"§ 30 odst. 7 písm. g), pokud jej účetní jednotka stanovila. Podle § 30 odst."
-" 4 předchází rozvahovému dni; skutečný stav se pak dokončí podle přírůstků a"
-" úbytků mezi oběma dny."
+msgid "§ 30 odst. 7 písm. g), pokud jej účetní jednotka stanovila. Podle § 30 odst. 4 předchází rozvahovému dni; skutečný stav se pak dokončí podle přírůstků a úbytků mezi oběma dny."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
-#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__datetime_end
-#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__datetime_start
+#: model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__datetime_end model:ir.model.fields,help:l10n_cz_inventory_verification.field_l10n_cz_inventurni_soupis__datetime_start
 msgid "§ 30 odst. 7 písm. h)."
 msgstr ""
 
 #. module: l10n_cz_inventory_verification
 #: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
 msgid "Účet"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+msgid "Účetní zápis"
+msgstr ""
+
+#. module: l10n_cz_inventory_verification
+#: model_terms:ir.ui.view,arch_db:l10n_cz_inventory_verification.report_inventarizacni_zapis
+msgid "Částka"
 msgstr ""

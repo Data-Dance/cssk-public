@@ -20,6 +20,13 @@ Changed
 Carry-over to 18.0
 ~~~~~~~~~~~~~~~~~~
 
+- **19.0.1.2.0 (2026-11-24), not yet on 18.0:** booking of inventarizačné
+  rozdiely, with the new dependency ``l10n_cssk_inventory_verification_base``
+  (port that first). 18.0 deltas to expect: ``<list>`` and ``<chatter/>`` are
+  fine there; check ``_get_violated_lock_dates`` and ``_format_lock_dates`` on
+  ``res.company``, the ``reversal_move_ids`` field and whether ``_post``
+  moves a locked-period entry at all on 18.0 before porting the guard.
+
 - **19.0.1.1.2 (2026-11-15), not yet on 18.0:** the three súpis amounts are
   computed by three methods, so a typed účtovný stav saved with the items no
   longer leaves the skutočný stav at 0.
@@ -47,6 +54,43 @@ Carry-over to 20.0
   settlement and inventory verification modules). Rename every reference
   too: dependent manifests, ``odoo.addons.*`` imports, the ``.pot`` file
   name and ``module_*`` settings toggles. The 19.0 commit is the checklist.
+
+[19.0.1.2.0] — 2026-11-24
+-------------------------
+
+Added
+~~~~~
+
+- **Inventarizačné rozdiely are booked.** A new tab settles the difference of
+  each súpis — manko or schodok, úbytok do normy, prebytok, and the náhrada
+  claimed from the liable person — and creates a draft journal entry dated the
+  deň, ku ktorému bola inventúra vykonaná (§ 30 ods. 7). Accounts are proposed
+  from the postupy účtovania: a cash schodok as a receivable 335 / 211
+  (§ 11 ods. 1 písm. b)), stock 549 / 501 / 504 / 648, own production through
+  61x, a newly found depreciated asset against 384. Both accounts stay
+  editable.
+- A súpis whose difference is settled elsewhere is marked as not booked here,
+  with a reason; the entry is refused until every difference is either
+  explained in full or so marked.
+- Reopening the inventarizácia, or *Zrušiť zaúčtovanie rozdielov*, deletes a
+  draft entry and reverses a posted one on the same day.
+- The zápis prints the settlement: kind, debit and credit account, amount and
+  the journal entry.
+- *Účet* can be filled on a fyzická inventúra too; the proposal starts from
+  it.
+
+Changed
+~~~~~~~
+
+- Depends on the new ``l10n_cssk_inventory_verification_base``, which holds
+  the booking logic shared with the Czech module.
+- **Multi-company record rules.** An inventory verification, its count
+  sheets and its differences are visible only in the companies the user is
+  working in; until now they had no rule and showed across companies.
+- **A locked period refuses the booking.** Odoo moves an entry dated in a
+  locked period to the first open day when it is posted; for an inventory
+  difference that is another accounting period. Creating, posting and
+  reversing these entries stop with a message instead.
 
 [19.0.1.1.2] — 2026-11-15
 -------------------------

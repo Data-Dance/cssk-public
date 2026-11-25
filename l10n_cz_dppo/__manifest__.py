@@ -37,7 +37,7 @@ live filing.
 """,
     "author": "Data Dance s.r.o.",
     "website": "https://www.datadance.eu",
-    "version": "19.0.1.6.0",
+    "version": "19.0.1.8.0",
     "category": "Accounting/Localizations",
     "license": "AGPL-3",
     "depends": ["l10n_cssk_income_tax_base", "l10n_cz", "l10n_cz_statutory",

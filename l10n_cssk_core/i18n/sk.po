@@ -209,6 +209,11 @@ msgid "Account Receivable"
 msgstr "Účet pohľadávok"
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__res_company__cssk_vat_claim_period_basis__accounting_date
+msgid "Accounting date"
+msgstr "Dátum účtovania"
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_comparison__message_needaction
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_filing_discrepancy__message_needaction
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__message_needaction
@@ -1602,6 +1607,12 @@ msgstr ""
 "osoba), používaná v štatutárnych výkazoch."
 
 #. module: l10n_cssk_core
+#: model:cssk.person.type,name:l10n_cssk_core.cz_person_type_po
+#: model:cssk.person.type,name:l10n_cssk_core.sk_person_type_po
+msgid "Legal entity"
+msgstr "Právnická osoba"
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_line__code
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_statutory_footprint_wizard__line_ids
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.cssk_statutory_footprint_wizard_form
@@ -1685,6 +1696,12 @@ msgstr "SK NACE (hlavná činnosť)"
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__name
 msgid "Name"
 msgstr "Názov"
+
+#. module: l10n_cssk_core
+#: model:cssk.person.type,name:l10n_cssk_core.cz_person_type_fo
+#: model:cssk.person.type,name:l10n_cssk_core.sk_person_type_fo
+msgid "Natural person"
+msgstr "Fyzická osoba"
 
 #. module: l10n_cssk_core
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_search
@@ -2507,6 +2524,11 @@ msgid "Taxable Supply Date"
 msgstr "Dátum zdaniteľného plnenia"
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields.selection,name:l10n_cssk_core.selection__res_company__cssk_vat_claim_period_basis__tax_point
+msgid "Taxable supply date"
+msgstr "Dátum zdaniteľného plnenia"
+
+#. module: l10n_cssk_core
 #. odoo-python
 #: code:addons/l10n_cssk_core/models/cssk_statutory_submission.py:0
 msgid ""
@@ -2543,6 +2565,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_discrepancy_search
 msgid "The comparison"
 msgstr "Porovnanie"
+
+#. module: l10n_cssk_core
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_config_settings_view_form_cssk
+msgid ""
+"The date that puts a vendor bill into a VAT period on the VAT return and the"
+" control statement. Taxable supply date: for books locked early, where a "
+"bill booked in the open period still belongs to the closed one."
+msgstr "Dátum, podľa ktorého sa dodávateľská faktúra zaradí do obdobia DPH v daňovom priznaní a kontrolnom výkaze. Dátum zdaniteľného plnenia: pre skoro zamykané účtovníctvo, kde faktúra zaúčtovaná do otvoreného obdobia ešte patrí do zamknutého."
 
 #. module: l10n_cssk_core
 #: model:ir.model.fields,help:l10n_cssk_core.field_account_bank_statement_line__cssk_vat_deferral_origin_id
@@ -2941,6 +2971,13 @@ msgid "VAT period declared"
 msgstr "Deklarované obdobie DPH"
 
 #. module: l10n_cssk_core
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_company__cssk_vat_claim_period_basis
+#: model:ir.model.fields,field_description:l10n_cssk_core.field_res_config_settings__cssk_vat_claim_period_basis
+#: model_terms:ir.ui.view,arch_db:l10n_cssk_core.res_config_settings_view_form_cssk
+msgid "VAT period of received documents"
+msgstr "Obdobie DPH prijatých dokladov"
+
+#. module: l10n_cssk_core
 #: model:ir.model.fields,field_description:l10n_cssk_core.field_cssk_tax_authority__property_stock_supplier
 msgid "Vendor Location"
 msgstr "Umiestnenie dodávateľa"
@@ -3045,6 +3082,19 @@ msgid ""
 msgstr ""
 "Odkiaľ podanie pochádza, napr. „PREMIER“, „Money S4“, „i6“, „MRP“ — alebo "
 "ako bolo zachytené, ak ručne."
+
+#. module: l10n_cssk_core
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_company__cssk_vat_claim_period_basis
+#: model:ir.model.fields,help:l10n_cssk_core.field_res_config_settings__cssk_vat_claim_period_basis
+msgid ""
+"Which date puts a vendor bill, refund or receipt into a VAT period on the VAT return and the control statement.\n"
+"\n"
+"Accounting date: the deduction is reported in the period the document is booked.\n"
+"\n"
+"Taxable supply date: the document's Taxable Supply Date names the period, whatever its accounting date. For books that are locked early, where a bill arriving after the lock is booked in the open period and its VAT still belongs to the closed one. The Delivery Date, where filled in, is then the date of supply printed on the control statement and the date that decides the VAT rate.\n"
+"\n"
+"A 'VAT period declared' date on the document wins over both. Customer invoices always follow their taxable supply date."
+msgstr "Dátum, podľa ktorého sa dodávateľská faktúra, dobropis alebo príjmový doklad zaradí do obdobia DPH v daňovom priznaní a kontrolnom výkaze.\n\nDátum účtovania: odpočítanie dane sa vykáže v období, v ktorom je doklad zaúčtovaný.\n\nDátum zdaniteľného plnenia: obdobie určuje dátum zdaniteľného plnenia dokladu bez ohľadu na dátum účtovania. Pre účtovníctvo, ktoré sa zamyká skoro: faktúra doručená po zamknutí sa zaúčtuje do otvoreného obdobia, ale jej DPH patrí do zamknutého. Dátum dodania, ak je vyplnený, je potom dátum dodania uvedený v kontrolnom výkaze a dátum, podľa ktorého sa určí sadzba dane.\n\nPole „Deklarované obdobie DPH“ na doklade má prednosť pred oboma. Odberateľské faktúry sa vždy riadia dátumom zdaniteľného plnenia."
 
 #. module: l10n_cssk_core
 #: model_terms:ir.ui.view,arch_db:l10n_cssk_core.view_cssk_filing_comparison_form
@@ -3162,11 +3212,11 @@ msgstr "IČO zobrazené modulom krajiny"
 #: model:ir.model.fields,help:l10n_cssk_core.field_res_users__l10n_cssk_registry_by_country_view
 msgid ""
 "Technical: the country module of this partner's country (l10n_cz, l10n_sk) "
-"is installed and already shows the IČO next to the VAT number, so the copy "
-"in the Misc group stays hidden."
+"is installed and already shows the IČO next to the VAT number, so this "
+"module does not show it there a second time."
 msgstr ""
 "Technické: modul krajiny partnera (l10n_cz, l10n_sk) je nainštalovaný a IČO "
-"už zobrazuje vedľa IČ DPH, preto kópia v skupine Rôzne zostáva skrytá."
+"už zobrazuje vedľa IČ DPH, preto ho tento modul nezobrazuje druhýkrát."
 
 #. module: l10n_cssk_core
 #. odoo-javascript

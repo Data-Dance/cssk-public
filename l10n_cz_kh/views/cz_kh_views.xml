@@ -133,6 +133,7 @@
                                 <field name="tax_red" readonly="not is_overridden"/>
                                 <field name="base_red3" optional="hide" readonly="not is_overridden"/>
                                 <field name="tax_red3" optional="hide" readonly="not is_overridden"/>
+                                <field name="proportional" optional="show" readonly="not is_overridden"/>
                                 <field name="source_reconciles" string="✓" widget="boolean"/>
                                 <button name="action_view_source_lines" type="object"
                                         icon="fa-search-plus" string="Documents"
@@ -187,6 +188,19 @@
         <field name="arch" type="xml">
             <field name="categ_id" position="after">
                 <field name="cssk_kh_commodity_code"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- § 75: the tax that marks a bill for "Použit poměr" in B.2 -->
+    <record id="view_tax_form_l10n_cz_kh_proportional" model="ir.ui.view">
+        <field name="name">account.tax.form.l10n_cz_kh.proportional</field>
+        <field name="model">account.tax</field>
+        <field name="inherit_id" ref="account.view_tax_form"/>
+        <field name="arch" type="xml">
+            <field name="tax_scope" position="after">
+                <field name="l10n_cz_proportional_deduction"
+                       invisible="country_code != 'CZ' or type_tax_use != 'purchase'"/>
             </field>
         </field>
     </record>

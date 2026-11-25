@@ -23,14 +23,14 @@ class ResPartner(models.Model):
         compute="_compute_l10n_cssk_registry_by_country_view",
         help="Technical: the country module of this partner's country (l10n_cz, "
         "l10n_sk) is installed and already shows the IČO next to the VAT "
-        "number, so the copy in the Misc group stays hidden.",
+        "number, so this module does not show it there a second time.",
     )
 
     @api.depends("country_id")
     def _compute_l10n_cssk_registry_by_country_view(self):
         # Odoo's l10n_cz / l10n_sk each add company_registry before the VAT
         # field for partners of their own country. Without this, a CZ/SK
-        # partner showed the IČO twice: theirs, and the Misc one we unhide.
+        # partner showed the IČO twice: theirs, and ours beside it.
         installed = {
             code for code, xmlid in (
                 ("CZ", "l10n_cz.res_partner_view_form_inherit_l10n_cz"),

@@ -8,6 +8,13 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Fixed
+~~~~~
+
+- User guide: the limitation saying the board rounds to the haléř was stale.
+  ``account_asset_tax`` has rounded Czech charges up to whole crowns since
+  19.0.1.10.0 (§ 31 odst. 9, § 32 odst. 5, § 30a odst. 2).
+
 Changed
 ~~~~~~~
 

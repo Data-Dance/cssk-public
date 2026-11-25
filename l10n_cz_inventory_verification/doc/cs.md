@@ -1,7 +1,7 @@
 ---
 title: CZ Inventarizace — inventurní soupis a inventarizační zápis
 summary: Inventarizace podle zákona o účetnictví jako záznamy v Odoo — inventurní soupisy se všemi náležitostmi podle § 30 odst. 7 a interní inventarizační zápis s porovnáním se stavem v účetnictví.
-verified: 19.0.1.0.0
+verified: 19.0.1.1.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -16,9 +16,9 @@ počet inventurních soupisů a na samotné inventarizaci závěrečný záznam 
 **inventarizační zápis**. U dokladové inventury účtu načte stav v účetnictví
 z hlavní knihy. Oba záznamy se tisknou do PDF.
 
-Inventarizaci eviduje a prokazuje, inventarizační rozdíly však **neúčtuje**:
-manka, schodky, přebytky, opravné položky a podobně z inventarizace vyplývají
-a zaúčtuje je účetní.
+Zaúčtuje také inventarizační rozdíly — manka, schodky a přebytky — jako účetní
+zápisy v návrhu s datem v ověřovaném období, propojené s inventarizací.
+Opravné položky a jiné úpravy ocenění zůstávají na účetní.
 
 ## Právní rámec {#legal}
 
@@ -160,6 +160,51 @@ vlastního kapitálu vycházejí **záporně**: závazek vůči dodavateli 500 n
 321 se zobrazí jako −500. Potvrzené částky takového účtu zadávejte se zápornou
 cenou (například množství 1, cena −500), aby *Rozdíl* porovnával srovnatelné.
 
+## Zaúčtování inventarizačních rozdílů {#differences}
+
+Záložka **Inventarizační rozdíly (§ 30 odst. 10 a 11)** převede rozdíly soupisů na účetní zápisy.
+
+1. **Každému soupisu dejte účet.** *Účet* na soupisu je účet, na kterém se inventarizovaný majetek vede (211 u pokladny, 132 u zboží). U dokladové inventury tam už je; u fyzické inventury jej doplňte, protože návrh z něj vychází.
+2. Klikněte na **Navrhnout vyúčtování rozdílů**. Za každý soupis, jehož rozdíl ještě není vysvětlen, přibude jeden řádek: *Manko / schodek*, je-li skutečný stav nižší než stav v účetnictví, *Přebytek*, je-li vyšší — na celou částku a s navrženými účty (viz tabulku níže). Rozdíl, který lze prokázat účetními záznamy, inventarizačním rozdílem vůbec není (§ 30 odst. 10): opravte jej vlastním dokladem a soupis označte podle kroku 4.
+3. **Upravte řádky.** Manko rozdělte na část do vaší normy přirozených úbytků (*Úbytek do normy*) a část nad ni. Přidejte řádek *Náhrada od odpovědné osoby* na částku, kterou po ní požadujete, a vyplňte pole *Partner*. Kterýkoli účet změňte, pokud se vaše osnova nebo váš případ liší. Částky jsou vždy kladné: směr určuje druh. *Zbývá vyúčtovat* na soupisu ukazuje, co řádky ještě nevysvětlují.
+4. **Rozdíl, který se odtud neúčtuje** (majetek vyřazený v evidenci majetku, zásoby upravené v modulu Sklad, rozdíl prokázaný dokladem): na soupisu zaškrtněte *Rozdíl se zde neúčtuje* a uveďte důvod. Důvod se vytiskne v inventarizačním zápisu.
+5. Klikněte na **Zaúčtovat rozdíly**. Tlačítko se nabídne, jakmile je každý rozdíl buď celý vysvětlen, nebo označen jako neúčtovaný. Účetní zápis vznikne **v návrhu**, v *Deníku pro rozdíly* (první interní deník, nezvolíte-li jiný), s číslem inventarizace jako referencí. Jeho datum je *Ocenění ke dni* soupisu: při periodické inventarizaci rozvahový den, při průběžné den ukončení inventury — průběžná inventarizace se soupisy ukončenými v různé dny tedy dostane jeden zápis na každý den. Účetní zápisy zkontroluje a zaúčtuje v Účetnictví; otevře je tlačítko *Účetní zápisy* nahoře.
+
+Stav *Rozdíly* v souhrnu má hodnoty *K vyúčtování*, *Připraveno k zaúčtování*, *Zápis v návrhu* nebo *Zaúčtováno*.
+
+### Navrhované účty {#difference-accounts}
+
+Návrhy vycházejí z Českého účetního standardu pro podnikatele č. 007 a z [vyhlášky č. 500/2002 Sb.](law:cz/2002/500) Oba předpisy stanoví jen účtové skupiny; trojmístné účty jsou obvyklé účty osnovy. Jde o návrhy: oba účty zůstávají upravitelné.
+
+| Soupis vedený na účtu | Manko / schodek | Úbytek do normy | Přebytek |
+|---|---|---|---|
+| 211, 213 (peníze, ceniny) | 569 / 21x (ČÚS 007 bod 3.1, § 34 vyhlášky) | — | 21x / 668 |
+| 112, 132 a ostatní účty skupin 11 a 13 | 549 / 1xx (bod 3.2.1) | 501 / 11x, 504 / 13x | 1xx / 648 |
+| 121 až 124 (zásoby vlastní činnosti) | 549 / 12x (bod 3.2.2) | 58x / 12x | 12x / 58x |
+| 01x, 02x (odpisovaný dlouhodobý majetek) | bez návrhu | — | 0xx / 07x, 08x — proti oprávkám (bod 3.5 písm. b)) |
+| 03x (neodpisovaný dlouhodobý majetek) | 549 / 03x (bod 3.6) | — | 03x / 413 |
+| ostatní (pohledávky, závazky, vlastní kapitál) | bez návrhu | — | bez návrhu |
+
+*Náhrada od odpovědné osoby* navrhuje 378 / 648 (ČÚS 007 bod 3.7, ČÚS 017 bod 3.10.4), a 378 / 668, jde-li o soupis peněz nebo cenin (§ 33 vyhlášky). U zaměstnance je stejně běžná skupina 33 (335); účet změňte, je-li to vaše praxe.
+
+Kde se nic nenavrhne, zápis nevznikne, dokud souvztažný účet nezvolíte sami. Tři případy potřebují víc než tento zápis:
+
+- **Dlouhodobý majetek.** U manka odpisovaného majetku se zůstatková cena účtuje přes oprávky a majetek se vyřadí (bod 3.5 písm. a)); přebytek se ocení reprodukční pořizovací cenou a musí se zařadit. Obojí proveďte v evidenci majetku a soupis označte jako neúčtovaný; řádek na účtu třídy 0 nese upozornění.
+- **Zásoby oceňované modulem Sklad.** Vede-li účet zásob Odoo samo, opravte množství ve Skladu, který rozdíl zaúčtuje. Řádek na takovém účtu nese upozornění, protože by se rozdíl jinak zaúčtoval dvakrát.
+- **Vzájemné vyrovnání.** Manka a přebytky vzniklé prokazatelně neúmyslnou záměnou druhů lze vzájemně vyrovnat (bod 3.4); na soupis zadejte výsledné částky.
+
+Přebytek nakoupených zásob, u kterého se má oprávněně za to, že vznikl chybným účtováním při vyskladnění, se účtuje ve prospěch skupiny 50 místo 648 (bod 3.1 písm. c)); změňte souvztažný účet.
+
+Zápis neobsahuje DPH ani úpravu základu daně z příjmů. Manko přesahující náhrady není daňovým výdajem ([§ 25 odst. 1 písm. n)](law:cz/1992/586) zákona o daních z příjmů) a odpočet DPH u řádně nedoložené ztráty či odcizení majetku se vyrovnává nebo upravuje podle [§ 77 a § 78e](law:cz/2004/235) zákona o DPH; obojí zůstává na účetní.
+
+### Zrušení zaúčtování {#difference-reversal}
+
+**Zrušit zaúčtování rozdílů** zápis v návrhu smaže a zaúčtovaný zápis stornuje. Storno má stejné datum jako zápis, takže zůstává v ověřovaném období. **Zpět do návrhu** na inventarizaci udělá totéž dříve, než doklad znovu otevře, protože soupisy se budou měnit. Řádky vyúčtování zůstávají a lze je zaúčtovat znovu.
+
+Řádky, ze kterých zápis vznikl, nelze měnit ani mazat, dokud se zaúčtování nezruší; stejně tak jejich soupis ani inventarizaci. Změní-li se soupis po zaúčtování, upozornění nahoře oznámí, že zaúčtované částky už nesouhlasí.
+
+**Uzamčená období.** Rozdíly patří do období, za které se stav ověřuje ([§ 30 odst. 11](law:cz/1991/563)). Odoo samo při zaúčtování posune zápis s datem v uzamčeném období na první otevřený den. U těchto zápisů to modul místo toho odmítne: vytvoření, zaúčtování i storno se zastaví s hlášením, dokud období neodemknete.
+
 ## Tiskové výstupy {#reports}
 
 Tlačítko **Tisk inventurních soupisů** v záhlaví inventarizace vytiskne její
@@ -203,12 +248,16 @@ vyhovující § 33a zákona sami.
   přepočet nebo načtení jej nahradí.
 - U fyzické inventury se nic nenačítá ze skladu ani z evidence majetku; stav
   v účetnictví se zadává ručně.
-- Rozdíl se zobrazuje jako číslo. Zda jde o manko, schodek nebo přebytek —
-  anebo vůbec ne o inventarizační rozdíl, protože jej lze prokázat — uvede
-  účetní v inventarizačním zápisu.
+- Zda jde vůbec o inventarizační rozdíl, anebo o rozdíl, který lze prokázat
+  účetními záznamy, rozhoduje účetní; návrh považuje každý rozdíl za
+  inventarizační.
 - Ukončená inventarizace zůstává upravitelná — stav *Ukončena* nic nezamyká.
-- Rozdíly se neúčtují; manka, přebytky a úpravy ocenění zaúčtuje účetní. U
-  zásob se inventarizačními rozdíly a ztrátami v rámci norem přirozených
-  úbytků zabývá Český účetní standard pro podnikatele č. 007.
+- Úpravy ocenění (opravné položky, § 25 odst. 3) se neúčtují; zaúčtuje je
+  účetní.
+- Zaúčtování rozdílů nevyřazuje ani nezařazuje dlouhodobý majetek, neupravuje
+  množství v modulu Sklad a neúčtuje DPH; viz
+  [Zaúčtování inventarizačních rozdílů](#differences).
+- Zápisy rozdílů jsou jen v měně společnosti a ukončení inventarizace
+  zaúčtování rozdílů nevyžaduje.
 - Pravidla vyhlášky č. 270/2010 Sb. pro vybrané účetní jednotky (plán inventur,
   inventarizační komise, inventarizační zpráva) modul neřeší.

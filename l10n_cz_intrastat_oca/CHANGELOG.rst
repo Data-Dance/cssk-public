@@ -8,6 +8,16 @@ Versioning follows the Odoo manifest (``19.0.x.y.z``); format follows Keep a Cha
 [Unreleased]
 ------------
 
+Added
+~~~~~
+
+- **Tests.** The module had none. They cover what is its own: that a Czech
+  company's declaration is rendered as the InstatOnline CSV and another
+  country's is not, the mapping of each engine field to its column (DIČ
+  without spaces, direction A / D, the unspaced CN code, a weight under one
+  kilogram with three decimals, the value in whole crowns), one row per
+  declaration line, and the ``.csv`` attachment on the declaration.
+
 [19.0.1.0.0] — 2026-07-04
 -------------------------
 

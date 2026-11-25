@@ -21,44 +21,50 @@
         <field name="priority" eval="10"/>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+            <!--
+                The IČO of a Czech or Slovak partner, beside the VAT number.
+
+                Core keeps `company_registry` in Sales & Purchase > Misc and
+                hides it with `parent_id or not is_company`. Odoo's own
+                l10n_sk / l10n_cz each add a second copy before the VAT number
+                for partners of their own country, and that is where anyone
+                looks for it. But only for the country whose module is
+                installed: on a Slovak database without l10n_cz a Czech
+                customer's IČO was two clicks away in a tab, which read as
+                "there is none" (a signed-up Czech sole trader, 2026-11-24).
+
+                So this module puts it there itself for CZ/SK, and steps back
+                (`l10n_cssk_registry_by_country_view`) where the country
+                module already does, or it would be there twice.
+
+                Shown on a person and on a child contact as well: stock
+                website_sale creates the buyer as a PERSON carrying its own
+                `company_registry` (production has ~34 of them), and it is
+                the number the invoice depends on. Read-only on a child,
+                where the value is the commercial parent's and editing it
+                rewrites it for the whole group.
+            -->
             <field name="vat" position="before">
-                <field name="l10n_cssk_person_type_id"/>
+                <field name="l10n_cssk_person_type_id"
+                       domain="[('country_code', '=', country_code)]"
+                       invisible="country_code not in ['CZ', 'SK']"
+                       options="{'no_create': True}"/>
+                <field name="l10n_cssk_registry_by_country_view" invisible="1"/>
+                <field name="company_registry"
+                       invisible="country_code not in ['CZ', 'SK'] or l10n_cssk_registry_by_country_view"
+                       readonly="parent_id"/>
             </field>
 
-            <!--
-                Show the IČO on Czech and Slovak partners that core hides.
-
-                Core's rule is `invisible="parent_id or not is_company"`, which
-                is reasonable in general and wrong here: stock website_sale
-                creates the buyer as a PERSON carrying its own
-                `company_registry` (production has ~34 of them), so on exactly
-                those records the IČO was invisible while being the number the
-                invoice depends on.
-
-                The retired `l10n_base_sk_cz` used to override this and the
-                replacement did not carry it over, which is how it went
-                missing. Its version hid the field outright outside CZ/SK,
-                taking a German HRB number with it; this one only RELAXES the
-                `is_company` half for CZ/SK and leaves core's behaviour intact
-                everywhere else. The `parent_id` half stays: on a child the
-                value is inherited from the commercial parent, and editing it
-                there rewrites it for the whole group.
-            -->
-            <!-- Unless l10n_cz / l10n_sk already show it next to the VAT
-                 number for this partner's country: then it would be there
-                 twice.
+            <!-- Core's copy in Misc stays for every other country and goes
+                 for CZ/SK, which now have it above.
 
                  The spec names the Misc group on purpose. An unqualified
                  //field[@name='company_registry'] resolves to the FIRST one in
-                 the combined form, which with l10n_sk or l10n_cz installed is
-                 THEIR field next to the VAT number: the relaxation landed
-                 there, core's Misc copy kept showing for companies, and a
-                 Slovak company had its IČO twice. -->
-            <xpath expr="//group[@name='misc']/field[@name='company_registry']" position="before">
-                <field name="l10n_cssk_registry_by_country_view" invisible="1"/>
-            </xpath>
+                 the combined form, which is the copy beside the VAT number:
+                 the rule landed there, core's Misc copy kept showing for
+                 companies, and a Slovak company had its IČO twice. -->
             <xpath expr="//group[@name='misc']/field[@name='company_registry']" position="attributes">
-                <attribute name="invisible">parent_id or (not is_company and country_code not in ['CZ', 'SK']) or l10n_cssk_registry_by_country_view</attribute>
+                <attribute name="invisible">parent_id or not is_company or country_code in ['CZ', 'SK']</attribute>
             </xpath>
         </field>
     </record>

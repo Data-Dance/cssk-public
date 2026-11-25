@@ -8,14 +8,26 @@ from odoo.exceptions import UserError
 class L10nSkInventarizacia(models.Model):
     _name = "l10n.sk.inventarizacia"
     _description = "Inventarizácia (§ 29 zákona 431/2002)"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = [
+        "mail.thread",
+        "mail.activity.mixin",
+        "l10n_cssk.inventory.difference.mixin",
+    ]
     _order = "date_as_of desc, id desc"
+    _cssk_sheets_field = "supis_ids"
 
     name = fields.Char(default="New", readonly=True, copy=False, index="trigram")
     company_id = fields.Many2one(
         "res.company", required=True, default=lambda self: self.env.company
     )
     currency_id = fields.Many2one(related="company_id.currency_id")
+
+    # § 30 ods. 5 to 7: the inventarizačné rozdiely and their vyúčtovanie.
+    difference_line_ids = fields.One2many(
+        "l10n.sk.inventarizacny.rozdiel",
+        "inventory_id",
+        string="Vyúčtovanie inventarizačných rozdielov",
+    )
 
     # § 30 ods. 2 písm. b) prescribes three distinct dates, not one.
     date_start = fields.Date(
@@ -117,6 +129,9 @@ class L10nSkInventarizacia(models.Model):
         self.write({"state": "done"})
 
     def action_draft(self):
+        # Reopening takes the booked differences back: the súpisy are about
+        # to change, and an entry built from the old ones would stay behind.
+        self._cssk_cancel_difference_entries()
         self.write({"state": "draft"})
 
     def action_refresh_book_amounts(self):
@@ -147,6 +162,7 @@ class L10nSkInventarizacia(models.Model):
 class L10nSkInventurnySupis(models.Model):
     _name = "l10n.sk.inventurny.supis"
     _description = "Inventúrny súpis (§ 30 ods. 2 zákona 431/2002)"
+    _inherit = ["l10n_cssk.inventory.sheet.mixin"]
     _order = "inventarizacia_id, sequence, id"
 
     name = fields.Char(required=True)
@@ -173,7 +189,14 @@ class L10nSkInventurnySupis(models.Model):
         "account.account",
         string="Účet",
         domain="[('company_ids', 'in', company_id)]",
-        help="Pri dokladovej inventúre — účet, ktorého zostatok sa overuje.",
+        help="Pri dokladovej inventúre — účet, ktorého zostatok sa overuje. "
+             "Pri fyzickej inventúre účet, na ktorom sa majetok vedie; "
+             "navrhne sa z neho zaúčtovanie inventarizačného rozdielu.",
+    )
+    difference_line_ids = fields.One2many(
+        "l10n.sk.inventarizacny.rozdiel",
+        "sheet_id",
+        string="Vyúčtovanie rozdielu",
     )
     location = fields.Char(
         string="Miesto uloženia majetku", help="§ 30 ods. 2 písm. d)."
@@ -284,3 +307,73 @@ class L10nSkInventurnySupisLine(models.Model):
     def _compute_amount(self):
         for line in self:
             line.amount = (line.quantity or 0.0) * (line.unit_price or 0.0)
+
+
+class L10nSkInventarizacnyRozdiel(models.Model):
+    _name = "l10n.sk.inventarizacny.rozdiel"
+    _description = "Vyúčtovanie inventarizačného rozdielu (§ 30 ods. 5 až 7)"
+    _inherit = ["l10n_cssk.inventory.difference.line"]
+
+    inventory_id = fields.Many2one(
+        "l10n.sk.inventarizacia",
+        string="Inventarizácia",
+        required=True,
+        ondelete="cascade",
+        index=True,
+    )
+    sheet_id = fields.Many2one(
+        "l10n.sk.inventurny.supis",
+        string="Inventúrny súpis",
+        required=True,
+        ondelete="cascade",
+        index=True,
+        domain="[('inventarizacia_id', '=', inventory_id)]",
+    )
+    company_id = fields.Many2one(related="inventory_id.company_id", store=True)
+    currency_id = fields.Many2one(related="company_id.currency_id")
+
+    @api.constrains("inventory_id", "sheet_id")
+    def _check_sheet(self):
+        self._cssk_check_sheet("inventarizacia_id")
+
+    # Opatrenie MF SR č. 23054/2002-92 (postupy účtovania v podvojnom
+    # účtovníctve). Proposals only: the user may overwrite both accounts,
+    # and where the postupy give no single answer, none is proposed.
+    def _cssk_claim_account_code(self):
+        # § 55 ods. 9 písm. a): "pohľadávka voči zodpovednej osobe na
+        # náhradu škody alebo manka, súvzťažne s účtom 648"
+        return "378"
+
+    def _cssk_counterpart_code(self, kind, account):
+        code = account.code or ""
+        if kind == "claim":
+            return "648"  # § 55 ods. 9 písm. a), § 78 ods. 4
+        if not code:
+            return False
+        group = code[:2]
+        if group == "21":
+            # § 11 ods. 1 písm. b): the schodok of cash and ceniny is no
+            # expense, it "sa účtuje ako pohľadávka voči hmotne zodpovednej
+            # osobe" (335, § 51 ods. 3). The prebytok goes to "príslušné
+            # účty výnosov"; 668 is the residual financial one (§ 80 ods. 8).
+            return {"shortage": "335", "surplus": "668"}.get(kind, False)
+        if group in ("11", "13"):
+            # § 43 ods. 2 písm. d), § 68 ods. 8
+            return {
+                "shortage": "549",
+                "natural_loss": "501" if group == "11" else "504",
+                "surplus": "648",
+            }[kind]
+        if group == "12":
+            # § 43 ods. 3 písm. b): 121 → 611 … 124 → 614
+            return "549" if kind == "shortage" else "61" + code[2:3]
+        if group in ("01", "02"):
+            # § 21 ods. 2: newly found, at reálna hodnota, against 384. A
+            # manko takes the zostatková cena through the oprávky (§ 36
+            # ods. 4 písm. e)), which is the asset register's entry, not one
+            # line here.
+            return "384" if kind == "surplus" else False
+        if group == "03":
+            # § 11 ods. 4, § 21 ods. 2, § 68 ods. 8: not depreciated
+            return {"shortage": "549", "surplus": "648"}.get(kind, False)
+        return False

@@ -1,18 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* l10n_cz_datadance
+# 	* l10n_cz_datadance
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-24 10:21+0000\n"
+"PO-Revision-Date: 2026-11-24 10:21+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sk_SK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"Language: sk_SK\n"
 
 #. module: l10n_cz_datadance
 #: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
@@ -25,9 +27,19 @@ msgid "Advance invoices (zálohové faktury)"
 msgstr ""
 
 #. module: l10n_cz_datadance
+#: model:ir.model,name:l10n_cz_datadance.model_l10n_cz_dph_reconciliation
+msgid "CZ cross-form checks (KH↔DPH, SH↔DPH, DPH↔účetnictví)"
+msgstr ""
+
+#. module: l10n_cz_datadance
 #: model:ir.model,name:l10n_cz_datadance.model_res_config_settings
 msgid "Config Settings"
 msgstr "Nastavenia konfigurácie"
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_cssk_ec_summary_statement__l10n_cz_country_code
+msgid "Country Code"
+msgstr ""
 
 #. module: l10n_cz_datadance
 #: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
@@ -35,6 +47,16 @@ msgid "Czech National Bank daily fixing."
 msgstr "Denný kurz Českej národnej banky."
 
 #. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid "Daň na výstupu (ř. 62 ↔ účet 343)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_cssk_control_statement__display_name
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_cssk_ec_summary_statement__display_name
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_cssk_vat_return__display_name
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_l10n_cz_dph_reconciliation__display_name
 #: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__display_name
 msgid "Display Name"
 msgstr "Zobrazovaný názov"
@@ -50,13 +72,63 @@ msgid "Dual tax/accounting depreciation"
 msgstr "Dvojité daňové/účtovné odpisovanie"
 
 #. module: l10n_cz_datadance
+#: model:ir.model,name:l10n_cz_datadance.model_cssk_ec_summary_statement
+msgid "EC Sales List"
+msgstr ""
+
+#. module: l10n_cz_datadance
 #: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
 msgid "Exchange-rate sync (ČNB)"
 msgstr ""
 
 #. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid ""
+"For orientation only: advances are taxed before they are revenue, accruals "
+"are revenue before they are taxed, and other revenue is outside group 60."
+msgstr ""
+"Len na orientáciu: preddavky sa zdaňujú skôr, než sú výnosom, dohadné "
+"položky sú výnosom skôr, než sa zdania, a ostatné výnosy sú mimo skupiny 60."
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_cssk_control_statement__id
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_cssk_ec_summary_statement__id
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_cssk_vat_return__id
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_l10n_cz_dph_reconciliation__id
 #: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__id
 msgid "ID"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/cssk_filings.py:0
+msgid "KH ↔ přiznání — %s"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid ""
+"Kontrolní hlášení %(kh).2f ≠ přiznání %(dp).2f (rozdíl %(diff).2f, tolerance"
+" 1 000 Kč). Zkontrolujte daně a štítky dokladů období a zda byly oba výkazy "
+"přepočteny po posledním zaúčtování."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid ""
+"Manažerská výsledovka na MIS Builderu pro Community. Není to zákonný výkaz."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid "Manažerské výkazy"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__module_l10n_cz_mis_reports
+msgid "Manažerské výkazy (MIS Builder)"
 msgstr ""
 
 #. module: l10n_cz_datadance
@@ -71,8 +143,65 @@ msgstr "Priebežná evidencia zásob spôsob A"
 
 #. module: l10n_cz_datadance
 #: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid ""
+"Načtení přijatých faktur z PDF a vytvoření návrhu dodavatelské faktury. "
+"Součást předplatného Data Dance."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/cssk_filings.py:0
+msgid ""
+"No computed přiznání k DPH covers %(from)s – %(to)s. Compute the VAT return "
+"for the period first."
+msgstr ""
+"Obdobie %(from)s – %(to)s nepokrýva žiadne vypočítané přiznání k DPH. Najprv"
+" vypočítajte priznanie za toto obdobie."
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid "Odpočet daně (ř. 46 ↔ účet 343)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid ""
+"Payments to and from the tax office belong here. Anything else was booked on"
+" 343 by hand and is in no row of the return."
+msgstr ""
+"Patria sem platby správcovi dane a od neho. Všetko ostatné bolo na účet 343 "
+"zaúčtované ručne a nie je v žiadnom riadku priznania."
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
 msgid "Perpetual inventory (required for audited companies)."
 msgstr "Priebežná evidencia zásob (povinná pre auditované firmy)."
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid "Pohyby na účtu 343 mimo daňové řádky"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid ""
+"Pojmenované vzory MD/D pro interní doklady: účetní vybere vzor, zadá jednu "
+"částku a zaúčtuje."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.cssk_control_statement_view_form_cz_reconcile
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.cssk_ec_summary_statement_view_form_cz_reconcile
+msgid "Porovnat s přiznáním"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.cssk_vat_return_view_form_cz_reconcile
+msgid "Porovnat s účetnictvím"
+msgstr ""
 
 #. module: l10n_cz_datadance
 #: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
@@ -81,8 +210,75 @@ msgstr "Náklady a výnosy budúcich období (381–385)."
 
 #. module: l10n_cz_datadance
 #: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid "Protokol o zařazení a o vyřazení dlouhodobého majetku."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid "Protokoly k majetku"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__module_l10n_cz_asset_protocol_oca
+msgid "Protokoly o zařazení a vyřazení majetku"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid ""
+"Přiznání %(left).2f ≠ účet 343 %(right).2f (rozdíl %(diff).2f). Hledejte daň"
+" zaúčtovanou na 343 bez daně na řádku, daňový řádek bez štítku, nebo ručně "
+"upravený řádek přiznání."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid "Přiznání k dani z příjmů (DPPDP9)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__module_l10n_cz_dppo
+msgid "Přiznání k dani z příjmů právnických osob (DPPDP9)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid ""
+"Přiznání k dani z příjmů právnických osob. Součást předplatného Data Dance."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/cssk_filings.py:0
+msgid "Přiznání ↔ účetnictví — %s"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid ""
+"Rozvaha a Výkaz zisku a ztráty ve struktuře pro sbírku listin. Součást "
+"předplatného Data Dance."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/cssk_filings.py:0
+msgid "SH ↔ přiznání — %s"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
 msgid "Separate tax vs accounting depreciation."
 msgstr "Oddelené daňové a účtovné odpisy."
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid ""
+"Souhrnné hlášení %(sh).2f ≠ přiznání %(dp).2f (rozdíl %(diff).2f). "
+"Zkontrolujte DIČ odběratelů, daně dokladů do EU a období."
+msgstr ""
 
 #. module: l10n_cz_datadance
 #: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
@@ -95,6 +291,56 @@ msgid "Supplier reliability check (ADIS — verify before paying)"
 msgstr "Kontrola spoľahlivosti dodávateľa (ADIS — overiť pred platbou)"
 
 #. module: l10n_cz_datadance
+#: model:ir.model.fields,help:l10n_cz_datadance.field_cssk_ec_summary_statement__l10n_cz_country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid ""
+"The přiznání covers %(from)s – %(to)s and not every kontrolní hlášení of "
+"that period is computed; the row is not compared."
+msgstr ""
+"Přiznání pokrýva %(from)s – %(to)s a nie všetky kontrolní hlášení tohto "
+"obdobia sú vypočítané; riadok sa neporovnáva."
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid ""
+"The přiznání covers %(from)s – %(to)s and not every souhrnné hlášení of that"
+" period is computed; the row is not compared."
+msgstr ""
+"Přiznání pokrýva %(from)s – %(to)s a nie všetky souhrnná hlášení tohto "
+"obdobia sú vypočítané; riadok sa neporovnáva."
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/l10n_cz_dph_reconciliation.py:0
+msgid "Uskutečněná plnění ↔ tržby skupiny 60"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid ""
+"Uzavření roku přes závěrkové účty 710 / 702, otevření přes 701 a výsledek "
+"hospodaření na účtu 431."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model,name:l10n_cz_datadance.model_cssk_control_statement
+msgid "VAT Control Statement (KV DPH / KH DPH)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model,name:l10n_cz_datadance.model_cssk_vat_return
+msgid "VAT Return"
+msgstr ""
+
+#. module: l10n_cz_datadance
 #: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
 msgid ""
 "Verify the supplier's tax reliability + registered bank account (ADIS) "
@@ -105,7 +351,59 @@ msgstr ""
 
 #. module: l10n_cz_datadance
 #: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid "Vytěžování faktur (AI)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__module_account_invoice_ai_extract
+msgid "Vytěžování přijatých faktur (AI)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
 msgid "Zálohové faktury + tax documents."
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/cssk_filings.py:0
+msgid "přiznání k DPH %s"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid "Účetní vzory (interní doklady)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__module_l10n_cz_account_move_template
+msgid "Účetní vzory pro interní doklady"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid "Účetní závěrka"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__module_l10n_cz_fiscal_year_closing
+msgid "Účetní závěrka (701/702/710)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model_terms:ir.ui.view,arch_db:l10n_cz_datadance.res_config_settings_view_form_cz_dd
+msgid "Účetní závěrka (Rozvaha, VZZ)"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__module_l10n_cz_fs
+msgid "Účetní závěrka — Rozvaha a Výkaz zisku a ztráty"
+msgstr ""
+
+#. module: l10n_cz_datadance
+#. odoo-python
+#: code:addons/l10n_cz_datadance/models/cssk_filings.py:0
+msgid "účetnictví — účet 343 a tržby skupiny 60"
 msgstr ""
 
 #. module: l10n_cz_datadance
@@ -134,13 +432,3 @@ msgstr ""
 "Česká zákonná lokalizácia jedným kliknutím: nainštaluje základné moduly "
 "zákonného výkazníctva a fakturácie, s voliteľnými časťami pracovných "
 "postupov v nastaveniach."
-
-#. module: l10n_cz_datadance
-#: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__module_l10n_cz_dppo
-msgid "Přiznání k dani z příjmů právnických osob (DPPDP9)"
-msgstr ""
-
-#. module: l10n_cz_datadance
-#: model:ir.model.fields,field_description:l10n_cz_datadance.field_res_config_settings__module_l10n_cz_fs
-msgid "Účetní závěrka — Rozvaha a Výkaz zisku a ztráty"
-msgstr ""

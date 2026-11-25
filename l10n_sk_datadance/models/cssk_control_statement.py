@@ -8,6 +8,16 @@ from odoo.exceptions import UserError
 class CSSKControlStatement(models.Model):
     _inherit = "cssk.control.statement"
 
+    def _l10n_sk_check_slovak_filing(self):
+        """The comparison reads Slovak rows; on another country's filing it
+        would compare figures that mean something else."""
+        if self.country_id.code != "SK":
+            raise UserError(_(
+                "This comparison is for Slovak filings. %(name)s belongs to "
+                "a company filing in %(country)s.",
+                name=self.display_name,
+                country=self.country_id.name or "?"))
+
     def _find_vat_return(self):
         """The computed DPH return covering this KV period (exact match first)."""
         self.ensure_one()
@@ -31,6 +41,7 @@ class CSSKControlStatement(models.Model):
         flagged.
         """
         self.ensure_one()
+        self._l10n_sk_check_slovak_filing()
         vat_return = self._find_vat_return()
         if not vat_return:
             raise UserError(_(

@@ -1,7 +1,7 @@
 ---
 title: CZ faktura (zákonné PDF)
 summary: Doplní do tištěné české faktury platební symboly a zákonné formulace o osvobození od daně a „daň odvede zákazník“.
-verified: 19.0.1.1.1
+verified: 19.0.1.2.0
 ---
 
 ## K čemu slouží {#purpose}
@@ -120,8 +120,29 @@ tiskne **platební režim** faktury (pole *Payment Mode*) pod nadpisem *Forma
 tehdy, má-li faktura platební režim, a jen u české společnosti. Samotný
 `account_payment_mode` tiskne jen poznámku režimu, v patičce faktury.
 
+## Limit plateb v hotovosti {#cash-limit}
+
+Platba i průvodce platbou na pokladním deníku zobrazí upozornění, pokud
+hotovost zaplacená mezi společností a jedním partnerem **v jednom
+kalendářním dni** jedním směrem přesáhne **270 000 Kč**:
+[§ 4 zákona č. 254/2004 Sb.](law:cz/2004/254). Poskytovatel platby ji pak
+musí provést bezhotovostně a příjemce ji v hotovosti nesmí přijmout. Sčítají
+se všechny hotovostní platby toho dne mezi oběma stranami bez ohledu na to,
+jaké doklady hradí (§ 4 odst. 4); platba v cizí měně se přepočte kurzem dne
+platby (§ 4 odst. 3). Kontakty jedné firmy jsou jeden partner.
+
+Řádek pokladního výpisu s partnerem jiným než společnost sama se započítává,
+nese stejné upozornění a zanechá ho jako poznámku u zápisu. Řádek, kde je
+partnerem společnost sama, například odvod do banky, platbou není (§ 2
+odst. 2) a upozornění nemá.
+
+Upozornění nic neblokuje: platby mimo povinnost (§ 3 odst. 2: daně, povinné
+platby z pracovněprávních vztahů, důchody) rozlišit nelze.
+
 ## Omezení {#limitations}
 
+- Limit hotovosti počítá platby a řádky pokladních výpisů zapsané v Odoo
+  podle partnera na nich. Hotovost přijatá v pokladně (POS) se nezapočítává.
 - Tuzemské osvobozené plnění s daní 0 % prodané zahraničnímu odběrateli
   dostane také formulaci podle § 64 nebo § 66; tuzemské osvobozené plnění
   českému odběrateli nedostane žádnou.
