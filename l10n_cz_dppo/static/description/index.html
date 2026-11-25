@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_cz_dppo/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ Corporate Income Tax Return (DPPDP9)</h1>
 <p class="cssk-summary">The Czech corporate income tax return — row 10 from the books, the accountant&#x27;s adjustments, the tax computation of Part II, and an EPO file checked against the Financial Administration&#x27;s schema, with the balance sheet and profit and loss statement filed inside it.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.6.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_cz</code>, <a href="../../../l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a>, <a href="../../../l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.8.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <code>l10n_cz</code>, <a href="../../../l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a>, <a href="../../../l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Czech company files the <em>přiznání k dani z příjmů právnických osob</em>
@@ -165,14 +165,34 @@ the current structure, which accepts periods from 2021. The <strong>Statement Ty
 <td>class 6 minus class 5, without 591, 592, 593, 595, 599 (income tax) and 596 (profit share transferred to partners)</td>
 </tr>
 <tr>
-<td>ř. 70 Mezisoučet — zvýšení VH</td>
+<td>ř. 50 Rozdíl, o který účetní odpisy převyšují daňové</td>
+<td>from the asset register</td>
+<td>accounting depreciation minus tax depreciation of the year, where it is positive; see <a href="#depreciation">below</a></td>
+</tr>
+<tr>
+<td>ř. 20–63 bez ř. 50 (ostatní položky)</td>
 <td>entered</td>
-<td>total of rows 20–63, the items increasing the result</td>
+<td>the other items increasing the result, as one figure</td>
+</tr>
+<tr>
+<td>ř. 70 Mezisoučet — zvýšení VH</td>
+<td>computed</td>
+<td>the row above + ř. 50</td>
+</tr>
+<tr>
+<td>ř. 150 Rozdíl, o který daňové odpisy převyšují účetní</td>
+<td>from the asset register</td>
+<td>tax depreciation minus accounting depreciation of the year, where it is positive</td>
+</tr>
+<tr>
+<td>ř. 100–162 bez ř. 150 (ostatní položky)</td>
+<td>entered</td>
+<td>the other items reducing the result, as one figure</td>
 </tr>
 <tr>
 <td>ř. 170 Mezisoučet — snížení VH</td>
-<td>entered</td>
-<td>total of rows 100–162, the items reducing the result</td>
+<td>computed</td>
+<td>the row above + ř. 150</td>
 </tr>
 <tr>
 <td>ř. 200 Základ daně</td>
@@ -241,8 +261,9 @@ the current structure, which accepts periods from 2021. The <strong>Statement Ty
 </tr>
 </tbody>
 </table>
-<p>You enter only the subtotals of rows 20–63 and 100–162; the individual
-items behind them are not on the screen and are not filed. The tax entry
+<p>Apart from ř. 50 and ř. 150, you enter the items of rows 20–63 and 100–162
+as one figure each; the individual items behind them are not on the screen
+and are not filed. The tax entry
 described in the <a href="../../../l10n_cssk_income_tax_base/static/description/index.html#provision">framework guide</a>
 books ř. 340.</p>
 <h2 id="statements">Balance sheet and profit and loss statement</h2>
@@ -283,6 +304,54 @@ mapping is the one in <code>l10n_cz_fs</code>, not a second one.</p>
 <p>With no statements linked, the return is exported without them, and a note
 in the chatter reminds you to attach the financial statements to the filing
 as an attachment (<em>E-příloha</em>) instead.</p>
+<h2 id="registry">Handing the statements to the commercial register</h2>
+<p>A company (<em>obchodní korporace</em>) may hand its financial statements to the
+collection of documents (<em>sbírka listin</em>) of the commercial register
+through the income tax return instead of filing them with the registry
+court: <a href="https://e-sbirka.gov.cz/sb/1991/563">§ 21b of the Accounting Act</a>. The tax office passes
+them on, and the duty to publish is met when the return is filed (§ 21b
+odst. 6). The request is the form <em>Žádost o předání účetní závěrky do sbírky
+listin veřejného rejstříku</em> (25 5404/I), filed in the return as the record
+<code>VetaUZ</code>.</p>
+<p>On the return, group <strong>Sbírka listin (§ 21b zákona o účetnictví)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Účetní závěrka nebyla schválena / nebyla ověřena auditorem</td>
+<td>Tick where the figures come from statements not yet approved by the general meeting, or not yet audited. Filed in the header whether or not you ask for the handover.</td>
+</tr>
+<tr>
+<td>Předat účetní závěrku do sbírky listin</td>
+<td>Adds the request to the file.</td>
+</tr>
+<tr>
+<td>Předat Rozvahu, Předat Výkaz zisku a ztráty</td>
+<td>The scope of the request (§ 21b odst. 3). Both are ticked by default; untick the Výkaz zisku a ztráty where the company does not publish it (a small or micro unit with no audit duty, § 21a odst. 9). The statements handed over are the ones <a href="#statements">linked to the return</a>.</td>
+</tr>
+<tr>
+<td>E-mail pro potvrzení</td>
+<td>Where the tax office confirms the handover. Optional.</td>
+</tr>
+<tr>
+<td>Příloha účetní závěrky, Přehled o peněžních tocích, Přehled o změnách vlastního kapitálu</td>
+<td>Files you upload; each goes into the return as a prescribed e-attachment and is part of the request.</td>
+</tr>
+</tbody>
+</table>
+<p>The attached files are filed with the return even without the request: the
+notes are part of the statements attached to every return.</p>
+<p>The export refuses a request the tax office would not pass on: one that
+names the Rozvaha or the Výkaz zisku a ztráty while no statements are
+linked, one that names nothing, a malformed e-mail, a file of a type EPO
+does not take (DOC, DOCX, RTF, XLS, XLSX, PDF, JPG, JPEG, TXT, CSV, or one of
+them signed or zipped) and files of more than 10 240 kB together. A request
+without the notes is exported, with a reminder in the return's history.</p>
 <h2 id="compare">Comparing with the financial statements</h2>
 <p>The return starts from the accounting result: ř. 10 (<em>výsledek hospodaření
 před zdaněním</em>) is the same figure as the row <em>** Výsledek hospodaření před
@@ -296,19 +365,71 @@ means the two filings disagree on the accounting result. The usual causes:
 ř. 10 entered by hand, an entry posted after the statement was computed
 (recompute it), or a row of the statement whose accounts were edited.</p>
 <p>The button only reports; it does not stop the export.</p>
+<h2 id="depreciation">Accounting and tax depreciation: ř. 50 and ř. 150</h2>
+<p>The return states the difference between the depreciation of tangible and
+intangible assets claimed in the books and the depreciation under § 26 to 33
+of the Income Tax Act on one of two rows: ř. 50 where the accounting
+depreciation is higher (the difference increases the result), ř. 150 where
+the tax depreciation is higher (it reduces it). Never both. This is the
+instruction to the two rows in the Financial Administration's <em>Pokyny</em>
+25 5404/1 and in the EPO schema.</p>
+<p>With the tax depreciation register installed
+(<a href="../../../account_asset_tax/static/description/index.html"><code>account_asset_tax</code></a> with
+<a href="../../../l10n_cz_account_asset_tax/static/description/index.html"><code>l10n_cz_account_asset_tax</code></a>) the
+two rows are filled when the return is computed:</p>
+<ul>
+<li><strong>tax depreciation</strong> is the tax plan's amount for the calendar year of
+  every asset of the company that has a plan;</li>
+<li><strong>accounting depreciation</strong> is the depreciation of the same assets posted
+  in the period. Draft depreciation entries do not count, so post the year's
+  depreciation first.</li>
+</ul>
+<p>Both rows are filed (<code>kc_ii60_50</code>, <code>kc_ii170_150</code>) and are part of the
+subtotals ř. 70 and ř. 170. To file a different figure, tick <em>Override</em> on
+the row and type it. Without the register both rows are 0 and you type the
+difference the same way.</p>
+<p>Returns computed before version 19.0.1.7.0 keep the subtotal you typed on
+ř. 70 or ř. 170: the tax base does not change when the module is upgraded.
+Such a return carries a note. Check whether your typed subtotal already
+contains the depreciation difference; to have the subtotal computed, clear
+<em>Override</em> on ř. 70 / ř. 170, type the remaining items on the <em>ostatní
+položky</em> row and compute again.</p>
 <h2 id="limitations">Limitations</h2>
 <ul>
-<li><strong>Donations are not capped.</strong> Enter on ř. 260 the amount actually
+<li><strong>The register request is not checked by EPO from here.</strong> The file
+  validates against the schema; the portal's own checks run when you load
+  it. The request is for companies that keep accounts under Decree
+  No. 500/2002 Sb. and do not publish through the Czech National Bank;
+  statements under international standards (<code>pr11_uzmus</code>) are not filed.
+  The notes, the cash-flow statement and the statement of changes in equity
+  are files you prepare outside Odoo.</li>
+<li><strong>ř. 50 and ř. 150 are computed for calendar-year periods only.</strong> The tax
+  plan is kept by calendar year, so for a hospodářský rok or any period that
+  crosses a year end both rows stay 0, the return says so in its history,
+  and you type the difference.</li>
+<li><strong>Only assets with a tax plan count.</strong> Accounting depreciation of an asset
+  that has no tax plan (for example one depreciated in the books only) is
+  not in ř. 50; add it to the <em>ostatní položky</em> row or override ř. 50.</li>
+<li>A subtotal typed on ř. 70 or ř. 170 must equal its rows (the <em>ostatní
+  položky</em> row plus ř. 50 or ř. 150); the export refuses one that does not,
+  because the file would carry rows that do not add up.</li>
+<li>
+<p>The difference between the tax and the accounting residual value of an
+  asset sold or scrapped (ř. 40 / ř. 160) is not computed.</p>
+</li>
+<li>
+<p><strong>Donations are not capped.</strong> Enter on ř. 260 the amount actually
   deducted: at most 10 % of ř. 250, or 30 % for periods ending between
   1 March 2022 and 28 February 2027 (as the row instruction in the Financial Administration's EPO schema states). The
-  module subtracts what you enter.</li>
+  module subtracts what you enter.</p>
+</li>
 <li><strong>Amounts entered on ř. 240 before version 19.0.1.3.1 are not moved.</strong>
   That row used to stand for research and development, vocational training
   and donations together; split such an amount onto ř. 242, ř. 243 or
   ř. 260 and compute again.</li>
 <li>Only Part II is produced, and only the rows above. Its other rows (for
   example 201, 210, 220, 241 and 251) and every attachment table of the form
-  (depreciation, tax loss, credits, foreign tax and so on) are not; the
+  (depreciation by group in table B of annex 1, tax loss, credits, foreign tax and so on) are not; the
   schema accepts the file without them.</li>
 <li>Periods beginning before 2021 cannot be entered; the structure does not
   accept them. For 2021–2024 the rows above are filed as they are; a row that
@@ -323,7 +444,7 @@ means the two filings disagree on the accounting result. The usual causes:
   adjustments should be confirmed with your accountant before the first
   filing.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.6.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.8.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

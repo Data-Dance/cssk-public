@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_cz_cash_journal/static/description/index_cs.html">Čeština</a></nav>
 <h1>Czechia — Peněžní deník (cash journal for daňová evidence)</h1>
 <p class="cssk-summary">The Czech cash journal for daňová evidence — the categories Czech practice uses, the Czech chart mapped onto them, the peněžní deník PDF, the Příloha č. 1 figures including oddíl D, and the § 7b odst. 4 record.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.0.6</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_cash_journal_base/static/description/index.html"><code>l10n_cssk_cash_journal_base</code></a>, <code>l10n_cz</code></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.1.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_cash_journal_base/static/description/index.html"><code>l10n_cssk_cash_journal_base</code></a>, <code>l10n_cz</code></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>The Czech half of the cash-journal family. The engine — how payments become
@@ -229,8 +229,9 @@ company prints the book with:</p>
 </ul>
 <p>A category of your own falls into <em>Ostatní zdanitelný příjem</em> / <em>Ostatní
 daňový výdaj</em> or the matching non-taxable column; depreciation appears in
-<em>Ostatní daňový výdaj</em>. The <strong>Spreadsheet</strong> output gives the flat row list and
-the totals per category (no Czech grid sheet).</p>
+<em>Ostatní daňový výdaj</em>. The <strong>Spreadsheet</strong> output opens with the same grid as
+its first sheet, <em>Peněžní deník</em>, with the same figures as the PDF; the flat
+row list and the totals per category follow it.</p>
 <h2 id="priloha">Příloha č. 1 figures</h2>
 <p><em>Accounting → Accounting → Cash Journal → Příloha č. 1 — údaje z deníku</em>:
 choose the period (the current year by default) and click <strong>Vypočítat</strong>.</p>
@@ -273,10 +274,9 @@ and debts — and record any differences; use the printout as the form for that.
 <li>The menu entry is visible in every company, Slovak ones included.</li>
 <li>Row numbers follow Příloha č. 1 as the module knows it; check them against
   the current year's form.</li>
-<li>The spreadsheet has no Czech grid sheet; use the PDF for the book layout.</li>
 <li>Oddíl D row 9 <em>Mzdy</em> is read as unpaid wages (331). The form's instructions do not say whether it means the liability or the year's wage cost, and the two differ: confirm it with your accountant before filing.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.0.6 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/1992/586">Zákon č. 586/1992 Sb., o daních z příjmů</a></li><li><a href="https://e-sbirka.gov.cz/sb/1991/563">Zákon č. 563/1991 Sb., o účetnictví</a></li></ul><p>Text checked against module version: 19.0.1.1.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

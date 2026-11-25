@@ -33,7 +33,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <nav class="cssk-lang"><b>English</b> · <a href="../../../l10n_cz_kh/static/description/index_cs.html">Čeština</a></nav>
 <h1>CZ VAT Control Statement (Kontrolní hlášení)</h1>
 <p class="cssk-summary">The Czech kontrolní hlášení (DPHKH1) — sections A.1 to B.3 computed from the books with the 10 000 CZK split, checked against the form&#x27;s requirements and exported as the EPO XML in the current structure for any period.</p>
-<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.11.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_kv_kh_base/static/description/index.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_cz</code>, <a href="../../../l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../account_edi_isdoc_kh/static/description/index.html"><code>account_edi_isdoc_kh</code></a>, <a href="../../../l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="../../../l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Version</th><td>19.0.1.12.0</td></tr><tr><th>Edition</th><td>Community and Enterprise</td></tr><tr><th>Licence</th><td>AGPL-3</td></tr><tr><th>Requires</th><td><a href="../../../l10n_cssk_kv_kh_base/static/description/index.html"><code>l10n_cssk_kv_kh_base</code></a>, <code>l10n_cz</code>, <a href="../../../l10n_cz_statutory/static/description/index.html"><code>l10n_cz_statutory</code></a></td></tr><tr><th>Extended by</th><td><a href="../../../account_edi_isdoc_kh/static/description/index.html"><code>account_edi_isdoc_kh</code></a>, <a href="../../../l10n_cz_datadance/static/description/index.html"><code>l10n_cz_datadance</code></a>, <a href="../../../l10n_cz_vat_status/static/description/index.html"><code>l10n_cz_vat_status</code></a></td></tr></table>
 
 <h2 id="purpose">What it is for</h2>
 <p>A Czech VAT payer files a <strong>kontrolní hlášení</strong> (VAT control statement)
@@ -206,7 +206,10 @@ all.</p>
 <p>The 10 000 CZK limit is measured on the <strong>whole</strong> document including VAT;
 lines without VAT are not reported but still count towards it. A line with no
 VAT is never reported in A.4/A.5 or B.2/B.3.</p>
-<p>The date reported is the document's <em>DUZP</em>, else its invoice date. The
+<p>The date reported is the document's <em>DUZP</em>, else its invoice date. Where
+the company keeps the VAT period of its bills in the taxable supply date
+(<em>VAT period of received documents</em> in <a href="../../../l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a>),
+the date of a received document is its delivery date. The
 uncollectible-receivable flag (<code>zdph_44</code>) is taken from the document's field
 <em>Oprava u nedobytné pohledávky</em> (<code>P</code>, or <code>A</code> for the § 44 wording valid to
 31. 3. 2019).</p>
@@ -254,15 +257,20 @@ specifics:</p>
   supplier charged Czech VAT. If the supplier is registered here, invoice it
   through a contact whose Tax ID is its CZ number, and the document is reported
   in B.2.</li>
-<li><strong>Fixed values.</strong> The special schemes for travel services and used goods
-  (<code>kod_rezim_pl</code>) are never indicated — every A.4 row is written as an
-  ordinary supply — and the proportional deduction under § 75 (<code>pomer</code>) is
-  always written as <em>N</em>.</li>
+<li><strong>Fixed value.</strong> The special schemes for travel services and used goods
+  (<code>kod_rezim_pl</code>) are never indicated: every A.4 row is written as an
+  ordinary supply.</li>
+<li><strong>Proportional deduction (§ 75).</strong> A B.2 row is written with <em>Použit
+  poměr</em> = A when a tax on the bill has <em>Poměrný odpočet (§ 75)</em> ticked
+  (<em>Accounting → Configuration → Taxes</em>, on a purchase tax), otherwise N;
+  the flag can be corrected on an overridden row. One document is one row,
+  so a bill mixing a proportional and a full deduction is flagged as a
+  whole. The tick only sets the flag: the amounts are what the tax books.</li>
 <li>The section rules are a best effort; the § 92a code list and the
   uncollectible-receivable corrections in particular still need confirmation
   by a Czech accountant. Review each statement before filing.</li>
 </ul>
-<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.10.2 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
+<footer><p><b>Legislation referenced on this page</b></p><ul><li><a href="https://e-sbirka.gov.cz/sb/2004/235">Zákon č. 235/2004 Sb., o dani z přidané hodnoty</a></li></ul><p>Text checked against module version: 19.0.1.12.0 · <a href="https://www.datadance.eu">Data Dance s.r.o.</a></p></footer>
 </main>
 </body>
 </html>

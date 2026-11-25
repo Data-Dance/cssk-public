@@ -35,7 +35,7 @@ footer{margin-top:40px;padding-top:12px;border-top:1px solid #d1d9e0;font-size:1
 <p class="cssk-note">Task guide</p>
 <h1>Year end</h1>
 <p class="cssk-summary">Closing the accounting year step by step — stock-taking, cut-offs and estimated accruals, exchange differences, the income tax, the financial statements, the closing and opening of the books and the lock dates.</p>
-<table class="cssk-facts"><tr><th>Country</th><td>Czech Republic</td></tr><tr><th>Edition</th><td>Odoo Community</td></tr><tr><th>Covers</th><td><code>account</code>, <code>account_lock_date_update</code>, <a href="../../../../l10n_cz_inventory_verification/static/description/index.html"><code>l10n_cz_inventory_verification</code></a>, <code>account_cutoff_base</code> <span class="cssk-note">(delivered separately)</span>, <code>account_cutoff_start_end_dates</code>, <a href="../../../../l10n_cz_account_cutoff/static/description/index.html"><code>l10n_cz_account_cutoff</code></a>, <a href="../../../../l10n_cssk_accrual/static/description/index.html"><code>l10n_cssk_accrual</code></a>, <code>account_multicurrency_revaluation</code>, <a href="../../../../l10n_cz_currency_revaluation/static/description/index.html"><code>l10n_cz_currency_revaluation</code></a>, <a href="../../../../l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <a href="../../../../l10n_cz_dppo/static/description/index.html"><code>l10n_cz_dppo</code></a>, <a href="../../../../l10n_cssk_fs_base/static/description/index.html"><code>l10n_cssk_fs_base</code></a>, <a href="../../../../l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a>, <a href="../../../../l10n_cssk_fs_xlsx/static/description/index.html"><code>l10n_cssk_fs_xlsx</code></a>, <a href="../../../../l10n_cz_fiscal_year_closing/static/description/index.html"><code>l10n_cz_fiscal_year_closing</code></a>, <a href="../../../../l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a></td></tr></table>
+<table class="cssk-facts"><tr><th>Country</th><td>Czech Republic</td></tr><tr><th>Edition</th><td>Odoo Community</td></tr><tr><th>Covers</th><td><code>account</code>, <code>account_lock_date_update</code>, <a href="../../../../l10n_cz_inventory_verification/static/description/index.html"><code>l10n_cz_inventory_verification</code></a>, <code>account_cutoff_base</code> <span class="cssk-note">(delivered separately)</span>, <code>account_cutoff_start_end_dates</code>, <a href="../../../../l10n_cz_account_cutoff/static/description/index.html"><code>l10n_cz_account_cutoff</code></a>, <a href="../../../../l10n_cssk_accrual/static/description/index.html"><code>l10n_cssk_accrual</code></a>, <code>account_multicurrency_revaluation</code>, <a href="../../../../l10n_cz_currency_revaluation/static/description/index.html"><code>l10n_cz_currency_revaluation</code></a>, <a href="../../../../l10n_cssk_income_tax_base/static/description/index.html"><code>l10n_cssk_income_tax_base</code></a>, <a href="../../../../l10n_cz_dppo/static/description/index.html"><code>l10n_cz_dppo</code></a>, <a href="../../../../l10n_cssk_fs_base/static/description/index.html"><code>l10n_cssk_fs_base</code></a>, <a href="../../../../l10n_cz_fs/static/description/index.html"><code>l10n_cz_fs</code></a>, <a href="../../../../l10n_cssk_fs_xlsx/static/description/index.html"><code>l10n_cssk_fs_xlsx</code></a>, <a href="../../../../l10n_cz_fiscal_year_closing/static/description/index.html"><code>l10n_cz_fiscal_year_closing</code></a>, <code>account_fiscal_year_closing</code>, <a href="../../../../l10n_cssk_core/static/description/index.html"><code>l10n_cssk_core</code></a></td></tr></table>
 <h2 id="purpose">What this guide is for</h2>
 <p>The year-end work of a Czech accountant in the order it is done in Odoo, with
 what each step posts. Most steps have a module guide of their own; this one
@@ -287,10 +287,12 @@ and the limits are in <a href="../../../../l10n_cz_fs/static/description/index.h
 <h2 id="closing">Closing and opening the books</h2>
 <p>Czech bookkeeping closes the year through 710 Účet zisků a ztrát and 702
 Konečný účet rozvažný and opens the next one through 701 Počáteční účet
-rozvažný. The localization makes these three accounts postable
-(<a href="../../../../l10n_cz_fiscal_year_closing/static/description/index.html"><code>l10n_cz_fiscal_year_closing</code></a>);
-<strong>the entries themselves are not generated</strong> — post them as journal entries,
-typed or imported:</p>
+rozvažný. The localization makes these three accounts postable and ships a
+closing template that <strong>generates the entries</strong> from the ledger in
+<em>Accounting → Accounting → Fiscal year closings</em>
+(<a href="../../../../l10n_cz_fiscal_year_closing/static/description/index.html#usage"><code>l10n_cz_fiscal_year_closing</code></a>).
+The form first lists what to look at before closing. What the template
+posts, and what you would post by hand without it:</p>
 <ol>
 <li>Once: create a journal of type <em>Miscellaneous</em> for them (for example
    <em>Uzávěrka roku</em>) and name it in <em>Accounting → Configuration → Settings</em>,
